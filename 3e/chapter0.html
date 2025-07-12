@@ -1,0 +1,242 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><link href="style.css" rel="stylesheet" type="text/css" /><title>Automate the Boring Stuff with Python</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-3">
+<section type="introduction" role="doc-introduction" aria-labelledby="int">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1376" aria-label="xxxi"></span>
+<hgroup>
+<h1 class="fmh" id="calibre_link-1377"><span class="sans_dogma_ot_bold_b_">INTRODUCTION</span></h1>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">“You’ve just done in two hours what it takes the three of us two days to do.” My college roommate was working at a retail electronics store in the early 2000s. Occasionally, the store would receive a spreadsheet of thousands of product prices from other stores. A team of three employees would print the spreadsheet onto a thick stack of paper and split it among themselves. For each product price, they would look up their store’s price and note all the products that their competitors sold for less. It usually took a couple of days.</p>
+<p class="tx">“You know, I could write a program to do that if you have the original file for the printouts,” my roommate told them when he saw them sitting on the floor with papers scattered and stacked all around.</p>
+<p class="tx">After a couple of hours, he had a short program that read a competitor’s price from a file, found the product in the store’s database, and noted <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1052" aria-label="xxxii"></span>whether the competitor was cheaper. He was still new to programming, so he spent most of his time looking up documentation in a programming book. The actual program took only a few seconds to run. My roommate and his co-workers took an extra-long lunch that day.</p>
+<p class="tx">This is the power of computer programming. A computer is like a Swiss Army knife with tools for countless tasks. Many people spend hours clicking and typing to perform repetitive tasks, unaware that the machine they’re using could do their job in seconds if they gave it the right instructions.</p>
+<section type="division" aria-labelledby="sec1">
+<div class="calibre8"></div><h2 class="h" id="calibre_link-1378"><span id="calibre_link-4"></span><span class="sans_futura_std_bold_b_">Who Is This Book For?</span></h2>
+<p class="tni">Software is at the core of so many of the tools we use today: nearly everyone uses social networks to communicate, virtually all people have internet-connected phones in their purse or pocket, and most office jobs involve interacting with a computer to get work done. As a result, the demand for people who can code has skyrocketed. Countless books, online tutorials, and developer boot camps promise to turn ambitious beginners into software engineers with six-figure salaries.</p>
+<p class="tx">This book is not for those people. It’s for everyone else.</p>
+<p class="tx">On its own, this book won’t turn you into a professional software developer any more than a few guitar lessons will turn you into a rock star. But if you’re an office worker, administrator, academic, or anyone else who uses a computer for work or fun, you will learn the basics of programming so that you can automate simple tasks such as these:</p>
+<ul class="ul">
+<li class="bl">Moving and renaming thousands of files and sorting them into folders</li>
+<li class="bl">Filling out online forms&mdash;no typing required</li>
+<li class="bl">Downloading files or copying text from a website whenever it updates</li>
+<li class="bl">Having your computer text custom notifications to your phone</li>
+<li class="bl">Updating or formatting Excel spreadsheets</li>
+<li class="bl">Checking your email and sending out prewritten responses</li>
+<li class="bl">Creating databases and querying them for information</li>
+<li class="bl">Extracting text from images and audio files</li>
+</ul>
+<p class="tx">These tasks are simple but time-consuming for humans, and they’re often so trivial or specific that there’s no ready-made software to perform them. Armed with a little bit of programming knowledge, however, you can have your computer do these tasks for you.</p>
+</section>
+<section type="division" aria-labelledby="sec2">
+<h2 class="h" id="calibre_link-1379"><span id="calibre_link-5"></span><span class="sans_futura_std_bold_b_">Coding Conventions Used in This Book</span></h2>
+<p class="tni">This book is not designed as a reference manual; it’s a guide for beginners. The coding style sometimes goes against best practices (for example, some programs use global variables), but this trade-off makes the code simpler to learn. Sophisticated programming concepts&mdash;like object-oriented programming, list comprehensions, and generators&mdash;aren’t covered because of the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1380" aria-label="xxxiii"></span>complexity they add. Veteran programmers may point out ways the code in this book could be changed to improve efficiency, but this book is mostly concerned with getting programs to work with the least amount of effort on your part.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h2 class="h" id="calibre_link-1381"><span id="calibre_link-6"></span><span class="sans_futura_std_bold_b_">What Is Programming?</span></h2>
+<p class="tni">Television shows and films often show programmers furiously typing cryptic streams of 1s and 0s on glowing screens, but modern programming isn’t that mysterious. <i class="calibre5">Programming</i> is writing instructions for the computer to perform in a language the computer can understand. These instructions might crunch some numbers, modify text, look up information in files, or communicate with other computers over the internet.</p>
+<p class="tx">All programs use basic instructions as building blocks. Here are a few of the most common ones, in English:</p>
+<p class="listplain">“Do this; then do that.”</p>
+<p class="listplain">“If this condition is true, perform this action; otherwise, do that action.”</p>
+<p class="listplain">“Do this action exactly 27 times.”</p>
+<p class="listplain">“Keep doing that until this condition is true.”</p>
+<p class="tx">You can combine these building blocks to implement more intricate decisions too. For example, here are the programming instructions, called the <i class="calibre5">source code</i><a id="calibre_link-1382" class="calibre1"></a>, for a simple program written in the Python programming language. Starting at the top, the Python software runs lines of code (some of which are run only <i class="calibre5">if</i> a certain condition is true, or <i class="calibre5">else</i> Python runs some other line) until it reaches the bottom:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> <span class="thesansmonocd_w5regular_">password_file = open('SecretPasswordFile.txt')</span>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> <span class="thesansmonocd_w5regular_">secret_password = password_file.read()</span>
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> <span class="thesansmonocd_w5regular_">print('Enter your password.')
+typed_password = input()</span>
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> <span class="thesansmonocd_w5regular_">if typed_password == secret_password:
+  </span><span class="code_codeannotation" aria-label="annotation5">❺</span> <span class="thesansmonocd_w5regular_">print('Access granted')
+  </span><span class="code_codeannotation" aria-label="annotation6">❻</span> <span class="thesansmonocd_w5regular_">if typed_password == '12345':
+      </span><span class="code_codeannotation" aria-label="annotation7">❼</span> <span class="thesansmonocd_w5regular_">print('That password is one that an idiot puts on their luggage.')
+  else:
+    </span><span class="codeannotated_codeannotation" aria-label="annotation8">❽</span> <span class="thesansmonocd_w5regular_">print('Access denied')</span>
+</code></pre>
+<p class="tx">You might not know anything about programming, but you could probably make a reasonable guess at what the previous code does just by reading it. First, the file <i class="calibre5">SecretPasswordFile.txt</i> is opened <span class="codeannotation" aria-label="annotation1">❶</span>, and the secret password in it is read <span class="codeannotation" aria-label="annotation2">❷</span>. Then, the user is prompted to input a password (from the keyboard) <span class="codeannotation" aria-label="annotation3">❸</span>. These two passwords are compared <span class="codeannotation" aria-label="annotation4">❹</span>, and if they’re the same, the program prints <i class="calibre5">Access granted</i> to the screen <span class="codeannotation" aria-label="annotation5">❺</span>. Next, the program checks whether the password is <i class="calibre5">12345</i> <span class="codeannotation" aria-label="annotation6">❻</span> and hints that this choice might not be the best for a password <span class="codeannotation" aria-label="annotation7">❼</span>. If the passwords are not the same, the program prints <i class="calibre5">Access denied</i> to the screen <span class="codeannotation" aria-label="annotation8">❽</span>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1244" aria-label="xxxiv"></span>Programming is a creative task, as are painting, writing, knitting, and constructing LEGO castles. Like a blank canvas for painting, software has many constraints but endless possibilities. The difference between programming and other creative activities is that your computer comes with all the raw materials you need to program; you don’t have to buy any additional canvas, paint, film, yarn, LEGO bricks, or electronic components. A decade-old laptop is more than powerful enough to write programs. Once you’ve written your program, you can copy it perfectly an infinite number of times. A knit sweater can be worn by only one person at a time, but a useful program can easily be shared online with the entire world.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h2 class="h" id="calibre_link-1383"><span id="calibre_link-7"></span><span class="sans_futura_std_bold_b_">What Is Python?</span></h2>
+<p class="tni"><a id="calibre_link-1384" class="calibre1"></a><i class="calibre5">Python</i> refers to both a programming language (with syntax rules for writing what is considered valid Python code) and the interpreter software that reads source code (written in the Python language) and performs its instructions. You can download Windows, macOS, and Linux versions of the Python interpreter for free at <i class="calibre5"><a href="https://python.org" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org</a></i>.</p>
+<p class="tx">There are several programming languages, each with their strengths and weaknesses. Debating which is best often leads to pointless arguments over matters of opinion. But in my opinion, Python is the best <i class="calibre5">first</i> language to learn if you are new to programming. Python has a gentle learning curve and readable syntax. It doesn’t require learning dense concepts to do simple tasks. And if you want to go further into programming, learning a second language is easier when you first understand Python.</p>
+<p class="tx">The name Python comes from the surreal British comedy group Monty Python, not from the snake. Python programmers are affectionately called Pythonistas, and both Monty Python and serpentine references usually pepper Python tutorials and documentation.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h2 class="h" id="calibre_link-1385"><span id="calibre_link-8"></span><span class="sans_futura_std_bold_b_">Common Myths About Programming</span></h2>
+<p class="tni">Programming has an intimidating reputation, and billion-dollar software companies are household names. Even the English word <i class="calibre5">code</i> has an association with secrecy and cryptic connotations. This leads many people to think that only a select few can program. But coding is a skill anyone can learn, and I’d like to address some of the more common myths directly.</p>
+<section type="division" aria-labelledby="sec6">
+<h3 class="h1" id="calibre_link-1386"><span id="calibre_link-9"></span><span class="sans_futura_std_heavy_oblique_bi_">Programmers Don’t Need to Know Much Math</span></h3>
+<p class="tni">The most common anxiety I hear about learning to program is the notion that it requires a lot of math. Actually, most programming doesn’t require math beyond basic arithmetic. Programming requires deduction and paying attention to detail more than mathematics. In fact, being good at programming isn’t that different from being good at solving Sudoku puzzles.</p>
+<p class="tx">To solve a Sudoku puzzle, you must fill in the numbers 1 through 9 for each row, each column, and each 3×3 interior square of the full 9×9 board. The puzzle provides you with some numbers to start, and you can <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1387" aria-label="xxxv"></span>find a solution by making deductions based on these numbers. In the puzzle shown in Figure 1, a 5 appears in the first and second rows, so it can’t show up in these rows again. Therefore, in the upper-right grid, it must appear in the third row. Because the last column also already has a 5 in it, the 5 can’t go to the right of the 6, so it must go to the left of the 6. Solving one row, column, or square will provide more clues for solving the rest of the puzzle, and as you fill in one group of numbers 1 to 9 and then another, you’ll soon solve the entire grid.</p>
+<figure class="img"><img class="img1" id="calibre_link-649" src="images/000004.jpg" alt="Two six-by-six Sudoku puzzle grids side by side. The first is partly filled in with digits, and the second is entirely filled in with digits." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 1: A new Sudoku puzzle (left) and its solution (right). Despite using numbers, Sudoku doesn’t involve much math. (Images © Wikimedia Commons)</span></p></figcaption>
+</figure>
+<p class="tx">The fact that Sudoku involves numbers doesn’t mean you have to be good at math to figure out the solution. The same is true of programming. Like solving a Sudoku puzzle, writing programs involves paying attention to details and breaking down a problem into individual steps. Similarly, when <i class="calibre5">debugging</i> programs (that is, finding and fixing errors), you’ll patiently observe what the program is doing and find the cause of the bugs. And like all skills, the more you program, the better you’ll become.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h3 class="h1" id="calibre_link-1388"><span id="calibre_link-10"></span><span class="sans_futura_std_heavy_oblique_bi_">You Are Not Too Old to Learn Programming</span></h3>
+<p class="tni">The second most common anxiety I hear about learning to program is that people think they’re too old to learn it. I read many internet comments from folks who think it’s too late for them because they are already (gasp!) 23 years old. This is clearly not “too old” to learn to program; many people learn much later in life.</p>
+<p class="tx">You don’t need to have started as a child to become a capable programmer. But the image of programmers as whiz kids is a persistent one. Unfortunately, I contribute to this myth when I tell others that I was in grade school when I started programming.</p>
+<p class="tx">However, programming is much easier to learn today than it was in the 1990s. Today, there are more books, better search engines, and many more online question-and-answer websites. On top of that, the programming languages themselves are far more user-friendly. For these reasons, <i class="calibre5">everything</i> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1389" aria-label="xxxvi"></span><i class="calibre5">I learned about programming in the years between grade school and high school graduation could be learned today in about a dozen weekends</i>. My head start wasn’t really much of a head start.</p>
+<p class="tx">It’s important to have a “growth mindset” about programming&mdash;in other words, understand that people develop programming skills through practice. They aren’t just born as programmers, and being unskilled at programming now is not an indication that you can never become an expert.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h3 class="h1" id="calibre_link-1390"><span id="calibre_link-11"></span><span class="sans_futura_std_heavy_oblique_bi_">AI Won’t Replace Programmers</span></h3>
+<p class="tni">In the 1990s, nanotechnology promised to change everything. New manufacturing processes and scientific innovation would revolutionize society, the thinking went. Carbon nanotubes, buckyballs, and diamonds the price of pencil lead, all assembled one atom at a time out of plentiful carbon by germ-size nanobots, would pave the way for materials 10 times stronger than steel at a fraction of the weight and cost. This would lead to space elevators, medical miracles, and home appliances that could create anything, just like the replicators on <i class="calibre5">Star Trek</i>! It would mean an end to economic scarcity, world hunger, and war. It would bring on a new age of enlightenment&mdash;as long as the nanobots didn’t turn on their human creators in a tiny robot uprising. And the technology was only 10 years away!</p>
+<p class="tx">Of course, the hype never happened. Real innovations certainly occurred at the nanoscale (the smartphone in your pocket uses a number of them). But the Star Trek replicators and other grandiose promises didn’t arrive, and the excitement over nanotechnology deflated to more realistic proportions.</p>
+<p class="tx">Let’s talk about AI.</p>
+<p class="tx">Personal computers changed everything. The internet changed everything. Social media changed everything. Smartphones changed everything. Cryptocurrency did not change everything, but it did reveal which of your cousins and co-workers were susceptible to get-rich-quick scams. Today, AI is the latest marvel to emerge from the tech industry. People use the term <i class="calibre5">AI</i> to mean everything from chess-playing computers to chatbots, so-called expert systems, and machine learning. In this book, I’ll use the term <i class="calibre5">large language model (LLM)</i>, which is the conceptual category behind OpenAI’s ChatGPT, Google’s Gemini, Facebook’s LLaMA, and other generative text systems.</p>
+<p class="tx">LLMs have caused many breathless claims and questions. Is AI going to take all of our jobs? Is it still worth learning to code? Are the AIs alive, and can I survive the AI-robot uprising?</p>
+<p class="tx">LLM technology is exciting, but to make it useful, we need to set realistic expectations so that we can avoid falling prey to sensationalist journalism and questionable “investment opportunities.” I hope I can deflate the hype and give you a more realistic view of how LLMs can help you learn to code. Let’s get some of these misconceptions out of the way right now:</p>
+<ul class="ul">
+<li class="bl">LLMs are not conscious or sentient.</li>
+<li class="bl">LLMs will not replace human software engineers.</li>
+<li class="bl">LLMs do not alleviate the need to learn programming.</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1311" aria-label="xxxvii"></span>LLMs will not replace most human jobs (though this won’t prevent your manager from thinking they can and laying you off anyway).</li>
+<li class="bl">LLMs are far from perfect, and are even <i class="calibre5">often</i> wrong.</li>
+</ul>
+<p class="tx">Those who insist on these misconceptions get their information from science fiction movies and internet videos, not from experience with actual LLMs. I highly recommend Simon Willison, Python Software Foundation board member and co-creator of the Django Web Framework, for his writing about AI at <i class="calibre5"><a href="https://simonwillison.net/about" class="calibre1">https://<wbr></wbr>simonwillison<wbr></wbr>.net<wbr></wbr>/about</a></i>. You can watch his sober and illuminating PyCon 2024 keynote speech on LLMs at <i class="calibre5"><a href="https://autbor.com/pycon2024keynote" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/pycon2024keynote</a></i>.</p>
+<p class="tx">How could LLMs help you as a programmer? What is obvious at this early stage is that learning to communicate with LLMs (so-called prompt engineering) is a skill, just like learning to effectively use a search engine is a skill. LLMs are not people, and you need to learn how to phrase your questions to get relevant and reliable answers. When LLMs confidently make up incorrect answers, we say that they are <i class="calibre5">hallucinating</i>. But this is just another way of anthropomorphizing an algorithm. LLMs don’t think; they generate text. That is to say, LLMs are <i class="calibre5">always</i> hallucinating, even when their answers happen to be correct.</p>
+<p class="tx">LLMs make large, obvious mistakes and simple, subtle mistakes, however. If you use them as a learning aid, you must vigilantly check everything the LLM tells you, big or small. It’s entirely valid to choose to forgo learning with LLMs altogether. At this point, the effectiveness of using LLMs in education is unproven. We don’t know for sure in what situations LLMs are useful as learning tools, or even if their benefits outweigh their costs.</p>
+<p class="tx">It’s no wonder that so many buy into the hype of LLMs. We carry devices in our pockets that scientists of the last century would consider supercomputers. They connect us to a global network of information (and misinformation). They can identify their position anywhere on Earth by listening to satellites in outer space. Software can already do seemingly magical things, but software isn’t magic. And by learning to program, you’ll get a far more grounded idea of what computers are capable of versus what is just hype.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h2 class="h" id="calibre_link-1391"><span id="calibre_link-12"></span><span class="sans_futura_std_bold_b_">About This Book</span></h2>
+<p class="tni">The first part of this book teaches you how to program in Python. The second part covers various software libraries for automating different kinds of tasks. I recommend reading the chapters of Part I in order, then skipping to the chapters in Part II that interest you. Here’s a brief rundown of what you’ll find in each chapter.</p>
+<p class="listhead"><b class="calibre10">Part I: Programming Fundamentals</b></p>
+<p class="listplain"><b class="calibre10">Chapter 1: Python Basics</b> Covers expressions, the most basic type of Python instruction, and how to use the Python interactive shell software to experiment with code.</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1392" aria-label="xxxviii"></span><b class="calibre10">Chapter 2: if-else and Flow Control</b> Explains how to make programs decide which instructions to execute so that your code can intelligently respond to different conditions.</p>
+<p class="listplain"><b class="calibre10">Chapter 3: Loops</b> Explains how to make programs repeat instructions a set number of times, or for as long as a certain condition holds.</p>
+<p class="listplain"><b class="calibre10">Chapter 4: Functions</b> Instructs you on how to define your own functions so that you can organize your code into more manageable chunks.</p>
+<p class="listplain"><b class="calibre10">Chapter 5: Debugging</b> Shows how to use Python’s various bug-finding and bug-fixing tools.</p>
+<p class="listplain"><b class="calibre10">Chapter 6: Lists</b> Introduces the list data type and explains how to organize data.</p>
+<p class="listplain"><b class="calibre10">Chapter 7: Dictionaries and Structuring Data</b> Introduces the dictionary data type and shows you more powerful ways to organize data.</p>
+<p class="listplain"><b class="calibre10">Chapter 8: Strings and Text Editing</b> Covers working with text data (called <i class="calibre5">strings</i> in Python).</p>
+<p class="listhead"><b class="calibre10">Part II: Automating Tasks</b></p>
+<p class="listplain"><b class="calibre10">Chapter 9: Text Pattern Matching with Regular Expressions</b> Covers how Python can manipulate strings and search for text patterns with regular expressions.</p>
+<p class="listplain"><b class="calibre10">Chapter 10: Reading and Writing Files</b> Explains how your program can read the contents of text files and save information to files on your hard drive.</p>
+<p class="listplain"><b class="calibre10">Chapter 11: Organizing Files</b> Shows how Python can copy, move, rename, and delete large numbers of files much faster than a human user can. Also explains compressing and decompressing files.</p>
+<p class="listplain"><b class="calibre10">Chapter 12: Designing and Deploying Command Line Programs</b> Explains how you can package your Python programs to easily run them either on your own computer or on co-workers’ computers.</p>
+<p class="listplain"><b class="calibre10">Chapter 13: Web Scraping</b> Shows how to write programs that can automatically download web pages and parse them for information. This is called <i class="calibre5">web scraping</i>.</p>
+<p class="listplain"><b class="calibre10">Chapter 14: Excel Spreadsheets</b> Covers programmatically manipulating Excel spreadsheets so that you don’t have to read them. This is helpful when the number of documents you have to analyze is in the hundreds or thousands.</p>
+<p class="listplain"><b class="calibre10">Chapter 15: Google Sheets</b> Covers how to read and update Google Sheets, a popular web-based spreadsheet application, using Python.</p>
+<p class="listplain"><b class="calibre10">Chapter 16: SQLite Databases</b> Explains how to use relational databases with SQLite, the tiny but powerful open source database that comes with Python.</p>
+<p class="listplain"><b class="calibre10">Chapter 17: PDF and Word Documents</b> Covers programmatically reading Word and PDF documents.</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1240" aria-label="xxxix"></span><b class="calibre10">Chapter 18: CSV, JSON, and XML Files</b> Continues to explain how to programmatically manipulate documents, now discussing the data serialization formats CSV, JSON, and XML.</p>
+<p class="listplain"><b class="calibre10">Chapter 19: Keeping Time, Scheduling Tasks, and Launching Programs</b> Explains how Python programs handle time and dates and how to schedule your computer to perform tasks at certain times. Also shows how your Python programs can launch non-Python programs.</p>
+<p class="listplain"><b class="calibre10">Chapter 20: Sending Email, Texts, and Push Notifications</b> Explains how to write programs that can notify you via email or mobile communications, or send these messages to others.</p>
+<p class="listplain"><b class="calibre10">Chapter 21: Making Graphs and Manipulating Images</b> Explains how to programmatically manipulate images, such as JPEG or PNG files, and work with the Matplotlib graph-making library.</p>
+<p class="listplain"><b class="calibre10">Chapter 22: Recognizing Text in Images</b> Covers how to extract text from images and scanned documents for further processing with the PyTesseract package.</p>
+<p class="listplain"><b class="calibre10">Chapter 23: Controlling the Keyboard and Mouse</b> Explains how to programmatically control the mouse and keyboard to automate clicks and key presses.</p>
+<p class="listplain"><b class="calibre10">Chapter 24: Text-to-Speech and Speech Recognition Engines</b> Covers how to use advanced computer science packages to not only generate spoken audio from text, but also convert spoken audio to text.</p>
+<p class="tx">You can download source code and other resources for the examples in this book at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>. To see many of this book’s programs in action, visit <i class="calibre5"><a href="https://autbor.com/3" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/3</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h2 class="h" id="calibre_link-1393"><span id="calibre_link-13"></span><span class="sans_futura_std_bold_b_">Downloading and Installing Python</span></h2>
+<p class="tni">You can download Python for Windows, macOS, and Ubuntu Linux for free at <i class="calibre5"><a href="https://python.org/downloads" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org<wbr></wbr>/downloads</a></i>.</p>
+<p class="tx">The download page detects your operating system and recommends the download package for your computer. There are unofficial Python installers for Android and iOS mobile operating systems, but those are beyond the scope of this book. Windows, macOS, and Linux have their own installation options as well. Download the installer for your operating system and run the program to install the Python interpreter software.</p>
+<p class="tx">New versions of Python or your operating system may change the steps needed to install Python. If you encounter difficulties, you can consult <i class="calibre5"><a href="https://autbor.com/install/" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/install<wbr></wbr>/</a></i> for up-to-date instructions.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h2 class="h" id="calibre_link-1394"><span id="calibre_link-14"></span><span class="sans_futura_std_bold_b_">Downloading and Installing Mu</span></h2>
+<p class="tni">While the <i class="calibre5">Python interpreter</i> is the software that runs your Python programs, the <i class="calibre5">Mu editor software</i> is where you’ll enter your programs, much the way you enter text in a word processor. You can download Mu from <i class="calibre5"><a href="https://codewith.mu" class="calibre1">https://<wbr></wbr>codewith<wbr></wbr>.mu</a></i>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1154" aria-label="xl"></span>On Windows and macOS, download the installer for your operating system, then run it by double-clicking the installer file. If you are on macOS, running the installer opens a window where you must drag the Mu icon to the Applications folder icon to continue the installation. If you are on Ubuntu, you’ll need to install Mu as a Python package. In that case, click the <b class="calibre10">Instructions</b> button in the Python Package section of the download page.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h2 class="h" id="calibre_link-1395"><span id="calibre_link-15"></span><span class="sans_futura_std_bold_b_">Starting Mu</span></h2>
+<p class="tni">Once it’s installed, you can start Mu:</p>
+<ul class="ul">
+<li class="bl">On Windows, click the Start icon in the lower-left corner of your screen, enter <b class="calibre10">Mu Editor</b> in the search box, and select it.</li>
+<li class="bl">On macOS, open the Finder window, click <b class="calibre10">Applications</b>, and then click <b class="calibre10">mu-editor</b>. You can also run <b class="calibre10">Mu Editor</b> from Spotlight.</li>
+<li class="bl">On Ubuntu, select <b class="calibre10">Applications</b><span class="listbullet_menuarrow"></span><b class="calibre10">Accessories</b><span class="listbullet_menuarrow"></span><b class="calibre10">Terminal</b> and then enter <span class="sans_thesansmonocd_w7bold_b_">python3 &ndash;m mu</span>.</li>
+</ul>
+<p class="tx">The first time Mu runs, a Select Mode window will appear with options for Adafruit CircuitPython, BBC micro:bit, Pygame Zero, Python 3, and others. Select <b class="calibre10">Python 3</b>. You can always change the mode later by clicking the <b class="calibre10">Mode</b> button at the top of the editor window.</p>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h2 class="h" id="calibre_link-1396"><span id="calibre_link-16"></span><span class="sans_futura_std_bold_b_">Starting IDLE</span></h2>
+<p class="tni">This book uses Mu as an editor and interactive shell. However, you can use any number of editors for writing Python code. The <i class="calibre5">interactive development environment (IDLE)</i> software installs along with Python, and it can serve as a second editor if for some reason you can’t get Mu installed or working. Let’s start IDLE now (assuming Python 3.13 is the version you installed):</p>
+<ul class="ul">
+<li class="bl">On Windows, click the Start icon in the lower-left corner of your screen, enter <b class="calibre10">IDLE</b> in the search box, and select <b class="calibre10">IDLE (Python 3.13 64-bit)</b>.</li>
+<li class="bl">On macOS, open the Finder window, click <b class="calibre10">Applications</b>, click <b class="calibre10">Python 3.13</b>, and then click the IDLE icon. You can also run IDLE from Spotlight.</li>
+<li class="bl">On Ubuntu, select <b class="calibre10">Applications</b><span class="listbullet_menuarrow"></span><b class="calibre10">Accessories</b><span class="listbullet_menuarrow"></span><b class="calibre10">Terminal</b> and then enter <span class="sans_thesansmonocd_w7bold_b_">idle</span>. (You may also be able to click <b class="calibre10">Show Apps</b> at the bottom of the Ubuntu sidebar and then click <b class="calibre10">IDLE</b>.)</li>
+</ul>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h2 class="h" id="calibre_link-1397"><span id="calibre_link-17"></span><span class="sans_futura_std_bold_b_">The Interactive Shell</span></h2>
+<p class="tni">When you run Mu, the window that appears is called the <i class="calibre5">file editor</i> window. You can open the <i class="calibre5">interactive shell</i> by clicking the REPL button. A shell is a program that lets you enter instructions into the computer, much like the Terminal or Command Prompt on macOS and Windows, respectively. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-862" aria-label="xli"></span>Python’s interpreter software will immediately run any instructions you enter into the Python interactive shell.</p>
+<p class="tx">In Mu, the interactive shell is a pane in the lower half of the window with something like the following text:</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">Jupyter QtConsole
+Python 3
+Type 'copyright', 'credits' or 'license' for more information
+IPython -- An enhanced Interactive Python. Type '?' for help.</span>
+
+<span class="thesansmonocd_w5regular_">In [1]:</span>
+</code></pre>
+<p class="tx">If you run IDLE, the interactive shell is the window that first appears. It should be mostly blank except for text that looks something like this:</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span></code></pre>
+<p class="tx"><span class="thesansmonocd_w5regular_">In [1]:</span> and <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> are called <i class="calibre5">prompts</i>. The examples in this book will use the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt to represent the interactive shell, since it’s more common. If you run Python from the Terminal or Command Prompt, they’ll use the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt as well. The <span class="thesansmonocd_w5regular_">In [1]:</span> prompt was invented by Jupyter Notebook, another popular Python editor.</p>
+<p class="tx">For example, enter the following into the interactive shell next to the prompt:</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">print('Hello, world!')</b></code></pre>
+<p class="tx">After you write the line and press <small class="calibre4">ENTER</small>, the interactive shell should display this in response:</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">print('Hello, world!')</b>
+<span class="thesansmonocd_w5regular_">Hello, world!</span>
+</code></pre>
+<p class="tx">You’ve just given the computer an instruction, and it did what you told it to do!</p>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h2 class="h" id="calibre_link-1398"><span id="calibre_link-18"></span><span class="sans_futura_std_bold_b_">How to Find Help</span></h2>
+<p class="tni">Programmers tend to learn by searching the internet for answers to their questions. This is quite different from the way many people are accustomed to learning&mdash;through an in-person teacher who lectures and can answer questions. What’s great about using the internet as a schoolroom is that there are whole communities of folks who can help you solve your problems. Indeed, your questions have probably already been answered, and the answers are waiting online for you to find them. If you encounter an error message or have trouble making your code work, you won’t be the first person to have your problem, and finding a solution is easier than you might think.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1399" aria-label="xlii"></span>For example, let’s cause an error on purpose: enter <span class="sans_thesansmonocd_w7bold_b_">'42'</span> <span class="sans_thesansmonocd_w7bold_b_">+</span> <span class="sans_thesansmonocd_w7bold_b_">3</span> into the interactive shell. You don’t need to know what this instruction means right now, but the result should look like this:</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'42' + 3</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> <span class="thesansmonocd_w5regular_">Traceback (most recent call last):
+  File "&lt;pyshell#0&gt;", line 1, in &lt;module&gt;
+    '42' + 3</span>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> <span class="thesansmonocd_w5regular_">TypeError: can only concatenate str (not "int") to str
+&gt;&gt;&gt;</span>
+</code></pre>
+<p class="tx">The error message <span class="codeannotation" aria-label="annotation2">❷</span> appears because Python couldn’t understand your instruction. The traceback part <span class="codeannotation" aria-label="annotation1">❶</span> of the error message shows the specific instruction and line number that Python had trouble with. If you’re not sure what to make of a particular error message, search for it online. Enter <b class="calibre10">“TypeError: can only concatenate str (not "int") to str”</b> (including the quotation marks) into your favorite search engine, and you should see tons of links explaining what the error message means and what causes it, as shown in Figure 2.</p>
+<figure class="img"><img class="img1" id="calibre_link-650" src="images/000055.jpg" alt="An internet browser window showing search results for the message “TypeError: can only concatenate str (not “int”) to str.” Results include the websites Stack Overflow and Python Pool." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2: The Google results for an error message can be very helpful.</span></p></figcaption>
+</figure>
+<p class="tx">You’ll often find that someone else had the same question as you and that some other helpful person has already answered it. No one person can know everything about programming, so an everyday part of any software developer’s job is looking up answers to technical questions.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h2 class="h" id="calibre_link-1400"><span id="calibre_link-19"></span><span class="sans_futura_std_bold_b_">Asking Smart Programming Questions</span></h2>
+<p class="tni">If you can’t find the answer by searching online, try asking people in a web forum such as Stack Overflow (<i class="calibre5"><a href="https://stackoverflow.com" class="calibre1">https://<wbr></wbr>stackoverflow<wbr></wbr>.com</a></i>) or the “learn programming” subreddit at <i class="calibre5"><a href="https://reddit.com/r/learnprogramming" class="calibre1">https://<wbr></wbr>reddit<wbr></wbr>.com<wbr></wbr>/r<wbr></wbr>/learnprogramming</a></i>. But keep in <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1401" aria-label="xliii"></span>mind there are smart ways to ask programming questions that help others help you. To begin with, be sure to read the Frequently Asked Questions sections at these websites about the proper way to post questions.</p>
+<p class="tx">When asking programming questions, remember to do the following:</p>
+<ul class="ul">
+<li class="bl">Explain what you are trying to do, not just what you did. This lets your helper know if you are on the wrong track.</li>
+<li class="bl">Specify the point at which the error happens. Does it occur at the very start of the program or only after you do a certain action?</li>
+<li class="bl">Copy and paste the <i class="calibre5">entire</i> error message and your code to <i class="calibre5"><a href="https://pastebin.com" class="calibre1">https://<wbr></wbr>pastebin<wbr></wbr>.com</a></i> or <i class="calibre5"><a href="https://gist.github.com" class="calibre1">https://<wbr></wbr>gist<wbr></wbr>.github<wbr></wbr>.com</a></i>. These websites make it easy to share large amounts of code with people online, without losing any text formatting. You can then put the URL of the posted code in your email or forum post. For example, here are the locations of some pieces of code I’ve posted: <i class="calibre5"><a href="https://pastebin.com/2k3LqDsd" class="calibre1">https://<wbr></wbr>pastebin<wbr></wbr>.com<wbr></wbr>/2k3LqDsd</a></i> and <i class="calibre5"><a href="https://gist.github.com/asweigart/6912168" class="calibre1">https://<wbr></wbr>gist<wbr></wbr>.github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/6912168</a></i>.</li>
+<li class="bl">Explain what you’ve already tried to do to solve your problem. This tells people you’ve already put in some work to figure things out on your own.</li>
+<li class="bl">List the version of Python you’re using. Also, say which operating system and version you’re running.</li>
+<li class="bl">If the error came up after you made a change to your code, explain exactly what you changed.</li>
+<li class="bl">Say whether you’re able to reproduce the error every time you run the program or whether it happens only after you perform certain actions. In the latter case, also explain what those actions are.</li>
+</ul>
+<p class="tx">Always follow good online etiquette as well. For example, don’t post your questions in all caps or make unreasonable demands of the people trying to help you.</p>
+<p class="tx">You can find more information on how to ask for programming help in the blog post at <i class="calibre5"><a href="https://autbor.com/help" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/help</a></i>. I love helping people discover Python. I write programming tutorials on my blog at <i class="calibre5"><a href="https://inventwithpython.com/blog" class="calibre1">https://<wbr></wbr>inventwithpython<wbr></wbr>.com<wbr></wbr>/blog</a></i>, and you can contact me with questions at <i class="calibre5">al@inventwithpython.com</i>, although you may get a faster response by posting your questions to <i class="calibre5"><a href="https://reddit.com/r/inventwithpython" class="calibre1">https://<wbr></wbr>reddit<wbr></wbr>.com<wbr></wbr>/r<wbr></wbr>/inventwithpython</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h2 class="h" id="calibre_link-1402"><span id="calibre_link-20"></span><span class="sans_futura_std_bold_b_">New to the Third Edition</span></h2>
+<p class="tni">This fully revised and updated edition includes 16 new programming projects so you can practice the skills you’ll learn. You’ll find a complete introduction to SQLite and relational databases with Python’s sqlite3 module. You’ll explore how to compile Python scripts into executable programs on Windows, macOS, and Linus; and create command line programs and run them. You’ll also learn how to perform PDF operations with PyPDF and PdfMiner, use Playwright in addition to Selenium to control web browsers, make your programs talk with text-to-speech libraries, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1403" aria-label="xliv"></span>use OpenAI’s Whisper library to create text transcriptions from audio and video files, extract text from images with PyTesseract, create graphs with matplotlib, and more.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
+<h2 class="h" id="calibre_link-1404"><span id="calibre_link-21"></span><span class="sans_futura_std_bold_b_">Summary</span></h2>
+<p class="tni">For most people, their computer is just an appliance instead of a tool. But by learning how to program, you’ll gain access to one of the most powerful tools of the modern world, and you’ll have fun along the way. Programming isn’t brain surgery&mdash;it’s fine for amateurs to experiment and make mistakes.</p>
+<p class="tx">This book assumes you have zero programming knowledge and will teach you quite a bit, but you may have questions beyond its scope. Remember that asking effective questions and knowing how to find answers are invaluable tools on your programming journey.</p>
+<p class="tx">Let’s begin!</p>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

@@ -1,0 +1,759 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-544">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch21">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1237" aria-label="493"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-2025">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">21</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">MAKING GRAPHS AND MANIPULATING IMAGES</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">If you own a digital camera or upload photos from your phone to a social media site, you probably cross paths with digital image files all the time. You may know how to use basic graphics software such as Microsoft Paint or Paintbrush, or even more advanced applications such as Adobe Photoshop. But if you need to edit a massive number of images, altering them by hand can be a lengthy, boring job.</p>
+<p class="tx">Enter Pillow, a third-party Python package for interacting with image files. This package has several functions that make cropping, resizing, and editing the content of an image easy. This chapter covers the use of Pillow to enable Python to automatically edit hundreds or thousands of images with ease.</p>
+<p class="tx">This chapter also covers Matplotlib, a popular library for making professional-looking graphs. Matplotlib is rich in features and customizable options, and there are many books entirely dedicated to it. Here, we’ll cover the basics of generating graph images with Matplotlib.</p>
+<section type="division" aria-labelledby="sec1">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-899" aria-label="494"></span>
+<h3 class="h" id="calibre_link-2026"><span id="calibre_link-545"></span><span class="sans_futura_std_bold_b_">Computer Image Fundamentals</span></h3>
+<p class="tni">To manipulate an image, you must understand how to work with colors and coordinates in Pillow. You can install the latest version of Pillow by following the instructions in <span>Appendix A</span>.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-2027"><span id="calibre_link-546"></span><span class="sans_futura_std_heavy_oblique_bi_">Colors and RGBA Values</span></h4>
+<p class="tni">Computer programs often represent a color in an image as an <i class="calibre5">RGBA value</i>, a group of numbers that specify the amount of red, green, blue, and <i class="calibre5">alpha</i> (or transparency) to include. Each of these component values is an integer ranging from 0 (none at all) to 255 (the maximum). These RGBA values belong to individual <i class="calibre5">pixels</i>, the smallest dot of a single color the computer screen can show. A pixel’s RGB setting tells it precisely what shade of color it should display. If an image on the screen is superimposed over a background image or desktop wallpaper, the alpha value determines how much of the background you can “see through” the image’s pixel.</p>
+<p class="tx">Pillow represents RGBA values using a tuple of four integer values. For example, it represents the color red with <span class="thesansmonocd_w5regular_">(255, 0, 0, 255)</span>. This color has the maximum amount of red, no green or blue, and the maximum alpha value, meaning it’s fully opaque. Pillow represents green with <span class="thesansmonocd_w5regular_">(0, 255, 0, 255)</span> and blue with <span class="thesansmonocd_w5regular_">(0, 0, 255, 255)</span>. White, the combination of all colors, is <span class="thesansmonocd_w5regular_">(255, 255, 255, 255)</span>, while black, which has no color at all, is <span class="thesansmonocd_w5regular_">(0, 0, 0, 255)</span>.</p>
+<p class="tx">If a color has an alpha value of <span class="thesansmonocd_w5regular_">0</span>, it is invisible, and it doesn’t really matter what the RGB values are. After all, invisible red looks the same as invisible black.</p>
+<p class="tx">Pillow uses the same standard color names as HTML. Table 21-1 lists a selection of standard color names and their values.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-805"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 21-1:</span></span> <span class="sans_futura_std_book_">Standard Color Names and Their RGBA Values</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Name</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">RGBA value</span></p></th>
+<td class="tch2"></td>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Name</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">RGBA value</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">White</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">(255, 255, 255, 255)</span></p></td>
+<td class="tbf"></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Red</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">(255, 0, 0, 255)</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Green</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">(0, 255, 0, 255)</span></p></td>
+<td class="tb"></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Blue</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">(0, 0, 255, 255)</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Gray</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">(128, 128, 128, 255)</span></p></td>
+<td class="tb"></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Yellow</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">(255, 255, 0, 255)</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Black</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">(0, 0, 0, 255)</span></p></td>
+<td class="tbl"></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Purple</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">(128, 0, 128, 255)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">Pillow offers the <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> function so that you don’t have to memorize RGBA values for the colors you want to use. This function takes a color name string as its first argument and the string <span class="thesansmonocd_w5regular_">'RGBA'</span> as its second argument, and it returns an RGBA tuple. To see how this function works, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">from PIL import ImageColor</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('red', 'RGBA')</b>
+(255, 0, 0, 255)
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('RED', 'RGBA')</b>
+(255, 0, 0, 255)
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1032" aria-label="495"></span>&gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('Black', 'RGBA')</b>
+(0, 0, 0, 255)
+&gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('chocolate', 'RGBA')</b>
+(210, 105, 30, 255)
+&gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('CornflowerBlue', 'RGBA')</b>
+(100, 149, 237, 255)
+</code></pre>
+<p class="tx">First, import the <span class="thesansmonocd_w5regular_">ImageColor</span> module from <span class="thesansmonocd_w5regular_">PIL</span> (not from Pillow, due to naming history beyond the scope of this book) <span class="codeannotation" aria-label="annotation1">❶</span>. The color name string you pass to <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> is case-insensitive, so <span class="thesansmonocd_w5regular_">'red'</span> <span class="codeannotation" aria-label="annotation2">❷</span> and <span class="thesansmonocd_w5regular_">'RED'</span> <span class="codeannotation" aria-label="annotation3">❸</span> give you the same RGBA tuple. You can also pass more unusual color names, like <span class="thesansmonocd_w5regular_">'chocolate'</span> and <span class="thesansmonocd_w5regular_">'CornflowerBlue'</span>.</p>
+<p class="tx">Pillow supports a huge number of color names, from <span class="thesansmonocd_w5regular_">'aliceblue'</span> to <span class="thesansmonocd_w5regular_">'yellowgreen'</span>. Enter the following into the interactive shell to view the color names:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import ImageColor</b>
+&gt;&gt;&gt; <b class="calibre10">list(ImageColor.colormap)</b>
+['aliceblue', 'antiquewhite', 'aqua', ... 'yellow', 'yellowgreen']
+</code></pre>
+<p class="tx">You can find the full list of more than 100 standard color names in the keys of the <span class="thesansmonocd_w5regular_">ImageColor.colormap</span> dictionary.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1" id="calibre_link-2028"><span id="calibre_link-547"></span><span class="sans_futura_std_heavy_oblique_bi_">Coordinates and Box Tuples</span></h4>
+<p class="tni">Image pixels are addressed with x- and y-coordinates, which respectively specify a pixel’s horizontal and vertical locations in an image. The <i class="calibre5">origin</i> is the pixel at the top-left corner of the image and is specified with the notation (0, 0). The first zero represents the x-coordinate, which starts at zero at the origin and increases from left to right. The second zero represents the y-coordinate, which starts at zero at the origin and increases down the image. This bears repeating: y-coordinates increase going downward, which is the opposite of how you may remember y-coordinates being used in math class. Figure 21-1 demonstrates how this coordinate system works.</p>
+<figure class="img"><img class="img4" id="calibre_link-806" src="images/000057.jpg" alt="Icon of a computer window with the top-left corner labeled (0,0) and the bottom-right corner labeled (27,26). Horizontally, arrow points right and reads “x increases”. Vertically, an arrow points down and reads “y increases”." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-1: The x- and y-coordinates of a 28×27 image of some sort of ancient data storage device</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-976" aria-label="496"></span>Many of Pillow’s functions and methods take a <i class="calibre5">box tuple</i> argument. This means Pillow is expecting a tuple of four integer coordinates that represent a rectangular region in an image. The four integers are, in order, as follows:</p>
+<p class="listplain"><b class="calibre10">Left</b> The x-coordinate of the leftmost edge of the box.</p>
+<p class="listplain"><b class="calibre10">Top</b> The y-coordinate of the top edge of the box.</p>
+<p class="listplain"><b class="calibre10">Right</b> The x-coordinate of one pixel to the right of the rightmost edge of the box. This integer must be greater than the left integer.</p>
+<p class="listplain"><b class="calibre10">Bottom</b> The y-coordinate of one pixel lower than the bottom edge of the box. This integer must be greater than the top integer.</p>
+<p class="tx">Note that the box includes the left and top coordinates and goes up to but does not include the right and bottom coordinates. For example, the box tuple <span class="thesansmonocd_w5regular_">(3, 1, 9, 6)</span> represents all the pixels in the black box in Figure 21-2.</p>
+<figure class="img"><img class="img4" id="calibre_link-807" src="images/000068.jpg" alt="A grid with columns and rows labeled 0 through 9. The cells beginning at row 1, column 3 in top-left corner and going to row 5, column 8 in the bottom-right corner are shaded." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-2: The area represented by the box tuple</span> <span class="sans_thesansmonocd_w5regular_italic_">(3, 1, 9, 6)</span></p></figcaption>
+</figure>
+<p class="tx">Now that you know how colors and coordinates work in Pillow, let’s use Pillow to manipulate an image.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h3 class="h" id="calibre_link-2029"><span id="calibre_link-548"></span><span class="sans_futura_std_bold_b_">Manipulating Images with Pillow</span></h3>
+<p class="tni">To practice working with Pillow, we’ll use the <i class="calibre5">zophie.png</i> image file shown in Figure 21-3. You can download it from the book’s online resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>. Save the file in your current working directory, and then load the image into Python, like so:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
+&gt;&gt;&gt;<b class="calibre10"> cat_im.show()</b>
+</code></pre>
+<p class="tx">Import the <span class="thesansmonocd_w5regular_">Image</span> module from Pillow and call <span class="thesansmonocd_w5regular_">Image.open()</span>, passing it the image’s filename. You can then store the loaded image in a variable like <span class="thesansmonocd_w5regular_">cat_im</span>. Pillow <span class="thesansmonocd_w5regular_">Image</span> objects have a <span class="thesansmonocd_w5regular_">show()</span> method that opens the image in a <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2030" aria-label="497"></span>window. This is useful when you’re debugging your programs and need to identify the image in an <span class="thesansmonocd_w5regular_">Image</span> object.</p>
+<figure class="img"><img class="img4" id="calibre_link-808" src="images/000070.jpg" alt="A photograph of a cat looking up." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-3: My cat, Zophie</span></p></figcaption>
+</figure>
+<p class="tx">If the image file isn’t in the current working directory, change the working directory to the folder that contains the image file by calling the <span class="thesansmonocd_w5regular_">os.chdir()</span> function:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import os</b>
+&gt;&gt;&gt; <b class="calibre10">os.chdir('C:\\folder_with_image_file')</b>
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">Image.open()</span> function returns a value of the <span class="thesansmonocd_w5regular_">Image</span> object data type, which Pillow uses to represent an image as a Python value. You can load an <span class="thesansmonocd_w5regular_">Image</span> object from an image file of any format by passing the <span class="thesansmonocd_w5regular_">Image.open()</span> function a string of the filename. You can save any changes you make to the <span class="thesansmonocd_w5regular_">Image</span> object to an image file (also of any format) with the <span class="thesansmonocd_w5regular_">save()</span> method. All the rotations, resizing, cropping, drawing, and other image manipulations will occur through method calls on this <span class="thesansmonocd_w5regular_">Image</span> object.</p>
+<p class="tx">To shorten the examples in this chapter, I’ll assume you’ve imported Pillow’s <span class="thesansmonocd_w5regular_">Image</span> module and stored the Zophie image in a variable named <span class="thesansmonocd_w5regular_">cat_im</span>. Be sure that the <i class="calibre5">zophie.png</i> file is in the current working directory so that the <span class="thesansmonocd_w5regular_">Image.open()</span> function can find it. Otherwise, you’ll have to specify the full absolute path in the function’s string argument.</p>
+<section type="division" aria-labelledby="sec5">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1162" aria-label="498"></span>
+<h4 class="h1" id="calibre_link-2031"><span id="calibre_link-549"></span><span class="sans_futura_std_heavy_oblique_bi_">Working with the Image Data Type</span></h4>
+<p class="tni">An <span class="thesansmonocd_w5regular_">Image</span> object has several useful attributes that give you basic information about the image file from which it was loaded: its width and height, the filename, and the graphics format (such as JPEG, WebP, GIF, or PNG). For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im.size</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> (816, 1088)
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">width, height = cat_im.size</b>
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">width</b>
+816
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> &gt;&gt;&gt; <b class="calibre10">height</b>
+1088
+&gt;&gt;&gt; <b class="calibre10">cat_im.filename</b>
+'zophie.png'
+&gt;&gt;&gt; <b class="calibre10">cat_im.format</b>
+'PNG'
+&gt;&gt;&gt; <b class="calibre10">cat_im.format_description</b>
+'Portable network graphics'
+<span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">cat_im.save('zophie.jpg')</b>
+</code></pre>
+<p class="tx">After you’ve created an <span class="thesansmonocd_w5regular_">Image</span> object from <i class="calibre5">zophie.png</i> and stored the <span class="thesansmonocd_w5regular_">Image</span> object in <span class="thesansmonocd_w5regular_">cat_im</span>, the object’s <span class="thesansmonocd_w5regular_">size</span> attribute contains a tuple of the image’s width and height in pixels <span class="codeannotation" aria-label="annotation1">❶</span>. You can assign the values in the tuple to <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> variables <span class="codeannotation" aria-label="annotation2">❷</span> in order to access the width <span class="codeannotation" aria-label="annotation3">❸</span> and height <span class="codeannotation" aria-label="annotation4">❹</span> individually. The <span class="thesansmonocd_w5regular_">filename</span> attribute describes the original file’s name. The <span class="thesansmonocd_w5regular_">format</span> and <span class="thesansmonocd_w5regular_">format_description</span> attributes are strings that describe the image format of the original file (with <span class="thesansmonocd_w5regular_">format_description</span> being a bit more verbose).</p>
+<p class="tx">Finally, calling the <span class="thesansmonocd_w5regular_">save()</span> method and passing it <span class="thesansmonocd_w5regular_">'zophie.jpg'</span> saves a new image with the filename <i class="calibre5">zophie.jpg</i> to your hard drive <span class="codeannotation" aria-label="annotation5">❺</span>. Pillow sees that the file extension is <i class="calibre5">.jpg</i> and automatically saves the image using the JPEG image format. Now you should have two images, <i class="calibre5">zophie.png</i> and <i class="calibre5">zophie.jpg</i>, on your hard drive. While these files are based on the same image, they are not identical, because of their different formats.</p>
+<p class="tx">Pillow also provides the <span class="thesansmonocd_w5regular_">Image.new()</span> function, which returns an <span class="thesansmonocd_w5regular_">Image</span> object—much like <span class="thesansmonocd_w5regular_">Image.open()</span>, except the image represented by <span class="thesansmonocd_w5regular_">Image.new()</span>’s object will be blank. The arguments to <span class="thesansmonocd_w5regular_">Image.new()</span> are as follows:</p>
+<ul class="ul">
+<li class="bl">The string <span class="thesansmonocd_w5regular_">'RGBA'</span>, which sets the color mode to RGBA. (There are other modes that this book doesn’t go into.)</li>
+<li class="bl">The size as a two-integer tuple of the new image’s width and height.</li>
+<li class="bl">The background color that the image should start with, as a four-integer tuple of an RGBA value. You can use the return value of the <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> function for this argument. Alternatively, you can pass the standard color name as a string.</li>
+</ul>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1078" aria-label="499"></span>For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (100, 200), 'purple')</b>
+&gt;&gt;&gt; <b class="calibre10">im.save('purpleImage.png')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">im2 = Image.new('RGBA', (20, 20))</b>
+&gt;&gt;&gt; <b class="calibre10">im2.save('transparentImage.png')</b>
+</code></pre>
+<p class="tx">Here, we create an <span class="thesansmonocd_w5regular_">Image</span> object for an image that’s 100 pixels wide and 200 pixels tall, with a purple background <span class="codeannotation" aria-label="annotation1">❶</span>. We then save this image to the file <i class="calibre5">purpleImage.png</i>. We call <span class="thesansmonocd_w5regular_">Image.new()</span> again to create another <span class="thesansmonocd_w5regular_">Image</span> object, this time passing <span class="thesansmonocd_w5regular_">(20, 20)</span> for the dimensions and nothing for the background color <span class="codeannotation" aria-label="annotation2">❷</span>. Invisible black, <span class="thesansmonocd_w5regular_">(0, 0, 0, 0)</span>, is the default color used if no color argument is specified, so the second image has a transparent background. We save this 20×20 transparent square in <i class="calibre5">transparentImage.png</i>.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-2032"><span id="calibre_link-550"></span><span class="sans_futura_std_heavy_oblique_bi_">Cropping Images</span></h4>
+<p class="tni"><i class="calibre5">Cropping</i> an image means selecting a rectangular region inside an image and removing everything outside the rectangle. The <span class="thesansmonocd_w5regular_">crop()</span> method of <span class="thesansmonocd_w5regular_">Image</span> objects takes a box tuple and returns an <span class="thesansmonocd_w5regular_">Image</span> object representing the cropped image. The cropping doesn’t happen in place—that is, the original <span class="thesansmonocd_w5regular_">Image</span> object is left untouched, and the <span class="thesansmonocd_w5regular_">crop()</span> method returns a new one. Remember that a box tuple (in this case, the cropped section) includes the left column and top row of pixels but not the right column and bottom row of pixels.</p>
+<p class="tx">Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cropped_im = cat_im.crop((335, 345, 565, 560))</b>
+&gt;&gt;&gt; <b class="calibre10">cropped_im.save('cropped.png')</b>
+</code></pre>
+<p class="tx">This code makes a new <span class="thesansmonocd_w5regular_">Image</span> object for the cropped image, stores the object in <span class="thesansmonocd_w5regular_">cropped_im</span>, and then calls <span class="thesansmonocd_w5regular_">save()</span> on <span class="thesansmonocd_w5regular_">cropped_im</span> to save the cropped image in <i class="calibre5">cropped.png</i>, shown in Figure 21-4.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1058" aria-label="500"></span>
+<figure class="img"><img class="img2" id="calibre_link-809" src="images/000071.jpg" alt="The cat photograph cropped to show just the cat’s head." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-4: The new image is the cropped section of the original image.</span></p></figcaption>
+</figure>
+<p class="tx">Cropping creates the new file from the original.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-2033"><span id="calibre_link-551"></span><span class="sans_futura_std_heavy_oblique_bi_">Pasting Images onto Other Images</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">copy()</span> method will return a new <span class="thesansmonocd_w5regular_">Image</span> object containing the same image as the <span class="thesansmonocd_w5regular_">Image</span> object on which it was called. This is useful if you need to make changes to an image but also want to keep an untouched version of the original. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_copy_im = cat_im.copy()</b>
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">cat_im</span> and <span class="thesansmonocd_w5regular_">cat_copy_im</span> variables contain two separate <span class="thesansmonocd_w5regular_">Image</span> objects, which both have the same image on them. Now that you have an <span class="thesansmonocd_w5regular_">Image</span> object stored in <span class="thesansmonocd_w5regular_">cat_copy_im</span>, you can modify <span class="thesansmonocd_w5regular_">cat_copy_im</span> as you like and save it to a new filename, leaving <span class="thesansmonocd_w5regular_">cat_im</span> untouched.</p>
+<p class="tx">When called on an <span class="thesansmonocd_w5regular_">Image</span> object, the <span class="thesansmonocd_w5regular_">paste()</span> method pastes another image on top of it. Let’s continue the shell example by pasting a smaller image onto <span class="thesansmonocd_w5regular_">cat_copy_im</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">face_im = cat_im.crop((335, 345, 565, 560))</b>
+&gt;&gt;&gt; <b class="calibre10">face_im.size</b>
+(230, 215)
+&gt;&gt;&gt; <b class="calibre10">cat_copy_im.paste(face_im, (0, 0))</b>
+&gt;&gt;&gt; <b class="calibre10">cat_copy_im.paste(face_im, (400, 500))</b>
+&gt;&gt;&gt; <b class="calibre10">cat_copy_im.save('pasted.png')</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1254" aria-label="501"></span>First, we pass <span class="thesansmonocd_w5regular_">crop()</span> a box tuple for the rectangular area in <i class="calibre5">zophie.png</i> that contains Zophie’s face. This method call creates an <span class="thesansmonocd_w5regular_">Image</span> object representing a 230×215 crop, which we store in <span class="thesansmonocd_w5regular_">face_im</span>. Now we can paste <span class="thesansmonocd_w5regular_">face_im</span> onto <span class="thesansmonocd_w5regular_">cat_copy_im</span>. The <span class="thesansmonocd_w5regular_">paste()</span> method takes two arguments: a source <span class="thesansmonocd_w5regular_">Image</span> object and a tuple of the x- and y-coordinates where we want to paste the top-left corner of the source <span class="thesansmonocd_w5regular_">Image</span> object onto the main <span class="thesansmonocd_w5regular_">Image</span> object. Here, we call <span class="thesansmonocd_w5regular_">paste()</span> twice on <span class="thesansmonocd_w5regular_">cat_copy_im</span>, pasting two copies of <span class="thesansmonocd_w5regular_">face_im</span> onto <span class="thesansmonocd_w5regular_">cat_copy_im</span>. Finally, we save the modified <span class="thesansmonocd_w5regular_">cat_copy_im</span> to <i class="calibre5">pasted.png</i>, shown in Figure 21-5.</p>
+<blockquote class="calibre17">
+<p class="note"><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+</blockquote>
+<p class="note-txt"><i class="calibre5">Despite their names, the <span class="sans_thesansmonocd_w5regular_italic_">copy()</span> and <span class="sans_thesansmonocd_w5regular_italic_">paste()</span> methods in Pillow don’t use your computer’s clipboard.</i></p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">paste()</span> method modifies its <span class="thesansmonocd_w5regular_">Image</span> object <i class="calibre5">in place</i>; it doesn’t return an <span class="thesansmonocd_w5regular_">Image</span> object with the pasted image. If you want to call <span class="thesansmonocd_w5regular_">paste()</span> but also keep an untouched version of the original image around, you’ll need to first copy the image and then call <span class="thesansmonocd_w5regular_">paste()</span> on that copy.</p>
+<figure class="img"><img class="img2" id="calibre_link-810" src="images/000072.jpg" alt="Multiple instances of the cat’s head superimposed on the original cat photograph." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-5: Zophie the cat, with her face pasted twice</span></p></figcaption>
+</figure>
+<p class="tx">Say you want to tile Zophie’s head across the entire image, as in Figure 21-6.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1059" aria-label="502"></span>
+<figure class="img"><img class="img3" id="calibre_link-811" src="images/000073.jpg" alt="Multiple instances of the cat's head arranged in a grid." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-6: Nested for loops used with</span> <span class="sans_thesansmonocd_w5regular_italic_">paste()</span> <span class="sans_futura_std_book_oblique_i_">can duplicate the cat’s face (creating a dupli-cat, if you will).</span></p></figcaption>
+</figure>
+<p class="tx">You can achieve this effect with a couple of <span class="thesansmonocd_w5regular_">for</span> loops. Continue the interactive shell example by entering the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_im_width, cat_im_height = cat_im.size</b>
+&gt;&gt;&gt; <b class="calibre10">face_im_width, face_im_height = face_im.size</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">cat_copy_im = cat_im.copy()</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">for left in range(0, cat_im_width, face_im_width):</b>
+...   <span class="code_codeannotation" aria-label="annotation3">❸</span> <b class="calibre10">for top in range(0, cat_im_height, face_im_height):</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1256" aria-label="503"></span>...         <b class="calibre10">print(left, top)</b>
+...         <b class="calibre10">cat_copy_im.paste(face_im, (left, top))</b>
+...
+0 0
+0 215
+0 430
+0 645
+0 860
+0 1075
+230 0
+230 215
+<var class="calibre20">--snip--</var>
+690 860
+690 1075
+&gt;&gt;&gt; <b class="calibre10">cat_copy_im.save('tiled.png')</b>
+</code></pre>
+<p class="tx">We store the original image’s width and height in <span class="thesansmonocd_w5regular_">cat_im_width</span> and <span class="thesansmonocd_w5regular_">cat_im_height</span>. Next, we make a copy of the image and store it in <span class="thesansmonocd_w5regular_">cat_copy_im</span> <span class="codeannotation" aria-label="annotation1">❶</span>. Now we can loop, pasting <span class="thesansmonocd_w5regular_">face_im</span> onto the copy. The outer <span class="thesansmonocd_w5regular_">for</span> loop’s <span class="thesansmonocd_w5regular_">left</span> variable starts at <span class="thesansmonocd_w5regular_">0</span> and increases by <span class="thesansmonocd_w5regular_">face_im_width</span> <span class="codeannotation" aria-label="annotation2">❷</span>. The inner <span class="thesansmonocd_w5regular_">for</span> loop’s <span class="thesansmonocd_w5regular_">top</span> variable starts at <span class="thesansmonocd_w5regular_">0</span> and increases by <span class="thesansmonocd_w5regular_">face_im_height</span> <span class="codeannotation" aria-label="annotation3">❸</span>. These nested <span class="thesansmonocd_w5regular_">for</span> loops produce values for <span class="thesansmonocd_w5regular_">left</span> and <span class="thesansmonocd_w5regular_">top</span> that paste a grid of <span class="thesansmonocd_w5regular_">face_im</span> images over the <span class="thesansmonocd_w5regular_">Image</span> object, as in Figure 21-6. To see the nested loops at work, we print <span class="thesansmonocd_w5regular_">left</span> and <span class="thesansmonocd_w5regular_">top</span>. After the pasting is complete, we save the modified <span class="thesansmonocd_w5regular_">cat_copy_im</span> to <i class="calibre5">tiled.png</i>.</p>
+<p class="tx">If you’re pasting an image with transparency, you’ll need to pass the image as the optional third argument, which tells Pillow what parts of the original image to paste. Otherwise, transparent pixels in the original image will appear as white pixels in the pasted-on image. We’ll explore this practice in more detail in <span>“Project 16: Add a Logo” on page 507</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-2034"><span id="calibre_link-552"></span><span class="sans_futura_std_heavy_oblique_bi_">Resizing Images</span></h4>
+<p class="tni">When called on an <span class="thesansmonocd_w5regular_">Image</span> object, the <span class="thesansmonocd_w5regular_">resize()</span> method returns a new <span class="thesansmonocd_w5regular_">Image</span> object of the specified width and height. It accepts a two-integer tuple argument representing the new dimensions. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">width, height = cat_im.size</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">quarter_sized_im = cat_im.resize((int(width / 2), int(height / 2)))</b>
+&gt;&gt;&gt; <b class="calibre10">quarter_sized_im.save('quartersized.png')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">svelte_im = cat_im.resize((width, height + 300))</b>
+&gt;&gt;&gt; <b class="calibre10">svelte_im.save('svelte.png')</b>
+</code></pre>
+<p class="tx">We assign the two values in the <span class="thesansmonocd_w5regular_">cat_im.size</span> tuple to the variables <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> <span class="codeannotation" aria-label="annotation1">❶</span>. Using these variables instead of <span class="thesansmonocd_w5regular_">cat_im.size[0]</span> and <span class="thesansmonocd_w5regular_">cat_im.size[1]</span> makes the rest of the code more readable.</p>
+<p class="tx">The first <span class="thesansmonocd_w5regular_">resize()</span> call passes <span class="thesansmonocd_w5regular_">int(width / 2)</span> for the new width and <span class="thesansmonocd_w5regular_">int(height / 2)</span> for the new height <span class="codeannotation" aria-label="annotation2">❷</span>, so the <span class="thesansmonocd_w5regular_">Image</span> object returned from <span class="thesansmonocd_w5regular_">resize()</span> will be half the width and height of the original image, or one-quarter of the original image size overall. The <span class="thesansmonocd_w5regular_">resize()</span> method accepts only <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1145" aria-label="504"></span>integers in its tuple argument, which is why you needed to wrap both divisions by <span class="thesansmonocd_w5regular_">2</span> in an <span class="thesansmonocd_w5regular_">int()</span> call.</p>
+<p class="tx">This resizing keeps the same proportions as the original image, but the new width and height values don’t have to conserve those proportions. The <span class="thesansmonocd_w5regular_">svelte_im</span> variable contains an <span class="thesansmonocd_w5regular_">Image</span> object that has the original width but a height that is 300 pixels taller <span class="codeannotation" aria-label="annotation3">❸</span>, giving Zophie a more slender look.</p>
+<p class="tx">Note that the <span class="thesansmonocd_w5regular_">resize()</span> method doesn’t edit the <span class="thesansmonocd_w5regular_">Image</span> object in place but instead returns a new <span class="thesansmonocd_w5regular_">Image</span> object.</p>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h4 class="h1" id="calibre_link-2035"><span id="calibre_link-553"></span><span class="sans_futura_std_heavy_oblique_bi_">Rotating and Flipping Images</span></h4>
+<p class="tni">To rotate images, use the <span class="thesansmonocd_w5regular_">rotate()</span> method, which returns a new <span class="thesansmonocd_w5regular_">Image</span> object and leaves the original unchanged. The method accepts a single integer or float representing the number of degrees by which to rotate the image counterclockwise. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im.rotate(90).save('rotated90.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im.rotate(180).save('rotated180.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im.rotate(270).save('rotated270.png')</b>
+</code></pre>
+<p class="tx">Note that you can chain method calls by calling <span class="thesansmonocd_w5regular_">save()</span> directly on the <span class="thesansmonocd_w5regular_">Image</span> object returned from <span class="thesansmonocd_w5regular_">rotate()</span>. The first <span class="thesansmonocd_w5regular_">rotate()</span> and <span class="thesansmonocd_w5regular_">save()</span> chain rotates the image counterclockwise by 90 degrees and saves it to <i class="calibre5">rotated90 .png</i>. The second and third calls do the same, except they rotate the image by 180 degrees and 270 degrees, respectively. The results look like Figure 21-7.</p>
+<figure class="img"><img class="img1" id="calibre_link-813" src="images/000074.jpg" alt="Four versions of the cat photograph: the original version, a version rotated so the cat’s head points left, a version further rotated so the cat is upside down, and a version rotated once more so the cat’s head points right." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-7: The original image (left) and the image rotated counterclockwise by 90, 180, and 270 degrees</span></p></figcaption>
+</figure>
+<p class="tx">The rotated images will have the same height and width as the original image. On Windows, a black background will fill in any gaps made by the rotation, as in Figure 21-8. On macOS and Linux, transparent pixels will fill in the gaps instead.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">rotate()</span> method has an optional <span class="thesansmonocd_w5regular_">expand</span> keyword argument that can be set to <span class="thesansmonocd_w5regular_">True</span> to enlarge the dimensions of the image to fit the entire rotated new image. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_im.rotate(6).save('rotated6.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im.rotate(6, expand=True).save('rotated6_expanded.png')</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1290" aria-label="505"></span>The first call rotates the image by six degrees and saves it to <i class="calibre5">rotated6.png</i>. (See the image on the left of Figure 21-8.) The second call rotates the image by six degrees, sets <span class="thesansmonocd_w5regular_">expand</span> to <span class="thesansmonocd_w5regular_">True</span>, and saves the image to <i class="calibre5">rotated6_expanded.png</i>. (See the image on the right of Figure 21-8.)</p>
+<figure class="img"><img class="img1" id="calibre_link-814" src="images/000075.jpg" alt="Two versions of the cat photograph slightly rotated to the left. In the first, the corners of the original photograph are cut off. In the second, the photo is resized so that the corners fit inside the original rectangle." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-8: The image rotated by six degrees normally (left) and with</span> <span class="sans_thesansmonocd_w5regular_italic_">expand=True</span> <span class="sans_futura_std_book_oblique_i_">(right)</span></p></figcaption>
+</figure>
+<p class="tx">If you rotate the image by 90, 180, or 270 degrees with <span class="thesansmonocd_w5regular_">expand=True</span>, the rotated image won’t have a black or transparent background.</p>
+<p class="tx">You can also mirror-flip an image, as in Figure 21-9, with the <span class="thesansmonocd_w5regular_">transpose()</span> method.</p>
+<figure class="img"><img class="img1" id="calibre_link-815" src="images/000076.jpg" alt="Three versions of the cat photograph: the original, the mirror image in the horizontal direction, and the mirror image in the vertical direction." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-9: The original image (left), the image with a horizontal flip (center), and the image with a vertical flip (right)</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1176" aria-label="506"></span>Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_im.transpose(Image.FLIP_LEFT_RIGHT).save('horizontal_flip.png')</b>
+&gt;&gt;&gt; <b class="calibre10">cat_im.transpose(Image.FLIP_TOP_BOTTOM).save('vertical_flip.png')</b>
+</code></pre>
+<p class="tx">Like <span class="thesansmonocd_w5regular_">rotate()</span>, <span class="thesansmonocd_w5regular_">transpose()</span> creates a new <span class="thesansmonocd_w5regular_">Image</span> object. We pass <span class="thesansmonocd_w5regular_">Image.FLIP_LEFT_RIGHT</span> to flip the image horizontally and then save the result to <i class="calibre5">horizontal_flip.png</i>. To flip the image vertically, we pass <span class="thesansmonocd_w5regular_">Image.FLIP_TOP_BOTTOM</span> and save the result to <i class="calibre5">vertical_flip.png</i>.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-2036"><span id="calibre_link-554"></span><span class="sans_futura_std_heavy_oblique_bi_">Changing Individual Pixels</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">getpixel()</span> method can retrieve the color of an individual pixel, and <span class="thesansmonocd_w5regular_">putpixel()</span> can additionally alter that color. Both methods accept a tuple representing the pixel’s x- and y-coordinates. The <span class="thesansmonocd_w5regular_">putpixel()</span> method takes an additional argument for the pixel’s new color, either as a four-integer RGBA tuple or as a three-integer RGB tuple. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (100, 100))</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">im.getpixel((0, 0))</b>
+(0, 0, 0, 0)
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">for x in range(100):</b>
+...     <b class="calibre10">for y in range(50):</b>
+...       <span class="code_codeannotation" aria-label="annotation4">❹</span> <b class="calibre10">im.putpixel((x, y), (210, 210, 210))</b>
+...
+&gt;&gt;&gt; <b class="calibre10">from PIL import ImageColor</b>
+<span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">for x in range(100):</b>
+...     <b class="calibre10">for y in range(50, 100):</b>
+...       <span class="code_codeannotation" aria-label="annotation6">❻</span> <b class="calibre10">im.putpixel((x, y), ImageColor.getcolor('darkgray', 'RGBA'))</b>
+...
+&gt;&gt;&gt; <b class="calibre10">im.getpixel((0, 0))</b>
+(210, 210, 210, 255)
+&gt;&gt;&gt; <b class="calibre10">im.getpixel((0, 50))</b>
+(169, 169, 169, 255)
+&gt;&gt;&gt; <b class="calibre10">im.save('putPixel.png')</b>
+</code></pre>
+<p class="tx">We make a new image that is a 100×100 transparent square <span class="codeannotation" aria-label="annotation1">❶</span>. Calling <span class="thesansmonocd_w5regular_">getpixel()</span> on coordinates in this image returns <span class="thesansmonocd_w5regular_">(0, 0, 0, 0)</span> because the image is transparent <span class="codeannotation" aria-label="annotation2">❷</span>. To color its pixels, we use nested <span class="thesansmonocd_w5regular_">for</span> loops to cycle through the pixels in the top half of the image <span class="codeannotation" aria-label="annotation3">❸</span>, passing <span class="thesansmonocd_w5regular_">putpixel()</span> an RGB tuple representing a light gray <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
+<p class="tx">Say we want to color the bottom half of the image dark gray but don’t know the RGB tuple for dark gray. The <span class="thesansmonocd_w5regular_">putpixel()</span> method doesn’t accept a standard color name like <span class="thesansmonocd_w5regular_">'darkgray'</span>, so we use <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> to get a corresponding color tuple <span class="codeannotation" aria-label="annotation6">❻</span>. We loop through the pixels in the bottom half of the image <span class="codeannotation" aria-label="annotation5">❺</span> and pass <span class="thesansmonocd_w5regular_">putpixel()</span> the return value of this call, producing an image that is half light gray and half dark gray, as shown in Figure 21-10. We call <span class="thesansmonocd_w5regular_">getpixel()</span> on any of the coordinates to confirm that the color of a given pixel is what we expect. Finally, we save the image to <i class="calibre5">putPixel.png</i>.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-812" aria-label="507"></span>
+<figure class="img"><img class="img4" id="calibre_link-816" src="images/000058.jpg" alt="A square whose top half is light gray and whose bottom half is dark gray." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-10: The</span> <span class="sans_futura_std_book_">putPixel.png</span> <span class="sans_futura_std_book_oblique_i_">image</span></p></figcaption>
+</figure>
+<p class="tx">Of course, drawing one pixel of an image at a time isn’t very convenient. If you need to draw shapes, use the <span class="thesansmonocd_w5regular_">ImageDraw</span> functions explained in <span>“Drawing on Images” on page 512</span>.</p>
+<p class="ph"><span id="calibre_link-555"></span><span class="sans_futura_std_heavy_b_">Project 16: Add a Logo</span></p>
+<p class="tni">Say you have the boring job of resizing thousands of images and adding a small logo watermark to the corner of each. Doing this with a basic graphics program such as Paintbrush or Paint would take forever. A fancier graphics application such as Photoshop can do batch processing, but that software costs hundreds of dollars. Let’s write a script to do it instead.</p>
+<p class="tx">Imagine that Figure 21-11 is the logo you want to add to the bottom-right corner of each image: a black cat icon with a white border and transparent background. You can use your own logo image or download the one included in this book’s online resources.</p>
+<figure class="img"><img class="img4" id="calibre_link-818" src="images/000059.jpg" alt="A cat silhouette icon" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-11: The logo to add to the image</span></p></figcaption>
+</figure>
+<p class="tx">At a high level, here’s what the program should do:</p>
+<ul class="ul">
+<li class="bl">Load the logo image.</li>
+<li class="bl">Loop over all <i class="calibre5">.png</i> and<i class="calibre5">.jpg</i> files in the working directory.</li>
+<li class="bl">Check whether the image is wider and taller than 300 pixels.</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2037" aria-label="508"></span>If so, reduce the width or height (whichever is larger) to 300 pixels and scale down the other dimension proportionally.</li>
+<li class="bl">Paste the logo image into the corner.</li>
+<li class="bl">Save the altered images to another folder.</li>
+</ul>
+<p class="tx">This means the code will need to do the following:</p>
+<ul class="ul">
+<li class="bl">Open the <i class="calibre5">catlogo.png</i> file as an <span class="thesansmonocd_w5regular_">Image</span> object.</li>
+<li class="bl">Loop over the strings returned from <span class="thesansmonocd_w5regular_">os.listdir('.')</span>.</li>
+<li class="bl">Get the width and height of the image from the <span class="thesansmonocd_w5regular_">size</span> attribute.</li>
+<li class="bl">Calculate the new width and height of the resized image.</li>
+<li class="bl">Call the <span class="thesansmonocd_w5regular_">resize()</span> method to resize the image.</li>
+<li class="bl">Call the <span class="thesansmonocd_w5regular_">paste()</span> method to paste the logo in the bottom-right corner.</li>
+<li class="bl">Call the <span class="thesansmonocd_w5regular_">save()</span> method to save the changes, using the original filename.</li>
+</ul>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h4 class="h1" id="calibre_link-2038"><span id="calibre_link-556"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Open the Logo Image</span></h4>
+<p class="tni">Open a new file editor tab, enter the following code, and save it as <i class="calibre5">resizeAndAddLogo.py</i>:</p>
+<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+import os
+from PIL import Image
+
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> SQUARE_FIT_SIZE = 300
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> LOGO_FILENAME = 'catlogo.png'
+
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> logo_im = Image.open(LOGO_FILENAME)
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> logo_width, logo_height = logo_im.size
+
+# TODO: Loop over all files in the working directory.
+
+# TODO: Check if the image needs to be resized.
+
+# TODO: Calculate the new width and height to resize to.
+
+# TODO: Resize the image.
+
+# TODO: Add the logo.
+
+# TODO: Save changes.
+</code></pre>
+<p class="tx">By setting up the <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span> <span class="codeannotation" aria-label="annotation1">❶</span> and <span class="thesansmonocd_w5regular_">LOGO_FILENAME</span> <span class="codeannotation" aria-label="annotation2">❷</span> constants at the start of the program, we’ve made it easy to change the program later. Say the logo that you’re adding isn’t the cat icon, or say you’re reducing the output images’ largest dimension to something other than 300 pixels. You can straightforwardly open the code and change those values once. You could also set the values of these constants by accepting command line arguments. Without these constants, you’d instead have to search the code for all instances of <span class="thesansmonocd_w5regular_">300</span> and <span class="thesansmonocd_w5regular_">'catlogo.png'</span> and replace them with the new values.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2039" aria-label="509"></span>The <span class="thesansmonocd_w5regular_">Image.open()</span> method returns the logo <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation3">❸</span>. For readability, we assign the logo’s width and height to variables <span class="codeannotation" aria-label="annotation4">❹</span>. The rest of the program is a skeleton of <span class="thesansmonocd_w5regular_">TODO</span> comments.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-2040"><span id="calibre_link-557"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Loop Over All Files</span></h4>
+<p class="tni">Now you need to find every <i class="calibre5">.png</i> file and <i class="calibre5">.jpg</i> file in the current working directory. You don’t want to add the logo image to the logo image itself, so the program should skip any image with a filename that is the same as <span class="thesansmonocd_w5regular_">LOGO_FILENAME</span>. Add the following to your code:</p>
+<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+import os
+from PIL import Image
+
+<var class="calibre20">--snip--</var>
+
+os.makedirs('withLogo', exist_ok=True)
+<b class="calibre10"># Loop over all files in the working directory.</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> for filename in os.listdir('.'):</b>
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> if not (filename.endswith('.png') or filename.endswith('.jpg')) \</b>
+<b class="calibre10">       or filename == LOGO_FILENAME:</b>
+<b class="calibre10">      </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> continue  </b># Skip non-image files and the logo file itself.
+
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation4">❹</span><b class="calibre10"> im = Image.open(filename)</b>
+<b class="calibre10">    width, height = im.size</b>
+
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">First, the <span class="thesansmonocd_w5regular_">os.makedirs()</span> call creates a <i class="calibre5">withLogo</i> folder in which to store the modified images, rather than overwriting the original image files. The <span class="thesansmonocd_w5regular_">exist_ok=True</span> keyword argument will keep <span class="thesansmonocd_w5regular_">os.makedirs()</span> from raising an exception if <i class="calibre5">withLogo</i> already exists. While the code loops through all the files in the working directory <span class="codeannotation" aria-label="annotation1">❶</span>, a long <span class="thesansmonocd_w5regular_">if</span> statement checks for filenames that don’t end with <i class="calibre5">.png</i> or <i class="calibre5">.jpg</i> <span class="codeannotation" aria-label="annotation2">❷</span>. If it finds any—or if the file is the logo image itself—the loop should skip it and use <span class="thesansmonocd_w5regular_">continue</span> to go to the next file <span class="codeannotation" aria-label="annotation3">❸</span>. If <span class="thesansmonocd_w5regular_">filename</span> does end with <span class="thesansmonocd_w5regular_">'.png'</span> or <span class="thesansmonocd_w5regular_">'.jpg'</span> and isn’t the logo file, the code opens it as an <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation4">❹</span> and saves its width and height.</p>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h4 class="h1" id="calibre_link-2041"><span id="calibre_link-558"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Resize the Images</span></h4>
+<p class="tni">The program should resize the image only if the width or height is larger than <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span> (300 pixels, in this case), so you should put the resizing code inside an <span class="thesansmonocd_w5regular_">if</span> statement that checks the <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> variables. Add the following code to your program:</p>
+<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+import os
+from PIL import Image
+
+<var class="calibre20">--snip--</var>
+
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-2042" aria-label="510"></span><b class="calibre10">    # Check if the image needs to be resized.</b>
+<b class="calibre10">    if width &gt; SQUARE_FIT_SIZE and height &gt; SQUARE_FIT_SIZE:</b>
+<b class="calibre10">        # Calculate the new width and height to resize to.</b>
+<b class="calibre10">        if width &gt; height:</b>
+<b class="calibre10">          </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> height = int((SQUARE_FIT_SIZE / width) * height)</b>
+<b class="calibre10">            width = SQUARE_FIT_SIZE</b>
+<b class="calibre10">        else:</b>
+<b class="calibre10">          </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> width = int((SQUARE_FIT_SIZE / height) * width)</b>
+<b class="calibre10">            height = SQUARE_FIT_SIZE</b>
+
+<b class="calibre10">        # Resize the image.</b>
+<b class="calibre10">        print(f'Resizing {filename}...')</b>
+<b class="calibre10">      </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> im = im.resize((width, height))</b>
+
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">If the image needs resizing, you must find out whether it’s a wide or tall image. If <span class="thesansmonocd_w5regular_">width</span> is greater than <span class="thesansmonocd_w5regular_">height</span>, the code should reduce the height by the same proportion as the width <span class="codeannotation" aria-label="annotation1">❶</span>. This proportion is the <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span> value divided by the current width, so the code sets the new <span class="thesansmonocd_w5regular_">height</span> value to this proportion multiplied by the current <span class="thesansmonocd_w5regular_">height</span> value. Because the division operator returns a float value, and <span class="thesansmonocd_w5regular_">resize()</span> requires the dimensions to be integers, you must remember to convert the result to an integer with the <span class="thesansmonocd_w5regular_">int()</span> function. Finally, the code will set the new <span class="thesansmonocd_w5regular_">width</span> value to <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span>.</p>
+<p class="tx">If the <span class="thesansmonocd_w5regular_">height</span> is greater than or equal to the <span class="thesansmonocd_w5regular_">width</span>, the <span class="thesansmonocd_w5regular_">else</span> clause performs the same calculation, but swaps the <span class="thesansmonocd_w5regular_">height</span> and <span class="thesansmonocd_w5regular_">width</span> variables <span class="codeannotation" aria-label="annotation2">❷</span>. Once those variables contain the new image dimensions, the code passes them to the <span class="thesansmonocd_w5regular_">resize()</span> method and stores the returned <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation3">❸</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h4 class="h1" id="calibre_link-2043"><span id="calibre_link-559"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 4: Add the Logo and Save the Changes</span></h4>
+<p class="tni">Whether or not you resized the image, you should paste the logo to its bottom-right corner. Where exactly to insert the logo depends on the size of both the image and the logo. Figure 21-12 shows how to calculate the pasting position. The left coordinate at which to paste the logo is the image width minus the logo width, and the top coordinate at which to paste the logo is the image height minus the logo height.</p>
+<figure class="img"><img class="img2" id="calibre_link-819" src="images/000060.jpg" alt="A diagram showing the logo’s height and width as a subset of the image’s height and width." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-12: The left and top coordinates of the logo are the image width/height minus the logo width/height.</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2044" aria-label="511"></span>After your code pastes the logo into the image, it should save the modified <span class="thesansmonocd_w5regular_">Image</span> object. Add the following to your program:</p>
+<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+import os
+from PIL import Image
+
+<var class="calibre20">--snip--</var>
+
+    # Check if the image needs to be resized.
+    <var class="calibre20">--snip--</var>
+
+<b class="calibre10">    # Add the logo.</b>
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> print(f'Adding logo to {filename}...')</b>
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> im.paste(logo_im, (width – logo_width, height – logo_height), logo_im)</b>
+
+<b class="calibre10">    # Save changes.</b>
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> im.save(os.path.join('withLogo', filename))</b>
+</code></pre>
+<p class="tx">The new code prints a message telling the user that the logo is being added <span class="codeannotation" aria-label="annotation1">❶</span>, pastes <span class="thesansmonocd_w5regular_">logo_im</span> onto <span class="thesansmonocd_w5regular_">im</span> at the calculated coordinates <span class="codeannotation" aria-label="annotation2">❷</span>, and saves the changes to a filename in the <i class="calibre5">withLogo</i> directory <span class="codeannotation" aria-label="annotation3">❸</span>. When you run this program with the <i class="calibre5">zophie.png</i> and other image files in the working directory, the output will look like this:</p>
+<pre class="pre"><code class="calibre9">Resizing zophie.png...
+Adding logo to zophie.png...
+Resizing zophie_xmas_tree.png...
+Adding logo to zophie_xmas_tree.png...
+Resizing me_and_zophie.png...
+Adding logo to me_and_zophie.png...
+</code></pre>
+<p class="tx">The program converts <i class="calibre5">zophie.png</i> to a 225×300-pixel image that looks like Figure 21-13.</p>
+<figure class="img"><img class="img3" id="calibre_link-820" src="images/000061.jpg" alt="Two versions of the cat photograph with the cat logo added to the bottom-right corner. In the second version, the cat logo is contained in a white-filled rectangle." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-13: The program resized</span> <span class="sans_futura_std_book_">zophie.png</span> <span class="sans_futura_std_book_oblique_i_">and added the logo (left). If you forget the third argument, the transparent pixels in the logo will appear as solid white pixels (right).</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-817" aria-label="512"></span>Remember that the <span class="thesansmonocd_w5regular_">paste()</span> method won’t paste the transparency pixels unless you pass <span class="thesansmonocd_w5regular_">logo_im</span> as the third argument. This program can automatically resize and “logo-ify” hundreds of images in just a couple of minutes.</p>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1" id="calibre_link-2045"><span id="calibre_link-560"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
+<p class="tni">The ability to build composite images or modify image sizes in a batch is useful for many applications. You could write similar programs to do the following:</p>
+<ul class="ul">
+<li class="bl">Add text or a website URL to images.</li>
+<li class="bl">Add timestamps to images.</li>
+<li class="bl">Copy or move images into different folders based on their sizes.</li>
+<li class="bl">Add a mostly transparent watermark to an image to prevent others from copying it.</li>
+</ul>
+</section>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h3 class="h" id="calibre_link-2046"><span id="calibre_link-561"></span><span class="sans_futura_std_bold_b_">Drawing on Images</span></h3>
+<p class="tni">If you need to draw lines, rectangles, circles, or other simple shapes on an image, use Pillow’s <span class="thesansmonocd_w5regular_">ImageDraw</span> module. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image, ImageDraw</b>
+&gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (200, 200), 'white')</b>
+&gt;&gt;&gt; <b class="calibre10">draw = ImageDraw.Draw(im)</b>
+</code></pre>
+<p class="tx">First, we import <span class="thesansmonocd_w5regular_">Image</span> and <span class="thesansmonocd_w5regular_">ImageDraw</span>. Then, we create a 200×200 white image and store it in <span class="thesansmonocd_w5regular_">im</span>. We pass this <span class="thesansmonocd_w5regular_">Image</span> object to the <span class="thesansmonocd_w5regular_">ImageDraw.Draw()</span> function to receive an <span class="thesansmonocd_w5regular_">ImageDraw</span> object. This object has several methods for drawing shapes and text. Store the new object in a variable like <span class="thesansmonocd_w5regular_">draw</span> so that you can easily use it in the following example.</p>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1" id="calibre_link-2047"><span id="calibre_link-562"></span><span class="sans_futura_std_heavy_oblique_bi_">Shapes</span></h4>
+<p class="tni">The following <span class="thesansmonocd_w5regular_">ImageDraw</span> methods draw various kinds of shapes on the image. The <span class="thesansmonocd_w5regular_">fill</span> and <span class="thesansmonocd_w5regular_">outline</span> parameters for these methods are optional and will default to white if left unspecified.</p>
+<section type="division" aria-labelledby="sec18">
+<h5 class="h2" id="calibre_link-2048"><span class="sans_futura_std_bold_b_">Points</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">point(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">)</span> method draws individual pixels. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument represents a list of the points to draw. The list can contain x- and y-coordinate tuples, such as <span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>, or x- and y-coordinates without tuples, such as <span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>. The <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument colors the points and can be either an RGBA tuple or a string, such as <span class="thesansmonocd_w5regular_">'red'</span>. The <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is optional. The “point” name here refers to a pixel, not the unit of font size.</p>
+</section>
+<section type="division" aria-labelledby="sec19">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1128" aria-label="513"></span>
+<h5 class="h2" id="calibre_link-2049"><span class="sans_futura_std_bold_b_">Lines</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">line(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws a line or series of lines. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is either a list of tuples, such as <span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>, or a list of integers, such as <span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>. Each point is a connecting points on the lines you’re drawing. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument specifies the color of the lines as an RGBA tuple or color name. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument determines the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h5 class="h2" id="calibre_link-2050"><span class="sans_futura_std_bold_b_">Rectangles</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">rectangle(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws a rectangle. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is a box tuple of the form <span class="thesansmonocd_w5regular_">(</span><span class="sans_thesansmonocd_w5regular_italic_">left</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">top</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">right</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">bottom</span><span class="thesansmonocd_w5regular_">)</span>. The <span class="sans_thesansmonocd_w5regular_italic_">left</span> and <span class="sans_thesansmonocd_w5regular_italic_">top</span> values specify the x- and y-coordinates of the upper-left corner of the rectangle, while <span class="sans_thesansmonocd_w5regular_italic_">right</span> and <span class="sans_thesansmonocd_w5regular_italic_">bottom</span> specify the coordinates of the lower-right corner. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is the color of the inside of the rectangle. The optional <span class="sans_thesansmonocd_w5regular_italic_">outline</span> argument is the color of the rectangle’s outline. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument represents the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+</section>
+<section type="division" aria-labelledby="sec21">
+<h5 class="h2" id="calibre_link-2051"><span class="sans_futura_std_bold_b_">Ellipses</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">ellipse(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws an ellipse. If the width and height of the ellipse are identical, this method will draw a circle. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is a box tuple (<span class="sans_thesansmonocd_w5regular_italic_">left</span>, <span class="sans_thesansmonocd_w5regular_italic_">top</span>, <span class="sans_thesansmonocd_w5regular_italic_">right</span>, <span class="sans_thesansmonocd_w5regular_italic_">bottom</span>) representing a box that precisely contains the ellipse. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is the color of the inside of the ellipse, and the optional <span class="sans_thesansmonocd_w5regular_italic_">outline</span> argument is the color of the ellipse’s outline. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument is the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+</section>
+<section type="division" aria-labelledby="sec22">
+<h5 class="h2" id="calibre_link-2052"><span class="sans_futura_std_bold_b_">Polygons</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">polygon(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws an arbitrary polygon. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is a list of tuples, such as <span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>, or integers, such as <span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>, representing the connecting points of the polygon’s sides. The last pair of coordinates will automatically connect to the first pair. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is the color of the inside of the polygon, and the optional <span class="sans_thesansmonocd_w5regular_italic_">outline</span> argument is the color of the polygon’s outline. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument is the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+</section>
+<section type="division" aria-labelledby="sec23">
+<h5 class="h2" id="calibre_link-2053"><span class="sans_futura_std_bold_b_">A Drawing Example</span></h5>
+<p class="tni">To practice using these methods, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image, ImageDraw</b>
+&gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (200, 200), 'white')</b>
+&gt;&gt;&gt; <b class="calibre10">draw = ImageDraw.Draw(im)</b>
+&gt;&gt;&gt; <b class="calibre10">draw.line([(0, 0), (199, 0), (199, 199), (0, 199), (0, 0)], fill='black')</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
+&gt;&gt;&gt; <b class="calibre10">draw.rectangle((20, 30, 60, 60), fill='blue')</b> <span class="code_codeannotation" aria-label="annotation2">❷</span>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1125" aria-label="514"></span>&gt;&gt;&gt; <b class="calibre10">draw.ellipse((120, 30, 160, 60), fill='red')</b> <span class="code_codeannotation" aria-label="annotation3">❸</span>
+&gt;&gt;&gt; <b class="calibre10">draw.polygon(((57, 87), (79, 62), (94, 85), (120, 90), (103, 113)), fill='brown')</b> <span class="code_codeannotation" aria-label="annotation4">❹</span>
+&gt;&gt;&gt; <b class="calibre10">for i in range(100, 200, 10):</b> <span class="code_codeannotation" aria-label="annotation5">❺</span>
+...        <b class="calibre10">draw.line([(i, 0), (200, i - 100)], fill='green')</b>
+
+&gt;&gt;&gt; <b class="calibre10">im.save('drawing.png')</b>
+</code></pre>
+<p class="tx">After making an <span class="thesansmonocd_w5regular_">Image</span> object for a 200×200 white image, passing it to <span class="thesansmonocd_w5regular_">ImageDraw.Draw()</span> to get an <span class="thesansmonocd_w5regular_">ImageDraw</span> object, and storing the <span class="thesansmonocd_w5regular_">ImageDraw</span> object in <span class="thesansmonocd_w5regular_">draw</span>, we can call drawing methods on <span class="thesansmonocd_w5regular_">draw</span>. Here, we make a thin, black outline at the edges of the image <span class="codeannotation" aria-label="annotation1">❶</span>, a blue rectangle whose top-left corner is at <span class="thesansmonocd_w5regular_">(20, 30)</span> and whose bottom-right corner is at <span class="thesansmonocd_w5regular_">(60, 60)</span> <span class="codeannotation" aria-label="annotation2">❷</span>, a red ellipse defined by a box from <span class="thesansmonocd_w5regular_">(120, 30)</span> to <span class="thesansmonocd_w5regular_">(160, 60)</span> <span class="codeannotation" aria-label="annotation3">❸</span>, a brown polygon with five points <span class="codeannotation" aria-label="annotation4">❹</span>, and a pattern of green lines drawn with a <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation5">❺</span>. The resulting <i class="calibre5">drawing.png</i> file will look like Figure 21-14 (though the colors aren’t printed in this book).</p>
+<figure class="img"><img class="img2" id="calibre_link-821" src="images/000062.jpg" alt="A rectangle, oval, irregular polygon, and curved lines on a white backdrop." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-14: The resulting</span> <span class="sans_futura_std_book_">drawing.png</span> <span class="sans_futura_std_book_oblique_i_">image</span></p></figcaption>
+</figure>
+<p class="tx">You can use several other shape-drawing methods on <span class="thesansmonocd_w5regular_">ImageDraw</span> objects. The full documentation is available at <i class="calibre5"><a href="https://pillow.readthedocs.io/en/latest/reference/ImageDraw.html" class="calibre1">https://<wbr></wbr>pillow<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/en<wbr></wbr>/latest<wbr></wbr>/reference<wbr></wbr>/ImageDraw<wbr></wbr>.html</a></i>.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec24">
+<h4 class="h1" id="calibre_link-2054"><span id="calibre_link-563"></span><span class="sans_futura_std_heavy_oblique_bi_">Text</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">ImageDraw</span> object also has a <span class="thesansmonocd_w5regular_">text()</span> method for drawing text onto an image. This method takes four arguments:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">xy </span>A two-integer tuple specifying the upper-left corner of the text box</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">text </span>The string of text you want to write</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">fill </span>The color of the text</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">font </span>An optional <span class="thesansmonocd_w5regular_">ImageFont</span> object used to set the typeface and size of the text</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-926" aria-label="515"></span>Before we use <span class="thesansmonocd_w5regular_">text()</span> to draw text onto an image, let’s discuss the optional <span class="sans_thesansmonocd_w5regular_italic_">font</span> argument in more detail. This argument is an <span class="thesansmonocd_w5regular_">ImageFont</span> object, which you can get by running the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import ImageFont</b></code></pre>
+<p class="tx">Once you’ve imported Pillow’s <span class="thesansmonocd_w5regular_">ImageFont</span> module, access the font by calling the <span class="thesansmonocd_w5regular_">ImageFont.truetype()</span> function, which takes two arguments. The first is a string representing the font’s <i class="calibre5">TrueType</i> file, the actual font file that lives on your hard drive. A TrueType file has the <i class="calibre5">.ttf</i> file extension and usually lives in <i class="calibre5">C:\Windows\Fonts</i> on Windows, <i class="calibre5">/Library/Fonts</i> and <i class="calibre5">/System/Library/Fonts</i> on macOS, and <i class="calibre5">/usr/share/fonts/truetype</i> on Linux. You don’t need to enter these paths as part of the TrueType file string, because Pillow knows to automatically search these directories, but it will display an error if it’s unable to find the font you specified.</p>
+<p class="tx">The second argument to <span class="thesansmonocd_w5regular_">ImageFont.truetype()</span> is an integer for the font size in points (rather than pixels). Pillow creates PNG images that are 72 pixels per inch by default, and a <i class="calibre5">point</i> is 1/72 of an inch. For practice, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image, ImageDraw, ImageFont</b>
+&gt;&gt;&gt; <b class="calibre10">import os</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (200, 200), 'white')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">draw = ImageDraw.Draw(im)</b>
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">draw.text((20, 150), 'Hello', fill='purple')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> &gt;&gt;&gt; <b class="calibre10">arial_font = ImageFont.truetype('arial.ttf', 32)</b>
+<span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">draw.text((100, 150), 'Howdy', fill='gray', font=arial_font)</b>
+&gt;&gt;&gt; <b class="calibre10">im.save('text.png')</b>
+</code></pre>
+<p class="tx">After importing <span class="thesansmonocd_w5regular_">Image</span>, <span class="thesansmonocd_w5regular_">ImageDraw</span>, <span class="thesansmonocd_w5regular_">ImageFont</span>, and <span class="thesansmonocd_w5regular_">os</span>, we make an <span class="thesansmonocd_w5regular_">Image</span> object for a new 200×200 white image <span class="codeannotation" aria-label="annotation1">❶</span> and create an <span class="thesansmonocd_w5regular_">ImageDraw</span> object from the <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation2">❷</span>. We use <span class="thesansmonocd_w5regular_">text()</span> to write <i class="calibre5">Hello</i> at <span class="thesansmonocd_w5regular_">(20, 150)</span> in purple <span class="codeannotation" aria-label="annotation3">❸</span>. We didn’t pass the optional fourth argument in this call, so the text’s typeface and size aren’t customized.</p>
+<p class="tx">Next, to set a typeface and size, we call <span class="thesansmonocd_w5regular_">ImageFont.truetype()</span>, passing it the <i class="calibre5">.ttf</i> file for the desired font, followed by an integer font size <span class="codeannotation" aria-label="annotation4">❹</span>. We store the returned <span class="thesansmonocd_w5regular_">Font</span> object in a variable, then pass the variable to the <span class="thesansmonocd_w5regular_">text()</span> method’s final keyword argument. The method call draws <i class="calibre5">Howdy</i> at <span class="thesansmonocd_w5regular_">(100, 150)</span> in gray in 32-point Arial <span class="codeannotation" aria-label="annotation5">❺</span>. The resulting <i class="calibre5">text.png</i> file looks like Figure 21-15.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1060" aria-label="516"></span>
+<figure class="img"><img class="img2" id="calibre_link-822" src="images/000063.jpg" alt="The text “Hello” and “Howdy” written in different fonts on a white backdrop." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-15: The resulting</span> <span class="sans_futura_std_book_">text.png</span> <span class="sans_futura_std_book_oblique_i_">image</span></p></figcaption>
+</figure>
+<p class="tx">If you’re interested in creating computer-generated art with Python, check out <i class="calibre5">Learn Python Visually</i> by Tristan Bunn (No Starch Press, 2021) or my book <i class="calibre5">The Recursive Book of Recursion</i> (No Starch Press, 2022).</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec25">
+<h3 class="h" id="calibre_link-2055"><span id="calibre_link-564"></span><span class="sans_futura_std_bold_b_">Copying and Pasting Images to the Clipboard</span></h3>
+<p class="tni">Just as the third-party <span class="thesansmonocd_w5regular_">pyperclip</span> module allows you to copy and paste text strings to the clipboard, the <span class="thesansmonocd_w5regular_">pyperclipimg</span> module can copy and paste Pillow <span class="thesansmonocd_w5regular_">Image</span> objects. To install <span class="thesansmonocd_w5regular_">pyperclipimg</span>, see the instructions in <span>Appendix A</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">pyperclipimg.copy()</span> function takes a Pillow <span class="thesansmonocd_w5regular_">Image</span> object and puts it on your operating system’s clipboard. You can then paste it into a graphics or image processing program such as MS Paint. The <span class="thesansmonocd_w5regular_">pyperclipimg.paste()</span> function returns the image contents of the clipboard as an <span class="thesansmonocd_w5regular_">Image</span> object. With <i class="calibre5">zophie.png</i> in the current working directory, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
+&gt;&gt;&gt; <b class="calibre10">im = Image.open('zophie.png')</b>
+&gt;&gt;&gt; <b class="calibre10">import pyperclipimg</b>
+&gt;&gt;&gt; <b class="calibre10">pyperclipimg.copy(im)</b>
+&gt;&gt;&gt; <b class="calibre10">pasted_im = pyperclipimg.paste() # Now copy a new image to the clipboard.</b>
+&gt;&gt;&gt; # Paste the clipboard contents to a graphics program.
+&gt;&gt;&gt; <b class="calibre10">pasted_im.show()</b>  # Shows the image from the clipboard
+</code></pre>
+<p class="tx">In this code, we first open the <i class="calibre5">zophie.png</i> image as an <span class="thesansmonocd_w5regular_">Image</span> object, then pass it to <span class="thesansmonocd_w5regular_">pyperclipimg.copy()</span> to copy it to the clipboard. You can verify that the copy worked by pasting the image into a graphics program. Next, copy a new image from a graphics program or by right-clicking an image in your web browser and copying it. Calling <span class="thesansmonocd_w5regular_">pyperclipimg.paste()</span> returns this image <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1006" aria-label="517"></span>as an <span class="thesansmonocd_w5regular_">Image</span> object in the <span class="thesansmonocd_w5regular_">pasted_im</span> variable. You can verify that the paste worked by viewing it with <span class="thesansmonocd_w5regular_">pasted_im.show()</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">pyperclipimg</span> module can be useful as a way to let users input and output image data to your Python programs.</p>
+</section>
+<section type="division" aria-labelledby="sec26">
+<h3 class="h" id="calibre_link-2056"><span id="calibre_link-565"></span><span class="sans_futura_std_bold_b_">Creating Graphs with Matplotlib</span></h3>
+<p class="tni">Drawing your own graphs using Pillow is possible but would require a lot of work. The Matplotlib library creates a wide variety of graphs for use in professional publications. In this chapter, we’ll create basic line graphs, bar graphs, scatter plots, and pie charts, but Matplotlib is able to create more complex 3D graphs as well. You can find the full documentation at <i class="calibre5"><a href="https://matplotlib.org" class="calibre1">https://<wbr></wbr>matplotlib<wbr></wbr>.org</a></i>. Install Matplotlib by following the instructions in <span>Appendix A</span>.</p>
+<section type="division" aria-labelledby="sec27">
+<h4 class="h1" id="calibre_link-2057"><span id="calibre_link-566"></span><span class="sans_futura_std_heavy_oblique_bi_">Line Graphs and Scatter Plots</span></h4>
+<p class="tni">Let’s start by creating a 2D line graph with two axes, x and y. A line graph is ideal for showing changes in one measure over time. In Matplotlib, the terms <i class="calibre5">plot</i>, <i class="calibre5">graph</i>, and <i class="calibre5">chart</i> are often used interchangeably, and the term <i class="calibre5">figure</i> refers to the window that contains one or more plots. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
+&gt;&gt;&gt; <b class="calibre10">x_values = [0, 1, 2, 3, 4, 5]</b>
+&gt;&gt;&gt; <b class="calibre10">y_values1 = [10, 13, 15, 18, 16, 20]</b>
+&gt;&gt;&gt; <b class="calibre10">y_values2 = [9, 11, 18, 16, 17, 19]</b>
+&gt;&gt;&gt; <b class="calibre10">plt.plot(x_values, y_values1)</b> <span class="code_codeannotation" aria-label="annotation2">❷</span>
+[&lt;matplotlib.lines.Line2D object at 0x000002501D9A7D10&gt;]
+&gt;&gt;&gt; <b class="calibre10">plt.plot(x_values, y_values2)</b>
+[&lt;matplotlib.lines.Line2D object at 0x00000250212AC6D0&gt;]
+&gt;&gt;&gt; <b class="calibre10">plt.savefig('linegraph.png')</b>  # Saves the plot as an image file
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>  # Opens a window with the plot
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>  # Does nothing
+</code></pre>
+<p class="tx">We import <span class="thesansmonocd_w5regular_">matplotlib.pyplot</span> under the name <span class="thesansmonocd_w5regular_">plt</span> <span class="codeannotation" aria-label="annotation1">❶</span> to make it easier to enter its functions. Next, to plot data points to a 2D figure, we must call the <span class="thesansmonocd_w5regular_">plt.plot()</span> function. We first save a list of integers or floats in <span class="thesansmonocd_w5regular_">x_values</span> for the x-axis, and then save a list of integers or floats in <span class="thesansmonocd_w5regular_">y_values1</span> for the y-axis <span class="codeannotation" aria-label="annotation2">❷</span>. The first values in the x-axis and y-axis lists are associated with each other, the second values in the two lists are associated with each other, and so on. After calling <span class="thesansmonocd_w5regular_">plt.plot()</span> with these values, we call it a second time with <span class="thesansmonocd_w5regular_">x_values</span> and <span class="thesansmonocd_w5regular_">y_values2</span> to add a second line to the graph.</p>
+<p class="tx">Matplotlib will automatically select colors for the lines and an appropriate size for the graph. We can save the default graph as a PNG image by calling <span class="thesansmonocd_w5regular_">plt.savefig('linegraph.png')</span>.</p>
+<p class="tx">Matplotlib has a preview feature that shows you the graph in a window, much like Pillow has the <span class="thesansmonocd_w5regular_">show()</span> method for previewing <span class="thesansmonocd_w5regular_">Image</span> objects. Call <span class="thesansmonocd_w5regular_">plt.show()</span> to open the graph in a window. It will look like Figure 21-16.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1264" aria-label="518"></span>
+<figure class="img"><img class="img3" id="calibre_link-823" src="images/000064.jpg" alt="A graph consisting of two lines on an x y plane" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-16: A line graph displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+</figure>
+<p class="tx">The window that <span class="thesansmonocd_w5regular_">plt.show()</span> creates is interactive: you can move the graph around or zoom in or out. The house icon in the lower-left corner resets the view, and the floppy disk icon allows you to save the graph as an image file. If you’re experimenting with data, <span class="thesansmonocd_w5regular_">plt.show()</span> is a convenient visualization tool. The <span class="thesansmonocd_w5regular_">plt.show()</span> function call will block and not return until the user closes this window.</p>
+<p class="tx">When you close the window that the <span class="thesansmonocd_w5regular_">plt.show()</span> method creates, you also reset the graph data. Calling <span class="thesansmonocd_w5regular_">plt.show()</span> a second time either does nothing or displays an empty window. You’ll have to call <span class="thesansmonocd_w5regular_">plt.plot()</span> and any other plot-related functions again to re-create the graph. To save an image file of the graph, you must call <span class="thesansmonocd_w5regular_">plt.savefig()</span> before calling <span class="thesansmonocd_w5regular_">plt.show()</span>.</p>
+<p class="tx">To create a scatter plot of this same data, pass the x-axis and y-axis values to the <span class="thesansmonocd_w5regular_">plt.scatter()</span> function:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
+&gt;&gt;&gt; <b class="calibre10">x_values = [0, 1, 2, 3, 4, 5]</b>
+&gt;&gt;&gt; <b class="calibre10">y_values1 = [10, 13, 15, 18, 16, 20]</b>
+&gt;&gt;&gt; <b class="calibre10">y_values2 = [9, 11, 18, 16, 17, 19]</b>
+&gt;&gt;&gt; <b class="calibre10">plt.scatter(x_values, y_values1)</b>
+&lt;matplotlib.collections.PathCollection object at 0x00000250212CBAD0&gt;
+&gt;&gt;&gt; <b class="calibre10">plt.scatter(x_values, y_values2)</b>
+&lt;matplotlib.collections.PathCollection object at 0x000002502132DC10&gt;
+&gt;&gt;&gt; <b class="calibre10">plt.savefig('scatterplot.png')</b>
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>
+</code></pre>
+<p class="tx">When you call <span class="thesansmonocd_w5regular_">plt.show()</span>, Matplotlib displays the plot in Figure 21-17. The code to create a scatter plot is identical to the code that creates a line graph, except for the function call.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-953" aria-label="519"></span>
+<figure class="img"><img class="img3" id="calibre_link-824" src="images/000065.jpg" alt="A graph consisting of individual points on an x y plane" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-17: A scatter plot displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+</figure>
+<p class="tx">If you compare this graph to the line graph in Figure 21-16, you’ll see the data is the same, though the scatter plot uses points instead of connected lines.</p>
+</section>
+<section type="division" aria-labelledby="sec28">
+<h4 class="h1" id="calibre_link-2058"><span id="calibre_link-567"></span><span class="sans_futura_std_heavy_oblique_bi_">Bar Graphs and Pie Charts</span></h4>
+<p class="tni">Let’s create a basic bar graph using Matplotlib. Bar graphs are useful for comparing the same type of data in different categories. Unlike a line graph, the order of the categories isn’t important, though they’re often listed alphabetically. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
+&gt;&gt;&gt; <b class="calibre10">categories = ['Cats', 'Dogs', 'Mice', 'Moose']</b>
+&gt;&gt;&gt; <b class="calibre10">values = [100, 200, 300, 400]</b>
+&gt;&gt;&gt; <b class="calibre10">plt.bar(categories, values)</b>
+&lt;BarContainer object of 4 artists&gt;
+&gt;&gt;&gt; <b class="calibre10">plt.savefig('bargraph.png')</b>
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>
+</code></pre>
+<p class="tx">This code creates the bar graph shown in Figure 21-18. We pass the categories to list on the x-axis as the first list argument to <span class="thesansmonocd_w5regular_">plt.bar()</span> and the values for each category as the second list argument.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1260" aria-label="520"></span>
+<figure class="img"><img class="img3" id="calibre_link-825" src="images/000066.jpg" alt="A graph consisting of individual bars increasing along the y axis, labeled “cats”, “dogs”, “mice”, and “moose”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-18: A bar graph displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+</figure>
+<p class="tx">Remember that closing the <span class="thesansmonocd_w5regular_">plt.show()</span> window resets the graph data.</p>
+<p class="tx">To create a pie chart, call the <span class="thesansmonocd_w5regular_">plt.pie()</span> function. Instead of categories and values, a pie chart has labels and slices. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
+&gt;&gt;&gt; <b class="calibre10">slices = [100, 200, 300, 400]</b>  # The size of each slice
+&gt;&gt;&gt; <b class="calibre10">labels = ['Cats', 'Dogs', 'Mice', 'Moose']</b>  # The name of each slice
+&gt;&gt;&gt; <b class="calibre10">plt.pie(slices, labels=labels, autopct='%.1f%%')</b>
+([&lt;matplotlib.patches.Wedge object at 0x00000218F32BA950&gt;,
+<var class="calibre20">--snip--</var>
+&gt;&gt;&gt; <b class="calibre10">plt.savefig('piechart.png')</b>
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>
+</code></pre>
+<p class="tx">When you call <span class="thesansmonocd_w5regular_">plt.show()</span> for the pie chart, Matplotlib displays it in a window, like in Figure 21-19. The <span class="thesansmonocd_w5regular_">plt.pie()</span> function accepts a list of slice sizes and a list of labels for each slice.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">autopct</span> argument specifies the precision of the percentage label for each slice. The argument is a format specifier string; the <span class="thesansmonocd_w5regular_">'%.1f%%'</span> string specifies that the number should show one digit after the decimal point. If you leave this keyword argument out of the function call, the pie chart won’t list the percentage text.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1181" aria-label="521"></span>
+<figure class="img"><img class="img3" id="calibre_link-826" src="images/000067.jpg" alt="A pie chart with percentages in each slices and the labels “dogs”, “cats”, “moose”, and “mice”." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-19: A pie chart displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+</figure>
+<p class="tx">Matplotlib automatically picks the colors for each slice, but you can customize this behavior, along with many other aspects of the graphs you create.</p>
+</section>
+<section type="division" aria-labelledby="sec29">
+<h4 class="h1" id="calibre_link-2059"><span id="calibre_link-568"></span><span class="sans_futura_std_heavy_oblique_bi_">Additional Components</span></h4>
+<p class="tni">The graphs we created in the previous section are fairly basic. Matplotlib has a vast number of additional features that could fill a book of its own, so we’ll look at the most common components only. Let’s add data point markers, custom colors, and labels to our graphs. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
+&gt;&gt;&gt; <b class="calibre10">x_values = [0, 1, 2, 3, 4, 5]</b>
+&gt;&gt;&gt; <b class="calibre10">y_values1 = [10, 13, 15, 18, 16, 20]</b>
+&gt;&gt;&gt; <b class="calibre10">y_values2 = [9, 11, 18, 16, 17, 19]</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">plt.plot(x_values, y_values1, marker='o', color='b', label='Line 1')</b>
+[&lt;matplotlib.lines.Line2D object at 0x000001BC339D2F90&gt;]
+&gt;&gt;&gt; <b class="calibre10">plt.plot(x_values, y_values2, marker='s', color='r', label='Line 2')</b>
+[&lt;matplotlib.lines.Line2D object at 0x000001BC339D1A90&gt;]
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">plt.legend()</b>
+&lt;matplotlib.legend.Legend object at 0x000001BC20915B90&gt;
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">plt.xlabel('X-axis Label')</b>
+Text(0.5, 0, 'X-axis Label')
+&gt;&gt;&gt; <b class="calibre10">plt.ylabel('Y-axis Label')</b>
+Text(0, 0.5, 'Y-axis Label')
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-2060" aria-label="522"></span>&gt;&gt;&gt; <b class="calibre10">plt.title('Graph Title')</b>
+Text(0.5, 1.0, 'Graph Title')
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> &gt;&gt;&gt; <b class="calibre10">plt.grid(True)</b>
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>
+</code></pre>
+<p class="tx">After running this code, Matplotlib displays a window that looks like Figure 21-20. It contains the same line graph created previously, but we’ve added <span class="thesansmonocd_w5regular_">marker</span>, <span class="thesansmonocd_w5regular_">color</span>, and <span class="thesansmonocd_w5regular_">label</span> keyword arguments to the <span class="thesansmonocd_w5regular_">plt.plot()</span> function calls <span class="codeannotation" aria-label="annotation1">❶</span>. The marker creates a dot for each data point in the line. An <span class="thesansmonocd_w5regular_">'o'</span> value makes the dot an O-shaped circle, while <span class="thesansmonocd_w5regular_">'s'</span> makes it a square. The <span class="thesansmonocd_w5regular_">'b'</span> and <span class="thesansmonocd_w5regular_">'r'</span> color arguments set the line to blue and red, respectively. We give each line a label to use in the legend created by calling <span class="thesansmonocd_w5regular_">plt.legend()</span> <span class="codeannotation" aria-label="annotation2">❷</span>.</p>
+<p class="tx">We also create labels for the x-axis, the y-axis, and the entire graph itself by calling <span class="thesansmonocd_w5regular_">plt.xlabel()</span>, <span class="thesansmonocd_w5regular_">plt.ylabel()</span>, and <span class="thesansmonocd_w5regular_">plt.title()</span> <span class="codeannotation" aria-label="annotation3">❸</span>, passing the label text as strings. Finally, passing <span class="thesansmonocd_w5regular_">True</span> to <span class="thesansmonocd_w5regular_">plt.grid()</span> <span class="codeannotation" aria-label="annotation4">❹</span> enables a grid with lines along the x-axis and y-axis values.</p>
+<figure class="img"><img class="img3" id="calibre_link-827" src="images/000069.jpg" alt="A line graph with two lines, grid lines, x and y axis labels, a title, and a legend." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-20: The example line graph with additional components</span></p></figcaption>
+</figure>
+<p class="tx">This is just a small sample of the features that Matplotlib provides. You can read about the other features in the online documentation.</p>
+</section>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec30">
+<h3 class="h" id="calibre_link-2061"><span id="calibre_link-569"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Images consist of a collection of pixels, which each have an RGBA value for its color and a set of x- and y-coordinates representing its location. Two common image formats are JPEG and PNG. Pillow can handle both of these image formats, and others.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2062" aria-label="523"></span>When a program loads an image into an <span class="thesansmonocd_w5regular_">Image</span> object, its width and height dimensions are stored as a two-integer tuple in the <span class="thesansmonocd_w5regular_">size</span> attribute. Objects of the <span class="thesansmonocd_w5regular_">Image</span> data type also have methods for common image manipulations: <span class="thesansmonocd_w5regular_">crop()</span>, <span class="thesansmonocd_w5regular_">copy()</span>, <span class="thesansmonocd_w5regular_">paste()</span>, <span class="thesansmonocd_w5regular_">resize()</span>, <span class="thesansmonocd_w5regular_">rotate()</span>, and <span class="thesansmonocd_w5regular_">transpose()</span>. To save the <span class="thesansmonocd_w5regular_">Image</span> object to an image file, call the <span class="thesansmonocd_w5regular_">save()</span> method.</p>
+<p class="tx">If you want your program to draw shapes onto an image, use <span class="thesansmonocd_w5regular_">ImageDraw</span> methods to draw points, lines, rectangles, ellipses, and polygons. The module also provides methods for drawing text in a typeface and font size of your choosing.</p>
+<p class="tx">While the Pillow library lets you draw shapes and individual pixels, it’s easier to generate graphs using the Matplotlib library. You can create line, bar, and pie charts using Matplotlib’s default settings, or you can make specific customizations. The <span class="thesansmonocd_w5regular_">show()</span> method displays the chart on your screen for previewing, and the <span class="thesansmonocd_w5regular_">save()</span> method generates image files you could include in documents or spreadsheets. The library’s online documentation can tell you more about its rich features.</p>
+<p class="tx">Although advanced (and expensive) applications such as Photoshop provide automatic batch processing features, you can use Python scripts to do many of the same modifications for free. In the previous chapters, you wrote Python programs to deal with plaintext files, spreadsheets, PDFs, and other formats. With Pillow, you’ve extended your programming powers to processing images as well!</p>
+</section>
+<section type="division" aria-labelledby="sec31">
+<h3 class="h" id="calibre_link-2063"><span id="calibre_link-570"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What is an RGBA value?</p>
+<p class="listnumber">  2.  How can you get the RGBA value of <span class="thesansmonocd_w5regular_">'CornflowerBlue'</span> from the Pillow module?</p>
+<p class="listnumber">  3.  What is a box tuple?</p>
+<p class="listnumber">  4.  What function returns an <span class="thesansmonocd_w5regular_">Image</span> object for, say, an image file named <i class="calibre5">zophie.png</i>?</p>
+<p class="listnumber">  5.  How can you find out the width and height of an <span class="thesansmonocd_w5regular_">Image</span> object’s image?</p>
+<p class="listnumber">  6.  What method would you call to get the <span class="thesansmonocd_w5regular_">Image</span> object for the lower-left quarter of a 100×100 image?</p>
+<p class="listnumber">  7.  After making changes to an <span class="thesansmonocd_w5regular_">Image</span> object, how could you save it as an image file?</p>
+<p class="listnumber">  8.  What module contains Pillow’s shape-drawing code?</p>
+<p class="listnumber">  9.  <span class="thesansmonocd_w5regular_">Image</span> objects do not have drawing methods. What kind of object does? How do you get this kind of object?</p>
+<p class="listnumber">10.  Which Matplotlib functions create a line graph, scatter plot, bar graph, and pie chart?</p>
+<p class="listnumber">11.  How can you save a Matplotlib graph as an image?</p>
+<p class="listnumber">12.  What does the <span class="thesansmonocd_w5regular_">plt.show()</span> function do, and why can’t you call it twice in a row?</p>
+</section>
+<section type="division" aria-labelledby="sec32">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1189" aria-label="524"></span>
+<h3 class="h" id="calibre_link-2064"><span id="calibre_link-571"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec33">
+<h4 class="h1" id="calibre_link-2065"><span id="calibre_link-572"></span><span class="sans_futura_std_heavy_oblique_bi_">Tile Maker</span></h4>
+<p class="tni">Write a program that produces a tiled image from a single image, much like tiles of cat faces in Figure 21-6. Your program should have a <span class="thesansmonocd_w5regular_">make_tile()</span> function with three arguments: a string of the image filename, an integer for how many times it should be tiled horizontally, and an integer for how many times it should be tiled vertically. The <span class="thesansmonocd_w5regular_">make_tile()</span> function should return a larger <span class="thesansmonocd_w5regular_">Image</span> object of the tiled image. You will use the <span class="thesansmonocd_w5regular_">paste()</span> methods as part of this function.</p>
+<p class="tx">For example, if <i class="calibre5">zophie_the_cat.jpg</i> was a 20×50-pixel image, calling <span class="thesansmonocd_w5regular_">make_tile('zophie_the_cat.jpg', 6, 10)</span> should return a 120×500 image with 60 tiles total. For a bonus, try randomly flipping or rotating the image to tile when pasting it to the larger image. This tile maker works best with smaller images to tile. See what abstract art you can create with this code.</p>
+</section>
+<section type="division" aria-labelledby="sec34">
+<h4 class="h1" id="calibre_link-2066"><span id="calibre_link-573"></span><span class="sans_futura_std_heavy_oblique_bi_">Identifying Photo Folders on the Hard Drive</span></h4>
+<p class="tni">I have a bad habit of transferring files from my digital camera to temporary folders somewhere on the hard drive and then forgetting about these folders. It would be nice to write a program that could scan the entire hard drive and find these leftover photo folders.</p>
+<p class="tx">Write a program that goes through every folder on your hard drive and finds potential photo folders. Of course, first you’ll have to define what you consider a “photo folder” to be; let’s say that it’s any folder where more than half of the files are photos. And how do you define what files are photos? First, a photo file must have the file extension <i class="calibre5">.png</i> or <i class="calibre5">.jpg</i>. Also, photos are large images; a photo file’s width and height must both be larger than 500 pixels. This is a safe bet, since most digital camera photos are several thousand pixels in width and height.</p>
+<p class="tx">As a hint, here’s a rough skeleton of what this program might look like:</p>
+<pre class="pre"><code class="calibre9"># Import modules and write comments to describe this program.
+
+for folder_name, subfolders, filenames in os.walk('C:\\'):
+    num_photo_files = 0
+    num_non_photo_files = 0
+    for filename in filenames:
+        # Check if the file extension isn't .png or .jpg.
+        if TODO:
+            num_non_photo_files += 1
+            continue  # Skip to the next filename.
+
+        # Open image file using Pillow.
+
+        # Check if the width &amp; height are larger than 500.
+        if TODO:
+            # Image is large enough to be considered a photo.
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1073" aria-label="525"></span>            num_photo_files += 1
+        else:
+            # Image is too small to be a photo.
+            num_non_photo_files += 1
+
+    # If more than half of files were photos,
+    # print the absolute path of the folder.
+    if TODO:
+        print(TODO)
+</code></pre>
+<p class="tx">When the program runs, it should print the absolute path of any photo folders to the screen.</p>
+</section>
+<section type="division" aria-labelledby="sec35">
+<h4 class="h1" id="calibre_link-2067"><span id="calibre_link-574"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating Custom Seating Cards</span></h4>
+<p class="tni">In a practice program in <span>Chapter 17</span>, you created custom invitations from a list of guests in a plaintext file. As an additional project, use Pillow to create images that will serve as custom seating cards for your guests. For each of the guests listed in the <i class="calibre5">guests.txt</i> file from the book’s online resources, generate an image file with the guest’s name and some flowery decoration. A public domain flower image is also available in the book’s resources.</p>
+<p class="tx">To ensure that each seating card is the same size, add a black rectangle to the edges of the invitation image; that way, when you print the image, you’ll have a guideline for cutting. The PNG files that Pillow produces are set to 72 pixels per inch, so a 4×5-inch card would require a 288×360-pixel image.</p>
+</section>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

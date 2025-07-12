@@ -1,0 +1,657 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-74">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch4">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1170" aria-label="73"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1480">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">4</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">FUNCTIONS</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">A <i class="calibre18">function</i> is like a mini program within a program. Python provides several built-in functions, such as the <span class="sans_thesansmonocd_w5regular_">print()</span>, <span class="sans_thesansmonocd_w5regular_">input()</span>, and <span class="sans_thesansmonocd_w5regular_">len()</span> functions from the previous chapters, but you can also write your own. In this chapter, you’ll create functions, explore the call stack used to determine the order in which functions in a program run, and learn about the scope of variables inside and outside functions.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1481"><span id="calibre_link-75"></span><span class="sans_futura_std_bold_b_">Creating Functions</span></h3>
+<p class="tni">To better understand how functions work, let’s create one. Enter this program into the file editor and save it as <i class="calibre5">helloFunc.py</i>:</p>
+<pre class="pre"><code class="calibre9">def hello():
+    # Prints three greetings
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1101" aria-label="74"></span>    print('Good morning!')
+    print('Good afternoon!')
+    print('Good evening!')
+
+hello()
+hello()
+print('ONE MORE TIME!')
+hello()
+</code></pre>
+<p class="tx">The first line is a <span class="thesansmonocd_w5regular_">def</span> statement, which defines a function named <span class="thesansmonocd_w5regular_">hello()</span>. The code in the block that follows the <span class="thesansmonocd_w5regular_">def</span> statement is the body of the function. This code executes when the function is called, not when the function is first defined.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">hello()</span> lines after the function are function calls. In code, a function call is just the function’s name followed by parentheses, possibly with some number of arguments in between the parentheses. When the program execution reaches these calls, it will jump to the first line in the function and begin executing the code there. When it reaches the end of the function, the execution returns to the line that called the function and continues moving through the code as before.</p>
+<p class="tx">Because this program calls <span class="thesansmonocd_w5regular_">hello()</span> three times, the code in the <span class="thesansmonocd_w5regular_">hello()</span> function is executed three times. When you run this program, the output looks like this:</p>
+<pre class="pre"><code class="calibre9">Good morning!
+Good afternoon!
+Good evening!
+Good morning!
+Good afternoon!
+Good evening!
+ONE MORE TIME!
+Good morning!
+Good afternoon!
+Good evening!
+</code></pre>
+<p class="tx">A major purpose of functions is to group code that gets executed multiple times. Without a function defined, you would have to copy and paste this code each time you wanted to run it, and the program would look like this:</p>
+<pre class="pre"><code class="calibre9">print('Good morning!')
+print('Good afternoon!')
+print('Good evening!')
+print('Good morning!')
+print('Good afternoon!')
+print('Good evening!')
+print('ONE MORE TIME!')
+print('Good morning!')
+print('Good afternoon!')
+print(' Good evening!')
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-925" aria-label="75"></span>In general, you always want to avoid duplicating code, because if you ever decide to update the code (for example, because you find a bug you need to fix), you’ll have to remember to change the code in every place you copied it.</p>
+<p class="tx">As you gain programming experience, you’ll often find yourself <i class="calibre5">deduplicating</i>, which means getting rid of copied-and-pasted code. Deduplication makes your programs shorter, easier to read, and easier to update.</p>
+</section>
+<section type="division" aria-labelledby="sec2">
+<h3 class="h" id="calibre_link-1482"><span id="calibre_link-76"></span><span class="sans_futura_std_bold_b_">Arguments and Parameters</span></h3>
+<p class="tni">When you call the <span class="thesansmonocd_w5regular_">print()</span> or <span class="thesansmonocd_w5regular_">len()</span> function, you pass it values, called <i class="calibre5">arguments</i>, by entering them between the parentheses. You can also define your own functions that accept arguments. Enter this example into the file editor and save it as <i class="calibre5">helloFunc2.py</i>:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> def say_hello_to(name):
+    # Prints three greetings to the name provided
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> print('Good morning, ' + name)
+    print('Good afternoon, ' + name)
+    print('Good evening, ' + name)
+
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> say_hello_to('Alice')
+say_hello_to('Bob')
+</code></pre>
+<p class="tx">When you run this program, the output looks like this:</p>
+<pre class="pre"><code class="calibre9">Good morning, Alice
+Good afternoon, Alice
+Good evening, Alice
+Good morning, Bob
+Good afternoon, Bob
+Good evening, Bob
+</code></pre>
+<p class="tx">The definition of the <span class="thesansmonocd_w5regular_">say_hello_to()</span> function has a parameter called <span class="thesansmonocd_w5regular_">name</span> <span class="codeannotation" aria-label="annotation1">❶</span>. <i class="calibre5">Parameters</i> are variables that contain arguments. When a function is called with arguments, the arguments are stored in the parameters. The first time the <span class="thesansmonocd_w5regular_">say_hello_to()</span> function is called, it’s passed the argument <span class="thesansmonocd_w5regular_">'Alice'</span> <span class="codeannotation" aria-label="annotation3">❸</span>. The program execution enters the function, and the parameter <span class="thesansmonocd_w5regular_">name</span> is automatically set to <span class="thesansmonocd_w5regular_">'Alice'</span>, which gets printed by the <span class="thesansmonocd_w5regular_">print()</span> statement <span class="codeannotation" aria-label="annotation2">❷</span>. You should use parameters in your function if you need it to follow slightly different instructions depending on the values you pass to the function call.</p>
+<p class="tx">One special thing to note about parameters is that the value stored in a parameter is forgotten when the function returns. For example, if you added <span class="thesansmonocd_w5regular_">print(name)</span> after <span class="thesansmonocd_w5regular_">say_hello_to('Bob')</span> in the previous program, the program would give you an error because there is no variable named <span class="thesansmonocd_w5regular_">name</span>. This variable gets destroyed after the function call <span class="thesansmonocd_w5regular_">say_hello_to('Bob')</span> returns, so <span class="thesansmonocd_w5regular_">print(name)</span> would refer to a <span class="thesansmonocd_w5regular_">name</span> variable that does not exist.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1100" aria-label="76"></span>The terms <i class="calibre5">define</i>, <i class="calibre5">call</i>, <i class="calibre5">pass</i>, <i class="calibre5">argument</i>, and <i class="calibre5">parameter</i> can be confusing. To review their meanings, consider a code example:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> def say_hello_to(name):
+    # Prints three greetings to the name provided
+    print('Good morning, ' + name)
+    print('Good afternoon, ' + name)
+    print('Good evening, ' + name)
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> say_hello_to('Al')
+</code></pre>
+<p class="tx">To <i class="calibre5">define</i> a function is to create it, just as an assignment statement like <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">42</span> creates the <span class="thesansmonocd_w5regular_">spam</span> variable. The <span class="thesansmonocd_w5regular_">def</span> statement defines the <span class="thesansmonocd_w5regular_">say_hello_to()</span> function <span class="codeannotation" aria-label="annotation1">❶</span>. The <span class="thesansmonocd_w5regular_">say_hello_to('Al')</span> line <span class="codeannotation" aria-label="annotation2">❷</span> <i class="calibre5">calls</i> the now-created function, sending the execution to the top of the function’s code. This function call is <i class="calibre5">passing</i> the string '<span class="thesansmonocd_w5regular_">Al</span>' to the function. A value being passed in a function call is an <i class="calibre5">argument</i>. Arguments are assigned to local variables called <i class="calibre5">parameters</i>. The argument <span class="thesansmonocd_w5regular_">'Al</span>' is assigned to the <span class="thesansmonocd_w5regular_">name</span> parameter.</p>
+<p class="tx">It’s easy to mix up these terms, but keeping them straight will ensure that you know precisely what the text in this chapter means.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h3 class="h" id="calibre_link-1483"><span id="calibre_link-77"></span><span class="sans_futura_std_bold_b_">Return Values and return Statements</span></h3>
+<p class="tni">When you call the <span class="thesansmonocd_w5regular_">len()</span> function and pass it an argument such as <span class="thesansmonocd_w5regular_">'Hello'</span>, the function call evaluates to the integer value <span class="thesansmonocd_w5regular_">5</span>, which is the length of the string you passed it. In general, the value to which a function call evaluates is called the <i class="calibre5">return value</i> of the function.</p>
+<p class="tx">When creating a function using the <span class="thesansmonocd_w5regular_">def</span> statement, you can specify the return value with a <span class="thesansmonocd_w5regular_">return</span> statement, which consists of the following:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">return</span> keyword</li>
+<li class="bl">The value or expression that the function should return</li>
+</ul>
+<p class="tx">In the case of an expression, the return value is whatever this expression evaluates to. For example, the following program defines a function that returns a different string depending on the number it is passed as an argument. Enter this code into the file editor and save it as <i class="calibre5">magic8Ball.py</i>:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> import random
+
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> def get_answer(answer_number):
+    # Returns a fortune answer based on what int answer_number is, 1 to 9
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> if answer_number == 1:
+        return 'It is certain'
+    elif answer_number == 2:
+        return 'It is decidedly so'
+    elif answer_number == 3:
+        return 'Yes'
+    elif answer_number == 4:
+        return 'Reply hazy try again'
+    elif answer_number == 5:
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1247" aria-label="77"></span>        return 'Ask again later'
+    elif answer_number == 6:
+        return 'Concentrate and ask again'
+    elif answer_number == 7:
+        return 'My reply is no'
+    elif answer_number == 8:
+        return 'Outlook not so good'
+    elif answer_number == 9:
+        return 'Very doubtful'
+
+print('Ask a yes or no question:')
+input('&gt;')
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> r = random.randint(1, 9)
+<span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> fortune = get_answer(r)
+<span class="codeannotated_codeannotation" aria-label="annotation6">❻</span> print(fortune)
+</code></pre>
+<p class="tx">When the program starts, Python first imports the <span class="thesansmonocd_w5regular_">random</span> module <span class="codeannotation" aria-label="annotation1">❶</span>. Then comes the definition of the <span class="thesansmonocd_w5regular_">get_answer()</span> function <span class="codeannotation" aria-label="annotation2">❷</span>. Because the function isn’t being called, the code inside it is not run. Next, the program calls the <span class="thesansmonocd_w5regular_">random.randint()</span> function with two arguments: <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">9</span> <span class="codeannotation" aria-label="annotation4">❹</span>. This function evaluates a random integer between <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">9</span> (including <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">9</span> themselves), then stores it in a variable named <span class="thesansmonocd_w5regular_">r</span>.</p>
+<p class="tx">Now the program calls the <span class="thesansmonocd_w5regular_">get_answer()</span> function with <span class="thesansmonocd_w5regular_">r</span> as the argument <span class="codeannotation" aria-label="annotation5">❺</span>. The program execution moves to the top of that function <span class="codeannotation" aria-label="annotation3">❸</span>, storing the value <span class="thesansmonocd_w5regular_">r</span> in a parameter named <span class="thesansmonocd_w5regular_">answer_number</span>. Then, depending on the value in <span class="thesansmonocd_w5regular_">answer_number</span>, the function returns one of many possible string values. The execution returns to the line at the bottom of the program that originally called <span class="thesansmonocd_w5regular_">get_answer()</span> <span class="codeannotation" aria-label="annotation5">❺</span> and assigns the returned string to a variable named <span class="thesansmonocd_w5regular_">fortune</span>, which then gets passed to a <span class="thesansmonocd_w5regular_">print()</span> call <span class="codeannotation" aria-label="annotation6">❻</span> and printed to the screen.</p>
+<p class="tx">Note that because you can pass return values as arguments to other function calls, you could shorten these three lines</p>
+<pre class="pre"><code class="calibre9">r = random.randint(1, 9)
+fortune = get_answer(r)
+print(fortune)
+</code></pre>
+<p class="tni">to this single equivalent line:</p>
+<pre class="pre"><code class="calibre9">print(get_answer(random.randint(1, 9)))</code></pre>
+<p class="tx">Remember that expressions consist of values and operators; you can use a function call in an expression because the call evaluates to its return value.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h3 class="h" id="calibre_link-1484"><span id="calibre_link-78"></span><span class="sans_futura_std_bold_b_">The</span> <span class="sans_futura_std_bold_b_">None Value</span></h3>
+<p class="tni">In Python, a value called <span class="thesansmonocd_w5regular_">None</span> represents the absence of a value. The <span class="thesansmonocd_w5regular_">None</span> value is the only value of the <span class="thesansmonocd_w5regular_">NoneType</span> data type. (Other programming <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1245" aria-label="78"></span>languages might call this value <span class="thesansmonocd_w5regular_">null</span>, <span class="thesansmonocd_w5regular_">nil</span>, or <span class="thesansmonocd_w5regular_">undefined</span>.) Just like the Boolean <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">False</span> values, you must always write <span class="thesansmonocd_w5regular_">None</span> with a capital <i class="calibre5">N</i>.</p>
+<p class="tx">This value-without-a-value can be helpful when you need to store something that shouldn’t be confused for a real value in a variable. One place where <span class="thesansmonocd_w5regular_">None</span> is used is as the return value of <span class="thesansmonocd_w5regular_">print()</span>. The <span class="thesansmonocd_w5regular_">print()</span> function displays text on the screen, and doesn’t need to return anything in the same way <span class="thesansmonocd_w5regular_">len()</span> or <span class="thesansmonocd_w5regular_">input()</span> does. But since all function calls need to evaluate to a return value, <span class="thesansmonocd_w5regular_">print()</span> returns <span class="thesansmonocd_w5regular_">None</span>. To see this in action, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = print('Hello!')</b>
+Hello!
+&gt;&gt;&gt; <b class="calibre10">None == spam</b>
+True
+</code></pre>
+<p class="tx">Behind the scenes, Python adds <span class="thesansmonocd_w5regular_">return None</span> to the end of any function definition with no <span class="thesansmonocd_w5regular_">return</span> statement. This behavior resembles the way in which a <span class="thesansmonocd_w5regular_">while</span> or <span class="thesansmonocd_w5regular_">for</span> loop implicitly ends with a <span class="thesansmonocd_w5regular_">continue</span> statement. Functions also return <span class="thesansmonocd_w5regular_">None</span> if you use a <span class="thesansmonocd_w5regular_">return</span> statement without a value (that is, just the <span class="thesansmonocd_w5regular_">return</span> keyword by itself).</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h3 class="h" id="calibre_link-1485"><span id="calibre_link-79"></span><span class="sans_futura_std_bold_b_">Named Parameters</span></h3>
+<p class="tni">Python identifies most arguments by their position in the function call. For example, <span class="thesansmonocd_w5regular_">random.randint(1, 10)</span> is different from <span class="thesansmonocd_w5regular_">random.randint(10, 1)</span>. The first call returns a random integer between <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">10</span> because the first argument determines the low end of the range and the next argument determines its high end, while the second function call causes an error.</p>
+<p class="tx">On the other hand, Python identifies <i class="calibre5">named parameters</i> by the name placed before them in the function call. You’ll also hear named parameters called keyword parameters or keyword arguments, though they have nothing to do with Python keywords. Programmers often use named parameters to provide optional arguments. For example, the <span class="thesansmonocd_w5regular_">print()</span> function uses the optional parameters <span class="thesansmonocd_w5regular_">end</span> and <span class="thesansmonocd_w5regular_">sep</span> to specify separator characters to print at the end of its arguments and between its arguments, respectively. If you ran a program without these arguments</p>
+<pre class="pre"><code class="calibre9">print('Hello')
+print('World')
+</code></pre>
+<p class="tni">the output would look like this:</p>
+<pre class="pre"><code class="calibre9">Hello
+World
+</code></pre>
+<p class="tx">The two strings appear on separate lines because the <span class="thesansmonocd_w5regular_">print()</span> function automatically adds a newline character to the end of the string it is passed. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1132" aria-label="79"></span>However, you can set the <span class="thesansmonocd_w5regular_">end</span> named parameter to change the newline character to a different string. For example, if the code were this</p>
+<pre class="pre"><code class="calibre9">print('Hello', end='')
+print('World')
+</code></pre>
+<p class="tni">the output would look like this:</p>
+<pre class="pre"><code class="calibre9">HelloWorld</code></pre>
+<p class="tx">The output appears on a single line because Python no longer prints a newline after <span class="thesansmonocd_w5regular_">'Hello'</span>. Instead, it prints a blank string. This is useful if you need to disable the newline that gets added to the end of every <span class="thesansmonocd_w5regular_">print()</span> function call. Say you wanted to print the heads-or-tails results of a series of coin flips. Printing the output on a single line makes the output prettier, as in this <i class="calibre5">coinflip.py</i> program:</p>
+<pre class="pre"><code class="calibre9">import random
+for i in range(100):  # Perform 100 coin flips.
+    if random.randint(0, 1) == 0:
+        print('H', end=' ')
+    else:
+        print('T', end=' ')
+print()  # Print one newline at the end.
+</code></pre>
+<p class="tx">This program displays the H and T results on one compact line, instead of spreading them out with one H or T result per line:</p>
+<pre class="pre"><code class="calibre9">T H T T T H H T T T T H H H H T H H T T T T T H T T T T T H T T T T T H T H T
+H H H T T H T T T T H T H H H T H H T H T T T T T H T T H T T T T H T H H H T
+T T T H T T T T H H H T H T H H H H T H H T
+</code></pre>
+<p class="tx">Similarly, when you pass multiple string values to <span class="thesansmonocd_w5regular_">print()</span>, the function automatically separates them with a single space. To see this behavior, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print('cats', 'dogs', 'mice')</b>
+cats dogs mice
+</code></pre>
+<p class="tx">You could replace the default separating string by passing the <span class="thesansmonocd_w5regular_">sep</span> named parameter a different string. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print('cats', 'dogs', 'mice', sep=',')</b>
+cats,dogs,mice
+</code></pre>
+<p class="tx">You can add named parameters to the functions you write as well, but first, you’ll have to learn about the list and dictionary data types in <span>Chapters 6</span> and <span>7</span>. For now, just know that some functions have optional named parameters you can specify when calling the function.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-994" aria-label="80"></span>
+<h3 class="h" id="calibre_link-1486"><span id="calibre_link-80"></span><span class="sans_futura_std_bold_b_">The Call Stack</span></h3>
+<p class="tni">Imagine that you had a meandering conversation with someone. You talked about your friend Alice, which then reminded you of a story about your co-worker Bob, but first you had to explain something about your cousin Carol. You finished your story about Carol and went back to talking about Bob, and when you finished your story about Bob, you went back to talking about Alice. But then you were reminded about your brother David, so you told a story about him, and then you got back to finishing your original story about Alice. Your conversation followed a <i class="calibre5">stack</i>-like structure, like in Figure 4-1. In a stack, items get added or removed from the top only, and the current topic is always at the top of the stack.</p>
+<figure class="img"><img class="img1" id="calibre_link-693" src="images/000091.jpg" alt="A diagram showing the evolution of a stack of names, from left to right" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 4-1: Your meandering conversation stack</span> Description</p></figcaption>
+</figure>
+<p class="tx">Like your meandering conversation, calling a function doesn’t send the execution on a one-way trip to the top of a function. Python will remember which line of code called the function so that the execution can return there when it encounters a <span class="thesansmonocd_w5regular_">return</span> statement. If that original function called other functions, the execution would return to <i class="calibre5">those</i> function calls first, before returning from the original function call. The function call at the top of the stack is the execution’s current location.</p>
+<p class="tx">Open a file editor window and enter the following code, saving it as <i class="calibre5">abcdCallStack.py</i>:</p>
+<pre class="pre"><code class="calibre9">def a():
+    print('a() starts')
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> b()
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> d()
+    print('a() returns')
+
+def b():
+    print('b() starts')
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> c()
+    print('b() returns')
+
+def c():
+  <span class="code_codeannotation" aria-label="annotation4">❹</span> print('c() starts')
+    print('c() returns')
+
+def d():
+    print('d() starts')
+    print('d() returns')
+
+<span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> a()
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1487" aria-label="81"></span>If you run this program, the output will look like this:</p>
+<pre class="pre"><code class="calibre9">a() starts
+b() starts
+c() starts
+c() returns
+b() returns
+d() starts
+d() returns
+a() returns
+</code></pre>
+<p class="tx">When <span class="thesansmonocd_w5regular_">a()</span> is called <span class="codeannotation" aria-label="annotation5">❺</span>, it calls <span class="thesansmonocd_w5regular_">b()</span> <span class="codeannotation" aria-label="annotation1">❶</span>, which in turn calls <span class="thesansmonocd_w5regular_">c()</span> <span class="codeannotation" aria-label="annotation3">❸</span>. The <span class="thesansmonocd_w5regular_">c()</span> function doesn’t call anything; it just displays <span class="thesansmonocd_w5regular_">c() starts</span> <span class="codeannotation" aria-label="annotation4">❹</span> and <span class="thesansmonocd_w5regular_">c() returns</span> before returning to the line in <span class="thesansmonocd_w5regular_">b()</span> that called it <span class="codeannotation" aria-label="annotation3">❸</span>. Once the execution returns to the code in <span class="thesansmonocd_w5regular_">b()</span> that called <span class="thesansmonocd_w5regular_">c()</span>, it returns to the line in <span class="thesansmonocd_w5regular_">a()</span> that called <span class="thesansmonocd_w5regular_">b()</span> <span class="codeannotation" aria-label="annotation1">❶</span>. The execution continues to the next line in the <span class="thesansmonocd_w5regular_">a()</span> function <span class="codeannotation" aria-label="annotation2">❷</span>, which is a call to <span class="thesansmonocd_w5regular_">d()</span>. Like the <span class="thesansmonocd_w5regular_">c()</span> function, the <span class="thesansmonocd_w5regular_">d()</span> function also doesn’t call anything. It just displays <span class="thesansmonocd_w5regular_">d() starts</span> and <span class="thesansmonocd_w5regular_">d() returns</span> before returning to the line in <span class="thesansmonocd_w5regular_">a()</span> that called it. Because <span class="thesansmonocd_w5regular_">d()</span> contains no other code, the execution returns to the line in <span class="thesansmonocd_w5regular_">a()</span> that called <span class="thesansmonocd_w5regular_">d()</span> <span class="codeannotation" aria-label="annotation2">❷</span>. The last line in <span class="thesansmonocd_w5regular_">a()</span> displays <span class="thesansmonocd_w5regular_">a() returns</span> before returning to the original <span class="thesansmonocd_w5regular_">a()</span> call at the end of the program <span class="codeannotation" aria-label="annotation5">❺</span>.</p>
+<p class="tx">The <i class="calibre5">call stack</i> is how Python remembers where to return the execution after each function call. The call stack isn’t stored in a variable in your program; rather, it’s a section of your computer’s memory that Python handles automatically behind the scenes. When your program calls a function, Python creates a <i class="calibre5">frame object</i> on the top of the call stack. Frame objects store the line number of the original function call so that Python can remember where to return. If the program makes another function call, Python adds another frame object above the other one on the call stack.</p>
+<p class="tx">When a function call returns, Python removes a frame object from the top of the stack and moves the execution to the line number stored in it. Note that frame objects always get added and removed from the top of the stack, and not from any other place. Figure 4-2 illustrates the state of the call stack in <i class="calibre5">abcdCallStack.py</i> as each function is called and returns.</p>
+<figure class="img"><img class="img1" id="calibre_link-695" src="images/000092.jpg" alt="A diagram showing the evolution of a stack of function calls, from left to right" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 4-2: The frame objects of the call stack as</span> <span class="sans_futura_std_book_">abcdCallStack.py</span> <span class="sans_futura_std_book_oblique_i_">calls and returns from functions</span> Description</p></figcaption>
+</figure>
+<p class="tx">The top of the call stack is the currently executing function. When the call stack is empty, the execution is on a line outside all functions.</p>
+<p class="tx">The call stack is a technical detail that you don’t strictly need to know about to write programs. It’s enough to understand that function calls return to the line number they were called from. However, understanding <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1178" aria-label="82"></span>call stacks makes it easier to understand local and global scopes, described in the next section.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h3 class="h" id="calibre_link-1488"><span id="calibre_link-81"></span><span class="sans_futura_std_bold_b_">Local and Global Scopes</span></h3>
+<p class="tni">Only code within a called function can access the parameters and variables assigned in that function. These variables are said to exist in that function’s  <i class="calibre5">local scope</i>. By contrast, code anywhere in a program can access variables that are assigned outside all functions. These variables are said to exist in the <i class="calibre5">global scope</i>. A variable that exists in a local scope is called a <i class="calibre5">local variable</i>, while a variable that exists in a global scope is called a <i class="calibre5">global variable</i>. A variable must be one or the other; it cannot be both local and global.</p>
+<p class="tx">Think of a <i class="calibre5">scope</i> as a container for variables. There is only one global scope, created when your program begins. When your program terminates, it destroys the global scope, and all of its variables get forgotten. A new local scope gets created whenever a program calls a function. Any variables assigned in the function exist within the function’s local scope. When the function returns, the local scope gets destroyed, along with these variables.</p>
+<p class="tx">Python uses scoping because it enables a function to modify its variables, yet interact with the rest of the program through its parameters and its return value only. This narrows down the number of lines of code that might be causing a bug. If your program contained nothing but global variables, and contained a bug caused by a variable set to a bad value, you might struggle to track down the location of this bad value. It could have been set from anywhere in the program, which could be hundreds or thousands of lines long! But if the bug occurred in a local variable, you can restrict your search to a single function.</p>
+<p class="tx">For this reason, while using global variables in small programs is fine, it’s a bad habit to rely on global variables as your programs get larger and larger.</p>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-1489"><span id="calibre_link-82"></span><span class="sans_futura_std_heavy_oblique_bi_">Scope Rules</span></h4>
+<p class="tni">When working with local and global variables, keep the following rules in mind:</p>
+<ul class="ul">
+<li class="bl">Code that is in the global scope, outside all functions, can’t use local variables.</li>
+<li class="bl">Code that is in one function’s local scope can’t use variables in any other local scope.</li>
+<li class="bl">Code in a local scope can access global variables.</li>
+<li class="bl">You can use the same name for different variables if they are in different scopes. That is, there can be a local variable named <span class="thesansmonocd_w5regular_">spam</span> and a global variable also named <span class="thesansmonocd_w5regular_">spam</span>.</li>
+</ul>
+<p class="tx">Let’s review these rules with examples.</p>
+<section type="division" aria-labelledby="sec9">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1490" aria-label="83"></span>
+<h5 class="h2" id="calibre_link-1491"><span class="sans_futura_std_bold_b_">Code That Is in the Global Scope Can’t Use Local Variables</span></h5>
+<p class="tni">Consider the following code, which will cause an error when you run it:</p>
+<pre class="pre"><code class="calibre9">def spam():
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> eggs = 'sss'
+spam()
+print(eggs)
+</code></pre>
+<p class="tx">The program’s output will look like this:</p>
+<pre class="pre"><code class="calibre9">Traceback (most recent call last):
+  File "C:/test1.py", line 4, in &lt;module&gt;
+    print(eggs)
+NameError: name 'eggs' is not defined
+</code></pre>
+<p class="tx">The error happens because the <span class="thesansmonocd_w5regular_">eggs</span> variable exists only in the local scope created when <span class="thesansmonocd_w5regular_">spam()</span> is called <span class="codeannotation" aria-label="annotation1">❶</span>. Once the program execution returns from <span class="thesansmonocd_w5regular_">spam()</span>, that local scope gets destroyed, and there is no longer a variable named <span class="thesansmonocd_w5regular_">eggs</span>. So when your program tries to run <span class="thesansmonocd_w5regular_">print(eggs)</span>, Python gives you an error saying that <span class="thesansmonocd_w5regular_">eggs</span> is not defined. This makes sense if you think about it; when the program execution is in the global scope, no local scopes exist, so there can’t be any local variables. This is why you can only reference global variables in the global scope.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h5 class="h2" id="calibre_link-1492"><span class="sans_futura_std_bold_b_">Code That Is in a Local Scope Can’t Use Variables in Other Local Scopes</span></h5>
+<p class="tni">Python creates a new local scope whenever a program calls a function, even when the function is called from another function. Consider this program:</p>
+<pre class="pre"><code class="calibre9">def spam():
+    eggs = 'SPAMSPAM'
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> bacon()
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> print(eggs)  # Prints 'SPAMSPAM'
+
+def bacon():
+    ham = 'hamham'
+    eggs = 'BACONBACON'
+
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> spam()
+</code></pre>
+<p class="tx">When the program starts, it calls the <span class="thesansmonocd_w5regular_">spam()</span> function <span class="codeannotation" aria-label="annotation3">❸</span>, creating a local scope. The <span class="thesansmonocd_w5regular_">spam()</span> function sets the local variable <span class="thesansmonocd_w5regular_">eggs</span> to <span class="thesansmonocd_w5regular_">'SPAMSPAM'</span>, then calls the <span class="thesansmonocd_w5regular_">bacon()</span> function <span class="codeannotation" aria-label="annotation1">❶</span>, creating a second local scope. Multiple local scopes can exist at the same time. In this new local scope, the local variable <span class="thesansmonocd_w5regular_">ham</span> gets set to <span class="thesansmonocd_w5regular_">'hamham'</span>, and a local variable <span class="thesansmonocd_w5regular_">eggs</span> (which differs from the one in <span class="thesansmonocd_w5regular_">spam()</span>’s local scope) gets created and set to <span class="thesansmonocd_w5regular_">'BACONBACON'</span>. At this point, the program has two local variables named <span class="thesansmonocd_w5regular_">eggs</span> that exist simultaneously: one that is local to <span class="thesansmonocd_w5regular_">spam()</span> and one that is local to <span class="thesansmonocd_w5regular_">bacon()</span>.</p>
+<p class="tx">When <span class="thesansmonocd_w5regular_">bacon()</span> returns, Python destroys the local scope for that call, including its <span class="thesansmonocd_w5regular_">eggs</span> variable. The program execution continues in the <span class="thesansmonocd_w5regular_">spam()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1227" aria-label="84"></span>function, printing the value of <span class="thesansmonocd_w5regular_">eggs</span> <span class="codeannotation" aria-label="annotation2">❷</span>. Because the local scope for the call to <span class="thesansmonocd_w5regular_">spam()</span> still exists, the only <span class="thesansmonocd_w5regular_">eggs</span> variable is the <span class="thesansmonocd_w5regular_">spam()</span> function’s <span class="thesansmonocd_w5regular_">eggs</span> variable, which was set to <span class="thesansmonocd_w5regular_">'SPAMSPAM'</span>. This is what the program prints.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h5 class="h2" id="calibre_link-1493"><span class="sans_futura_std_bold_b_">Code That Is in a Local Scope Can Use Global Variables</span></h5>
+<p class="tni">So far, I’ve demonstrated that code in the global scope can’t access variables in a local scope; nor can code in a different local scope. Now consider the following program:</p>
+<pre class="pre"><code class="calibre9">def spam():
+    print(eggs)  # Prints 'GLOBALGLOBAL'
+eggs = 'GLOBALGLOBAL'
+spam()
+print(eggs)
+</code></pre>
+<p class="tx">Because the <span class="thesansmonocd_w5regular_">spam()</span> function has no parameter named <span class="thesansmonocd_w5regular_">eggs</span>, nor any code that assigns <span class="thesansmonocd_w5regular_">eggs</span> a value, Python considers the function’s use of <span class="thesansmonocd_w5regular_">eggs</span> a reference to the global variable <span class="thesansmonocd_w5regular_">eggs</span>. This is why the program prints <span class="thesansmonocd_w5regular_">'GLOBALGLOBAL'</span> when it’s run.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h5 class="h2" id="calibre_link-1494"><span class="sans_futura_std_bold_b_">Local and Global Variables Can Have the Same Name</span></h5>
+<p class="tni">Technically, it’s perfectly acceptable to use the same variable name for a global variable and local variables in different scopes. But, to simplify your life, avoid doing this. To see what could happen, enter the following code into the file editor and save it as <i class="calibre5">localGlobalSameName.py</i>:</p>
+<pre class="pre"><code class="calibre9">def spam():
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> eggs = 'spam local'
+    print(eggs)  # Prints 'spam local'
+
+def bacon():
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'bacon local'
+    print(eggs)  # Prints 'bacon local'
+    spam()
+    print(eggs)  # Prints 'bacon local'
+
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> eggs = 'global'
+bacon()
+print(eggs)  # Prints 'global'
+</code></pre>
+<p class="tx">When you run this program, it outputs the following:</p>
+<pre class="pre"><code class="calibre9">bacon local
+spam local
+bacon local
+global
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1179" aria-label="85"></span>This program actually contains three different variables, but confusingly, they’re all named <span class="thesansmonocd_w5regular_">eggs</span>. The variables are as follows:</p>
+<ul class="ul">
+<li class="bl">A variable named <span class="thesansmonocd_w5regular_">eggs</span> that exists in a local scope when <span class="thesansmonocd_w5regular_">spam()</span> is called <span class="codeannotation" aria-label="annotation1">❶</span></li>
+<li class="bl">A variable named <span class="thesansmonocd_w5regular_">eggs</span> that exists in a local scope when <span class="thesansmonocd_w5regular_">bacon()</span> is called <span class="codeannotation" aria-label="annotation2">❷</span></li>
+<li class="bl">A variable named <span class="thesansmonocd_w5regular_">eggs</span> that exists in the global scope <span class="codeannotation" aria-label="annotation3">❸</span></li>
+</ul>
+<p class="tx">Because these three separate variables all have the same name, it can be hard to keep track of the one in use at any given time. Instead, give all variables unique names, even when they appear in different scopes.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h4 class="h1" id="calibre_link-1495"><span id="calibre_link-83"></span><span class="sans_futura_std_heavy_oblique_bi_">The global Statement</span></h4>
+<p class="tni">If you need to modify a global variable from within a function, use the <span class="thesansmonocd_w5regular_">global</span> statement. Including a line such as <span class="thesansmonocd_w5regular_">global eggs</span> at the top of a function tells Python, “In this function, <span class="thesansmonocd_w5regular_">eggs</span> refers to the  global variable, so don’t create a local variable with this name.” For example, enter the following code into the file editor and save it as <i class="calibre5">globalStatement.py</i>:</p>
+<pre class="pre"><code class="calibre9">def spam():
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> global eggs
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'spam'
+
+eggs = 'global'
+spam()
+print(eggs)  # Prints 'spam'
+</code></pre>
+<p class="tx">When you run this program, the final <span class="thesansmonocd_w5regular_">print()</span> call will output this:</p>
+<pre class="pre"><code class="calibre9">spam</code></pre>
+<p class="tx">Because <span class="thesansmonocd_w5regular_">eggs</span> is declared <span class="thesansmonocd_w5regular_">global</span> at the top of <span class="thesansmonocd_w5regular_">spam()</span> <span class="codeannotation" aria-label="annotation1">❶</span>, setting <span class="thesansmonocd_w5regular_">eggs</span> to <span class="thesansmonocd_w5regular_">'spam'</span><span class="codeannotation" aria-label="annotation2">❷</span> changes the value of the globally scoped <span class="thesansmonocd_w5regular_">eggs</span>. No local <span class="thesansmonocd_w5regular_">eggs</span> variable is ever created.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h4 class="h1" id="calibre_link-1496"><span id="calibre_link-84"></span><span class="sans_futura_std_heavy_oblique_bi_">Scope Identification</span></h4>
+<p class="tni">Use these four rules to tell whether a variable belongs to a local scope or the global scope:</p>
+<p class="listnumberf">  1.  A variable in the global scope (that is, outside all functions) is always a global variable.</p>
+<p class="listnumber">  2.  A variable in a function with a <span class="thesansmonocd_w5regular_">global</span> statement is always a global variable in that function.</p>
+<p class="listnumber">  3.  Otherwise, if a function uses a variable in an assignment statement, it is a local variable.</p>
+<p class="listnumberl">  4.  However, if the function uses a variable but never in an assignment statement, it is a global variable.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1293" aria-label="86"></span>To get a better feel for these rules, here’s an example program. Enter the following code into the file editor and save it as <i class="calibre5">sameNameLocalGlobal.py</i>:</p>
+<pre class="pre"><code class="calibre9">def spam():
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> global eggs
+    eggs = 'spam'  # This is the global variable.
+
+def bacon():
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'bacon'  # This is a local variable.
+
+def ham():
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> print(eggs)  # This is the global variable.
+
+eggs = 'global'  # This is the global variable.
+spam()
+print(eggs)
+</code></pre>
+<p class="tx">In the <span class="thesansmonocd_w5regular_">spam()</span> function, <span class="thesansmonocd_w5regular_">eggs</span> refers to the global <span class="thesansmonocd_w5regular_">eggs</span> variable because the function includes a <span class="thesansmonocd_w5regular_">global</span> statement for it <span class="codeannotation" aria-label="annotation1">❶</span>. In <span class="thesansmonocd_w5regular_">bacon()</span>, <span class="thesansmonocd_w5regular_">eggs</span> is a local variable because the function includes an assignment statement for it <span class="codeannotation" aria-label="annotation2">❷</span>. In <span class="thesansmonocd_w5regular_">ham()</span> <span class="codeannotation" aria-label="annotation3">❸</span>, <span class="thesansmonocd_w5regular_">eggs</span> is the global variable because the function contains no assignment statement or <span class="thesansmonocd_w5regular_">global</span> statement for the variable. If you run <i class="calibre5">sameNameLocalGlobal.py</i>, the output will look like this:</p>
+<pre class="pre"><code class="calibre9">spam</code></pre>
+<p class="tx">If you try to use a local variable in a function before you assign a value to it, as in the following program, Python will give you an error. To see this, enter the following into the file editor and save it as <i class="calibre5">sameNameError.py</i>:</p>
+<pre class="pre"><code class="calibre9">def spam():
+    print(eggs)  # ERROR!
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> eggs = 'spam local'
+   
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> eggs = 'global'
+spam()
+</code></pre>
+<p class="tx">If you run the previous program, it produces an error message:</p>
+<pre class="pre"><code class="calibre9">Traceback (most recent call last):
+  File "C:/sameNameError.py", line 6, in &lt;module&gt;
+    spam()
+  File "C:/sameNameError.py", line 2, in spam
+    print(eggs)  # ERROR!
+UnboundLocalError: local variable 'eggs' referenced before assignment
+</code></pre>
+<p class="tx">This error happens because Python sees that there is an assignment statement for <span class="thesansmonocd_w5regular_">eggs</span> in the <span class="thesansmonocd_w5regular_">spam()</span> function <span class="codeannotation" aria-label="annotation1">❶</span> and, therefore, considers any mention of an <span class="thesansmonocd_w5regular_">eggs</span> variable in <span class="thesansmonocd_w5regular_">spam()</span> to be a local variable. But because <span class="thesansmonocd_w5regular_">print(eggs)</span> is executed before <span class="thesansmonocd_w5regular_">eggs</span> is assigned anything, the local variable <span class="thesansmonocd_w5regular_">eggs</span> doesn’t exist. Python won’t fall back to using the global <span class="thesansmonocd_w5regular_">eggs</span> variable <span class="codeannotation" aria-label="annotation2">❷</span>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-933" aria-label="87"></span>The name of the error, <span class="thesansmonocd_w5regular_">UnboundLocalError</span>, can be somewhat confusing. In Python, <i class="calibre5">binding</i> is another way of saying <i class="calibre5">assigning</i>, so this error indicates that the program used a local variable before it was assigned a value.</p>
+<aside class="box" aria-label="box-10">
+<p class="bt" id="calibre_link-1497"><span class="sans_futura_std_bold_b_">FUNCTIONS AS “BLACK BOXES”</span></p>
+<p class="btni"><span class="sans_futura_std_book_">Often, all you need to know about a function are its inputs (the parameters) and its output value; you don’t always have to burden yourself with how the function’s code actually works. When you think about functions in this high-level way, it’s common to say that you’re treating a function as a “black box.”</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">This idea is fundamental to modern programming. Later chapters in this book will show you several modules with functions that were written by other people. While you can take a peek at the source code if you’re curious, you don’t need to know how these functions work in order to use them. And because writing functions without global variables is encouraged, you usually don’t have to worry about the function’s code interacting with the rest of your program.</span></p>
+</aside>
+</section>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h3 class="h" id="calibre_link-1498"><span id="calibre_link-85"></span><span class="sans_futura_std_bold_b_">Exception Handling</span></h3>
+<p class="tni">Right now, getting an error, or <i class="calibre5">exception</i>, in your Python program means the entire program will crash. You don’t want this to happen in real-world programs. Instead, you want the program to detect errors, handle them, and then continue to run.</p>
+<p class="tx">For example, consider the following program, which has a divide-by-zero error. Open a file editor window and enter the following code, saving it as <i class="calibre5">zeroDivide.py</i>:</p>
+<pre class="pre"><code class="calibre9">def spam(divide_by):
+    return 42 / divide_by
+
+print(spam(2))
+print(spam(12))
+print(spam(0))
+print(spam(1))
+</code></pre>
+<p class="tx">We’ve defined a function called <span class="thesansmonocd_w5regular_">spam</span>, given it a parameter, and then printed the value of that function with various parameters to see what happens. This is the output you get when you run the previous code:</p>
+<pre class="pre"><code class="calibre9">21.0
+3.5
+Traceback (most recent call last):
+  File "C:/zeroDivide.py", line 6, in &lt;module&gt;
+    print(spam(0))
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1499" aria-label="88"></span>  File "C:/zeroDivide.py", line 2, in spam
+    return 42 / divide_by
+ZeroDivisionError: division by zero
+</code></pre>
+<p class="tx">A <span class="thesansmonocd_w5regular_">ZeroDivisionError</span> happens whenever you try to divide a number by zero. From the line number given in the error message, you know that the <span class="thesansmonocd_w5regular_">return</span> statement in <span class="thesansmonocd_w5regular_">spam()</span> is causing an error.</p>
+<p class="tx">Most of the time, exceptions indicate a bug in your code that you need to fix. But sometimes exceptions can be expected and recovered from. For example, in <span>Chapter 10</span> you’ll learn how to read text from files. If you specify a filename for a file that doesn’t exist, Python raises a <span class="thesansmonocd_w5regular_">FileNotFoundError</span> exception. You might want to handle this exception by asking the user to enter the filename again rather than having this unhandled exception immediately crash your program.</p>
+<p class="tx">Errors can be handled with <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements. The code that could potentially have an error is put in a <span class="thesansmonocd_w5regular_">try</span> clause. The program execution moves to the start of a following <span class="thesansmonocd_w5regular_">except</span> clause if an error happens.</p>
+<p class="tx">You can put the previous divide-by-zero code in a <span class="thesansmonocd_w5regular_">try</span> clause and have an <span class="thesansmonocd_w5regular_">except</span> clause contain code to handle what happens when this error occurs:</p>
+<pre class="pre"><code class="calibre9">def spam(divide_by):
+    try:
+        # Any code in this block that causes ZeroDivisionError won't crash the program:
+        return 42 / divide_by
+    except ZeroDivisionError:
+        # If ZeroDivisionError happened, the code in this block runs:
+        print('Error: Invalid argument.')
+
+print(spam(2))
+print(spam(12))
+print(spam(0))
+print(spam(1))
+</code></pre>
+<p class="tx">When code in a <span class="thesansmonocd_w5regular_">try</span> clause causes an error, the program execution immediately moves to the code in the <span class="thesansmonocd_w5regular_">except</span> clause. After running that code, the execution continues as normal. If the program doesn’t raise an exception in the <span class="thesansmonocd_w5regular_">try</span> clause, the program skips the code in the <span class="thesansmonocd_w5regular_">except</span> clause. The output of the previous program is as follows:</p>
+<pre class="pre"><code class="calibre9">21.0
+3.5
+Error: Invalid argument.
+None
+42.0
+</code></pre>
+<p class="tx">Note that any errors that occur in function calls in a <span class="thesansmonocd_w5regular_">try</span> block will also be caught. Consider the following program, which instead has the <span class="thesansmonocd_w5regular_">spam()</span> calls in the <span class="thesansmonocd_w5regular_">try</span> block:</p>
+<pre class="pre"><code class="calibre9">def spam(divide_by):
+    return 42 / divide_by
+
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1297" aria-label="89"></span>try:
+    print(spam(2))
+    print(spam(12))
+    print(spam(0))
+    print(spam(1))
+except ZeroDivisionError:
+    print('Error: Invalid argument.')
+</code></pre>
+<p class="tx">When this program is run, the output looks like this:</p>
+<pre class="pre"><code class="calibre9">21.0
+3.5
+Error: Invalid argument.
+</code></pre>
+<p class="tx">The reason <span class="thesansmonocd_w5regular_">print(spam(1))</span> is never executed is because once the execution jumps to the code in the <span class="thesansmonocd_w5regular_">except</span> clause, it does not return to the <span class="thesansmonocd_w5regular_">try</span> clause. Instead, it just continues moving down the program as normal.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h3 class="h" id="calibre_link-1500"><span id="calibre_link-86"></span><span class="sans_futura_std_bold_b_">A Short Program: Zigzag</span></h3>
+<p class="tni">Let’s use the programming concepts you’ve learned so far to create a small animation program. This program will create a back-and-forth zigzag pattern until the user stops it by pressing the Mu editor’s Stop button or by pressing <small class="calibre4">CTRL</small>-C. When you run this program, the output will look something like this:</p>
+<pre class="pre"><code class="calibre9">    ********
+   ********
+  ********
+ ********
+********
+ ********
+  ********
+   ********
+    ********
+</code></pre>
+<p class="tx">Enter the following source code into the file editor, and save the file as <i class="calibre5">zigzag.py</i>:</p>
+<pre class="pre"><code class="calibre9">import time, sys
+indent = 0  # How many spaces to indent
+indent_increasing = True  # Whether the indentation is increasing or not
+
+try:
+    while True:  # The main program loop
+        print(' ' * indent, end='')
+        print('********')
+        time.sleep(0.1) # Pause for 1/10th of a second.
+
+        if indent_increasing
+            # Increase the number of spaces:
+            indent = indent + 1
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1208" aria-label="90"></span>            if indent == 20:
+                # Change direction:
+                indent_increasing = False
+        else:
+            # Decrease the number of spaces:
+            indent = indent - 1
+            if indent == 0:
+                # Change direction:
+                indent_increasing = True
+except KeyboardInterrupt:
+    sys.exit()
+</code></pre>
+<p class="tx">Let’s look at this code line by line, starting at the top:</p>
+<pre class="pre"><code class="calibre9">import time, sys
+indent = 0 # How many spaces to indent
+indent_increasing = True  # Whether the indentation is increasing or not
+</code></pre>
+<p class="tx">First, we’ll import the <span class="thesansmonocd_w5regular_">time</span> and <span class="thesansmonocd_w5regular_">sys</span> modules. Our program uses two variables. The <span class="thesansmonocd_w5regular_">indent</span> variable keeps track of how many spaces of indentation occur before the band of eight asterisks, and the <span class="thesansmonocd_w5regular_">indent_increasing</span> variable contains a Boolean value to determine whether the amount of indentation is increasing or decreasing:</p>
+<pre class="pre"><code class="calibre9">try:
+    while True:  # The main program loop
+        print(' ' * indent, end='')
+        print('********')
+        time.sleep(0.1) # Pause for 1/10 of a second.
+</code></pre>
+<p class="tx">Next, we place the rest of the program inside a <span class="thesansmonocd_w5regular_">try</span> statement. When the user presses <small class="calibre4">CTRL</small>-C while a Python program is running, Python raises the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception. If there is no <span class="thesansmonocd_w5regular_">try</span>-<span class="thesansmonocd_w5regular_">except</span> statement to catch this exception, the program crashes with an ugly error message. However, we want our program to cleanly handle the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception by calling <span class="thesansmonocd_w5regular_">sys.exit()</span>. (You can find the code that accomplishes this in the <span class="thesansmonocd_w5regular_">except</span> statement at the end of the program.)</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">while True:</span> infinite loop will repeat the instructions in the program forever. This involves using <span class="thesansmonocd_w5regular_">' ' * indent</span> to print the correct number of spaces for the indentation. We don’t want to automatically print a newline after these spaces, so we also pass <span class="thesansmonocd_w5regular_">end=''</span> to the first <span class="thesansmonocd_w5regular_">print()</span> call. A second <span class="thesansmonocd_w5regular_">print()</span> call prints the band of asterisks. We haven’t discussed the <span class="thesansmonocd_w5regular_">time.sleep()</span> function yet; suffice it to say that it introduces a one-tenth-of-a-second pause in our program:</p>
+<pre class="pre"><code class="calibre9">        if indent_increasing:
+            # Increase the number of spaces:
+            indent = indent + 1
+            if indent == 20:
+                indent_increasing = False  # Change direction
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1209" aria-label="91"></span>Next, we want to adjust the amount of indentation used the next time we print asterisks. If <span class="thesansmonocd_w5regular_">indent_increasing</span> is <span class="thesansmonocd_w5regular_">True</span>, we’ll add <span class="thesansmonocd_w5regular_">1</span> to <span class="thesansmonocd_w5regular_">indent</span>, but once indent reaches <span class="thesansmonocd_w5regular_">20</span>, we’ll decrease the indentation:</p>
+<pre class="pre"><code class="calibre9">        else:
+            # Decrease the number of spaces:
+            indent = indent - 1
+            if indent == 0:
+                indent_increasing = True  # Change direction
+</code></pre>
+<p class="tx">If <span class="thesansmonocd_w5regular_">indent_increasing</span> is <span class="thesansmonocd_w5regular_">False</span>, we’ll want to subtract one from <span class="thesansmonocd_w5regular_">indent</span>. Once indent reaches <span class="thesansmonocd_w5regular_">0</span>, we’ll want the indentation to increase once again. Either way, the program execution will jump back to the start of the main program loop to print the asterisks again.</p>
+<p class="tx">If the user presses <small class="calibre4">CTRL</small>-C at any point that the program execution is in the <span class="thesansmonocd_w5regular_">try</span> block, this <span class="thesansmonocd_w5regular_">except</span> statement raises and handles the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception:</p>
+<pre class="pre"><code class="calibre9">except KeyboardInterrupt:
+    sys.exit()
+</code></pre>
+<p class="tx">The program execution moves inside the <span class="thesansmonocd_w5regular_">except</span> block, which runs <span class="thesansmonocd_w5regular_">sys.exit()</span> and quits the program. This way, even though the main program loop is infinite, the user has a way to shut down the program.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h3 class="h" id="calibre_link-1501"><span id="calibre_link-87"></span><span class="sans_futura_std_bold_b_">A Short Program: Spike</span></h3>
+<p class="tni">Let’s create another scrolling animation program. This program uses string replication and nested loops to draw spikes. Open a new file in your code editor, enter the following code, and save it as <i class="calibre5">spike.py</i>:</p>
+<pre class="pre"><code class="calibre9">import time, sys
+
+try:
+    while True:  # The main program loop
+        # Draw lines with increasing length:
+        for i in range(1, 9):
+            print('-' * (i * i))
+            time.sleep(0.1)
+
+        # Draw lines with decreasing length:
+        for i in range(7, 1, -1):
+            print('-' * (i * i))
+            time.sleep(0.1)
+except KeyboardInterrupt:
+    sys.exit()
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1298" aria-label="92"></span>When you run this program, it repeatedly draws the following spike:</p>
+<pre class="pre"><code class="calibre9">-
+----
+---------
+----------------
+-------------------------
+------------------------------------
+-------------------------------------------------
+----------------------------------------------------------------
+-------------------------------------------------
+------------------------------------
+-------------------------
+----------------
+---------
+----
+</code></pre>
+<p class="tx">Like the previous zigzag program, the spike program needs to call the <span class="thesansmonocd_w5regular_">time.sleep()</span> and <span class="thesansmonocd_w5regular_">sys.exit()</span> functions. The first line imports the <span class="thesansmonocd_w5regular_">time</span> and <span class="thesansmonocd_w5regular_">sys</span> modules. A <span class="thesansmonocd_w5regular_">try</span> block will catch the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception raised when the user presses <small class="calibre4">CTRL</small>-C, and an infinite loop continues drawing spikes forever.</p>
+<p class="tx">The first <span class="thesansmonocd_w5regular_">for</span> loop draws spikes of increasing sizes:</p>
+<pre class="pre"><code class="calibre9">        # Draw lines with increasing length:
+        for i in range(1, 9):
+            print('-' * (i * i))
+            time.sleep(0.1)
+</code></pre>
+<p class="tx">Because the <span class="thesansmonocd_w5regular_">i</span> variable is set to <span class="thesansmonocd_w5regular_">1</span>, then <span class="thesansmonocd_w5regular_">2</span>, then <span class="thesansmonocd_w5regular_">3</span>, and so on, up to but not including <span class="thesansmonocd_w5regular_">9</span>, the following <span class="thesansmonocd_w5regular_">print()</span> call replicates the <span class="thesansmonocd_w5regular_">'-'</span> strings by <span class="thesansmonocd_w5regular_">1 * 1</span> (that is, <span class="thesansmonocd_w5regular_">1</span>), then <span class="thesansmonocd_w5regular_">2 * 2</span> (that is, <span class="thesansmonocd_w5regular_">4</span>), then <span class="thesansmonocd_w5regular_">3 * 3</span> (that is, <span class="thesansmonocd_w5regular_">9</span>), and so on. This code is what creates the strings that are 1, 4, 9, 16, 25, 36, 49, and then 64 dashes long. By having exponentially longer strings, we create the top half of the spike.</p>
+<p class="tx">To draw the bottom half of the spike, we need another <span class="thesansmonocd_w5regular_">for</span> loop that causes <span class="thesansmonocd_w5regular_">i</span> to start at <span class="thesansmonocd_w5regular_">7</span> and then decrease down to <span class="thesansmonocd_w5regular_">1</span>, not including <span class="thesansmonocd_w5regular_">1</span>:</p>
+<pre class="pre"><code class="calibre9">        # Draw lines with decreasing length:
+        for i in range(7, 1, -1):
+            print('-' * (i * i))
+            time.sleep(0.1)
+</code></pre>
+<p class="tx">You can modify the <span class="thesansmonocd_w5regular_">9</span> and the <span class="thesansmonocd_w5regular_">7</span> values in the two <span class="thesansmonocd_w5regular_">for</span> loops if you want to change how wide the spike becomes. The rest of the code will continue to work just fine with these new values.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
+<h3 class="h" id="calibre_link-1502"><span id="calibre_link-88"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Functions are the primary way to compartmentalize your code into logical groups. Since the variables in functions exist in their own local scopes, the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1503" aria-label="93"></span>code in one function cannot directly affect the values of local variables in other functions. This limits the sections of code able to change the values of your variables, which can be helpful when it comes to debugging.</p>
+<p class="tx">Functions are a great tool to help you organize your code. You can think of them as black boxes: they have inputs in the form of parameters and outputs in the form of return values, and the code in them doesn’t affect variables in other functions.</p>
+<p class="tx">In previous chapters, a single error could cause your programs to crash. In this chapter, you learned about <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements, which can run code when an error has been detected. This can make your programs more resilient to common error cases.</p>
+</section>
+<section type="division" aria-labelledby="sec19">
+<h3 class="h" id="calibre_link-1504"><span id="calibre_link-89"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  Why are functions advantageous to have in your programs?</p>
+<p class="listnumber">  2.  When does the code in a function execute: when the function is defined or when the function is called?</p>
+<p class="listnumber">  3.  What statement creates a function?</p>
+<p class="listnumber">  4.  What is the difference between a function and a function call?</p>
+<p class="listnumber">  5.  How many global scopes are there in a Python program? How many local scopes are there?</p>
+<p class="listnumber">  6.  What happens to variables in a local scope when the function call returns?</p>
+<p class="listnumber">  7.  What is a return value? Can a return value be part of an expression?</p>
+<p class="listnumber">  8.  If a function does not have a <span class="thesansmonocd_w5regular_">return</span> statement, what is the return value of a call to that function?</p>
+<p class="listnumber">  9.  How can you force a variable in a function to refer to the global variable?</p>
+<p class="listnumber">10.  What is the data type of <span class="thesansmonocd_w5regular_">None</span>?</p>
+<p class="listnumber">11.  What does the <span class="thesansmonocd_w5regular_">import areallyourpetsnamederic</span> statement do?</p>
+<p class="listnumber">12.  If you had a function named <span class="thesansmonocd_w5regular_">bacon()</span> in a module named <span class="thesansmonocd_w5regular_">spam</span>, how would you call it after importing <span class="thesansmonocd_w5regular_">spam</span>?</p>
+<p class="listnumber">13.  How can you prevent a program from crashing when it gets an error?</p>
+<p class="listnumber">14.  What goes in the <span class="thesansmonocd_w5regular_">try</span> clause? What goes in the <span class="thesansmonocd_w5regular_">except</span> clause?</p>
+<p class="listnumber">15.  Write the following program in a file named <i class="calibre5">notrandomdice.py</i> and run it. Why does each function call return the same number?</p>
+<pre class="pre"><code class="calibre9">import random
+random_number = random.randint(1, 6)
+
+def get_random_dice_roll():
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1031" aria-label="94"></span>    # Returns a random integer from 1 to 6
+    return random_number
+
+print(get_random_dice_roll())
+print(get_random_dice_roll())
+print(get_random_dice_roll())
+print(get_random_dice_roll())
+</code></pre>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h3 class="h" id="calibre_link-1505"><span id="calibre_link-90"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec21">
+<h4 class="h1" id="calibre_link-1506"><span id="calibre_link-91"></span><span class="sans_futura_std_heavy_oblique_bi_">The Collatz Sequence</span></h4>
+<p class="tni">Write a function named <span class="thesansmonocd_w5regular_">collatz()</span> that has one parameter named <span class="thesansmonocd_w5regular_">number</span>. If <span class="thesansmonocd_w5regular_">number</span> is even, then <span class="thesansmonocd_w5regular_">collatz()</span> should print <span class="thesansmonocd_w5regular_">number // 2</span> and return this value. If <span class="thesansmonocd_w5regular_">number</span> is odd, then <span class="thesansmonocd_w5regular_">collatz()</span> should print and return <span class="thesansmonocd_w5regular_">3 * number</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1</span>.</p>
+<p class="tx">Then, write a program that lets the user enter an integer and that keeps calling <span class="thesansmonocd_w5regular_">collatz()</span> on that number until the function returns the value <span class="thesansmonocd_w5regular_">1</span>. (Amazingly enough, this sequence actually works for any integer; sooner or later, using this sequence, you’ll arrive at 1! Even mathematicians aren’t sure why. Your program is exploring what’s called the <i class="calibre5">Collatz sequence</i>, sometimes called “the simplest impossible math problem.”)</p>
+<p class="tx">Remember to convert the return value from <span class="thesansmonocd_w5regular_">input()</span> to an integer with the <span class="thesansmonocd_w5regular_">int()</span> function; otherwise, it will be a string value. To make the output more compact, the <span class="thesansmonocd_w5regular_">print()</span> calls that print the numbers should have a <span class="thesansmonocd_w5regular_">sep=' '</span> named parameter to print all values on one line.</p>
+<p class="tx">The output of this program could look something like this:</p>
+<pre class="pre"><code class="calibre9">Enter number:
+3
+3 10 5 16 8 4 2 1
+</code></pre>
+<p class="tx">Hint: An integer <span class="thesansmonocd_w5regular_">number</span> is even if <span class="thesansmonocd_w5regular_">number % 2</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">0</span>, and it’s odd if <span class="thesansmonocd_w5regular_">number % 2</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">1</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec22">
+<h4 class="h1" id="calibre_link-1507"><span id="calibre_link-92"></span><span class="sans_futura_std_heavy_oblique_bi_">Input Validation</span></h4>
+<p class="tni">Add <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements to the previous project to detect whether the user entered a non-integer string. Normally, the <span class="thesansmonocd_w5regular_">int()</span> function will raise a <span class="thesansmonocd_w5regular_">ValueError</span> error if it is passed a non-integer string, as in <span class="thesansmonocd_w5regular_">int('puppy')</span>. In the <span class="thesansmonocd_w5regular_">except</span> clause, print a message to the user saying they must enter an integer.</p>
+</section>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

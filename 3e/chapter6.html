@@ -1,0 +1,935 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-108">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch6">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1527" aria-label="109"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1528">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">6</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">LISTS</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">One more topic you’ll need to understand before you can begin writing programs in earnest is the list data type and its cousin, the tuple. Lists and tuples can contain multiple values, which makes writing programs that handle large amounts of data easier. And since lists themselves can contain other lists, you can use them to arrange data into hierarchical structures.</p>
+<p class="tx">In this chapter, I’ll discuss the basics of lists. I’ll also teach you about methods, which are functions that are tied to values of a certain data type. Then, I’ll briefly cover the sequence data types (lists, tuples, and strings) and show their differences. In the next chapter, I’ll introduce you to the dictionary data type.</p>
+<section type="division" aria-labelledby="sec1">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-870" aria-label="110"></span>
+<h3 class="h" id="calibre_link-1529"><span id="calibre_link-109"></span><span class="sans_futura_std_bold_b_">The List Data Type</span></h3>
+<p class="tni">A <i class="calibre5">list</i> is a value that contains multiple values in an ordered sequence. The term <i class="calibre5">list value</i> refers to the list itself (which you can store in a variable or pass to a function, just like any other value), not the values inside the list value. A list value looks like this: <span class="thesansmonocd_w5regular_">['cat', 'bat', 'rat', 'elephant']</span>. Just as string values use quotation marks to mark where the string begins and ends, a list begins with an opening square bracket and ends with a closing square bracket, <span class="thesansmonocd_w5regular_">[]</span>.</p>
+<p class="tx">We call values inside the list <i class="calibre5">items</i>. Items are separated with commas (that is, they are <i class="calibre5">comma-delimited</i>). For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">[1, 2, 3]</b>  # A list of three integers
+[1, 2, 3]
+&gt;&gt;&gt; <b class="calibre10">['cat', 'bat', 'rat', 'elephant']</b>  # A list of four strings
+['cat', 'bat', 'rat', 'elephant']
+&gt;&gt;&gt; <b class="calibre10">['hello', 3.1415, True, None, 42]</b>  # A list of several values
+['hello', 3.1415, True, None, 42]
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'bat', 'rat', 'elephant']
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">spam</span> variable <span class="codeannotation" aria-label="annotation1">❶</span> is assigned only one value: the list value. But the list value itself contains other values.</p>
+<p class="tx">Note that the value <span class="thesansmonocd_w5regular_">[]</span> is an empty list that contains no values, similar to <span class="thesansmonocd_w5regular_">''</span>, the empty string.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-1530"><span id="calibre_link-110"></span><span class="sans_futura_std_heavy_oblique_bi_">Indexes</span></h4>
+<p class="tni">Say you have the list <span class="thesansmonocd_w5regular_">['cat', 'bat', 'rat', 'elephant']</span> stored in a variable named <span class="thesansmonocd_w5regular_">spam</span>. The Python code <span class="thesansmonocd_w5regular_">spam[0]</span> would evaluate to <span class="thesansmonocd_w5regular_">'cat'</span>, the code <span class="thesansmonocd_w5regular_">spam[1]</span> would evaluate to <span class="thesansmonocd_w5regular_">'bat'</span>, and so on. The integer inside the square brackets that follows the list is called an <i class="calibre5">index</i>. The first value in the list is at index <span class="thesansmonocd_w5regular_">0</span>, the second value is at index <span class="thesansmonocd_w5regular_">1</span>, the third value is at index <span class="thesansmonocd_w5regular_">2</span>, and so on. Figure 6-1 shows a list value assigned to <span class="thesansmonocd_w5regular_">spam</span>, along with the index expressions they’d evaluate to. Note that because the first index is <span class="thesansmonocd_w5regular_">0</span>, the last index is the size of the list minus one. So, a list of four items has <span class="thesansmonocd_w5regular_">3</span> as its last index.</p>
+<figure class="img"><img class="img2" id="calibre_link-705" src="images/000097.jpg" alt="A diagram showing the how each item in a list corresponds to an index." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 6-1: A list value stored in the variable spam, showing which value each index refers to</span> Description</p></figcaption>
+</figure>
+<p class="tx">For an example of working with indexes, enter the following expressions into the interactive shell. We start by assigning a list to the variable <span class="thesansmonocd_w5regular_">spam</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam[0]</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1039" aria-label="111"></span>'cat'
+&gt;&gt;&gt; <b class="calibre10">spam[1]</b>
+'bat'
+&gt;&gt;&gt; <b class="calibre10">spam[2]</b>
+'rat'
+&gt;&gt;&gt; <b class="calibre10">spam[3]</b>
+'elephant'
+&gt;&gt;&gt; <b class="calibre10">['cat', 'bat', 'rat', 'elephant'][3]</b>
+'elephant'
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">'Hello, ' + spam[0]</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> 'Hello, cat'
+&gt;&gt;&gt; <b class="calibre10">'The ' + spam[1] + ' ate the ' + spam[0] + '.'</b>
+'The bat ate the cat.'
+</code></pre>
+<p class="tx">Notice that the expression <span class="thesansmonocd_w5regular_">'Hello, '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">spam[0]</span> <span class="codeannotation" aria-label="annotation1">❶</span> evaluates to <span class="thesansmonocd_w5regular_">'Hello, '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">'cat'</span> because <span class="thesansmonocd_w5regular_">spam[0]</span> evaluates to the string <span class="thesansmonocd_w5regular_">'cat'</span>. This expression in turn evaluates to the string value <span class="thesansmonocd_w5regular_">'Hello, cat'</span> <span class="codeannotation" aria-label="annotation2">❷</span>.</p>
+<p class="tx">Python will give you an <span class="thesansmonocd_w5regular_">IndexError</span> error message if you use an index that exceeds the number of values in your list value:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam[10000]</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    spam[10000]
+IndexError: list index out of range
+</code></pre>
+<p class="tx">Lists can also contain other list values. You can access the values in these lists of lists using multiple indexes, like so:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = [['cat', 'bat'], [10, 20, 30, 40, 50]]</b>
+&gt;&gt;&gt; <b class="calibre10">spam[0]</b>
+['cat', 'bat']
+&gt;&gt;&gt; <b class="calibre10">spam[0][1]</b>
+'bat'
+&gt;&gt;&gt; <b class="calibre10">spam[1][4]</b>
+50
+</code></pre>
+<p class="tx">The first index dictates which list value to use, and the second indicates the value within the list value. For example, <span class="thesansmonocd_w5regular_">spam[0][1]</span> prints <span class="thesansmonocd_w5regular_">'bat'</span>, the second value in the first list.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1" id="calibre_link-1531"><span id="calibre_link-111"></span><span class="sans_futura_std_heavy_oblique_bi_">Negative Indexes</span></h4>
+<p class="tni">While indexes start at <span class="thesansmonocd_w5regular_">0</span> and go up, you can also use negative integers for the index. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam[-1]</b>  # Last index
+'elephant'
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-871" aria-label="112"></span>&gt;&gt;&gt; <b class="calibre10">spam[-3]</b>  # Third to last index
+'bat'
+&gt;&gt;&gt; <b class="calibre10">'The ' + spam[-1] + ' is afraid of the ' + spam[-3] + '.'</b>
+'The elephant is afraid of the bat.'
+</code></pre>
+<p class="tx">The integer value <span class="thesansmonocd_w5regular_">-1</span> refers to the last index in a list, the value <span class="thesansmonocd_w5regular_">-2</span> refers to the second to last index in a list, and so on.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-1532"><span id="calibre_link-112"></span><span class="sans_futura_std_heavy_oblique_bi_">Slices</span></h4>
+<p class="tni">Just as an index can get a single value from a list, a <i class="calibre5">slice</i> can get several values from a list, in the form of a new list. We enter a slice between square brackets, like an index, but include two integers separated by a colon. Notice the difference between indexes and slices:</p>
+<ul class="ul">
+<li class="bl"><span class="thesansmonocd_w5regular_">spam[2]</span> is a list with an index (one integer).</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">spam[1:4]</span> is a list with a slice (two integers).</li>
+</ul>
+<p class="tx">In a slice, the first integer is the index where the slice starts. The second integer is the index where the slice ends. The list created from a slice will go up to, but will not include, the value at the second index. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam[0:4]</b>
+['cat', 'bat', 'rat', 'elephant']
+&gt;&gt;&gt; <b class="calibre10">spam[1:3]</b>
+['bat', 'rat']
+&gt;&gt;&gt; <b class="calibre10">spam[0:-1]</b>
+['cat', 'bat', 'rat']
+</code></pre>
+<p class="tx">As a shortcut, you can leave out one or both of the indexes on either side of the colon in the slice:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam[:2]</b>
+['cat', 'bat']
+&gt;&gt;&gt; <b class="calibre10">spam[1:]</b>
+['bat', 'rat', 'elephant']
+&gt;&gt;&gt; <b class="calibre10">spam[:]</b>
+['cat', 'bat', 'rat', 'elephant']
+</code></pre>
+<p class="tx">Leaving out the first index is the same as using <span class="thesansmonocd_w5regular_">0</span>, or the beginning of the list. Leaving out the second index is the same as using the length of the list, which will slice to the end of the list.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-866" aria-label="113"></span>
+<h4 class="h1" id="calibre_link-1533"><span id="calibre_link-113"></span><span class="sans_futura_std_heavy_oblique_bi_">The len() Function</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">len()</span> function will return the number of values in a list value passed to it. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'dog', 'moose']</b>
+&gt;&gt;&gt; <b class="calibre10">len(spam)</b>
+3
+</code></pre>
+<p class="tx">This behavior is similar to how the function counts the number of characters in a string value.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-1534"><span id="calibre_link-114"></span><span class="sans_futura_std_heavy_oblique_bi_">Value Updates</span></h4>
+<p class="tni">Normally, a variable name goes on the left side of an assignment statement, as in <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">42</span>. However, you can also use an index of a list to change the value at that index:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam[1] = 'aardvark'</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'aardvark', 'rat', 'elephant']
+&gt;&gt;&gt; <b class="calibre10">spam[2] = spam[1]</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'aardvark', 'aardvark', 'elephant']
+&gt;&gt;&gt; <b class="calibre10">spam[-1] = 12345</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'aardvark', 'aardvark', 12345]
+</code></pre>
+<p class="tx">In this example, <span class="thesansmonocd_w5regular_">spam[1]</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'aardvark'</span> means “Assign the value at index <span class="thesansmonocd_w5regular_">1</span> in the list <span class="thesansmonocd_w5regular_">spam</span> to the string <span class="thesansmonocd_w5regular_">'aardvark'</span>.” You can also use negative indexes like <span class="thesansmonocd_w5regular_">-1</span> to update lists.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-1535"><span id="calibre_link-115"></span><span class="sans_futura_std_heavy_oblique_bi_">Concatenation and Replication</span></h4>
+<p class="tni">You can concatenate and replicate lists with the <span class="thesansmonocd_w5regular_">+</span> and <span class="thesansmonocd_w5regular_">*</span> operators, just like strings:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">[1, 2, 3] + ['A', 'B', 'C']</b>
+[1, 2, 3, 'A', 'B', 'C']
+&gt;&gt;&gt; <b class="calibre10">['X', 'Y', 'Z'] * 3</b>
+['X', 'Y', 'Z', 'X', 'Y', 'Z', 'X', 'Y', 'Z']
+&gt;&gt;&gt; <b class="calibre10">spam = [1, 2, 3]</b>
+&gt;&gt;&gt; <b class="calibre10">spam = spam + ['A', 'B', 'C']</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+[1, 2, 3, 'A', 'B', 'C']
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">+</span> operator combines two lists to create a new list value, and the <span class="thesansmonocd_w5regular_">*</span> operator combines a list and an integer value to replicate the list.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-898" aria-label="114"></span>
+<h4 class="h1" id="calibre_link-1536"><span id="calibre_link-116"></span><span class="sans_futura_std_heavy_oblique_bi_">del Statements</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">del</span> statement will delete values at an index in a list. All of the values in the list after the deleted value will be moved up one index. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">del spam[2]</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'bat', 'elephant']
+&gt;&gt;&gt; <b class="calibre10">del spam[2]</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'bat']
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">del</span> statement can also operate on a simple variable to delete it, as if it were an “unassignment” statement. If you try to use the variable after deleting it, you’ll get a <span class="thesansmonocd_w5regular_">NameError</span> error because the variable no longer exists. In practice, you almost never need to delete simple variables, however, and the <span class="thesansmonocd_w5regular_">del</span> statement is most useful for deleting values from lists.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h3 class="h" id="calibre_link-1537"><span id="calibre_link-117"></span><span class="sans_futura_std_bold_b_">Working with Lists</span></h3>
+<p class="tni">When you first begin writing programs, you may be tempted to create many individual variables to store a group of similar values. For example, if I wanted to store the names of my cats, I might think to write code like this:</p>
+<pre class="pre"><code class="calibre9">cat_name_1 = 'Zophie'
+cat_name_2 = 'Pooka'
+cat_name_3 = 'Simon'
+cat_name_4 = 'Lady Macbeth'
+</code></pre>
+<p class="tx">It turns out that this is a bad way to write code. For one thing, if the number of cats changes (and you can always have more cats), your program will never be able to store more cats than you have variables. These programs also contain a lot of duplicate or nearly identical code. To see this in practice, enter the following program into the file editor and save it as <i class="calibre5">allMyCats1.py</i>:</p>
+<pre class="pre"><code class="calibre9">print('Enter the name of cat 1:')
+cat_name_1 = input()
+print('Enter the name of cat 2:')
+cat_name_2 = input()
+print('Enter the name of cat 3:')
+cat_name_3 = input()
+print('Enter the name of cat 4:')
+cat_name_4 = input()
+print('The cat names are:')
+print(cat_name_1 + ' ' + cat_name_2 + ' ' + cat_name_3 + ' ' + cat_name_4)
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-707" aria-label="115"></span>Instead of using multiple, repetitive variables, you can use a single variable that contains a list value. For example, here’s a new and improved version of the <i class="calibre5">allMyCats1.py</i> program. This new version uses a single list and can store any number of cats that the user enters. In a new file editor window, enter the following source code and save it as <i class="calibre5">allMyCats2.py</i>:</p>
+<pre class="pre"><code class="calibre9">cat_names = []
+while True:
+    print('Enter the name of cat ' + str(len(cat_names) + 1) +
+      ' (Or enter nothing to stop.):')
+    name = input()
+    if name == '':
+        break
+    cat_names = cat_names + [name]  # List concatenation
+print('The cat names are:')
+for name in cat_names:
+    print('  ' + name)
+</code></pre>
+<p class="tx">When you run this program, the output will look something like this:</p>
+<pre class="pre"><code class="calibre9">Enter the name of cat 1 (Or enter nothing to stop.):
+<b class="calibre10">Zophie</b>
+Enter the name of cat 2 (Or enter nothing to stop.):
+<b class="calibre10">Pooka</b>
+Enter the name of cat 3 (Or enter nothing to stop.):
+<b class="calibre10">Simon</b>
+Enter the name of cat 4 (Or enter nothing to stop.):
+<b class="calibre10">Lady Macbeth</b>
+Enter the name of cat 5 (Or enter nothing to stop.):
+
+The cat names are:
+  Zophie
+  Pooka
+  Simon
+  Lady Macbeth
+</code></pre>
+<p class="tx">The benefit of using a list is that your data is now in a structure, so your program can process the data much more flexibly than it could with several repetitive variables.</p>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-1538"><span id="calibre_link-118"></span><span class="sans_futura_std_heavy_oblique_bi_">for Loops and Lists</span></h4>
+<p class="tni">In <span>Chapter 3</span>, you learned about using <span class="thesansmonocd_w5regular_">for</span> loops to execute a block of code a certain number of times. Technically, a <span class="thesansmonocd_w5regular_">for</span> loop repeats the code block once for each item in a list value. For example, if you ran this code</p>
+<pre class="pre"><code class="calibre9">for i in range(4):
+    print(i)
+</code></pre>
+<p class="tni"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1195" aria-label="116"></span>the output of this program would be as follows:</p>
+<pre class="pre"><code class="calibre9">0
+1
+2
+3
+</code></pre>
+<p class="tx">This is because the return value from <span class="thesansmonocd_w5regular_">range(4)</span> is a sequence value that Python considers to be similar to <span class="thesansmonocd_w5regular_">[0, 1, 2, 3]</span>. The following program has the same output as the previous one:</p>
+<pre class="pre"><code class="calibre9">for i in [0, 1, 2, 3]:
+    print(i)
+</code></pre>
+<p class="tx">The previous <span class="thesansmonocd_w5regular_">for</span> loop actually loops through its clause with the variable <span class="thesansmonocd_w5regular_">i</span> set to a successive value in the <span class="thesansmonocd_w5regular_">[0, 1, 2, 3]</span> list in each iteration.</p>
+<p class="tx">A common Python technique is to use <span class="thesansmonocd_w5regular_">range(len(</span><span class="sans_thesansmonocd_w5regular_italic_">some_list</span><span class="thesansmonocd_w5regular_">))</span> with a <span class="thesansmonocd_w5regular_">for</span> loop to iterate over the indexes of a list. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">supplies = ['pens', 'staplers', 'flamethrowers', 'binders']</b>
+&gt;&gt;&gt; <b class="calibre10">for i in range(len(supplies)):</b>
+...     <b class="calibre10">print('Index ' + str(i) + ' in supplies is: ' + supplies[i])</b>
+...
+Index 0 in supplies is: pens
+Index 1 in supplies is: staplers
+Index 2 in supplies is: flamethrowers
+Index 3 in supplies is: binders
+</code></pre>
+<p class="tx">Using <span class="thesansmonocd_w5regular_">range(len(supplies))</span> in the previously shown <span class="thesansmonocd_w5regular_">for</span> loop is handy because the code in the loop can access the index (as the variable <span class="thesansmonocd_w5regular_">i</span>) and the value at that index (as <span class="thesansmonocd_w5regular_">supplies[i]</span>). Best of all, <span class="thesansmonocd_w5regular_">range(len(supplies))</span> will iterate through all the indexes of <span class="thesansmonocd_w5regular_">supplies</span>, no matter how many items the list contains.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h4 class="h1" id="calibre_link-1539"><span id="calibre_link-119"></span><span class="sans_futura_std_heavy_oblique_bi_">The in and not in Operators</span></h4>
+<p class="tni">You can determine whether a value is or isn’t in a list with the <span class="thesansmonocd_w5regular_">in</span> and <span class="thesansmonocd_w5regular_">not in</span> operators. Like other operators, <span class="thesansmonocd_w5regular_">in</span> and <span class="thesansmonocd_w5regular_">not in</span> occur in expressions and connect two values: a value to look for in a list and the list where it may be found. These expressions will evaluate to a Boolean value. To see how they work, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'howdy' in ['hello', 'hi', 'howdy', 'heyas']</b>
+True
+&gt;&gt;&gt; <b class="calibre10">spam = ['hello', 'hi', 'howdy', 'heyas']</b>
+&gt;&gt;&gt; <b class="calibre10">'cat' in spam</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'howdy' not in spam</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'cat' not in spam</b>
+True
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1241" aria-label="117"></span>The following program lets the user enter a pet name and then checks whether the name is in a list of pets. Open a new file editor window, enter the following code, and save it as <i class="calibre5">myPets.py</i>:</p>
+<pre class="pre"><code class="calibre9">my_pets = ['Zophie', 'Pooka', 'Fat-tail']
+print('Enter a pet name:')
+name = input()
+if name not in my_pets:
+    print('I do not have a pet named ' + name)
+else:
+    print(name + ' is my pet.')
+</code></pre>
+<p class="tx">The output may look something like this:</p>
+<pre class="pre"><code class="calibre9">Enter a pet name:
+<b class="calibre10">Footfoot</b>
+I do not have a pet named Footfoot
+</code></pre>
+<p class="tx">Keep in mind that the <span class="thesansmonocd_w5regular_">not in</span> operator is distinct from the Boolean <span class="thesansmonocd_w5regular_">not</span> operator.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-1540"><span id="calibre_link-120"></span><span class="sans_futura_std_heavy_oblique_bi_">The Multiple Assignment Trick</span></h4>
+<p class="tni">The <i class="calibre5">multiple assignment trick</i> (technically called <i class="calibre5">tuple unpacking</i>) is a shortcut that lets you assign multiple variables with the values in a list in one line of code. So, instead of doing this</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat = ['fat', 'gray', 'loud']</b>
+&gt;&gt;&gt; <b class="calibre10">size = cat[0]</b>
+&gt;&gt;&gt; <b class="calibre10">color = cat[1]</b>
+&gt;&gt;&gt; <b class="calibre10">disposition = cat[2]</b>
+</code></pre>
+<p class="tni">you could enter this line of code:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat = ['fat', 'gray', 'loud']</b>
+&gt;&gt;&gt; <b class="calibre10">size, color, disposition = cat</b>
+</code></pre>
+<p class="tx">The number of variables and the length of the list must be exactly equal, or Python will give you a <span class="thesansmonocd_w5regular_">ValueError</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat = ['fat', 'gray', 'loud']</b>
+&gt;&gt;&gt; <b class="calibre10">size, color, disposition, name = cat</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    size, color, disposition, name = cat
+ValueError: not enough values to unpack (expected 4, got 3)
+</code></pre>
+<p class="tx">This trick makes your code shorter and more readable than entering three separate lines of code.</p>
+</section>
+<section type="division" aria-labelledby="sec13">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1017" aria-label="118"></span>
+<h4 class="h1" id="calibre_link-1541"><span id="calibre_link-121"></span><span class="sans_futura_std_heavy_oblique_bi_">List Item Enumeration</span></h4>
+<p class="tni">Instead of using the <span class="thesansmonocd_w5regular_">range(len(</span><span class="sans_thesansmonocd_w5regular_italic_">some_list</span><span class="thesansmonocd_w5regular_">))</span> technique with a <span class="thesansmonocd_w5regular_">for</span> loop to obtain the integer index of the items in the list, you can call the <span class="thesansmonocd_w5regular_">enumerate()</span> function. On each iteration of the loop, <span class="thesansmonocd_w5regular_">enumerate()</span> will return two values: the index of the item in the list, and the item in the list itself. For example, this code is equivalent to the code in <span>“for Loops and Lists” on page 115</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">supplies = ['pens', 'staplers', 'flamethrowers', 'binders']</b>
+&gt;&gt;&gt; <b class="calibre10">for index, item in enumerate(supplies):</b>
+...     <b class="calibre10">print('Index ' + str(index) + ' in supplies is: ' + item)</b>
+...
+Index 0 in supplies is: pens
+Index 1 in supplies is: staplers
+Index 2 in supplies is: flamethrowers
+Index 3 in supplies is: binders
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">enumerate()</span> function is useful if you need both the item and the item’s index in the loop’s block.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h4 class="h1" id="calibre_link-1542"><span id="calibre_link-122"></span><span class="sans_futura_std_heavy_oblique_bi_">Random Selection and Ordering</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">random</span> module has a couple of functions that accept lists for arguments. The <span class="thesansmonocd_w5regular_">random.choice()</span> function will return a randomly selected item from the list. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import random</b>
+&gt;&gt;&gt; <b class="calibre10">pets = ['Dog', 'Cat', 'Moose']</b>
+&gt;&gt;&gt; <b class="calibre10">random.choice(pets)</b>
+'Cat'
+&gt;&gt;&gt; <b class="calibre10">random.choice(pets)</b>
+'Cat'
+&gt;&gt;&gt; <b class="calibre10">random.choice(pets)</b>
+'Dog'
+</code></pre>
+<p class="tx">You can consider <span class="thesansmonocd_w5regular_">random.choice(</span><span class="sans_thesansmonocd_w5regular_italic_">some_list</span><span class="thesansmonocd_w5regular_">)</span> to be a shorter form of <span class="sans_thesansmonocd_w5regular_italic_">some_list</span><span class="thesansmonocd_w5regular_">[random.randint(0, len(</span><span class="sans_thesansmonocd_w5regular_italic_">some_list</span><span class="thesansmonocd_w5regular_">) – 1]</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">random.shuffle()</span> function will reorder the items in a list in place. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import random</b>
+&gt;&gt;&gt; <b class="calibre10">people = ['Alice', 'Bob', 'Carol', 'David']</b>
+&gt;&gt;&gt; <b class="calibre10">random.shuffle(people)</b>
+&gt;&gt;&gt; <b class="calibre10">people</b>
+['Carol', 'David', 'Alice', 'Bob']
+&gt;&gt;&gt; <b class="calibre10">random.shuffle(people)</b>
+&gt;&gt;&gt; <b class="calibre10">people</b>
+['Alice', 'David', 'Bob', 'Carol']
+</code></pre>
+<p class="tx">This function modifies the list in place, rather than returning a new list.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec15">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-843" aria-label="119"></span>
+<h3 class="h" id="calibre_link-1543"><span id="calibre_link-123"></span><span class="sans_futura_std_bold_b_">Augmented Assignment Operators</span></h3>
+<p class="tni">The <span class="thesansmonocd_w5regular_">+</span> and <span class="thesansmonocd_w5regular_">*</span> operators that work with strings also work with lists, so let’s take a short detour to learn about augmented assignment operators. When assigning a value to a variable, you’ll frequently use the variable itself. For example, after assigning <span class="thesansmonocd_w5regular_">42</span> to the variable <span class="thesansmonocd_w5regular_">spam</span>, you would increase the value in <span class="thesansmonocd_w5regular_">spam</span> by <span class="thesansmonocd_w5regular_">1</span> with the following code:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 42</b>
+&gt;&gt;&gt; <b class="calibre10">spam = spam + 1</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+43
+</code></pre>
+<p class="tx">As a shortcut, you can use the augmented assignment operator <span class="thesansmonocd_w5regular_">+=</span> (which is the regular operator followed by one equal sign) to do the same thing:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 42</b>
+&gt;&gt;&gt; <b class="calibre10">spam += 1</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+43
+</code></pre>
+<p class="tx">There are augmented assignment operators for the <span class="thesansmonocd_w5regular_">+</span>, <span class="thesansmonocd_w5regular_">-</span>, <span class="thesansmonocd_w5regular_">*</span>, <span class="thesansmonocd_w5regular_">/</span>, and <span class="thesansmonocd_w5regular_">%</span> operators, described in Table 6-1.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-708"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 6-1:</span></span> <span class="sans_futura_std_book_">The Augmented Assignment Operators</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Augmented assignment statement</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Equivalent assignment statement</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">+=</span> <span class="thesansmonocd_w5regular_">1</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">spam -=</span> <span class="thesansmonocd_w5regular_">1</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam - 1</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">spam *=</span> <span class="thesansmonocd_w5regular_">1</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam * 1</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">spam /=</span> <span class="thesansmonocd_w5regular_">1</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam / 1</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">spam %=</span> <span class="thesansmonocd_w5regular_">1</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam % 1</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">The <span class="thesansmonocd_w5regular_">+=</span> operator can also do string and list concatenation, and the <span class="thesansmonocd_w5regular_">*=</span> operator can do string and list replication. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 'Hello,'</b>
+&gt;&gt;&gt; <b class="calibre10">spam += ' world!'  </b># Same as spam = spam + 'world!'
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+'Hello, world!'
+&gt;&gt;&gt; <b class="calibre10">bacon = ['Zophie']</b>
+&gt;&gt;&gt; <b class="calibre10">bacon *= 3  </b># Same as bacon = bacon * 3
+&gt;&gt;&gt; <b class="calibre10">bacon</b>
+['Zophie', 'Zophie', 'Zophie']
+</code></pre>
+<p class="tx">Like the multiple assignment trick, augmented assignment operators are a shortcut to make your code simpler and more readable.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-916" aria-label="120"></span>
+<h3 class="h" id="calibre_link-1544"><span id="calibre_link-124"></span><span class="sans_futura_std_bold_b_">Methods</span></h3>
+<p class="tni">A <i class="calibre5">method</i> is the same thing as a function, except it is <i class="calibre5">called on</i> a value. For example, if a list value were stored in <span class="thesansmonocd_w5regular_">spam</span>, you would call the <span class="thesansmonocd_w5regular_">index()</span> list method (which I’ll explain shortly) on that list like so: <span class="thesansmonocd_w5regular_">spam.index('hello')</span>. The method part comes after the value, separated by a period.</p>
+<p class="tx">Each data type has its own set of methods. The list data type, for example, has several useful methods for finding, adding, removing, and otherwise manipulating values in a list. Think of a method as a function that is always associated with a value. In our <span class="thesansmonocd_w5regular_">spam</span> list example, the function would hypothetically be <span class="thesansmonocd_w5regular_">index(spam, 'hello')</span>. But since <span class="thesansmonocd_w5regular_">index()</span> is a list method and not a function, we call <span class="thesansmonocd_w5regular_">spam.index('hello')</span>. Calling <span class="thesansmonocd_w5regular_">index()</span> on a list value is how Python knows <span class="thesansmonocd_w5regular_">index()</span> is a list method. Let’s learn about the list methods in Python.</p>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1" id="calibre_link-1545"><span id="calibre_link-125"></span><span class="sans_futura_std_heavy_oblique_bi_">Finding Values</span></h4>
+<p class="tni">List values have an <span class="thesansmonocd_w5regular_">index()</span> method that can be passed a value. If that value exists in the list, the method will return the index of the value. If the value isn’t in the list, then Python produces a <span class="thesansmonocd_w5regular_">ValueError</span> error. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['hello', 'hi', 'howdy', 'heyas']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.index('hello')</b>
+0
+&gt;&gt;&gt; <b class="calibre10">spam.index('heyas')</b>
+3
+&gt;&gt;&gt; <b class="calibre10">spam.index('howdy howdy howdy')</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    spam.index('howdy howdy howdy')
+ValueError: 'howdy howdy howdy' is not in list
+</code></pre>
+<p class="tx">When the list contains duplicates of the value, the method returns the index of its first appearance:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['Zophie', 'Pooka', 'Fat-tail', 'Pooka']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.index('Pooka')</b>
+1
+</code></pre>
+<p class="tx">Notice that <span class="thesansmonocd_w5regular_">index()</span> returns <span class="thesansmonocd_w5regular_">1</span>, not <span class="thesansmonocd_w5regular_">3</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec18">
+<h4 class="h1" id="calibre_link-1546"><span id="calibre_link-126"></span><span class="sans_futura_std_heavy_oblique_bi_">Adding Values</span></h4>
+<p class="tni">To add new values to a list, use the <span class="thesansmonocd_w5regular_">append()</span> and <span class="thesansmonocd_w5regular_">insert()</span> methods. The <span class="thesansmonocd_w5regular_">append()</span> method adds the argument to the end of the list:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'dog', 'bat']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.append('moose')</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'dog', 'bat', 'moose']
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-939" aria-label="121"></span>The <span class="thesansmonocd_w5regular_">insert()</span> method can insert a value at any index in the list. The first argument to <span class="thesansmonocd_w5regular_">insert()</span> is the index of the new value, and the second argument is the new value to be inserted. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'dog', 'bat']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.insert(1, 'chicken'</b>)
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'chicken', 'dog', 'bat']
+</code></pre>
+<p class="tx">Notice that the code doesn’t perform any assignment operation, such as <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam.append('moose')</span> or <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam.insert(1, 'chicken')</span>. The return value of <span class="thesansmonocd_w5regular_">append()</span> and <span class="thesansmonocd_w5regular_">insert()</span> is <span class="thesansmonocd_w5regular_">None</span>, so you definitely wouldn’t want to store it as the new variable value. Rather, these methods modify the list in place, a topic covered in more detail in <span>“Mutable and Immutable Data Types” on page 126</span>.</p>
+<p class="tx">Methods belong to a single data type. The <span class="thesansmonocd_w5regular_">append()</span> and <span class="thesansmonocd_w5regular_">insert()</span> methods are list methods, and we can call them on list values only, not on values of other data types, such as strings or integers. To see what happens when we try to do so, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">eggs = 'hello'</b>
+&gt;&gt;&gt; <b class="calibre10">eggs.append('world')</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    eggs.append('world')
+AttributeError: 'str' object has no attribute 'append'
+&gt;&gt;&gt; <b class="calibre10">bacon = 42</b>
+&gt;&gt;&gt; <b class="calibre10">bacon.insert(1, 'world')</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    bacon.insert(1, 'world')
+AttributeError: 'int' object has no attribute 'insert'
+</code></pre>
+<p class="tx">Note the <span class="thesansmonocd_w5regular_">AttributeError</span> error messages that show up.</p>
+</section>
+<section type="division" aria-labelledby="sec19">
+<h4 class="h1" id="calibre_link-1547"><span id="calibre_link-127"></span><span class="sans_futura_std_heavy_oblique_bi_">Removing Values</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">remove()</span> method accepts a value to remove from the list on which it’s called:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.remove('bat')</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['cat', 'rat', 'elephant']
+</code></pre>
+<p class="tx">Attempting to delete a value that doesn’t exist in the list will result in a <span class="thesansmonocd_w5regular_">ValueError</span> error. For example, enter the following into the interactive shell and notice the error it displays:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'elephant']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.remove('chicken')</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1103" aria-label="122"></span>Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    spam.remove('chicken')
+ValueError: list.remove(x): x not in list
+</code></pre>
+<p class="tx">If the value appears multiple times in the list, the method will remove only the first instance of it:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'bat', 'rat', 'cat', 'hat', 'cat']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.remove('cat')</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['bat', 'rat', 'cat', 'hat', 'cat']
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">del</span> statement is useful when you know the index of the value you want to remove from the list, while the <span class="thesansmonocd_w5regular_">remove()</span> method is useful when you know the value itself.</p>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h4 class="h1" id="calibre_link-1548"><span id="calibre_link-128"></span><span class="sans_futura_std_heavy_oblique_bi_">Sorting Values</span></h4>
+<p class="tni">You can sort lists of number values or lists of strings with the <span class="thesansmonocd_w5regular_">sort()</span> method. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = [2, 5, 3.14, 1, -7]</b>
+&gt;&gt;&gt; <b class="calibre10">spam.sort()</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+[-7, 1, 2, 3.14, 5]
+&gt;&gt;&gt; <b class="calibre10">spam = ['Ants', 'Cats', 'Dogs', 'Badgers', 'Elephants']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.sort()</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['Ants', 'Badgers', 'Cats', 'Dogs', 'Elephants']
+</code></pre>
+<p class="tx">The method returns the numbers in numerical order and the strings in alphabetical order. You can also pass <span class="thesansmonocd_w5regular_">True</span> as the <span class="thesansmonocd_w5regular_">reverse</span> keyword argument to sort the values in reverse order:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam.sort(reverse=True)</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['Elephants', 'Dogs', 'Cats', 'Badgers', 'Ants']
+</code></pre>
+<p class="tx">Note three things about the <span class="thesansmonocd_w5regular_">sort()</span> method. First, it sorts the list in place; don’t try to capture the return value by writing code like <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam.sort()</span>.</p>
+<p class="tx">Second, you can’t sort lists that have both number values and string values in them, as Python doesn’t know how to compare these values. Enter the following into the interactive shell and notice the <span class="thesansmonocd_w5regular_">TypeError</span> error:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = [1, 3, 2, 4, 'Alice', 'Bob']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.sort()</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    spam.sort()
+TypeError: '&lt;' not supported between instances of 'str' and 'int'
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-872" aria-label="123"></span>Third, <span class="thesansmonocd_w5regular_">sort()</span> uses <i class="calibre5">ASCIIbetical order</i> rather than actual alphabetical order for sorting strings. This means uppercase letters come before lowercase letters, placing the lowercase <i class="calibre5">a</i> after the uppercase <i class="calibre5">Z</i>. For an example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['Alice', 'ants', 'Bob', 'badgers', 'Carol', 'cats']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.sort()</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['Alice', 'Bob', 'Carol', 'ants', 'badgers', 'cats']
+</code></pre>
+<p class="tx">If you need to sort the values in regular alphabetical order, pass <span class="thesansmonocd_w5regular_">str.lower</span> for the <span class="thesansmonocd_w5regular_">key</span> keyword argument in the <span class="thesansmonocd_w5regular_">sort()</span> method call:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['a', 'z', 'A', 'Z']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.sort(key=str.lower)</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['a', 'A', 'z', 'Z']
+</code></pre>
+<p class="tx">This argument causes the <span class="thesansmonocd_w5regular_">sort()</span> function to treat all the items in the list as if they were lowercase without actually changing the values in the list.</p>
+</section>
+<section type="division" aria-labelledby="sec21">
+<h4 class="h1" id="calibre_link-1549"><span id="calibre_link-129"></span><span class="sans_futura_std_heavy_oblique_bi_">Reversing Values</span></h4>
+<p class="tni">If you need to quickly reverse the order of the items in a list, you can call the <span class="thesansmonocd_w5regular_">reverse()</span> list method. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cat', 'dog', 'moose']</b>
+&gt;&gt;&gt; <b class="calibre10">spam.reverse()</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+['moose', 'dog', 'cat']
+</code></pre>
+<p class="tx">Like the <span class="thesansmonocd_w5regular_">sort()</span> list method, <span class="thesansmonocd_w5regular_">reverse()</span> doesn’t return a list, which is why we write <span class="thesansmonocd_w5regular_">spam.reverse()</span> instead of <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam.reverse()</span>.</p>
+<aside class="box" aria-label="box-11">
+<p class="bt" id="calibre_link-1550"><span class="sans_futura_std_bold_b_">EXCEPTIONS TO INDENTATION RULES IN PYTHON</span></p>
+<p class="btni"><span class="sans_futura_std_book_">In most cases, the amount of indentation for a line of code tells Python what block it’s in. There are some exceptions to this rule, however. For example, lists can actually span several lines in the source code file. The indentation of these lines doesn’t matter; Python knows that the list isn’t finished until it sees the ending square bracket. This means you can write code that looks like this:</span></p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">spam = ['apples',</span>
+ 'oranges',
+                  'bananas',
+'cats']
+print(spam[0]) # Prints apples
+</code></pre>
+<p class="boxb-last"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-845" aria-label="124"></span><span class="sans_futura_std_book_">Of course, practically speaking, most people use Python’s behavior to make their lists look pretty and readable, like the</span> <span class="thesansmonocd_w5regular_">messages</span> <span class="sans_futura_std_book_">list in “A Short Program: Magic 8 Ball with a List” on page 125.</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">You can also split up a single instruction across multiple lines by ending each line with the</span> <span class="sans_futura_std_book_oblique_i_">line continuation character</span> <span class="sans_futura_std_book_">(</span><span class="thesansmonocd_w5regular_">\</span><span class="sans_futura_std_book_">). Think of</span> <span class="thesansmonocd_w5regular_">\</span> <span class="sans_futura_std_book_">as saying, “This instruction continues on the next line.” The indentation on the line after a</span> <span class="thesansmonocd_w5regular_">\</span> <span class="sans_futura_std_book_">line continuation isn’t significant. For example, the following is valid Python code:</span></p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">print('Four score and seven ' + \</span>
+      'years ago...')
+</code></pre>
+<p class="boxb-last"><span class="sans_futura_std_book_">These tricks are useful when you want to rearrange long lines of Python code to be a bit more readable.</span></p>
+</aside>
+</section>
+</section>
+<section type="division" aria-labelledby="sec22">
+<h3 class="h" id="calibre_link-1551"><span id="calibre_link-130"></span><span class="sans_futura_std_bold_b_">Short-Circuiting Boolean Operators</span></h3>
+<p class="tni">Boolean operators have a subtle behavior that is easy to miss. Recall that if either of the values combined by an <span class="thesansmonocd_w5regular_">and</span> operator is <span class="thesansmonocd_w5regular_">False</span>, the entire expression is <span class="thesansmonocd_w5regular_">False</span>, and if either value combined by an <span class="thesansmonocd_w5regular_">or</span> operator is <span class="thesansmonocd_w5regular_">True</span>, the entire expression is <span class="thesansmonocd_w5regular_">True</span>. If I presented you with the expression <span class="thesansmonocd_w5regular_">False and spam</span>, it doesn’t matter whether the <span class="thesansmonocd_w5regular_">spam</span> variable is <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span> because the entire expression would be <span class="thesansmonocd_w5regular_">False</span> either way. The same goes for <span class="thesansmonocd_w5regular_">True or spam</span>; this evaluates to <span class="thesansmonocd_w5regular_">True</span> no matter the value of <span class="thesansmonocd_w5regular_">spam</span>.</p>
+<p class="tx">Python (and many other programming languages) use this fact to optimize the code so that it runs a little faster by not examining the right-hand side of the Boolean operator at all. This shortcut is called <i class="calibre5">short-circuiting</i>. Most of the time, your program will behave the same way it would have if Python checked the entire expression (albeit a few microseconds faster). However, consider this short program, where we check whether the first item in a list is <span class="thesansmonocd_w5regular_">'cat'</span>:</p>
+<pre class="pre"><code class="calibre9">spam = ['cat', 'dog']
+if spam[0] == 'cat':
+    print('A cat is the first item.')
+else:
+    print('The first item is not a cat.')
+</code></pre>
+<p class="tx">As written, this program prints <span class="thesansmonocd_w5regular_">A cat is the first item.</span> But if the list in <span class="thesansmonocd_w5regular_">spam</span> is empty, the <span class="thesansmonocd_w5regular_">spam[0]</span> code will cause an <span class="thesansmonocd_w5regular_">IndexError: list Index out of range</span> error. To fix this, we’ll adjust the <span class="thesansmonocd_w5regular_">if</span> statement’s condition to take advantage of short-circuiting:</p>
+<pre class="pre"><code class="calibre9">spam = []
+if len(spam) &gt; 0 and spam[0] == 'cat':
+    print('A cat is the first item.')
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-710" aria-label="125"></span>else:
+    print('The first item is not a cat.')
+</code></pre>
+<p class="tx">This program never has an error, because if <span class="thesansmonocd_w5regular_">len(spam) &gt; 0</span> is <span class="thesansmonocd_w5regular_">False</span> (that is, the list in <span class="thesansmonocd_w5regular_">spam</span> is empty), then short-circuiting the <span class="thesansmonocd_w5regular_">and</span> operator means that Python doesn’t bother running the <span class="thesansmonocd_w5regular_">spam[0]</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">'cat'</span> code that would cause the <span class="thesansmonocd_w5regular_">IndexError</span> error. Keep this short-circuiting behavior in mind when you write code that involves the <span class="thesansmonocd_w5regular_">and</span> and <span class="thesansmonocd_w5regular_">or</span> operators.</p>
+</section>
+<section type="division" aria-labelledby="sec23">
+<h3 class="h" id="calibre_link-1552"><span id="calibre_link-131"></span><span class="sans_futura_std_bold_b_">A Short Program: Magic 8 Ball with a List</span></h3>
+<p class="tni">Using lists, you can write a much more elegant version of <span>Chapter 4</span>’s <i class="calibre5">magic8Ball.py</i> program. Instead of several lines of nearly identical <span class="thesansmonocd_w5regular_">elif</span> statements, you can create a single list that the code works with. Open a new file editor window and enter the following code. Save it as <i class="calibre5">magic8Ball2.py</i>:</p>
+<pre class="pre"><code class="calibre9">import random
+
+messages = ['It is certain',
+    'It is decidedly so',
+    'Yes definitely',
+    'Reply hazy try again',
+    'Ask again later',
+    'Concentrate and ask again',
+    'My reply is no',
+    'Outlook not so good',
+    'Very doubtful']
+
+print('Ask a yes or no question:')
+input('&gt;')
+print(messages[random.randint(0, len(messages) - 1)])
+</code></pre>
+<p class="tx">When you run it, you’ll see that it works the same as the previous <i class="calibre5">magic8Ball.py</i> program.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">random.randint(0, len(messages) - 1)</span> call produces a random number to use for the index, regardless of the size of <span class="thesansmonocd_w5regular_">messages</span>. That is, you’ll get a random number between <span class="thesansmonocd_w5regular_">0</span> and the value of <span class="thesansmonocd_w5regular_">len(messages) - 1</span>. The benefit of this approach is that you can easily add and remove strings to and from the <span class="thesansmonocd_w5regular_">messages</span> list without changing other lines of code. If you later update your code, you’ll have to change fewer lines, producing fewer chances for you to introduce bugs.</p>
+<p class="tx">Selecting a random item from a list is common enough that Python has the <span class="thesansmonocd_w5regular_">random.choice(messages)</span> function that does the same thing as <span class="thesansmonocd_w5regular_">random.randint(0, len(messages) – 1)</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec24">
+<h3 class="h" id="calibre_link-1553"><span id="calibre_link-132"></span><span class="sans_futura_std_bold_b_">Sequence Data Types</span></h3>
+<p class="tni">Lists aren’t the only data types that represent ordered sequences of values. For example, strings and lists are actually similar if you consider a string to <span role="doc-pagebreak" type="pagebreak" id="calibre_link-709" aria-label="126"></span>be a “list” of single text characters. The Python sequence data types include lists, strings, range objects returned by <span class="thesansmonocd_w5regular_">range()</span>, and tuples (explained in <span>“The Tuple Data Type” on page 127</span>). Many of the things you can do with lists can also be done with strings and other values of sequence types. To see this, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Zophie'</b>
+&gt;&gt;&gt; <b class="calibre10">name[0]</b>
+'Z'
+&gt;&gt;&gt; <b class="calibre10">name[-2]</b>
+'i'
+&gt;&gt;&gt; <b class="calibre10">name[0:4]</b>
+'Zoph'
+&gt;&gt;&gt; <b class="calibre10">'Zo' in name</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'z' in name</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'p' not in name</b>
+False
+&gt;&gt;&gt; <b class="calibre10">for i in name:</b>
+...     <b class="calibre10">print('* * * ' + i + ' * * *')</b>
+...
+* * * Z * * *
+* * * o * * *
+* * * p * * *
+* * * h * * *
+* * * i * * *
+* * * e * * *
+</code></pre>
+<p class="tx">You can do all the same things with sequence values that you can do with lists: indexing, slicing, <span class="thesansmonocd_w5regular_">for</span> loops, <span class="thesansmonocd_w5regular_">len()</span>, and the <span class="thesansmonocd_w5regular_">in</span> and <span class="thesansmonocd_w5regular_">not in</span> operators.</p>
+<section type="division" aria-labelledby="sec25">
+<h4 class="h1" id="calibre_link-1554"><span id="calibre_link-133"></span><span class="sans_futura_std_heavy_oblique_bi_">Mutable and Immutable Data Types</span></h4>
+<p class="tni">But lists and strings differ in an important way. A list value is a <i class="calibre5">mutable</i> data type: you can add, remove, or change its values. However, a string is <i class="calibre5">immutable</i>: it cannot be changed. Trying to reassign a single character in a string results in a <span class="thesansmonocd_w5regular_">TypeError</span> error, as you can see by entering the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Zophie a cat'</b>
+&gt;&gt;&gt; <b class="calibre10">name[7] = 'the'</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    name[7] = 'the'
+TypeError: 'str' object does not support item assignment
+</code></pre>
+<p class="tx">The proper way to “mutate” a string is to use slicing and concatenation to build a <i class="calibre5">new</i> string by copying from parts of the old string:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Zophie a cat'</b>
+&gt;&gt;&gt; <b class="calibre10">new_name = name[0:7] + 'the' + name[8:12]</b>
+&gt;&gt;&gt; <b class="calibre10">name</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-711" aria-label="127"></span>'Zophie a cat'
+&gt;&gt;&gt;<b class="calibre10"> new_name</b>
+'Zophie the cat'
+</code></pre>
+<p class="tx">We used <span class="thesansmonocd_w5regular_">[0:7]</span> and <span class="thesansmonocd_w5regular_">[8:12]</span> to refer to the characters we don’t wish to replace. Notice that the original <span class="thesansmonocd_w5regular_">'Zophie a cat'</span> string isn’t modified, because strings are immutable.</p>
+<p class="tx">Although a list value <i class="calibre5">is</i> mutable, the second line in the following code doesn’t modify the list <span class="thesansmonocd_w5regular_">eggs</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">eggs = ['A', 'B', 'C']</b>
+&gt;&gt;&gt; <b class="calibre10">eggs = ['x', 'y', 'z']</b>
+&gt;&gt;&gt; <b class="calibre10">eggs</b>
+['x', 'y', 'z']
+</code></pre>
+<p class="tx">The list value in <span class="thesansmonocd_w5regular_">eggs</span> isn’t being changed here; rather, a new and entirely different list value (<span class="thesansmonocd_w5regular_">['x', 'y', 'z']</span>) is replacing the old list value (<span class="thesansmonocd_w5regular_">['A', 'B', 'C']</span>).</p>
+<p class="tx">If you wanted to actually modify the original list in <span class="thesansmonocd_w5regular_">eggs</span> to contain <span class="thesansmonocd_w5regular_">['x', 'y', 'z']</span>, you would have to use <span class="thesansmonocd_w5regular_">del</span> statements and the <span class="thesansmonocd_w5regular_">append()</span> method, like this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">eggs = ['A', 'B', 'C']</b>
+&gt;&gt;&gt; <b class="calibre10">del eggs[2]</b>
+&gt;&gt;&gt; <b class="calibre10">del eggs[1]</b>
+&gt;&gt;&gt; <b class="calibre10">del eggs[0]</b>
+&gt;&gt;&gt; <b class="calibre10">eggs.append('x')</b>
+&gt;&gt;&gt; <b class="calibre10">eggs.append('y')</b>
+&gt;&gt;&gt; <b class="calibre10">eggs.append('z')</b>
+&gt;&gt;&gt; <b class="calibre10">eggs</b>
+['x', 'y', 'z']
+</code></pre>
+<p class="tx">In this example, the <span class="thesansmonocd_w5regular_">eggs</span> variable ends up with the same list value it started with. It’s just that this list has been changed (mutated) rather than overwritten. We call this <i class="calibre5">changing the list in place</i>.</p>
+<p class="tx">Mutable versus immutable types may seem like a meaningless distinction, but <span>“References” on page 129</span> will explain the different behavior when calling functions with mutable arguments versus immutable arguments. First, however, let’s find out about the tuple data type, which is an immutable form of the list data type.</p>
+</section>
+<section type="division" aria-labelledby="sec26">
+<h4 class="h1" id="calibre_link-1555"><span id="calibre_link-134"></span><span class="sans_futura_std_heavy_oblique_bi_">The Tuple Data Type</span></h4>
+<p class="tni">There are only two differences between the <i class="calibre5">tuple</i> data type and the list data type. The first difference is that you write tuples using parentheses instead of square brackets. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">eggs = ('hello', 42, 0.5)</b>
+&gt;&gt;&gt; <b class="calibre10">eggs[0]</b>
+'hello'
+&gt;&gt;&gt; <b class="calibre10">eggs[1:3]</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1220" aria-label="128"></span>(42, 0.5)
+&gt;&gt;&gt; <b class="calibre10">len(eggs)</b>
+3
+</code></pre>
+<p class="tx">The second and primary way that tuples are different from lists is that tuples, like strings, are immutable: you can’t modify, append, or remove their values. Enter the following into the interactive shell, and look at the resulting <span class="thesansmonocd_w5regular_">TypeError</span> error message:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">eggs = ('hello', 42, 0.5)</b>
+&gt;&gt;&gt; <b class="calibre10">eggs[1] = 99</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    eggs[1] = 99
+TypeError: 'tuple' object does not support item assignment
+</code></pre>
+<p class="tx">If you have only one value in your tuple, you can indicate this by placing a trailing comma after the value inside the parentheses. Otherwise, Python will think you’ve entered a value inside regular parentheses. (Unlike some other programming languages, it’s fine to have a trailing comma after the last item in a list or tuple in Python.) Enter the following  <span class="thesansmonocd_w5regular_">type()</span> function calls into the interactive shell to see the distinction:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">type(('hello',))</b>
+&lt;class 'tuple'&gt;
+&gt;&gt;&gt; <b class="calibre10">type(('hello'))</b>
+&lt;class 'str'&gt;
+</code></pre>
+<p class="tx">You can use tuples to convey to anyone reading your code that you don’t intend for that sequence of values to change. If you need an ordered sequence of values that never changes, use a tuple. A second benefit of using tuples instead of lists is that, because they’re immutable and their contents don’t change, Python can implement optimizations that make code using tuples slightly faster than code using lists.</p>
+</section>
+<section type="division" aria-labelledby="sec27">
+<h4 class="h1" id="calibre_link-1556"><span id="calibre_link-135"></span><span class="sans_futura_std_heavy_oblique_bi_">List and Tuple Type Conversion</span></h4>
+<p class="tni">Just as <span class="thesansmonocd_w5regular_">str(42)</span> will return <span class="thesansmonocd_w5regular_">'42'</span>, the string representation of the integer <span class="thesansmonocd_w5regular_">42</span>, the functions <span class="thesansmonocd_w5regular_">list()</span> and <span class="thesansmonocd_w5regular_">tuple()</span> will return list and tuple versions of the values passed to them. Enter the following into the interactive shell, and notice that the return value is of a different data type than the value passed:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">tuple(['cat', 'dog', 5])</b>
+('cat', 'dog', 5)
+&gt;&gt;&gt; <b class="calibre10">list(('cat', 'dog', 5))</b>
+['cat', 'dog', 5]
+&gt;&gt;&gt; <b class="calibre10">list('hello')</b>
+['h', 'e', 'l', 'l', 'o']
+</code></pre>
+<p class="tx">Converting a tuple to a list is handy if you need a mutable version of a tuple value.</p>
+</section>
+</section>
+<section type="bibliography" role="doc-bibliography" aria-labelledby="sec28">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-712" aria-label="129"></span>
+<h3 class="h" id="calibre_link-1557"><span id="calibre_link-136"></span><span class="sans_futura_std_bold_b_">References</span></h3>
+<p class="tni">A common metaphor is that variables are boxes that “store” values like strings and integers. However, this explanation is a simplification of what Python is actually doing. A better metaphor is that variables are paper name tags attached to values with string. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">spam = 42</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">eggs = spam</b>
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">spam = 99</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+99
+&gt;&gt;&gt; <b class="calibre10">eggs</b>
+42
+</code></pre>
+<p class="tx">When you assign <span class="thesansmonocd_w5regular_">42</span> to the <span class="thesansmonocd_w5regular_">spam</span> variable, you’re actually creating the <span class="thesansmonocd_w5regular_">42</span> value in the computer’s memory and storing a <i class="calibre5">reference</i> to it in the <span class="thesansmonocd_w5regular_">spam</span> variable. When you copy the value in <span class="thesansmonocd_w5regular_">spam</span> and assign it to the variable <span class="thesansmonocd_w5regular_">eggs</span>, you’re copying the reference. Both the <span class="thesansmonocd_w5regular_">spam</span> and <span class="thesansmonocd_w5regular_">eggs</span> variables refer to the <span class="thesansmonocd_w5regular_">42</span> value in the computer’s memory. Using the name tag metaphor for variables, you’ve attached the <span class="thesansmonocd_w5regular_">spam</span> name tag and the <span class="thesansmonocd_w5regular_">eggs</span> name tag to the same <span class="thesansmonocd_w5regular_">42</span> value. When you assign <span class="thesansmonocd_w5regular_">spam</span> a new <span class="thesansmonocd_w5regular_">99</span> value, you’ve changed what the <span class="thesansmonocd_w5regular_">spam</span> name tag references. Figure 6-2 is a graphical depiction of the code.</p>
+<figure class="img"><img class="img2" id="calibre_link-713" src="images/000098.jpg" alt="Three Python assignment statements represented as values with tags attached to them." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 6-2: Variable assignment doesn’t rewrite the value; it changes the reference.</span> Description</p></figcaption>
+</figure>
+<p class="tx">The change doesn’t affect <span class="thesansmonocd_w5regular_">eggs</span>, which still refers to the <span class="thesansmonocd_w5regular_">42</span> value.</p>
+<p class="tx">But lists don’t work this way, because list values can change; that is, lists are <i class="calibre5">mutable</i>. Here is code that will make this distinction easier to understand. Enter it into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">spam = [0, 1, 2, 3]</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">eggs = spam</b>  # The reference, not the list, is being copied.
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">eggs[1] = 'Hello!'</b>  # This changes the list value.
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+[0, 'Hello!', 2, 3]
+&gt;&gt;&gt; <b class="calibre10">eggs</b>  # The eggs variable refers to the same list.
+[0, 'Hello!', 2, 3]
+</code></pre>
+<p class="tx">This code might look odd to you. It touched only the <span class="thesansmonocd_w5regular_">eggs</span> list, but both the <span class="thesansmonocd_w5regular_">eggs</span> and <span class="thesansmonocd_w5regular_">spam</span> lists seem to have changed.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-842" aria-label="130"></span>When you create the list <span class="codeannotation" aria-label="annotation1">❶</span>, you assign a reference to it in the <span class="thesansmonocd_w5regular_">spam</span> variable. But the next line copies only the list reference in <span class="thesansmonocd_w5regular_">spam</span> to <span class="thesansmonocd_w5regular_">eggs</span> <span class="codeannotation" aria-label="annotation2">❷</span>, not the list value itself. There is still only one list, and <span class="thesansmonocd_w5regular_">spam</span> and <span class="thesansmonocd_w5regular_">eggs</span> now both refer to it. The reason there is only one underlying list is that the list itself was never actually copied. So, when you modify the first element of <span class="thesansmonocd_w5regular_">eggs</span> <span class="codeannotation" aria-label="annotation3">❸</span>, you’re modifying the same list that <span class="thesansmonocd_w5regular_">spam</span> refers to. You can see this in Figure 6-3.</p>
+<figure class="img"><img class="img2" id="calibre_link-715" src="images/000099.jpg" alt="Three Python assignment statements represented as values with tags attached to them." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 6-3: Because</span> <span class="sans_thesansmonocd_w5regular_italic_">spam</span> <span class="sans_futura_std_book_oblique_i_">and eggs refer to the same list, changing one changes the other.</span> Description</p></figcaption>
+</figure>
+<p class="tx">It becomes a bit more complicated, as lists also don’t contain a sequence of values directly, but rather a sequence of references to values. I explain this further in <span>“The</span> <span class="thesansmonocd_w5regular_">copy()</span> <span>and</span> <span class="thesansmonocd_w5regular_">deepcopy()</span> <span>Functions” on page 131</span>.</p>
+<p class="tx">Although Python variables technically contain references to values, people often casually say that the variable <i class="calibre5">contains</i> the value. But keep these two rules in mind:</p>
+<ul class="ul">
+<li class="bl">In Python, variables never contain values. They contain only references to values.</li>
+<li class="bl">In Python, the <span class="thesansmonocd_w5regular_">=</span> assignment operator copies only references. It never copies values.</li>
+</ul>
+<p class="tx">For the most part, you don’t need to know these details, but at times, these simple rules have surprising effects, and you should understand exactly what Python is doing.</p>
+<section type="division" aria-labelledby="sec29">
+<h4 class="h1" id="calibre_link-1558"><span id="calibre_link-137"></span><span class="sans_futura_std_heavy_oblique_bi_">Arguments</span></h4>
+<p class="tni">References are particularly important for understanding how arguments get passed to functions. When a function is called, Python copies to the parameter variables the reference to the arguments. For mutable values like lists (and dictionaries, which I’ll describe in <span>Chapter 7</span>), this means the code in the function modifies the original value in place. To see the consequences of this fact, open a new file editor window, enter the following code, and save it as <i class="calibre5">passingReference.py</i>:</p>
+<pre class="pre"><code class="calibre9">def eggs(some_parameter):
+    some_parameter.append('Hello')
+
+spam = [1, 2, 3]
+eggs(spam)
+print(spam)  # Prints [1, 2, 3, 'Hello']
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-717" aria-label="131"></span>Notice that when you call <span class="thesansmonocd_w5regular_">eggs()</span>, a return value doesn’t assign a new value to <span class="thesansmonocd_w5regular_">spam</span>. Instead, it directly modifies the list in place. When run, this program outputs <span class="thesansmonocd_w5regular_">[1, 2, 3, 'Hello']</span>.</p>
+<p class="tx">Even though <span class="thesansmonocd_w5regular_">spam</span> and <span class="thesansmonocd_w5regular_">some_parameter</span> contain separate references, they both refer to the same list. This is why the <span class="thesansmonocd_w5regular_">append('Hello')</span> method call inside the function affects the list even after the function call has returned.</p>
+<p class="tx">Keep this behavior in mind. Forgetting that Python handles list and dictionary variables in this way can lead to unexpected behavior and confusing bugs.</p>
+</section>
+<section type="division" aria-labelledby="sec30">
+<h4 class="h1" id="calibre_link-1559"><span id="calibre_link-138"></span><span class="sans_futura_std_heavy_oblique_bi_">The copy() and deepcopy() Functions</span></h4>
+<p class="tni">Although passing around references is often the handiest way to deal with lists and dictionaries, if the function modifies the list or dictionary passed to it, you may not want these changes in the original list or dictionary value. To control this behavior, Python provides a module named <span class="thesansmonocd_w5regular_">copy</span> that provides both the <span class="thesansmonocd_w5regular_">copy()</span> and <span class="thesansmonocd_w5regular_">deepcopy()</span> functions. The first of these, <span class="thesansmonocd_w5regular_">copy.copy()</span>, can make a duplicate copy of a mutable value like a list or dictionary, not just a copy of a reference. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import copy</b>
+&gt;&gt;&gt; <b class="calibre10">spam = ['A', 'B', 'C']</b>
+&gt;&gt;&gt; <b class="calibre10">cheese = copy.copy(spam)  </b># Creates a duplicate copy of the list
+&gt;&gt;&gt; <b class="calibre10">cheese[1] = 42</b>  # Changes cheese
+&gt;&gt;&gt; <b class="calibre10">spam</b>  # The spam variable is unchanged.
+['A', 'B', 'C']
+&gt;&gt;&gt; <b class="calibre10">cheese</b>  # The cheese variable is changed.
+['A', 42, 'C']
+</code></pre>
+<p class="tx">Now the <span class="thesansmonocd_w5regular_">spam</span> and <span class="thesansmonocd_w5regular_">cheese</span> variables refer to separate lists, which is why only the list in <span class="thesansmonocd_w5regular_">cheese</span> is modified when you assign <span class="thesansmonocd_w5regular_">42</span> at index <span class="thesansmonocd_w5regular_">1</span>.</p>
+<p class="tx">Just as variables <i class="calibre5">refer</i> to values rather than contain values, lists contain <i class="calibre5">references</i> to values rather than values themselves. You can see this in Figure 6-4.</p>
+<figure class="img"><img class="img2" id="calibre_link-718" src="images/000100.jpg" alt="An X above the tag “spam” assigned to the list “[‘A,’ ‘B’, ‘C’].” A checkmark above the tag “0” assigned to the value “A”, the tag “1” assigned to the value “B”, and the tag “2” assigned to the value “C”. All three tags are themselves assigned to the tag “spam”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 6-4: Lists don’t contain values directly (left); they contain references to values (right).</span></p></figcaption>
+</figure>
+<p class="tx">If the list you need to copy contains lists, use the <span class="thesansmonocd_w5regular_">copy.deepcopy()</span> function instead of <span class="thesansmonocd_w5regular_">copy.copy()</span>. The <span class="thesansmonocd_w5regular_">copy.deepcopy()</span> function will copy these inner lists as well.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec31">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1231" aria-label="132"></span>
+<h3 class="h" id="calibre_link-1560"><span id="calibre_link-139"></span><span class="sans_futura_std_bold_b_">A Short Program: The Matrix Screensaver</span></h3>
+<p class="tni">In the hacker science fiction film <i class="calibre5">The Matrix</i>, computer monitors display streams of glowing green numbers, like digital rain pouring down a glass window. The numbers may be meaningless, but they look cool. Just for fun, we can create our own Matrix screensaver in Python. Enter the following code into a new file and save it as <i class="calibre5">matrixscreensaver.py</i>:</p>
+<pre class="pre"><code class="calibre9">import random, sys, time
+
+WIDTH = 70  # The number of columns
+
+try:
+    # For each column, when the counter is 0, no stream is shown.
+    # Otherwise, it acts as a counter for how many times a 1 or 0
+    # should be displayed in that column.
+    columns = [0] * WIDTH
+    while True:
+        # Loop over each column:
+        for i in range(WIDTH):
+            if random.random() &lt; 0.02:
+                # Restart a stream counter on this column.
+                # The stream length is between 4 and 14 characters long.
+                columns[i] = random.randint(4, 14)
+
+            # Print a character in this column:
+            if columns[i] == 0:
+                # Change this ' '' to '.' to see the empty spaces:
+                print(' ', end='')
+            else:
+                # Print a 0 or 1:
+                print(random.choice([0, 1]), end='')
+                columns[i] -= 1  # Decrement the counter for this column.
+        print()  # Print a newline at the end of the row of columns.
+        time.sleep(0.1)  # Each row pauses for one tenth of a second.
+except KeyboardInterrupt:
+    sys.exit()  # When Ctrl-C is pressed, end the program.
+</code></pre>
+<p class="tx">When you run this program, it produces streams of binary 1s and 0s, as in Figure 6-5.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1018" aria-label="133"></span>
+<figure class="img"><img class="img1" id="calibre_link-719" src="images/000101.jpg" alt="A Windows Command Prompt window showing randomly placed columns of 1 and 0 characters of various lengths" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 6-5: The Matrix screensaver program</span></p></figcaption>
+</figure>
+<p class="tx">Like the previous spike and zigzag programs, this program creates a scrolling animation by printing rows of text inside an infinite loop that is stopped when the user presses <small class="calibre4">CTRL</small>-C. The main data structure in this program is the <span class="thesansmonocd_w5regular_">columns</span> list, which holds 70 integers, one for each column of output. When an integer in <span class="thesansmonocd_w5regular_">columns</span> is <span class="thesansmonocd_w5regular_">0</span>, it prints an empty space for that column. When it’s greater than <span class="thesansmonocd_w5regular_">0</span>, it randomly prints a <span class="thesansmonocd_w5regular_">0</span> or <span class="thesansmonocd_w5regular_">1</span> and then decrements the integer. Once the integer is reduced to <span class="thesansmonocd_w5regular_">0</span>, that column prints an empty space again. The program randomly sets the integers in <span class="thesansmonocd_w5regular_">columns</span> to integers between <span class="thesansmonocd_w5regular_">4</span> and <span class="thesansmonocd_w5regular_">14</span> to produce streams of random binary 0s and 1s.</p>
+<p class="tx">Let’s take a look at each part of the program:</p>
+<pre class="pre"><code class="calibre9">import random, sys, time
+
+WIDTH = 70  # The number of columns
+</code></pre>
+<p class="tx">We import the <span class="thesansmonocd_w5regular_">random</span> module for its <span class="thesansmonocd_w5regular_">choice()</span> and <span class="thesansmonocd_w5regular_">randint()</span> functions, the <span class="thesansmonocd_w5regular_">sys</span> module for its <span class="thesansmonocd_w5regular_">exit()</span> function, and the <span class="thesansmonocd_w5regular_">time</span> module for its <span class="thesansmonocd_w5regular_">sleep()</span> function. We also set a variable named <span class="thesansmonocd_w5regular_">WIDTH</span> to <span class="thesansmonocd_w5regular_">70</span> so that the program produces output for 70 columns of characters. You’re free to change this value to a larger or smaller integer based on the size of the window in which you run the program.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">WIDTH</span> variable has an all-uppercase name because it’s a constant variable. A <i class="calibre5">constant</i> is a variable that the code isn’t supposed to change once set. Using constants allows you to write more readable code, such as <span class="thesansmonocd_w5regular_">columns</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">[0] * WIDTH</span> instead of <span class="thesansmonocd_w5regular_">columns</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">[0] * 70</span>, which may leave you wondering what the <span class="thesansmonocd_w5regular_">70</span> is supposed to be when you reread the code later. In Python, nothing prevents you from changing a constant’s value, but the uppercase name can remind the programmer not to do so.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-967" aria-label="134"></span>The bulk of the program occurs inside a <span class="thesansmonocd_w5regular_">try</span> block, which catches if the user presses <small class="calibre4">CTRL</small>-C to raise a <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception:</p>
+<pre class="pre"><code class="calibre9">try:
+    # For each column, when the counter is 0, no stream is shown.
+    # Otherwise, it acts as a counter for how many times a 1 or 0
+    # should be displayed in that column.
+    columns = [0] * WIDTH
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">columns</span> variable contains a list of <span class="thesansmonocd_w5regular_">0</span> integers. The number of integers in this list is equal to the <span class="thesansmonocd_w5regular_">WIDTH</span>. Each of these integers controls whether a column of the output window prints a stream of binary numbers or not:</p>
+<pre class="pre"><code class="calibre9">    while True:
+        # Loop over each column:
+        for i in range(WIDTH):
+            if random.random() &lt; 0.02:
+                # Restart a stream counter on this column.
+                # The stream length is between 4 and 14 characters long.
+                columns[i] = random.randint(4, 14)
+</code></pre>
+<p class="tx">We want this program to run forever, so we place it all inside an infinite <span class="thesansmonocd_w5regular_">while True:</span> loop. Inside this loop is a <span class="thesansmonocd_w5regular_">for</span> loop that iterates over each column of a single row. The loop variable <span class="thesansmonocd_w5regular_">i</span> represents the indexes of columns; it begins at <span class="thesansmonocd_w5regular_">0</span> and goes up to but does not include <span class="thesansmonocd_w5regular_">WIDTH</span>. The value in <span class="thesansmonocd_w5regular_">columns[0]</span> represents what should be printed in the leftmost column, <span class="thesansmonocd_w5regular_">columns[1]</span> does so for the second column from the left, and so on.</p>
+<p class="tx">For each column, there is a two percent chance that the integer at <span class="thesansmonocd_w5regular_">columns[i]</span> is set to a number between <span class="thesansmonocd_w5regular_">4</span> and <span class="thesansmonocd_w5regular_">14</span>. We calculate this chance by comparing <span class="thesansmonocd_w5regular_">random.random()</span> (a function that returns a random float between <span class="thesansmonocd_w5regular_">0.0</span> and <span class="thesansmonocd_w5regular_">1.0</span>) to <span class="thesansmonocd_w5regular_">0.02</span>. If you want the streams to be denser or sparser, you can increase or decrease this number, respectively. We set the counter integers for each column to a random number between 4 and 14:</p>
+<pre class="pre"><code class="calibre9">            # Print a character in this column:
+            if columns[i] == 0:
+                # Change this ' '' to '.' to see the empty spaces:
+                print(' ', end='')
+            else:
+                # Print a 0 or 1:
+                print(random.choice([0, 1]), end='')
+                columns[i] -= 1  # Decrement the counter for this column.
+</code></pre>
+<p class="tx">Also inside the <span class="thesansmonocd_w5regular_">for</span> loop, the program determines if it should print a random <span class="thesansmonocd_w5regular_">0</span> or <span class="thesansmonocd_w5regular_">1</span> binary number or an empty space. If <span class="thesansmonocd_w5regular_">columns[i]</span> is <span class="thesansmonocd_w5regular_">0</span>, it prints an empty space. Otherwise, it passes the list <span class="thesansmonocd_w5regular_">[0, 1]</span> to the <span class="thesansmonocd_w5regular_">random.choice()</span> function, which returns a random value from that list to print. The code also decrements the counter at <span class="thesansmonocd_w5regular_">columns[i]</span> so that it gets closer to <span class="thesansmonocd_w5regular_">0</span> and no longer prints binary numbers.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1210" aria-label="135"></span>If you’d like to see the “empty” spaces the program prints, try changing the <span class="thesansmonocd_w5regular_">' '</span> string to <span class="thesansmonocd_w5regular_">'.'</span> and running the program again. The output should look like this:</p>
+<pre class="pre"><code class="calibre9">............................1.........................................
+................0...........1......................1..................
+................1...........0................1.....0..................
+............1...0...........0.....0..........1.....0..................
+............1.1.1...........0.....0..........1.....1..1...............
+............0.0.0...........0.....1.........00.....1..1...............
+</code></pre>
+<p class="tx">After the <span class="thesansmonocd_w5regular_">else</span> block ends, the <span class="thesansmonocd_w5regular_">for</span> loop block also ends:</p>
+<pre class="pre"><code class="calibre9">        print()  # Print a newline at the end of the row of columns.
+        time.sleep(0.1)  # Each row pauses for one tenth of a second.
+except KeyboardInterrupt:
+    sys.exit()  # When Ctrl-C is pressed, end the program.
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">print()</span> call after the <span class="thesansmonocd_w5regular_">for</span> loop prints a newline, as the previous <span class="thesansmonocd_w5regular_">print()</span> calls for each column pass the <span class="thesansmonocd_w5regular_">end=''</span> keyword argument to prevent a newline from being printed after each column. For each row printed, the program introduces a tenth-of-a-second pause by calling <span class="thesansmonocd_w5regular_">time.sleep(0.1)</span>.</p>
+<p class="tx">The final part of the program is an <span class="thesansmonocd_w5regular_">except</span> block that exits the program if the user pressed <small class="calibre4">CTRL</small>-C to raise a <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec32">
+<h3 class="h" id="calibre_link-1561"><span id="calibre_link-140"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Lists are useful data types, as they allow you to write code that works on a modifiable number of values in a single variable. Later in this book, you’ll see programs that use lists to do things that would otherwise be difficult or impossible.</p>
+<p class="tx">A list is a sequence data type that is mutable, meaning that its contents can change. Tuples and strings, though also sequence data types, are immutable and cannot be changed. We can overwrite a variable that contains a tuple or string value with a new tuple or string value, which isn’t the same thing as modifying the existing value in place—as, say, the <span class="thesansmonocd_w5regular_">append()</span> or <span class="thesansmonocd_w5regular_">remove()</span> method does on lists.</p>
+<p class="tx">Variables don’t store list values directly; they store references to lists. This is an important distinction when you’re copying variables or passing lists as arguments in function calls. Because the value that is being copied is the list reference, be aware that any changes you make to the list might impact another variable in your program. You can use <span class="thesansmonocd_w5regular_">copy()</span> or <span class="thesansmonocd_w5regular_">deepcopy()</span> if you want to make changes to a list in one variable without modifying the original list.</p>
+</section>
+<section type="division" aria-labelledby="sec33">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1038" aria-label="136"></span>
+<h3 class="h" id="calibre_link-1562"><span id="calibre_link-141"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What is <span class="thesansmonocd_w5regular_">[]</span>?</p>
+<p class="listnumber">  2.  How would you assign the value <span class="thesansmonocd_w5regular_">'hello'</span> as the third value in a list stored in a variable named <span class="thesansmonocd_w5regular_">spam</span>? (Assume <span class="thesansmonocd_w5regular_">spam</span> contains <span class="thesansmonocd_w5regular_">[2, 4, 6, 8, 10]</span>.)</p>
+<p class="listnumber1">For the following three questions, assume <span class="thesansmonocd_w5regular_">spam</span> contains the list <span class="thesansmonocd_w5regular_">['a', 'b', 'c', 'd']</span>.</p>
+<p class="listnumber">  3.  What does <span class="thesansmonocd_w5regular_">spam[int(int('3' * 2) // 11)]</span> evaluate to?</p>
+<p class="listnumber">  4.  What does <span class="thesansmonocd_w5regular_">spam[-1]</span> evaluate to?</p>
+<p class="listnumber">  5.  What does <span class="thesansmonocd_w5regular_">spam[:2]</span> evaluate to?</p>
+<p class="listnumber1">For the following three questions, assume <span class="thesansmonocd_w5regular_">bacon</span> contains the list <span class="thesansmonocd_w5regular_">[3.14, 'cat', 11, 'cat', True]</span>.</p>
+<p class="listnumber">  6.  What does <span class="thesansmonocd_w5regular_">bacon.index('cat')</span> evaluate to?</p>
+<p class="listnumber">  7.  What does <span class="thesansmonocd_w5regular_">bacon.append(99)</span> make the list value in <span class="thesansmonocd_w5regular_">bacon</span> look like?</p>
+<p class="listnumber">  8.  What does <span class="thesansmonocd_w5regular_">bacon.remove('cat')</span> make the list value in <span class="thesansmonocd_w5regular_">bacon</span> look like?</p>
+<p class="listnumber">  9.  What are the operators for list concatenation and list replication?</p>
+<p class="listnumber">10.  What is the difference between the <span class="thesansmonocd_w5regular_">append()</span> and <span class="thesansmonocd_w5regular_">insert()</span> list methods?</p>
+<p class="listnumber">11.  What are two ways to remove values from a list?</p>
+<p class="listnumber">12.  Name a few ways that list values are similar to string values.</p>
+<p class="listnumber">13.  What is the difference between lists and tuples?</p>
+<p class="listnumber">14.  How do you write the tuple value that has just the integer value <span class="thesansmonocd_w5regular_">42</span> in it?</p>
+<p class="listnumber">15.  How can you get the tuple form of a list value? How can you get the list form of a tuple value?</p>
+<p class="listnumber">16.  Variables that “contain” list values don’t actually contain lists directly. What do they contain instead?</p>
+<p class="listnumber">17.  What is the difference between <span class="thesansmonocd_w5regular_">copy.copy()</span> and <span class="thesansmonocd_w5regular_">copy.deepcopy()</span>?</p>
+</section>
+<section type="division" aria-labelledby="sec34">
+<h3 class="h" id="calibre_link-1563"><span id="calibre_link-142"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec35">
+<h4 class="h1" id="calibre_link-1564"><span id="calibre_link-143"></span><span class="sans_futura_std_heavy_oblique_bi_">Comma Code</span></h4>
+<p class="tni">Say you have a list value like this:</p>
+<pre class="pre"><code class="calibre9">spam = ['apples', 'bananas', 'tofu', 'cats']</code></pre>
+<p class="tx">Write a function that takes a list value as an argument and returns a string with all the items separated by a comma and a space, with <i class="calibre5">and</i> inserted before the last item. For example, passing the previous <span class="thesansmonocd_w5regular_">spam</span> list to the function would return <span class="thesansmonocd_w5regular_">'apples, bananas, tofu, and cats'</span>. But your function should be able to work with any list value passed to it. Be sure to test the case where an empty list <span class="thesansmonocd_w5regular_">[]</span> is passed to your function.</p>
+</section>
+<section type="division" aria-labelledby="sec36">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1030" aria-label="137"></span>
+<h4 class="h1" id="calibre_link-1565"><span id="calibre_link-144"></span><span class="sans_futura_std_heavy_oblique_bi_">Coin Flip Streaks</span></h4>
+<p class="tni">For this exercise, we’ll try doing an experiment. If you flip a coin 100 times and write down an <i class="calibre5">H</i> for each heads and a <i class="calibre5">T</i> for each tails, you’ll create a list that looks like <i class="calibre5">T T T T H H H H T T</i>. If you ask a human to make up 100 random coin flips, you’ll probably end up with alternating heads-tails results like <i class="calibre5">H T H T H H T H T T</i>—which looks random (to humans), but isn’t mathematically random. A human will almost never write down a streak of six heads or six tails in a row, even though it is highly likely to happen in truly random coin flips. Humans are predictably bad at being random.</p>
+<p class="tx">Write a program to find out how often a streak of six heads or a streak of six tails comes up in a randomly generated list of 100 heads and tails. Your program should break up the experiment into two parts: the first part generates a list of 100 randomly selected <span class="thesansmonocd_w5regular_">'H'</span> and <span class="thesansmonocd_w5regular_">'T'</span> values, and the second part checks if there is a streak in it. Put all of this code in a loop that repeats the experiment 10,000 times so that you can find out what percentage of the coin flips contains a streak of six heads or six tails in a row. As a hint, the function call <span class="thesansmonocd_w5regular_">random.randint(0, 1)</span> will return a <span class="thesansmonocd_w5regular_">0</span> value 50 percent of the time and a <span class="thesansmonocd_w5regular_">1</span> value the other 50 percent of the time.</p>
+<p class="tx">You can start with the following template:</p>
+<pre class="pre"><code class="calibre9">import random
+number_of_streaks = 0
+for experiment_number in range(10000):  # Run 100,000 experiments total.
+    # Code that creates a list of 100 'heads' or 'tails' values
+
+    # Code that checks if there is a streak of 6 heads or tails in a row
+
+print('Chance of streak: %s%%' % (number_of_streaks / 100))
+</code></pre>
+<p class="tx">Of course, this is only an estimate, but 10,000 is a decent sample size. Some knowledge of mathematics could give you the exact answer and save you the trouble of writing a program, but programmers are notoriously bad at math.</p>
+<p class="tx">To create a list, use a <span class="thesansmonocd_w5regular_">for</span> loop that appends a randomly selected <span class="thesansmonocd_w5regular_">'H'</span> or <span class="thesansmonocd_w5regular_">'T'</span> to a list 100 times. To determine if there is a streak of six heads or six tails, create a slice like <span class="thesansmonocd_w5regular_">some_list[i:i</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">6]</span> (which contains the six items starting at index <span class="thesansmonocd_w5regular_">i</span>) and then compare it to the list values <span class="thesansmonocd_w5regular_">['H', 'H', 'H', 'H', 'H', 'H']</span> and <span class="thesansmonocd_w5regular_">['T', 'T', 'T', 'T', 'T', 'T']</span>.</p>
+</section>
+</section>
+</section>
+</div>
+
+</div>
+
+
+
+</body></html>

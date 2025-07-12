@@ -1,0 +1,503 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-145">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch7">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-848" aria-label="139"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1566">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">7</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">DICTIONARIES AND STRUCTURING DATA</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">This chapter covers the dictionary data type, which provides a flexible way to access and organize data. By combining dictionaries with your knowledge of lists from the previous chapter, you’ll also learn how to create a data structure to model a chessboard.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1567"><span id="calibre_link-146"></span><span class="sans_futura_std_bold_b_">The Dictionary Data Type</span></h3>
+<p class="tni">Like a list, a <i class="calibre5">dictionary</i> is a mutable collection of many values. But unlike indexes for lists, indexes for dictionaries can use many different data types, not just integers. These dictionary indexes are called <i class="calibre5">keys</i>, and a key with its associated value is called a <i class="calibre5">key-value pair</i>.</p>
+<p class="tx">In code, a dictionary is entered between curly brackets (<span class="thesansmonocd_w5regular_">{}</span>). Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">my_cat = {'size': 'fat', 'color': 'gray', 'age': 17}</b></code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1111" aria-label="140"></span>This assigns a dictionary to the <span class="thesansmonocd_w5regular_">my_cat</span> variable. This dictionary’s keys are <span class="thesansmonocd_w5regular_">'size'</span>, <span class="thesansmonocd_w5regular_">'color'</span>, and <span class="thesansmonocd_w5regular_">'age'</span>. The values for these keys are <span class="thesansmonocd_w5regular_">'fat'</span>, <span class="thesansmonocd_w5regular_">'gray'</span>, and <span class="thesansmonocd_w5regular_">17</span>, respectively. You can access these values through their keys:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">my_cat['size']</b>
+'fat'
+&gt;&gt;&gt; <b class="calibre10">'My cat has ' + my_cat['color'] + ' fur.'</b>
+'My cat has gray fur.'
+</code></pre>
+<p class="tx">Using dictionaries, you can store multiple pieces of data about the same thing in a single variable. This <span class="thesansmonocd_w5regular_">my_cat</span> variable contains three different strings describing my cat, and I can use it as an argument or return value in a function call, saving me from needing to create three separate variables.</p>
+<p class="tx">Dictionaries can still use integer values as keys, just like lists use integers for indexes, but they don’t have to start at <span class="thesansmonocd_w5regular_">0</span> and can be any number:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {12345: 'Luggage Combination', 42: 'The Answer'}</b>
+&gt;&gt;&gt; <b class="calibre10">spam[12345]</b>
+'Luggage Combination'
+&gt;&gt;&gt; <b class="calibre10">spam[42]</b>
+'The Answer'
+&gt;&gt;&gt; <b class="calibre10">spam[0]</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+KeyError: 0
+</code></pre>
+<p class="tx">Dictionaries have keys, not indexes. In this example, while the dictionary in <span class="thesansmonocd_w5regular_">spam</span> has integer keys <span class="thesansmonocd_w5regular_">12345</span> and <span class="thesansmonocd_w5regular_">42</span>, it doesn’t have an index <span class="thesansmonocd_w5regular_">0</span> through <span class="thesansmonocd_w5regular_">41</span> like a list would.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-1568"><span id="calibre_link-147"></span><span class="sans_futura_std_heavy_oblique_bi_">Comparing Dictionaries and Lists</span></h4>
+<p class="tni">Unlike lists, items in dictionaries are unordered. The first item in a list named <span class="thesansmonocd_w5regular_">spam</span> would be <span class="thesansmonocd_w5regular_">spam[0]</span>. But there is no “first” item in a dictionary. While the order of items matters for determining whether two lists are the same, you can enter the key-value pairs of a dictionary in any order. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = ['cats', 'dogs', 'moose']</b>
+&gt;&gt;&gt; <b class="calibre10">bacon = ['dogs', 'moose', 'cats']</b>
+&gt;&gt;&gt; <b class="calibre10">spam == bacon</b>  # The order of list items matters.
+False
+&gt;&gt;&gt; <b class="calibre10">eggs = {'name': 'Zophie', 'species': 'cat', 'age': '8'}</b>
+&gt;&gt;&gt; <b class="calibre10">ham = {'species': 'cat', 'age': '8', 'name': 'Zophie'}</b>
+&gt;&gt;&gt; <b class="calibre10">eggs == ham</b>  # The order of dictionary key-value pairs doesn't matter.
+True
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">eggs</span> and <span class="thesansmonocd_w5regular_">ham</span> dictionaries are identical values even though we entered their key-value pairs in different orders. Because a dictionary isn’t ordered, it isn’t a sequence data type and can’t be sliced like a list.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-968" aria-label="141"></span>Trying to access a key that doesn’t exist in a dictionary will result in a <span class="thesansmonocd_w5regular_">KeyError</span> error message, much like a list’s “out-of-range” <span class="thesansmonocd_w5regular_">IndexError</span> error message. Enter the following into the interactive shell, and notice the error message that shows up because there is no <span class="thesansmonocd_w5regular_">'color'</span> key:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {'name': 'Zophie', 'age': 7}</b>
+&gt;&gt;&gt; <b class="calibre10">spam['color']</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    spam['color']
+KeyError: 'color'
+</code></pre>
+<p class="tx">Though dictionaries aren’t ordered, the fact that you can use arbitrary values as keys allows you to organize your data in powerful ways. Say you wanted your program to store data about your friends’ birthdays. You can use a dictionary with the names as keys and the birthdays as values. Open a new file editor window and enter the following code, then save it as <i class="calibre5">birthdays.py</i>:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> birthdays = {'Alice': 'Apr 1', 'Bob': 'Dec 12', 'Carol': 'Mar 4'}
+
+while True:
+    print('Enter a name: (blank to quit)')
+    name = input()
+    if name == '':
+        break
+
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> if name in birthdays:
+      <span class="code_codeannotation" aria-label="annotation3">❸</span> print(birthdays[name] + ' is the birthday of ' + name)
+    else:
+        print('I do not have birthday information for ' + name)
+        print('What is their birthday?')
+        bday = input()
+      <span class="code_codeannotation" aria-label="annotation4">❹</span> birthdays[name] = bday
+        print('Birthday database updated.')
+</code></pre>
+<p class="tx">The code creates an initial dictionary and stores it in <span class="thesansmonocd_w5regular_">birthdays</span> <span class="codeannotation" aria-label="annotation1">❶</span>. You can see if the entered name exists as a key in the dictionary with the <span class="thesansmonocd_w5regular_">in</span> keyword <span class="codeannotation" aria-label="annotation2">❷</span>, just as you did for lists. If the name is in the dictionary, you access the associated value using square brackets <span class="codeannotation" aria-label="annotation3">❸</span>; if not, you can add it using the same square bracket syntax combined with the assignment operator <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
+<p class="tx">When you run this program, it will look like this:</p>
+<pre class="pre"><code class="calibre9">Enter a name: (blank to quit)
+<b class="calibre10">Alice</b>
+Apr 1 is the birthday of Alice
+Enter a name: (blank to quit)
+<b class="calibre10">Eve</b>
+I do not have birthday information for Eve
+What is their birthday?
+<b class="calibre10">Dec 5</b>
+Birthday database updated.
+Enter a name: (blank to quit)
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-917" aria-label="142"></span><b class="calibre10">Eve</b>
+Dec 5 is the birthday of Eve
+Enter a name: (blank to quit)
+</code></pre>
+<p class="tx">Of course, all the data you enter in this program is forgotten when the program terminates. You’ll learn how to save data to files on the hard drive in <span>Chapter 10</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1" id="calibre_link-1569"><span id="calibre_link-148"></span><span class="sans_futura_std_heavy_oblique_bi_">Returning Keys and Values</span></h4>
+<p class="tni">Three dictionary methods will return list-like values of the dictionary’s keys, values, or both keys and values: <span class="thesansmonocd_w5regular_">keys()</span>, <span class="thesansmonocd_w5regular_">values()</span>, and <span class="thesansmonocd_w5regular_">items()</span>. The values returned by these methods aren’t true lists: they can’t be modified and don’t have an <span class="thesansmonocd_w5regular_">append()</span> method. But these data types (<span class="thesansmonocd_w5regular_">dict_keys</span>, <span class="thesansmonocd_w5regular_">dict_values</span>, and <span class="thesansmonocd_w5regular_">dict_items</span>, respectively) <i class="calibre5">can</i> be used in <span class="thesansmonocd_w5regular_">for</span> loops. To see how these methods work, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {'color': 'red', 'age': 42}</b>
+&gt;&gt;&gt; <b class="calibre10">for v in spam.values():</b>
+...     <b class="calibre10">print(v)</b>
+
+red
+42
+</code></pre>
+<p class="tx">Here, a <span class="thesansmonocd_w5regular_">for</span> loop iterates over each of the values in the <span class="thesansmonocd_w5regular_">spam</span> dictionary. A <span class="thesansmonocd_w5regular_">for</span> loop can also iterate over the keys or both the keys and values:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for k in spam.keys():</b>
+...     <b class="calibre10">print(k)</b>
+
+color
+age
+&gt;&gt;&gt; <b class="calibre10">'color' in spam.keys()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'age' not in spam.keys()</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'red' in spam.values()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">for i in spam.items():</b>
+...     <b class="calibre10">print(i)</b>
+
+('color', 'red')
+('age', 42)
+</code></pre>
+<p class="tx">When you use the <span class="thesansmonocd_w5regular_">keys()</span>, <span class="thesansmonocd_w5regular_">values()</span>, and <span class="thesansmonocd_w5regular_">items()</span> methods, a <span class="thesansmonocd_w5regular_">for</span> loop can iterate over the keys, values, or key-value pairs in a dictionary, respectively, and you can use the <span class="thesansmonocd_w5regular_">in</span> and <span class="thesansmonocd_w5regular_">not in</span> operators to determine if a value exists as a key or value in the dictionary. Notice that the values in the <span class="thesansmonocd_w5regular_">dict_items</span> value returned by the <span class="thesansmonocd_w5regular_">items()</span> method are tuples of the key and value.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1107" aria-label="143"></span>You can also use the <span class="thesansmonocd_w5regular_">in</span> and <span class="thesansmonocd_w5regular_">not in</span> operators with the dictionary value itself to check for the existence of a key. This is equivalent to using these operators with the <span class="thesansmonocd_w5regular_">keys()</span> method:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'color' in spam</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'color' in spam.keys()</b>
+True
+</code></pre>
+<p class="tx">If you want to get an actual list from one of these methods, pass its list-like return value to the <span class="thesansmonocd_w5regular_">list()</span> function. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {'color': 'red', 'age': 42}</b>
+&gt;&gt;&gt; <b class="calibre10">spam.keys()</b>  # Returns a list-like dict_keys value
+dict_keys(['color', 'age'])
+&gt;&gt;&gt; <b class="calibre10">list(spam.keys())</b>  # Returns an actual list value
+['color', 'age']
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">list(spam.keys())</span> line takes the <span class="thesansmonocd_w5regular_">dict_keys</span> value returned from <span class="thesansmonocd_w5regular_">keys()</span> and passes it to <span class="thesansmonocd_w5regular_">list()</span>, which then returns a list value of <span class="thesansmonocd_w5regular_">['color', 'age']</span>.</p>
+<p class="tx">You can also use the multiple assignment trick in a <span class="thesansmonocd_w5regular_">for</span> loop to assign the key and value to separate variables. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {'color': 'red', 'age': 42}</b>
+&gt;&gt;&gt; <b class="calibre10">for k, v in spam.items():</b>
+<b class="calibre10">...     print('Key: ' + str(k) + ' Value: ' + str(v))</b>
+
+Key: color Value: red
+Key: age Value: 42
+</code></pre>
+<p class="tx">This code creates a dictionary with keys <span class="thesansmonocd_w5regular_">'color'</span> and <span class="thesansmonocd_w5regular_">'age'</span> whose values are <span class="thesansmonocd_w5regular_">'red'</span> and <span class="thesansmonocd_w5regular_">42</span>, respectively. The <span class="thesansmonocd_w5regular_">for</span> loop iterates over the tuples returned by the <span class="thesansmonocd_w5regular_">items()</span> method: <span class="thesansmonocd_w5regular_">('color', 'red')</span> and <span class="thesansmonocd_w5regular_">('age', 42)</span>. The two variables, <span class="thesansmonocd_w5regular_">k</span> and <span class="thesansmonocd_w5regular_">v</span>, are assigned the first (the key) and second (the value) values from these tuples. The body of the loop prints out the <span class="thesansmonocd_w5regular_">k</span> and <span class="thesansmonocd_w5regular_">v</span> variables for each key-value pair.</p>
+<p class="tx">While you can use many values for keys, you cannot use a list or dictionary as the key in a dictionary. These data types are <i class="calibre5">unhashable</i>, which is a concept beyond the scope of this book. If you need a list for a dictionary key, use a tuple instead.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-1570"><span id="calibre_link-149"></span><span class="sans_futura_std_heavy_oblique_bi_">Checking Whether a Key Exists</span></h4>
+<p class="tni">Checking whether a key exists in a dictionary before accessing that key’s value can be tedious. Fortunately, dictionaries have a <span class="thesansmonocd_w5regular_">get()</span> method that takes two arguments: the key of the value to retrieve and a fallback value to return if that key doesn’t exist.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1108" aria-label="144"></span>Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">picnic_items = {'apples': 5, 'cups': 2}</b>
+&gt;&gt;&gt; <b class="calibre10">'I am bringing ' + str(picnic_items.get('cups', 0)) + ' cups.'</b>
+'I am bringing 2 cups.'
+&gt;&gt;&gt; <b class="calibre10">'I am bringing ' + str(picnic_items.get('eggs', 0)) + ' eggs.'</b>
+'I am bringing 0 eggs.'
+</code></pre>
+<p class="tx">Because there is no <span class="thesansmonocd_w5regular_">'eggs'</span> key in the <span class="thesansmonocd_w5regular_">picnic_items</span> dictionary, the <span class="thesansmonocd_w5regular_">get()</span> method returns the default value <span class="thesansmonocd_w5regular_">0</span>. Without using <span class="thesansmonocd_w5regular_">get()</span>, the code would have caused an error message, such as in the following example:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">picnic_items = {'apples': 5, 'cups': 2}</b>
+&gt;&gt;&gt; <b class="calibre10">'I am bringing ' + str(picnic_items['eggs']) + ' eggs.'</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+    'I am bringing ' + str(picnic_items['eggs']) + ' eggs.'
+KeyError: 'eggs'
+</code></pre>
+<p class="tx">Checking for the existence of a key before accessing the value for that key can prevent your programs from crashing with an error message.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1" id="calibre_link-1571"><span id="calibre_link-150"></span><span class="sans_futura_std_heavy_oblique_bi_">Setting Default Values</span></h4>
+<p class="tni">You’ll often have to set a value in a dictionary for a certain key only if that key doesn’t already have a value. Your code might look something like this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {'name': 'Pooka', 'age': 5}</b>
+&gt;&gt;&gt; <b class="calibre10">if 'color' not in spam:</b>
+...     <b class="calibre10">spam['color'] = 'black'</b>
+...
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+{'name': 'Pooka', 'age': 5, 'color': 'black'}
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">setdefault()</span> method offers a way to do this in one line of code. The first argument passed to the method is the key to check for, and the second argument is the value to set at that key if the key doesn’t exist. If the key does exist, the <span class="thesansmonocd_w5regular_">setdefault()</span> method returns the key’s value. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = {'name': 'Pooka', 'age': 5}</b>
+&gt;&gt;&gt; <b class="calibre10">spam.setdefault('color', 'black')  </b># Sets 'color' key to 'black'
+'black'
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+{'name': 'Pooka', 'age': 5, 'color': 'black'}
+&gt;&gt;&gt; <b class="calibre10">spam.setdefault('color', 'white')  </b># Does nothing
+'black'
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+{'name': 'Pooka', 'age': 5, 'color': 'black'}
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-895" aria-label="145"></span>The first time we call <span class="thesansmonocd_w5regular_">setdefault()</span>, the dictionary in <span class="thesansmonocd_w5regular_">spam</span> changes to <span class="thesansmonocd_w5regular_">{'color': 'black', 'age': 5, 'name': 'Pooka'}</span>. The method returns the value <span class="thesansmonocd_w5regular_">'black'</span> because this is now the value set for the key <span class="thesansmonocd_w5regular_">'color'</span>. When <span class="thesansmonocd_w5regular_">spam.setdefault('color', 'white')</span> is called next, the value for that key is <i class="calibre5">not</i> changed to <span class="thesansmonocd_w5regular_">'white'</span>, because <span class="thesansmonocd_w5regular_">spam</span> already has a key named <span class="thesansmonocd_w5regular_">'color'</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">setdefault()</span> method is a nice shortcut to ensure that a key exists. Here is a short program that counts the number of occurrences of each letter in a string. Open the file editor window and enter the following code, saving it as <i class="calibre5">characterCount.py</i>:</p>
+<pre class="pre"><code class="calibre9">message = 'It was a bright cold day in April, and the clocks were striking thirteen.'
+count = {}
+
+for character in message:
+    count.setdefault(character, 0) <span class="code_codeannotation" aria-label="annotation1">❶</span>
+    count[character] = count[character] + 1 <span class="code_codeannotation" aria-label="annotation2">❷</span>
+
+print(count)   
+</code></pre>
+<p class="tx">The program loops over each character in the <span class="thesansmonocd_w5regular_">message</span> variable’s string, counting how often each character appears. The <span class="thesansmonocd_w5regular_">setdefault()</span> method call <span class="codeannotation" aria-label="annotation1">❶</span> ensures that the key is in the <span class="thesansmonocd_w5regular_">count</span> dictionary (with a default value of <span class="thesansmonocd_w5regular_">0</span>) so that the program doesn’t throw a <span class="thesansmonocd_w5regular_">KeyError</span> error when <span class="thesansmonocd_w5regular_">count[character]</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">count[character]</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1</span> is executed <span class="codeannotation" aria-label="annotation2">❷</span>. When you run this program, the output will look like this:</p>
+<pre class="pre"><code class="calibre9">{'I': 1, 't': 6, ' ': 13, 'w': 2, 'a': 4, 's': 3, 'b': 1, 'r': 5, 'i': 6,
+'g': 2, 'h': 3, 'c': 3, 'o': 2, 'l': 3, 'd': 3, 'y': 1, 'n': 4, 'A': 1,
+'p': 1, ',': 1, 'e': 5, 'k': 2, '.': 1}
+</code></pre>
+<p class="tx">From the output, you can see that the lowercase letter <i class="calibre5">c</i> appears three times, the space character appears 13 times, and the uppercase letter <i class="calibre5">A</i> appears one time. This program will work no matter what string is inside the <span class="thesansmonocd_w5regular_">message</span> variable, even if the string is millions of characters long!</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h3 class="h" id="calibre_link-1572"><span id="calibre_link-151"></span><span class="sans_futura_std_bold_b_">Model Real-World Things Using Data Structures</span></h3>
+<p class="tni">Even before the internet, it was possible to play a game of chess with someone on the other side of the world. Each player would set up a chessboard at their home, and then they would take turns mailing a postcard to each other describing their move. To do this, the players needed a way to unambiguously describe the state of the board and their moves.</p>
+<p class="tx">In <i class="calibre5">algebraic chess notation</i>, the squares on the chessboard are identified by a number and letter coordinate, as in Figure 7-1.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1573" aria-label="146"></span>
+<figure class="img"><img class="img2" id="calibre_link-720" src="images/000102.jpg" alt="A chessboard whose rows are labeled (from left to right) a through h and whose columns are labeled (from bottom to top) 1 though 8. Each square is also labeled, beginning with a8 in the top-left corner and ending with h1 in the bottom-left corner. A few squares are populated by chess pieces." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 7-1: The coordinates of a chessboard in algebraic chess notation</span></p></figcaption>
+</figure>
+<p class="tx">The chess pieces use letters: <i class="calibre5">K</i> for king, <i class="calibre5">Q</i> for queen, <i class="calibre5">R</i> for rook, <i class="calibre5">B</i> for bishop, and <i class="calibre5">N</i> for knight. Describing a move requires specifying the letter of the piece and the coordinates of its destination. A pair of these moves describes what happens in a single turn (with white going first); for instance, the notation “<i class="calibre5">2. Nf3 Nc6</i>” indicates that white moved a knight to f3 and black moved a knight to c6 on the second turn of the game.</p>
+<p class="tx">There’s a bit more to algebraic notation than this, but the point is that you can unambiguously describe a game of chess without needing to be in front of a chessboard. Your opponent can even be on the other side of the world! In fact, you don’t even need a physical chess set if you have a good memory: you can just read the mailed chess moves and update boards you have in your imagination.</p>
+<p class="tx">Computers have good memories. A program on a modern computer can easily store billions of strings, such as <span class="thesansmonocd_w5regular_">'2. Nf3 Nc6'</span>. This is how computers can play chess without having a physical chessboard. They model data to represent a chessboard, and you can write code to work with this model to simulate a chess game.</p>
+<p class="tx">This is where lists and dictionaries can come in handy. For example, we could come up with our own notation so that the Python dictionary <span class="thesansmonocd_w5regular_">{'h1': 'bK', 'c6': 'wQ', 'g2': 'bB', 'h5': 'bQ', 'e3': 'wK'}</span> could represent the chessboard in Figure 7-2.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1011" aria-label="147"></span>
+<figure class="img"><img class="img2" id="calibre_link-721" src="images/000103.jpg" alt="A chessboard with a white queen in the cell c6, a black queen in the cell h5, a white king in the cell e3, a black king in the cell h1, and a black bishop in the cell g2." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 7-2: A chessboard modeled by the dictionary {'h1': 'bK', 'c6': 'wQ', 'g2': 'bB', 'h5': 'bQ', 'e3': 'wK'}</span></p></figcaption>
+</figure>
+<p class="tx">Let’s use this data structure scheme to create our own interactive chessboard program.</p>
+<p class="ph"><span id="calibre_link-152"></span><span class="sans_futura_std_heavy_b_">Project 1: Interactive Chessboard Simulator</span></p>
+<p class="tni">Even the earliest computers performed calculations far faster than any human, but back then, people considered chess a true demonstration of computational intelligence. We won’t create our own chess-playing program here. (That would require its own book!) But we can create an interactive chessboard program with what we’ve discussed so far.</p>
+<p class="tx">You don’t need to know the rules of chess for this program. Just know that chess is played on an 8×8 board with white and black pieces called pawns, knights, bishops, rooks, queens, and kings. The upper-left and lower-right squares of the board should be white, and our program assumes the background of the output window is black (unlike the white background of a paper book). Our chessboard program is just a board with pieces on it; it doesn’t even enforce the rules for how pieces move. We’ll use text characters to “draw” a chessboard, such as the one shown in Figure 7-3.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1198" aria-label="148"></span>
+<figure class="img"><img class="img1" id="calibre_link-722" src="images/000104.jpg" alt="Two Windows Command Prompt windows side by side showing chess boards represented using text characters and chess pieces represented using letter pairs. In the left-hand window, the pieces are in the starting position. In the right-hand window, a few remaining pieces are scattered across the board." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 7-3: The non-graphical, text-based output of the chessboard program</span></p></figcaption>
+</figure>
+<p class="tx">Graphics would be nice and would make the pieces more readily identifiable, but we’ve captured all the information about the pieces without them. This text-based approach allows us to write the program with just the <span class="thesansmonocd_w5regular_">print()</span> function and doesn’t require us to install any sort of graphics library like Pygame (discussed in my book <i class="calibre5">Invent Your Own Computer Games with Python</i> [No Starch Press, 2016]) for our program.</p>
+<p class="tx">First, we need to design a data structure that can represent a chessboard and any possible configuration of pieces on it. The example from the previous section works: the board is a Python dictionary with string keys <span class="thesansmonocd_w5regular_">'a1'</span> to <span class="thesansmonocd_w5regular_">'h8'</span> to represent squares on the board. Note that these strings are always two characters long. Also, the letter is always lowercase and comes before the number. This specificity is important; we’ll use these details in the code.</p>
+<p class="tx">To represent the pieces, we’ll also use two-character strings, where the first letter is a lowercase <span class="thesansmonocd_w5regular_">'w'</span> or <span class="thesansmonocd_w5regular_">'b'</span> to indicate the white or black color, and the second letter is an uppercase <span class="thesansmonocd_w5regular_">'P'</span>, <span class="thesansmonocd_w5regular_">'N'</span>, <span class="thesansmonocd_w5regular_">'B'</span>, <span class="thesansmonocd_w5regular_">'R'</span>, <span class="thesansmonocd_w5regular_">'Q'</span>, or <span class="thesansmonocd_w5regular_">'K'</span> to represent the kind of piece. Figure 7-4 shows each piece, along with its string representation.</p>
+<figure class="img"><img class="img3" id="calibre_link-723" src="images/000105.jpg" alt="A black pawn labeled ‘bP’ and a white pawn labeled ‘wP’. A black knight labeled ‘bN’ and a white knight labeled ‘wN’. A black bishop labeled ‘bB’ and a white bishop labeled ‘wB’. A black rook labeled ‘bR’ and a white rook labeled ‘wR’. A black queen labeled ‘bQ’ and a white queen labeled ‘wQ’. A black king labeled bK’ and a white king labeled ‘wK’." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 7-4: The two-character string representations for each chess piece</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1049" aria-label="149"></span>The keys of the Python dictionary identify the squares of the board and the values identify the piece on that square. The absence of a key in the dictionary represents an empty square. A dictionary works well for storing this information: keys in a dictionary can be used only once, and squares on a chessboard can have only one piece on them at a time.</p>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-1574"><span id="calibre_link-153"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Set Up the Program</span></h4>
+<p class="tni">The first part of the program imports the <span class="thesansmonocd_w5regular_">sys</span> module for its <span class="thesansmonocd_w5regular_">exit()</span> function and the <span class="thesansmonocd_w5regular_">copy</span> module for its <span class="thesansmonocd_w5regular_">copy()</span> function. At the start of the game, the white and black players have 16 pieces each. The <span class="thesansmonocd_w5regular_">STARTING_PIECES</span> constant will hold a chessboard dictionary with all the proper pieces in their correct starting positions:</p>
+<pre class="pre"><code class="calibre9">import sys, copy
+
+STARTING_PIECES = {'a8': 'bR', 'b8': 'bN', 'c8': 'bB', 'd8': 'bQ',
+'e8': 'bK', 'f8': 'bB', 'g8': 'bN', 'h8': 'bR', 'a7': 'bP', 'b7': 'bP',
+'c7': 'bP', 'd7': 'bP', 'e7': 'bP', 'f7': 'bP', 'g7': 'bP', 'h7': 'bP',
+'a1': 'wR', 'b1': 'wN', 'c1': 'wB', 'd1': 'wQ', 'e1': 'wK', 'f1': 'wB',
+'g1': 'wN', 'h1': 'wR', 'a2': 'wP', 'b2': 'wP', 'c2': 'wP', 'd2': 'wP',
+'e2': 'wP', 'f2': 'wP', 'g2': 'wP', 'h2': 'wP'}
+</code></pre>
+<p class="tx">(This code is a bit hard to type. You can copy and paste it from <i class="calibre5"><a href="https://autbor.com/3/chessboard.py" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/3<wbr></wbr>/chessboard<wbr></wbr>.py</a></i>.) Whenever the program needs to reset the chessboard to the starting setup, it can copy <span class="thesansmonocd_w5regular_">STARTING_PIECES</span> with the <span class="thesansmonocd_w5regular_">copy.copy()</span> function.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-1575"><span id="calibre_link-154"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Create a Chessboard Template</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">BOARD_TEMPLATE</span> variable will contain a string that acts as a template for a chessboard. The program can insert the strings of individual pieces into it before printing. By using three double-quote characters in a row, we can create a <i class="calibre5">multiline string</i> that spans several lines of code. The multiline string ends with another three double-quote characters. This Python syntax is easier than trying to fit everything on a single line with <span class="thesansmonocd_w5regular_">\n</span> escape characters. You’ll learn more about multiline strings in the next chapter.</p>
+<pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-849" aria-label="150"></span>BOARD_TEMPLATE = """
+    a    b    c    d    e    f    g    h
+   <span aria-hidden="true">____</span> <span aria-hidden="true">____</span> <span aria-hidden="true">____</span> <span aria-hidden="true">____</span> <span aria-hidden="true">____</span> <span aria-hidden="true">____</span> <span aria-hidden="true">____</span> <span aria-hidden="true">____</span>
+  ||||||    ||||||    ||||||    ||||||    |
+8 ||{}|| {} ||{}|| {} ||{}|| {} ||{}|| {} |
+  ||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>|
+  |    ||||||    ||||||    ||||||    ||||||
+7 | {} ||{}|| {} ||{}|| {} ||{}|| {} ||{}||
+  |<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||
+  ||||||    ||||||    ||||||    ||||||    |
+6 ||{}|| {} ||{}|| {} ||{}|| {} ||{}|| {} |
+  ||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>|
+  |    ||||||    ||||||    ||||||    ||||||
+5 | {} ||{}|| {} ||{}|| {} ||{}|| {} ||{}||
+  |<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||
+  ||||||    ||||||    ||||||    ||||||    |
+4 ||{}|| {} ||{}|| {} ||{}|| {} ||{}|| {} |
+  ||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>|
+  |    ||||||    ||||||    ||||||    ||||||
+3 | {} ||{}|| {} ||{}|| {} ||{}|| {} ||{}||
+  |<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||
+  ||||||    ||||||    ||||||    ||||||    |
+2 ||{}|| {} ||{}|| {} ||{}|| {} ||{}|| {} |
+  ||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>|
+  |    ||||||    ||||||    ||||||    ||||||
+1 | {} ||{}|| {} ||{}|| {} ||{}|| {} ||{}||
+  |<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||<span aria-hidden="true">____</span>||||||
+"""
+WHITE_SQUARE = '||'
+BLACK_SQUARE = '  '
+</code></pre>
+<p class="tx">The pairs of curly brackets represent places in the string where we’ll insert chess piece strings such as <span class="thesansmonocd_w5regular_">'wR'</span> or <span class="thesansmonocd_w5regular_">'bQ'</span>. If the square is empty, the program will insert the <span class="thesansmonocd_w5regular_">WHITE_SQUARE</span> or <span class="thesansmonocd_w5regular_">BLACK_SQUARE</span> string instead, which I’ll explain in more detail when we discuss the <span class="thesansmonocd_w5regular_">print_chessboard()</span> function.</p>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h4 class="h1" id="calibre_link-1576"><span id="calibre_link-155"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Print the Current Chessboard</span></h4>
+<p class="tni">We’ll define a <span class="thesansmonocd_w5regular_">print_chessboard()</span> function that accepts the chessboard dictionary, then prints a chessboard on the screen that reflects the pieces on this board. We’ll call the <span class="thesansmonocd_w5regular_">format()</span> string method on the <span class="thesansmonocd_w5regular_">BOARD_TEMPLATE</span> string, passing the method a list of strings. The <span class="thesansmonocd_w5regular_">format()</span> method returns a new string with the <span class="thesansmonocd_w5regular_">{}</span> pairs in <span class="thesansmonocd_w5regular_">BOARD_TEMPLATE</span> replaced by the strings in the passed-in list. You’ll learn more about <span class="thesansmonocd_w5regular_">format()</span> in the next chapter.</p>
+<p class="tx">Let’s take a look at the code in <span class="thesansmonocd_w5regular_">print_chessboard()</span>:</p>
+<pre class="pre"><code class="calibre9">def print_chessboard(board):
+    squares = []
+    is_white_square = True
+    for y in '87654321':
+        for x in 'abcdefgh':
+            #print(x, y, is_white_square)  # DEBUG: Show coordinates
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1577" aria-label="151"></span>There are 64 squares on a chessboard and 64 <span class="thesansmonocd_w5regular_">{}</span> pairs in the <span class="thesansmonocd_w5regular_">BOARD_TEMPLATE</span> string. We must build up a list of 64 strings to replace these <span class="thesansmonocd_w5regular_">{}</span> pairs. We store this list in the <span class="thesansmonocd_w5regular_">squares</span> variable. The strings in this list represent either chess pieces, like <span class="thesansmonocd_w5regular_">'wB'</span> and <span class="thesansmonocd_w5regular_">'bQ'</span>, or empty squares. Depending on whether the empty square is white or black, we must use the <span class="thesansmonocd_w5regular_">WHITE_SQUARE</span> string (<span class="thesansmonocd_w5regular_">'||'</span>) or the <span class="thesansmonocd_w5regular_">BLACK_SQUARE</span> string (<span class="thesansmonocd_w5regular_">' '</span>). We’ll use a Boolean value in the <span class="thesansmonocd_w5regular_">is_white_square</span> variable to keep track of which squares are white and which are black.</p>
+<p class="tx">Two nested <span class="thesansmonocd_w5regular_">for</span> loops will loop over all 64 squares on the board, starting with the upper-left square and going right to left, then top to bottom. The square in the upper left is a white square, so we’ll start <span class="thesansmonocd_w5regular_">is_white_square</span> as <span class="thesansmonocd_w5regular_">True</span>. Remember that <span class="thesansmonocd_w5regular_">for</span> loops can loop over the integers given by <span class="thesansmonocd_w5regular_">range()</span>, the value in a list, or the individual characters in a string. In these two <span class="thesansmonocd_w5regular_">for</span> loops, the <span class="thesansmonocd_w5regular_">y</span> and <span class="thesansmonocd_w5regular_">x</span> variables take on the characters in the strings <span class="thesansmonocd_w5regular_">'87654321'</span> and <span class="thesansmonocd_w5regular_">'abcdefgh'</span>, respectively. To see the order in which the code loops over the squares (along with the color of each square), uncomment the <span class="thesansmonocd_w5regular_">print(x, y, is_white_square)</span> line of code before running the program.</p>
+<p class="tx">The code inside the <span class="thesansmonocd_w5regular_">for</span> loops builds up the <span class="thesansmonocd_w5regular_">squares</span> list with the appropriate strings:</p>
+<pre class="pre"><code class="calibre9">            if x + y in board.keys():
+                squares.append(board[x + y])
+            else:
+                if is_white_square:
+                    squares.append(WHITE_SQUARE)
+                else:
+                    squares.append(BLACK_SQUARE)
+            is_white_square = not is_white_square
+        is_white_square = not is_white_square
+
+    print(BOARD_TEMPLATE.format(*squares))
+</code></pre>
+<p class="tx">The strings in the <span class="thesansmonocd_w5regular_">x</span> and <span class="thesansmonocd_w5regular_">y</span> loop variables concatenate together to form a two-character square string. For example, if <span class="thesansmonocd_w5regular_">x</span> is <span class="thesansmonocd_w5regular_">'a'</span> and <span class="thesansmonocd_w5regular_">y</span> is <span class="thesansmonocd_w5regular_">'8'</span>, then <span class="thesansmonocd_w5regular_">x</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">y</span> evaluates to <span class="thesansmonocd_w5regular_">'a8'</span>, and <span class="thesansmonocd_w5regular_">x</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">y in board.keys()</span> checks if this string exists as a key in the chessboard dictionary. If it does, the code appends the chess piece string for that square to the end of the <span class="thesansmonocd_w5regular_">squares</span> list.</p>
+<p class="tx">If it does not, the code must append the blank square string in <span class="thesansmonocd_w5regular_">WHITE_SQUARE</span> or <span class="thesansmonocd_w5regular_">BLACK_SQUARE</span>, depending on the value in <span class="thesansmonocd_w5regular_">is_white_square</span>. Once the code is done processing this chessboard square, it toggles the Boolean value in <span class="thesansmonocd_w5regular_">is_white_square</span> to its opposite value (because the next square over will be the opposite color). The variable needs to be toggled again after finishing a row at the end of the outermost <span class="thesansmonocd_w5regular_">for</span> loop.</p>
+<p class="tx">After the loops have finished, the <span class="thesansmonocd_w5regular_">squares</span> list contains 64 strings. However, the <span class="thesansmonocd_w5regular_">format()</span> string method doesn’t take a single list argument, but rather one string argument per <span class="thesansmonocd_w5regular_">{}</span> pair to replace. The asterisk <span class="thesansmonocd_w5regular_">*</span> next to the squares tells Python to pass the values in this list as individual arguments. This is a bit subtle, but imagine that you have a list <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">['cat', 'dog', 'rat']</span>. If you call <span class="thesansmonocd_w5regular_">print(spam)</span>, Python will print the list value, along with its square <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1578" aria-label="152"></span>brackets, quotes, and commas. However, calling <span class="thesansmonocd_w5regular_">print(*spam)</span> is equivalent to calling <span class="thesansmonocd_w5regular_">print('cat', 'dog', 'rat')</span>, which simply prints <span class="thesansmonocd_w5regular_">cat dog rat</span>. I call this <i class="calibre5">star syntax</i>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">print_chessboard()</span> function is written to work with the specific data structure we use to represent chessboards: a Python dictionary with keys of square strings, like <span class="thesansmonocd_w5regular_">'a8'</span>, and values of pieces of strings, like <span class="thesansmonocd_w5regular_">'bQ'</span>. If we had designed our data structure differently, we’d have to write our function differently too. The <span class="thesansmonocd_w5regular_">print_chessboard()</span> prints out a text-based representation of the board, but if we were using a graphics library like Pygame to render the chessboard, we could still use this Python dictionary to represent the chessboard configuration.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-1579"><span id="calibre_link-156"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 4: Manipulate the Chessboard</span></h4>
+<p class="tni">Now that we have a way to represent a chessboard in a Python dictionary and a function to display a chessboard based on that dictionary, let’s write code that moves pieces on the board by manipulating the keys and values of the dictionary. After the <span class="thesansmonocd_w5regular_">print_chessboard()</span> function’s <span class="thesansmonocd_w5regular_">def</span> block, the main part of the program displays text explaining how to use the interactive chessboard program:</p>
+<pre class="pre"><code class="calibre9">print('Interactive Chessboard')
+print('by Al Sweigart al@inventwithpython.com')
+print()
+print('Pieces:')
+print('  w - White, b - Black')
+print('  P - Pawn, N - Knight, B - Bishop, R - Rook, Q - Queen, K - King')
+print('Commands:')
+print('  move e2 e4 - Moves the piece at e2 to e4')
+print('  remove e2 - Removes the piece at e2')
+print('  set e2 wP - Sets square e2 to a white pawn')
+print('  reset - Resets pieces back to their starting squares')
+print('  clear - Clears the entire board')
+print('  fill wP - Fills entire board with white pawns.')
+print('  quit - Quits the program')
+</code></pre>
+<p class="tx">The program can move pieces, remove pieces, set squares with a piece, reset the board, and clear the board by changing the chessboard dictionary:</p>
+<pre class="pre"><code class="calibre9">main_board = copy.copy(STARTING_PIECES)
+while True:
+    print_chessboard(main_board)
+    response = input('&gt; ').split()
+</code></pre>
+<p class="tx">To begin, the <span class="thesansmonocd_w5regular_">main_board</span> variable receives a copy of the <span class="thesansmonocd_w5regular_">STARTING_PIECES</span> dictionary, which is a dictionary of all chess pieces in their standard starting positions. The execution enters an infinite loop that allows the user to enter commands. For example, if the user enters <b class="calibre10">move e2 e4</b> after <span class="thesansmonocd_w5regular_">input()</span> is called, the <span class="thesansmonocd_w5regular_">split()</span> method returns the list <span class="thesansmonocd_w5regular_">['move', 'e2', 'e4']</span>, which the program then stores in the <span class="thesansmonocd_w5regular_">response</span> variable. The first item in the <span class="thesansmonocd_w5regular_">response</span> list, <span class="thesansmonocd_w5regular_">response[0]</span>, will be the command the user wants to carry out:</p>
+<pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1580" aria-label="153"></span>    if response[0] == 'move':
+        main_board[response[2]] = main_board[response[1]]
+        del main_board[response[1]]
+</code></pre>
+<p class="tx">If the user enters something like <b class="calibre10">move e2 e4</b>, then <span class="thesansmonocd_w5regular_">response[0]</span> is <span class="thesansmonocd_w5regular_">'move'</span>. We can “move” a piece from one square to another by first copying the piece in <span class="thesansmonocd_w5regular_">main_board</span> from the old square (in <span class="thesansmonocd_w5regular_">response[1]</span>) to the new square (in <span class="thesansmonocd_w5regular_">response[2]</span>). Then, we can delete the key-value pair for the old square in <span class="thesansmonocd_w5regular_">main_board</span>. This has the effect of making it seem like the piece has moved (though we won’t see this change until we call <span class="thesansmonocd_w5regular_">print_chessboard()</span> again).</p>
+<p class="tx">Our interactive chessboard simulator doesn’t check if this is a valid move to make. It just carries out the commands given by the user. If the user enters something like <b class="calibre10">remove e2</b>, the program will set <span class="thesansmonocd_w5regular_">response</span> to <span class="thesansmonocd_w5regular_">['remove', 'e2']</span>:</p>
+<pre class="pre"><code class="calibre9">    elif response[0] == 'remove':
+        del main_board[response[1]]
+</code></pre>
+<p class="tx">By deleting the key-value pair at key <span class="thesansmonocd_w5regular_">response[1]</span> from <span class="thesansmonocd_w5regular_">main_board</span>, we make the piece disappear from the board. If the user enters something like <b class="calibre10">set e2 wP</b> to add a white pawn to e2, the program will set <span class="thesansmonocd_w5regular_">response</span> to <span class="thesansmonocd_w5regular_">['set', 'e2', 'wP']</span>:</p>
+<pre class="pre"><code class="calibre9">    elif response[0] == 'set':
+        main_board[response[1]] = response[2]
+</code></pre>
+<p class="tx">We can create a new key-value pair with the key <span class="thesansmonocd_w5regular_">response[1]</span> and value <span class="thesansmonocd_w5regular_">response[2]</span> in <span class="thesansmonocd_w5regular_">main_board</span> to add this piece to the board. If the user enters <span class="sans_thesansmonocd_w7bold_b_">reset</span>, <span class="thesansmonocd_w5regular_">response</span> is simply <span class="thesansmonocd_w5regular_">['reset']</span>, and we can set the board to its starting configuration by copying the <span class="thesansmonocd_w5regular_">STARTING_PIECES</span> dictionary to <span class="thesansmonocd_w5regular_">main_board</span>:</p>
+<pre class="pre"><code class="calibre9">    elif response[0] == 'reset':
+        main_board = copy.copy(STARTING_PIECES)
+</code></pre>
+<p class="tx">If the user enters <span class="sans_thesansmonocd_w7bold_b_">clear</span>, <span class="thesansmonocd_w5regular_">response</span> is simply <span class="thesansmonocd_w5regular_">['clear']</span>, and we can remove all pieces from the board by setting <span class="thesansmonocd_w5regular_">main_board</span> to an empty dictionary:</p>
+<pre class="pre"><code class="calibre9">    elif response[0] == 'clear':
+        main_board = {}
+</code></pre>
+<p class="tx">If the user enters <span class="sans_thesansmonocd_w7bold_b_">fill wP</span>, <span class="thesansmonocd_w5regular_">response</span> is <span class="thesansmonocd_w5regular_">['fill', 'wP']</span>, and we change all 64 squares to the string <span class="thesansmonocd_w5regular_">'wP'</span>:</p>
+<pre class="pre"><code class="calibre9">    elif response[0] == 'fill':
+        for y in '87654321':
+            for x in 'abcdefgh':
+                main_board[x + y] = response[1]
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-962" aria-label="154"></span>The nested <span class="thesansmonocd_w5regular_">for</span> loops will loop over every square, setting the <span class="thesansmonocd_w5regular_">x</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">y</span> key to <span class="thesansmonocd_w5regular_">response[1]</span>. There’s no real reason to put 64 white pawns on a chessboard, but this command demonstrates how easy it is to manipulate the chessboard data structure however we want. Finally, the user can quit the program by entering <span class="sans_thesansmonocd_w7bold_b_">quit</span>:</p>
+<pre class="pre"><code class="calibre9">    elif response[0] == 'quit':
+        sys.exit()
+</code></pre>
+<p class="tx">After carrying out the command and modifying <span class="thesansmonocd_w5regular_">main_board</span>, the execution jumps back to the start of the <span class="thesansmonocd_w5regular_">while</span> loop to display the changed board and accept a new command from the user.</p>
+<p class="tx">This interactive chessboard program doesn’t restrict what pieces you can place or move. It simply uses a dictionary as a representation of pieces on a chessboard and has one function for displaying such dictionaries on the screen in a way that looks like a chessboard. We can model all real-world objects or processes by designing data structures and writing functions to work with those data structures. If you’d like to see another example of modeling a game board with data structures, my other book, <i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021), has a working tic-tac-toe program.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h3 class="h" id="calibre_link-1581"><span id="calibre_link-157"></span><span class="sans_futura_std_bold_b_">Nested Dictionaries and Lists</span></h3>
+<p class="tni">As you model more complicated things, you may find you need dictionaries and lists that contain other dictionaries and lists. Lists are useful for holding an ordered series of values, and dictionaries are useful for associating keys with values. For example, here’s a program that uses a dictionary to contain dictionaries of items guests are bringing to a picnic. The <span class="thesansmonocd_w5regular_">total_brought()</span> function can read this data structure and calculate the total number of each item type. Enter the following code in a new program saved as <i class="calibre5">guestpicnic.py</i>:</p>
+<pre class="pre"><code class="calibre9">all_guests = {'Alice': {'apples': 5, 'pretzels': 12},
+              'Bob': {'ham sandwiches': 3, 'apples': 2},
+              'Carol': {'cups': 3, 'apple pies': 1}}
+
+def total_brought(guests, item):
+    num_brought = 0
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> for k, v in guests.items():
+      <span class="code_codeannotation" aria-label="annotation2">❷</span> num_brought = num_brought + v.get(item, 0)
+    return num_brought
+
+print('Number of things being brought:')
+print(' - Apples         ' + str(total_brought(all_guests, 'apples')))
+print(' - Cups           ' + str(total_brought(all_guests, 'cups')))
+print(' - Cakes          ' + str(total_brought(all_guests, 'cakes')))
+print(' - Ham Sandwiches ' + str(total_brought(all_guests, 'ham sandwiches')))
+print(' - Apple Pies     ' + str(total_brought(all_guests, 'apple pies')))
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1582" aria-label="155"></span>Inside the <span class="thesansmonocd_w5regular_">total_brought()</span> function, the <span class="thesansmonocd_w5regular_">for</span> loop iterates over the key-value pairs in <span class="thesansmonocd_w5regular_">guests</span> <span class="codeannotation" aria-label="annotation1">❶</span>. Inside the loop, the string of the guest’s name is assigned to <span class="thesansmonocd_w5regular_">k</span>, and the dictionary of picnic items they’re bringing is assigned to <span class="thesansmonocd_w5regular_">v</span>. If the item parameter exists as a key in this dictionary, its value (the quantity) is added to <span class="thesansmonocd_w5regular_">num_brought</span> <span class="codeannotation" aria-label="annotation2">❷</span>. If it doesn’t exist as a key, the <span class="thesansmonocd_w5regular_">get()</span> method returns <span class="thesansmonocd_w5regular_">0</span> to be added to <span class="thesansmonocd_w5regular_">num_brought</span>.</p>
+<p class="tx">The output of this program looks like this:</p>
+<pre class="pre"><code class="calibre9"> Number of things being brought:
+ - Apples 7
+ - Cups 3
+ - Cakes 0
+ - Ham Sandwiches 3
+ - Apple Pies 1
+</code></pre>
+<p class="tx">The number of items brought to a picnic may seem like such a simple thing to model that you wouldn’t need to bother with writing a program to do it. But realize that this same <span class="thesansmonocd_w5regular_">total_brought()</span> function could easily handle a dictionary that contains thousands of guests, each bringing thousands of different picnic items. In that case, having this information in a data structure, along with the <span class="thesansmonocd_w5regular_">total_brought()</span> function, would save you a lot of time!</p>
+<p class="tx">You can model things with data structures in whatever way you like, as long as the rest of the code in your program can work with the data model correctly. When you first begin programming, don’t worry so much about the “right” way to model data. As you gain more experience, you may come up with more efficient models; the important thing is that the data model works for your program’s needs.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec12">
+<h3 class="h" id="calibre_link-1583"><span id="calibre_link-158"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">You learned all about dictionaries in this chapter. Lists and dictionaries are values that can contain multiple values, including other lists and dictionaries. Dictionaries are useful because you can map one item (the key) to another item (the value), whereas lists simply contain a series of values in order. Code can access values inside a dictionary using square brackets just as with lists. Instead of integer indexes, dictionaries can have keys of a variety of data types: integers, floats, strings, or tuples. By organizing a program’s values into data structures, you can create representations of real-world objects, such as the chessboard modeled in this chapter.</p>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h3 class="h" id="calibre_link-1584"><span id="calibre_link-159"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What does the code for an empty dictionary look like?</p>
+<p class="listnumber">  2.  What does a dictionary value with a key <span class="thesansmonocd_w5regular_">'foo'</span> and a value <span class="thesansmonocd_w5regular_">42</span> look like?</p>
+<p class="listnumber">  3.  What is the main difference between a dictionary and a list?</p>
+<p class="listnumber">  4.  What happens if you try to access <span class="thesansmonocd_w5regular_">spam['foo']</span> if <span class="thesansmonocd_w5regular_">spam</span> is <span class="thesansmonocd_w5regular_">{'bar': 100}</span>?</p>
+<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1012" aria-label="156"></span>  5.  If a dictionary is stored in <span class="thesansmonocd_w5regular_">spam</span>, what is the difference between the expressions <span class="thesansmonocd_w5regular_">'cat' in spam</span> and <span class="thesansmonocd_w5regular_">'cat' in spam.keys()</span>?</p>
+<p class="listnumber">  6.  If a dictionary is stored in <span class="thesansmonocd_w5regular_">spam</span>, what is the difference between the expressions <span class="thesansmonocd_w5regular_">'cat' in spam</span> and <span class="thesansmonocd_w5regular_">'cat' in spam.values()</span>?</p>
+<p class="listnumber">  7.  What is a shortcut for the following code?</p>
+<pre class="pre"><code class="calibre9">if 'color' not in spam:
+    spam['color'] = 'black'
+</code></pre>
+<p class="listnumber">  8.  What module and function can be used to “pretty-print” dictionary values?</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h3 class="h" id="calibre_link-1585"><span id="calibre_link-160"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1" id="calibre_link-1586"><span id="calibre_link-161"></span><span class="sans_futura_std_heavy_oblique_bi_">Chess Dictionary Validator</span></h4>
+<p class="tni">In this chapter, we used the dictionary value <span class="thesansmonocd_w5regular_">{'h1': 'bK', 'c6': 'wQ', 'g2': 'bB', 'h5': 'bQ', 'e3': 'wK'}</span> to represent a chessboard. Write a function named <span class="thesansmonocd_w5regular_">isValidChessBoard()</span> that takes a dictionary argument and returns <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span> depending on whether the board is valid.</p>
+<p class="tx">A valid board will have exactly one black king and exactly one white king. Each player can have at most 16 pieces, of which only eight can be pawns, and all pieces must be on a valid square from <span class="thesansmonocd_w5regular_">'1a'</span> to <span class="thesansmonocd_w5regular_">'8h'</span>. That is, a piece can’t be on square <span class="thesansmonocd_w5regular_">'9z'</span>. The piece names should begin with either a <span class="thesansmonocd_w5regular_">'w'</span> or a <span class="thesansmonocd_w5regular_">'b'</span> to represent white or black, followed by <span class="thesansmonocd_w5regular_">'pawn'</span>, <span class="thesansmonocd_w5regular_">'knight'</span>, <span class="thesansmonocd_w5regular_">'bishop'</span>, <span class="thesansmonocd_w5regular_">'rook'</span>, <span class="thesansmonocd_w5regular_">'queen'</span>, or <span class="thesansmonocd_w5regular_">'king'</span>. This function should detect when a bug has resulted in an improper chessboard. (This isn’t an exhaustive list of requirements, but it is close enough for this exercise.)</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h4 class="h1" id="calibre_link-1587"><span id="calibre_link-162"></span><span class="sans_futura_std_heavy_oblique_bi_">Fantasy Game Inventory</span></h4>
+<p class="tni">Say you’re creating a medieval fantasy video game. The data structure to model the player’s inventory is a dictionary whose keys are strings describing the item in the inventory and whose values are integers detailing how many of that item the player has. For example, the dictionary value <span class="thesansmonocd_w5regular_">{'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}</span> means the player has one rope, six torches, 42 gold coins, and so on.</p>
+<p class="tx">Write a function named <span class="thesansmonocd_w5regular_">display_inventory()</span> that would take any possible “inventory” and display it like the following:</p>
+<pre class="pre"><code class="calibre9">Inventory:
+12 arrow
+42 gold coin
+1 rope
+6 torch
+1 dagger
+Total number of items: 62
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1221" aria-label="157"></span>Hint: You can use a <span class="thesansmonocd_w5regular_">for</span> loop to loop through all keys in a dictionary.</p>
+<pre class="pre"><code class="calibre9">stuff = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
+
+def display_inventory(inventory):
+    print("Inventory:")
+    item_total = 0
+    for k, v in inventory.items():
+        # FILL THIS PART IN
+    print("Total number of items: " + str(item_total))
+
+display_inventory(stuff)
+</code></pre>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1" id="calibre_link-1588"><span id="calibre_link-163"></span><span class="sans_futura_std_heavy_oblique_bi_">List-to-Dictionary Loot Conversion</span></h4>
+<p class="tni">Imagine that the same fantasy video game represents a vanquished dragon’s loot as a list of strings, like this:</p>
+<pre class="pre"><code class="calibre9">dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']</code></pre>
+<p class="tx">Write a function named <span class="thesansmonocd_w5regular_">add_to_inventory(inventory, added_items)</span>. The <span class="thesansmonocd_w5regular_">inventory</span> parameter is a dictionary representing the player’s inventory (as in the previous project) and the <span class="thesansmonocd_w5regular_">added_items</span> parameter is a list, like <span class="thesansmonocd_w5regular_">dragon_loot</span>. The <span class="thesansmonocd_w5regular_">add_to_inventory()</span> function should return a dictionary that represents the player’s updated inventory. Note that the <span class="thesansmonocd_w5regular_">added_items</span> list can contain multiples of the same item. Your code could look something like this:</p>
+<pre class="pre"><code class="calibre9">def add_to_inventory(inventory, added_items):
+    # Your code goes here.
+
+inv = {'gold coin': 42, 'rope': 1}
+dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
+inv = add_to_inventory(inv, dragon_loot)
+display_inventory(inv)
+</code></pre>
+<p class="tx">The previous program (with your <span class="thesansmonocd_w5regular_">display_inventory()</span> function from the previous project) would output the following:</p>
+<pre class="pre"><code class="calibre9">Inventory:
+45 gold coin
+1 rope
+1 ruby
+1 dagger
+
+Total number of items: 48
+</code></pre>
+</section>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

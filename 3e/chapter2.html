@@ -1,0 +1,530 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-43">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch2">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1432" aria-label="27"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1433">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">2</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">IF-ELSE AND FLOW CONTROL</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">So, you know the basics of individual instructions and that a program is just a series of such instructions. But programming’s real strength isn’t just running one instruction after another like a weekend errand list. Based on how expressions evaluate, a program can decide to skip instructions, repeat them, or choose one of several instructions to run. In fact, you almost never want your programs to start from the first line of code and simply execute every line, straight to the end. <i class="calibre18">Flow control statements</i> can decide which Python instructions to execute under which conditions.</p>
+<p class="tx">These flow control statements directly correspond to the symbols in a flowchart, so I’ll provide flowchart versions of the code discussed in this <span role="doc-pagebreak" type="pagebreak" id="calibre_link-973" aria-label="28"></span>chapter. Figure 2-1 shows a flowchart for what to do if it’s raining. Follow the path made by the arrows from Start to End.</p>
+<figure class="img"><img class="img1" id="calibre_link-661" src="images/000048.jpg" alt="A flowchart that connects boxes with branching paths labeled “Yes” and “No.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-1: A flowchart to tell you what to do if it is raining</span> Description</p></figcaption>
+</figure>
+<p class="tx">In a flowchart, there is usually more than one way to go from the start to the end. The same is true for lines of code in a computer program. Flowcharts represent these branching points with diamonds, the other steps with rectangles, and the starting and ending steps with rounded rectangles.</p>
+<p class="tx">But before you learn about flow control statements, you first need to learn how to represent those <i class="calibre5">yes</i> and <i class="calibre5">no</i> options, and you need to understand how to write those branching points as Python code. To that end, let’s explore Boolean values, comparison operators, and Boolean operators.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1434"><span id="calibre_link-44"></span><span class="sans_futura_std_bold_b_">Boolean Values</span></h3>
+<p class="tni">While the integer, floating-point, and string data types have an unlimited number of possible values, the <i class="calibre5">Boolean</i> data type has only two values: <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">False</span>. (<i class="calibre5">Boolean</i> is capitalized because the data type is named after mathematician George Boole.) When entered as Python code, the Boolean values <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">False</span> lack the quotation marks you place around strings, and they always start with a capital <i class="calibre5">T</i> or <i class="calibre5">F</i>, with the rest of the word in lowercase. Note that these Boolean values don’t have quotes, because they are <span role="doc-pagebreak" type="pagebreak" id="calibre_link-860" aria-label="29"></span>different from the string values <span class="thesansmonocd_w5regular_">'True'</span> and <span class="thesansmonocd_w5regular_">'False'</span>. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">spam = True</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+True
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">true</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+NameError: name 'true' is not defined
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">False = 2 + 2</b>
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+SyntaxError: can't assign to False
+</code></pre>
+<p class="tx">Some of these instructions are intentionally incorrect, and they’ll cause error messages to appear. Like any other value, you can use Boolean values in expressions and store them in variables <span class="codeannotation" aria-label="annotation1">❶</span>. If you don’t use the proper case <span class="codeannotation" aria-label="annotation2">❷</span> or if you try to use <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">False</span> for variable names <span class="codeannotation" aria-label="annotation3">❸</span>, Python will give you an error message.</p>
+</section>
+<section type="division" aria-labelledby="sec2">
+<h3 class="h" id="calibre_link-1435"><span id="calibre_link-45"></span><span class="sans_futura_std_bold_b_">Comparison Operators</span></h3>
+<p class="tni"><i class="calibre5">Comparison operators</i>, also called <i class="calibre5">relational operators</i>, compare two values and evaluate down to a single Boolean value. Table 2-1 lists the comparison operators.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-663"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 2-1:</span></span> <span class="sans_futura_std_book_">Comparison Operators</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Operator</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Meaning</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Examples</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">==</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Equal to</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">5</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">5</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span> <span class="thesansmonocd_w5regular_">4</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">!=</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Not equal to</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">1 !=</span> <span class="thesansmonocd_w5regular_">2</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span> <span class="thesansmonocd_w5regular_">'Hello' !=</span> <span class="thesansmonocd_w5regular_">'Hello'</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">.</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">&lt;</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Less than</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">10 &lt; 5</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">.</span> <span class="thesansmonocd_w5regular_">1.999 &lt; 5</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">&gt;</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Greater than</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">1</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1 &gt; 4</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">8</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">.</span> <span class="thesansmonocd_w5regular_">99 &gt; 4</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">8</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">&lt;=</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Less than or equal to</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">4 &lt;=</span> <span class="thesansmonocd_w5regular_">5</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span> <span class="thesansmonocd_w5regular_">5 &lt;=</span> <span class="thesansmonocd_w5regular_">5</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">&gt;=</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Greater than or equal to</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">5 &gt;=</span> <span class="thesansmonocd_w5regular_">4</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span> <span class="thesansmonocd_w5regular_">5 &gt;=</span> <span class="thesansmonocd_w5regular_">5</span> <span class="sans_futura_std_book_">evaluates to</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">.</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">These operators evaluate to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span> depending on the values you give them. Let’s try some operators now, starting with <span class="thesansmonocd_w5regular_">==</span> and <span class="thesansmonocd_w5regular_">!=</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">42 == 42</b>
+True
+&gt;&gt;&gt; <b class="calibre10">42 == 99</b>
+False
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1222" aria-label="30"></span>&gt;&gt;&gt; <b class="calibre10">2 != 3</b>
+True
+&gt;&gt;&gt; <b class="calibre10">2 != 2</b>
+False
+</code></pre>
+<p class="tx">As you might expect, <span class="thesansmonocd_w5regular_">==</span> (equal to) evaluates to <span class="thesansmonocd_w5regular_">True</span> when the values on both sides are the same, and <span class="thesansmonocd_w5regular_">!=</span> (not equal to) evaluates to <span class="thesansmonocd_w5regular_">True</span> when the two values are different. The <span class="thesansmonocd_w5regular_">==</span> and <span class="thesansmonocd_w5regular_">!=</span> operators can actually work with values of any data type:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'hello' == 'hello'</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'hello' == 'Hello'</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'dog' != 'cat'</b>
+True
+&gt;&gt;&gt; <b class="calibre10">True == True</b>
+True
+&gt;&gt;&gt; <b class="calibre10">True != False</b>
+True
+&gt;&gt;&gt; <b class="calibre10">42 == 42.0</b>
+True
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">42 == '42'</b>
+False
+</code></pre>
+<p class="tx">Note that an integer or floating-point value will never equal a string value. The expression <span class="thesansmonocd_w5regular_">42</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">'42'</span> <span class="codeannotation" aria-label="annotation1">❶</span> evaluates to <span class="thesansmonocd_w5regular_">False</span> because Python considers the integer <span class="thesansmonocd_w5regular_">42</span> to be different from the string <span class="thesansmonocd_w5regular_">'42'</span>. However, Python does consider the integer <span class="thesansmonocd_w5regular_">42</span> to be the same as the float <span class="thesansmonocd_w5regular_">42.0</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">&lt;</span>, <span class="thesansmonocd_w5regular_">&gt;</span>, <span class="thesansmonocd_w5regular_">&lt;=</span>, and <span class="thesansmonocd_w5regular_">&gt;=</span> operators, on the other hand, work properly only with integer and floating-point values:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">42 &lt; 100</b>
+True
+&gt;&gt;&gt; <b class="calibre10">42 &gt; 100</b>
+False
+&gt;&gt;&gt; <b class="calibre10">42 &lt; 42</b>
+False
+&gt;&gt;&gt; <b class="calibre10">eggs = 42</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">eggs &lt;= 42</b>
+True
+&gt;&gt;&gt; <b class="calibre10">my_age = 29</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">my_age &gt;= 10</b>
+True
+</code></pre>
+<p class="tx">You’ll often use comparison operators to compare a variable’s value to some other value, like in the <span class="thesansmonocd_w5regular_">eggs &lt;=</span> <span class="thesansmonocd_w5regular_">42</span> <span class="codeannotation" aria-label="annotation1">❶</span> and <span class="thesansmonocd_w5regular_">my_age &gt;=</span> <span class="thesansmonocd_w5regular_">10</span> <span class="codeannotation" aria-label="annotation2">❷</span> examples, or to compare the values in two variables to each other. (After all, comparing two literal values like <span class="thesansmonocd_w5regular_">'dog' !=</span> <span class="thesansmonocd_w5regular_">'cat'</span> always has the same result.) You’ll see more examples of this later when you learn about flow control statements.</p>
+<aside class="box" aria-label="box-5">
+<p class="bt" id="calibre_link-1436"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-905" aria-label="31"></span><span class="sans_futura_std_bold_b_">THE DIFFERENCE BETWEEN THE == AND = OPERATORS</span></p>
+<p class="btni"><span class="sans_futura_std_book_">You might have noticed that the</span> <span class="thesansmonocd_w5regular_">==</span> <span class="sans_futura_std_book_">operator (equal to) has two equal signs, while the</span> <span class="thesansmonocd_w5regular_">=</span> <span class="sans_futura_std_book_">operator (assignment) has just one equal sign. It’s easy to confuse these two operators with each other. Just remember these points:</span></p>
+<ul class="ul">
+<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">==</span> <span class="sans_futura_std_book_">operator asks whether two values are the same as each other.</span></li>
+<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">=</span> <span class="sans_futura_std_book_">operator puts the value on the right into the variable on the left.</span></li>
+</ul>
+<p class="boxb-last"><span class="sans_futura_std_book_">To help remember which is which, notice that the</span> <span class="thesansmonocd_w5regular_">==</span> <span class="sans_futura_std_book_">operator (equal to) consists of two characters, just like the</span> <span class="thesansmonocd_w5regular_">!=</span> <span class="sans_futura_std_book_">operator (not equal to) consists of two characters.</span></p>
+</aside>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h3 class="h" id="calibre_link-1437"><span id="calibre_link-46"></span><span class="sans_futura_std_bold_b_">Boolean Operators</span></h3>
+<p class="tni">The three Boolean operators (<span class="thesansmonocd_w5regular_">and</span>, <span class="thesansmonocd_w5regular_">or</span>, and <span class="thesansmonocd_w5regular_">not</span>) are used to compare Boolean values. Like comparison operators, they evaluate these expressions down to a Boolean value. Let’s explore these operators in detail, starting with the <span class="thesansmonocd_w5regular_">and</span> operator.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">and</span> operator always takes two Boolean values (or expressions), so it’s considered to be a <i class="calibre5">binary</i> Boolean operator. The <span class="thesansmonocd_w5regular_">and</span> operator evaluates an expression to <span class="thesansmonocd_w5regular_">True</span> if <i class="calibre5">both</i> Boolean values are <span class="thesansmonocd_w5regular_">True</span>; otherwise, it evaluates to <span class="thesansmonocd_w5regular_">False</span>. Enter some expressions using <span class="thesansmonocd_w5regular_">and</span> into the interactive shell to see it in action:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">True and True</b>
+True
+&gt;&gt;&gt; <b class="calibre10">True and False</b>
+False
+</code></pre>
+<p class="tx">A <i class="calibre5">truth table</i> shows every possible result of a Boolean operator. Table 2-2 is the truth table for the <span class="thesansmonocd_w5regular_">and</span> operator.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-664"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 2-2:</span></span> <span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">and</span> <span class="sans_futura_std_book_">Operator’s Truth Table</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Expression</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Evaluates to ...</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">True and True</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">True</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">True and False</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">False</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">False and True</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">False</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">False and False</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">False</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">Like the <span class="thesansmonocd_w5regular_">and</span> operator, the <span class="thesansmonocd_w5regular_">or</span> operator also always takes two Boolean values (or expressions), and therefore is considered to be a binary Boolean <span role="doc-pagebreak" type="pagebreak" id="calibre_link-974" aria-label="32"></span>operator. However, the <span class="thesansmonocd_w5regular_">or</span> operator evaluates an expression to <span class="thesansmonocd_w5regular_">True</span> if <i class="calibre5">either</i> of the two Boolean values is <span class="thesansmonocd_w5regular_">True</span>. If both are <span class="thesansmonocd_w5regular_">False</span>, it evaluates to <span class="thesansmonocd_w5regular_">False</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">False or True</b>
+True
+&gt;&gt;&gt; <b class="calibre10">False or False</b>
+False
+</code></pre>
+<p class="tx">You can see every possible outcome of the <span class="thesansmonocd_w5regular_">or</span> operator in its truth table, shown in Table 2-3.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-665"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 2-3:</span></span> <span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">or</span> <span class="sans_futura_std_book_">Operator’s Truth Table</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Expression</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Evaluates to ...</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">True or True</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">True</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">True or False</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">True</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">False or True</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">True</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">False or False</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">False</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">Unlike <span class="thesansmonocd_w5regular_">and</span> and <span class="thesansmonocd_w5regular_">or</span>, the <span class="thesansmonocd_w5regular_">not</span> operator operates on only one Boolean value (or expression). This makes it a <i class="calibre5">unary</i> operator. The <span class="thesansmonocd_w5regular_">not</span> operator simply evaluates to the opposite Boolean value:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">not True</b>
+False
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">not not not not True</b>
+True
+</code></pre>
+<p class="tx">Much like using double negatives in speech and writing, you can use multiple <span class="thesansmonocd_w5regular_">not</span> operators <span class="codeannotation" aria-label="annotation1">❶</span>, though there’s never not no reason to do this in real programs. Table 2-4 shows the truth table for <span class="thesansmonocd_w5regular_">not</span>.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-666"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 2-4:</span></span> <span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">not</span> <span class="sans_futura_std_book_">Operator’s Truth Table</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Expression</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Evaluates to ...</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">not True</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">False</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">not False</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">True</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h3 class="h" id="calibre_link-1438"><span id="calibre_link-47"></span><span class="sans_futura_std_bold_b_">Mixing Boolean and Comparison Operators</span></h3>
+<p class="tni">Since the comparison operators evaluate to Boolean values, you can use them in expressions with the Boolean operators.</p>
+<p class="tx">Recall that the <span class="thesansmonocd_w5regular_">and</span>, <span class="thesansmonocd_w5regular_">or</span>, and <span class="thesansmonocd_w5regular_">not</span> operators are called Boolean operators because they always operate on the Boolean values <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">False</span>. While expressions like <span class="thesansmonocd_w5regular_">4 &lt; 5</span> aren’t Boolean values, they are expressions that <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1019" aria-label="33"></span>evaluate down to Boolean values. Try entering some Boolean expressions that use comparison operators into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">(4 &lt; 5) and (5 &lt; 6)</b>
+True
+&gt;&gt;&gt; <b class="calibre10">(4 &lt; 5) and (9 &lt; 6)</b>
+False
+&gt;&gt;&gt; <b class="calibre10">(1 == 2) or (2 == 2)</b>
+True
+</code></pre>
+<p class="tx">The computer will evaluate the left expression first, and then it will evaluate the right expression. When it knows the Boolean value for each, it will evaluate the whole expression down to one Boolean value. You can think of the computer’s evaluation process for <span class="thesansmonocd_w5regular_">(4 &lt; 5) and (5 &lt; 6)</span> as the following:</p>
+<figure class="img"><img class="img2" id="calibre_link-1320" src="images/000108.jpg" alt="A diagram showing the evaluation of a Python expression to the value True." />
+<figcaption><p class="cap">Description</p></figcaption>
+</figure>
+<p class="tx">You can also use multiple Boolean operators in an expression, along with the comparison operators:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 4</b>
+&gt;&gt;&gt; <b class="calibre10">2 + 2 == spam and not 2 + 2 == (spam + 1) and 2 * 2 == 2 + 2</b>
+True
+</code></pre>
+<p class="tx">The Boolean operators have an order of operations just like the math operators do. After any math and comparison operators evaluate, Python evaluates the <span class="thesansmonocd_w5regular_">not</span> operators first, then the <span class="thesansmonocd_w5regular_">and</span> operators, and then the <span class="thesansmonocd_w5regular_">or</span> operators.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h3 class="h" id="calibre_link-1439"><span id="calibre_link-48"></span><span class="sans_futura_std_bold_b_">Components of Flow Control</span></h3>
+<p class="tni">Flow control statements often start with a part called the <i class="calibre5">condition</i> and are always followed by a block of code called the <i class="calibre5">clause</i>. Before you learn about Python’s specific flow control statements, I’ll cover what a condition and a block are.</p>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-1440"><span id="calibre_link-49"></span><span class="sans_futura_std_heavy_oblique_bi_">Conditions</span></h4>
+<p class="tni">The Boolean expressions you’ve seen so far could all be considered conditions, which are the same thing as expressions; <i class="calibre5">condition</i> is just a more specific name in the context of flow control statements. A condition always evaluates to a Boolean value, <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>. A flow control statement decides what to do based on whether its condition is <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>, and almost every flow control statement uses a condition. You’ll frequently write code that <span role="doc-pagebreak" type="pagebreak" id="calibre_link-854" aria-label="34"></span>could be described in English as follows: “If this condition is true, do this thing, or else do this other thing.” Other code you’ll write is the same as saying, “Keep repeating these instructions as long as this condition continues to be true.”</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-1441"><span id="calibre_link-50"></span><span class="sans_futura_std_heavy_oblique_bi_">Blocks of Code</span></h4>
+<p class="tni">Lines of Python code can be grouped together in <i class="calibre5">blocks</i>. You can tell when a block begins and ends from the indentation of the lines of code. There are four rules for blocks:</p>
+<ul class="ul">
+<li class="bl">A new block begins when the indentation increases.</li>
+<li class="bl">Blocks can contain other blocks.</li>
+<li class="bl">A block ends when the indentation decreases to zero or to a containing block’s indentation.</li>
+<li class="bl">Python expects a new block immediately after any statement that ends with a colon.</li>
+</ul>
+<p class="tx">Blocks are easier to understand by looking at some indented code, so let’s find the blocks in part of a small program, shown here:</p>
+<pre class="pre"><code class="calibre9">username = 'Mary'
+password = 'swordfish'
+if username == 'Mary':
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> print('Hello, Mary')
+    if password == 'swordfish':
+      <span class="code_codeannotation" aria-label="annotation2">❷</span> print('Access granted.')
+    else:
+      <span class="code_codeannotation" aria-label="annotation3">❸</span> print('Wrong password.')
+</code></pre>
+<p class="tx">The first block of code <span class="codeannotation" aria-label="annotation1">❶</span> starts at the line <span class="thesansmonocd_w5regular_">print('Hello, Mary')</span> and contains all the lines after it. Inside this block is another block <span class="codeannotation" aria-label="annotation2">❷</span>, which has only a single line in it: <span class="thesansmonocd_w5regular_">print('Access granted.')</span>. The third block <span class="codeannotation" aria-label="annotation3">❸</span> is also one line long: <span class="thesansmonocd_w5regular_">print('Wrong password.')</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-1442"><span id="calibre_link-51"></span><span class="sans_futura_std_heavy_oblique_bi_">Program Execution</span></h4>
+<p class="tni">In the previous chapter’s <i class="calibre5">hello.py</i> program, Python started executing instructions at the top of the program going down, one after another. <i class="calibre5">Program execution</i> (or simply, <i class="calibre5">execution</i>) is a term for the current instruction being executed. If you put your finger on each line on your screen as the line is executed, you can think of your finger as the program execution.</p>
+<p class="tx">Not all programs execute by simply going straight down, however. If you use your finger to trace through a program with flow control statements, you’ll likely find your finger jumping around to different places in the source code based on conditions.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec9">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1159" aria-label="35"></span>
+<h3 class="h" id="calibre_link-1443"><span id="calibre_link-52"></span><span class="sans_futura_std_bold_b_">Flow Control Statements</span></h3>
+<p class="tni">Now let’s explore the most important piece of flow control: the statements themselves. The statements represent the diamonds you saw in the flowchart in Figure 2-1, and they are the actual decisions your programs will make.</p>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-1444"><span id="calibre_link-53"></span><span class="sans_futura_std_heavy_oblique_bi_">if</span></h4>
+<p class="tni">The most common type of flow control statement is the <span class="thesansmonocd_w5regular_">if</span> statement. An <span class="thesansmonocd_w5regular_">if</span> statement’s clause (that is, the block following the <span class="thesansmonocd_w5regular_">if</span> statement) will execute if the statement’s condition is <span class="thesansmonocd_w5regular_">True</span>. The clause is skipped if the condition is <span class="thesansmonocd_w5regular_">False</span>.</p>
+<p class="tx">In plain English, an <span class="thesansmonocd_w5regular_">if</span> statement could be read as, “If this condition is true, execute the code in the clause.” In Python, an <span class="thesansmonocd_w5regular_">if</span> statement consists of the following:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">if</span> keyword</li>
+<li class="bl">A condition (that is, an expression that evaluates to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>)</li>
+<li class="bl">A colon</li>
+<li class="bl">Starting on the next line, an indented block of code (called the <span class="thesansmonocd_w5regular_">if</span> clause or <span class="thesansmonocd_w5regular_">if</span> block)</li>
+</ul>
+<p class="tx">For example, let’s say you have some code that checks whether someone’s name is Alice:</p>
+<pre class="pre"><code class="calibre9">name = 'Alice'
+if name == 'Alice':
+    print('Hi, Alice.')
+</code></pre>
+<p class="tx">All flow control statements end with a colon and are followed by a new block of code (the clause). This <span class="thesansmonocd_w5regular_">if</span> statement’s clause is the block with <span class="thesansmonocd_w5regular_">print('Hi, Alice.')</span>. Figure 2-2 shows what the flowchart of this code would look like.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1129" aria-label="36"></span>
+<figure class="img"><img class="img3" id="calibre_link-668" src="images/000049.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-2: The flowchart for an</span> <span class="sans_thesansmonocd_w5regular_italic_">if</span> <span class="sans_futura_std_book_oblique_i_">statement</span> Description</p></figcaption>
+</figure>
+<p class="tx">Try changing the <span class="thesansmonocd_w5regular_">name</span> variable to another string besides <span class="thesansmonocd_w5regular_">'Alice'</span>, and run the program again. Notice that “Hi, Alice.” doesn’t appear on the screen, because that code was skipped over.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h4 class="h1" id="calibre_link-1445"><span id="calibre_link-54"></span><span class="sans_futura_std_heavy_oblique_bi_">else</span></h4>
+<p class="tni">An <span class="thesansmonocd_w5regular_">if</span> clause can optionally be followed by an <span class="thesansmonocd_w5regular_">else</span> statement. The <span class="thesansmonocd_w5regular_">else</span> clause is executed only when the <span class="thesansmonocd_w5regular_">if</span> statement’s condition is <span class="thesansmonocd_w5regular_">False</span>. In plain English, an <span class="thesansmonocd_w5regular_">else</span> statement could be read as, “If this condition is true, execute this code. Or else, execute that code.” An <span class="thesansmonocd_w5regular_">else</span> statement doesn’t have a condition, and in code, an <span class="thesansmonocd_w5regular_">else</span> statement always consists of the following:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">else</span> keyword</li>
+<li class="bl">A colon</li>
+<li class="bl">Starting on the next line, an indented block of code (called the <span class="thesansmonocd_w5regular_">else</span> clause or <span class="thesansmonocd_w5regular_">else</span> block)</li>
+</ul>
+<p class="tx">Returning to the Alice example, let’s look at some code that uses an <span class="thesansmonocd_w5regular_">else</span> statement to offer a different greeting if the person’s name isn’t Alice:</p>
+<pre class="pre"><code class="calibre9">name = 'Alice'
+if name == 'Alice':
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1127" aria-label="37"></span>    print('Hi, Alice.')
+else:
+    print('Hello, stranger.')
+</code></pre>
+<p class="tx">Figure 2-3 shows what the flowchart of this code would look like.</p>
+<figure class="img"><img class="img3" id="calibre_link-670" src="images/000050.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-3: The flowchart for an</span> <span class="sans_thesansmonocd_w5regular_italic_">else</span> <span class="sans_futura_std_book_oblique_i_">statement</span> Description</p></figcaption>
+</figure>
+<p class="tx">Try changing the name variable to a string besides <span class="thesansmonocd_w5regular_">'Alice'</span>, and rerun the program. Instead of <span class="thesansmonocd_w5regular_">'Hi, Alice.'</span>, you will see <span class="thesansmonocd_w5regular_">'Hello, stranger.'</span> on the screen.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-1446"><span id="calibre_link-55"></span><span class="sans_futura_std_heavy_oblique_bi_">elif</span></h4>
+<p class="tni">You would use <span class="thesansmonocd_w5regular_">if</span> or <span class="thesansmonocd_w5regular_">else</span> when you want only one of the clauses to execute. But you may have a case where you want one of <i class="calibre5">many</i> possible clauses to execute. The <span class="thesansmonocd_w5regular_">elif</span> statement is an “else if” statement that always follows an <span class="thesansmonocd_w5regular_">if</span> or another <span class="thesansmonocd_w5regular_">elif</span> statement. It provides another condition that is checked only if all of the previous conditions were <span class="thesansmonocd_w5regular_">False</span>. In code, an <span class="thesansmonocd_w5regular_">elif</span> statement always consists of the following:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">elif</span> keyword</li>
+<li class="bl">A condition (that is, an expression that evaluates to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>)</li>
+<li class="bl">A colon</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1447" aria-label="38"></span>Starting on the next line, an indented block of code (called the <span class="thesansmonocd_w5regular_">elif</span> clause or <span class="thesansmonocd_w5regular_">elif</span> block)</li>
+</ul>
+<p class="tx">Let’s add an <span class="thesansmonocd_w5regular_">elif</span> to the name checker to see this statement in action:</p>
+<pre class="pre"><code class="calibre9">name = 'Alice'
+age = 33
+if name == 'Alice':
+    print('Hi, Alice.')
+elif age &lt; 12:
+    print('You are not Alice, kiddo.')
+</code></pre>
+<p class="tx">This time, the program checks the person’s age and tells them something different if they’re younger than 12. You can see the corresponding flowchart in Figure 2-4.</p>
+<figure class="img"><img class="img3" id="calibre_link-672" src="images/000051.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-4: The flowchart for an</span> <span class="sans_thesansmonocd_w5regular_italic_">elif</span> <span class="sans_futura_std_book_oblique_i_">statement</span> Description</p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1246" aria-label="39"></span>The <span class="thesansmonocd_w5regular_">elif</span> clause executes if <span class="thesansmonocd_w5regular_">age &lt; 12</span> is <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">name</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">'Alice'</span> is <span class="thesansmonocd_w5regular_">False</span>. However, if both of the conditions are <span class="thesansmonocd_w5regular_">False</span>, Python skips both of the clauses. There is <i class="calibre5">no</i> guarantee that at least one of the clauses will be executed; in a chain of <span class="thesansmonocd_w5regular_">elif</span> statements, only one or none of the clauses will be executed. Once one of the statements’ conditions is found to be <span class="thesansmonocd_w5regular_">True</span>, the rest of the <span class="thesansmonocd_w5regular_">elif</span> clauses are automatically skipped. For example, open a new file editor window and enter the following code, saving it as <i class="calibre5">vampire.py</i>:</p>
+<pre class="pre"><code class="calibre9">name = 'Carol'
+age = 3000
+if name == 'Alice':
+    print('Hi, Alice.')
+elif age &lt; 12:
+    print('You are not Alice, kiddo.')
+elif age &gt; 2000:
+    print('Unlike you, Alice is not an undead, immortal vampire.')
+elif age &gt; 100:
+    print('You are not Alice, grannie.')
+</code></pre>
+<p class="tx">Here, I’ve added two more <span class="thesansmonocd_w5regular_">elif</span> statements to make the name checker greet a person with different answers based on <span class="thesansmonocd_w5regular_">age</span>. Figure 2-5 shows the flowchart for this.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1448" aria-label="40"></span>
+<figure class="img"><img class="img3" id="calibre_link-674" src="images/000052.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-5: The flowchart for multiple</span> <span class="sans_thesansmonocd_w5regular_italic_">elif</span> <span class="sans_futura_std_book_oblique_i_">statements in the</span> <span class="sans_futura_std_book_">vampire.py</span> <span class="sans_futura_std_book_oblique_i_">program</span> Description</p></figcaption>
+</figure>
+<p class="tx">The order of the <span class="thesansmonocd_w5regular_">elif</span> statements does matter, however. Let’s rearrange them to introduce a bug. Remember that the rest of the <span class="thesansmonocd_w5regular_">elif</span> clauses are automatically skipped once a <span class="thesansmonocd_w5regular_">True</span> condition has been found, so if you swap around some of the clauses in <i class="calibre5">vampire.py</i>, you will run into <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1309" aria-label="41"></span>a problem. Change the code to look like the following, and save it as <i class="calibre5">vampire2.py</i>:</p>
+<pre class="pre"><code class="calibre9">name = 'Carol'
+age = 3000
+if name == 'Alice':
+    print('Hi, Alice.')
+elif age &lt; 12:
+    print('You are not Alice, kiddo.')
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> elif age &gt; 100:
+    print('You are not Alice, grannie.')
+elif age &gt; 2000:
+    print('Unlike you, Alice is not an undead, immortal vampire.')
+</code></pre>
+<p class="tx">Say the <span class="thesansmonocd_w5regular_">age</span> variable contains the value <span class="thesansmonocd_w5regular_">3000</span> before this code is executed. You might expect the code to print the string <span class="thesansmonocd_w5regular_">'Unlike you, Alice is not an undead, immortal vampire.'</span> However, because the <span class="thesansmonocd_w5regular_">age &gt; 100</span> condition is <span class="thesansmonocd_w5regular_">True</span> (after all, 3,000 <i class="calibre5">is</i> greater than 100) <span class="codeannotation" aria-label="annotation1">❶</span>, the string <span class="thesansmonocd_w5regular_">'You are not Alice, grannie.'</span> is printed, and the rest of the <span class="thesansmonocd_w5regular_">elif</span> statements are automatically skipped. Remember that at most only one of the clauses will be executed, and for <span class="thesansmonocd_w5regular_">elif</span> statements, the order matters!</p>
+<p class="tx">Figure 2-6 shows the flowchart for the previous code. Notice how the diamonds for <span class="thesansmonocd_w5regular_">age &gt; 100</span> and <span class="thesansmonocd_w5regular_">age &gt; 2000</span> are swapped.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1449" aria-label="42"></span>
+<figure class="img"><img class="img3" id="calibre_link-676" src="images/000053.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-6: The</span> <span class="sans_futura_std_book_">vampire2.py</span> <span class="sans_futura_std_book_oblique_i_">program flowchart. The X path will logically never happen, because if</span> <span class="sans_thesansmonocd_w5regular_italic_">age</span> <span class="sans_futura_std_book_oblique_i_">were greater than</span> <span class="sans_thesansmonocd_w5regular_italic_">2000</span><span class="sans_futura_std_book_oblique_i_">, it would have already been greater than 100.</span> Description</p></figcaption>
+</figure>
+<p class="tx">Optionally, you can have an <span class="thesansmonocd_w5regular_">else</span> statement after the last <span class="thesansmonocd_w5regular_">elif</span> statement. In that case, it <i class="calibre5">is</i> guaranteed that at least one (and only one) of the clauses will be executed. If the conditions in every <span class="thesansmonocd_w5regular_">if</span> and <span class="thesansmonocd_w5regular_">elif</span> statement are <span class="thesansmonocd_w5regular_">False</span>, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1224" aria-label="43"></span>then the <span class="thesansmonocd_w5regular_">else</span> clause is executed. For example, let’s re-create the Alice program to use <span class="thesansmonocd_w5regular_">if</span>, <span class="thesansmonocd_w5regular_">elif</span>, and <span class="thesansmonocd_w5regular_">else</span> clauses:</p>
+<pre class="pre"><code class="calibre9">name = 'Carol'
+age = 3000
+if name == 'Alice':
+    print('Hi, Alice.')
+elif age &lt; 12:
+    print('You are not Alice, kiddo.')
+else:
+    print('You are neither Alice nor a little kid.')
+</code></pre>
+<p class="tx">Figure 2-7 shows the flowchart for this new code, which we’ll save as <i class="calibre5">littleKid.py</i>.</p>
+<figure class="img"><img class="img3" id="calibre_link-678" src="images/000054.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2-7: The flowchart for the</span> <span class="sans_futura_std_book_">littleKid.py</span> <span class="sans_futura_std_book_oblique_i_">program</span> Description</p></figcaption>
+</figure>
+<p class="tx">In plain English, this type of flow control structure would be, “If the first condition is true, do this. Else, if the second condition is true, do that. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1253" aria-label="44"></span>Otherwise, do something else.” When you use <span class="thesansmonocd_w5regular_">if</span>, <span class="thesansmonocd_w5regular_">elif</span>, and <span class="thesansmonocd_w5regular_">else</span> statements together, remember these rules about how to order them to avoid bugs like the one in Figure 2-6. First, there is always exactly one <span class="thesansmonocd_w5regular_">if</span> statement; any <span class="thesansmonocd_w5regular_">elif</span> statements you need should follow the <span class="thesansmonocd_w5regular_">if</span> statement. Second, if you want to be sure that at least one clause is executed, close the structure with an <span class="thesansmonocd_w5regular_">else</span> statement.</p>
+<p class="tx">As you can see, flow control statements can make your programs more sophisticated but also more complicated. Don’t despair; you will become more comfortable with this complexity as you practice writing code. And all true programmers have at some point spent an hour to find out their program doesn’t work because they accidentally typed <span class="thesansmonocd_w5regular_">&lt;</span> instead of <span class="thesansmonocd_w5regular_">&lt;=</span>. These little mistakes happen to everyone.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h3 class="h" id="calibre_link-1450"><span id="calibre_link-56"></span><span class="sans_futura_std_bold_b_">A Short Program: Opposite Day</span></h3>
+<p class="tni">With your knowledge of Boolean values and <span class="thesansmonocd_w5regular_">if</span>-<span class="thesansmonocd_w5regular_">else</span> statements, enter the following code into a new file and save it as <i class="calibre5">oppositeday.py</i>:</p>
+<pre class="pre"><code class="calibre9">today_is_opposite_day = True
+
+# Set say_it_is_opposite_day based on today_is_opposite_day:
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> if today_is_opposite_day == True:
+    say_it_is_opposite_day = True
+else:
+    say_it_is_opposite_day = False
+
+# If it is opposite day, toggle say_it_is_opposite_day:
+if today_is_opposite_day == True:
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> say_it_is_opposite_day = not say_it_is_opposite_day
+
+# Say what day it is:
+if say_it_is_opposite_day == True:
+    print('Today is Opposite Day.')
+else:
+    print('Today is not Opposite Day.')
+</code></pre>
+<p class="tx">When you run this program, it outputs <span class="thesansmonocd_w5regular_">'Today is not Opposite Day.'</span> There are two variables in this code. At the start of the program, the <span class="thesansmonocd_w5regular_">today_is_opposite_day</span> variable is set to <span class="thesansmonocd_w5regular_">True</span>. The next <span class="thesansmonocd_w5regular_">if</span> statement checks if this variable is <span class="thesansmonocd_w5regular_">True</span> (it is) <span class="codeannotation" aria-label="annotation1">❶</span> and sets the <span class="thesansmonocd_w5regular_">say_it_is_opposite_day</span> variable to <span class="thesansmonocd_w5regular_">True</span>; otherwise, it would set the variable to <span class="thesansmonocd_w5regular_">False</span>. The second <span class="thesansmonocd_w5regular_">if</span> statement checks if <span class="thesansmonocd_w5regular_">today_is_opposite_day</span> is set to <span class="thesansmonocd_w5regular_">True</span> (it still is), and if so, the code <i class="calibre5">toggles</i> (that is, sets to the opposite Boolean value) the variable <span class="codeannotation" aria-label="annotation2">❷</span>. Finally, the third <span class="thesansmonocd_w5regular_">if</span> statement checks if <span class="thesansmonocd_w5regular_">say_it_is_opposite_day</span> is <span class="thesansmonocd_w5regular_">True</span> (it isn’t) and prints <span class="thesansmonocd_w5regular_">'Today is Opposite Day.'</span>; otherwise, it would have printed <span class="thesansmonocd_w5regular_">'Today is not Opposite Day.'</span></p>
+<p class="tx">If you change the first line of the program to <span class="thesansmonocd_w5regular_">today_is_opposite_day</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">False</span> and run the program again, it still prints <span class="thesansmonocd_w5regular_">'Today is not Opposite Day.'</span> If we look through the program, we can figure out that the first <span class="thesansmonocd_w5regular_">if</span>-<span class="thesansmonocd_w5regular_">else</span> statements set <span class="thesansmonocd_w5regular_">say_it_is_opposite_day</span> to <span class="thesansmonocd_w5regular_">False</span>. The second <span class="thesansmonocd_w5regular_">if</span> statement’s <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1113" aria-label="45"></span>condition is <span class="thesansmonocd_w5regular_">False</span>, so it skips its block of code. Finally, the third <span class="thesansmonocd_w5regular_">if</span> statement’s condition is again <span class="thesansmonocd_w5regular_">False</span> and prints <span class="thesansmonocd_w5regular_">'Today is not Opposite Day.'</span></p>
+<p class="tx">So, if today is not Opposite Day, the program correctly prints <span class="thesansmonocd_w5regular_">'Today is not Opposite Day.'</span> And if today is Opposite Day, the program (also correctly) prints <span class="thesansmonocd_w5regular_">'Today is not Opposite Day.'</span> as one would say on Opposite Day. Logically, this program will never print <span class="thesansmonocd_w5regular_">'Today is Opposite Day.'</span> no matter if the variable is set to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>. Really, you could replace this entire program with just <span class="thesansmonocd_w5regular_">print('Today is not Opposite Day.')</span> and it would be the same program. This is why programmers should not be paid per line of code written.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h3 class="h" id="calibre_link-1451"><span id="calibre_link-57"></span><span class="sans_futura_std_bold_b_">A Short Program: Dishonest Capacity Calculator</span></h3>
+<p class="tni">In <span>Chapter 1</span>, I showed how hard drive and flash memory manufacturers lie about the advertised capacities of their products by using a different definition of TB and GB. Let’s write a program to calculate how misleading their advertised capacities are. Enter the following code into a new file and save it as <i class="calibre5">dishonestcapacity.py</i>:</p>
+<pre class="pre"><code class="calibre9">print('Enter TB or GB for the advertised unit:')
+unit = input('&gt;')
+
+# Calculate the amount that the advertised capacity lies:
+if unit == 'TB' or unit == 'tb':
+    discrepancy = 1000000000000 / 1099511627776
+elif unit == 'GB' or unit == 'gb':
+    discrepancy = 1000000000 / 1073741824
+
+print('Enter the advertised capacity:')
+advertised_capacity = input('&gt;')
+advertised_capacity = float(advertised_capacity)
+
+# Calculate the real capacity, round it to the nearest hundredths,
+# and convert it to a string so it can be concatenated:
+real_capacity = str(round(advertised_capacity * discrepancy, 2))
+
+print('The actual capacity is ' + real_capacity + ' ' + unit)
+</code></pre>
+<p class="tx">This program asks the user to enter what unit the hard drive advertises itself as having, either TB or GB:</p>
+<pre class="pre"><code class="calibre9"># Calculate the amount that the advertised capacity lies:
+if unit == 'TB' or unit == 'tb':
+    discrepancy = 1000000000000 / 1099511627776
+elif unit == 'GB' or unit == 'gb':
+    discrepancy = 1000000000 / 1073741824
+</code></pre>
+<p class="tx">TBs are larger than GBs, and the larger the unit, the wider the discrepancy between advertised and real capacities. The <span class="thesansmonocd_w5regular_">if</span> and <span class="thesansmonocd_w5regular_">elif</span> statements use a Boolean <span class="thesansmonocd_w5regular_">or</span> operator so that the program works no matter whether the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1292" aria-label="46"></span>user enters the unit in lowercase or uppercase. If the user enters something else for the unit, then neither the <span class="thesansmonocd_w5regular_">if</span> clause nor the <span class="thesansmonocd_w5regular_">elif</span> clause runs, and the discrepancy variable is never assigned. Later, when the program tries to use the discrepancy variable, this will cause an error. We’ll cover that case later.</p>
+<p class="tx">Next, the user enters the advertised size in the given units:</p>
+<pre class="pre"><code class="calibre9"># Calculate the real capacity, round it to the nearest hundredths,
+# and convert it to a string so it can be concatenated:
+real_capacity = str(round(advertised_capacity * discrepancy, 2))
+</code></pre>
+<p class="tx">We do a lot in this single line. Let’s use the example of the user entering 10TB for the advertised size and unit. If we look at the innermost part of the line of code, we see that <span class="thesansmonocd_w5regular_">advertised_capacity</span> is multiplied by <span class="thesansmonocd_w5regular_">discrepancy</span>. This is the real capacity, but it may have several digits, as in <span class="thesansmonocd_w5regular_">9.094947017729282</span>. So this number is passed as the first argument to <span class="thesansmonocd_w5regular_">round()</span> with <span class="thesansmonocd_w5regular_">2</span> as the second argument. This function call to <span class="thesansmonocd_w5regular_">round()</span> returns, in our example, <span class="thesansmonocd_w5regular_">9.09</span>. This is a floating-point value, but we want to get a string form of it to concatenate to a message string in the next line of code. To do this, we pass it to the <span class="thesansmonocd_w5regular_">str()</span> function. Python evaluates this one line as the following:</p>
+<figure class="img"><img class="img3" id="calibre_link-1328" src="images/000109.jpg" alt="A diagram showing the evaluation of a Python expression" />
+<figcaption><p class="cap">Description</p></figcaption>
+</figure>
+<p class="tx">If the user failed to enter <i class="calibre5">TB</i>, <i class="calibre5">tb</i>, <i class="calibre5">GB</i>, or <i class="calibre5">gb</i> as the unit, the conditions for both the <span class="thesansmonocd_w5regular_">if</span> and <span class="thesansmonocd_w5regular_">elif</span> statements would be <span class="thesansmonocd_w5regular_">False</span> and the <span class="thesansmonocd_w5regular_">discrepancy</span> variable would never be created. But the user wouldn’t know anything was wrong until Python tried to use the nonexistent variable. Python would raise a <span class="thesansmonocd_w5regular_">NameError: name 'discrepancy' is not defined</span> error and point to the line where <span class="thesansmonocd_w5regular_">real_capacity</span> is assigned.</p>
+<p class="tx">The true origin of this bug, however, is the fact that the program doesn’t handle the case where the user enters an invalid unit. There are many ways to handle this error, but the simplest would be to have an <span class="thesansmonocd_w5regular_">else</span> clause that displays a message like “You must enter TB or GB” and then calls the <span class="thesansmonocd_w5regular_">sys.exit()</span> function to quit the program. (You’ll learn about this function in the next chapter.)</p>
+<p class="tx">The final line in the program displays the actual hard drive capacity by concatenating a message string to the <span class="thesansmonocd_w5regular_">real_capacity</span> and <span class="thesansmonocd_w5regular_">unit</span> strings:</p>
+<pre class="pre"><code class="calibre9">print('The actual capacity is ' + real_capacity + ' ' + unit)</code></pre>
+<p class="tx">As it turns out, hard drives and flash memory manufacturers lie even more: I have a 256GB SD card in my laptop that I use for backups. In real <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1249" aria-label="47"></span>GBs, this should be 274,877,906,944 bytes. In fake GBs, it should be 256,000,000,000 bytes. But my computer reports that the actual capacity is 255,802,212,352 bytes. It’s funny how the actual size is always inaccurate in a way that makes it less than the advertised size, and never more.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec15">
+<h3 class="h" id="calibre_link-1452"><span id="calibre_link-58"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">By using expressions that evaluate to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span> (also called conditions), you can write programs that make decisions on what code to execute and what code to skip. These conditions are expressions that compare two values with the <span class="thesansmonocd_w5regular_">==</span>, <span class="thesansmonocd_w5regular_">!=</span>, <span class="thesansmonocd_w5regular_">&lt;</span>, <span class="thesansmonocd_w5regular_">&gt;</span>, <span class="thesansmonocd_w5regular_">&lt;=</span>, and <span class="thesansmonocd_w5regular_">&gt;=</span> comparison operators to evaluate to a Boolean value. You can also use the <span class="thesansmonocd_w5regular_">and</span>, <span class="thesansmonocd_w5regular_">or</span>, and <span class="thesansmonocd_w5regular_">not</span> Boolean operators to connect expressions into more complicated expressions. Python uses indentation to create blocks of code. In this chapter, we used blocks as part of <span class="thesansmonocd_w5regular_">if</span>, <span class="thesansmonocd_w5regular_">elif</span>, and <span class="thesansmonocd_w5regular_">else</span> statements, but as you’ll see, several other Python statements use blocks as well. These flow control statements will let you write more intelligent programs.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h3 class="h" id="calibre_link-1453"><span id="calibre_link-59"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What are the two values of the Boolean data type? How do you write them?</p>
+<p class="listnumber">  2.  What are the three Boolean operators?</p>
+<p class="listnumber">  3.  Write out the truth tables of each Boolean operator (that is, every possible combination of Boolean values for the operator and what they evaluate to).</p>
+<p class="listnumber">  4.  What do the following expressions evaluate to?</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">(5 &gt; 4) and (3 == 5)</span>
+not (5 &gt; 4)
+(5 &gt; 4) or (3 == 5)
+not ((5 &gt; 4) or (3 == 5))
+(True and True) and (True == False)
+(not False) or (not True)
+</code></pre>
+<p class="listnumber">  5.  What are the six comparison operators?</p>
+<p class="listnumber">  6.  What is the difference between the equal to operator and the assignment operator?</p>
+<p class="listnumber">  7.  Explain what a condition is and where you would use one.</p>
+<p class="listnumber">  8.  Identify the three blocks in this code:</p>
+<pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">spam = 0</span>
+if spam == 10:
+    print('eggs')
+    if spam &gt; 5:
+       print('bacon')
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1454" aria-label="48"></span>    else:
+        print('ham')
+    print('spam')
+print('Done')
+</code></pre>
+<p class="listnumber">  9.  Write code that prints <span class="thesansmonocd_w5regular_">Hello</span> if <span class="thesansmonocd_w5regular_">1</span> is stored in <span class="thesansmonocd_w5regular_">spam</span>, prints <span class="thesansmonocd_w5regular_">Howdy</span> if <span class="thesansmonocd_w5regular_">2</span> is stored in <span class="thesansmonocd_w5regular_">spam</span>, and prints <span class="thesansmonocd_w5regular_">Greetings!</span> if anything else is stored in <span class="thesansmonocd_w5regular_">spam</span>.</p>
+</section>
+</section>
+</div>
+
+
+
+</div>
+
+
+
+</body></html>

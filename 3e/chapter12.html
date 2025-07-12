@@ -1,0 +1,649 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-279">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch12">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1723" aria-label="257"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1724">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">12</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">DESIGNING AND DEPLOYING COMMAND LINE PROGRAMS</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">Thus far, we’ve focused on running programs from Mu (or from whatever code editor you’re using). This chapter discusses how to run programs from the command line terminal. The command line can be intimidating, with its cryptic commands and utter lack of user-friendly presentation, and most users stay away from it. But there are some genuine benefits to becoming familiar with it, and it’s no more challenging than any of the programming you’ve done so far.</p>
+<p class="tx">Once you’ve written a Python program to automate some task, having to open Mu every time you want to run it can be a burden. The command line is a more convenient way to execute Python scripts (especially if you share your programs with friends or co-workers who don’t have Mu, or even <span role="doc-pagebreak" type="pagebreak" id="calibre_link-915" aria-label="258"></span>Python, installed). In software development, <i class="calibre5">deployment</i> is the process of making our software usable outside our code editors.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h"><span id="calibre_link-1725"></span><span id="calibre_link-280"></span><span class="sans_futura_std_bold_b_">A Program by Any Other Name</span></h3>
+<p class="tni">This chapter (and programming in general) uses a lot of terms that mean <i class="calibre5">a program</i> or some slight variation of the term. You could accurately call all of the following items a program. But there are subtle differences between what these names mean:</p>
+<p class="listplain"><b class="calibre10">Program</b>  A complete piece of software, large or small, with instructions that a computer carries out.</p>
+<p class="listplain"><b class="calibre10">Script</b>  A program that an interpreter runs from its source-code form rather than from a compiled, machine-code form. This is a very loose term. Python programs are often called scripts even though Python code can be compiled like other languages (as you’ll learn in <span>“Compiling Python Programs with PyInstaller” on page 285</span>).</p>
+<p class="listplain"><b class="calibre10">Command</b>  A program that is often run from a text-based terminal and doesn’t have a graphical user interface (GUI). All configuration is done up front by specifying command line arguments before running the command (although <i class="calibre5">interactive commands</i> may sometimes interrupt their operation with an “Are you sure? Y/N” question for the user). Both <span class="thesansmonocd_w5regular_">dir</span> and <span class="thesansmonocd_w5regular_">ls</span>, explained in <span>“The cd, pwd, dir, and ls Commands” on page 260</span>, are examples of commands.</p>
+<p class="listplain"><b class="calibre10">Shell script</b>  A single text file that conveniently runs several bundled terminal commands in one batch. This way, a user can run one shell script instead of manually entering several commands individually. On macOS and Linux, shell script files have a <i class="calibre5">.sh</i> file extension (or no extension), while Windows uses the term batch file for shell scripts with a <i class="calibre5">.bat</i> file extension.</p>
+<p class="listplain"><b class="calibre10">Application</b>  A program that has a GUI and contains multiple related features. Excel and Firefox are examples of applications. Applications usually have several files that an <i class="calibre5">installer</i> program sets up on your computer (and that an <i class="calibre5">uninstaller</i> program can remove), rather than consisting of just a single executable file copied to a computer.</p>
+<p class="listplain"><b class="calibre10">App</b>  A common name for mobile phone and tablet applications, but the term can be used for desktop applications as well.</p>
+<p class="listplain"><b class="calibre10">Web app</b>  A program that runs on a web server, and which users interact with over the internet through a web browser.</p>
+<p class="tx">You’re welcome to nitpick about precise definitions; these explanations should merely give you a general sense of the terms’ usage. If you want to become familiar with more terminology, my book <i class="calibre5">Beyond the Basic Stuff with Python</i> (No Starch Press, 2020) has additional definitions in its “Programming Jargon” chapter.</p>
+</section>
+<section type="division" aria-labelledby="sec2">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-907" aria-label="259"></span>
+<h3 class="h"><span id="calibre_link-1726"></span><span id="calibre_link-281"></span><span class="sans_futura_std_bold_b_">Using the Terminal</span></h3>
+<p class="tni">Until the 1990s, when Apple and Microsoft popularized computers with GUIs that could run multiple programs simultaneously, programs were launched from a <i class="calibre5">command line interface</i> (CLI, pronounced either as “see-el-eye” or as a word that rhymes with “fly”) and were often limited to text-based input and output. You might also hear CLIs called the <i class="calibre5">command prompt</i>, <i class="calibre5">terminal</i>, <i class="calibre5">shell</i>, or <i class="calibre5">console</i>. Software developers still make use of CLIs and often have several terminal windows open on their computers at any given time. While a text-based terminal might not have the icons, buttons, and graphics of a GUI, it’s an effective way to use a computer once you’ve learned several commands.</p>
+<p class="tx">To open a terminal window, do the following:</p>
+<ul class="ul">
+<li class="bl">On Windows, click the <b class="calibre10">Start</b> button (or press the <b class="calibre10">Windows key</b>) and enter <b class="calibre10">Command Prompt</b> (or <b class="calibre10">PowerShell</b> or <b class="calibre10">Terminal</b> if you have them installed).</li>
+<li class="bl">On macOS, click the Spotlight icon in the upper-right corner (or press <span class="sans_futura_std_book_"></span>-<b class="calibre10">spacebar</b>) and enter <b class="calibre10">Terminal</b>.</li>
+<li class="bl">On Ubuntu Linux, press the <b class="calibre10">Windows key</b> to bring up Dash, and enter <b class="calibre10">Terminal</b>. Alternatively, use the keyboard shortcut <small class="calibre4">CTRL</small><b class="calibre10">-</b><small class="calibre4">ALT</small>-T.</li>
+</ul>
+<p class="tx">Just as the interactive shell has a <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt, the terminal will display a prompt for you to enter commands. On Windows, this will be the full path of the folder you are currently in, followed by an angle bracket (<span class="thesansmonocd_w5regular_">&gt;</span>):</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">your commands go here</b></code></pre>
+<p class="tx">On macOS, the prompt shows your username, your computer’s name, and the current working directory (with your home folder represented as <span class="thesansmonocd_w5regular_">~</span> for short), followed by a percent sign (<span class="thesansmonocd_w5regular_">%</span>):</p>
+<pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">your commands go here</b></code></pre>
+<p class="tx">On Ubuntu Linux, the prompt is similar to the prompt in macOS, except it begins with the username and an <span class="thesansmonocd_w5regular_">@</span> sign:</p>
+<pre class="pre"><code class="calibre9">al@al-VirtualBox:~$ <b class="calibre10">your commands go here</b></code></pre>
+<p class="tx">While it’s easier to run programs from the Start menu (Windows) or Spotlight (macOS), it’s also possible to start them from the terminal. The Python interpreter itself is a program often run from the terminal.</p>
+<p class="tx">In this chapter, we’ll assume the Python program you want to run is named <i class="calibre5">yourScript.py</i> and that it’s located in a <i class="calibre5">Scripts</i> folder under your home folder. You don’t need to open Mu to access the Python interactive shell. From a terminal window, you can enter <span class="thesansmonocd_w5regular_">python</span> on Windows or <span class="thesansmonocd_w5regular_">python3</span> on macOS and Linux to start it. (You should then see its familiar <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt.) To run one of your <i class="calibre5">.py</i> Python files from the terminal, enter its filepath after <span class="thesansmonocd_w5regular_">python</span> or <span class="thesansmonocd_w5regular_">python3</span>—either in its absolute form, like <span class="thesansmonocd_w5regular_">python C:\Users\al\Scripts\yourScript.py</span>, or in its relative form, like <span class="thesansmonocd_w5regular_">python yourScript.py</span>, if the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-738" aria-label="260"></span>current working directory is set to <i class="calibre5">C:\Users\al\Scripts</i>, the same folder that <i class="calibre5">yourScript.py</i> is in.</p>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1"><span id="calibre_link-1727"></span><span id="calibre_link-282"></span><span class="sans_futura_std_heavy_oblique_bi_">The cd, pwd, dir, and ls Commands</span></h4>
+<p class="tni">Just as all running programs have a current working directory (CWD) to which relative filepaths are attached, the terminal too has a current working directory. You can see this CWD as part of the terminal prompt, or view it by running <span class="thesansmonocd_w5regular_">pwd</span> (for <i class="calibre5">print working directory</i>) on macOS and Linux or the <span class="thesansmonocd_w5regular_">cd</span> command, without any command line arguments, on Windows.</p>
+<p class="tx">Your Python programs can change the CWD by calling the <span class="thesansmonocd_w5regular_">os.chdir()</span> function. In the terminal, you can do the same thing by entering the <span class="thesansmonocd_w5regular_">cd</span> command followed by the relative or absolute filepath of the folder to change to:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">cd Desktop</b>
+C:\Users\al\Desktop&gt;<b class="calibre10">cd ..</b>
+C:\Users\al&gt;<b class="calibre10">cd C:\Windows\System32</b>
+C:\Windows\System32&gt;
+</code></pre>
+<p class="tx">On Windows, you may have the added step of needing to switch the drive letter. You can’t change the drive you are in with the <span class="thesansmonocd_w5regular_">cd</span> command. Instead, enter the drive letter followed by a colon, then use <span class="thesansmonocd_w5regular_">cd</span> to change directories on the drive:</p>
+<pre class="pre"><code class="calibre9">C:\Windows\System32&gt;<b class="calibre10">D:</b>
+D:\&gt;<b class="calibre10">cd backup</b>
+D:\backup&gt;
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">dir</span> command on Windows and the <span class="thesansmonocd_w5regular_">ls</span> command on macOS and Linux will list the file and subfolder contents of the CWD:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">dir</b>
+<var class="calibre20">--snip--</var>
+08/26/2036  06:42 PM           171,304 _recursive-centaur.png
+08/18/2035  11:25 AM             1,278 _viminfo
+08/13/2035  12:58 AM    &lt;DIR&gt;          __pycache__
+              77 File(s)     83,805,114 bytes
+             108 Dir(s)  149,225,267,200 bytes free
+</code></pre>
+<p class="tx">While navigating the file system in the terminal, you’ll often bounce between <span class="thesansmonocd_w5regular_">cd</span> to change directories and <span class="thesansmonocd_w5regular_">dir</span>/<span class="thesansmonocd_w5regular_">ls</span> to see the contents of the directory. You can list all the executable files in the CWD by running <span class="thesansmonocd_w5regular_">dir *.exe</span> on Windows and <span class="thesansmonocd_w5regular_">file * | grep executable</span> on macOS and Linux. Once you are in the folder containing a program, you can run it in the following ways:</p>
+<ul class="ul">
+<li class="bl">On Windows, enter the program name with or without the <i class="calibre5">.exe</i> extension: <span class="thesansmonocd_w5regular_">example.exe</span>.</li>
+<li class="bl">On macOS and Linux, enter <span class="thesansmonocd_w5regular_">./</span> followed by the program name: <span class="thesansmonocd_w5regular_">./example</span>.</li>
+</ul>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-741" aria-label="261"></span>Of course, you can always enter the full absolute path of a program: <span class="thesansmonocd_w5regular_">C:\full\path\to\example.exe</span> or <span class="thesansmonocd_w5regular_">/full/path/to/example</span>.</p>
+<p class="tx">If you want to open a non-program file, such as a text file named <i class="calibre5">example.txt</i>, you can open it with its associated application by entering <span class="thesansmonocd_w5regular_">example.txt</span> on Windows or <span class="thesansmonocd_w5regular_">open example.txt</span> on macOS and Linux. This does, from the terminal, the same thing as double-clicking the <i class="calibre5">example.txt</i> file’s icon in a GUI. If there is no associated application set for <i class="calibre5">.txt</i> files, the operating system will prompt the user to select one and remember it for the future.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1"><span id="calibre_link-1728"></span><span id="calibre_link-283"></span><span class="sans_futura_std_heavy_oblique_bi_">The PATH Environment Variable</span></h4>
+<p class="tni">All running programs, no matter the language they’re written in, have a set of string variables called <i class="calibre5">environment variables</i>. One of these is the <span class="thesansmonocd_w5regular_">PATH</span> environment variable, which contains a list of folders the terminal checks when you enter the name of a program. For example, if you enter <span class="thesansmonocd_w5regular_">python</span> on Windows or <span class="thesansmonocd_w5regular_">python3</span> on macOS and Linux, the terminal checks for a program with that name in the folders listed in <span class="thesansmonocd_w5regular_">PATH</span>. Operating systems have slightly different rules for how they use <span class="thesansmonocd_w5regular_">PATH</span>:</p>
+<ul class="ul">
+<li class="bl">Windows first checks the CWD for a program of that name, then the folders in <span class="thesansmonocd_w5regular_">PATH</span>.</li>
+<li class="bl">Linux and macOS check only the folders in <span class="thesansmonocd_w5regular_">PATH</span> and don’t check the CWD at all. If you want to run a program named <i class="calibre5">example</i> in the CWD, you must enter <span class="thesansmonocd_w5regular_">./example</span> rather than <span class="thesansmonocd_w5regular_">example</span>.</li>
+</ul>
+<p class="tx">To view the contents of the <span class="thesansmonocd_w5regular_">PATH</span> environment variable, run <span class="thesansmonocd_w5regular_">echo %PATH%</span> on Windows or <span class="thesansmonocd_w5regular_">echo $PATH</span> on macOS and Linux. The value stored in <span class="thesansmonocd_w5regular_">PATH</span> is a long string composed of folder names separated by a semicolon (on Windows) or a colon (on macOS and Linux). For example, on Ubuntu Linux, the <span class="thesansmonocd_w5regular_">PATH</span> environment variable may look like the following:</p>
+<pre class="pre"><code class="calibre9">al@al-virtual-machine:~$ <b class="calibre10">echo $PATH</b>
+/home/al/.local/bin:/home/al/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/
+usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+</code></pre>
+<p class="tx">If you were to enter <span class="thesansmonocd_w5regular_">python3</span> into the Linux terminal with this <span class="thesansmonocd_w5regular_">PATH</span>, Linux would check for a program named <i class="calibre5">python3</i> in the <i class="calibre5">/home/al/.local/bin</i> folder first, then in the <i class="calibre5">/home/al/bin</i> folder, and so on. It would eventually find <i class="calibre5">python3</i> in <i class="calibre5">/usr/bin</i> and run that. The <span class="thesansmonocd_w5regular_">PATH</span> environment variable is convenient because you can just drop a program in a folder on the <span class="thesansmonocd_w5regular_">PATH</span> to spare yourself from <span class="thesansmonocd_w5regular_">cd</span>-ing to its folder every time you want to run it.</p>
+<p class="tx">Note that the terminal window doesn’t search subfolders under a <span class="thesansmonocd_w5regular_">PATH</span> folder. If <i class="calibre5">C:\Users\al\Scripts</i> is listed in the <span class="thesansmonocd_w5regular_">PATH</span>, running <i class="calibre5">spam.exe</i> will run a <i class="calibre5">C:\Users\al\Scripts\spam.exe</i> file but not a <i class="calibre5">C:\Users\al\Scripts\eggs\spam.exe</i> file.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1"><span id="calibre_link-1729"></span><span id="calibre_link-284"></span><span class="sans_futura_std_heavy_oblique_bi_">PATH Editing</span></h4>
+<p class="tni">So far, you may have been saving your <i class="calibre5">.py</i> files to the <i class="calibre5">mu_code</i> folder that the Mu editor uses by default. However, I recommend creating a <i class="calibre5">Scripts</i> folder <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1310" aria-label="262"></span>under your home folder. If your username happens to be <i class="calibre5">al</i>, this folder would be:</p>
+<ul class="ul">
+<li class="bl"><i class="calibre5">C:\Users\al\Scripts</i> on Windows</li>
+<li class="bl"><i class="calibre5">/Users/al/Scripts</i> on macOS</li>
+<li class="bl"><i class="calibre5">/home/al/Scripts</i> on Ubuntu Linux</li>
+</ul>
+<p class="tx">Let’s add this folder to the <span class="thesansmonocd_w5regular_">PATH</span>.</p>
+<section type="division" aria-labelledby="sec6">
+<h5 class="h2"><span id="calibre_link-1730"></span><span class="sans_futura_std_bold_b_">Windows</span></h5>
+<p class="tni">Windows has two sets of environment variables: system environment variables (which apply to all users) and user environment variables (which override the system environment variables but apply to the current user only). To edit them, click the <b class="calibre10">Start</b> menu and then enter <b class="calibre10">Edit environment variables for your account</b>, which should open the <b class="calibre10">Environment Variables</b> window.</p>
+<p class="tx">Select <b class="calibre10">Path</b> from the User variable list on the top of the screen (not the System variable list on the bottom of the screen), click <b class="calibre10">Edit</b>, add the new folder name <b class="calibre10"><i class="calibre5">C:\Users\al\Scripts</i></b> in the text field that appears with a semicolon separator, and click <b class="calibre10">OK</b>.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h5 class="h2"><span id="calibre_link-1731"></span><span class="sans_futura_std_bold_b_">macOS and Linux</span></h5>
+<p class="tni">To add folders to the <span class="thesansmonocd_w5regular_">PATH</span> environment variables, you’ll need to edit the terminal startup script. This is the <i class="calibre5">.zshrc</i> file on macOS and the <i class="calibre5">.bashrc</i> file on Linux. Both of these files are in your home folder and contain commands that are run whenever a new terminal window is opened. On macOS, add the following to the bottom of the <i class="calibre5">.zshrc</i> file:</p>
+<pre class="pre"><code class="calibre9">export PATH=/Users/al/Scripts:$PATH</code></pre>
+<p class="tx">On Linux, add the following to the bottom of the <i class="calibre5">.bashrc</i> file:</p>
+<pre class="pre"><code class="calibre9">export PATH=/home/al/Scripts:$PATH</code></pre>
+<p class="tx">This line modifies <span class="thesansmonocd_w5regular_">PATH</span> for all future terminal windows that you open, so the change won’t have an effect on currently open terminal windows.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1"><span id="calibre_link-1732"></span><span id="calibre_link-285"></span><span class="sans_futura_std_heavy_oblique_bi_">The which and where Commands</span></h4>
+<p class="tni">If you ever want to find out which folder in the <span class="thesansmonocd_w5regular_">PATH</span> environment variable a program is located in, you can run the <span class="thesansmonocd_w5regular_">which</span> program on macOS and Linux and the <span class="thesansmonocd_w5regular_">where</span> program on Windows. For example, enter the following <span class="thesansmonocd_w5regular_">which</span> command into the macOS terminal:</p>
+<pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">which python3</b>
+/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-840" aria-label="263"></span>On Windows, enter the following <span class="thesansmonocd_w5regular_">where</span> command into the terminal:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">where python</b>
+C:\Users\al\AppData\Local\Programs\Python\Python313\python.exe
+C:\Users\al\AppData\Local\Programs\Python\Python312\python.exe
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">where</span> command shows each folder in <span class="thesansmonocd_w5regular_">PATH</span> that contains a program named <i class="calibre5">python</i>. The one in the topmost folder is the version that is run when you enter <span class="thesansmonocd_w5regular_">python</span>. The <span class="thesansmonocd_w5regular_">which</span> and <span class="thesansmonocd_w5regular_">where</span> commands are helpful if you are unsure how <span class="thesansmonocd_w5regular_">PATH</span> is configured and need to find the location of a particular program.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h3 class="h"><span id="calibre_link-1733"></span><span id="calibre_link-286"></span><span class="sans_futura_std_bold_b_">Virtual Environments</span></h3>
+<p class="tni">Say you have two Python programs, one that uses version 1.0 of a package and another that uses version 2.0 of that same package. Python can’t have two versions of the same package installed at the same time. If version 2.0 is not backward compatible with version 1.0, you’d be uninstalling one version and reinstalling the other each time you wanted to switch programs to run.</p>
+<p class="tx">Python’s solution to this problem is <i class="calibre5">virtual environments</i>; separate installations of Python that have their own set of installed third-party packages. In general, each Python application you create needs its own virtual environment. But you can use one virtual environment for all your small scripts while learning to program. Python can create virtual environments with its built-in <span class="thesansmonocd_w5regular_">venv</span> module. To create a virtual environment, <span class="sans_thesansmonocd_w7bold_b_">cd</span> to your <i class="calibre5">Scripts</i> folder and run <span class="sans_thesansmonocd_w7bold_b_">python –m venv .venv</span> (using <span class="thesansmonocd_w5regular_">python3</span> on macOS and Linux):</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;
+C:\Users\al&gt;<b class="calibre10">cd Scripts</b>
+C:\Users\al\Scripts&gt;<b class="calibre10">python -m venv .venv</b>
+</code></pre>
+<p class="tx">This creates the virtual environment’s files in a new folder named <i class="calibre5">.venv</i>. You can choose any folder name you want, but <i class="calibre5">.venv</i> is conventional. Files and folders whose names begin with a period are hidden, though you can follow the steps in this book’s <span>introduction</span> to make your operating system show them by default.</p>
+<p class="tx">When you run <span class="thesansmonocd_w5regular_">python</span> or <span class="thesansmonocd_w5regular_">python3</span> from the terminal, you’ll still run your original Python installation’s interpreter. To use the virtual environment’s Python version, you must activate it. Do so by running the <i class="calibre5">C:\Users\al\Scripts\.venv\Scripts\activate.bat</i> script on Windows:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al\Scripts&gt;<b class="calibre10">cd .venv\Scripts</b>
+C:\Users\al\Scripts\.venv\Scripts&gt;<b class="calibre10">activate.bat</b>
+(.venv) C:\Users\al\Scripts\.venv\Scripts&gt;<b class="calibre10">where python.exe</b>
+C:\Users\Al\Scripts\.venv\Scripts\python.exe
+C:\Users\Al\AppData\Local\Programs\Python\Python313\python.exe
+C:\Users\Al\AppData\Local\Programs\Python\Python312\python.exe
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1262" aria-label="264"></span>Running <span class="thesansmonocd_w5regular_">where python.exe</span> after activating the virtual environment shows that running <span class="thesansmonocd_w5regular_">python</span> from the terminal will run the Python interpreter in the <i class="calibre5">.venv\Scripts</i> folder and not the system Python (discussed shortly).</p>
+<p class="tx">The equivalent script on macOS and Linux is <i class="calibre5">~/Scripts/.venv/bin/activate</i>, but due to security permissions, you can’t directly run it. Instead, run the command <b class="calibre10">source activate</b>:</p>
+<pre class="pre"><code class="calibre9">al@al-virtual-machine:~/Scripts$ <b class="calibre10">cd .venv/bin</b>
+al@al-virtual-machine:~/Scripts/.venv/bin$ <b class="calibre10">source activate</b>
+(.venv) al@al-virtual-machine:~/Scripts/.venv/bin$ which python3
+/home/al/Scripts/.venv/bin/python3
+</code></pre>
+<p class="tx">Activation changes the <span class="thesansmonocd_w5regular_">PATH</span> environment variable so that <span class="thesansmonocd_w5regular_">python</span> or <span class="thesansmonocd_w5regular_">python3</span> runs the Python interpreter inside the <i class="calibre5">.venv</i> folder instead of the original one. It also changes your terminal prompt to include <span class="thesansmonocd_w5regular_">(.venv)</span> so that you know the virtual environment is active. Running <span class="thesansmonocd_w5regular_">which python3</span> in the activated virtual environment shows that <span class="thesansmonocd_w5regular_">python3</span> runs the Python interpreter in the newly created <i class="calibre5">.venv/bin</i> folder. These changes apply to the current terminal window only; any existing or new terminal windows won’t have these environment variable or prompt changes. This fresh Python installation has only the default packages, and none of the packages you may have already installed in the original Python installation. You can confirm this by running <span class="sans_thesansmonocd_w7bold_b_">python –m pip list</span> to list the installed packages:</p>
+<pre class="pre"><code class="calibre9">(.venv) C:\Users\al\Scripts\.venv\Scripts&gt;<b class="calibre10">python -m pip list</b>
+Package    Version
+---------- -------
+pip        23.0
+setuptools 65.5.0
+</code></pre>
+<p class="tx">The standard practice is to create a virtual environment for each Python project you’re working on, since every project could have its own unique package dependencies. However, on Windows, we can be a bit more lax with the random small scripts we write in our <i class="calibre5">Scripts</i> folder: they can all share this one.</p>
+<p class="tx">The macOS and Linux operating systems have their own programs that rely on the Python installation that comes with the operating system. Installing or updating packages for this original Python installation, called the <i class="calibre5">system Python</i>, has the slight chance of introducing incompatibilities that can cause these programs to fail. Running your own scripts with the system Python is fine; installing third-party packages to the system Python is slightly risky, but creating a virtual environment in your <i class="calibre5">Scripts</i> folder is a good precaution against installing incompatible packages.</p>
+<p class="tx">Keep in mind that Mu has its own virtual environment. When you press F5 to run a script in Mu, it won’t have the packages you’ve installed to the <i class="calibre5">Scripts\.venv</i> folder’s virtual environment. As you advance in your programming ability, you may find it easier to have the Mu window open to edit your code while keeping a terminal window open to run it. You can quickly swap <span role="doc-pagebreak" type="pagebreak" id="calibre_link-903" aria-label="265"></span>focus between windows with the <small class="calibre4">ALT</small>-<small class="calibre4">TAB</small> keyboard shortcut on Windows and Linux and <span class="listbullet_menuarrow"></span>-<small class="calibre4">TAB</small> on macOS.</p>
+<p class="tx">To deactivate the virtual environment, run <span class="thesansmonocd_w5regular_">deactivate.bat</span> (on Windows) or <span class="thesansmonocd_w5regular_">deactivate</span> (on macOS and Linux) in the same folder as the <i class="calibre5">activate</i> script. You can also simply close the terminal window and open a new one. If you want to permanently delete the virtual environment along with its installed packages, just delete the <i class="calibre5">.venv</i> folder and its contents.</p>
+<p class="tx">The following sections tell you how to deploy your script after you’ve set up the virtual environment and added your <i class="calibre5">Scripts</i> folder to <span class="thesansmonocd_w5regular_">PATH</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h3 class="h"><span id="calibre_link-1734"></span><span id="calibre_link-287"></span><span class="sans_futura_std_bold_b_">Installing Python Packages with pip</span></h3>
+<p class="tni">Python comes with a command line package manager program called <i class="calibre5">pip</i> (written in lowercase unless it’s at the start of a sentence). Pip is a recursive acronym for <i class="calibre5">pip installs package</i>. While Python’s standard library comes with modules such as <span class="thesansmonocd_w5regular_">sys</span>, <span class="thesansmonocd_w5regular_">random</span>, and <span class="thesansmonocd_w5regular_">os</span>, there are also hundreds of thousands of third-party packages you can find on <i class="calibre5">PyPI</i> (pronounced “pie-pee-eye” and not “pie-pie”), the Python Package Index, at <i class="calibre5"><a href="https://pypi.org" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org</a></i>. In Python, a <i class="calibre5">package</i> is a collection of Python code made available on PyPI, and a <i class="calibre5">module</i> is an individual <i class="calibre5">.py</i> file containing Python code. You install packages from PyPI that contain modules, and you import modules with an <span class="thesansmonocd_w5regular_">import</span> statement.</p>
+<p class="tx">While pip is a program on its own, it’s easier to run it through the Python interpreter by running <span class="thesansmonocd_w5regular_">python –m pip</span> on Windows or <span class="thesansmonocd_w5regular_">python3 –m pip</span> on macOS and Linux, rather than running the <span class="thesansmonocd_w5regular_">pip</span> (on Windows) or <span class="thesansmonocd_w5regular_">pip3</span> (on macOS and Linux) program directly. This prevents errors in the rare cases where you have multiple Python installations, your <span class="thesansmonocd_w5regular_">PATH</span> is misconfigured, and <span class="thesansmonocd_w5regular_">pip</span>/<span class="thesansmonocd_w5regular_">pip3</span> is installing to a different Python interpreter than the one that runs when you enter <span class="thesansmonocd_w5regular_">python</span>/<span class="thesansmonocd_w5regular_">python3</span>.</p>
+<aside class="box" aria-label="box-13">
+<p class="bt" id="calibre_link-1735"><span class="sans_futura_std_bold_b_">DON’T USE PIP WITH ANACONDA</span></p>
+<p class="btni"><span class="sans_futura_std_book_">If you’ve installed the Anaconda distribution of Python instead of the regular distribution from</span> <span class="sans_futura_std_book_oblique_i_"><a href="https://python.org" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org</a></span><span class="sans_futura_std_book_">, you should avoid using pip in your conda environments. Instead, use the conda-specific package manager through the</span> <span class="thesansmonocd_w5regular_">conda</span> <span class="sans_futura_std_book_">command.</span></p>
+</aside>
+<p class="tx">To install a package from PyPI, enter the following into the terminal:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">python –m pip install </b><b class="calibre10"><var class="calibre20">package_name</var></b></code></pre>
+<p class="tx">Remember to run <span class="thesansmonocd_w5regular_">python3</span> if on macOS or Linux instead of <span class="thesansmonocd_w5regular_">python</span> for these various commands. Also note that you’ll need to run this from the terminal window, and not from the Python interactive shell.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-943" aria-label="266"></span>To list all the packages you have installed along with their version numbers, run <span class="sans_thesansmonocd_w7bold_b_">python –m pip list</span>:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">python -m pip list</b>
+Package                   Version     Editable project location
+------------------------- ----------- -------------------------
+altgraph                  0.17.3
+argon2-cffi               21.3.0
+argon2-cffi-bindings      21.2.0
+async-generator           1.10
+<var class="calibre20">--snip--</var>
+wsproto                   1.2.0
+</code></pre>
+<p class="tx">You can also upgrade a package to the latest version on PyPI by running <span class="thesansmonocd_w5regular_">python –m pip install –U</span> <span class="sans_thesansmonocd_w5regular_italic_">package_name</span>, or install a particular version (say, 1.17.4) by running <span class="thesansmonocd_w5regular_">python –m pip install</span> <span class="sans_thesansmonocd_w5regular_italic_">package_name</span><span class="thesansmonocd_w5regular_">==1.17.4</span>.</p>
+<p class="tx">To uninstall a package, run <span class="thesansmonocd_w5regular_">python –m pip uninstall</span> <span class="sans_thesansmonocd_w5regular_italic_">package_name</span>. You can find more information about pip by running <span class="thesansmonocd_w5regular_">python –m pip --help</span>.</p>
+<aside class="box" aria-label="box-14">
+<p class="bt" id="calibre_link-1736"><span class="sans_futura_std_bold_b_">INSTALLING THE AUTOMATE THE BORING STUFF PACKAGE</span></p>
+<p class="btni"><span class="sans_futura_std_book_">This book covers several third-party packages. Over time, the authors of these packages may make updates that are not backward compatible with the versions used in this book. To ensure that the information in this book is accurate, please install the specific versions listed in Appendix A. Installing the latest versions will sometimes work fine, but you’ll have to check the package’s online documentation to learn about the new changes.</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">The easiest way to install all the correct versions of all the packages featured in this book is to install the automateboringstuff3 package to a virtual environment. This package acts as a container for all the packages (and matching versions) featured in this book. From a Windows terminal, activate a virtual environment and run:</span></p>
+<pre class="pre"><code class="calibre9"><b class="calibre10">python –m pip install automateboringstuff3</b></code></pre>
+<p class="boxb-last"><span class="sans_futura_std_book_">On macOS and Linux, activate a virtual environment and run:</span></p>
+<pre class="pre"><code class="calibre9"><b class="calibre10">python3 –m pip install automateboringstuff3</b></code></pre>
+</aside>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h3 class="h"><span id="calibre_link-1737"></span><span id="calibre_link-288"></span><span class="sans_futura_std_bold_b_">Self-Aware Python Programs</span></h3>
+<p class="tni">Python’s standard library doesn’t come with any modules that give your programs sentience. (Yet.) But several built-in variables can give your Python program useful information about itself, the operating system it’s on, and <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1069" aria-label="267"></span>the Python interpreter running it. The Python interpreter sets these variables automatically.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">__file__</span> variable contains the <i class="calibre5">.py</i> file’s path as a string. For example, if I run a <i class="calibre5">yourScript.py</i> file in my home folder, it evaluates to <span class="thesansmonocd_w5regular_">'C:\Users\al\yourScript.py'</span>. Importing <span class="thesansmonocd_w5regular_">from pathlib import Path</span> and calling <span class="thesansmonocd_w5regular_">Path(__file__)</span> returns a <span class="thesansmonocd_w5regular_">Path</span> object of this file. This information is useful if you need to locate files that exist in the Python program’s folder. The <span class="thesansmonocd_w5regular_">__file__</span> variable doesn’t exist when you run the Python interactive shell.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">sys.executable</span> variable contains the full path and file of the Python interpreter program itself, and the <span class="thesansmonocd_w5regular_">sys.version</span> variable contains the string that appears at the top of the interactive shell with version information about the Python interpreter.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">sys.version_info.major</span> and <span class="thesansmonocd_w5regular_">sys.version_info.minor</span> variables contain integers of the major and minor version numbers of the Python interpreter. On my laptop running Python version 3.13.1, these are <span class="thesansmonocd_w5regular_">3</span> and <span class="thesansmonocd_w5regular_">13</span>, respectively. You can also pass <span class="thesansmonocd_w5regular_">sys.version_info</span> to the <span class="thesansmonocd_w5regular_">list()</span> function to obtain more specific information: <span class="thesansmonocd_w5regular_">list(sys.version_info)</span> returns <span class="thesansmonocd_w5regular_">[3, 13, 1 'final', 0]</span> on my laptop. Having the version information in this form is much easier to work with than trying to pull it out of the <span class="thesansmonocd_w5regular_">sys.version</span> string.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">os.name</span> variable contains the string <span class="thesansmonocd_w5regular_">'nt'</span> if running on Windows and <span class="thesansmonocd_w5regular_">'posix'</span> if running on macOS or Linux. This is useful if your Python script needs to run different code depending on what operating system it’s running on.</p>
+<p class="tx">For more specific operating system identification, the <span class="thesansmonocd_w5regular_">sys.platform</span> variable contains <span class="thesansmonocd_w5regular_">'win32'</span> on Windows, <span class="thesansmonocd_w5regular_">'darwin'</span> on macOS, and <span class="thesansmonocd_w5regular_">'linux'</span> on Linux.</p>
+<p class="tx">If you need highly specific information about the OS version and type of CPU, the built-in <span class="thesansmonocd_w5regular_">platform</span> module can retrieve this information. This module is documented online at <i class="calibre5"><a href="https://docs.python.org/3/library/platform.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/platform<wbr></wbr>.html</a></i>.</p>
+<p class="tx">If you need to check whether a module is installed, put the <span class="thesansmonocd_w5regular_">import</span> statement in a <span class="thesansmonocd_w5regular_">try</span> block and catch the <span class="thesansmonocd_w5regular_">ModuleNotFoundError</span> exception:</p>
+<pre class="pre"><code class="calibre9">try:
+    import nonexistentModule
+except ModuleNotFoundError:
+    print('This code runs if nonexistentModule was not found.')
+</code></pre>
+<p class="tx">If the module is necessary for your program to function, you can put a descriptive error message here and call <span class="thesansmonocd_w5regular_">sys.exit()</span> to terminate the program. This will be more helpful to the user than a generic error message and traceback.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h3 class="h"><span id="calibre_link-1738"></span><span id="calibre_link-289"></span><span class="sans_futura_std_bold_b_">Text-Based Program Design</span></h3>
+<p class="tni">Before GUI-supporting operating systems were common, all programs used text to communicate with their user. This book focuses on creating small, useful programs rather than professional software applications, so the programs in this book use <span class="thesansmonocd_w5regular_">print()</span> and <span class="thesansmonocd_w5regular_">input()</span> through a command line interface rather than the windows, buttons, and graphics that a GUI provides.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1042" aria-label="268"></span>Even when limited to text, however, software applications can still provide a user interface similar to modern GUIs. Figure 12-1 shows Norton Commander, an application for browsing the filesystem. These kinds of applications are retroactively called <i class="calibre5">TUI</i> (pronounced “two-ee”), or <i class="calibre5">text-based user interface</i>, applications.</p>
+<figure class="img"><img class="img1" id="calibre_link-739" src="images/000010.jpg" alt="At top, a computer interface containing multiple text-based columns labeled “name”, “size”, date”, and time”, followed by a list of filenames. At bottom, a screenshot of the Windows File Explorer interface open to the Desktop folder, showing icons of files." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 12-1: The text-based Norton Commander (top) alongside a modern GUI application (bottom)</span></p></figcaption>
+</figure>
+<p class="tx">Even if you aren’t a professional software developer, the advantage of text-based user interfaces is their simplicity. This section describes several design approaches your programs can take for their user interface.</p>
+<section type="division" aria-labelledby="sec13">
+<h4 class="h1"><span id="calibre_link-1739"></span><span id="calibre_link-290"></span><span class="sans_futura_std_heavy_oblique_bi_">Short Command Names</span></h4>
+<p class="tni">Users often run text-based programs from the command line rather than by clicking an icon on the desktop or Start menu. These commands can sometimes seem difficult to understand. When I started learning the Linux operating system, I was surprised to find that the Windows <span class="thesansmonocd_w5regular_">copy</span> command I knew well was named <span class="thesansmonocd_w5regular_">cp</span> on Linux. The name <i class="calibre5">copy</i> was much more <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1040" aria-label="269"></span>readable than <i class="calibre5">cp</i>. Was a terse, cryptic name really worth saving two characters’ worth of typing?</p>
+<p class="tx">As I gained more experience on the command line, I realized the answer is a firm yes. We read source code more often than we write it, so using verbose names for variables and functions helps. But we type commands into the command line more often than we read them, so in this case, the opposite is true: short command names make the command line easier to use, and they reduce strain on your wrists.</p>
+<p class="tx">If your program is a command that you’ll likely type a dozen times a day, try to think of a short name for it. You can use the <span class="thesansmonocd_w5regular_">which</span> and <span class="thesansmonocd_w5regular_">where</span> commands to check if the name already exists for another program. You can also do an internet search for any existing commands by that name. A short name goes a long way toward making it easy to use.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h4 class="h1"><span id="calibre_link-1740"></span><span id="calibre_link-291"></span><span class="sans_futura_std_heavy_oblique_bi_">Command Line Arguments</span></h4>
+<p class="tni">To run a program from the command line, simply enter its name. For <i class="calibre5">.py</i> Python source code files, you must run the <span class="thesansmonocd_w5regular_">python</span> (Windows) or <span class="thesansmonocd_w5regular_">python3</span> (macOS and Linux) program and then supply the <i class="calibre5">.py</i> filename after it, like this: <span class="thesansmonocd_w5regular_">python yourScript.py</span>.</p>
+<p class="tx">The bit of text supplied after a command is called a <i class="calibre5">command line argument</i>. Command line arguments are passed to commands in much the same way as arguments to a function call. For example, the <span class="thesansmonocd_w5regular_">ls</span> command by itself lists the files in the CWD. But you could also run <span class="thesansmonocd_w5regular_">ls exampleFolder</span>, and the <span class="thesansmonocd_w5regular_">exampleFolder</span> command line argument would direct the <span class="thesansmonocd_w5regular_">ls</span> command to list the files in the <i class="calibre5">exampleFolder</i> folder. Command line arguments allow you to configure the behavior of the command.</p>
+<p class="tx">Python scripts can access the command line scripts given to the Python interpreter from the <span class="thesansmonocd_w5regular_">sys.argv</span> list. For example, if you entered <span class="thesansmonocd_w5regular_">python3 yourScript.py hello world</span>, the <span class="thesansmonocd_w5regular_">python3</span> program would receive the command line arguments and forward them to your Python script in the <span class="thesansmonocd_w5regular_">sys.argv</span> variable. The <span class="thesansmonocd_w5regular_">sys.argv</span> variable would contain <span class="thesansmonocd_w5regular_">['yourScript.py', 'hello', 'world']</span>.</p>
+<p class="tx">Note that the first item in <span class="thesansmonocd_w5regular_">sys.argv</span> is the filename of the Python script. The remaining arguments are split by spaces. If you need to include space characters in a command line argument, put them inside double quotation marks when running the command. For example, <span class="thesansmonocd_w5regular_">python3 yourScript.py "hello world"</span> would set <span class="thesansmonocd_w5regular_">sys.argv</span> to <span class="thesansmonocd_w5regular_">['yourScript.py', 'hello world']</span>.</p>
+<p class="tx">The main usefulness of command line arguments is that you can specify a wide variety of configurations before you start the program. There’s no need to go through a configuration menu or multistep process. Unfortunately, this approach means that command line arguments can become incredibly complicated and unreadable. If you pass <span class="thesansmonocd_w5regular_">/?</span> after any Windows command or <span class="thesansmonocd_w5regular_">--help</span> after any macOS or Linux command, you’ll often find page after page of command line argument documentation.</p>
+<p class="tx">If the set of command line arguments your program accepts is simple, then it’s easiest to have your program read the <span class="thesansmonocd_w5regular_">sys.argv</span> list directly. However, as you add more command line arguments, the possible combinations can become cumbersome to manage. Should <span class="thesansmonocd_w5regular_">python yourScript.py spam eggs</span> do <span role="doc-pagebreak" type="pagebreak" id="calibre_link-959" aria-label="270"></span>the same thing as <span class="thesansmonocd_w5regular_">python yourScript.py eggs spam</span>? If the user can have either a <span class="thesansmonocd_w5regular_">cheese</span> argument or a <span class="thesansmonocd_w5regular_">bacon</span> argument, what happens if they provide both? This complexity would require you to write a lot of code to handle the various edge cases. At this point, you’re probably better off using Python’s built-in <span class="thesansmonocd_w5regular_">argparse</span> module to handle these complicated situations. The <span class="thesansmonocd_w5regular_">argparse</span> module is beyond the scope of this book, but you can read its documentation online at <i class="calibre5"><a href="https://docs.python.org/3/library/argparse.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/argparse<wbr></wbr>.html</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1"><span id="calibre_link-1741"></span><span id="calibre_link-292"></span><span class="sans_futura_std_heavy_oblique_bi_">Clipboard I/O</span></h4>
+<p class="tni">You don’t need to rely on <span class="thesansmonocd_w5regular_">input()</span> to read text from files or the keyboard. You can also use the clipboard for your Python program’s text input and output. The cross-platform <span class="thesansmonocd_w5regular_">pyperclip</span> module has a <span class="thesansmonocd_w5regular_">copy()</span> function for placing text on the clipboard and a <span class="thesansmonocd_w5regular_">paste()</span> function that returns the clipboard’s text as a string. Pyperclip is a third-party package installed from the terminal with pip: <span class="thesansmonocd_w5regular_">python –m pip install pyperclip</span>. On Linux, you’ll also have to run <span class="thesansmonocd_w5regular_">sudo apt install xclip</span> to make Pyperclip work. See <span>Appendix A</span> for full instructions.</p>
+<p class="tx">All of your clipboard I/O programs will follow this basic design:</p>
+<p class="listnumberf">  1.  Import the <span class="thesansmonocd_w5regular_">pyperclip</span> module.</p>
+<p class="listnumber">  2.  Call <span class="thesansmonocd_w5regular_">pyperclip.paste()</span> to obtain the input text from the clipboard.</p>
+<p class="listnumber">  3.  Perform some work on the text.</p>
+<p class="listnumberl">  4.  Copy the results to the clipboard by passing them to <span class="thesansmonocd_w5regular_">pyperclip.copy()</span>.</p>
+<p class="tx">The “Add Bullets to Wiki Markup” project in <span>Chapter 8</span> is an example of this kind of program. The design of this program becomes especially useful once you’ve deployed it following the instructions in <span>“Deploying Python Programs” on page 275</span>. Just highlight the input text, press <small class="calibre4">CTRL</small>-C to copy it, and run the program. The results will be on the clipboard, ready to paste wherever needed.</p>
+<p class="tx">Later in this chapter we’ll look at two projects, the <span class="thesansmonocd_w5regular_">ccwd</span> command and the Clipboard Recorder, that make use of the clipboard.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h4 class="h1"><span id="calibre_link-1742"></span><span id="calibre_link-293"></span><span class="sans_futura_std_heavy_oblique_bi_">Colorful Text with Bext</span></h4>
+<p class="tni">You can print colorful text using the third-party Bext package built on top of Jonathan Hartley’s Colorama package. Install Bext with pip by following the instructions in <span>Appendix A</span>. Bext only works in programs run from a terminal window, and not from Mu or most other code editors. To have <span class="thesansmonocd_w5regular_">print()</span> produce colorful text, call the <span class="thesansmonocd_w5regular_">fg()</span> and <span class="thesansmonocd_w5regular_">bg()</span> functions to change the (foreground) text color or the background color with a string argument such as <span class="thesansmonocd_w5regular_">'black'</span>, <span class="thesansmonocd_w5regular_">'red'</span>, <span class="thesansmonocd_w5regular_">'green'</span>, <span class="thesansmonocd_w5regular_">'yellow'</span>, <span class="thesansmonocd_w5regular_">'blue'</span>, <span class="thesansmonocd_w5regular_">'magenta'</span>, <span class="thesansmonocd_w5regular_">'purple'</span>, <span class="thesansmonocd_w5regular_">'cyan'</span>, or <span class="thesansmonocd_w5regular_">'white'</span>. You can also pass <span class="thesansmonocd_w5regular_">'reset'</span> to change the color back to the terminal window’s default color. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import bext</b>
+&gt;&gt;&gt; <b class="calibre10">bext.fg('red')</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-929" aria-label="271"></span>&gt;&gt;&gt; <b class="calibre10">print('This text is red.')</b>
+This text is red.
+&gt;&gt;&gt; <b class="calibre10">bext.bg('blue')</b>
+&gt;&gt;&gt; <b class="calibre10">print('Red text on blue background is an ugly color scheme.')</b>
+Red text on blue background is an ugly color scheme.
+&gt;&gt;&gt; <b class="calibre10">bext.fg('reset')</b>
+&gt;&gt;&gt; <b class="calibre10">bext.bg('reset')</b>
+&gt;&gt;&gt; <b class="calibre10">print('The text is normal again. Ah, much better.')</b>
+The text is normal again. Ah, much better.
+</code></pre>
+<p class="tx">Keep in mind that the user may have their terminal window set to light mode or dark mode, so there’s no telling if the terminal’s default appearance is black text on a white background or white text on a black background. You should also be limited in your use of color: too much can make your program look tacky or unreadable.</p>
+<p class="tx">Bext also has some limited TUI-like features, including the following:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">bext.clear()</span> Clears the screen</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">bext.width()</span> <b class="calibre10">and</b> <span class="sans_thesansmonocd_w7bold_b_">bext.height()</span> Returns the current width (in columns) and height (in rows) of the terminal window, respectively</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">bext.hide()</span> <b class="calibre10">and</b> <span class="sans_thesansmonocd_w7bold_b_">bext.show()</span> Hides and shows the cursor, respectively</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">bext.title(text)</span> Changes the title bar of the terminal window to the text string</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">bext.goto(x, y)</span> Moves the cursor to column x and row y in the terminal, where 0, 0 is the top-left position</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">bext.get_key()</span> Waits for the user to press any key and then returns a string describing the key</p>
+<p class="tx">Think of the <span class="thesansmonocd_w5regular_">bext.get_key()</span> function as a single-key version of <span class="thesansmonocd_w5regular_">input()</span>. The returned string includes <span class="thesansmonocd_w5regular_">'a'</span>, <span class="thesansmonocd_w5regular_">'z'</span>, and <span class="thesansmonocd_w5regular_">'5'</span>, but also keys like <span class="thesansmonocd_w5regular_">'left'</span>, <span class="thesansmonocd_w5regular_">'f1'</span>, and <span class="thesansmonocd_w5regular_">'esc'</span>. The <small class="calibre4">TAB</small> and <small class="calibre4">ENTER</small> keys return <span class="thesansmonocd_w5regular_">'\t'</span> and <span class="thesansmonocd_w5regular_">'\n'</span>, respectively. Call <span class="thesansmonocd_w5regular_">bext.get_key()</span> in the interactive shell to test various keys and see their return values.</p>
+<p class="tx">For a demonstration of what Bext can do, run the source code for the ASCII Art Fish Tank program from <i class="calibre5"><a href="https://inventwithpython.com/projects/fishtank.py" class="calibre1">https://<wbr></wbr>inventwithpython<wbr></wbr>.com<wbr></wbr>/projects<wbr></wbr>/fishtank<wbr></wbr>.py</a></i>. First, this program uses <span class="thesansmonocd_w5regular_">bext.clear()</span> to clear the terminal window of all text. Next, the program calls <span class="thesansmonocd_w5regular_">bext.goto()</span> to position the cursor and <span class="thesansmonocd_w5regular_">bext.fg()</span> to change the text color before printing various fish out of text characters like <span class="thesansmonocd_w5regular_">&gt;&lt;)))*&gt;</span>. This program is featured in my book <i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021).</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1"><span id="calibre_link-1743"></span><span id="calibre_link-294"></span><span class="sans_futura_std_heavy_oblique_bi_">Terminal Clearing</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">bext.clear()</span> function is useful if you’d like your program to remove any text left over from before it ran. You can also use it to do flipbook-style animation: call <span class="thesansmonocd_w5regular_">clear()</span> to clear the terminal, then use <span class="thesansmonocd_w5regular_">print()</span> calls to fill it with text, pause for a moment with Python’s <span class="thesansmonocd_w5regular_">time.sleep()</span>, and then repeat. There <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1020" aria-label="272"></span>is a Python <i class="calibre5">one-liner</i> (a single line of code to do a special trick) to clear the screen that you can place in your own <span class="thesansmonocd_w5regular_">clear()</span> function:</p>
+<pre class="pre"><code class="calibre9">import os
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+</code></pre>
+<p class="tx">This code lets your program clear the terminal screen without requiring the installation of the Bext package and only works in Python scripts run from the terminal, not from Mu or another code editor. The <span class="thesansmonocd_w5regular_">os.system()</span> call, which you’ll learn more about in <span>Chapter 11</span>, runs the <span class="thesansmonocd_w5regular_">cls</span> program (on Windows) or the <span class="thesansmonocd_w5regular_">clear</span> program (on macOS and Linux). The odd syntax here is an example of Python’s <i class="calibre5">conditional expressions</i> (also called <i class="calibre5">ternary operators</i> in other languages). The syntax is <span class="sans_thesansmonocd_w5regular_italic_">value1</span> <span class="thesansmonocd_w5regular_">if</span> <span class="sans_thesansmonocd_w5regular_italic_">condition</span> <span class="thesansmonocd_w5regular_">else</span> <span class="sans_thesansmonocd_w5regular_italic_">value2</span>, which evaluates to <span class="sans_thesansmonocd_w5regular_italic_">value1</span> if <span class="sans_thesansmonocd_w5regular_italic_">condition</span> is <span class="thesansmonocd_w5regular_">True</span> and <span class="sans_thesansmonocd_w5regular_italic_">value2</span> if <span class="sans_thesansmonocd_w5regular_italic_">condition</span> is <span class="thesansmonocd_w5regular_">False</span>. In our case, the conditional expression evaluates to <span class="thesansmonocd_w5regular_">'cls'</span> if the condition <span class="thesansmonocd_w5regular_">os.name</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">'nt'</span> is <span class="thesansmonocd_w5regular_">True</span>; otherwise, it evaluates to <span class="thesansmonocd_w5regular_">'clear'</span>. Conditional expressions (and one-liners in general) often produce unreadable code and are usually best avoided, but this is a simple enough case.</p>
+</section>
+<section type="division" aria-labelledby="sec18">
+<h4 class="h1"><span id="calibre_link-1744"></span><span id="calibre_link-295"></span><span class="sans_futura_std_heavy_oblique_bi_">Sound and Text Notification</span></h4>
+<p class="tni">Terminal programs existed before the rich audio that today’s computers provide. Today, there’s no reason your text-based programs must be silent. There are, however, good reasons to keep sounds to a minimum or to exclude them altogether. Sounds can provide notification that a task is complete or a problem has occurred when the user is busy looking at other windows. But, like colorful text, it’s easy to overuse sounds to the point of annoyance. The user may already be doing a task that involves playing audio, or perhaps they’re in an online meeting that the sound would rudely interrupt. And if the user’s computer is muted, they won’t hear the sound notification anyway.</p>
+<p class="tx">If you just need to play a simple audio file, you can use the playsound3 third-party package. Once it’s installed, you can play an audio file by calling the <span class="thesansmonocd_w5regular_">playsound3</span> module’s <span class="thesansmonocd_w5regular_">playsound()</span> function and passing the filepath of an MP3 or WAV audio file. Download the <i class="calibre5">hello.mp3 file</i> from <i class="calibre5"><a href="https://autbor.com/hello.mp3" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/hello<wbr></wbr>.mp3</a></i> (or use your own file) and enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import playsound3</b>
+&gt;&gt;&gt; <b class="calibre10">playsound3.playsound('hello.mp3')</b>
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">playsound()</span> function won’t return until the audio file has finished playing; that is, the function <i class="calibre5">blocks</i> until the audio has finished. Keep in mind that this will halt your program for a while if you give it a long audio file to play. If <span class="thesansmonocd_w5regular_">playsound()</span> raises exceptions (which happens if the filename contains odd characters such as an equal sign), try passing a <span class="thesansmonocd_w5regular_">Path</span> object of the audio file instead of a string.</p>
+<p class="tx">Similarly, you may want to limit the text produced by your program. Under the Unix philosophy of command design, piping the text output of one command to another is easier if the command outputs only relevant <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1299" aria-label="273"></span>information, as extraneous text output would have to be filtered. Many commands keep their text output to a minimum, or they have none at all and communicate success or error with the exit code. (Exit codes are covered in <span>Chapter 19</span>.) However, if you aren’t piping the output to another command but, as a human user, want to see more information, many commands accept a <span class="thesansmonocd_w5regular_">-v</span> or <span class="thesansmonocd_w5regular_">--verbose</span> command line argument to enable this <i class="calibre5">verbose mode</i>. Other commands take the opposite approach and flood the output with information, but offer a <span class="thesansmonocd_w5regular_">-q</span> or <span class="thesansmonocd_w5regular_">--quiet</span> command line argument to offer a <i class="calibre5">quiet mode</i> of no text output instead. (This could double as a way to mute sound notifications as well.) Or better yet, make silence the default behavior and have <span class="thesansmonocd_w5regular_">--verbose</span> or <span class="thesansmonocd_w5regular_">--beep</span> enable sound or alert beeps.</p>
+<p class="tx">If your program doesn’t require this level of sophistication, you can ignore this consideration. However, once you start sharing your programs with others who may use it in clever ways you didn’t foresee, offering these options goes a long way toward making your programs user-friendly.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec19">
+<h3 class="h"><span id="calibre_link-1745"></span><span id="calibre_link-296"></span><span class="sans_futura_std_bold_b_">A Short Program: Snowstorm</span></h3>
+<p class="tni">Let’s create a text-based snowstorm animation. Our program uses block text characters that fill out the top half-block, bottom half-block, and full block of a single character cell. These text characters are returned as strings by <span class="thesansmonocd_w5regular_">chr(9600)</span>, <span class="thesansmonocd_w5regular_">chr(9604)</span>, and <span class="thesansmonocd_w5regular_">chr(9608)</span>, respectively, and our program stores them in the constants <span class="thesansmonocd_w5regular_">TOP</span>, <span class="thesansmonocd_w5regular_">BOTTOM</span>, and <span class="thesansmonocd_w5regular_">FULL</span> to make our code more readable.</p>
+<p class="tx">Enter the following code into a file named <i class="calibre5">snowstorm.py</i>:</p>
+<pre class="pre"><code class="calibre9">import os, random, time, sys
+
+TOP    = chr(9600)  # Character 9600 is '<span class="sans_courier_std_medium_">▀</span>'
+BOTTOM = chr(9604)  # Character 9604 is '<span class="sans_courier_std_medium_">▄</span>'
+FULL   = chr(9608)  # Character 9608 is '<span class="sans_courier_std_medium_">█</span>'
+
+# Set the snowstorm density to the command line argument:
+DENSITY = 4  # Default snow density is 4%
+if len(sys.argv) &gt; 1:
+    DENSITY = int(sys.argv[1])
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+while True:
+    clear()  # Clear the terminal window.
+
+    # Loop over each row and column:
+    for y in range(20):
+        for x in range(40):
+            if random.randint(0, 99) &lt; DENSITY:
+                # Print snow:
+                print(random.choice([TOP, BOTTOM]), end='')
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1086" aria-label="274"></span>            else:
+                # Print empty space:
+                print(' ', end='')
+        print()  # Print a newline.
+
+    # Print the snow-covered ground:
+    print(FULL * 40 + '\n' + FULL * 40)
+    print('(Ctrl-C to stop.)')
+
+    time.sleep(0.2)  # Pause for a bit.
+</code></pre>
+<p class="tx">First, the program imports the <span class="thesansmonocd_w5regular_">os</span>, <span class="thesansmonocd_w5regular_">random</span>, <span class="thesansmonocd_w5regular_">sys</span>, and <span class="thesansmonocd_w5regular_">time</span> modules. These modules are in the Python standard library and don’t require installing any third-party packages. Then, the program sets up the constants <span class="thesansmonocd_w5regular_">TOP</span>, <span class="thesansmonocd_w5regular_">BOTTOM</span>, and <span class="thesansmonocd_w5regular_">FULL</span> with return values from <span class="thesansmonocd_w5regular_">chr()</span>. The program uses these constant names because they’re easier to understand than the numbers 9600, 9604, and 9608.</p>
+<p class="tx">The user can specify the density of the snowstorm by supplying a command line argument. If no command line argument is given, then <span class="thesansmonocd_w5regular_">sys.argv</span> is set to <span class="thesansmonocd_w5regular_">['snowstorm.py']</span> and the program leaves <span class="thesansmonocd_w5regular_">DENSITY</span> at <span class="thesansmonocd_w5regular_">4</span>. But if the user were to run the program with, say, <span class="thesansmonocd_w5regular_">python snowstorm.py 20</span>, then <span class="thesansmonocd_w5regular_">sys.argv</span> would be set to <span class="thesansmonocd_w5regular_">['snowstorm.py', '20']</span> and the program would update <span class="thesansmonocd_w5regular_">DENSITY</span> to <span class="thesansmonocd_w5regular_">int(sys.argv[1])</span>, or <span class="thesansmonocd_w5regular_">20</span>. The user would then be able to modify the behavior of the snowstorm without having to change the source code.</p>
+<p class="tx">Inside an infinite <span class="thesansmonocd_w5regular_">while</span> loop, this program first clears the screen with the <span class="thesansmonocd_w5regular_">cls</span>/<span class="thesansmonocd_w5regular_">clear</span> one-liner. Next, it uses two nested <span class="thesansmonocd_w5regular_">for</span> loops to loop over every row and column in a 40×20 space on the terminal. (You can increase or decrease these numbers to change the size of your snowstorm.) At each row and column, the program prints a single character: either a randomly selected <span class="thesansmonocd_w5regular_">TOP</span> or <span class="thesansmonocd_w5regular_">BOTTOM</span> character to represent snow, or an empty space character. (Only four percent of the characters are not empty spaces by default.) These <span class="thesansmonocd_w5regular_">print()</span> calls pass the <span class="thesansmonocd_w5regular_">end=''</span> keyword argument so that <span class="thesansmonocd_w5regular_">print()</span> doesn’t automatically print a newline character after each call. The program prints this newline itself by calling <span class="thesansmonocd_w5regular_">print()</span> with no arguments after finishing a row.</p>
+<p class="tx">After the nested <span class="thesansmonocd_w5regular_">for</span> loops, the program prints two rows of 40 <span class="thesansmonocd_w5regular_">FULL</span> characters to represent the ground, along with a reminder that the user can press <small class="calibre4">CTRL</small>-C to stop the program. All of this code produces one “frame” of the snowstorm animation, and <span class="thesansmonocd_w5regular_">time.sleep(0.2)</span> briefly holds this frame before the execution loops back to clear the terminal and start the process all over again.</p>
+<p class="tx">I chose the snowstorm animation because it’s fun rather than practical, like a terminal-based snow globe. A more useful application of this technique is creating a <i class="calibre5">dashboard</i> app: a program that runs in a terminal window you leave open to convey information at a glance. This program prints relevant information, then clears the screen and reprints updated information every second, minute, hour, or other interval.</p>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h3 class="h"><span id="calibre_link-1746"></span><span id="calibre_link-297"></span><span class="sans_futura_std_bold_b_">Pop-up Message Boxes with PyMsgBox</span></h3>
+<p class="tni">While designing a full GUI for your program requires learning an entire code library such as Tkinter, wxPython, or PyQt, you can add small GUI <span role="doc-pagebreak" type="pagebreak" id="calibre_link-740" aria-label="275"></span>message boxes to your program with the PyMsgBox package. This is a third-party package you can install by running <span class="thesansmonocd_w5regular_">pip install pymsgbox</span> from the terminal. PyMsgBox lets you create dialogs using Tkinter, which comes with Python on Windows and macOS. On Ubuntu Linux, you must first install Tkinter by running <span class="thesansmonocd_w5regular_">sudo apt install python3-tk</span> in the terminal. <span>Appendix A</span> has full instructions.</p>
+<p class="tx">PyMsgBox has functions with names that mirror JavaScript’s message box functions:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pymsgbox.alert</span><span class="sans_thesansmonocd_w7bold_italic_bi_">(text)</span> Displays a text message until the user clicks OK, then returns the string <span class="thesansmonocd_w5regular_">'OK'</span></p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pymsgbox.confirm</span><span class="sans_thesansmonocd_w7bold_italic_bi_">(text)</span> Displays a text message until the user clicks OK or Cancel, then returns <span class="thesansmonocd_w5regular_">'OK'</span> or <span class="thesansmonocd_w5regular_">'Cancel'</span></p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pymsgbox.prompt</span><span class="sans_thesansmonocd_w7bold_italic_bi_">(text)</span> Displays a text message along with a text field, then returns the text the user entered as a string or <span class="thesansmonocd_w5regular_">None</span> if they clicked Cancel</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pymsgbox.password</span><span class="sans_thesansmonocd_w7bold_italic_bi_">(text)</span> Is the same as <span class="thesansmonocd_w5regular_">pymsgbox.prompt()</span>, but the text the user enters is masked by asterisks</p>
+<p class="tx">These functions won’t return until the user clicks OK, Cancel, or X (close). If your program requires only the occasional notification or user input, using PyMsgBox’s dialogs could be a suitable replacement for <span class="thesansmonocd_w5regular_">print()</span> and <span class="thesansmonocd_w5regular_">input()</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec21">
+<h3 class="h"><span id="calibre_link-1747"></span><span id="calibre_link-298"></span><span class="sans_futura_std_bold_b_">Deploying Python Programs</span></h3>
+<p class="tni">Once your Python program is finished, you might not want to run Mu, load the <i class="calibre5">.py</i> file, and then click the Run button each time you want to execute it. This section explains how to deploy your Python program so that you can run it in as few keystrokes as possible.</p>
+<p class="tx">Be sure to follow the steps in <span>“The PATH Environment Variable” on page 261</span> to add a <i class="calibre5">Scripts</i> folder to your <span class="thesansmonocd_w5regular_">PATH</span> environment variable. Since my username is <i class="calibre5">al</i>, the path to this folder is <i class="calibre5">C:\Users\al\Scripts</i> on Windows, <i class="calibre5">/Users/al/Scripts</i> on macOS, and <i class="calibre5">/home/al/Scripts</i> on Linux. Also, you’ll need to set up a virtual environment for your Python scripts, as described next.</p>
+<section type="division" aria-labelledby="sec22">
+<h4 class="h1"><span id="calibre_link-1748"></span><span id="calibre_link-299"></span><span class="sans_futura_std_heavy_oblique_bi_">Windows</span></h4>
+<p class="tni">On Windows, you can bring up the Run dialog by pressing the Windows key and the R key simultaneously (or right-clicking the Start menu button and selecting Run). This opens a small window that acts like a one-use terminal: in it, you can run a single command. To run your Python scripts from here, you’ll need to do the following:</p>
+<p class="listnumberf">  1.  Place the <i class="calibre5">yourScript.py</i> Python script in your <i class="calibre5">Scripts</i> folder.</p>
+<p class="listnumberl">  2.  Create a <i class="calibre5">yourScript.bat</i> batch file in your <i class="calibre5">Scripts</i> folder to run the Python script.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-847" aria-label="276"></span><i class="calibre5">Batch files</i> contain terminal commands that can be run together by running the batch file. They have a <i class="calibre5">.bat</i> file extension and are similar to shell scripts on Linux or <i class="calibre5">.command</i> scripts on macOS. If you place a batch file named <i class="calibre5">yourScript.bat</i> in a <span class="thesansmonocd_w5regular_">PATH</span> folder, you can run it from the Run dialog by entering <span class="thesansmonocd_w5regular_">yourScript</span>. On Windows, you don’t need to enter the file extension to run <i class="calibre5">.bat</i> or <i class="calibre5">.exe</i> files.</p>
+<p class="tx">The content of a batch file is plaintext, just like a <i class="calibre5">.py</i> file, so you can create batch files with Mu or a text editor like Notepad. Batch files contain one command per line. To run a <i class="calibre5">yourScript.py</i> file located in a folder <i class="calibre5">C:\Users\al\Scripts</i>, create a file named <i class="calibre5">yourScript.bat</i> with the following contents:</p>
+<pre class="pre"><code class="calibre9">@call %HOMEDRIVE%%HOMEPATH%\Scripts\.venv\Scripts\activate.bat
+@python %HOMEDRIVE%%HOMEPATH%\Scripts\yourScript.py %*
+@pause
+@deactivate
+</code></pre>
+<p class="tx">The batch file can be named anything, but it’s easier to remember if it has the same name as the Python script. This batch file runs three commands. The first command activates the virtual environment you created for your <i class="calibre5">Scripts</i> folder. The <span class="thesansmonocd_w5regular_">@</span> symbol at the start makes the command itself not appear in the terminal window. The <span class="thesansmonocd_w5regular_">%HOMEDRIVE%</span> environment variable is <span class="thesansmonocd_w5regular_">'C:'</span> and the <span class="thesansmonocd_w5regular_">%HOMEPATH%</span> environment variable is the path to your home folder, like <span class="thesansmonocd_w5regular_">'\Users\al'</span>. (The tilde [<span class="thesansmonocd_w5regular_">~</span>] doesn’t represent the home folder on Windows.) When combined, this provides the path to the virtual environment activation script no matter what your username is. (This is helpful if you share these files with a co-worker for them to run on their computer.) Note that the <span class="thesansmonocd_w5regular_">call</span> is necessary; if a batch file (like <i class="calibre5">yourScript.bat</i>) runs another batch file (like <i class="calibre5">activate.bat</i>) without <span class="thesansmonocd_w5regular_">call</span>, the rest of the first batch file’s commands won’t be run.</p>
+<p class="tx">Next, the batch file runs <i class="calibre5">python.exe</i>, which then runs <i class="calibre5">yourScript.py</i>. The <span class="thesansmonocd_w5regular_">%*</span> causes the batch file to forward any command line arguments it received to your Python program. It’s a good idea to always include the <span class="thesansmonocd_w5regular_">%*</span> in case you later add command line arguments to your Python program.</p>
+<p class="tx">The third command runs the <span class="thesansmonocd_w5regular_">pause</span> command, which causes Windows to display <span class="thesansmonocd_w5regular_">Press any key to continue</span> and wait for the user to press a key. This prevents the terminal window from immediately closing after the Python program finishes so that you can see any remaining printed output. If your program has no printed output, you can omit this line. Finally, the <span class="thesansmonocd_w5regular_">@deactivate</span> line deactivates the virtual environment in case you ran this batch file from the terminal and the terminal window remains open after finishing the Python program.</p>
+<p class="tx">With the batch file set up, now you can run your Python script by pressing the Windows key + R key combination to bring up the Run dialog and entering <span class="thesansmonocd_w5regular_">yourScript</span> (followed by any command line arguments) to run the <i class="calibre5">yourScript.bat</i> script. Or, if you have a terminal window open, you can just enter <span class="thesansmonocd_w5regular_">yourScript</span> in the terminal from any folder. This is far quicker than running it from a code editor like Mu.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1013" aria-label="277"></span>If you create other Python scripts, you can reuse this batch file. Just copy the file with a new name and change the <i class="calibre5">yourScript.py</i> filename to the new Python script’s name. Everything else can stay the same.</p>
+</section>
+<section type="division" aria-labelledby="sec23">
+<h4 class="h1"><span id="calibre_link-1749"></span><span id="calibre_link-300"></span><span class="sans_futura_std_heavy_oblique_bi_">macOS</span></h4>
+<p class="tni">Pressing the <small class="calibre4">COMMAND</small> key and the spacebar simultaneously on macOS brings up Spotlight, allowing you to enter the name of a program to run. To add your own Python scripts to Spotlight, you must do the following:</p>
+<p class="listnumberf">  1.  Place the <i class="calibre5">yourScript.py</i> Python script in your <i class="calibre5">Scripts</i> folder.</p>
+<p class="listnumber">  2.  Create a text file named <i class="calibre5">yourScript.command</i> to run the Python script.</p>
+<p class="listnumberl">  3.  Run <span class="thesansmonocd_w5regular_">chmod u+x yourScript.command</span> to add execute permissions to the <i class="calibre5">yourScript.command</i> file.</p>
+<p class="tx">Once you have your <i class="calibre5">.py</i> Python script in your <i class="calibre5">Scripts</i> folder, such as <i class="calibre5">/Users/al/Scripts</i>, create a text file named <i class="calibre5">yourScript.command</i> in the <i class="calibre5">Scripts</i> folder with the following content:</p>
+<pre class="pre"><code class="calibre9">source ~/Scripts/.venv/bin/activate
+python3 ~/Scripts/yourScript.py
+deactivate
+</code></pre>
+<p class="tx">The <i class="calibre5">~</i> represents the home folder, such as <i class="calibre5">/Users/al</i>. The first line activates the virtual environment and the second line runs the Python script using the virtual environment’s Python installation.</p>
+<p class="tx">Finally, in a terminal, <span class="thesansmonocd_w5regular_">cd</span> to <i class="calibre5">~/Scripts</i> and run the command <span class="thesansmonocd_w5regular_">chmod u+x yourScript.command</span>. This adds execute permissions so that you can run the script from Spotlight. Now you’ll be able to quickly run the Python script by pressing <span class="dedication_italic">⌘</span>-spacebar and entering <i class="calibre5">yourScript.command</i>. (Spotlight should autocomplete the full name for you after you enter the first few characters.) You’ll also be able to run your Python script from the terminal by entering <span class="thesansmonocd_w5regular_">yourScript.command</span>.</p>
+<p class="tx">The <i class="calibre5">yourScript.command</i> file is required because if you try to run the <i class="calibre5">yourScript.py</i> file from Spotlight, Spotlight sees the <i class="calibre5">.py</i> file extension and assumes you want to open this file in Mu or some other code editor, rather than running it directly.</p>
+<p class="tx">Note that if you use macOS’s TextEdit to create the <i class="calibre5">yourScript.command</i> file, be sure to make it a plaintext file by pressing <small class="calibre4">SHIFT</small>-<span class="dedication_italic">⌘</span>-T (or clicking the Format and Make Plain Text menu items). TextEdit will also try to be helpful by automatically capitalizing <span class="thesansmonocd_w5regular_">python3</span> to <span class="thesansmonocd_w5regular_">Python3</span>, which causes an error in Spotlight.</p>
+<p class="tx">Unfortunately, Spotlight has no means of letting the user pass command line arguments to the Python script. Any command line arguments must be preemptively written in the <i class="calibre5">.command</i> file.</p>
+</section>
+<section type="division" aria-labelledby="sec24">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1014" aria-label="278"></span>
+<h4 class="h1"><span id="calibre_link-1750"></span><span id="calibre_link-301"></span><span class="sans_futura_std_heavy_oblique_bi_">Ubuntu Linux</span></h4>
+<p class="tni">Ubuntu Linux Dash can be brought up by pressing the Windows key and entering the name of the program you want to run. To add your Python script to Dash, you must do the following:</p>
+<p class="listnumberf">  1.  Place the <i class="calibre5">yourScript.py</i> Python script in your <i class="calibre5">Scripts</i> folder.</p>
+<p class="listnumber">  2.  Create a shell script named <i class="calibre5">yourScript</i> to activate the virtual environment and run your Python script.</p>
+<p class="listnumber">  3.  Run the <span class="thesansmonocd_w5regular_">chmod u+x yourScript</span> command to add execute permissions to the shell script.</p>
+<p class="listnumberl">  4.  Create a <i class="calibre5">yourScript.desktop</i> file in the <i class="calibre5">~/.local/share/applications</i> folder to run the shell script from Dash.</p>
+<p class="tx">Once you have your <i class="calibre5">.py</i> Python script in your <i class="calibre5">Scripts</i> folder, such as <i class="calibre5">/home/al/Scripts</i>, create a text file named <i class="calibre5">yourScript</i> (with no file extension) in the <i class="calibre5">Scripts</i> folder with the following content:</p>
+<pre class="pre"><code class="calibre9">#!/usr/bin/env bash
+source ~/Scripts/.venv/bin/activate
+python3 ~/Scripts/yourScript.py
+read -p "Press any key to continue..." -n1 –s
+deactivate
+</code></pre>
+<p class="tx">The <i class="calibre5">~</i> represents the home folder, such as <i class="calibre5">/Users/al</i>. The first line identifies this file as a shell script. A <i class="calibre5">.sh</i> file extension isn’t necessary for this file.</p>
+<p class="tx">The second line activates the virtual environment, and the third line runs the Python script using the virtual environment’s Python installation. The <span class="thesansmonocd_w5regular_">read</span> command causes the terminal to display <span class="thesansmonocd_w5regular_">Press any key to continue</span> and wait for the user to press a key. This prevents the terminal window from immediately closing after the Python program finishes so that you can see any remaining printed output. If your program has no printed output, you can omit this line.</p>
+<p class="tx">After creating this shell script, <span class="thesansmonocd_w5regular_">cd</span> to <i class="calibre5">~/Scripts</i> and run the command <span class="thesansmonocd_w5regular_">chmod u+x yourScript</span>. This adds execute permissions so that you can run it. At this point, you’ll also be able to run your Python script from the terminal by entering <span class="thesansmonocd_w5regular_">yourScript</span>. To run your Python script from Dash, you must create a <i class="calibre5">yourScript.desktop</i> file.</p>
+<p class="tx">In Mu or another text editor such as gedit, create a <i class="calibre5">yourScript.desktop</i> file with the following content:</p>
+<pre class="pre"><code class="calibre9">[Desktop Entry]
+Name=yourScript
+Exec=gnome-terminal -- /home/al/Scripts/yourScript
+Type=Application
+</code></pre>
+<p class="tx">Save this file to the <i class="calibre5">/home/al/.local/share/applications</i> folder (replacing <i class="calibre5">al</i> with your own username) as <i class="calibre5">yourScript.desktop</i>. (Note that the <span class="thesansmonocd_w5regular_">Exec</span> field requires you to spell out <span class="thesansmonocd_w5regular_">/home/al</span>; you cannot replace the value with a <span class="thesansmonocd_w5regular_">~</span> in <span role="doc-pagebreak" type="pagebreak" id="calibre_link-999" aria-label="279"></span>this file.) If your text editor doesn’t show the <i class="calibre5">.local</i> folder (because folders that begin with a period are considered hidden), press <small class="calibre4">CTRL</small>-H in the Save File dialog to show hidden files.</p>
+<p class="tx">Now you’ll be able to quickly run the Python script by pressing the Windows key to bring up Dash and entering <i class="calibre5">yourScript</i>. Dash should autocomplete the full name for you. The <i class="calibre5">yourScript</i> text in the <span class="thesansmonocd_w5regular_">Name</span> field of <i class="calibre5">yourScript.desktop</i> will appear in Dash and can be anything, but it’s convenient to give it the same name as <i class="calibre5">yourScript.py</i>.</p>
+<p class="tx">Next, let’s create two programs using the principles in this chapter and deploy them for easy use.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec25">
+<h3 class="h"><span id="calibre_link-1751"></span><span id="calibre_link-302"></span><span class="sans_futura_std_bold_b_">A Short Program: Copying the Current Working Directory</span></h3>
+<p class="tni">While the <span class="thesansmonocd_w5regular_">pwd</span> command on macOS and Linux will print the current working directory, it’s sometimes useful to copy this value to the clipboard for pasting elsewhere. For example, on Windows, I constantly find myself copying the current working directory from a terminal so that I can paste it in a Save File dialog to save a file in that same directory. Although I could use the mouse to select the current working directory from the Windows prompt to copy (or, on macOS and Linux, run the <span class="thesansmonocd_w5regular_">pwd</span> command to print the working directory and select that text to copy), this requires several steps for what could be a one-step process.</p>
+<p class="tx">My idea is to write a program named <i class="calibre5">ccwd</i> (for <i class="calibre5">copy current working directory</i>). First, I’ll enter <span class="thesansmonocd_w5regular_">where ccwd</span> on Windows and <span class="thesansmonocd_w5regular_">which ccwd</span> on macOS and Linux to make sure there isn’t currently a command with the same name, then maybe also do a quick internet search for <i class="calibre5">ccwd</i> to be sure. The name <i class="calibre5">ccwd</i> is short enough to type but also unique.</p>
+<p class="tx">As an additional feature, say the terminal’s current working directory was set to <i class="calibre5">C:\Users\al\Scripts</i>, but what I wanted copied to the clipboard was <i class="calibre5">C:\Users\al</i>. I could just run the <span class="thesansmonocd_w5regular_">cd ..</span> command, then <span class="thesansmonocd_w5regular_">ccwd</span>, then <span class="thesansmonocd_w5regular_">cd Scripts</span> to return to <i class="calibre5">C:\Users\al\Scripts</i>. But it would be easier if I could pass a relative filepath to <span class="thesansmonocd_w5regular_">ccwd</span> as a command line argument. For example, <span class="thesansmonocd_w5regular_">ccwd ..</span> would copy <i class="calibre5">C:\Users\al</i> to the clipboard when the current working directory was <i class="calibre5">C:\Users\al\Scripts</i>. You don’t <i class="calibre5">have</i> to specify this command line argument (the program defaults to the current working directory if none is given), but it’s available as a feature if the user wants it. These tiny improvements may seem trivial, but online retailers have “one-click buying” features on their websites because they know that slight improvements to convenience can have a major effect.</p>
+<p class="tx">We’ll use the Pyperclip package to handle the clipboard, so be sure to install this into the <i class="calibre5">Scripts</i> folder’s virtual environment. Create a new file in Mu and enter the following content:</p>
+<pre class="pre"><code class="calibre9">import pyperclip, os, sys
+if len(sys.argv) &gt; 1:
+    os.chdir(sys.argv[1])
+pyperclip.copy(os.getcwd())
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1015" aria-label="280"></span>Save this program as <i class="calibre5">ccwd.py</i> in the <i class="calibre5">Scripts</i> folder under your home folder.</p>
+<p class="tx">The first line imports the modules the program needs. The second line checks if there are any command line arguments passed to the program. Remember that <span class="thesansmonocd_w5regular_">sys.argv</span> is a list that always contains at least one string: the <span class="thesansmonocd_w5regular_">'ccwd.py'</span> name of the script. If it has more than one string, we know the user supplied command line arguments to the program. In that case, the third line changes the current working directory of the program. Note that every program has its own current working directory setting, and changing this setting with <span class="thesansmonocd_w5regular_">os.chdir()</span> doesn’t change the current working directory of the terminal that ran the program. Finally, the fourth line copies the current working directory to the clipboard.</p>
+<p class="tx">The program is finished, but to run it from a terminal, we’d have to enter the full path to it: something like <span class="thesansmonocd_w5regular_">python C:\Users\al\Scripts\ccwd.py</span>. That’s a lot to type and defeats the purpose of having a quick and easy script to copy the current working directory to the clipboard. To improve this process, let’s go over the deployment steps for this program on each operating system.</p>
+<section type="division" aria-labelledby="sec26">
+<h4 class="h1"><span id="calibre_link-1752"></span><span id="calibre_link-303"></span><span class="sans_futura_std_heavy_oblique_bi_">Windows</span></h4>
+<p class="tni">Save the Python file as <i class="calibre5">C:\Users\al\Scripts\ccwd.py</i> (changing <i class="calibre5">al</i> to your username). In the same <i class="calibre5">Scripts</i> folder, create a <i class="calibre5">ccwd.bat</i> file with the following content:</p>
+<pre class="pre"><code class="calibre9">@call %HOMEDRIVE%%HOMEPATH%\Scripts\.venv\Scripts\activate.bat
+@python %HOMEDRIVE%%HOMEPATH%\Scripts\ccwd.py %*
+@deactivate
+</code></pre>
+<p class="tx">This batch file doesn’t have the <span class="thesansmonocd_w5regular_">@pause</span> line, because it has no <span class="thesansmonocd_w5regular_">print()</span> output. You can now run this program from the terminal in any folder by running <b class="calibre10">ccwd</b>:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">ccwd</b>
+C:\Users\al&gt;
+</code></pre>
+<p class="tx">At this point, <span class="thesansmonocd_w5regular_">'C:\Users\al'</span> is on the clipboard.</p>
+</section>
+<section type="division" aria-labelledby="sec27">
+<h4 class="h1"><span id="calibre_link-1753"></span><span id="calibre_link-304"></span><span class="sans_futura_std_heavy_oblique_bi_">macOS</span></h4>
+<p class="tni">Save the Python file as <i class="calibre5">/Users/al/Scripts/ccwd.py</i> (changing <i class="calibre5">al</i> to your username). In the same <i class="calibre5">Scripts</i> folder, create a text file with the name <i class="calibre5">ccwd.command</i> and the following content:</p>
+<pre class="pre"><code class="calibre9">source ~/Scripts/.venv/bin/activate
+python3 ~/Scripts/ccwd.py
+deactivate
+</code></pre>
+<p class="tx">Then, in a terminal, <span class="sans_thesansmonocd_w7bold_b_">cd</span> to the <i class="calibre5">Scripts</i> folder and run <span class="sans_thesansmonocd_w7bold_b_">chmod u+x ccwd.command</span>:</p>
+<pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">cd ~/Scripts</b>
+al@Als-MacBook-Pro Scripts % <b class="calibre10">chmod u+x ccwd.command</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1016" aria-label="281"></span>You can now run this program from the terminal in any folder by running <span class="sans_thesansmonocd_w7bold_b_">ccwd.command</span>:</p>
+<pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">ccwd.command</b>
+al@Als-MacBook-Pro ~ %
+</code></pre>
+<p class="tx">At this point, <span class="thesansmonocd_w5regular_">'/Users/al'</span> should be on the clipboard.</p>
+</section>
+<section type="division" aria-labelledby="sec28">
+<h4 class="h1"><span id="calibre_link-1754"></span><span id="calibre_link-305"></span><span class="sans_futura_std_heavy_oblique_bi_">Ubuntu Linux</span></h4>
+<p class="tni">Save the Python file as <i class="calibre5">/home/al/Scripts/ccwd.py</i> (changing <i class="calibre5">al</i> to your username). In the same <i class="calibre5">Scripts</i> folder, create a text file named <i class="calibre5">ccwd</i> with the following content:</p>
+<pre class="pre"><code class="calibre9">#!/usr/bin/env bash
+source ~/Scripts/.venv/bin/activate
+python3 ~/Scripts/ccwd.py
+deactivate
+</code></pre>
+<p class="tx">This <i class="calibre5">ccwd</i> shell script doesn’t need the <span class="thesansmonocd_w5regular_">read -p "Press any key to continue..." -n1 –s</span> line, because it will be run only from the terminal and not from Dash, and the terminal window won’t disappear after running the Python script.</p>
+<p class="tx">Then, in a terminal, <span class="sans_thesansmonocd_w7bold_b_">cd</span> to the <i class="calibre5">Scripts</i> folder and run <span class="sans_thesansmonocd_w7bold_b_">chmod u+x ccwd</span>:</p>
+<pre class="pre"><code class="calibre9">al@al-VirtualBox:~$ <b class="calibre10">cd ~/Scripts</b>
+al@al-VirtualBox:~/Scripts$ <b class="calibre10">chmod u+x ccwd</b>
+</code></pre>
+<p class="tx">You can now run this program from the terminal in any folder by running <span class="sans_thesansmonocd_w7bold_b_">ccwd</span>:</p>
+<pre class="pre"><code class="calibre9">al@al-VirtualBox:~$ <b class="calibre10">ccwd</b>
+al@al-VirtualBox:~$
+</code></pre>
+<p class="tx">At this point, <span class="thesansmonocd_w5regular_">'/home/al'</span> should be on the clipboard.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec29">
+<h3 class="h"><span id="calibre_link-1755"></span><span id="calibre_link-306"></span><span class="sans_futura_std_bold_b_">A Short Program: Clipboard Recorder</span></h3>
+<p class="tni">Let’s say that part of your job is to copy the URLs for links on a web page and paste them into a spreadsheet. (In <span>Chapter 13</span>, you’ll learn how to scrape all the links for the HTML source of the page. But let’s say you only need to copy some of them, and a human must decide which ones on a case-by-case basis.) You could follow these steps:</p>
+<p class="listnumberf">  1.  Right-click a link in a web browser.</p>
+<p class="listnumber">  2.  Select the Copy Link or Copy Link Address item from the context menu.</p>
+<p class="listnumber">  3.  Switch to the spreadsheet app.</p>
+<p class="listnumber">  4.  Press <small class="calibre4">CTRL</small>-V to paste the link.</p>
+<p class="listnumberl">  5.  Switch back to the web browser.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1025" aria-label="282"></span>This is a boring task, especially if the page has dozens or hundreds of links. Let’s create a small clipboard-recording program to make it faster. We’ll deploy this program on our computer so that we can conveniently run it when needed. Our program will monitor the clipboard to see if new text has been copied to it, and if so, it will print it to the terminal screen. This way, we can convert our five-step process into a two-step process:</p>
+<p class="listnumberf">  1.  Right-click a link in a web browser.</p>
+<p class="listnumberl">  2.  Select the Copy Link or Copy Link Address item from the context menu.</p>
+<p class="tx">Then, the user can just copy all the text from the clipboard recorder’s terminal window and paste it into the spreadsheet at once. Enter the following into the file editor and save it as <i class="calibre5">cliprec.py</i>:</p>
+<pre class="pre"><code class="calibre9">import pyperclip, time
+
+print('Recording clipboard... (Ctrl-C to stop)')
+previous_content = ''
+try:
+    while True:
+        content = pyperclip.paste()  # Get clipboard contents.
+
+        if content != previous_content:
+            # If it's different from the previous, print it:
+            print(content)
+            previous_content = content
+
+        time.sleep(0.01)  # Pause to avoid hogging the CPU.
+except KeyboardInterrupt:
+    pass
+</code></pre>
+<p class="tx">Let’s look at each part of this program, starting with the beginning:</p>
+<pre class="pre"><code class="calibre9">import pyperclip, time
+
+print('Recording clipboard... (Ctrl-C to stop)')
+previous_content = ''
+</code></pre>
+<p class="tx">This program copies and pastes text from the clipboard, so we’ll need to import the <span class="thesansmonocd_w5regular_">pyperclip</span> module. We’ll also import the <span class="thesansmonocd_w5regular_">time</span> module to use its <span class="thesansmonocd_w5regular_">sleep()</span> function. The program displays a quick message to say that it is running and reminds the user that <small class="calibre4">CTRL</small>-C causes the program to stop. The program will know that the clipboard contents have changed by keeping track of what the contents were previously with a <span class="thesansmonocd_w5regular_">previous_content</span> variable, which is initially set to a blank string.</p>
+<pre class="pre"><code class="calibre9">try:
+    while True:
+        content = pyperclip.paste()  # Get clipboard contents.
+</code></pre>
+<p class="tx">The bulk of the program exists in an infinite <span class="thesansmonocd_w5regular_">while</span> loop, which itself is inside a <span class="thesansmonocd_w5regular_">try</span> block. When the user presses <small class="calibre4">CTRL</small>-C, Python raises a <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1023" aria-label="283"></span><span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception, causing the execution to move to the <span class="thesansmonocd_w5regular_">except</span> block at the bottom of the source code.</p>
+<p class="tx">This loop continuously monitors the contents of the clipboard and notes each time the user copies new text to it. Within the loop, the first step is to collect the text on the clipboard by calling <span class="thesansmonocd_w5regular_">pyperclip.paste()</span>.</p>
+<pre class="pre"><code class="calibre9">        if content != previous_content:
+            # If it's different from the previous, print it:
+            print(content)
+            previous_content = content
+</code></pre>
+<p class="tx">If the current content on the clipboard is different from the previous content, then the program prints the current content and updates <span class="thesansmonocd_w5regular_">previous_content</span> to <span class="thesansmonocd_w5regular_">content</span>. This sets up the loop for the next time the user copies new text to the clipboard.</p>
+<pre class="pre"><code class="calibre9">        time.sleep(0.01)  # Pause to avoid hogging the CPU.</code></pre>
+<p class="tx">If the clipboard contents are the same as the previously obtained clipboard contents, we could have our program do nothing. However, this program can easily execute this loop tens of thousands of times a second, and it’s unlikely that the user will be updating the clipboard that frequently. (They’d probably wear out the <small class="calibre4">CTRL</small> and C keys on their keyboard if they tried.) To prevent the program from hogging the CPU by running this unproductive loop as fast as possible, we introduce a 0.01-second delay so that the loop checks for clipboard updates a mere 100 times a second.</p>
+<pre class="pre"><code class="calibre9">except KeyboardInterrupt:
+    pass
+</code></pre>
+<p class="tx">The last part of the program is the <span class="thesansmonocd_w5regular_">except</span> clause, which uses Python’s <span class="thesansmonocd_w5regular_">pass</span> statement. This statement literally does nothing, but Python is expecting at least one line in the block that follows the <span class="thesansmonocd_w5regular_">except</span> statement. This is what the <span class="thesansmonocd_w5regular_">pass</span> statement was created for. When the user presses <small class="calibre4">CTRL</small>-C, the execution moves to this <span class="thesansmonocd_w5regular_">except</span> clause and proceeds to the end of the program, where it terminates.</p>
+<p class="tx">With this app running, the user can copy several things without having to switch back and forth between apps. Small programs like this can make your workflow much easier, especially if you have to do this work every day. Now let’s deploy this program on each operating system.</p>
+<section type="division" aria-labelledby="sec30">
+<h4 class="h1"><span id="calibre_link-1756"></span><span id="calibre_link-307"></span><span class="sans_futura_std_heavy_oblique_bi_">Windows</span></h4>
+<p class="tni">Save the Python file as <i class="calibre5">C:\Users\al\Scripts\cliprec.py</i> (changing <i class="calibre5">al</i> to your username). In the same <i class="calibre5">Scripts</i> folder, create a <i class="calibre5">cliprec.bat</i> file with the following content:</p>
+<pre class="pre"><code class="calibre9">@call %HOMEDRIVE%%HOMEPATH%\Scripts\.venv\Scripts\activate.bat
+@python %HOMEDRIVE%%HOMEPATH%\Scripts\cliprec.py %*
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1024" aria-label="284"></span>@pause
+@deactivate
+</code></pre>
+<p class="tx">You can now run this program from the terminal or by pressing the Windows key and the R key simultaneously to open the Run dialog, and then entering <span class="thesansmonocd_w5regular_">cliprec</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec31">
+<h4 class="h1"><span id="calibre_link-1757"></span><span id="calibre_link-308"></span><span class="sans_futura_std_heavy_oblique_bi_">macOS</span></h4>
+<p class="tni">Save the Python file as <i class="calibre5">/Users/al/Scripts/cliprec.py</i> (changing <i class="calibre5">al</i> to your username). In the same <i class="calibre5">Scripts</i> folder, create a text file with the name <i class="calibre5">cliprec .command</i> and the following content:</p>
+<pre class="pre"><code class="calibre9">source ~/Scripts/.venv/bin/activate
+python3 ~/Scripts/cliprec.py
+deactivate
+</code></pre>
+<p class="tx">Then, in a terminal, <span class="sans_thesansmonocd_w7bold_b_">cd</span> to the <i class="calibre5">Scripts</i> folder and run <span class="sans_thesansmonocd_w7bold_b_">chmod u+x cliprec.command</span>:</p>
+<pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">cd ~/Scripts</b>
+al@Als-MacBook-Pro Scripts % <b class="calibre10">chmod u+x cliprec.command</b>
+</code></pre>
+<p class="tx">You can now run this program by pressing <span class="dedication_italic">⌘</span>-spacebar to bring up Spotlight and entering <span class="thesansmonocd_w5regular_">cliprec.command</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec32">
+<h4 class="h1"><span id="calibre_link-1758"></span><span id="calibre_link-309"></span><span class="sans_futura_std_heavy_oblique_bi_">Ubuntu Linux</span></h4>
+<p class="tni">Save the Python file as <i class="calibre5">/home/al/Scripts/cliprec.py</i> (changing <i class="calibre5">al</i> to your username). In the same <i class="calibre5">Scripts</i> folder, create a text file named <i class="calibre5">cliprec</i> with the following content:</p>
+<pre class="pre"><code class="calibre9">#!/usr/bin/env bash
+source ~/Scripts/.venv/bin/activate
+python3 ~/Scripts/cliprec.py
+read -p "Press any key to continue..." -n1 –s
+deactivate
+</code></pre>
+<p class="tx">Then, in a terminal, <span class="sans_thesansmonocd_w7bold_b_">cd</span> to the <i class="calibre5">Scripts</i> folder and run <span class="sans_thesansmonocd_w7bold_b_">chmod u+x cliprec</span>:</p>
+<pre class="pre"><code class="calibre9">al@al-VirtualBox:~$ <b class="calibre10">cd ~/Scripts</b>
+al@al-VirtualBox:~/Scripts$ <b class="calibre10">chmod u+x cliprec</b>
+</code></pre>
+<p class="tx">Finally, create a text file saved as <i class="calibre5">~/.local/share/applications/cliprec.desktop</i> with the following content:</p>
+<pre class="pre"><code class="calibre9">[Desktop Entry]
+Name=Clipboard Recorder
+Exec=gnome-terminal -- /home/al/cliprec
+Type=Application
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-737" aria-label="285"></span>You can now run this program by pressing the Windows key to bring up Dash and entering <span class="thesansmonocd_w5regular_">Clipboard Recorder</span>, or entering the first few characters of the name and letting autocomplete finish it for you.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec33">
+<h3 class="h"><span id="calibre_link-1759"></span><span id="calibre_link-310"></span><span class="sans_futura_std_bold_b_">Compiling Python Programs with PyInstaller</span></h3>
+<p class="tni">Python is often called an interpreted language, though programming languages themselves are neither interpreted nor compiled. You can create an interpreter or compiler for any language. Instead, programs written in Python are mostly <i class="calibre5">run</i> by interpreters. But it’s also possible to create executable programs from Python code with the PyInstaller package, which generates executable programs you can run from the command line.</p>
+<p class="tx">PyInstaller doesn’t compile Python programs into machine code per se; rather, it creates an executable program that contains a copy of the Python interpreter and your script. As such, these programs tend to be fairly large. Even a simple “Hello, world” program compiled with PyInstaller can be close to 8MB in size, literally a thousand times larger than a version written in assembly language. However, the benefit of compiling your Python program is that you can share your program with others who don’t have Python installed. You’d be able to send them one executable file.</p>
+<p class="tx">You can install PyInstaller by running <span class="thesansmonocd_w5regular_">pip install pyinstaller</span>. You must run PyInstaller on the operating system that you want the executable to run on. That is, if you’re on Windows, PyInstaller can create a Windows executable program but not a macOS or Linux program, and vice versa.</p>
+<p class="tx">From the terminal, run the following command (using <span class="thesansmonocd_w5regular_">python3</span> instead of <span class="thesansmonocd_w5regular_">python</span> on macOS and Linux) to compile a Python script named <i class="calibre5">yourScript.py</i>:</p>
+<pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">python -m PyInstaller --onefile yourScript.py</b>
+378 INFO: PyInstaller: <var class="calibre20">X</var>.<var class="calibre20">X</var>.<var class="calibre20">X</var>
+378 INFO: Python: 3.<var class="calibre20">XX</var>.<var class="calibre20">XX</var>
+392 INFO: Platform: Windows-<var class="calibre20">XX</var>-<var class="calibre20">XX</var>.<var class="calibre20">X</var>.<var class="calibre20">XXXX</var>
+393 INFO: wrote C:\Users\al\Desktop\hello-test\hello.spec
+399 INFO: UPX is not available.
+<var class="calibre20">--snip--</var>
+11940 INFO: Appending PKG archive to EXE
+11950 INFO: Fixing EXE headers
+13622 INFO: Building EXE from EXE-00.toc completed successfully.
+</code></pre>
+<p class="tx">Notice that you must enter <i class="calibre5">PyInstaller</i> with a capital <i class="calibre5">P</i> and capital <i class="calibre5">I</i> or else you’ll get a “No module named pyinstaller” error message. Also, note that the <span class="thesansmonocd_w5regular_">--onefile</span> argument has two dashes.</p>
+<p class="tx">After running PyInstaller, there will be a <i class="calibre5">build</i> folder (which you can delete) and a <i class="calibre5">dist</i> folder. The <i class="calibre5">dist</i> folder contains the executable program. You don’t need to create a virtual environment for it. You can then copy this program to other computers or send it as an email attachment. Keep in mind that, as a security precaution, many email providers may block emails that contain an executable program.</p>
+<p class="tx">The instructions here work for basic Python programs. The online documentation at <i class="calibre5"><a href="https://pyinstaller.org" class="calibre1">https://<wbr></wbr>pyinstaller<wbr></wbr>.org</a></i> contains further details.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec34">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1760" aria-label="286"></span>
+<h3 class="h"><span id="calibre_link-1761"></span><span id="calibre_link-311"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">In this chapter, you learned how to take your programs out of the code editor and deploy them so that users can run them quickly and conveniently. You also learned more guidelines about how to design programs that have text-based user interfaces instead of more modern graphical ones. While a GUI is user friendly, TUIs are simpler to code. When you need to automate tasks for yourself, making your program look like a professional application isn’t worth the extra effort. You just need something that works.</p>
+<p class="tx">That said, there are several ways you can design your program to be easy to use. Often, this involves the command line terminal, which many users aren’t familiar with. It may take a while to learn command line concepts such as navigating the file system with <span class="thesansmonocd_w5regular_">cd</span> and <span class="thesansmonocd_w5regular_">dir</span>/<span class="thesansmonocd_w5regular_">ls</span>, the <span class="thesansmonocd_w5regular_">PATH</span> environment variable, and command line arguments. But the terminal allows you to very quickly issue commands and run programs, especially after you finish writing the programs and deploy them.</p>
+<p class="tx">This chapter also covered several third-party packages. The Bext package lets you add colorful text, position the cursor, and clear the screen. The PyMsgBox package creates GUI boxes for alerts or basic input without using the terminal window. Because you may one day run programs that require incompatible versions of the same package, it’s best to run scripts in separate virtual environments. You can create virtual environments with the <span class="thesansmonocd_w5regular_">venv</span> module that comes with Python. Virtual environments are activated from the terminal, and can prevent you from breaking existing programs by giving you a separate place to install packages.</p>
+<p class="tx">Finally, the PyInstaller package allows you to compile your <i class="calibre5">.py</i> files into executable programs. They may be several megabytes in size, but you can share these programs with co-workers who might not have Python (and the third-party packages your program uses) on their computer.</p>
+<p class="tx">This chapter didn’t cover many programming language concepts; rather, it covered how to make your programs usable and convenient on a day-to-day basis. At this point, you know enough Python syntax to create basic programs (although there’s always more to learn!). In <span>Part II</span> of this book, you’ll explore several third-party packages that extend the capabilities of your Python programs.</p>
+</section>
+<section type="division" aria-labelledby="sec35">
+<h3 class="h"><span id="calibre_link-1762"></span><span id="calibre_link-312"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What command lists folder contents on Windows? What about on macOS and Linux?</p>
+<p class="listnumber">  2.  What does the <span class="thesansmonocd_w5regular_">PATH</span> environment variable contain?</p>
+<p class="listnumber">  3.  What does the <span class="thesansmonocd_w5regular_">__file__</span> variable contain?</p>
+<p class="listnumber">  4.  What command erases the text from the terminal window on Windows? What about on macOS and Linux?</p>
+<p class="listnumber">  5.  How do you create a new virtual environment?</p>
+<p class="listnumber">  6.  What command line argument should you pass to PyInstaller when compiling programs?</p>
+</section>
+<section type="division" aria-labelledby="sec36">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1763" aria-label="287"></span>
+<h3 class="h"><span id="calibre_link-1764"></span><span id="calibre_link-313"></span><span class="sans_futura_std_bold_b_">Practice Program: Make Your Programs Deployable</span></h3>
+<p class="tni">Make your existing programs easy to run by creating shell scripts in a <span class="thesansmonocd_w5regular_">PATH</span> folder that executes them, or else compiling them with PyInstaller. Do this for the following projects:</p>
+<ul class="ul">
+<li class="bl">“Back Up a Folder into a ZIP File” from <span>Chapter 11</span></li>
+<li class="bl">“Extract Contact Information from Large Documents” from <span>Chapter 9</span></li>
+<li class="bl">“Add Bullets to Wiki Markup” from <span>Chapter 8</span></li>
+<li class="bl">“Interactive Chessboard Simulator” from <span>Chapter 7</span></li>
+<li class="bl">Any other programs you’ve created and want to easily launch or share with others</li>
+</ul>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

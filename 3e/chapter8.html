@@ -1,0 +1,793 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-164">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch8">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1589" aria-label="159"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1590">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">8</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">STRINGS AND TEXT EDITING</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">Text is one of the most common forms of data your programs will handle. You already know how to concatenate two string values with the <span class="sans_thesansmonocd_w5regular_">+</span> operator, but you can do much more than that, such as extract partial strings from string values, add or remove spacing, convert letters to lowercase or uppercase, and check that strings are formatted correctly. You can even write Python code to access the clipboard used for copying and pasting text.</p>
+<p class="tx">In this chapter, you’ll learn all of this and more. Then, you’ll work through a programming project to automate the boring chore of adding bullet points to text.</p>
+<section type="division" aria-labelledby="sec1">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-859" aria-label="160"></span>
+<h3 class="h" id="calibre_link-1591"><span id="calibre_link-165"></span><span class="sans_futura_std_bold_b_">Working with Strings</span></h3>
+<p class="tni">Let’s look at some of the ways Python lets you write, print, and access strings in your code.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-1592"><span id="calibre_link-166"></span><span class="sans_futura_std_heavy_oblique_bi_">String Literals</span></h4>
+<p class="tni">While string <i class="calibre5">values</i> are stored in the program’s memory, the string values that literally appear in our code are called <i class="calibre5">string literals</i>. Writing string literals in Python code seems straightforward: they begin and end with a single quotation mark, with the text of the string value in between. But how can you use quotes inside a string? Entering <span class="thesansmonocd_w5regular_">'That is Alice's cat.'</span> won’t work, because Python will think the string ends after <span class="thesansmonocd_w5regular_">Alice</span> and will treat the rest (<span class="thesansmonocd_w5regular_">s cat.'</span>) as invalid Python code. Fortunately, there are multiple ways to write string literals. The term <i class="calibre5">string</i> refers to a string value in the context of a running program and to a string literal when we’re talking about entering Python source code.</p>
+<section type="division" aria-labelledby="sec3">
+<h5 class="h2" id="calibre_link-1593"><span class="sans_futura_std_bold_b_">Double Quotes</span></h5>
+<p class="tni">String literals can begin and end with double quotes as well as with single quotes. One benefit of using double quotes is that the string can have a single quote character in it. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = "That is Alice's cat."</b></code></pre>
+<p class="tx">Because the string begins with a double quote, Python knows that the single quote is part of the string and is not marking the end of the string. However, if you need to use both single quotes and double quotes in the string, you’ll need to use escape characters.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h5 class="h2" id="calibre_link-1594"><span class="sans_futura_std_bold_b_">Escape Characters</span></h5>
+<p class="tni">An <i class="calibre5">escape character</i> lets you use characters that are otherwise impossible to put into a string literal. An escape character consists of a backslash (<span class="thesansmonocd_w5regular_">\</span>) followed by the character you want to add to the string. For example, <span class="thesansmonocd_w5regular_">\'</span> is the escape character for a single quote and <span class="thesansmonocd_w5regular_">\n</span> is the escape character for a newline character. (Despite consisting of two characters, it is commonly referred to as a singular escape character.) You can use this syntax inside a string that begins and ends with single quotes. To see how escape characters work, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 'Say hi to Bob\'s mother.'</b></code></pre>
+<p class="tx">Python knows that since the single quote in <span class="thesansmonocd_w5regular_">Bob\'s</span> has a backslash, it is not a single quote meant to end the string value. The escape characters <span class="thesansmonocd_w5regular_">\'</span> and <span class="thesansmonocd_w5regular_">\"</span> let you put single quotes and double quotes inside your strings, respectively.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1223" aria-label="161"></span>Table 8-1 lists the escape characters you can use.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-724"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 8-1:</span></span> <span class="sans_futura_std_book_">Escape Characters</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Escape character</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Prints as ...</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">\'</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Single quote</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\"</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Double quote</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\t</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Tab</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\n</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Newline (line break)</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">\\</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Backslash</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">To practice using these, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print("Hello there!\nHow are you?\nI\'m doing fine.")</b>
+Hello there!
+How are you?
+I'm doing fine.
+</code></pre>
+<p class="tx">Keep in mind that because the <span class="thesansmonocd_w5regular_">\</span> backslash begins an escape character, if you want an actual backslash in your string, you must use the <span class="thesansmonocd_w5regular_">\\</span> escape character.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h5 class="h2" id="calibre_link-1595"><span class="sans_futura_std_bold_b_">Raw Strings</span></h5>
+<p class="tni">You can place an <span class="thesansmonocd_w5regular_">r</span> before the beginning quotation mark of a string literal to make it a raw string literal. A <i class="calibre5">raw string</i> makes it easier to enter string values that have backslashes by ignoring all escape characters. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print(r'The file is in C:\Users\Alice\Desktop')</b>
+The file is in C:\Users\Alice\Desktop
+</code></pre>
+<p class="tx">Because this is a raw string, Python considers the backslash to be part of the string and not the start of an escape character:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print('Hello...\n\n...world!')</b>  # Without a raw string
+Hello...
+
+...world!
+&gt;&gt;&gt; <b class="calibre10">print(r'Hello...\n\n...world!')</b>  # With a raw string
+Hello...\n\n...world!
+</code></pre>
+<p class="tx">Raw strings are helpful if your string values contain many backslashes, such as the strings used for Windows filepaths like <span class="thesansmonocd_w5regular_">r'C:\Users\Al\Desktop'</span> or regular expression strings, which are described in the next chapter.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h5 class="h2" id="calibre_link-1596"><span class="sans_futura_std_bold_b_">Multiline Strings</span></h5>
+<p class="tni">While you can use the <span class="thesansmonocd_w5regular_">\n</span> escape character to insert a newline into a string, it’s often easier to use multiline strings. A multiline string in Python begins <span role="doc-pagebreak" type="pagebreak" id="calibre_link-873" aria-label="162"></span>and ends with either three single quotes or three double quotes. Any quotes, tabs, or newlines in between the “triple quotes” are considered part of the string. Python’s indentation rules for blocks don’t apply to lines inside a multiline string.</p>
+<p class="tx">For example, open the file editor and enter the following:</p>
+<pre class="pre"><code class="calibre9">print('''Dear Alice,
+
+Can you feed Eve's cat this weekend?
+
+Sincerely,
+Bob''')
+</code></pre>
+<p class="tx">Save this program as <i class="calibre5">feedcat.py</i> and run it. The output will look like this:</p>
+<pre class="pre"><code class="calibre9">Dear Alice,
+
+Can you feed Eve's cat this weekend?
+
+Sincerely,
+Bob
+</code></pre>
+<p class="tx">Notice that the single quote character in <span class="thesansmonocd_w5regular_">Eve's</span> doesn’t need to be escaped. Escaping single and double quotes is optional in multiline strings:</p>
+<pre class="pre"><code class="calibre9">print("Dear Alice,\n\nCan you feed Eve's cat this weekend?\n\nSincerely,\nBob")</code></pre>
+<p class="tx">This <span class="thesansmonocd_w5regular_">print()</span> call prints identical text but doesn’t use a multiline string.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h5 class="h2" id="calibre_link-1597"><span class="sans_futura_std_bold_b_">Multiline Comments</span></h5>
+<p class="tni">While the hash character (<span class="thesansmonocd_w5regular_">#</span>) marks the beginning of a comment for the rest of the line, a multiline string is often used for comments that span multiple lines:</p>
+<pre class="pre"><code class="calibre9">"""This is a test Python program.
+Written by Al Sweigart al@inventwithpython.com
+
+This program was designed for Python 3, not Python 2.
+"""
+
+def say_hello():
+    """This function prints hello.
+    It does not return anything."""
+    print('Hello!')
+</code></pre>
+<p class="tx">The multiline string in this example is perfectly valid Python code.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec8">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1193" aria-label="163"></span>
+<h4 class="h1" id="calibre_link-1598"><span id="calibre_link-167"></span><span class="sans_futura_std_heavy_oblique_bi_">Indexes and Slices</span></h4>
+<p class="tni">Strings use indexes and slices the same way lists do. You can think of the string <span class="thesansmonocd_w5regular_">'Hello, world!'</span> as a list and each character in the string as an item with a corresponding index and negative index:</p>
+<pre class="pre1"><code class="calibre9">
+'   H  e   l   l   o  ,     w  o  r  l  d   !  '
+    0  1   2   3   4  5  6  7  8  9 10  11 12
+  -13 -12 -11 -10 -9 -8 -7 -6 -5 -4 -3 -2  -1</code></pre>
+<p class="tx">The space and exclamation mark are included in the character count, so <span class="thesansmonocd_w5regular_">'Hello, world!'</span> is 13 characters long, from <span class="thesansmonocd_w5regular_">H</span> at index 0 to <span class="thesansmonocd_w5regular_">!</span> at index 12.</p>
+<p class="tx">Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">greeting = 'Hello, world!'</b>
+&gt;&gt;&gt; <b class="calibre10">greeting[0]</b>
+'H'
+&gt;&gt;&gt; <b class="calibre10">greeting [4]</b>
+'o'
+&gt;&gt;&gt; <b class="calibre10">greeting[-1]</b>
+'!'
+&gt;&gt;&gt; <b class="calibre10">greeting[0:5]</b>
+'Hello'
+&gt;&gt;&gt; <b class="calibre10">greeting[:5]</b>
+'Hello'
+&gt;&gt;&gt; <b class="calibre10">greeting[7:-1]</b>
+'world'
+&gt;&gt;&gt; <b class="calibre10">greeting[7:]</b>
+'world!'
+</code></pre>
+<p class="tx">If you specify an index, you’ll get the character at that position in the string. If you specify a range from one index to another, the starting index is included and the ending index is not. That’s why, if <span class="thesansmonocd_w5regular_">greeting</span> is <span class="thesansmonocd_w5regular_">'Hello, world!'</span>, then <span class="thesansmonocd_w5regular_">greeting[0:5]</span> evaluates to <span class="thesansmonocd_w5regular_">'Hello'</span>. The substring you get from <span class="thesansmonocd_w5regular_">greeting[0:5]</span> will include everything from <span class="thesansmonocd_w5regular_">greeting[0]</span> to <span class="thesansmonocd_w5regular_">greeting[4]</span>, leaving out the comma at index <span class="thesansmonocd_w5regular_">5</span> and the space at index <span class="thesansmonocd_w5regular_">6</span>. This is similar to how <span class="thesansmonocd_w5regular_">range(5)</span> will cause a <span class="thesansmonocd_w5regular_">for</span> loop to iterate up to, but not including, <span class="thesansmonocd_w5regular_">5</span>.</p>
+<p class="tx">Note that slicing a string doesn’t modify the original string. You can capture a slice from one variable in a separate variable. Try entering the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">greeting = 'Hello, world!'</b>
+&gt;&gt;&gt; <b class="calibre10">greeting_slice = greeting[0:5]</b>
+&gt;&gt;&gt; <b class="calibre10">greeting_slice</b>
+'Hello'
+&gt;&gt;&gt; <b class="calibre10">greeting</b>
+'Hello, world!'
+</code></pre>
+<p class="tx">By slicing and storing the resulting substring in another variable, you can have both the whole string and the substring handy for quick, easy access.</p>
+</section>
+<section type="division" aria-labelledby="sec9">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-850" aria-label="164"></span>
+<h4 class="h1" id="calibre_link-1599"><span id="calibre_link-168"></span><span class="sans_futura_std_heavy_oblique_bi_">The in and not in Operators</span></h4>
+<p class="tni">You can use the <span class="thesansmonocd_w5regular_">in</span> and <span class="thesansmonocd_w5regular_">not in</span> operators with strings just as you can with list values. An expression with two strings joined using <span class="thesansmonocd_w5regular_">in</span> or <span class="thesansmonocd_w5regular_">not in</span> will evaluate to a Boolean <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'Hello' in 'Hello, World'</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'Hello' in 'Hello'</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'HELLO' in 'Hello, World'</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'' in 'spam'</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'cats' not in 'cats and dogs'</b>
+False
+</code></pre>
+<p class="tx">These expressions test whether the first string (including its capitalization) can be found within the second string.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h3 class="h" id="calibre_link-1600"><span id="calibre_link-169"></span><span class="sans_futura_std_bold_b_">F-Strings</span></h3>
+<p class="tni">Putting strings inside other strings is a common operation in programming. So far, we’ve been using the <span class="thesansmonocd_w5regular_">+</span> operator and string concatenation to do this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Al'</b>
+&gt;&gt;&gt; <b class="calibre10">age = 4000</b>
+&gt;&gt;&gt; <b class="calibre10">'Hello, my name is ' + name + '. I am ' + str(age) + ' years old.'</b>
+'Hello, my name is Al. I am 4000 years old.'
+&gt;&gt;&gt; <b class="calibre10">'In ten years I will be ' + str(age + 10)</b>
+'In ten years I will be 4010'
+</code></pre>
+<p class="tx">However, this requires a lot of tedious typing. A simpler approach is to use <i class="calibre5">f-strings</i>, which let you place variable names or entire expressions within a string. Like the <span class="thesansmonocd_w5regular_">r</span> prefix in raw strings, f-strings have an <span class="thesansmonocd_w5regular_">f</span> prefix before the starting quotation mark. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Al'</b>
+&gt;&gt;&gt; <b class="calibre10">age = 4000</b>
+&gt;&gt;&gt; <b class="calibre10">f'My name is {name}. I am {age} years old.'</b>
+'My name is Al. I am 4000 years old.'
+&gt;&gt;&gt; <b class="calibre10">f'In ten years I will be {age + 10}'</b>
+'In ten years I will be 4010'
+</code></pre>
+<p class="tx">Everything between the curly brackets (<span class="thesansmonocd_w5regular_">{}</span>) is interpreted as if it were passed to <span class="thesansmonocd_w5regular_">str()</span> and concatenated with the <span class="thesansmonocd_w5regular_">+</span> operator in the middle of the string. If you need to use literal curly bracket characters in an f-string, use two curly brackets:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Zophie'</b>
+&gt;&gt;&gt; <b class="calibre10">f'{name}'</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1163" aria-label="165"></span>'Zophie'
+&gt;&gt;&gt; <b class="calibre10">f'{{name}}</b>'  # Double curly brackets are literal curly brackets.
+'{name}'
+</code></pre>
+<p class="tx">F-strings are a useful feature in Python, but the language only added them in version 3.6. In older Python code, you may run into alternative techniques.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h3 class="h" id="calibre_link-1601"><span id="calibre_link-170"></span><span class="sans_futura_std_bold_b_">F-String Alternatives: %s and format()</span></h3>
+<p class="tni">Versions of Python before 3.6 had other ways to put strings inside other strings. The first is <i class="calibre5">string interpolation</i>, in which strings included a <span class="thesansmonocd_w5regular_">%s</span> format specifier that Python would replace with another string. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Al'</b>
+&gt;&gt;&gt; <b class="calibre10">age = 4000</b>
+&gt;&gt;&gt; <b class="calibre10">'My name is %s. I am %s years old.' % (name, age)</b>
+'My name is Al. I am 4000 years old.'
+&gt;&gt;&gt; <b class="calibre10">'In ten years I will be %s' % (age + 10)</b>
+'In ten years I will be 4010'
+</code></pre>
+<p class="tx">Python will replace the first <span class="thesansmonocd_w5regular_">%s</span> with the first value in the parentheses after the string, the second <span class="thesansmonocd_w5regular_">%s</span> with the second string, and so on. This works just as well as f-strings if you need to insert only one or two strings, but f-strings tend to be more readable when you have several strings to insert.</p>
+<p class="tx">The next way to put strings inside other strings is with the <span class="thesansmonocd_w5regular_">format()</span> string method. You can use a pair of curly brackets to mark where to insert the strings, just like with string interpolation. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Al'</b>
+&gt;&gt;&gt; <b class="calibre10">age = 4000</b>
+&gt;&gt;&gt; <b class="calibre10">'My name is {}. I am {} years old.'.format(name, age)</b>
+'My name is Al. I am 4000 years old.'
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">format()</span> method has a few more features than <span class="thesansmonocd_w5regular_">%s</span> string interpolation. You can put the index integer (starting at <span class="thesansmonocd_w5regular_">0</span>) inside the curly brackets to note which of the arguments to <span class="thesansmonocd_w5regular_">format()</span> should be inserted. This is helpful when inserting strings multiple times or out of order:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">name = 'Al'</b>
+&gt;&gt;&gt; <b class="calibre10">age = 4000</b>
+&gt;&gt;&gt; <b class="calibre10">'{1} years ago, {0} was born and named {0}.'.format(name, age)</b>
+'4000 years ago, Al was born and named Al.'
+</code></pre>
+<p class="tx">Most programmers prefer f-strings over these two alternatives, but you should learn them anyway, as you may run into them in existing code.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1229" aria-label="166"></span>
+<h3 class="h" id="calibre_link-1602"><span id="calibre_link-171"></span><span class="sans_futura_std_bold_b_">Useful String Methods</span></h3>
+<p class="tni">Several string methods analyze strings or create transformed string values. This section describes the methods you’ll be using most often.</p>
+<section type="division" aria-labelledby="sec13">
+<h4 class="h1" id="calibre_link-1603"><span id="calibre_link-172"></span><span class="sans_futura_std_heavy_oblique_bi_">Changing the Case</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">upper()</span> and <span class="thesansmonocd_w5regular_">lower()</span> string methods return a new string with all the letters in the original converted to uppercase or lowercase, respectively. Non-letter characters in the string remain unchanged. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 'Hello, world!'</b>
+&gt;&gt;&gt; <b class="calibre10">spam = spam.upper()</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+'HELLO, WORLD!'
+&gt;&gt;&gt; <b class="calibre10">spam = spam.lower()</b>
+&gt;&gt;&gt; <b class="calibre10">spam</b>
+'hello, world!'
+</code></pre>
+<p class="tx">Note that these methods don’t change the string itself, but return new string values. If you want to change the original string, you have to call <span class="thesansmonocd_w5regular_">upper()</span> or <span class="thesansmonocd_w5regular_">lower()</span> on the string and then assign the new string to the variable that stored the original. This is why you must use <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">spam.upper()</span> to change the string in <span class="thesansmonocd_w5regular_">spam</span> instead of simply writing <span class="thesansmonocd_w5regular_">spam.upper()</span>. (This is the same as if a variable <span class="thesansmonocd_w5regular_">eggs</span> contains the value <span class="thesansmonocd_w5regular_">10</span>. Writing <span class="thesansmonocd_w5regular_">eggs</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">3</span> doesn’t change the value of <span class="thesansmonocd_w5regular_">eggs</span>, but <span class="thesansmonocd_w5regular_">eggs</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">eggs</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">3</span> does.)</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">upper()</span> and <span class="thesansmonocd_w5regular_">lower()</span> methods are helpful if you need to make a case-insensitive comparison. For example, the strings <span class="thesansmonocd_w5regular_">'great'</span> and <span class="thesansmonocd_w5regular_">'GREat'</span> aren’t equal to each other, but in the following small program, the user can enter <span class="thesansmonocd_w5regular_">Great</span>, <span class="thesansmonocd_w5regular_">GREAT</span>, or <span class="thesansmonocd_w5regular_">grEAT</span>, because the code converts the string to lowercase:</p>
+<pre class="pre"><code class="calibre9">print('How are you?')
+feeling = input()
+if feeling.lower() == 'great':
+    print('I feel great too.')
+else:
+    print('I hope the rest of your day is good.')
+</code></pre>
+<p class="tx">When you run this program, it displays a question, and entering any variation on <span class="thesansmonocd_w5regular_">great</span>, such as <span class="thesansmonocd_w5regular_">GREat</span>, will give the output <span class="thesansmonocd_w5regular_">I feel great too.</span> Adding code to your program to handle variations or mistakes in user input, such as inconsistent capitalization, will make your programs easier to use and less likely to fail:</p>
+<pre class="pre"><code class="calibre9">How are you?
+<b class="calibre10">GREat</b>
+I feel great too.
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1199" aria-label="167"></span>The <span class="thesansmonocd_w5regular_">isupper()</span> and <span class="thesansmonocd_w5regular_">islower()</span> methods will return a Boolean <span class="thesansmonocd_w5regular_">True</span> value if the string has at least one letter and all the letters are uppercase or lowercase, respectively. Otherwise, the method returns <span class="thesansmonocd_w5regular_">False</span>. Enter the following into the interactive shell, and notice what each method call returns:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 'Hello, world!'</b>
+&gt;&gt;&gt; <b class="calibre10">spam.islower()</b>
+False
+&gt;&gt;&gt; <b class="calibre10">spam.isupper()</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'HELLO'.isupper()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'abc12345'.islower()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'12345'.islower()</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'12345'.isupper()</b>
+False
+</code></pre>
+<p class="tx">Since the <span class="thesansmonocd_w5regular_">upper()</span> and <span class="thesansmonocd_w5regular_">lower()</span> string methods themselves return strings, you can call string methods on <i class="calibre5">those</i> returned string values as well:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'Hello'.upper()</b>
+'HELLO'
+&gt;&gt;&gt; <b class="calibre10">'Hello'.upper().lower()</b>
+'hello'
+&gt;&gt;&gt; <b class="calibre10">'Hello'.upper().lower().upper()</b>
+'HELLO'
+&gt;&gt;&gt; <b class="calibre10">'HELLO'.lower()</b>
+'hello'
+&gt;&gt;&gt; <b class="calibre10">'HELLO'.lower().islower()</b>
+True
+</code></pre>
+<p class="tx">Expressions that do this will look like a chain of method calls, as shown here.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h4 class="h1" id="calibre_link-1604"><span id="calibre_link-173"></span><span class="sans_futura_std_heavy_oblique_bi_">Checking String Characteristics</span></h4>
+<p class="tni">Along with <span class="thesansmonocd_w5regular_">islower()</span> and <span class="thesansmonocd_w5regular_">isupper()</span>, several other string methods have names beginning with the word <i class="calibre5">is</i>. These methods return a Boolean value that describes the nature of the string. Here are some common <span class="thesansmonocd_w5regular_">is</span><span class="sans_thesansmonocd_w5regular_italic_">X</span><span class="thesansmonocd_w5regular_">()</span> string methods:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">isalpha()</span> Returns <span class="thesansmonocd_w5regular_">True</span> if the string consists only of letters and isn’t blank</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">isalnum()</span> Returns <span class="thesansmonocd_w5regular_">True</span> if the string consists only of letters and numbers (alphanumerics) and isn’t blank</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">isdecimal()</span> Returns <span class="thesansmonocd_w5regular_">True</span> if the string consists only of numeric characters and isn’t blank</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">isspace()</span> Returns <span class="thesansmonocd_w5regular_">True</span> if the string consists only of spaces, tabs, and newlines and isn’t blank</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">istitle()</span> Returns <span class="thesansmonocd_w5regular_">True</span> if the string consists only of words that begin with an uppercase letter followed by only lowercase letters</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1200" aria-label="168"></span>Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'hello'.isalpha()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'hello123'.isalpha()</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'hello123'.isalnum()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'hello'.isalnum()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'123'.isdecimal()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'    '.isspace()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'This Is Title Case'.istitle()</b>
+True
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">is</span><span class="sans_thesansmonocd_w5regular_italic_">X</span><span class="thesansmonocd_w5regular_">()</span> string methods are helpful when you need to validate user input. For example, the following program repeatedly asks users for their age and a password until they provide valid input. Open a new file editor window and enter this program, saving it as <i class="calibre5">validateInput.py</i>:</p>
+<pre class="pre"><code class="calibre9">while True:
+    print('Enter your age:')
+    age = input()
+    if age.isdecimal():
+        break
+    print('Please enter a number for your age.')
+
+while True:
+    print('Select a new password (letters and numbers only):')
+    password = input()
+    if password.isalnum():
+        break
+    print('Passwords can only have letters and numbers.')
+</code></pre>
+<p class="tx">In the first <span class="thesansmonocd_w5regular_">while</span> loop, we ask the user for their age and store their input in <span class="thesansmonocd_w5regular_">age</span>. If <span class="thesansmonocd_w5regular_">age</span> is a valid (decimal) value, we break out of this first <span class="thesansmonocd_w5regular_">while</span> loop and move on to the second, which asks for a password. Otherwise, we inform the user that they need to enter a number and again ask them to enter their age. In the second <span class="thesansmonocd_w5regular_">while</span> loop, we ask for a password, store the user’s input in <span class="thesansmonocd_w5regular_">password</span>, and break out of the loop if the input was alphanumeric. If it wasn’t, we’re not satisfied, so we tell the user the password needs to be alphanumeric and again ask them to enter a password.</p>
+<p class="tx">When run, the program’s output looks like this:</p>
+<pre class="pre"><code class="calibre9">Enter your age:
+<b class="calibre10">forty two</b>
+Please enter a number for your age.
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1133" aria-label="169"></span>Enter your age:
+<b class="calibre10">42</b>
+Select a new password (letters and numbers only):
+<b class="calibre10">secr3t!</b>
+Passwords can only have letters and numbers.
+Select a new password (letters and numbers only):
+<b class="calibre10">secr3t</b>
+</code></pre>
+<p class="tx">Calling <span class="thesansmonocd_w5regular_">isdecimal()</span> and <span class="thesansmonocd_w5regular_">isalnum()</span> on variables, we’re able to test whether the values stored in those variables are decimal or not and alphanumeric or not. Here, these tests help us reject the input <span class="thesansmonocd_w5regular_">forty two</span> but accept <span class="thesansmonocd_w5regular_">42</span>, and reject <span class="thesansmonocd_w5regular_">secr3t!</span> but accept <span class="thesansmonocd_w5regular_">secr3t</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1" id="calibre_link-1605"><span id="calibre_link-174"></span><span class="sans_futura_std_heavy_oblique_bi_">Checking the Start or End of a String</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">startswith()</span> and <span class="thesansmonocd_w5regular_">endswith()</span> methods return <span class="thesansmonocd_w5regular_">True</span> if the string value on which they’re called begins or ends (respectively) with the string passed to the method; otherwise, they return <span class="thesansmonocd_w5regular_">False</span>. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'Hello, world!'.startswith('Hello')</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'Hello, world!'.endswith('world!')</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'abc123'.startswith('abcdef')</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'abc123'.endswith('12')</b>
+False
+&gt;&gt;&gt; <b class="calibre10">'Hello, world!'.startswith('Hello, world!')</b>
+True
+&gt;&gt;&gt; <b class="calibre10">'Hello, world!'.endswith('Hello, world!')</b>
+True
+</code></pre>
+<p class="tx">These methods are useful alternatives to the equals operator (<span class="thesansmonocd_w5regular_">==</span>) if you need to check only whether the first or last part of the string, rather than the whole thing, is equal to another string.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h4 class="h1" id="calibre_link-1606"><span id="calibre_link-175"></span><span class="sans_futura_std_heavy_oblique_bi_">Joining and Splitting Strings</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">join()</span> method is useful when you have a list of strings that need to be joined together into a single string value. We call the <span class="thesansmonocd_w5regular_">join()</span> method on a string and pass it a list of strings, and it returns the concatenation of each string in the passed-in list. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">', '.join(['cats', 'rats', 'bats'])</b>
+'cats, rats, bats'
+&gt;&gt;&gt; <b class="calibre10">' '.join(['My', 'name', 'is', 'Simon'])</b>
+'My name is Simon'
+&gt;&gt;&gt; <b class="calibre10">'ABC'.join(['My', 'name', 'is', 'Simon'])</b>
+'MyABCnameABCisABCSimon'
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1288" aria-label="170"></span>Notice that the string on which <span class="thesansmonocd_w5regular_">join()</span> is called is inserted between each string of the list argument. For example, when we call <span class="thesansmonocd_w5regular_">join(['cats', 'rats', 'bats'])</span> on the <span class="thesansmonocd_w5regular_">', '</span> string, it returns the string <span class="thesansmonocd_w5regular_">'cats, rats, bats'</span>.</p>
+<p class="tx">Remember that we call <span class="thesansmonocd_w5regular_">join()</span> on a string value and pass it a list value. (It’s easy to accidentally call it the other way around.) The <span class="thesansmonocd_w5regular_">split()</span> method works the opposite way: we call it on a string value, and it returns a list of strings. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'My name is Simon'.split()</b>
+['My', 'name', 'is', 'Simon']
+</code></pre>
+<p class="tx">By default, the method splits the string <span class="thesansmonocd_w5regular_">'My name is Simon'</span> wherever it finds whitespace such as the space, tab, or newline characters. These whitespace characters aren’t included in the strings in the returned list. You can pass a delimiter string to the <span class="thesansmonocd_w5regular_">split()</span> method to specify a different string to split upon. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'MyABCnameABCisABCSimon'.split('ABC')</b>
+['My', 'name', 'is', 'Simon']
+&gt;&gt;&gt; <b class="calibre10">'My name is Simon'.split('m')</b>
+['My na', 'e is Si', 'on']
+</code></pre>
+<p class="tx">A common use of <span class="thesansmonocd_w5regular_">split()</span> is to split a multiline string along the newline characters. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt;<b class="calibre10"> spam = '''Dear Alice,</b>
+... <b class="calibre10">There is a milk bottle in the fridge</b>
+... <b class="calibre10">that is labeled "Milk Experiment."</b>
+...
+... <b class="calibre10">Please do not drink it.</b>
+... <b class="calibre10">Sincerely,</b>
+... <b class="calibre10">Bob'''</b>
+...
+&gt;&gt;&gt; <b class="calibre10">spam.split('\n')</b>
+['Dear Alice,', 'There is a milk bottle in the fridge',
+'that is labeled "Milk Experiment."', '', 'Please do not drink it.',
+'Sincerely,', 'Bob']
+</code></pre>
+<p class="tx">Passing <span class="thesansmonocd_w5regular_">split()</span> the argument <span class="thesansmonocd_w5regular_">'\n'</span> lets us split the multiline string stored in <span class="thesansmonocd_w5regular_">spam</span> along the newlines and return a list in which each item corresponds to one line of the string.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1" id="calibre_link-1607"><span id="calibre_link-176"></span><span class="sans_futura_std_heavy_oblique_bi_">Justifying and Centering Text</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">rjust()</span> and <span class="thesansmonocd_w5regular_">ljust()</span> string methods return a padded version of the string on which they’re called, with spaces inserted to justify the text. The first argument to both methods is an integer length for the justified string. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'Hello'.rjust(10)</b>
+'     Hello'
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1004" aria-label="171"></span>&gt;&gt;&gt; <b class="calibre10">'Hello'.rjust(20)</b>
+'              Hello'
+&gt;&gt;&gt; <b class="calibre10">'Hello, World'.rjust(20)</b>
+'         Hello, World'
+&gt;&gt;&gt; <b class="calibre10">'Hello'.ljust(10)</b>
+'Hello     '
+</code></pre>
+<p class="tx">The code <span class="thesansmonocd_w5regular_">'Hello'.rjust(10)</span> says that we want to right-justify <span class="thesansmonocd_w5regular_">'Hello'</span> in a string of total length <span class="thesansmonocd_w5regular_">10</span>. <span class="thesansmonocd_w5regular_">'Hello'</span> is five characters, so five spaces will be added to its left, giving us a string of 10 characters with <span class="thesansmonocd_w5regular_">'Hello'</span> right-justified.</p>
+<p class="tx">An optional second argument to <span class="thesansmonocd_w5regular_">rjust()</span> and <span class="thesansmonocd_w5regular_">ljust()</span> will specify a fill character other than a space character. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'Hello'.rjust(20, '*')</b>
+'***************Hello'
+&gt;&gt;&gt; <b class="calibre10">'Hello'.ljust(20, '-')</b>
+'Hello---------------'
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">center()</span> string method works like <span class="thesansmonocd_w5regular_">ljust()</span> and <span class="thesansmonocd_w5regular_">rjust()</span> but centers the text, rather than justifying it to the left or right. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'Hello'.center(20)</b>
+'       Hello        '
+&gt;&gt;&gt; <b class="calibre10">'Hello'.center(20, '=')</b>
+'=======Hello========'
+</code></pre>
+<p class="tx">Now the printed text is centered.</p>
+</section>
+<section type="division" aria-labelledby="sec18">
+<h4 class="h1" id="calibre_link-1608"><span id="calibre_link-177"></span><span class="sans_futura_std_heavy_oblique_bi_">Removing Whitespace</span></h4>
+<p class="tni">Sometimes you may want to strip off whitespace characters (spaces, tabs, and newlines) from the left side, right side, or both sides of a string. The <span class="thesansmonocd_w5regular_">strip()</span> string method will return a new string without any whitespace characters at the beginning or end, while the <span class="thesansmonocd_w5regular_">lstrip()</span> and <span class="thesansmonocd_w5regular_">rstrip()</span> methods will remove whitespace characters from the left and right ends, respectively. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = '    Hello, World    '</b>
+&gt;&gt;&gt; <b class="calibre10">spam.strip()</b>
+'Hello, World'
+&gt;&gt;&gt; <b class="calibre10">spam.lstrip()</b>
+'Hello, World    '
+&gt;&gt;&gt; <b class="calibre10">spam.rstrip()</b>
+'    Hello, World'
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-956" aria-label="172"></span>Optionally, a string argument will specify which characters on the ends to strip. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = 'SpamSpamBaconSpamEggsSpamSpam'</b>
+&gt;&gt;&gt; <b class="calibre10">spam.strip('ampS')</b>
+'BaconSpamEggs'
+</code></pre>
+<p class="tx">Passing <span class="thesansmonocd_w5regular_">strip()</span> the argument <span class="thesansmonocd_w5regular_">'ampS'</span> will tell it to strip occurrences of <span class="thesansmonocd_w5regular_">a</span>, <span class="thesansmonocd_w5regular_">m</span>, <span class="thesansmonocd_w5regular_">p</span>, and <span class="thesansmonocd_w5regular_">S</span> from the ends of the string stored in <span class="thesansmonocd_w5regular_">spam</span>. The order of the characters in the string passed to <span class="thesansmonocd_w5regular_">strip()</span> doesn’t matter: <span class="thesansmonocd_w5regular_">strip('ampS')</span> will do the same thing as <span class="thesansmonocd_w5regular_">strip('mapS')</span> or <span class="thesansmonocd_w5regular_">strip('Spam')</span>.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec19">
+<h3 class="h" id="calibre_link-1609"><span id="calibre_link-178"></span><span class="sans_futura_std_bold_b_">Numeric Code Points of Characters</span></h3>
+<p class="tni">Computers store information as <i class="calibre5">bytes</i> (strings of binary numbers), which means we need to be able to convert text to numbers. Because of this requirement, every text character has a corresponding numeric value called a <i class="calibre5">Unicode code point</i>. For example, the numeric code point is <span class="thesansmonocd_w5regular_">65</span> for <span class="thesansmonocd_w5regular_">'A'</span>, <span class="thesansmonocd_w5regular_">52</span> for <span class="thesansmonocd_w5regular_">'4'</span>, and <span class="thesansmonocd_w5regular_">33</span> for <span class="thesansmonocd_w5regular_">'!'</span>. You can use the <span class="thesansmonocd_w5regular_">ord()</span> function to get the code point of a one-character string, and the <span class="thesansmonocd_w5regular_">chr()</span> function to get the one-character string of an integer code point. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ord('A')</b>
+65
+&gt;&gt;&gt; <b class="calibre10">ord('4')</b>
+52
+&gt;&gt;&gt; <b class="calibre10">ord('!')</b>
+33
+&gt;&gt;&gt; <b class="calibre10">chr(65)</b>
+'A'
+</code></pre>
+<p class="tx">These functions are useful when you need to order or perform a mathematical operation on characters:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ord('B')</b>
+66
+&gt;&gt;&gt; <b class="calibre10">ord('A') &lt; ord('B')</b>
+True
+&gt;&gt;&gt; <b class="calibre10">chr(ord('A'))</b>
+'A'
+&gt;&gt;&gt; <b class="calibre10">chr(ord('A') + 1)</b>
+'B'
+</code></pre>
+<p class="tx">There is more to Unicode and code points than this, but those details are beyond the scope of this book. If you’d like to know more, I recommend watching or reading Ned Batchelder’s 2012 PyCon talk, “Pragmatic Unicode, or How Do I Stop the Pain?” at <i class="calibre5"><a href="https://nedbatchelder.com/text/unipain.html" class="calibre1">https://<wbr></wbr>nedbatchelder<wbr></wbr>.com<wbr></wbr>/text<wbr></wbr>/unipain<wbr></wbr>.html</a></i>.</p>
+<p class="tx">When strings are written to a file or sent over the internet, the conversion from text to bytes is called <i class="calibre5">encoding</i>. There are several Unicode encoding standards, but the most popular is UTF-8. If you ever need to choose a Unicode <span role="doc-pagebreak" type="pagebreak" id="calibre_link-900" aria-label="173"></span>encoding, <span class="thesansmonocd_w5regular_">'utf-8'</span> is the correct answer 99 percent of the time. Tom Scott has a Computerphile video titled “Characters, Symbols and the Unicode Miracle” at <i class="calibre5"><a href="https://youtu.be/MijmeoH9LT4" class="calibre1">https://<wbr></wbr>youtu<wbr></wbr>.be<wbr></wbr>/MijmeoH9LT4</a></i> that explains UTF-8 in particular.</p>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h3 class="h" id="calibre_link-1610"><span id="calibre_link-179"></span><span class="sans_futura_std_bold_b_">Copying and Pasting Strings</span></h3>
+<p class="tni">The <span class="thesansmonocd_w5regular_">pyperclip</span> module has <span class="thesansmonocd_w5regular_">copy()</span> and <span class="thesansmonocd_w5regular_">paste()</span> functions that can send text to and receive text from your computer’s clipboard. Sending the output of your program to the clipboard will make it easy to paste it into an email, a word processor, or some other software.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">pyperclip</span> module doesn’t come with Python. To install it, follow the directions for installing third-party packages in <span>Appendix A</span>. After installing <span class="thesansmonocd_w5regular_">pyperclip</span>, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyperclip</b>
+&gt;&gt;&gt; <b class="calibre10">pyperclip.copy('Hello, world!')</b>
+&gt;&gt;&gt; <b class="calibre10">pyperclip.paste()</b>
+'Hello, world!'
+</code></pre>
+<p class="tx">Of course, if something outside your program changes the clipboard contents, the <span class="thesansmonocd_w5regular_">paste()</span> function will return that other value. For example, if I copied this sentence to the clipboard and then called <span class="thesansmonocd_w5regular_">paste()</span>, it would look like this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyperclip.paste()</b>
+'For example, if I copied this sentence to the clipboard and then called
+paste(), it would look like this:'
+</code></pre>
+<p class="tx">The clipboard is an excellent way to enter and receive large amounts of text without having to type it when prompted by an <span class="thesansmonocd_w5regular_">input()</span> call. For example, say you want a program to turn text into aLtErNaTiNg uppercase and lowercase letters. You can copy the text you want to alternate to the clipboard, and then run this program, which takes this text and puts the alternating-case text on the clipboard. Enter the following code into a file named <i class="calibre5">alternatingText.py</i>:</p>
+<pre class="pre"><code class="calibre9">import pyperclip
+
+text = pyperclip.paste()  # Get the text off the clipboard.
+alt_text = ''  # This string holds the alternating case.
+make_uppercase = False
+for character in text:
+    # Go through each character and add it to alt_text:
+    if make_uppercase:
+        alt_text += character.upper()
+    else:
+        alt_text += character.lower()
+
+    # Set make_uppercase to its opposite value:
+    make_uppercase = not make_uppercase
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-886" aria-label="174"></span>pyperclip.copy(alt_text)  # Put the result on the clipboard.
+print(alt_text)  # Print the result on the screen too.
+</code></pre>
+<p class="tx">If you copy some text to the clipboard (for instance, this sentence) and run this program, the output and clipboard contents become this:</p>
+<pre class="pre"><code class="calibre9">iF YoU CoPy sOmE TeXt tO ThE ClIpBoArD (fOr iNsTaNcE, tHiS SeNtEnCe) AnD
+ RuN ThIs pRoGrAm, ThE OuTpUt aNd cLiPbOaRd cOnTeNtS BeCoMe ThIs:
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">pyperclip</span> module’s ability to interact with the clipboard gives you a straightforward way to input and output text to and from your programs.</p>
+<p class="ph"><span id="calibre_link-180"></span><span class="sans_futura_std_heavy_b_">Project 2: Add Bullets to Wiki Markup</span></p>
+<p class="tni">When editing a Wikipedia article, you can create a bulleted list by putting each list item on its own line and placing a star in front of it. But say you have a really large list that you want to add bullet points to. You could type those stars at the beginning of each line, one by one. Or you could automate this task with a short Python script.</p>
+<p class="tx">The <i class="calibre5">bulletPointAdder.py</i> script will get the text from the clipboard, add a star and space to the beginning of each line, and then paste this new text to the clipboard. For example, say I copied the following text (for the Wikipedia article “List of Lists of Lists”) to the clipboard:</p>
+<pre class="pre"><code class="calibre9">Lists of animals
+Lists of aquarium life
+Lists of biologists by author abbreviation
+Lists of cultivars
+</code></pre>
+<p class="tx">Then, if I ran the <i class="calibre5">bulletPointAdder.py</i> program, the clipboard would contain the following:</p>
+<pre class="pre"><code class="calibre9">* Lists of animals
+* Lists of aquarium life
+* Lists of biologists by author abbreviation
+* Lists of cultivars
+</code></pre>
+<p class="tx">This star-prefixed text is ready to be pasted into a Wikipedia article as a bulleted list.</p>
+<section type="division" aria-labelledby="sec21">
+<h4 class="h1" id="calibre_link-1611"><span id="calibre_link-181"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Copy and Paste from the Clipboard</span></h4>
+<p class="tni">You want the <i class="calibre5">bulletPointAdder.py</i> program to do the following:</p>
+<ul class="ul">
+<li class="bl">Paste text from the clipboard.</li>
+<li class="bl">Do something to it.</li>
+<li class="bl">Copy the new text to the clipboard.</li>
+</ul>
+<p class="tx">Manipulating the text is a little tricky, but copying and pasting are pretty straightforward: they just involve the <span class="thesansmonocd_w5regular_">pyperclip.copy()</span> and <span class="thesansmonocd_w5regular_">pyperclip.paste()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1061" aria-label="175"></span>functions. For now, let’s write the part of the program that calls these functions. Enter the following, saving the program as <i class="calibre5">bulletPointAdder.py</i>:</p>
+<pre class="pre"><code class="calibre9">import pyperclip
+text = pyperclip.paste()
+
+# TODO: Separate lines and add stars.
+
+pyperclip.copy(text)
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">TODO</span> comment is a reminder that you should complete this part of the program eventually. The next step is to actually implement that piece of the program.</p>
+</section>
+<section type="division" aria-labelledby="sec22">
+<h4 class="h1" id="calibre_link-1612"><span id="calibre_link-182"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Separate the Lines of Text</span></h4>
+<p class="tni">The call to <span class="thesansmonocd_w5regular_">pyperclip.paste()</span> returns all the text on the clipboard as one big string. If we used the “List of Lists of Lists” example, the string stored in <span class="thesansmonocd_w5regular_">text</span> would look like this:</p>
+<pre class="pre"><code class="calibre9">'Lists of animals\nLists of aquarium life\nLists of biologists by author
+abbreviation\nLists of cultivars'
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">\n</span> newline characters in this string cause it to be displayed with multiple lines when printed or pasted from the clipboard. There are many “lines” in this one string value. You want to add a star to the start of each of these lines.</p>
+<p class="tx">You could write code that searches for each <span class="thesansmonocd_w5regular_">\n</span> newline character in the string and then adds the star just after that. But it would be easier to use the <span class="thesansmonocd_w5regular_">split()</span> method to return a list of strings, one for each line in the original string, and then add the star to the front of each string in the list.</p>
+<p class="tx">Edit your program so that it looks like the following:</p>
+<pre class="pre"><code class="calibre9">import pyperclip
+text = pyperclip.paste()
+
+# Separate lines and add stars.
+<b class="calibre10">lines = text.split('\n')</b>
+<b class="calibre10">for i in range(len(lines)):  </b># Loop through all indexes in the "lines" list.
+<b class="calibre10">    lines[i] = '* ' + lines[i] </b># Add a star to each string in the "lines" list.
+
+pyperclip.copy(text)
+</code></pre>
+<p class="tx">We split the text along its newlines to get a list in which each item is one line of the text. We store the list in <span class="thesansmonocd_w5regular_">lines</span> and then loop through the items in <span class="thesansmonocd_w5regular_">lines</span>. For each line, we add a star and a space to the start of the line. Now each string in <span class="thesansmonocd_w5regular_">lines</span> begins with a star.</p>
+</section>
+<section type="division" aria-labelledby="sec23">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1261" aria-label="176"></span>
+<h4 class="h1" id="calibre_link-1613"><span id="calibre_link-183"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Join the Modified Lines</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">lines</span> list now contains modified lines that start with stars. But <span class="thesansmonocd_w5regular_">pyperclip.copy()</span> is expecting a single string value, not a list of string values. To make this single string value, pass <span class="thesansmonocd_w5regular_">lines</span> into the <span class="thesansmonocd_w5regular_">join()</span> method to get a single string joined from the list’s strings:</p>
+<pre class="pre"><code class="calibre9">import pyperclip
+text = pyperclip.paste()
+
+# Separate lines and add stars.
+lines = text.split('\n')
+for i in range(len(lines)):  # Loop through all indexes in the "lines" list.
+    lines[i] = '* ' + lines[i]  # Add a star to each string in the "lines" list.
+<b class="calibre10">text = '\n'.join(lines)</b>
+pyperclip.copy(text)
+</code></pre>
+<p class="tx">When this program is run, it replaces the text on the clipboard with text that has stars at the start of each line. Now the program is complete, and you can try running it with text copied to the clipboard.</p>
+<p class="tx">Even if you don’t need to automate this specific task, you might want to automate some other kind of text manipulation, such as removing trailing spaces from the end of lines or converting text to uppercase or lowercase. Whatever your needs, you can use the clipboard for input and output.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec24">
+<h3 class="h" id="calibre_link-1614"><span id="calibre_link-184"></span><span class="sans_futura_std_bold_b_">A Short Program: Pig Latin</span></h3>
+<p class="tni">Pig latin is a silly made-up language that alters English words. If a word begins with a vowel, the word <i class="calibre5">yay</i> is added to the end of it. If a word begins with a consonant or consonant cluster (like <i class="calibre5">ch</i> or <i class="calibre5">gr</i>), that consonant or consonant cluster is moved to the end of the word and followed by <i class="calibre5">ay</i>.</p>
+<p class="tx">Let’s write a pig latin program that will output something like this:</p>
+<pre class="pre"><code class="calibre9">Enter the English message to translate into pig latin:
+<b class="calibre10">My name is AL SWEIGART and I am 4,000 years old.</b>
+Ymay amenay isyay ALYAY EIGARTSWAY andyay Iyay amyay 4,000 yearsyay oldyay.
+</code></pre>
+<p class="tx">This program works by altering a string using the methods introduced in this chapter. Enter the following source code into the file editor, and save the file as <i class="calibre5">pigLat.py</i>:</p>
+<pre class="pre"><code class="calibre9"># English to pig latin
+print('Enter the English message to translate into pig latin:')
+message = input()
+
+VOWELS = ('a', 'e', 'i', 'o', 'u', 'y')
+
+pig_latin = [] # A list of the words in pig latin
+for word in message.split():
+    # Separate the non-letters at the start of this word:
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1615" aria-label="177"></span>    prefix_non_letters = ''
+    while len(word) &gt; 0 and not word[0].isalpha():
+        prefix_non_letters += word[0]
+        word = word[1:]
+    if len(word) == 0:
+        pig_latin.append(prefix_non_letters)
+        continue
+
+    # Separate the non-letters at the end of this word:
+    suffix_non_letters = ''
+    while not word[-1].isalpha():
+        suffix_non_letters = word[-1] + suffix_non_letters
+        word = word[:-1]
+
+    # Remember if the word was in uppercase or title case:
+    was_upper = word.isupper()
+    was_title = word.istitle()
+
+    word = word.lower() # Make the word lowercase for translation.
+
+    # Separate the consonants at the start of this word:
+    prefix_consonants = ''
+    while len(word) &gt; 0 and not word[0] in VOWELS:
+        prefix_consonants += word[0]
+        word = word[1:]
+
+    # Add the pig latin ending to the word:
+    if prefix_consonants != '':
+        word += prefix_consonants + 'ay'
+    else:
+        word += 'yay'
+
+    # Set the word back to uppercase or title case:
+    if was_upper:
+        word = word.upper()
+    if was_title:
+        word = word.title()
+
+    # Add the non-letters back to the start or end of the word.
+    pig_latin.append(prefix_non_letters + word + suffix_non_letters)
+
+# Join all the words back together into a single string:
+print(' '.join(pig_latin))
+</code></pre>
+<p class="tx">Let’s look at this code line by line, starting at the top:</p>
+<pre class="pre"><code class="calibre9"># English to pig latin
+print('Enter the English message to translate into pig latin:')
+message = input()
+
+VOWELS = ('a', 'e', 'i', 'o', 'u', 'y')
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1616" aria-label="178"></span>First, we ask the user to enter the English text to translate into pig latin. Also, we create a constant that holds every lowercase vowel (and <i class="calibre5">y</i>) as a tuple of strings. We’ll use this variable later.</p>
+<p class="tx">Next, we create the <span class="thesansmonocd_w5regular_">pigLatin</span> variable to store the words as we translate them into pig latin:</p>
+<pre class="pre"><code class="calibre9">pigLatin = [] # A list of the words in pig latin
+for word in message.split():
+    # Separate the non-letters at the start of this word:
+    prefixNonLetters = ''
+    while len(word) &gt; 0 and not word[0].isalpha():
+        prefixNonLetters += word[0]
+        word = word[1:]
+    if len(word) == 0:
+        pigLatin.append(prefixNonLetters)
+        continue
+</code></pre>
+<p class="tx">We need each word to be its own string, so we call <span class="thesansmonocd_w5regular_">message.split()</span> to get a list of the words as separate strings. The string <span class="thesansmonocd_w5regular_">'My name is AL SWEIGART and I am 4,000 years old.'</span> would cause <span class="thesansmonocd_w5regular_">split()</span> to return <span class="thesansmonocd_w5regular_">['My', 'name', 'is', 'AL', 'SWEIGART', 'and', 'I', 'am', '4,000', 'years', 'old.']</span>.</p>
+<p class="tx">We also need to remove any non-letters from the start and end of each word so that strings like <span class="thesansmonocd_w5regular_">'old.'</span> translate to <span class="thesansmonocd_w5regular_">'oldyay.'</span> instead of <span class="thesansmonocd_w5regular_">'old.yay'</span>. We save these non-letters to a variable named <span class="thesansmonocd_w5regular_">prefixNonLetters</span>.</p>
+<pre class="pre"><code class="calibre9">    # Separate the non-letters at the end of this word:
+    suffixNonLetters = ''
+    while not word[-1].isalpha():
+        suffixNonLetters += word[-1] + suffixNonLetters
+        word = word[:-1]
+</code></pre>
+<p class="tx">A loop that calls <span class="thesansmonocd_w5regular_">isalpha()</span> on the first character in the word determines whether we should remove a character from a word and concatenate it to the end of <span class="thesansmonocd_w5regular_">prefixNonLetters</span>. If the entire word is made of non-letter characters, like <span class="thesansmonocd_w5regular_">'4,000'</span>, we can simply append it to the <span class="thesansmonocd_w5regular_">pigLatin</span> list and continue to the next word to translate. We also need to save the non-letters at the end of the <span class="thesansmonocd_w5regular_">word</span> string. This code is similar to the previous loop.</p>
+<p class="tx">Next, we make sure the program remembers if the word was in uppercase or title case so that we can restore it after translating the word to pig latin:</p>
+<pre class="pre"><code class="calibre9">    # Remember if the word was in uppercase or title case:
+    wasUpper = word.isupper()
+    wasTitle = word.istitle()
+
+    word = word.lower() # Make the word lowercase for translation.
+</code></pre>
+<p class="tx">For the rest of the code in the <span class="thesansmonocd_w5regular_">for</span> loop, we’ll work on a lowercase version of <span class="thesansmonocd_w5regular_">word</span>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1617" aria-label="179"></span>To convert a word like <i class="calibre5">sweigart</i> to <i class="calibre5">eigart-sway</i>, we need to remove all of the consonants from the beginning of <span class="thesansmonocd_w5regular_">word</span>:</p>
+<pre class="pre"><code class="calibre9">    # Separate the consonants at the start of this word:
+    prefixConsonants = ''
+    while len(word) &gt; 0 and not word[0] in VOWELS:
+        prefixConsonants += word[0]
+        word = word[1:]
+</code></pre>
+<p class="tx">We use a loop similar to the loop that removed the non-letters from the start of <span class="thesansmonocd_w5regular_">word</span>, except now we’re pulling off consonants and storing them in a variable named <span class="thesansmonocd_w5regular_">prefixConsonants</span>.</p>
+<p class="tx">If there were any consonants at the start of the word, they’re now in <span class="thesansmonocd_w5regular_">prefixConsonants</span>, and we should concatenate that variable and the string <span class="thesansmonocd_w5regular_">'ay'</span> to the end of <span class="thesansmonocd_w5regular_">word</span>. Otherwise, we can assume <span class="thesansmonocd_w5regular_">word</span> begins with a vowel and we only need to concatenate <span class="thesansmonocd_w5regular_">'yay'</span>:</p>
+<pre class="pre"><code class="calibre9">    # Add the pig latin ending to the word:
+    if prefixConsonants != '':
+        word += prefixConsonants + 'ay'
+    else:
+        word += 'yay'
+</code></pre>
+<p class="tx">Recall that we set <span class="thesansmonocd_w5regular_">word</span> to its lowercase version with <span class="thesansmonocd_w5regular_">word</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">word.lower()</span>. If <span class="thesansmonocd_w5regular_">word</span> was originally in uppercase or title case, this code will convert <span class="thesansmonocd_w5regular_">word</span> back to its original case:</p>
+<pre class="pre"><code class="calibre9">    # Set the word back to uppercase or title case:
+    if wasUpper:
+        word = word.upper()
+    if wasTitle:
+        word = word.title()
+</code></pre>
+<p class="tx">At the end of the <span class="thesansmonocd_w5regular_">for</span> loop, we append the word, along with any non-letter prefix or suffix it originally had, to the <span class="thesansmonocd_w5regular_">pigLatin</span> list:</p>
+<pre class="pre"><code class="calibre9">    # Add the non-letters back to the start or end of the word.
+    pigLatin.append(prefixNonLetters + word + suffixNonLetters)
+
+# Join all the words back together into a single string:
+print(' '.join(pigLatin))
+</code></pre>
+<p class="tx">After this loop finishes, we combine the list of strings into a single string by calling the <span class="thesansmonocd_w5regular_">join()</span> method, then pass this single string to <span class="thesansmonocd_w5regular_">print()</span> to display our pig latin on the screen.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec25">
+<h3 class="h" id="calibre_link-1618"><span id="calibre_link-185"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Text is a common form of data, and Python comes with many helpful string methods to process the text stored in string values. You’ll make use of <span role="doc-pagebreak" type="pagebreak" id="calibre_link-963" aria-label="180"></span>indexing, slicing, and string methods in almost every Python program you write.</p>
+<p class="tx">The programs you are writing now don’t seem too sophisticated; they don’t have graphical user interfaces (GUIs) with images and colorful text. So far, you’re displaying text with <span class="thesansmonocd_w5regular_">print()</span> and letting the user enter text with <span class="thesansmonocd_w5regular_">input()</span>. However, the user can quickly enter large amounts of text through the clipboard. This ability provides a useful avenue for writing programs that manipulate massive amounts of text. These text-based programs might not have flashy windows or graphics, but they can get a lot of useful work done quickly.</p>
+<p class="tx">Another way to manipulate large amounts of text is reading and writing files directly off the hard drive. You’ll learn how to do this with Python in <span>Chapter 10</span>.</p>
+<p class="tx">That just about covers all the basic concepts of Python programming! You’ll continue to learn new concepts throughout the rest of this book, but you now know enough to start writing some useful programs that can automate tasks. If you’d like to see a collection of short, simple Python programs built from the basic concepts you’ve learned so far, you can read my other book, <i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021). Try copying the source code for each program by hand, and then make modifications to see how they affect the behavior of the program. Once you understand how the program works, try re-creating the program yourself from scratch. You don’t need to re-create the source code exactly; just focus on what the program does rather than how it does it.</p>
+<p class="tx">You might not think you have enough Python knowledge to do things such as download web pages, update spreadsheets, or send text messages, but that’s where Python modules come in! These modules, written by other programmers, provide functions that make it easy for you to do all these things. In the next chapter, you’ll learn how to write real programs to do useful automated tasks.</p>
+</section>
+<section type="division" aria-labelledby="sec26">
+<h3 class="h" id="calibre_link-1619"><span id="calibre_link-186"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What are escape characters?</p>
+<p class="listnumber">  2.  What do the <span class="thesansmonocd_w5regular_">\n</span> and <span class="thesansmonocd_w5regular_">\t</span> escape characters represent?</p>
+<p class="listnumber">  3.  How can you put a <span class="thesansmonocd_w5regular_">\</span> backslash character in a string?</p>
+<p class="listnumber">  4.  The string value <span class="thesansmonocd_w5regular_">"Howl's Moving Castle"</span> is a valid string. Why isn’t it a problem that the single quote character in the word <span class="thesansmonocd_w5regular_">Howl's</span> isn’t escaped?</p>
+<p class="listnumber">  5.  If you don’t want to put <span class="thesansmonocd_w5regular_">\n</span> in your string, how can you write a string with newlines in it?</p>
+<p class="listnumber">  6.  What do the following expressions evaluate to?</p>
+<ul class="ul">
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello, world!'[1]</span></li>
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello, world!'[0:5]</span></li>
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello, world!'[:5]</span></li>
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello, world!'[3:]</span></li>
+</ul>
+<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1304" aria-label="181"></span>  7.  What do the following expressions evaluate to?</p>
+<ul class="ul">
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello'.upper()</span></li>
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello'.upper().isupper()</span></li>
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Hello'.upper().lower()</span></li>
+</ul>
+<p class="listnumber">  8.  What do the following expressions evaluate to?</p>
+<ul class="ul">
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'Remember, remember, the fifth of November.'.split()</span></li>
+<li class="listbulletsub"><span class="thesansmonocd_w5regular_">'-'.join('There can be only one.'.split())</span></li>
+</ul>
+<p class="listnumber">  9.  What string methods can you use to right-justify, left-justify, and center a string?</p>
+<p class="listnumber">10.  How can you trim whitespace characters from the beginning or end of a string?</p>
+</section>
+<section type="division" aria-labelledby="sec27">
+<h3 class="h" id="calibre_link-1620"><span id="calibre_link-187"></span><span class="sans_futura_std_bold_b_">Practice Program: Table Printer</span></h3>
+<p class="tni">For practice, write a function named <span class="thesansmonocd_w5regular_">printTable()</span> that takes a list of lists of strings and displays it in a well-organized table with each column right- justified. Assume that all the inner lists will contain the same number of strings. For example, the value could look like this:</p>
+<pre class="pre"><code class="calibre9">tableData = [['apples', 'oranges', 'cherries', 'banana'],
+             ['Alice', 'Bob', 'Carol', 'David'],
+             ['dogs', 'cats', 'moose', 'goose']]
+</code></pre>
+<p class="tx">Your <span class="thesansmonocd_w5regular_">printTable()</span> function would print the following:</p>
+<pre class="pre"><code class="calibre9">   apples Alice  dogs
+  oranges   Bob  cats
+ cherries Carol moose
+   banana David goose
+</code></pre>
+<p class="tx">Hint: Your code will first have to find the longest string in each of the inner lists so that the whole column can be wide enough to fit all the strings. You can store the maximum width of each column as a list of integers. The <span class="thesansmonocd_w5regular_">printTable()</span> function can begin with <span class="thesansmonocd_w5regular_">colWidths</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">[0] * len(tableData)</span>, which will create a list containing the same number of <span class="thesansmonocd_w5regular_">0</span> values as the number of inner lists in <span class="thesansmonocd_w5regular_">tableData</span>. That way, <span class="thesansmonocd_w5regular_">colWidths[0]</span> can store the width of the longest string in <span class="thesansmonocd_w5regular_">tableData[0]</span>, <span class="thesansmonocd_w5regular_">colWidths[1]</span> can store the width of the longest string in <span class="thesansmonocd_w5regular_">tableData[1]</span>, and so on. You can then find the largest value in the <span class="thesansmonocd_w5regular_">colWidths</span> list to find out what integer width to pass to the <span class="thesansmonocd_w5regular_">rjust()</span> string method.</p>
+</section>
+</section>
+</div>
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-188">
+<section type="part" role="doc-part" aria-labelledby="pt2">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1621" aria-label="183"></span>
+<hgroup>
+<h1 class="title" id="calibre_link-1622">
+<span class="pn"><span class="sans_dogma_ot_bold_b_">PART II</span></span>
+<span class="pt"><span class="sans_dogma_ot_bold_b_">AUTOMATING TASKS</span></span>
+</h1>
+</hgroup>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

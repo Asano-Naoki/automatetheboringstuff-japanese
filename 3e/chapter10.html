@@ -1,0 +1,695 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-227">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch10">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1155" aria-label="217"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1667">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">10</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">READING AND WRITING FILES</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">Variables are a fine way to store data while your program is running, but if you want your data to persist even after your program has finished, you need to save it to a file. You can think of a file’s contents as a single string value, potentially gigabytes in size. In this chapter, you’ll learn how to use Python to create, read, and save files on the hard drive.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1668"><span id="calibre_link-228"></span><span class="sans_futura_std_bold_b_">Files and Filepaths</span></h3>
+<p class="tni">A file has two key properties: a <i class="calibre5">filename</i> (usually written as one word) and a <i class="calibre5">path</i>. The path specifies the location of a file on the computer. For example, there is a file on my Windows laptop with the filename <i class="calibre5">project.docx</i> in the path <i class="calibre5">C:\Users\Al\Documents</i>. The part of the filename after the last period is called the file’s <i class="calibre5">extension</i> and tells you a file’s type. The filename <i class="calibre5">project.docx</i> is a Word <span role="doc-pagebreak" type="pagebreak" id="calibre_link-846" aria-label="218"></span>document, and <i class="calibre5">Users</i>, <i class="calibre5">Al</i>, and <i class="calibre5">Documents</i> all refer to <i class="calibre5">folders</i> (also called <i class="calibre5">directories</i>). Folders can contain files and other folders (called <i class="calibre5">subfolders</i>). For example, <i class="calibre5">project.docx</i> is in the <i class="calibre5">Documents</i> folder, which is inside the <i class="calibre5">Al</i> folder, which is inside the <i class="calibre5">Users</i> folder. Figure 10-1 shows this folder organization.</p>
+<figure class="img"><img class="img2" id="calibre_link-728" src="images/000005.jpg" alt="A diagram showing a series of nested folders. Within the folder named “C:\” is the “Users folder, and within the “Users” folder is the “Al” folder. Within the “Al” folder is the “Documents” folder, and within the “Documents” folder is a file, project.docx." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 10-1: A file in a hierarchy of folders</span></p></figcaption>
+</figure>
+<p class="tx">The <i class="calibre5">C:\</i> part of the path is the <i class="calibre5">root folder</i>, which contains all the other folders. On Windows, the root folder is named <i class="calibre5">C:\</i> and is also called the <i class="calibre5">C: drive</i>. On macOS and Linux, the root folder is <i class="calibre5">/</i>. In this book, I’ll use the Windows-style root folder, <i class="calibre5">C:\</i>. If you are entering the interactive shell examples on macOS or Linux, enter <span class="thesansmonocd_w5regular_">/</span> instead.</p>
+<p class="tx">Additional <i class="calibre5">volumes</i>, such as a DVD drive or USB flash drive, will appear differently on different operating systems. On Windows, they appear as new, lettered root drives, such as <i class="calibre5">D:\</i> or <i class="calibre5">E:\</i>. On macOS, they appear as new folders under the <i class="calibre5">/Volumes</i> folder. On Linux, they appear as new folders under the <i class="calibre5">/mnt</i> (“mount”) folder. Also note that while folder names and filenames are not case-sensitive on Windows and macOS, they are case-sensitive on Linux.</p>
+<blockquote class="calibre17">
+<p class="note"><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+</blockquote>
+<p class="note-txt"><i class="calibre5">Because your system probably has different files and folders on it than mine, you won’t be able to follow every example in this chapter exactly. Still, try to follow along using folders that exist on your computer.</i></p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-1669"><span id="calibre_link-229"></span><span class="sans_futura_std_heavy_oblique_bi_">Standardizing Path Separators</span></h4>
+<p class="tni">On Windows, paths are written using backslashes (<span class="thesansmonocd_w5regular_">\</span>) as the separator between folder names. The macOS and Linux operating systems, however, use the forward slash (<i class="calibre5">/</i>) as their path separator.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">Path()</span> function in the <span class="thesansmonocd_w5regular_">pathlib</span> module handles all operating systems, so the best practice is to use forward slashes in your Python code. If you pass it the string values of individual file and folder names in your path, <span class="thesansmonocd_w5regular_">Path()</span> will return a string with a filepath using the correct path separators. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path('spam', 'bacon', 'eggs')</b>
+WindowsPath('spam/bacon/eggs')
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1053" aria-label="219"></span>&gt;&gt;&gt; <b class="calibre10">str(Path('spam', 'bacon', 'eggs'))</b>
+'spam\\bacon\\eggs'
+</code></pre>
+<p class="tx">While the <span class="thesansmonocd_w5regular_">WindowsPath</span> object may use <span class="thesansmonocd_w5regular_">/</span> forward slashes, converting it to a string with the <span class="thesansmonocd_w5regular_">str()</span> function requires using <span class="thesansmonocd_w5regular_">\</span> backslashes. Note that the convention for importing <span class="thesansmonocd_w5regular_">pathlib</span> is to run <span class="thesansmonocd_w5regular_">from pathlib import Path</span>, since otherwise we’d have to enter <span class="thesansmonocd_w5regular_">pathlib.Path</span> everywhere <span class="thesansmonocd_w5regular_">Path</span> shows up in our code. Not only is this extra typing redundant, but it’s also redundant.</p>
+<p class="tx">I’m running this chapter’s interactive shell examples on Windows, so <span class="thesansmonocd_w5regular_">Path('spam', 'bacon', 'eggs')</span> returned a <span class="thesansmonocd_w5regular_">WindowsPath</span> object for the joined path, represented as <span class="thesansmonocd_w5regular_">WindowsPath('spam/bacon/eggs')</span>. Even though Windows uses backslashes, the <span class="thesansmonocd_w5regular_">WindowsPath</span> representation in the interactive shell displays them using forward slashes, as open source software developers have historically favored the Linux operating system.</p>
+<p class="tx">If you want to get a simple text string of this path, you can pass it to the <span class="thesansmonocd_w5regular_">str()</span> function, which in our example returns <span class="thesansmonocd_w5regular_">'spam\\bacon\\eggs'</span>. (Notice that we double the backslashes because we need to escape each backslash with another backslash character.) If I had called this function on macOS or Linux, <span class="thesansmonocd_w5regular_">Path()</span> would have returned a <span class="thesansmonocd_w5regular_">PosixPath</span> object that, when passed to <span class="thesansmonocd_w5regular_">str()</span>, would have returned <span class="thesansmonocd_w5regular_">'spam/bacon/eggs'</span>. (<i class="calibre5">POSIX</i> is a set of standards for Unix-like operating systems.)</p>
+<p class="tx">If you work with <span class="thesansmonocd_w5regular_">Path</span> objects, <span class="thesansmonocd_w5regular_">WindowsPath</span> and <span class="thesansmonocd_w5regular_">PosixPath</span> never have to appear in your source code directly. These <span class="thesansmonocd_w5regular_">Path</span> objects will be passed to several of the file-related functions introduced in this chapter. For example, the following code joins names from a list of filenames to the end of a folder’s name:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt;<b class="calibre10"> my_files = ['accounts.txt', 'details.csv', 'invite.docx']</b>
+&gt;&gt;&gt;<b class="calibre10"> for filename in my_files:</b>
+...     <b class="calibre10">print(Path(r'C:\Users\Al', filename))</b>
+...
+C:\Users\Al\accounts.txt
+C:\Users\Al\details.csv
+C:\Users\Al\invite.docx
+</code></pre>
+<p class="tx">On Windows, the backslash separates directories, so you can’t use it in filenames. However, you can use backslashes in filenames on macOS and Linux. So, while <span class="thesansmonocd_w5regular_">Path(r'spam\eggs')</span> refers to two separate folders (or a file <i class="calibre5">eggs</i> in a folder <i class="calibre5">spam</i>) on Windows, the same command would refer to a single folder (or file) named <i class="calibre5">spam\eggs</i> on macOS and Linux. For this reason, it’s usually a good idea to always use forward slashes in your Python code (and I’ll be doing so for the rest of this chapter). The <span class="thesansmonocd_w5regular_">pathlib</span> module will ensure that your code always works on all operating systems.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1" id="calibre_link-1670"><span id="calibre_link-230"></span><span class="sans_futura_std_heavy_oblique_bi_">Joining Paths</span></h4>
+<p class="tni">We normally use the <span class="thesansmonocd_w5regular_">+</span> operator to add two integer or floating-point numbers, such as in the expression <span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span>, which evaluates to the integer value <span class="thesansmonocd_w5regular_">4</span>. But we can also use the <span class="thesansmonocd_w5regular_">+</span> operator to concatenate two string values, like the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1085" aria-label="220"></span>expression <span class="thesansmonocd_w5regular_">'Hello'</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">'World'</span>, which evaluates to the string value <span class="thesansmonocd_w5regular_">'HelloWorld'</span>. Similarly, the <span class="thesansmonocd_w5regular_">/</span> operator that we normally use for division can combine <span class="thesansmonocd_w5regular_">Path</span> objects and strings. This is helpful for modifying a <span class="thesansmonocd_w5regular_">Path</span> object after you’ve already created it with the <span class="thesansmonocd_w5regular_">Path()</span> function.</p>
+<p class="tx">For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path('spam') / 'bacon' / 'eggs'</b>
+WindowsPath('spam/bacon/eggs')
+&gt;&gt;&gt; <b class="calibre10">Path('spam') / Path('bacon/eggs')</b>
+WindowsPath('spam/bacon/eggs')
+&gt;&gt;&gt; <b class="calibre10">Path('spam') / Path('bacon', 'eggs')</b>
+WindowsPath('spam/bacon/eggs')
+</code></pre>
+<p class="tx">The only thing you need to keep in mind when using the <span class="thesansmonocd_w5regular_">/</span> operator for joining paths is that one of the first two values in the expression must be a <span class="thesansmonocd_w5regular_">Path</span> object. This is because these expressions evaluate from left to right, and the <span class="thesansmonocd_w5regular_">/</span> operator can be used on two <span class="thesansmonocd_w5regular_">Path</span> objects or on a <span class="thesansmonocd_w5regular_">Path</span> object and a string, but not on two strings. Python will give you an error if you try to enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">'spam' / 'bacon'</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+</code></pre>
+<p class="tx">So, either the first or second leftmost value must be a <span class="thesansmonocd_w5regular_">Path</span> object for the entire expression to evaluate to a <span class="thesansmonocd_w5regular_">Path</span> object. Here’s how the <span class="thesansmonocd_w5regular_">/</span> operator and a <span class="thesansmonocd_w5regular_">Path</span> object evaluate to the final <span class="thesansmonocd_w5regular_">Path</span> object:</p>
+<figure class="img"><img class="img2" id="calibre_link-1344" src="images/000110.jpg" alt="A diagram showing the evaluation of the value of a Path object." />
+<figcaption><p class="cap">Description</p></figcaption>
+</figure>
+<p class="tx">If you see the <span class="thesansmonocd_w5regular_">TypeError: unsupported operand type(s) for /: 'str' and 'str'</span> error message shown previously, you need to put a <span class="thesansmonocd_w5regular_">Path</span> object instead of a string on the left side of the expression.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">/</span> operator replaces the older <span class="thesansmonocd_w5regular_">os.path.join()</span> function, which you can learn more about at <i class="calibre5"><a href="https://docs.python.org/3/library/os.path.html#os.path.join" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/os<wbr></wbr>.path<wbr></wbr>.html#os<wbr></wbr>.path<wbr></wbr>.join</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-1671"><span id="calibre_link-231"></span><span class="sans_futura_std_heavy_oblique_bi_">Accessing the Current Working Directory</span></h4>
+<p class="tni">Every program that runs on your computer has a <i class="calibre5">current working directory</i>. Any filenames or paths that do not begin with the root folder are assumed to be under the current working directory.</p>
+<blockquote class="calibre17">
+<p class="note"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1009" aria-label="221"></span><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+</blockquote>
+<p class="note-txt"><i class="calibre5">While</i> <span class="dedication_italic">folder</span> <i class="calibre5">is the more modern name for</i> <span class="dedication_italic">directory</span><i class="calibre5">, note that</i> <span class="dedication_italic">current working directory</span> <i class="calibre5">(or just</i> <span class="dedication_italic">working directory</span><i class="calibre5">) is the standard term, not</i> current working <span class="dedication_italic">folder</span><i class="calibre5">.</i></p>
+<p class="tx">You can get the current working directory as a string value with the <span class="thesansmonocd_w5regular_">Path.cwd()</span> function and can change it using <span class="thesansmonocd_w5regular_">os.chdir()</span>. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">import os</b>
+&gt;&gt;&gt; <b class="calibre10">Path.cwd()</b>
+WindowsPath('C:/Users/Al/AppData/Local/Programs/Python/Python313')'
+&gt;&gt;&gt; <b class="calibre10">os.chdir('C:\\Windows\\System32')</b>
+&gt;&gt;&gt; <b class="calibre10">Path.cwd()</b>
+WindowsPath('C:/Windows/System32')
+</code></pre>
+<p class="tx">Here, the current working directory is set to <i class="calibre5">C:\Users\Al\AppData\Local\Programs\Python\Python313</i>, so the filename <i class="calibre5">project.docx</i> refers to <i class="calibre5">C:\Users\Al\AppData\Local\Programs\Python\Python313\project.docx</i>. When we change the current working directory to <i class="calibre5">C:\Windows\System32</i>, the filename <i class="calibre5">project.docx</i> is interpreted as <i class="calibre5">C:\Windows\System32\project.docx</i>.</p>
+<p class="tx">Python will display an error if you try to change to a directory that does not exist:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import os</b>
+&gt;&gt;&gt; <b class="calibre10">os.chdir('C:/ThisFolderDoesNotExist')</b>
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+FileNotFoundError: [WinError 2] The system cannot find the file specified:
+'C:/ThisFolderDoesNotExist'
+</code></pre>
+<p class="tx">There is no <span class="thesansmonocd_w5regular_">pathlib</span> function for changing the working directory. You must use <span class="thesansmonocd_w5regular_">os.chdir()</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">os.getcwd()</span> function is the older way of getting the current working directory as a string. It’s documented at <i class="calibre5"><a href="https://docs.python.org/3/library/os.html#os.getcwd" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/os<wbr></wbr>.html#os<wbr></wbr>.getcwd</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1" id="calibre_link-1672"><span id="calibre_link-232"></span><span class="sans_futura_std_heavy_oblique_bi_">Accessing the Home Directory</span></h4>
+<p class="tni">All users have a folder for their own files on their computer; this folder is called the <i class="calibre5">home directory</i> or <i class="calibre5">home folder</i>. You can get a <span class="thesansmonocd_w5regular_">Path</span> object of the home folder by calling <span class="thesansmonocd_w5regular_">Path.home()</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path.home()</b>
+WindowsPath('C:/Users/Al')
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-856" aria-label="222"></span>The home directories are located in a set place depending on your operating system:</p>
+<ul class="ul">
+<li class="bl">On Windows, home directories are under <i class="calibre5">C:\Users</i>.</li>
+<li class="bl">On macOS, home directories are under <i class="calibre5">/Users</i>.</li>
+<li class="bl">On Linux, home directories are often under <i class="calibre5">/home</i>.</li>
+</ul>
+<p class="tx">Your scripts will almost certainly have permissions to read and write the files under your home directory, so it’s an ideal place to put the files that your Python programs will work with.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-1673"><span id="calibre_link-233"></span><span class="sans_futura_std_heavy_oblique_bi_">Specifying Absolute vs. Relative Paths</span></h4>
+<p class="tni">There are two ways to specify a filepath:</p>
+<ul class="ul">
+<li class="bl">An <i class="calibre5">absolute path</i>, which always begins with the root folder (<i class="calibre5">C:\</i> on Windows and <i class="calibre5">/</i> on macOS and Linux)</li>
+<li class="bl">A <i class="calibre5">relative path</i>, which is relative to the program’s current working directory</li>
+</ul>
+<p class="tx">On Windows, <i class="calibre5">C:\</i> is the root for the main hard drive. This lettering dates back to the 1960s, when computers had two floppy disk drives labeled <i class="calibre5">A:\</i> and <i class="calibre5">B:\</i>. On Windows, USB flash memory and DVD drives are assigned to letters <i class="calibre5">D:\</i> and higher. Use one of these drives as the root folder to access files on that storage media.</p>
+<p class="tx">There are also the <i class="calibre5">dot</i> (<i class="calibre5">.</i>) and <i class="calibre5">dot-dot</i> (<i class="calibre5">..</i>) folders. These are not real folders but special names that can be used in a filepath. A single period (dot) for a folder name is shorthand for <i class="calibre5">this folder</i>. Two periods (dot-dot) means <i class="calibre5">the parent folder</i>.</p>
+<p class="tx">Figure 10-2 shows some example folders and files. When the current working directory is set to <i class="calibre5">C:\bacon</i>, the relative paths for the other folders and files are set as they are in the figure.</p>
+<figure class="img"><img class="img1" id="calibre_link-730" src="images/000006.jpg" alt="A diagram showing nested folders and files, accompanied by the relative and absolute paths of the folder or file at each level in the directory." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 10-2: The relative paths for folders and files in the working directory</span> <span class="sans_futura_std_book_">C:\bacon</span> Description</p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-878" aria-label="223"></span>The <i class="calibre5">.\</i> at the start of a relative path is optional. For example, <i class="calibre5">.\spam.txt</i> and <i class="calibre5">spam.txt</i> refer to the same file.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-1674"><span id="calibre_link-234"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating New Folders</span></h4>
+<p class="tni">Your programs can create new folders with the <span class="thesansmonocd_w5regular_">os.makedirs()</span> function. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import os</b>
+&gt;&gt;&gt; <b class="calibre10">os.makedirs('C:\\delicious\\walnut\\waffles')</b>
+</code></pre>
+<p class="tx">This will create not just the <i class="calibre5">C:\delicious</i> folder but also a <i class="calibre5">walnut</i> folder inside <i class="calibre5">C:\delicious</i> and a <i class="calibre5">waffles</i> folder inside <i class="calibre5">C:\delicious\walnut</i>. That is, <span class="thesansmonocd_w5regular_">os.makedirs()</span> will create any necessary intermediate folders to ensure that the full path exists. Figure 10-3 shows this hierarchy of folders.</p>
+<figure class="img"><img class="img2" id="calibre_link-732" src="images/000007.jpg" alt="A nested directory structure. The folder “C:\” contains the folder “delicious,” which contains the folder “walnut,” which contains the folder “waffles.”" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 10-3: The result of</span> <span class="sans_thesansmonocd_w5regular_italic_">os.makedirs('C:\\delicious\\ walnut\\waffles')</span></p></figcaption>
+</figure>
+<p class="tx">To make a directory from a <span class="thesansmonocd_w5regular_">Path</span> object, call the <span class="thesansmonocd_w5regular_">mkdir()</span> method. For example, this code will create a <i class="calibre5">spam</i> folder under the home folder on my computer:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path(r'C:\Users\Al\spam').mkdir()</b>
+</code></pre>
+<p class="tx">Note that <span class="thesansmonocd_w5regular_">mkdir()</span> can only make one directory at a time unless you pass <span class="thesansmonocd_w5regular_">parents=True</span>, in which case it creates all the necessary parent folders as well.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-1675"><span id="calibre_link-235"></span><span class="sans_futura_std_heavy_oblique_bi_">Handling Absolute and Relative Paths</span></h4>
+<p class="tni">Calling the <span class="thesansmonocd_w5regular_">is_absolute()</span> method on a <span class="thesansmonocd_w5regular_">Path</span> object will return <span class="thesansmonocd_w5regular_">True</span> if it represents an absolute path or <span class="thesansmonocd_w5regular_">False</span> if it represents a relative path. For example, enter the following into the interactive shell, using your own files and folders instead of the exact ones listed here:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path.cwd()</b>
+WindowsPath('C:/Users/Al/AppData/Local/Programs/Python/Python312')
+&gt;&gt;&gt; <b class="calibre10">Path.cwd().is_absolute()</b>
+True
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-877" aria-label="224"></span>&gt;&gt;&gt; <b class="calibre10">Path('spam/bacon/eggs').is_absolute()</b>
+False
+</code></pre>
+<p class="tx">To get an absolute path from a relative path, you can put <span class="thesansmonocd_w5regular_">Path.cwd() /</span> in front of the relative <span class="thesansmonocd_w5regular_">Path</span> object. After all, when we say “relative path,” we almost always mean a path that is relative to the current working directory. The <span class="thesansmonocd_w5regular_">absolute()</span> method also returns this <span class="thesansmonocd_w5regular_">Path</span> object. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path('my/relative/path')</b>
+WindowsPath('my/relative/path')
+&gt;&gt;&gt; <b class="calibre10">Path.cwd() / Path('my/relative/path')</b>
+WindowsPath('C:/Users/Al/Desktop/my/relative/path')
+&gt;&gt;&gt; <b class="calibre10">Path('my/relative/path').absolute()</b>
+WindowsPath('C:/Users/Al/Desktop/my/relative/path')
+</code></pre>
+<p class="tx">If your relative path is relative to another path besides the current working directory, replace <span class="thesansmonocd_w5regular_">Path.cwd()</span> with that other path. The following example gets an absolute path using the home directory instead of the current working directory:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path('my/relative/path')</b>
+WindowsPath('my/relative/path')
+&gt;&gt;&gt; <b class="calibre10">Path.home() / Path('my/relative/path')</b>
+WindowsPath('C:/Users/Al/my/relative/path')
+</code></pre>
+<p class="tx"><span class="thesansmonocd_w5regular_">Path</span> objects are used to represent both relative and absolute paths. The only difference is whether the <span class="thesansmonocd_w5regular_">Path</span> object begins with the root folder or not.</p>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h4 class="h1" id="calibre_link-1676"><span id="calibre_link-236"></span><span class="sans_futura_std_heavy_oblique_bi_">Getting the Parts of a Filepath</span></h4>
+<p class="tni">Given a <span class="thesansmonocd_w5regular_">Path</span> object, you can extract the filepath’s different parts as strings using several <span class="thesansmonocd_w5regular_">Path</span> object attributes. These can be useful for constructing new filepaths based on existing ones. Figure 10-4 diagrams the attributes.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-904" aria-label="225"></span>
+<figure class="img"><img class="img2" id="calibre_link-733" src="images/000008.jpg" alt="A diagram of a filepath on Windows and macOS showing the anchor, parent, name, drive, stem, and suffix." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 10-4: The parts of a Windows (top) and macOS/Linux (bottom) filepath</span> Description</p></figcaption>
+</figure>
+<p class="tx">The parts of a filepath include the following:</p>
+<ul class="ul">
+<li class="bl">The <i class="calibre5">anchor</i>, which is the root folder of the filesystem</li>
+<li class="bl">On Windows, the <i class="calibre5">drive</i>, which is the single letter that often denotes a physical hard drive or other storage device</li>
+<li class="bl">The <i class="calibre5">parent</i>, which is the folder that contains the file</li>
+<li class="bl">The <i class="calibre5">name</i> of the file, made up of the <i class="calibre5">stem</i> (or <i class="calibre5">base name</i>) and the <i class="calibre5">suffix</i> (or <i class="calibre5">extension</i>)</li>
+</ul>
+<p class="tx">Note that Windows <span class="thesansmonocd_w5regular_">Path</span> objects have a <span class="thesansmonocd_w5regular_">drive</span> attribute, but macOS and Linux <span class="thesansmonocd_w5regular_">Path</span> objects don’t. The <span class="thesansmonocd_w5regular_">drive</span> attribute doesn’t include the first backslash.</p>
+<p class="tx">To extract each attribute from the filepath, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">p = Path('C:/Users/Al/spam.txt')</b>
+&gt;&gt;&gt; <b class="calibre10">p.anchor</b>
+'C:\\'
+&gt;&gt;&gt; <b class="calibre10">p.parent </b>
+WindowsPath('C:/Users/Al')
+&gt;&gt;&gt; <b class="calibre10">p.name</b>
+'spam.txt'
+&gt;&gt;&gt; <b class="calibre10">p.stem</b>
+'spam'
+&gt;&gt;&gt; <b class="calibre10">p.suffix</b>
+'.txt'
+&gt;&gt;&gt; <b class="calibre10">p.drive</b>
+'C:'
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1302" aria-label="226"></span>These attributes evaluate to simple string values, except for <span class="thesansmonocd_w5regular_">parent</span>, which evaluates to another <span class="thesansmonocd_w5regular_">Path</span> object. If you want to split up a path by its separator, access the <span class="thesansmonocd_w5regular_">parts</span> attribute to get a tuple of string values:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">p = Path('C:/Users/Al/spam.txt')</b>
+&gt;&gt;&gt; <b class="calibre10">p.parts</b>
+('C:\\', 'Users', 'Al', 'spam.txt')
+ &gt;&gt;&gt; <b class="calibre10">p.parts[3]</b>
+'spam.txt'
+&gt;&gt;&gt; <b class="calibre10">p.parts[0:2]</b>
+('C:\\', 'Users')
+</code></pre>
+<p class="tx">Note that even though the string used in the <span class="thesansmonocd_w5regular_">Path()</span> call contains forward slashes, <span class="thesansmonocd_w5regular_">parts</span> uses an anchor on Windows that has the appropriate backslash: <span class="thesansmonocd_w5regular_">'C:\\'</span> (or <span class="thesansmonocd_w5regular_">r'C:\'</span> as a raw string with the backslash unescaped).</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">parents</span> attribute (which is different from the <span class="thesansmonocd_w5regular_">parent</span> attribute) evaluates to the ancestor folders of a <span class="thesansmonocd_w5regular_">Path</span> object with an integer index:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">Path.cwd()</b>
+WindowsPath('C:/Users/Al/Desktop')
+&gt;&gt;&gt; <b class="calibre10">Path.cwd().parents[0]</b>
+WindowsPath('C:/Users/Al')
+&gt;&gt;&gt; <b class="calibre10">Path.cwd().parents[1]</b>
+WindowsPath('C:/Users')
+&gt;&gt;&gt; <b class="calibre10">Path.cwd().parents[2]</b>
+WindowsPath('C:/')
+</code></pre>
+<p class="tx">If you keep following the parent folders, you will end up with the root folder.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-1677"><span id="calibre_link-237"></span><span class="sans_futura_std_heavy_oblique_bi_">Finding File Sizes and Timestamps</span></h4>
+<p class="tni">Once you have ways to handle filepaths, you can start gathering information about specific files and folders. The <span class="thesansmonocd_w5regular_">stat()</span> method returns a <span class="thesansmonocd_w5regular_">stat_result</span> object with file size and timestamp information about a file.</p>
+<p class="tx">For example, enter the following into the interactive shell to find out about the <i class="calibre5">calc.exe</i> program file on Windows:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">calc_file = Path('C:/Windows/System32/calc.exe')</b>
+&gt;&gt;&gt; <b class="calibre10">calc_file.stat()</b>
+os.stat_result(st_mode=33279, st_ino=562949956525418, st_dev=3739257218,
+st_nlink=2, st_uid=0, st_gid=0, st_size=27648, st_atime=1678984560,
+st_mtime=1575709787, st_ctime=1575709787)
+&gt;&gt;&gt; <b class="calibre10">calc_file.stat().st_size</b>
+27648
+&gt;&gt;&gt; <b class="calibre10">calc_file.stat().st_mtime</b>
+1712627129.0906117
+&gt;&gt;&gt; <b class="calibre10">import time</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-934" aria-label="227"></span>&gt;&gt;&gt; <b class="calibre10">time.asctime(time.localtime(calc_file.stat().st_mtime))</b>
+'Mon Apr  8 20:45:29 2024'
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">st_size</span> attribute of the <span class="thesansmonocd_w5regular_">stat_result</span> object returned by the <span class="thesansmonocd_w5regular_">stat()</span> method is the size of the file in bytes. You can divide this integer by <span class="thesansmonocd_w5regular_">1024</span>, by <span class="thesansmonocd_w5regular_">1024 ** 2</span>, or by <span class="thesansmonocd_w5regular_">1024 ** 3</span> to get the size in KB, MB, or GB, respectively.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">st_mtime</span> is the “last modified” timestamp, which can be useful for, say, figuring out the last time a <i class="calibre5">.docx</i> Word file was changed. This timestamp is in Unix epoch time, which is the number of seconds since January 1, 1970. The <span class="thesansmonocd_w5regular_">time</span> module (explained in <span>Chapter 19</span>) has functions for turning this number into a human-readable form.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">stat_result</span> object has several useful attributes:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">st_size</span> The size of the file in bytes.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">st_mtime</span> The “last modified” timestamp, when the file was last changed.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">st_ctime</span> The “creation” timestamp. On Windows, this identifies when the file was created. On macOS and Linux, this identifies the last time the file’s metadata (such as its name) was changed.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">st_atime</span> The “last accessed” timestamp, when the file was last read.</p>
+<p class="tx">Keep in mind that the modified, creation, and access timestamps can be changed manually, and are not guaranteed to be accurate.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h4 class="h1" id="calibre_link-1678"><span id="calibre_link-238"></span><span class="sans_futura_std_heavy_oblique_bi_">Finding Files Using Glob Patterns</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">*</span> and <span class="thesansmonocd_w5regular_">?</span> characters can be used to match folder names and filenames in what are called <i class="calibre5">glob patterns</i>. Glob patterns are like a simplified regex language: the <span class="thesansmonocd_w5regular_">*</span> character matches any text, and the <span class="thesansmonocd_w5regular_">?</span> character matches exactly one character. For example, look at these glob patterns:</p>
+<p class="listplain"><span class="thesansmonocd_w5regular_">'*.txt'</span> matches all files that end with <i class="calibre5">.txt</i>.</p>
+<p class="listplain"><span class="thesansmonocd_w5regular_">'project?.txt'</span> matches <span class="thesansmonocd_w5regular_">'project1.txt'</span>, <span class="thesansmonocd_w5regular_">'project2.txt'</span>, or <span class="thesansmonocd_w5regular_">'projectX.txt'</span>.</p>
+<p class="listplain"><span class="thesansmonocd_w5regular_">'*project?.*'</span> matches <span class="thesansmonocd_w5regular_">'catproject5.txt'</span> or <span class="thesansmonocd_w5regular_">'secret_project7.docx'</span>.</p>
+<p class="listplain"><span class="thesansmonocd_w5regular_">'*'</span> matches all filenames.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Path</span> objects of folders have a <span class="thesansmonocd_w5regular_">glob()</span> method for listing any content in the folder that matches the glob pattern. The <span class="thesansmonocd_w5regular_">glob()</span> method returns a generator object (the topic of which is beyond the scope of this book) that you’ll need to pass to <span class="thesansmonocd_w5regular_">list()</span> to easily view in the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">p = Path('C:/Users/Al/Desktop')</b>
+&gt;&gt;&gt; <b class="calibre10">p.glob('*')</b>
+&lt;generator object Path.glob at 0x000002A6E389DED0&gt;
+&gt;&gt;&gt; <b class="calibre10">list(p.glob('*'))</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1112" aria-label="228"></span>[WindowsPath('C:/Users/Al/Desktop/1.png'), WindowsPath('C:/Users/Al/
+Desktop/22-ap.pdf'), WindowsPath('C:/Users/Al/Desktop/cat.jpg'),
+WindowsPath('C:/Users/Al/Desktop/zzz.txt')]
+</code></pre>
+<p class="tx">You can also use the generator object that <span class="thesansmonocd_w5regular_">glob()</span> returns in a <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">for name in Path('C:/Users/Al/Desktop').glob('*')</b>:
+&gt;&gt;&gt;     <b class="calibre10">print(name)</b>
+C:\Users\Al\Desktop\1.png
+C:\Users\Al\Desktop\22-ap.pdf
+C:\Users\Al\Desktop\cat.jpg
+C:\Users\Al\Desktop\zzz.txt
+</code></pre>
+<p class="tx">If you want to perform an operation on every file in a folder, such as copying it to a backup folder or renaming it, the <span class="thesansmonocd_w5regular_">glob('*')</span> method call can get you the list of <span class="thesansmonocd_w5regular_">Path</span> objects for these files and folders. Note that glob patterns are also commonly used in command line commands such as <span class="thesansmonocd_w5regular_">ls</span> or <span class="thesansmonocd_w5regular_">dir</span>. <span>Chapter 12</span> discusses the command line in more detail.</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-1679"><span id="calibre_link-239"></span><span class="sans_futura_std_heavy_oblique_bi_">Checking Path Validity</span></h4>
+<p class="tni">Many Python functions will crash with an error if you supply them with a path that does not exist. Luckily, <span class="thesansmonocd_w5regular_">Path</span> objects have methods to check whether a given path exists and whether it is a file or folder. Assuming that a variable <span class="thesansmonocd_w5regular_">p</span> holds a <span class="thesansmonocd_w5regular_">Path</span> object, you could expect the following:</p>
+<ul class="ul">
+<li class="bl">Calling <span class="thesansmonocd_w5regular_">p.exists()</span> returns <span class="thesansmonocd_w5regular_">True</span> if the path exists, and returns <span class="thesansmonocd_w5regular_">False</span> if it doesn’t exist.</li>
+<li class="bl">Calling <span class="thesansmonocd_w5regular_">p.is_file()</span> returns <span class="thesansmonocd_w5regular_">True</span> if the path exists and is a file, and returns <span class="thesansmonocd_w5regular_">False</span> otherwise.</li>
+<li class="bl">Calling <span class="thesansmonocd_w5regular_">p.is_dir()</span> returns <span class="thesansmonocd_w5regular_">True</span> if the path exists and is a directory, and returns <span class="thesansmonocd_w5regular_">False</span> otherwise.</li>
+</ul>
+<p class="tx">On my computer, here is what I get when I try these methods in the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">win_dir = Path('C:/Windows')</b>
+&gt;&gt;&gt; <b class="calibre10">not_exists_dir = Path('C:/This/Folder/Does/Not/Exist')</b>
+&gt;&gt;&gt; <b class="calibre10">calc_file_path = Path('C:/Windows</b>
+<b class="calibre10">/System32/calc.exe')</b>
+&gt;&gt;&gt; <b class="calibre10">win_dir.exists()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">win_dir.is_dir()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">not_exists_dir.exists()</b>
+False
+&gt;&gt;&gt; <b class="calibre10">calc_file_path.is_file()</b>
+True
+&gt;&gt;&gt; <b class="calibre10">calc_file_path.is_dir()</b>
+False
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-965" aria-label="229"></span>You can determine whether there is a DVD or flash drive currently attached to the computer by checking for it with the <span class="thesansmonocd_w5regular_">exists()</span> method. For instance, if I wanted to check for a flash drive with the volume named <i class="calibre5">D:\</i> on my Windows computer, I could do that with the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">d_drive = Path('D:/')</b>
+&gt;&gt;&gt; <b class="calibre10">d_drive.exists()</b>
+False
+</code></pre>
+<p class="tx">Oops! It looks like I forgot to plug in my flash drive.</p>
+<p class="tx">The older <span class="thesansmonocd_w5regular_">os.path</span> module can accomplish the same task with the <span class="thesansmonocd_w5regular_">os.path.exists(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span>, <span class="thesansmonocd_w5regular_">os.path.isfile(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span>, and <span class="thesansmonocd_w5regular_">os.path.isdir(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span> functions, which act just like their <span class="thesansmonocd_w5regular_">Path</span> function counterparts. As of Python 3.6, these functions can accept <span class="thesansmonocd_w5regular_">Path</span> objects as well as strings of the filepaths.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h3 class="h" id="calibre_link-1680"><span id="calibre_link-240"></span><span class="sans_futura_std_bold_b_">The File Reading and Writing Process</span></h3>
+<p class="tni">Once you’re comfortable working with folders and relative paths, you’ll be able to specify the locations of files to read and write. The functions covered in the next few sections apply to plaintext files. <i class="calibre5">Plaintext files</i> contain only basic text characters and do not include font, size, or color information. Text files with the <i class="calibre5">.txt</i> extension or Python script files with the <i class="calibre5">.py</i> extension are examples of plaintext files. You can open these with the Windows Notepad or macOS TextEdit application, and your programs can easily read their content, then treat it as an ordinary string value.</p>
+<p class="tx"><i class="calibre5">Binary files</i> are all other file types, such as word processing documents, PDFs, images, spreadsheets, and executable programs. If you open a binary file in Notepad or TextEdit, it will look like scrambled nonsense, like that shown in Figure 10-5.</p>
+<figure class="img"><img class="img1" id="calibre_link-735" src="images/000009.jpg" alt="A Notepad window containing incomprehensible characters and source code." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 10-5: The Windows</span> <span class="sans_futura_std_book_">calc.exe</span> <span class="sans_futura_std_book_oblique_i_">program opened in Notepad</span></p></figcaption>
+</figure>
+<p class="tni"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1027" aria-label="230"></span>Because we must handle each type of binary file in its own way, this book won’t discuss reading and writing raw binary files directly. Fortunately, many modules make working with binary files easier, and you’ll explore one of them, the <span class="thesansmonocd_w5regular_">shelve</span> module, later in this chapter.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">pathlib</span> module’s <span class="thesansmonocd_w5regular_">read_text()</span> method returns the full contents of a text file as a string. Its <span class="thesansmonocd_w5regular_">write_text()</span> method creates a new text file (or overwrites an existing one) with the string passed to it. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">p = Path('spam.txt')</b>
+&gt;&gt;&gt; <b class="calibre10">p.write_text('Hello, world!')</b>
+13
+&gt;&gt;&gt; <b class="calibre10">p.read_text()</b>
+'Hello, world!'
+</code></pre>
+<p class="tx">These method calls create a <i class="calibre5">spam.txt</i> file with the content <span class="thesansmonocd_w5regular_">'Hello, world!'</span>. The <span class="thesansmonocd_w5regular_">13</span> that <span class="thesansmonocd_w5regular_">write_text()</span> returns indicates that 13 characters were written to the file. (You can often disregard this return value.) The <span class="thesansmonocd_w5regular_">read_text()</span> call reads and returns the contents of the new file as a string: <span class="thesansmonocd_w5regular_">'Hello, world!'</span>.</p>
+<p class="tx">Keep in mind that these <span class="thesansmonocd_w5regular_">Path</span> object methods allow only basic interactions with files. The more common way of writing to a file involves using the <span class="thesansmonocd_w5regular_">open()</span> function and file objects. There are three steps to reading or writing files in Python:</p>
+<p class="listnumberf">  1.  Call the <span class="thesansmonocd_w5regular_">open()</span> function to return a <span class="thesansmonocd_w5regular_">File</span> object.</p>
+<p class="listnumber">  2.  Call the <span class="thesansmonocd_w5regular_">read()</span> or <span class="thesansmonocd_w5regular_">write()</span> method on the <span class="thesansmonocd_w5regular_">File</span> object.</p>
+<p class="listnumberl">  3.  Close the file by calling the <span class="thesansmonocd_w5regular_">close()</span> method on the <span class="thesansmonocd_w5regular_">File</span> object.</p>
+<p class="tx">We’ll go over these steps in the following sections.</p>
+<p class="tx">Note that as you begin working with files, you may find it helpful to be able to quickly see their extensions (<i class="calibre5">.txt</i>, .<i class="calibre5">pdf</i>, .<i class="calibre5">jpg</i>, and so on). Windows and macOS may hide file extensions by default, showing <i class="calibre5">spam.txt</i> as simply <i class="calibre5">spam</i>. To show extensions, open the settings for File Explorer (on Windows) or Finder (on macOS) and look for a checkbox that says something like “Show all filename extensions” or “Hide extensions for known file types.” (The exact location and wording of this setting depend on the version of your operating system.)</p>
+<section type="division" aria-labelledby="sec14">
+<h4 class="h1" id="calibre_link-1681"><span id="calibre_link-241"></span><span class="sans_futura_std_heavy_oblique_bi_">Opening Files</span></h4>
+<p class="tni">To open a file with the <span class="thesansmonocd_w5regular_">open()</span> function, pass it a string path indicating the file you want to open. This can be either an absolute path or a relative path. The <span class="thesansmonocd_w5regular_">open()</span> function returns a <span class="thesansmonocd_w5regular_">File</span> object.</p>
+<p class="tx">Try this by creating a text file named <i class="calibre5">hello.txt</i> using Notepad or TextEdit. Enter <b class="calibre10">Hello, world!</b> as the content of this text file and save it in your user home folder. Then, enter the following in the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">hello_file = open(Path.home() / 'hello.txt', encoding='UTF-8')</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1068" aria-label="231"></span>The <span class="thesansmonocd_w5regular_">open()</span> function will open the file in “reading plaintext” mode, or <i class="calibre5">read mode</i> for short. When a file is opened in read mode, Python lets you read the file’s data but not write or modify it in any way. Read mode is the default mode for files you open in Python. But if you don’t want to rely on Python’s defaults, you can explicitly specify the mode by passing the string value <span class="thesansmonocd_w5regular_">'r'</span> as a second argument to <span class="thesansmonocd_w5regular_">open()</span>. For example, <span class="thesansmonocd_w5regular_">open('/Users/Al/hello.txt', 'r')</span> does the same thing as <span class="thesansmonocd_w5regular_">open('/Users/Al/hello.txt')</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">encoding</span> named parameter specifies what encoding to use when converting the bytes in the file to a Python text string. The correct encoding is almost always <span class="thesansmonocd_w5regular_">'utf-8'</span>, which is also the default encoding used on macOS and Linux. However, Windows uses <span class="thesansmonocd_w5regular_">'cp1252'</span> for its default encoding (also known as <i class="calibre5">extended ASCII</i>). This can cause problems when trying to read certain UTF-8 encoded text files with non-English characters on Windows, so it’s a good habit to pass <span class="thesansmonocd_w5regular_">encoding='utf-8'</span> to your <span class="thesansmonocd_w5regular_">open()</span> function calls when opening files in plaintext read, write, or append mode. The binary read, write, and append modes don’t use the <span class="thesansmonocd_w5regular_">encoding</span> named parameter, so you can leave it out in those cases.</p>
+<p class="tx">The call to <span class="thesansmonocd_w5regular_">open()</span> returns a <span class="thesansmonocd_w5regular_">File</span> object. A <span class="thesansmonocd_w5regular_">File</span> object represents a file on your computer; it is simply another type of value in Python, much like the lists and dictionaries you’re already familiar with. In the previous example, you stored the <span class="thesansmonocd_w5regular_">File</span> object in the variable <span class="thesansmonocd_w5regular_">hello_file</span>. Now, whenever you want to read from or write to the file, you can do so by calling methods on the <span class="thesansmonocd_w5regular_">File</span> object in <span class="thesansmonocd_w5regular_">hello_file</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1" id="calibre_link-1682"><span id="calibre_link-242"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading the Contents of Files</span></h4>
+<p class="tni">Now that you have a <span class="thesansmonocd_w5regular_">File</span> object, you can start reading from it. If you want to read the entire contents of a file as a string value, use the <span class="thesansmonocd_w5regular_">File</span> object’s <span class="thesansmonocd_w5regular_">read()</span> method. Let’s continue with the <i class="calibre5">hello.txt</i> <span class="thesansmonocd_w5regular_">File</span> object you stored in <span class="thesansmonocd_w5regular_">hello_file</span>. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">hello_content = hello_file.read()</b>
+&gt;&gt;&gt; <b class="calibre10">hello_content</b>
+'Hello, world!'
+</code></pre>
+<p class="tx">You can think of the contents of a file as a single large string value; the <span class="thesansmonocd_w5regular_">read()</span> method merely returns the string that is stored in the file.</p>
+<p class="tx">Alternatively, you can use the <span class="thesansmonocd_w5regular_">readlines()</span> method to get a <i class="calibre5">list</i> of string values from the file, one for each line of text. For example, create a file named <i class="calibre5">sonnet29.txt</i> in the same directory as <i class="calibre5">hello.txt</i> and place the following text in it:</p>
+<pre class="pre"><code class="calibre9">When, in disgrace with fortune and men's eyes,
+I all alone beweep my outcast state,
+And trouble deaf heaven with my bootless cries,
+And look upon myself and curse my fate,
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-919" aria-label="232"></span>Make sure to separate the four lines with line breaks. Then, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">sonnet_file = open(Path.home() / 'sonnet29.txt', encoding='UTF-8')</b>
+&gt;&gt;&gt; <b class="calibre10">sonnet_file.readlines()</b>
+["When, in disgrace with fortune and men's eyes,\n", 'I all alone beweep
+my outcast state,\n', 'And trouble deaf heaven with my bootless cries,\n',
+'And look upon myself and curse my fate,']
+</code></pre>
+<p class="tx">Note that, except for the last line of the file, each of the string values ends with a newline character <span class="thesansmonocd_w5regular_">\n</span>. A list of strings is often easier to work with than a single large string value.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h4 class="h1" id="calibre_link-1683"><span id="calibre_link-243"></span><span class="sans_futura_std_heavy_oblique_bi_">Writing to Files</span></h4>
+<p class="tni">Python allows you to write content to a file, just as the <span class="thesansmonocd_w5regular_">print()</span> function writes strings to the screen. You can’t write to a file you’ve opened in read mode, though. Instead, you need to open it in “write plaintext” mode or “append plaintext” mode, called <i class="calibre5">write mode</i> and <i class="calibre5">append mode</i> for short.</p>
+<p class="tx">Write mode will overwrite the existing file, which is similar to overwriting a variable’s value with a new value. Pass <span class="thesansmonocd_w5regular_">'w'</span> as the second argument to <span class="thesansmonocd_w5regular_">open()</span> to open the file in write mode. Append mode, on the other hand, will append text to the end of the existing file. You can think of this mode as appending values to a list in a variable rather than overwriting the variable altogether. Pass <span class="thesansmonocd_w5regular_">'a'</span> as the second argument to <span class="thesansmonocd_w5regular_">open()</span> to open the file in append mode.</p>
+<p class="tx">If the filename passed to <span class="thesansmonocd_w5regular_">open()</span> does not exist, both write mode and append mode will create a new, blank file. After reading or writing a file, call the <span class="thesansmonocd_w5regular_">close()</span> method before opening the file again.</p>
+<p class="tx">Let’s put these concepts together. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">bacon_file = open('bacon.txt', 'w', encoding='UTF-8')   </b>
+&gt;&gt;&gt; <b class="calibre10">bacon_file.write('Hello, world!\n')</b>
+14
+&gt;&gt;&gt; <b class="calibre10">bacon_file.close()</b>
+&gt;&gt;&gt; <b class="calibre10">bacon_file = open('bacon.txt', 'a', encoding='UTF-8') </b>
+&gt;&gt;&gt; <b class="calibre10">bacon_file.write('Bacon is not a vegetable.')</b>
+25
+&gt;&gt;&gt; <b class="calibre10">bacon_file.close()</b>
+&gt;&gt;&gt; <b class="calibre10">bacon_file = open('bacon.txt', encoding='UTF-8')</b>
+&gt;&gt;&gt; <b class="calibre10">content = bacon_file.read()</b>
+&gt;&gt;&gt; <b class="calibre10">bacon_file.close()</b>
+&gt;&gt;&gt; <b class="calibre10">print(content)</b>
+Hello, world!
+Bacon is not a vegetable.
+</code></pre>
+<p class="tx">First, we open <i class="calibre5">bacon.txt</i> in write mode. As no <i class="calibre5">bacon.txt</i> file exists yet, Python creates one. Calling <span class="thesansmonocd_w5regular_">write()</span> on the opened file and passing <span class="thesansmonocd_w5regular_">write()</span> the string argument <span class="thesansmonocd_w5regular_">'Hello, world!\n'</span> writes the string to the file and <span role="doc-pagebreak" type="pagebreak" id="calibre_link-931" aria-label="233"></span>returns the number of characters written, including the newline. Then, we close the file.</p>
+<p class="tx">To add text to the existing contents of the file instead of replacing the string we just wrote, we open the file in append mode. We write <span class="thesansmonocd_w5regular_">'Bacon is not a vegetable.'</span> to the file and close it. Finally, to print the file contents to the screen, we open the file in its default read mode, call <span class="thesansmonocd_w5regular_">read()</span>, store the resulting <span class="thesansmonocd_w5regular_">File</span> object in <span class="thesansmonocd_w5regular_">content</span>, close the file, and print <span class="thesansmonocd_w5regular_">content</span>.</p>
+<p class="tx">Note that the <span class="thesansmonocd_w5regular_">write()</span> method does not automatically add a newline character to the end of the string like the <span class="thesansmonocd_w5regular_">print()</span> function does. You will have to add this character yourself.</p>
+<p class="tx">You can also pass a <span class="thesansmonocd_w5regular_">Path</span> object to the <span class="thesansmonocd_w5regular_">open()</span> function instead of the filename as a string.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1" id="calibre_link-1684"><span id="calibre_link-244"></span><span class="sans_futura_std_heavy_oblique_bi_">Using with Statements</span></h4>
+<p class="tni">Every file on which your program calls <span class="thesansmonocd_w5regular_">open()</span> needs <span class="thesansmonocd_w5regular_">close()</span> called on it as well, but you may forget to include the <span class="thesansmonocd_w5regular_">close()</span> function, or your program might skip over the <span class="thesansmonocd_w5regular_">close()</span> call in certain circumstances.</p>
+<p class="tx">Python’s <span class="thesansmonocd_w5regular_">with</span> statement makes it easier to automatically close files. A <span class="thesansmonocd_w5regular_">with</span> statement creates something called a <i class="calibre5">context manager</i> that Python uses to manage resources. These resources, such as files, network connections, or segments of memory, often have setup and teardown steps during which the resource is allocated and later released so that other programs can make use of it. (Most of the time, however, you’ll encounter <span class="thesansmonocd_w5regular_">with</span> statements used to open files.)</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">with</span> statement adds a block of code that begins by allocating the resource and then releases it when the program execution leaves the block, which could happen due to a <span class="thesansmonocd_w5regular_">return</span> statement, an unhandled exception being raised, or some other reason.</p>
+<p class="tx">Here is typical code that writes and reads the content of a file:</p>
+<pre class="pre"><code class="calibre9">file_obj = open('data.txt', 'w', encoding='utf-8')
+file_obj.write('Hello, world!')
+file_obj.close()
+file_obj = open('data.txt', encoding='utf-8')
+content = file_obj.read()
+file_obj.close()
+</code></pre>
+<p class="tx">Here is the equivalent code using a <span class="thesansmonocd_w5regular_">with</span> statement:</p>
+<pre class="pre"><code class="calibre9">with open('data.txt', 'w', encoding='UTF-8') as file_obj:
+    file_obj.write('Hello, world!')
+with open('data.txt', encoding='UTF-8') as file_obj:
+    content = file_obj.read()
+</code></pre>
+<p class="tx">In the <span class="thesansmonocd_w5regular_">with</span> statement example, notice that there are no calls to <span class="thesansmonocd_w5regular_">close()</span> at all because the <span class="thesansmonocd_w5regular_">with</span> statement automatically calls it when the program execution leaves the block. The <span class="thesansmonocd_w5regular_">with</span> statement knows to do this based on the context manager it obtains from the <span class="thesansmonocd_w5regular_">open()</span> function. Creating your own <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1028" aria-label="234"></span>context managers is beyond the scope of this book, but you can learn about them from the online documentation at <i class="calibre5"><a href="https://docs.python.org/3/reference/datamodel.html#context-managers" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/reference<wbr></wbr>/datamodel<wbr></wbr>.html#context<wbr></wbr>-managers</a></i> or the book <i class="calibre5">Serious Python</i> by Julien Danjou (No Starch Press, 2018).</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec18">
+<h3 class="h" id="calibre_link-1685"><span id="calibre_link-245"></span><span class="sans_futura_std_bold_b_">Saving Variables with the shelve Module</span></h3>
+<p class="tni">You can save variables in your Python programs to binary shelf files using the <span class="thesansmonocd_w5regular_">shelve</span> module. This lets your program restore that data to the variables the next time it is run. You could use this technique to add Save and Open features to your program; for example, if you ran a program and entered some configuration settings, you could save those settings to a shelf file and then have the program load the settings the next time it is run.</p>
+<p class="tx">To practice using <span class="thesansmonocd_w5regular_">shelve</span>, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import shelve</b>
+&gt;&gt;&gt; <b class="calibre10">shelf_file = shelve.open('mydata')</b>
+
+&gt;&gt;&gt; <b class="calibre10">shelf_file['cats'] = ['Zophie', 'Pooka', 'Simon']</b>
+&gt;&gt;&gt; <b class="calibre10">shelf_file.close()</b>
+</code></pre>
+<p class="tx">To read and write data using the <span class="thesansmonocd_w5regular_">shelve</span> module, you first import <span class="thesansmonocd_w5regular_">shelve</span>. Next, call <span class="thesansmonocd_w5regular_">shelve.open()</span> and pass it a filename, then store the returned shelf value in a variable. You can make changes to the shelf value as if it were a dictionary. When you’re done, call <span class="thesansmonocd_w5regular_">close()</span> on the shelf value. Here, our shelf value is stored in <span class="thesansmonocd_w5regular_">shelf_file</span>. We create a list <span class="thesansmonocd_w5regular_">cats</span> and write <span class="thesansmonocd_w5regular_">shelf_file['cats']</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">['Zophie', 'Pooka', 'Simon']</span> to store the list in <span class="thesansmonocd_w5regular_">shelf_file</span> as a value associated with the key <span class="thesansmonocd_w5regular_">'cats'</span> (like in a dictionary). Then, we call <span class="thesansmonocd_w5regular_">close()</span> on <span class="thesansmonocd_w5regular_">shelf_file</span>.</p>
+<p class="tx">After running the previous code on Windows, you should see three new files in the current working directory: <i class="calibre5">mydata.bak</i>, <i class="calibre5">mydata.dat</i>, and <i class="calibre5">mydata.dir</i>. On macOS, you should see only a single <i class="calibre5">mydata.db</i> file, and Linux has a single <i class="calibre5">mydata</i> file. These binary files contain the data you stored in your shelf. The format of these binary files isn’t important; you only need to know what the <span class="thesansmonocd_w5regular_">shelve</span> module does, not how it does it. The module frees you from worrying about how to store your program’s data to a file.</p>
+<p class="tx">Your programs can use the <span class="thesansmonocd_w5regular_">shelve</span> module to later reopen and retrieve the data from these shelf files. Shelf values don’t have to be opened in read or write mode; they allow both reading and writing once opened. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">shelf_file = shelve.open('mydata')</b>
+&gt;&gt;&gt; <b class="calibre10">type(shelf_file) </b>
+&lt;class 'shelve.DbfilenameShelf'&gt;
+&gt;&gt;&gt; <b class="calibre10">shelf_file['cats']</b>
+['Zophie', 'Pooka', 'Simon']
+&gt;&gt;&gt; <b class="calibre10">shelf_file.close()</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1172" aria-label="235"></span>Here, we open the shelf files to check that they stored the data correctly. Entering <span class="thesansmonocd_w5regular_">shelf_file['cats']</span> returns the same list we created earlier. Now that we know the file stored the list correctly, we call <span class="thesansmonocd_w5regular_">close()</span>.</p>
+<p class="tx">Just like dictionaries, shelf values have <span class="thesansmonocd_w5regular_">keys()</span> and <span class="thesansmonocd_w5regular_">values()</span> methods that will return list-like values of the keys and values in the shelf. Because these return values are not true lists, you should pass them to the <span class="thesansmonocd_w5regular_">list()</span> function to get them in list form. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">shelf_file = shelve.open('mydata')</b>
+&gt;&gt;&gt; <b class="calibre10">list(shelf_file.keys())</b>
+['cats']
+&gt;&gt;&gt; <b class="calibre10">list(shelf_file.values())</b>
+[['Zophie', 'Pooka', 'Simon']]
+&gt;&gt;&gt; <b class="calibre10">shelf_file.close()</b>
+</code></pre>
+<p class="tx">Plaintext is useful for creating files that you’ll read in a text editor such as Notepad or TextEdit, but if you want to save data from your Python programs, use the <span class="thesansmonocd_w5regular_">shelve</span> module.</p>
+<p class="ph"><span id="calibre_link-246"></span><span class="sans_futura_std_heavy_b_">Project 4: Generate Random Quiz Files</span></p>
+<p class="tni">Say you’re a geography teacher with 35 students in your class and you want to give a pop quiz on US state capitals. Alas, your class has a few bad eggs in it, and you can’t trust the students not to cheat. You’d like to randomize the order of questions so that each quiz is unique, making it impossible for anyone to crib answers from anyone else. Of course, doing this by hand would be a lengthy and boring affair. Fortunately, you know some Python.</p>
+<p class="tx">Here is what the program does:</p>
+<ul class="ul">
+<li class="bl">Creates 35 different quizzes</li>
+<li class="bl">Creates 50 multiple-choice questions for each quiz, in random order</li>
+<li class="bl">Provides the correct answer and three random wrong answers for each question, in random order</li>
+<li class="bl">Writes the quizzes to 35 text files</li>
+<li class="bl">Writes the answer keys to 35 text files</li>
+</ul>
+<p class="tx">This means the code will need to do the following:</p>
+<ul class="ul">
+<li class="bl">Store the states and their capitals in a dictionary.</li>
+<li class="bl">Call <span class="thesansmonocd_w5regular_">open()</span>, <span class="thesansmonocd_w5regular_">write()</span>, and <span class="thesansmonocd_w5regular_">close()</span> for the quiz and answer key text files.</li>
+<li class="bl">Use <span class="thesansmonocd_w5regular_">random.shuffle()</span> to randomize the order of the questions and multiple-choice options.</li>
+</ul>
+<p class="tx">Let’s get started.</p>
+<section type="division" aria-labelledby="sec19">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1280" aria-label="236"></span>
+<h4 class="h1" id="calibre_link-1686"><span id="calibre_link-247"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Store the Quiz Data in a Dictionary</span></h4>
+<p class="tni">The first step is to create a skeleton script and fill it with your quiz data. Create a file named <i class="calibre5">randomQuizGenerator.py</i>, and make it look like the following:</p>
+<pre class="pre"><code class="calibre9"># randomQuizGenerator.py - Creates quizzes with questions and answers in
+# random order, along with the answer key
+
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> import random
+
+# The quiz data. Keys are states and values are their capitals.
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> capitals = {'Alabama': 'Montgomery', 'Alaska': 'Juneau', 'Arizona':
+'Phoenix', 'Arkansas': 'Little Rock', 'California': 'Sacramento', 'Colorado':
+'Denver', 'Connecticut': 'Hartford', 'Delaware': 'Dover', 'Florida':
+'Tallahassee', 'Georgia': 'Atlanta', 'Hawaii': 'Honolulu', 'Idaho': 'Boise',
+'Illinois': 'Springfield', 'Indiana': 'Indianapolis', 'Iowa': 'Des Moines',
+'Kansas': 'Topeka', 'Kentucky': 'Frankfort', 'Louisiana': 'Baton Rouge',
+'Maine': 'Augusta', 'Maryland': 'Annapolis', 'Massachusetts': 'Boston',
+'Michigan': 'Lansing', 'Minnesota': 'Saint Paul', 'Mississippi': 'Jackson',
+'Missouri': 'Jefferson City', 'Montana': 'Helena', 'Nebraska': 'Lincoln',
+'Nevada': 'Carson City', 'New Hampshire': 'Concord', 'New Jersey': 'Trenton',
+'New Mexico': 'Santa Fe', 'New York': 'Albany', 'North Carolina': 'Raleigh',
+'North Dakota': 'Bismarck', 'Ohio': 'Columbus', 'Oklahoma': 'Oklahoma City',
+'Oregon': 'Salem', 'Pennsylvania': 'Harrisburg', 'Rhode Island': 'Providence',
+'South Carolina': 'Columbia', 'South Dakota': 'Pierre', 'Tennessee':
+'Nashville', 'Texas': 'Austin', 'Utah': 'Salt Lake City', 'Vermont':
+'Montpelier', 'Virginia': 'Richmond', 'Washington': 'Olympia', 'West
+Virginia':'Charleston', 'Wisconsin': 'Madison', 'Wyoming': 'Cheyenne'}
+
+# Generate 35 quiz files.
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> for quiz_num in range(35):
+    # TODO: Create the quiz and answer key files.
+
+    # TODO: Write out the header for the quiz.
+
+    # TODO: Shuffle the order of the states.
+
+    # TODO: Loop through all 50 states, making a question for each.
+</code></pre>
+<p class="tx">Because this program will randomly order the questions and answers, you’ll need to import the <span class="thesansmonocd_w5regular_">random</span> module <span class="codeannotation" aria-label="annotation1">❶</span> to make use of its functions. The <span class="thesansmonocd_w5regular_">capitals</span> variable <span class="codeannotation" aria-label="annotation2">❷</span> contains a dictionary with US states as keys and their capitals as values. And because you want to create 35 quizzes, the code that actually generates the quiz and answer key files (marked with <span class="thesansmonocd_w5regular_">TODO</span> comments for now) will go inside a <span class="thesansmonocd_w5regular_">for</span> loop that loops 35 times <span class="codeannotation" aria-label="annotation3">❸</span>. (You can change this number to generate any number of quiz files.)</p>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h4 class="h1" id="calibre_link-1687"><span id="calibre_link-248"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Create the Quiz File</span></h4>
+<p class="tni">Now it’s time to start filling in those <span class="thesansmonocd_w5regular_">TODO</span>s.</p>
+<p class="tx">The code in the loop will repeat 35 times, once for each quiz, so you have to worry about only one quiz at a time within the loop. First, you’ll create the actual quiz file. It needs a unique filename and some kind of <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1688" aria-label="237"></span>standard header, with places for the student to fill in a name, date, and class period. Then, you’ll need to get a list of states in randomized order, which you can use later to create the questions and answers for the quiz.</p>
+<p class="tx">Add the following lines of code to <i class="calibre5">randomQuizGenerator.py</i>:</p>
+<pre class="pre"><code class="calibre9"># randomQuizGenerator.py - Creates quizzes with questions and answers in
+# random order, along with the answer key
+
+<var class="calibre20">--snip--</var>
+
+# Generate 35 quiz files.
+for quiz_num in range(35):
+    # Create the quiz and answer key files.
+    <b class="calibre10">quiz_file = open(f'capitalsquiz{quiz_num + 1}.txt', 'w', encoding='UTF-8')</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
+    <b class="calibre10">answer_file = open(f'capitalsquiz_answers{quiz_num + 1}.txt', 'w', encoding='UTF-8')</b> <span class="code_codeannotation" aria-label="annotation2">❷</span>
+
+    # Write out the header for the quiz.
+    <b class="calibre10">quiz_file.write('Name:\n\nDate:\n\nPeriod:\n\n')</b> <span class="code_codeannotation" aria-label="annotation3">❸</span>
+    <b class="calibre10">quiz_file.write((' ' * 20) + f'State Capitals Quiz (Form{quiz_num + 1})')</b>
+    <b class="calibre10">quiz_file.write('\n\n')</b>
+
+    # Shuffle the order of the states.
+<b class="calibre10">    states = list(capitals.keys())</b>
+    <b class="calibre10">random.shuffle(states)</b> <span class="code_codeannotation" aria-label="annotation4">❹</span>
+
+    # TODO: Loop through all 50 states, making a question for each.
+</code></pre>
+<p class="tx">The quizzes will use the filenames <i class="calibre5">capitalsquiz&lt;N&gt;.txt</i>, where <i class="calibre5">&lt;N&gt;</i> is a unique number that comes from <span class="thesansmonocd_w5regular_">quiz_num</span>, the <span class="thesansmonocd_w5regular_">for</span> loop’s counter. We’ll store the answer key for <i class="calibre5">capitalsquiz&lt;N&gt;.txt</i> in the text files named <i class="calibre5">capitalsquiz_answers&lt;N&gt;.txt</i>. On each iteration of the loop, the code will replace the <span class="thesansmonocd_w5regular_">{quiz _num</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1}</span> placeholders in these filenames with a unique number. For example, it names the first quiz and answer key <i class="calibre5">capitalsquiz1.txt</i> and <i class="calibre5">capitalsquiz _answers1.txt</i>. We create these files with calls to the <span class="thesansmonocd_w5regular_">open()</span> function at <span class="codeannotation" aria-label="annotation1">❶</span> and <span class="codeannotation" aria-label="annotation2">❷</span>, passing <span class="thesansmonocd_w5regular_">'w'</span> as the second argument to open them in write mode.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">write()</span> statements at <span class="codeannotation" aria-label="annotation3">❸</span> create a quiz header for the student to fill out. Finally, we generate a randomized list of US states with the help of the <span class="thesansmonocd_w5regular_">random.shuffle()</span> function <span class="codeannotation" aria-label="annotation4">❹</span>, which randomly reorders the values in any list that is passed to it.</p>
+</section>
+<section type="division" aria-labelledby="sec21">
+<h4 class="h1" id="calibre_link-1689"><span id="calibre_link-249"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Create the Answer Options</span></h4>
+<p class="tni">Now you need to generate answer options A to D for each question using another <span class="thesansmonocd_w5regular_">for</span> loop. Later, a third, nested <span class="thesansmonocd_w5regular_">for</span> loop will write these multiple-choice options to the files. Make your code look like the following:</p>
+<pre class="pre"><code class="calibre9"># randomQuizGenerator.py - Creates quizzes with questions and answers in
+# random order, along with the answer key
+
+<var class="calibre20">--snip--</var>
+
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1690" aria-label="238"></span>    # Loop through all 50 states, making a question for each.
+<b class="calibre10">    for num in range(50):</b>
+
+        # Get right and wrong answers.
+<b class="calibre10">        correct_answer = capitals[states[num]]</b>
+<b class="calibre10">        wrong_answers = list(capitals.values())</b>
+<b class="calibre10">        del wrong_answers[wrong_answers.index(correct_answer)]</b>
+<b class="calibre10">        wrong_answers = random.sample(wrong_answers, 3)</b>
+<b class="calibre10">        answer_options = wrong_answers + [correct_answer]</b>
+<b class="calibre10">        random.shuffle(answer_options)</b>
+
+        # TODO: Write the question and answer options to the quiz file.
+
+        # TODO: Write the answer key to a file.
+</code></pre>
+<p class="tx">The correct answer is easy to create; it’s already stored as a value in the <span class="thesansmonocd_w5regular_">capitals</span> dictionary. This loop will iterate through the states in the shuffled <span class="thesansmonocd_w5regular_">states</span> list, find each state in <span class="thesansmonocd_w5regular_">capitals</span>, and store that state’s corresponding capital in <span class="thesansmonocd_w5regular_">correct_answer</span>.</p>
+<p class="tx">Creating the list of possible wrong answers is trickier. You can get it by duplicating the values in the <span class="thesansmonocd_w5regular_">capitals</span> dictionary, deleting the correct answer, and selecting three random values from this list. The <span class="thesansmonocd_w5regular_">random.sample()</span> function makes performing this selection easy. Its first argument is the list you want to select from, and the second argument is the number of values to select. The full list of answer options combines these three wrong answers with the correct answers. Finally, we randomize the answers so that the correct response isn’t always choice D.</p>
+</section>
+<section type="division" aria-labelledby="sec22">
+<h4 class="h1" id="calibre_link-1691"><span id="calibre_link-250"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 4: Write the Content to the Files</span></h4>
+<p class="tni">All that is left is to write the question to the quiz file and the answer to the answer key file. Make your code look like the following:</p>
+<pre class="pre"><code class="calibre9"># randomQuizGenerator.py - Creates quizzes with questions and answers in
+# random order, along with the answer key
+
+<var class="calibre20">--snip--</var>
+
+    # Loop through all 50 states, making a question for each.
+    for num in range(50):
+        <var class="calibre20">--snip--</var>
+
+        # Write the question and the answer options to the quiz file.
+        <b class="calibre10">quiz_file.write(f'{num + 1}. Capital of {states[num]}:\n')</b>
+        <span class="code_codeannotation" aria-label="annotation1">❶</span> <b class="calibre10">for i in range(4):</b>
+            <span class="code_codeannotation" aria-label="annotation2">❷</span> <b class="calibre10">quiz_file.write(f"    {'ABCD'[i]}. {answer_options[i]}\n") </b>
+        <b class="calibre10">quiz_file.write('\n')</b>
+
+        # Write the answer key to a file.
+        <span class="code_codeannotation" aria-label="annotation3">❸</span> <b class="calibre10">answer_file.write(f"{num + 1}.{'ABCD'[answer_options.index(correct_answer)]}")</b>
+    <b class="calibre10">quiz_file.close()</b>
+    <b class="calibre10">answer_file.close()</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1692" aria-label="239"></span>A <span class="thesansmonocd_w5regular_">for</span> loop iterates through integers <span class="thesansmonocd_w5regular_">0</span> to <span class="thesansmonocd_w5regular_">3</span> to write the answer options in the <span class="thesansmonocd_w5regular_">answer_options</span> list to the file <span class="codeannotation" aria-label="annotation1">❶</span>. The expression <span class="thesansmonocd_w5regular_">'ABCD'[i]</span> at <span class="codeannotation" aria-label="annotation2">❷</span> treats the string <span class="thesansmonocd_w5regular_">'ABCD'</span> as an array and will evaluate to <span class="thesansmonocd_w5regular_">'A'</span>,<span class="thesansmonocd_w5regular_">'B'</span>, <span class="thesansmonocd_w5regular_">'C'</span>, and <span class="thesansmonocd_w5regular_">'D'</span> on each respective iteration through the loop.</p>
+<p class="tx">In the final line of the loop, the expression <span class="thesansmonocd_w5regular_">answer_options.index(correct_answer)</span> <span class="codeannotation" aria-label="annotation3">❸</span> will find the integer index of the correct answer in the randomly ordered answer options, causing the correct answer’s letter to be written to the answer key file.</p>
+<p class="tx">After you run the program, your <i class="calibre5">capitalsquiz1.txt</i> file should look something like this. Of course, your questions and answer options will depend on the outcome of your <span class="thesansmonocd_w5regular_">random.shuffle()</span> calls:</p>
+<pre class="pre"><code class="calibre9">Name:
+
+Date:
+
+Period:
+
+                    State Capitals Quiz (Form 1)
+
+1. What is the capital of West Virginia?
+    A. Hartford
+    B. Santa Fe
+    C. Harrisburg
+    D. Charleston
+
+2. What is the capital of Colorado?
+    A. Raleigh
+    B. Harrisburg
+    C. Denver
+    D. Lincoln
+
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">The corresponding <i class="calibre5">capitalsquiz_answers1.txt</i> text file will look like this:</p>
+<pre class="pre"><code class="calibre9">1. D
+2. C
+
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">Randomly ordering the question set and corresponding answer key by hand would take hours to do, but with a little bit of programming knowledge, you can automate this boring task for not just a state capitals quiz but any multiple-choice exam.</p>
+</section>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec23">
+<h3 class="h" id="calibre_link-1693"><span id="calibre_link-251"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Operating systems organize files into folders (also called directories), and use paths to describe their locations. Every program running on your <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1230" aria-label="240"></span>computer has a current working directory, which allows you to specify filepaths relative to the current location instead of entering the full (or absolute) path. The <span class="thesansmonocd_w5regular_">pathlib</span> and <span class="thesansmonocd_w5regular_">os.path</span> modules have many functions for manipulating filepaths.</p>
+<p class="tx">Your programs can also directly interact with the contents of text files. The <span class="thesansmonocd_w5regular_">open()</span> function can open these files to read in their contents as one large string (with the <span class="thesansmonocd_w5regular_">read()</span> method) or as a list of strings (with the <span class="thesansmonocd_w5regular_">readlines()</span> method). The <span class="thesansmonocd_w5regular_">open()</span> function can also open files in write or append mode to create new text files or add to existing text files, respectively.</p>
+<p class="tx">In previous chapters, you used the clipboard as a way of getting large amounts of text into a program, rather than typing it directly. Now you can have your programs read files from the hard drive, which is a big improvement, as files are much less volatile than the clipboard.</p>
+<p class="tx">In the next chapter, you will learn how to handle the files themselves by copying them, deleting them, renaming them, moving them, and more.</p>
+</section>
+<section type="division" aria-labelledby="sec24">
+<h3 class="h" id="calibre_link-1694"><span id="calibre_link-252"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What is a relative path relative to?</p>
+<p class="listnumber">  2.  What does an absolute path start with?</p>
+<p class="listnumber">  3.  What does <span class="thesansmonocd_w5regular_">Path('C:/Users') / 'Al'</span> evaluate to on Windows?</p>
+<p class="listnumber">  4.  What does <span class="thesansmonocd_w5regular_">'C:/Users' / 'Al'</span> evaluate to on Windows?</p>
+<p class="listnumber">  5.  What do the <span class="thesansmonocd_w5regular_">os.getcwd()</span> and <span class="thesansmonocd_w5regular_">os.chdir()</span> functions do?</p>
+<p class="listnumber">  6.  What are the <i class="calibre5">.</i> and <i class="calibre5">..</i> folders?</p>
+<p class="listnumber">  7.  In <i class="calibre5">C:\bacon\eggs\spam.txt</i>, which part is the directory name, and which part is the base name?</p>
+<p class="listnumber">  8.  What three “mode” arguments can you pass to the <span class="thesansmonocd_w5regular_">open()</span> function for plaintext files?</p>
+<p class="listnumber">  9.  What happens if an existing file is opened in write mode?</p>
+<p class="listnumber">10.  What is the difference between the <span class="thesansmonocd_w5regular_">read()</span> and <span class="thesansmonocd_w5regular_">readlines()</span> methods?</p>
+<p class="listnumber">11.  What data structure does a shelf value resemble?</p>
+</section>
+<section type="division" aria-labelledby="sec25">
+<h3 class="h" id="calibre_link-1695"><span id="calibre_link-253"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, design and write the following programs.</p>
+<section type="division" aria-labelledby="sec26">
+<h4 class="h1" id="calibre_link-1696"><span id="calibre_link-254"></span><span class="sans_futura_std_heavy_oblique_bi_">Mad Libs</span></h4>
+<p class="tni">Create a Mad Libs program that reads in text files and lets the user add their own text anywhere the word <i class="calibre5">ADJECTIVE</i>, <i class="calibre5">NOUN</i>, <i class="calibre5">ADVERB</i>, or <i class="calibre5">VERB</i> appears in the text file. For example, a text file may look like this:</p>
+<pre class="pre"><code class="calibre9">The ADJECTIVE panda walked to the NOUN and then VERB. A nearby NOUN was
+unaffected by these events.
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1284" aria-label="241"></span>The program would find these occurrences and prompt the user to replace them:</p>
+<pre class="pre"><code class="calibre9">Enter an adjective:
+<b class="calibre10">silly</b>
+Enter a noun:
+<b class="calibre10">chandelier</b>
+Enter a verb:
+<b class="calibre10">screamed</b>
+Enter a noun:
+<b class="calibre10">pickup truck</b>
+</code></pre>
+<p class="tx">It would then create the following text file:</p>
+<pre class="pre"><code class="calibre9">The silly panda walked to the chandelier and then screamed. A nearby
+pickup truck was unaffected by these events.
+</code></pre>
+<p class="tx">The program should print the results to the screen in addition to saving them to a new text file.</p>
+</section>
+<section type="division" aria-labelledby="sec27">
+<h4 class="h1" id="calibre_link-1697"><span id="calibre_link-255"></span><span class="sans_futura_std_heavy_oblique_bi_">Regex Search</span></h4>
+<p class="tni">Write a program that opens all <i class="calibre5">.txt</i> files in a folder and searches for any line that matches a user-supplied regular expression, then prints the results to the screen.</p>
+</section>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

@@ -1,0 +1,137 @@
+.navbar {
+	margin-bottom: 0px;
+    background: #719B6A;
+}
+
+.nav-link {
+    color: white;
+}
+
+.navbar-brand {
+    font-size: smaller;
+    color: white;
+}
+
+header h1 {
+    margin-top: 20px;
+}
+
+body {
+    background: #FFFEEE;
+}
+
+.img-center {
+  display: block;
+  margin: 0 auto;
+}
+
+.img-float-left {
+  float: left;
+  margin-right: 16px;
+}
+
+.img-thumb {
+    height: 200px;
+}
+
+blockquote {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+
+
+@media screen and (min-width: 768px) {
+  .jumbotron {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+
+
+#content {
+    padding-right: 50px; 
+    line-height: 26px;
+}
+
+#content p {
+      margin-bottom: 12px;
+  }
+
+p.standfirst {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#site-colophon {
+    font-size: 12px;
+    margin-bottom: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.article-header-date, .article-header-info {
+	color: #999;
+}
+
+.social-links {
+	font-size: 18px;
+}
+
+.category-links {
+	font-size: 18px;
+}
+
+.tag-1 {
+	font-size: 14pt;
+}
+.tag-2 {
+	font-size: 12pt;
+}
+.tag-3 {
+	font-size: 10pt;
+}
+.tag-4 {
+	font-size: 8pt;
+}
+
+.tag-cloud {
+    line-height: 16px;
+}
+
+.article-tag-list {
+    padding-top: 15px;
+}
+
+.home-top {
+	margin-top: 20px;
+}
+
+#sidebar h4 {
+    margin-top: 20px;
+}
+
+#site-footer {
+    background: #eee;
+    border-top: 1px dotted #999;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+/*
+ * My preference for code blocks is no line wraps and horizontal scrolling.
+ */
+#content pre {
+    border-left: 5px solid #999;
+    overflow-x: auto;
+    padding-left: 20px;
+    word-break: normal;
+    word-wrap: normal;
+    white-space: pre;
+}
+
+dt {
+  margin-top: 10px;
+}

@@ -1,0 +1,386 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-93">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch5">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1508" aria-label="95"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1509">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">5</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">DEBUGGING</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">Now that you know enough to write basic programs, you may start finding not-so- simple bugs in them. This chapter covers some tools and techniques for finding the root cause of bugs in your program to help you fix them more quickly and with less effort. To paraphrase an old joke among programmers, writing code accounts for 90 percent of programming. Debugging code accounts for the other 90 percent.</p>
+<p class="tx">Your computer will do only what you tell it to do; it won’t read your mind and do what you <i class="calibre5">intended</i> it to do. Even professional programmers create bugs all the time, so don’t feel discouraged if your program has a problem.</p>
+<p class="tx">Fortunately, a few tools and techniques can identify exactly what your code is doing and where it’s going wrong. You’ll use the <i class="calibre5">debugger</i>, a feature of Mu that executes a program one instruction at a time, giving you a chance to inspect the values in variables while your code runs, and track <span role="doc-pagebreak" type="pagebreak" id="calibre_link-977" aria-label="96"></span>how the values change over the course of your program. This process is much slower than running the program at full speed, but it allows you to see the actual values in a program while it runs, rather than having to deduce what the values might be from the source code.</p>
+<p class="tx">You’ll also make your programs raise custom exceptions to indicate errors, and you’ll learn about logging and assertions, two features that can help you detect bugs early. In general, the earlier you catch bugs, the easier they will be to fix.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1510"><span id="calibre_link-94"></span><span class="sans_futura_std_bold_b_">Raising Exceptions</span></h3>
+<p class="tni">Python raises an exception whenever it tries to execute invalid code. In <span>Chapter 4</span>, you handled Python’s exceptions with <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements so that your program could recover from exceptions you anticipated. But you can also raise your own exceptions in your code. Raising an exception is a way of saying, “Stop running this code, and move the program execution to the <span class="thesansmonocd_w5regular_">except</span> statement.”</p>
+<p class="tx">We raise exceptions with a <span class="thesansmonocd_w5regular_">raise</span> statement, which consists of the following:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">raise</span> keyword</li>
+<li class="bl">A call to the <span class="thesansmonocd_w5regular_">Exception()</span> function</li>
+<li class="bl">A string with a helpful error message passed to the <span class="thesansmonocd_w5regular_">Exception()</span> function</li>
+</ul>
+<p class="tx">For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">raise Exception('This is the error message.')</b>
+Traceback (most recent call last):
+  File "&lt;pyshell#191&gt;", line 1, in &lt;module&gt;
+    raise Exception('This is the error message.')
+Exception: This is the error message.
+</code></pre>
+<p class="tx">If no <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements cover the <span class="thesansmonocd_w5regular_">raise</span> statement that raised the exception, the program simply crashes and displays the exception’s error message.</p>
+<p class="tx">Often, it’s the code that calls the function containing a <span class="thesansmonocd_w5regular_">raise</span> statement, rather than the function itself, that knows how to handle an exception. That means you’ll commonly see a <span class="thesansmonocd_w5regular_">raise</span> statement inside a function, and the <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements in the code calling the function. For example, open a new file editor tab, enter the following code, and save the program as <i class="calibre5">boxPrint.py</i>:</p>
+<pre class="pre"><code class="calibre9">def box_print(symbol, width, height):
+    if len(symbol) != 1:
+      <span class="code_codeannotation" aria-label="annotation1">❶</span> raise Exception('Symbol must be a single character string.')
+    if width &lt;= 2:
+      <span class="code_codeannotation" aria-label="annotation2">❷</span> raise Exception('Width must be greater than 2.')
+    if height &lt;= 2:
+      <span class="code_codeannotation" aria-label="annotation3">❸</span> raise Exception('Height must be greater than 2.')
+
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-932" aria-label="97"></span>    print(symbol * width)
+    for i in range(height - 2):
+        print(symbol + (' ' * (width - 2)) + symbol)
+    print(symbol * width)
+
+try:
+    box_print('*', 4, 4)
+    box_print('O', 20, 5)
+    box_print('x', 1, 3)
+    box_print('ZZ', 3, 3)
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> except Exception as err:
+  <span class="code_codeannotation" aria-label="annotation5">❺</span> print('An exception happened: ' + str(err))
+try:
+    box_print('ZZ', 3, 3)
+except Exception as err:
+    print('An exception happened: ' + str(err))
+</code></pre>
+<p class="tx">Here, we’ve defined a <span class="thesansmonocd_w5regular_">box_print()</span> function that takes a character, a width, and a height, and uses the character to make a little picture of a box with that width and height. This box shape is printed to the screen.</p>
+<p class="tx">Say we want the function to accept a single character only, and we expect the width and height to be greater than 2. We add <span class="thesansmonocd_w5regular_">if</span> statements to raise exceptions if these requirements aren’t satisfied. Later, when we call <span class="thesansmonocd_w5regular_">box _print()</span> with various arguments, our <span class="thesansmonocd_w5regular_">try-except</span> will handle invalid arguments.</p>
+<p class="tx">This program uses the <span class="thesansmonocd_w5regular_">except Exception as err</span> form of the <span class="thesansmonocd_w5regular_">except</span> statement <span class="codeannotation" aria-label="annotation4">❹</span>. If an <span class="thesansmonocd_w5regular_">Exception</span> object is returned from <span class="thesansmonocd_w5regular_">box_print()</span> <span class="codeannotation" aria-label="annotation1">❶</span> <span class="codeannotation" aria-label="annotation2">❷</span> <span class="codeannotation" aria-label="annotation3">❸</span>, this <span class="thesansmonocd_w5regular_">except</span> statement will store it in a variable named <span class="thesansmonocd_w5regular_">err</span>. We can then convert the <span class="thesansmonocd_w5regular_">Exception</span> object to a string by passing it to <span class="thesansmonocd_w5regular_">str()</span> to produce a user-friendly error message <span class="codeannotation" aria-label="annotation5">❺</span>. When you run this <i class="calibre5">boxPrint.py</i>, the output will look like this:</p>
+<pre class="pre"><code class="calibre9">****
+*  *
+*  *
+****
+OOOOOOOOOOOOOOOOOOOO
+O                  O
+O                  O
+O                  O
+OOOOOOOOOOOOOOOOOOOO
+An exception happened: Width must be greater than 2.
+An exception happened: Symbol must be a single character string.
+</code></pre>
+<p class="tx">Using the <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements, you can handle errors gracefully, rather than letting the entire program crash.</p>
+</section>
+<section type="division" aria-labelledby="sec2">
+<h3 class="h" id="calibre_link-1511"><span id="calibre_link-95"></span><span class="sans_futura_std_bold_b_">Assertions</span></h3>
+<p class="tni">An <i class="calibre5">assertion</i> is a sanity check to make sure your code isn’t doing something obviously wrong. We perform these sanity checks with <span class="thesansmonocd_w5regular_">assert</span> statements. If <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1150" aria-label="98"></span>the sanity check fails, the code raises an <span class="thesansmonocd_w5regular_">AssertionError</span> exception. An <span class="thesansmonocd_w5regular_">assert</span> statement consists of the following:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">assert</span> keyword</li>
+<li class="bl">A condition (that is, an expression that evaluates to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>)</li>
+<li class="bl">A comma</li>
+<li class="bl">A string to display when the condition is <span class="thesansmonocd_w5regular_">False</span></li>
+</ul>
+<p class="tx">In plain English, an <span class="thesansmonocd_w5regular_">assert</span> statement says, “I assert that the condition holds true, and if not, there is a bug somewhere, so immediately stop the program.” For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ages = [26, 57, 92, 54, 22, 15, 17, 80, 47, 73]</b>
+&gt;&gt;&gt; <b class="calibre10">ages.sort()</b>
+&gt;&gt;&gt; <b class="calibre10">ages</b>
+[15, 17, 22, 26, 47, 54, 57, 73, 80, 92]
+&gt;&gt;&gt; <b class="calibre10">assert ages[0] &lt;= ages[-1]</b>  # Assert that the first age is &lt;= the last age.
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">assert</span> statement here asserts that the first item in <span class="thesansmonocd_w5regular_">ages</span> should be less than or equal to the last one. This is a sanity check; if the code in <span class="thesansmonocd_w5regular_">sort()</span> is bug-free and did its job, then the assertion would be true. Because the <span class="thesansmonocd_w5regular_">ages[0] &lt;=</span> <span class="thesansmonocd_w5regular_">ages[-1]</span> expression evaluates to <span class="thesansmonocd_w5regular_">True</span>, the <span class="thesansmonocd_w5regular_">assert</span> statement does nothing.</p>
+<p class="tx">However, let’s pretend we had a bug in our code. Say we accidentally called the <span class="thesansmonocd_w5regular_">reverse()</span> list method instead of the <span class="thesansmonocd_w5regular_">sort()</span> list method. When we enter the following in the interactive shell, the <span class="thesansmonocd_w5regular_">assert</span> statement raises an <span class="thesansmonocd_w5regular_">AssertionError</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ages = [26, 57, 92, 54, 22, 15, 17, 80, 47, 73]</b>
+&gt;&gt;&gt; <b class="calibre10">ages.reverse()</b>
+&gt;&gt;&gt; <b class="calibre10">ages</b>
+[73, 47, 80, 17, 15, 22, 54, 92, 57, 26]
+&gt;&gt;&gt; <b class="calibre10">assert ages[0] &lt;= ages[-1]</b>  # Assert that the first age is &lt;= the last age.
+Traceback (most recent call last):
+  File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
+AssertionError
+</code></pre>
+<p class="tx">Unlike exceptions, your code should <i class="calibre5">not</i> handle <span class="thesansmonocd_w5regular_">assert</span> statements with <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span>; if an <span class="thesansmonocd_w5regular_">assert</span> fails, your program <i class="calibre5">should</i> crash. By “failing fast” like this, you shorten the time between the original cause of the bug and the moment you first notice it, reducing the amount of code you’ll have to check before finding the bug’s cause.</p>
+<p class="tx">Assertions are for programmer errors, not user errors. Assertions should fail only while the program is under development; a user should never see an assertion error in a finished program. For errors that your program can encounter as a normal part of its operation (such as a file not being found or the user entering invalid data), raise an exception instead of detecting it with an <span class="thesansmonocd_w5regular_">assert</span> statement.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-955" aria-label="99"></span>
+<h3 class="h" id="calibre_link-1512"><span id="calibre_link-96"></span><span class="sans_futura_std_bold_b_">Logging</span></h3>
+<p class="tni">If you’ve ever put a <span class="thesansmonocd_w5regular_">print()</span> function in your code to output some variable’s value while your program is running, you’ve used a form of <i class="calibre5">logging</i> to debug your code. Logging is a great way to understand what’s happening in your program and in what order it’s happening. Python’s <span class="thesansmonocd_w5regular_">logging</span> module makes it easy to create a record of custom messages that you write. These log messages will describe when the program execution has reached the logging function call and will list any variables you’ve specified at that point in time, providing a trail of breadcrumbs that can help you figure out when things started to go wrong. On the other hand, a missing log message indicates a part of the code was skipped and never executed.</p>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-1513"><span id="calibre_link-97"></span><span class="sans_futura_std_heavy_oblique_bi_">The logging Module</span></h4>
+<p class="tni">To enable the <span class="thesansmonocd_w5regular_">logging</span> module to display log messages on your screen as your program runs, copy the following to the top of your program:</p>
+<pre class="pre"><code class="calibre9">import logging
+logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s -  %(levelname)s -  %(message)s')
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">logging</span> module’s <span class="thesansmonocd_w5regular_">basicConfig()</span> function lets you specify what details you want to see and how you want those details displayed.</p>
+<p class="tx">Say you wrote a function to calculate the <i class="calibre5">factorial</i> of a number. In mathematics, the factorial of 4 is 1 × 2 × 3 × 4, or 24. The factorial of 7 is 1 × 2 × 3 × 4 × 5 × 6 × 7, or 5,040. Open a new file editor tab and enter the following code. It has a bug in it, but you’ll generate several log messages to help figure out what’s going wrong. Save the program as <i class="calibre5">factorialLog.py</i>:</p>
+<pre class="pre"><code class="calibre9">import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s -  %(levelname)s -  %(message)s')
+logging.debug('Start of program')
+
+def factorial(n):
+    logging.debug('Start of factorial(' + str(n) + ')')
+    total = 1
+    for i in range(n + 1):
+        total *= i
+        logging.debug('i is ' + str(i) + ', total is ' + str(total))
+    logging.debug('End of factorial(' + str(n) + ')')
+    return total
+
+print(factorial(5))
+logging.debug('End of program')
+</code></pre>
+<p class="tx">We use the <span class="thesansmonocd_w5regular_">logging.debug()</span> function to print log information. This <span class="thesansmonocd_w5regular_">debug()</span> function calls <span class="thesansmonocd_w5regular_">basicConfig()</span>, which prints a line of information in the format we specified in the function call, along with the messages we passed to <span class="thesansmonocd_w5regular_">debug()</span>. The <span class="thesansmonocd_w5regular_">print(factorial(5))</span> call is part of the original program, so the code displays the result even if logging messages are disabled.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1243" aria-label="100"></span>The output of this program looks like this:</p>
+<pre class="pre"><code class="calibre9">2035-05-23 16:20:12,664 - DEBUG - Start of program
+2035-05-23 16:20:12,664 - DEBUG - Start of factorial(5)
+2035-05-23 16:20:12,665 - DEBUG - i is 0, total is 0
+2035-05-23 16:20:12,668 - DEBUG - i is 1, total is 0
+2035-05-23 16:20:12,670 - DEBUG - i is 2, total is 0
+2035-05-23 16:20:12,673 - DEBUG - i is 3, total is 0
+2035-05-23 16:20:12,675 - DEBUG - i is 4, total is 0
+2035-05-23 16:20:12,678 - DEBUG - i is 5, total is 0
+2035-05-23 16:20:12,680 - DEBUG - End of factorial(5)
+0
+2035-05-23 16:20:12,684 - DEBUG - End of program
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">factorial()</span> function returns <span class="thesansmonocd_w5regular_">0</span> as the factorial of <span class="thesansmonocd_w5regular_">5</span>, which isn’t right. The <span class="thesansmonocd_w5regular_">for</span> loop should be multiplying the value in <span class="thesansmonocd_w5regular_">total</span> by the numbers from <span class="thesansmonocd_w5regular_">1</span> to <span class="thesansmonocd_w5regular_">5</span>, but the log messages displayed by <span class="thesansmonocd_w5regular_">logging.debug()</span> show that the <span class="thesansmonocd_w5regular_">i</span> variable starts at <span class="thesansmonocd_w5regular_">0</span> instead of <span class="thesansmonocd_w5regular_">1</span>. Since zero times anything is zero, the rest of the iterations have the wrong value for <span class="thesansmonocd_w5regular_">total</span>.</p>
+<p class="tx">Change the <span class="thesansmonocd_w5regular_">for i in range(n</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1):</span> line to <span class="thesansmonocd_w5regular_">for i in range(</span><b class="calibre10">1,</b> <span class="thesansmonocd_w5regular_">n</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1):</span>, and run the program again. The output will look like this:</p>
+<pre class="pre"><code class="calibre9">2035-05-23 17:13:40,650 - DEBUG - Start of program
+2035-05-23 17:13:40,651 - DEBUG - Start of factorial(5)
+2035-05-23 17:13:40,651 - DEBUG - i is 1, total is 1
+2035-05-23 17:13:40,654 - DEBUG - i is 2, total is 2
+2035-05-23 17:13:40,656 - DEBUG - i is 3, total is 6
+2035-05-23 17:13:40,659 - DEBUG - i is 4, total is 24
+2035-05-23 17:13:40,661 - DEBUG - i is 5, total is 120
+2035-05-23 17:13:40,661 - DEBUG - End of factorial(5)
+120
+2035-05-23 17:13:40,666 - DEBUG - End of program
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">factorial(5)</span> call correctly returns <span class="thesansmonocd_w5regular_">120</span>. The log messages showed what was going on inside the loop, which led straight to the bug.</p>
+<p class="tx">You can see that the <span class="thesansmonocd_w5regular_">logging.debug()</span> calls printed out not just the strings passed to them but also a timestamp and the word <i class="calibre5">DEBUG</i>.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1" id="calibre_link-1514"><span id="calibre_link-98"></span><span class="sans_futura_std_heavy_oblique_bi_">Logfiles</span></h4>
+<p class="tni">Instead of displaying the log messages to the screen, you can write them to a text file. The <span class="thesansmonocd_w5regular_">logging.basicConfig()</span> function takes a <span class="thesansmonocd_w5regular_">filename</span> named parameter, like so:</p>
+<pre class="pre"><code class="calibre9">import logging
+logging.basicConfig(<b class="calibre10">filename='myProgramLog.txt'</b>, level=logging.DEBUG,
+format=' %(asctime)s -  %(levelname)s -  %(message)s')
+</code></pre>
+<p class="tx">This code will save the log messages to <i class="calibre5">myProgramLog.txt</i>.</p>
+<p class="tx">While logging messages are helpful, they can clutter your screen and make it hard to read the program’s output. Writing the logging messages to <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1077" aria-label="101"></span>a file will keep your screen clear and enable you to read the messages after running the program. You can open this text file in any text editor, such as Notepad or TextEdit.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-1515"><span id="calibre_link-99"></span><span class="sans_futura_std_heavy_oblique_bi_">A Poor Practice: Debugging with print()</span></h4>
+<p class="tni">Entering <span class="thesansmonocd_w5regular_">import logging</span> and <span class="thesansmonocd_w5regular_">logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')</span> is somewhat unwieldy. You may want to use <span class="thesansmonocd_w5regular_">print()</span> calls instead, but don’t give in to this temptation! Once you’re done debugging, you’ll end up spending a lot of time removing <span class="thesansmonocd_w5regular_">print()</span> calls from your code for each log message. You might even accidentally remove some <span class="thesansmonocd_w5regular_">print()</span> calls that were used for non-log messages. The nice thing about log messages is that you’re free to fill your program with as many as you like, and can always disable them later by adding a single <span class="thesansmonocd_w5regular_">logging.disable(logging.CRITICAL)</span> call. Unlike <span class="thesansmonocd_w5regular_">print()</span>, the <span class="thesansmonocd_w5regular_">logging</span> module makes it easy to switch between showing and hiding log messages.</p>
+<p class="tx">Log messages are intended for the programmer, not the user. The user won’t care about the contents of some dictionary value you need to see to help with debugging; use a log message for something like that. For error messages that the user should see, like <span class="thesansmonocd_w5regular_">File not found</span> or <span class="thesansmonocd_w5regular_">Invalid input, please enter a number</span>, use a <span class="thesansmonocd_w5regular_">print()</span> call. You don’t want to deprive the user of helpful information they can use to solve their problem.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-1516"><span id="calibre_link-100"></span><span class="sans_futura_std_heavy_oblique_bi_">Logging Levels</span></h4>
+<p class="tni"><i class="calibre5">Logging levels</i> provide a way to categorize your log messages by importance so that you can filter less important messages while testing your programs. There are five logging levels, described in Table 5-1 from least to most important. Your program can log messages at each level using different logging functions.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-697"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 5-1:</span></span> <span class="sans_futura_std_book_">Logging Levels in Python</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Level</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Logging function</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Description</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">DEBUG</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">logging.debug()</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">The lowest level, used for small details. Usually, you’ll care about these messages only when diagnosing problems.</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">INFO</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">logging.info()</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Used to record information about general events in your program or to confirm that it’s working at various points.</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">WARNING</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">logging.warning()</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Used to indicate a potential problem that doesn’t prevent the program from working but might do so in the future.</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">ERROR</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">logging.error()</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Used to record an error that caused the program to fail to do something.</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">CRITICAL</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">logging.critical()</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">The highest level, used to indicate a fatal error that has caused, or is about to cause, the program to stop running entirely.</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1517" aria-label="102"></span>Ultimately, it’s up to you to decide which category your log message falls into. You can pass the log message to these functions as a string. Try this yourself by entering the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import logging</b>
+&gt;&gt;&gt; <b class="calibre10">logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - </b>
+<b class="calibre10">%(levelname)s -  %(message)s')</b>
+&gt;&gt;&gt; <b class="calibre10">logging.debug('Some minor code and debugging details.')</b>
+2035-05-18 19:04:26,901 - DEBUG - Some debugging details.
+&gt;&gt;&gt; <b class="calibre10">logging.info('An event happened.')</b>
+2035-05-18 19:04:35,569 - INFO - The logging module is working.
+&gt;&gt;&gt; <b class="calibre10">logging.warning('Something could go wrong.')</b>
+2035-05-18 19:04:56,843 - WARNING - An error message is about to be logged.
+&gt;&gt;&gt; <b class="calibre10">logging.error('An error has occurred.')</b>
+2035-05-18 19:05:07,737 - ERROR - An error has occurred.
+&gt;&gt;&gt; <b class="calibre10">logging.critical('The program is unable to recover!')</b>
+2035-05-18 19:05:45,794 - CRITICAL - The program is unable to recover!
+</code></pre>
+<p class="tx">The benefit of logging levels is that you can change the priority of the logging messages you want to see. Passing <span class="thesansmonocd_w5regular_">logging.DEBUG</span> to the <span class="thesansmonocd_w5regular_">basicConfig()</span> function’s <span class="thesansmonocd_w5regular_">level</span> named parameter will show messages from all the logging levels (DEBUG being the lowest level). But after developing your program some more, you may be interested only in errors. In that case, you can set <span class="thesansmonocd_w5regular_">basicConfig()</span>’s <span class="thesansmonocd_w5regular_">level</span> argument to <span class="thesansmonocd_w5regular_">logging.ERROR</span>. This will show only ERROR and CRITICAL messages and will skip the DEBUG, INFO, and WARNING messages.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-1518"><span id="calibre_link-101"></span><span class="sans_futura_std_heavy_oblique_bi_">Disabled Logging</span></h4>
+<p class="tni">After you’ve debugged your program, you probably don’t want all these log messages cluttering the screen. The <span class="thesansmonocd_w5regular_">logging.disable()</span> function disables these so that you don’t have to remove the logging calls by hand. Simply pass a logging level to <span class="thesansmonocd_w5regular_">logging.disable()</span> to suppress all log messages at that level or lower. To disable logging entirely, add <span class="thesansmonocd_w5regular_">logging.disable(logging.CRITICAL)</span> to your program. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import logging</b>
+&gt;&gt;&gt; <b class="calibre10">logging.basicConfig(level=logging.INFO, format=' %(asctime)s - </b>
+<b class="calibre10">%(levelname)s -  %(message)s')</b>
+&gt;&gt;&gt; <b class="calibre10">logging.critical('Critical error! Critical error!')</b>
+2035-05-22 11:10:48,054 - CRITICAL - Critical error! Critical error!
+&gt;&gt;&gt; <b class="calibre10">logging.disable(logging.CRITICAL)</b>
+&gt;&gt;&gt; <b class="calibre10">logging.critical('Critical error! Critical error!')</b>
+&gt;&gt;&gt; <b class="calibre10">logging.error('Error! Error!')</b>
+</code></pre>
+<p class="tx">Because <span class="thesansmonocd_w5regular_">logging.disable()</span> will disable all messages after it, you’ll probably want to add it near the <span class="thesansmonocd_w5regular_">import logging</span> line of code in your program. This way, you can easily find it to comment out or uncomment that call to enable or disable logging messages as needed.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec9">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1050" aria-label="103"></span>
+<h3 class="h" id="calibre_link-1519"><span id="calibre_link-102"></span><span class="sans_futura_std_bold_b_">Mu’s Debugger</span></h3>
+<p class="tni">The <i class="calibre5">debugger</i> is a feature of the Mu editor, IDLE, and other editor software that allows you to execute your program one line at a time. The debugger will run a single line of code and then wait for you to tell it to continue. By running your program “under the debugger” like this, you can take as much time as you want to examine the values in the variables at any given point during the program’s lifetime. This is a valuable tool for tracking down bugs.</p>
+<p class="tx">To run a program under Mu’s debugger, click the <b class="calibre10">Debug</b> button in the top row of buttons, next to the Run button. The Debug Inspector pane should open in the right side of the window. This pane lists the current value of variables in your program. In Figure 5-1, the debugger has paused the execution of the program just before it would have run the first line of code. You can see this line highlighted in the file editor.</p>
+<figure class="img"><img class="img1" id="calibre_link-698" src="images/000093.jpg" alt="A screenshot of the Mu interface." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 5-1: Mu running a program under the debugger</span> Description</p></figcaption>
+</figure>
+<p class="tx">Debugging mode also adds the following new buttons to the top of the editor: Continue, Step Over, Step In, and Step Out. The usual Stop button is also available.</p>
+<p class="tx">Clicking the Continue button will cause the program to execute normally until it terminates or reaches a <i class="calibre5">breakpoint</i>. (I’ll describe breakpoints later in this chapter.) If you’re done debugging and want the program to continue normally, click the <b class="calibre10">Continue</b> button.</p>
+<p class="tx">Clicking the Step In button will cause the debugger to execute the next line of code and then pause again. If the next line of code is a function call, the debugger will <i class="calibre5">step into</i> that function, jumping to the function’s first line of code.</p>
+<p class="tx">Clicking the Step Over button will execute the next line of code, similar to the Step In button. However, if the next line of code is a function call, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-988" aria-label="104"></span>the Step Over button will <i class="calibre5">step over</i>, or rush through, the code in the function. The function’s code will execute at full speed, and the debugger will pause as soon as the function call returns. For example, if the next line of code calls a <span class="thesansmonocd_w5regular_">spam()</span> function but you don’t really care about code inside this function, you can click Step Over to execute the code in the function at normal speed, and then pause when the function returns. For this reason, using the Step Over button is more common than using the Step In button.</p>
+<p class="tx">Clicking the Step Out button will cause the debugger to execute lines of code at full speed until it returns from the current function. If you’ve stepped into a function call with the Step In button and now simply want to keep executing instructions until you leave it, click the Step Out button to <i class="calibre5">step out</i> of the current function call.</p>
+<p class="tx">If you want to stop debugging entirely and not bother to continue executing the rest of the program, click the Stop button. The Stop button will immediately terminate the program.</p>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-1520"><span id="calibre_link-103"></span><span class="sans_futura_std_heavy_oblique_bi_">Debugging an Addition Program</span></h4>
+<p class="tni">To practice using the Mu debugger, open a new file editor tab and enter the following code:</p>
+<pre class="pre"><code class="calibre9">print('Enter the first number to add:')
+first = input()
+print('Enter the second number to add:')
+second = input()
+print('Enter the third number to add:')
+third = input()
+print('The sum is ' + first + second + third)
+</code></pre>
+<p class="tx">Save it as <i class="calibre5">buggyAddingProgram.py</i> and run it first without the debugger enabled. The program will output something like this:</p>
+<pre class="pre"><code class="calibre9">Enter the first number to add:
+<b class="calibre10">5</b>
+Enter the second number to add:
+<b class="calibre10">3</b>
+Enter the third number to add:
+<b class="calibre10">42</b>
+The sum is 5342
+</code></pre>
+<p class="tx">The program hasn’t crashed, but the sum is obviously wrong.</p>
+<p class="tx">Run the program again, this time under the debugger. Click the <b class="calibre10">Debug</b> button, and the program should pause on line 1, which is the code it’s about to execute.</p>
+<p class="tx">Click the <b class="calibre10">Step Over</b> button once to execute the first <span class="thesansmonocd_w5regular_">print()</span> call. You should use Step Over instead of Step In here because you don’t want to step into the code for the <span class="thesansmonocd_w5regular_">print()</span> function (although Mu should prevent the debugger from entering Python’s built-in functions). The debugger moves on to line 2, and highlights line 2 in the file editor, as shown in Figure 5-2. This shows you where the program execution currently is.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1521" aria-label="105"></span>
+<figure class="img"><img class="img1" id="calibre_link-700" src="images/000094.jpg" alt="A screenshot of the Mu interface." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 5-2: The Mu editor window after clicking Step Over</span> Description</p></figcaption>
+</figure>
+<p class="tx">Click <b class="calibre10">Step Over</b> again to execute the <span class="thesansmonocd_w5regular_">input()</span> function call. The highlighting will go away while Mu waits for you to type something for the <span class="thesansmonocd_w5regular_">input()</span> call into the output pane. Enter <span class="sans_thesansmonocd_w7bold_b_">5</span> and press <small class="calibre4">ENTER</small>. The highlighting will return.</p>
+<p class="tx">Keep clicking <b class="calibre10">Step Over</b>, and enter <span class="sans_thesansmonocd_w7bold_b_">3</span> and <span class="sans_thesansmonocd_w7bold_b_">42</span> as the next two numbers. When the debugger reaches line 7, the final <span class="thesansmonocd_w5regular_">print()</span> call in the program, the Mu editor window should look like Figure 5-3.</p>
+<figure class="img"><img class="img1" id="calibre_link-702" src="images/000095.jpg" alt="A screenshot of the Mu interface." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 5-3: The Debug Inspector pane, located on the right side of the Mu editor window, shows that the variables are set to strings instead of integers, causing the bug.</span> Description</p></figcaption>
+</figure>
+<p class="tx">In the Debug Inspector pane, you should see that the <span class="thesansmonocd_w5regular_">first</span>, <span class="thesansmonocd_w5regular_">second</span>, and <span class="thesansmonocd_w5regular_">third</span> variables are set to string values <span class="thesansmonocd_w5regular_">'5'</span>, <span class="thesansmonocd_w5regular_">'3'</span>, and <span class="thesansmonocd_w5regular_">'42'</span> instead of integer <span role="doc-pagebreak" type="pagebreak" id="calibre_link-978" aria-label="106"></span>values <span class="thesansmonocd_w5regular_">5</span>, <span class="thesansmonocd_w5regular_">3</span>, and <span class="thesansmonocd_w5regular_">42</span>. When the last line is executed, Python concatenates these strings instead of adding the numbers together, causing the bug.</p>
+<p class="tx">Stepping through the program with the debugger is helpful but can also be slow. Often, you’ll want the program to run normally until it reaches a certain line of code. You can configure the debugger to do this with breakpoints.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h4 class="h1" id="calibre_link-1522"><span id="calibre_link-104"></span><span class="sans_futura_std_heavy_oblique_bi_">Setting Breakpoints</span></h4>
+<p class="tni">Setting a <i class="calibre5">breakpoint</i> on a specific line of code forces the debugger to pause whenever the program execution reaches that line. Open a new file editor tab and enter the following program, which simulates flipping a coin 1,000 times. Save it as <i class="calibre5">coinFlip.py</i>:</p>
+<pre class="pre"><code class="calibre9">import random
+heads = 0
+for i in range(1, 1001):
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> if random.randint(0, 1) == 1:
+        heads = heads + 1
+    if i == 500:
+      <span class="code_codeannotation" aria-label="annotation2">❷</span> print('Halfway done!')
+print('Heads came up ' + str(heads) + ' times.')
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">random.randint(0, 1)</span> call <span class="codeannotation" aria-label="annotation1">❶</span> will return <span class="thesansmonocd_w5regular_">0</span> half of the time and <span class="thesansmonocd_w5regular_">1</span> the other half of the time, simulating a 50/50 coin flip where <span class="thesansmonocd_w5regular_">1</span> represents heads. When you run this program without the debugger, it quickly outputs something like the following:</p>
+<pre class="pre"><code class="calibre9">Halfway done!
+Heads came up 490 times.
+</code></pre>
+<p class="tx">If you ran this program under the debugger, you would have to click the Step Over button thousands of times before the program terminated. If you were interested in the value of <span class="thesansmonocd_w5regular_">heads</span> at the halfway point of the program’s execution, when 500 of 1,000 coin flips have been completed, you could instead just set a breakpoint on the line <span class="thesansmonocd_w5regular_">print('Halfway done!')</span> <span class="codeannotation" aria-label="annotation2">❷</span>. To set a breakpoint, click the line number in the file editor. This should cause a red dot to appear, marking the breakpoint; see Figure 5-4.</p>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1523" aria-label="107"></span>
+<figure class="img"><img class="img1" id="calibre_link-704" src="images/000096.jpg" alt="A zoomed-in screenshot of a Python program in the Mu interface with a red dot next to line 7" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 5-4: Setting a breakpoint causes a red dot (circled) to appear next to the line number.</span></p></figcaption>
+</figure>
+<p class="tx">Note that you wouldn’t want to set a breakpoint on the <span class="thesansmonocd_w5regular_">if</span> statement line, as the <span class="thesansmonocd_w5regular_">if</span> statement executes on every single iteration through the loop. When you set the breakpoint on the code in the <span class="thesansmonocd_w5regular_">if</span> statement, the debugger breaks only when the execution enters the <span class="thesansmonocd_w5regular_">if</span> clause.</p>
+<p class="tx">Now when you run the program under the debugger, it should start in a paused state at the first line, as usual, but if you click Continue, the program should run at full speed until it reaches the line with the breakpoint set on it. You can then click Continue, Step Over, Step In, or Step Out to continue as normal.</p>
+<p class="tx">If you want to remove a breakpoint, click the line number again. The red dot will go away, and the debugger won’t break on that line in the future.</p>
+</section>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec12">
+<h3 class="h" id="calibre_link-1524"><span id="calibre_link-105"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Assertions, exceptions, logging, and the debugger are all valuable tools to find and prevent bugs in your program. Assertions with the Python <span class="thesansmonocd_w5regular_">assert</span> statement are a good way to implement “sanity checks” that give you an early warning when a necessary condition doesn’t hold true. Assertions are only for errors that the program shouldn’t try to recover from, and they should fail fast. Otherwise, you should raise an exception.</p>
+<p class="tx">An exception can be caught and handled by the <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements. The <span class="thesansmonocd_w5regular_">logging</span> module is a good way to look into your code while it’s running, and it is much more convenient to use than the <span class="thesansmonocd_w5regular_">print()</span> function because of its different logging levels and its ability to log to a text file.</p>
+<p class="tx">The debugger lets you step through your program one line at a time. Alternatively, you can run your program at normal speed and have the debugger pause execution whenever it reaches a line with a breakpoint set. Using the debugger, you can see the state of any variable’s value at any point during the program’s lifetime.</p>
+<p class="tx">Accidentally introducing bugs into your code is a fact of life, no matter how many years of coding experience you have. These debugging tools and techniques will help you write programs that work.</p>
+</section>
+<section type="division" aria-labelledby="sec13">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1097" aria-label="108"></span>
+<h3 class="h" id="calibre_link-1525"><span id="calibre_link-106"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  Write an <span class="thesansmonocd_w5regular_">assert</span> statement that triggers an <span class="thesansmonocd_w5regular_">AssertionError</span> if the variable <span class="thesansmonocd_w5regular_">spam</span> is an integer less than <span class="thesansmonocd_w5regular_">10</span>.</p>
+<p class="listnumber">  2.  Write an <span class="thesansmonocd_w5regular_">assert</span> statement that triggers an <span class="thesansmonocd_w5regular_">AssertionError</span> if the variables <span class="thesansmonocd_w5regular_">eggs</span> and <span class="thesansmonocd_w5regular_">bacon</span> contain strings that are the same as each other, even if their cases are different. (That is, <span class="thesansmonocd_w5regular_">'hello'</span> and <span class="thesansmonocd_w5regular_">'hello'</span> are considered the same, as are <span class="thesansmonocd_w5regular_">'goodbye'</span> and <span class="thesansmonocd_w5regular_">'GOODbye'</span>.)</p>
+<p class="listnumber">  3.  Write an <span class="thesansmonocd_w5regular_">assert</span> statement that <i class="calibre5">always</i> triggers an <span class="thesansmonocd_w5regular_">AssertionError</span>.</p>
+<p class="listnumber">  4.  What two lines must your program have to be able to call <span class="thesansmonocd_w5regular_">logging.debug()</span>?</p>
+<p class="listnumber">  5.  What two lines must your program have to make <span class="thesansmonocd_w5regular_">logging.debug()</span> send a logging message to a file named <i class="calibre5">programLog.txt</i>?</p>
+<p class="listnumber">  6.  What are the five logging levels?</p>
+<p class="listnumber">  7.  What line of code can you add to disable all logging messages in your program?</p>
+<p class="listnumber">  8.  Why is using logging messages better than using <span class="thesansmonocd_w5regular_">print()</span> to display the same message?</p>
+<p class="listnumber">  9.  What are the differences between the Step Over, Step In, and Step Out buttons in the debugger?</p>
+<p class="listnumber">10.  After you click Continue, when will the debugger stop?</p>
+<p class="listnumber">11.  What is a breakpoint?</p>
+<p class="listnumber">12.  How do you set a breakpoint on a line of code in Mu?</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h3 class="h" id="calibre_link-1526"><span id="calibre_link-107"></span><span class="sans_futura_std_bold_b_">Practice Program: Debugging Coin Toss</span></h3>
+<p class="tni">The following program is meant to be a simple coin toss guessing game. The player gets two guesses. (It’s an easy game.) However, the program has multiple bugs in it. Run through the program a few times to find the bugs that keep the program from working correctly.</p>
+<pre class="pre"><code class="calibre9">import random
+guess = ''
+while guess not in ('heads', 'tails'):
+    print('Guess the coin toss! Enter heads or tails:')
+    guess = input()
+toss = random.randint(0, 1)  # 0 is tails, 1 is heads
+if toss == guess:
+    print('You got it!')
+else:
+    print('Nope! Guess again!')
+    guess = input()
+    if toss == guess:
+        print('You got it!')
+    else:
+        print('Nope. You are really bad at this game.')
+</code></pre>
+</section>
+</section>
+</div>
+
+
+
+</div>
+
+
+
+</body></html>

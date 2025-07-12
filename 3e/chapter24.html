@@ -1,0 +1,301 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-624">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch24">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-2124" aria-label="565"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-2125">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">24</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">TEXT-TO-SPEECH AND SPEECH RECOGNITION ENGINES</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">This chapter covers a text-to-speech package, pyttsx3, and a speech recognition package, Whisper. Text-to-speech packages can convert text strings into spoken words, then send them to your computer’s speakers or save them to an audio file. By adding this new dimension to your programs, you can free the user from having to read text off a screen. For example, a cooking recipe application could read the ingredients list aloud as you move through the kitchen, and your daily script could scrape news articles (or your emails) and then prepare an MP3 to play during your morning commute.</p>
+<p class="tx">On the other end, speech recognition technologies can convert audio files of spoken words into text string values. You can use this capability to <span role="doc-pagebreak" type="pagebreak" id="calibre_link-922" aria-label="566"></span>add voice commands to your program or automate the transcription of podcasts. And, unlike with humans, you can always mute the volume on a computer that talks too much.</p>
+<p class="tx">Both pyttsx3 and Whisper are free to use and don’t require an internet connection. The text-to-speech and speech recognition engines featured in this chapter aren’t limited to English, and work with most widely spoken human languages.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-2126"><span id="calibre_link-625"></span><span class="sans_futura_std_bold_b_">Text-to-Speech Engine</span></h3>
+<p class="tni">To produce spoken audio, the pyttsx3 third-party package uses your operating system’s built-in text-to-speech engine: Microsoft Speech API (SAPI5) on Windows, NSSpeechSynthesizer on macOS, and eSpeak on Linux. On Linux, you may need to install the engine by running <span class="thesansmonocd_w5regular_">sudo apt install espeak</span> from a terminal window. You can install pyttsx3 by running <span class="thesansmonocd_w5regular_">pip install pyttsx3</span> from a terminal. <span>Appendix A</span> has full instructions for installing third-party packages.</p>
+<p class="tx">The name of the package is based on <i class="calibre5">py</i> for Python, <i class="calibre5">tts</i> for text-to-speech, <i class="calibre5">x</i> because it’s extended from the original <span class="thesansmonocd_w5regular_">pytts</span> package, and <i class="calibre5">3</i> because it’s for Python 3.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-2127"><span id="calibre_link-626"></span><span class="sans_futura_std_heavy_oblique_bi_">Generating Speech</span></h4>
+<p class="tni">Producing a computerized voice is a complex topic in computer science. Fortunately, the operating system’s text-to-speech engine does the hard work for us, and interacting with this engine is straightforward. Open a new file editor, enter the following code, and save it as <i class="calibre5">hello_tts.py</i>:</p>
+<pre class="pre"><code class="calibre9">import pyttsx3
+engine = pyttsx3.init()
+engine.say('Hello. How are you doing?')
+engine.runAndWait()  # The computer speaks.
+feeling = input('&gt;')
+engine.say('Yes. I am feeling ' + feeling + ' as well.')
+engine.runAndWait()  # The computer speaks again.
+</code></pre>
+<p class="tx">After importing the <span class="thesansmonocd_w5regular_">pyttsx3</span> module, we call the <span class="thesansmonocd_w5regular_">pyttsx3.init()</span> function to initialize the speech engine. This function returns an <span class="thesansmonocd_w5regular_">Engine</span> object. We can pass a string of text to its <span class="thesansmonocd_w5regular_">say()</span> method to tell the engine what to speak, but the actual speaking won’t begin until we call the <span class="thesansmonocd_w5regular_">runAndWait()</span> method. This method blocks (that is, will not return) until the computer has finished speaking the entire string.</p>
+<p class="tx">The program doesn’t produce any text output, because it never calls the <span class="thesansmonocd_w5regular_">print()</span> function. Instead, you should hear your computer speak, “Hello. How are you doing?” (Make sure the volume isn’t muted.) The user can enter a response from the keyboard, to which the computer should verbally reply, “Yes. I am feeling <i class="calibre5">&lt;your response&gt;</i> as well.”</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-893" aria-label="567"></span>The <span class="thesansmonocd_w5regular_">pyttsx3</span> module allows you to make some changes to the computer voice. You can pass the strings <span class="thesansmonocd_w5regular_">'rate'</span>, <span class="thesansmonocd_w5regular_">'volume'</span>, and <span class="thesansmonocd_w5regular_">'voices'</span> to the <span class="thesansmonocd_w5regular_">getProperty()</span> method of the <span class="thesansmonocd_w5regular_">Engine</span> object to view its current settings. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyttsx3</b>
+&gt;&gt;&gt; <b class="calibre10">engine = pyttsx3.init()</b>
+&gt;&gt;&gt; <b class="calibre10">engine.getProperty('volume')</b>
+1.0
+&gt;&gt;&gt; <b class="calibre10">engine.getProperty('rate')</b>
+200
+&gt;&gt;&gt; <b class="calibre10">engine.getProperty('voices')</b>
+[&lt;pyttsx3.voice.Voice object at 0x0000029DA7FB4B10&gt;,
+&lt;pyttsx3.voice.Voice object at 0x0000029DAA3DAAD0&gt;]
+</code></pre>
+<p class="tx">Note that the output may differ on your computer. The volume setting is a float, where <span class="thesansmonocd_w5regular_">1.0</span> indicates 100 percent. The computer voice speaks at a rate of 200 words per minute. Continue this example with the following code:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for voice in engine.getProperty('voices'):</b>  # List all the available voices.
+...     <b class="calibre10">print(voice.name, voice.gender, voice.age, voice.languages)</b>
+...
+Microsoft David Desktop - English (United States) None None []
+Microsoft Zira Desktop - English (United States) None None []
+</code></pre>
+<p class="tx">On my Windows laptop with the <i class="calibre5">English (United States)</i> language, <span class="thesansmonocd_w5regular_">getProperty('voices')</span> returns two <span class="thesansmonocd_w5regular_">Voice</span> objects. (Note that this string is the plural <span class="thesansmonocd_w5regular_">'voices'</span> and not the singular <span class="thesansmonocd_w5regular_">'voice'</span>.) These <span class="thesansmonocd_w5regular_">Voice</span> objects have <span class="thesansmonocd_w5regular_">name</span>, <span class="thesansmonocd_w5regular_">gender</span>, and <span class="thesansmonocd_w5regular_">age</span> attributes, though <span class="thesansmonocd_w5regular_">gender</span> and <span class="thesansmonocd_w5regular_">age</span> are set to <span class="thesansmonocd_w5regular_">None</span> when the operating system doesn’t store that information. The <span class="thesansmonocd_w5regular_">languages</span> attribute is a list of strings of languages the voice supports, which is a blank list if that information is unknown.</p>
+<p class="tx">Let’s continue the interactive shell example by calling the <span class="thesansmonocd_w5regular_">setProperty()</span> method to change these settings:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">engine.setProperty('rate', 300)</b>
+&gt;&gt;&gt; <b class="calibre10">engine.setProperty('volume', 0.5)</b>
+&gt;&gt;&gt; <b class="calibre10">voices = engine.getProperty('voices')</b>
+&gt;&gt;&gt; <b class="calibre10">engine.setProperty('voice', voices[1].id)</b>
+&gt;&gt;&gt; <b class="calibre10">engine.say('The quick brown fox jumps over the yellow lazy dog.')</b>
+&gt;&gt;&gt; <b class="calibre10">engine.runAndWait()</b>
+</code></pre>
+<p class="tx">In this example, we’ve changed the speaking rate to 300 words per minute and set the volume to 50 percent by passing <span class="thesansmonocd_w5regular_">0.5</span> for the <span class="thesansmonocd_w5regular_">'volume'</span> rate. We then changed the voice to the female “Zira” voice that Windows provides by passing the <span class="thesansmonocd_w5regular_">id</span> attribute of the <span class="thesansmonocd_w5regular_">Voice</span> object at index <span class="thesansmonocd_w5regular_">1</span> of the list that <span class="thesansmonocd_w5regular_">getProperty('voices')</span> returned. Also note that to set the voice, we use the singular <span class="thesansmonocd_w5regular_">'voice'</span> string and not the plural <span class="thesansmonocd_w5regular_">'voices'</span> string.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1225" aria-label="568"></span>
+<h4 class="h1" id="calibre_link-2128"><span id="calibre_link-627"></span><span class="sans_futura_std_heavy_oblique_bi_">Saving Speech Audio to WAV Files</span></h4>
+<p class="tni">The <span class="thesansmonocd_w5regular_">pyttsx3</span> module’s <span class="thesansmonocd_w5regular_">save_to_file()</span> method can save the generated speech to a WAV file (with the <i class="calibre5">.wav</i> file extension). Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyttsx3</b>
+&gt;&gt;&gt; <b class="calibre10">engine = pyttsx3.init()</b>
+&gt;&gt;&gt; <b class="calibre10">engine.save_to_file('Hello. How are you doing?', 'hello.wav')</b>
+&gt;&gt;&gt; <b class="calibre10">engine.runAndWait()</b>  # The computer creates hello.wav.
+</code></pre>
+<p class="tx">The first argument to <span class="thesansmonocd_w5regular_">save_to_file()</span> is a string of the speech to generate, while the second string argument is the filename of the <i class="calibre5">.wav</i> file. The text string could be a short sentence, as in the interactive shell example, or it could be pages of text. On my computer, <span class="thesansmonocd_w5regular_">pyttsx3</span> was able to turn a string of 1,800 words into a 10-minute-long audio file in about two seconds. It’s important to note that calling <span class="thesansmonocd_w5regular_">save_to_file()</span> alone isn’t enough. You must also call the <span class="thesansmonocd_w5regular_">runAndWait()</span> method before Python will create the <i class="calibre5">.wav</i> file.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">pyttsx3</span> module can save <i class="calibre5">.wav</i> files only, not <i class="calibre5">.mp3</i> files or any other audio format.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h3 class="h" id="calibre_link-2129"><span id="calibre_link-628"></span><span class="sans_futura_std_bold_b_">Speech Recognition</span></h3>
+<p class="tni">Whisper is a speech recognition system that can recognize multiple languages. Given an audio or video file, Whisper can return the speech as text in a Python string. It also returns the start and end times for groups of words, which you can use to generate subtitle files.</p>
+<p class="tx">Install Whisper by running <span class="sans_thesansmonocd_w7bold_b_">pip install openai-whisper</span> from the terminal. (Note that the name of the speech recognition package is <span class="thesansmonocd_w5regular_">openai-whisper</span>; the <span class="thesansmonocd_w5regular_">whisper</span> package on the PyPI website refers to something else.) This is a large download and may take several minutes to install. Also, the first time you call the <span class="thesansmonocd_w5regular_">load_model()</span> function, your computer will download the speech recognition model, which can be hundreds of megabytes or more in size.</p>
+<p class="tx">Let’s say you have an audio file named <i class="calibre5">hello.wav</i> in the current working directory. (Whisper can also handle <i class="calibre5">.mp3</i> and several other audio formats.) You could enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import whisper</b>
+&gt;&gt;&gt; <b class="calibre10">model = whisper.load_model('base')</b>
+&gt;&gt;&gt; <b class="calibre10">result = model.transcribe('hello.wav')</b>
+&gt;&gt;&gt; <b class="calibre10">print(result['text'])</b>
+Hello. How are you doing?
+</code></pre>
+<p class="tx">After importing the <span class="thesansmonocd_w5regular_">whisper</span> module, you must load the speech recognition model to use by calling the <span class="thesansmonocd_w5regular_">whisper.load_model()</span> function, passing it the string of the trained machine learning model you want to use: <span class="thesansmonocd_w5regular_">'tiny'</span>, <span class="thesansmonocd_w5regular_">'base'</span>, <span class="thesansmonocd_w5regular_">'small'</span>, <span class="thesansmonocd_w5regular_">'medium'</span>, or <span class="thesansmonocd_w5regular_">'large-v3'</span>. (New models will continue to be released as well.) The smaller of these models can transcribe audio more <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1071" aria-label="569"></span>quickly, but the larger models will do so more accurately, even when the audio has ambient noise in the background.</p>
+<p class="tx">The first time you load a model, your computer must be connected to the internet so that the <span class="thesansmonocd_w5regular_">whisper</span> module can download it from OpenAI’s servers. Table 24-1 lists the model names as strings you could pass to the <span class="thesansmonocd_w5regular_">whisper.load_model()</span> function, along with their file size, memory usage, and the results of some runtime tests on my laptop.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-839"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 24-1:</span></span> <span class="sans_futura_std_book_">Properties of Whisper Speech Recognition Models</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Model name</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Model file size</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Estimated required memory</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Runtime for a 10-word, 3-second audio sample</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Runtime for an 1,800-word, 15-minute audio sample</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">'tiny'</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">74MB</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">1GB</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">1.9s</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">1m 20s</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'base'</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">142MB</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">1GB</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">3.0s</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">2m 34s</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'small'</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">472MB</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">2GB</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">9.6s</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">6m 37s</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'medium'</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">1.5GB</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">5GB</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">28.6s</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">20m 17s</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">'large-v3'</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">3GB</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">10GB</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">51.9s</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">32m 58s</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx">My personal opinion is that for 99 percent of purposes, the <span class="thesansmonocd_w5regular_">'base'</span> model should be suitable and the <span class="thesansmonocd_w5regular_">'medium'</span> model is good enough when more accuracy is needed. All models produce errors, so the output should always undergo human review. You can experiment with larger models if you find many transcription errors in the text, or smaller models if Whisper is taking too long to transcribe the audio. As you can see in Table 24-1, however, there is a substantial difference in the two minutes and 34 seconds that the <span class="thesansmonocd_w5regular_">'base'</span> model takes to transcribe 15 minutes of audio and the nearly 33 minutes that the <span class="thesansmonocd_w5regular_">'large-v3'</span> model takes.</p>
+<p class="tx">With the <span class="thesansmonocd_w5regular_">model.Whisper</span> object that <span class="thesansmonocd_w5regular_">whisper.load_model()</span> returns, you can call the <span class="thesansmonocd_w5regular_">transcribe()</span> method to perform the actual transcription. Pass the method a string of the audio file’s name. This method will take anywhere from a few seconds to a few hours to run, depending on the model and length of the audio file. Whisper can accept any audio or video file, and converts it to the format it requires automatically.</p>
+<p class="tx">Whisper can automatically detect the language of the audio, but you can specify the language by passing a language keyword argument to transcribe, such as <span class="thesansmonocd_w5regular_">model.transcribe('hello.wav', language='English')</span>. To find the languages that Whisper supports, you can run <span class="thesansmonocd_w5regular_">whisper --help</span> from the terminal. Whisper is pretty good (but never perfect) at guessing where it should insert punctuation and at capitalizing proper names. However, you should always review the output to clean up any mistakes.</p>
+<p class="tx">The dictionary that <span class="thesansmonocd_w5regular_">model.transcribe()</span> returns has several key-value pairs, but the <span class="thesansmonocd_w5regular_">'text'</span> key contains the string of the transcription.</p>
+<p class="tx">By default, Whisper uses your CPU to transcribe text, but if your computer has a 3D graphics card, you can greatly speed up transcriptions by setting it up to use the graphics processing unit (GPU). You’ll find these <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1301" aria-label="570"></span>setup instructions in the online documentation at <i class="calibre5"><a href="https://github.com/openai/whisper" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/openai<wbr></wbr>/whisper</a></i>. If your computer has an NVIDIA graphics card, you can follow the instructions in <span>Appendix A</span> to install packages for faster speech recognition. To use the GPU, replace the <span class="thesansmonocd_w5regular_">whisper.load_model('base')</span> code in this chapter with <span class="thesansmonocd_w5regular_">whisper.load_model('base', device='cuda')</span>.</p>
+<p class="tx">You can find several additional options for Whisper in its online documentation.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h3 class="h" id="calibre_link-2130"><span id="calibre_link-629"></span><span class="sans_futura_std_bold_b_">Creating Subtitle Files</span></h3>
+<p class="tni">In addition to the transcribed audio, Whisper’s results dictionary contains timing information that identifies the text’s location in the audio file. You can use this text and timing data to generate subtitle files that other software can ingest. The two most common subtitle file formats are SRT SubRip Subtitle (with the <i class="calibre5">.srt</i> extension) and VTT Web Video Text Tracks (with the <i class="calibre5">.vtt</i> file extension). SRT is an older and more widespread standard, while modern video websites generally use VTT. The formats are similar. For example, here is the first part of an SRT file:</p>
+<pre class="pre"><code class="calibre9">1
+00:00:00,000 --&gt; 00:00:05,640
+Dinosaurs are a diverse group of reptiles of the clade dinosauria. They first
+
+2
+00:00:05,640 --&gt; 00:00:14,960
+appeared during the triassic period. Between 245 and 233.23 million years ago.
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">Compare it with the first part of a VTT file for the same subtitles:</p>
+<pre class="pre"><code class="calibre9">WEBVTT
+
+00:00.000 --&gt; 00:05.640
+Dinosaurs are a diverse group of reptiles of the clade dinosauria. They first
+
+00:05.640 --&gt; 00:14.960
+appeared during the triassic period. Between 245 and 233.23 million years ago.
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">These files both indicate that the words “Dinosaurs are a diverse group ...” appear between the start of the transcribed audio file (at 0 seconds) and the 5.640-second mark.</p>
+<p class="tx">Whisper can also output its results as TSV data (with the <i class="calibre5">.tsv</i> extension) or JSON data (with the <i class="calibre5">.json</i> extension). TSV isn’t an official subtitles format, but it may be useful if you need to export the text and timing data to, say, another Python program that can read it using the <span class="thesansmonocd_w5regular_">csv</span> module covered in <span>Chapter 18</span>. TSV-formatted subtitles look like the following:</p>
+<pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1120" aria-label="571"></span>start  end    text
+0      5640   Dinosaurs are a diverse group of reptiles of the clade dinosauria. They
+5640   14960  appeared during the triassic period. Between 245 and 233.23 million years ago.
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">To create these subtitle files, add two extra lines of code after calling <span class="thesansmonocd_w5regular_">model.transcribe()</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import whisper</b>
+&gt;&gt;&gt; <b class="calibre10">model = whisper.load_model('base')</b>
+&gt;&gt;&gt; <b class="calibre10">result = model.transcribe('hello.wav')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">write_function = whisper.utils.get_writer('srt', '.')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">write_function(result, 'audio')</b>
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">whisper.utils.get_writer()</span> function <span class="codeannotation" aria-label="annotation1">❶</span> accepts the subtitle file format as a string (<span class="thesansmonocd_w5regular_">'srt'</span>, <span class="thesansmonocd_w5regular_">'vtt'</span>, <span class="thesansmonocd_w5regular_">'txt'</span>, <span class="thesansmonocd_w5regular_">'tsv'</span>, or <span class="thesansmonocd_w5regular_">'json'</span>) and the folder in which to save the file (with the <span class="thesansmonocd_w5regular_">'.'</span> string meaning the current working directory). The <span class="thesansmonocd_w5regular_">get_writer()</span> function returns a function to pass the transcription results. (This is a rather odd way to create the transcript files, but it’s the way the <span class="thesansmonocd_w5regular_">whisper</span> module is designed.) We store it in a variable named <span class="thesansmonocd_w5regular_">write_function</span>, which we can then treat as a function and call, passing the <span class="thesansmonocd_w5regular_">result</span> dictionary and the filename for the subtitle file <span class="codeannotation" aria-label="annotation2">❷</span>. These two lines of code produce an SRT-formatted file named <i class="calibre5">audio.srt</i> in the current working directory, using the text and timing information in the <span class="thesansmonocd_w5regular_">result</span> dictionary.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h3 class="h" id="calibre_link-2131"><span id="calibre_link-630"></span><span class="sans_futura_std_bold_b_">Downloading Videos from Websites</span></h3>
+<p class="tni">While downloading audio files to transcribe with Whisper’s speech recognition is often straightforward, video websites such as YouTube often don’t make it easy to download their content. The <span class="thesansmonocd_w5regular_">yt-dlp</span> module allows Python scripts to download videos from YouTube and hundreds of other video websites so that you can watch them offline. <span>Appendix A</span> has instructions for installing <span class="thesansmonocd_w5regular_">yt-dlp</span>. Once it’s installed, the following code will download the video at the given URL:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import yt_dlp</b>
+&gt;&gt;&gt; <b class="calibre10">video_url = 'https://www.youtube.com/watch?v=kSrnLbioN6w'</b>
+&gt;&gt;&gt; <b class="calibre10">with yt_dlp.YoutubeDL() as ydl:</b>
+...     <b class="calibre10">ydl.download([video_url])</b>
+...
+</code></pre>
+<p class="tx">Note that the <span class="thesansmonocd_w5regular_">ydl.download()</span> function expects a list of video URLs, which is why we put the <span class="thesansmonocd_w5regular_">video_url</span> string inside a list before passing it to the function call. The video’s filename is based on the title on the video website, and could have a <i class="calibre5">.mp4</i>, <i class="calibre5">.mkv</i>, or other video format file extension. You’ll see a lot of debugging output as the video downloads.</p>
+<p class="tx">The video website could refuse the download due to age or login requirements, geographic restrictions, or anti-web scraping measures. If <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1257" aria-label="572"></span>you’re encountering errors, the first step you should try is installing the latest version of <span class="thesansmonocd_w5regular_">yt-dlp</span>, which updates to stay compatible as video websites change their layout.</p>
+<p class="tx">You can read about <span class="thesansmonocd_w5regular_">yt-dlp</span>’s many configuration options in the online documentation at <i class="calibre5"><a href="https://pypi.org/project/yt-dlp/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/yt<wbr></wbr>-dlp<wbr></wbr>/</a></i>. For example, you can extract the audio from a YouTube video by passing a dictionary of configuration settings to the <span class="thesansmonocd_w5regular_">yt_dlp.YoutubeDL()</span> function:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import yt_dlp</b>
+&gt;&gt;&gt; <b class="calibre10">video_url = 'https://www.youtube.com/watch?v=kSrnLbioN6w'</b>
+&gt;&gt;&gt; <b class="calibre10">options = {</b>
+...   <span class="code_codeannotation" aria-label="annotation1">❶</span> <b class="calibre10">'quiet': True,  </b># Suppress the output.
+...     <b class="calibre10">'no_warnings': True,</b>  # Suppress warnings.
+...   <span class="code_codeannotation" aria-label="annotation2">❷</span> <b class="calibre10">'outtmpl': 'downloaded_content.%(ext)s',</b>
+...     <b class="calibre10">'format': 'm4a/bestaudio/best',</b>
+...     <b class="calibre10">'postprocessors': [{  </b># Extract audio using ffmpeg.
+...         <b class="calibre10">'key': 'FFmpegExtractAudio',</b>
+...         <b class="calibre10">'preferredcodec': 'm4a',</b>
+...     <b class="calibre10">}]</b>
+...}
+...
+&gt;&gt;&gt; <b class="calibre10">with yt_dlp.YoutubeDL(options) as ydl:</b>
+...     <b class="calibre10">ydl.download([video_url])</b>
+...
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">'quiet': True</span> and <span class="thesansmonocd_w5regular_">'no_warnings': True</span> key-value pairs <span class="codeannotation" aria-label="annotation1">❶</span> prevent the verbose debugging output. The <span class="thesansmonocd_w5regular_">options</span> dictionary passed to <span class="thesansmonocd_w5regular_">yt_dlp.Youtube()</span> tells it to download the video and then extract the audio to a file named <i class="calibre5">downloaded_content.m4a</i> <span class="codeannotation" aria-label="annotation2">❷</span>. (The file extension may differ if the video has a different audio format, though the <i class="calibre5">.m4a</i> format is the most popular one.) If we hadn’t set the <span class="thesansmonocd_w5regular_">'outtmpl': 'downloaded_content.%(ext)s'</span> key-value pair in the <span class="thesansmonocd_w5regular_">options</span> dictionary, the downloaded filename would be based on the video’s title (excluding characters not allowed in filenames, such as question marks and colons).</p>
+<p class="tx">To get the exact filename, we can use glob patterns, discussed in <span>Chapter 10</span>. We know the main part of the file is <span class="thesansmonocd_w5regular_">'downloaded_content'</span>, but the file extension could be any audio format. The following code uses <span class="thesansmonocd_w5regular_">Path</span> objects to find the exact downloaded filename:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
+&gt;&gt;&gt; <b class="calibre10">matching_filenames = list(Path().glob('downloaded_content.*'))</b>
+&gt;&gt;&gt; <b class="calibre10">downloaded_filename = str(matching_filenames[0])</b>
+&gt;&gt;&gt; <b class="calibre10">downloaded_filename</b>
+'downloaded_content.m4a'
+</code></pre>
+<p class="tx">Setting the filename makes it easier for the code to use this file later, such as by running it through Whisper speech recognition. The <span class="thesansmonocd_w5regular_">'base'</span> and <span class="thesansmonocd_w5regular_">'medium'</span> models create much higher-quality subtitles than YouTube’s current autogenerated subtitles.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1235" aria-label="573"></span>If you just want to download the information about a given video, you can tell <span class="thesansmonocd_w5regular_">yt-dlp</span> to skip the file and download only its metadata with the following code:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import yt_dlp, json</b>
+&gt;&gt;&gt; <b class="calibre10">video_url = 'https://www.youtube.com/watch?v=kSrnLbioN6w'</b>
+&gt;&gt;&gt; <b class="calibre10">options = {</b>
+...     <b class="calibre10">'quiet': True,</b>  # Suppress the output.
+...     <b class="calibre10">'no_warnings': True,</b>  # Suppress warnings.
+...   <span class="code_codeannotation" aria-label="annotation1">❶</span> <b class="calibre10">'skip_download': True,</b>  # Do not download the video.
+...}
+...
+&gt;&gt;&gt; <b class="calibre10">with yt_dlp.YoutubeDL(options) as ydl:</b>
+...   <span class="code_codeannotation" aria-label="annotation2">❷</span> <b class="calibre10">info = ydl.extract_info(video_url)</b>
+...   <span class="code_codeannotation" aria-label="annotation3">❸</span> <b class="calibre10">json_info = ydl.sanitize_info(info)</b>
+...     <b class="calibre10">print('TITLE:', json_info['title'])</b>  # Print the video title.
+...     <b class="calibre10">print('KEYS:', json_info.keys())</b>
+...     <b class="calibre10">with open('metadata.json', 'w', encoding='utf-8') as json_file:</b>
+...       <span class="code_codeannotation" aria-label="annotation4">❹</span> <b class="calibre10">json_file.write(json.dumps(json_info))</b>
+...
+TITLE: Beyond the Basic Stuff with Python - Al Sweigart - Part 1
+KEYS: dict_keys(['id', 'title', 'formats', 'thumbnails', 'thumbnail',
+'description', 'channel_id', 'channel_url', 'duration', 'view_count',
+'average_rating', 'age_limit', 'webpage_url',
+--<var class="calibre20">snip</var>--
+</code></pre>
+<p class="tx">If we just want the metadata for the video and not the video itself, we can include the <span class="thesansmonocd_w5regular_">'skip_download': True</span> key-value pair <span class="codeannotation" aria-label="annotation1">❶</span> in the <span class="thesansmonocd_w5regular_">options</span> dictionary passed to <span class="thesansmonocd_w5regular_">yt_dlp.YoutubeDL()</span>. The <span class="thesansmonocd_w5regular_">ydl.extract_info()</span> method call returns a dictionary of information about the video <span class="codeannotation" aria-label="annotation2">❷</span>. Some of this data might not be properly formatted as JSON (discussed in <span>Chapter 18</span>), but we can get it in a JSON-compatible form by calling <span class="thesansmonocd_w5regular_">ydl.sanitize()</span> <span class="codeannotation" aria-label="annotation3">❸</span>. The dictionary that the <span class="thesansmonocd_w5regular_">sanitize()</span> method returns has several keys, including <span class="thesansmonocd_w5regular_">'title'</span> for the name of the video, <span class="thesansmonocd_w5regular_">'duration'</span> for the video’s length in seconds, and so on. Our code here additionally writes this JSON data to a file named <i class="calibre5">metadata.json</i> <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec7">
+<h3 class="h" id="calibre_link-2132"><span id="calibre_link-631"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">One of Python’s great strengths is its vast ecosystem of third-party packages for tasks such as text-to-speech and speech recognition. These packages take some of the hardest problems in computer science and make them available to your programs with just a few lines of code.</p>
+<p class="tx">The pyttsx3 package does text-to-speech using your computer’s speech engine to create audio that you can either play from the speakers or save to a <i class="calibre5">.wav</i> file. The Whisper speech recognition system uses several underlying models to transcribe the words of an audio file. These models have different sizes; the smaller models transcribe faster with less accuracy, while larger models are slower but more accurate. They work for many human languages, not just English. Whisper runs on your computer and doesn’t connect to online servers except to download the model on first use.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-889" aria-label="574"></span>The speech engines that these Python packages use have seen a large leap in quality that wasn’t available before the 2020s. Python is an excellent “glue” language that allows your scripts to connect with this software so that you can add these speech features to your own programs with just a few lines of code. If you want to learn more about text-to-speech and speech recognition, you can find many fun example projects in <i class="calibre5">Make Python Talk</i> by Mark Liu (No Starch Press, 2021).</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h3 class="h" id="calibre_link-2133"><span id="calibre_link-632"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  How can you make pyttsx3’s voice speak faster?</p>
+<p class="listnumber">  2.  What audio format does <span class="thesansmonocd_w5regular_">pyttsx3</span> save to?</p>
+<p class="listnumber">  3.  Do pyttsx3 and Whisper rely on online services?</p>
+<p class="listnumber">  4.  Do pyttsx3 and Whisper support other languages besides English?</p>
+<p class="listnumber">  5.  What is the name of Whisper’s default machine learning model for speech recognition?</p>
+<p class="listnumber">  6.  What are two common subtitle text file formats?</p>
+<p class="listnumber">  7.  Can <span class="thesansmonocd_w5regular_">yt-dlp</span> download videos from websites besides YouTube?</p>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h3 class="h" id="calibre_link-2134"><span id="calibre_link-633"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-2135"><span id="calibre_link-634"></span><span class="sans_futura_std_heavy_oblique_bi_">Adding Voice to Guess the Number</span></h4>
+<p class="tni">Revisit the guess the number game from <span>Chapter 3</span> and add a voice feature to it. Replace all of the function calls to <span class="thesansmonocd_w5regular_">print()</span> with calls to a function named <span class="thesansmonocd_w5regular_">speak()</span>. Next, define the <span class="thesansmonocd_w5regular_">speak()</span> function to accept a string argument (just like <span class="thesansmonocd_w5regular_">print()</span> did), but have it both print the string to the screen and say it out loud. For example, you’ll replace this line of code</p>
+<pre class="pre"><code class="calibre9">print('I am thinking of a number between 1 and 20.')</code></pre>
+<p class="tni">with this line of code:</p>
+<pre class="pre"><code class="calibre9">speak('I am thinking of a number between 1 and 20.')</code></pre>
+<p class="tx">To make full use of the speech-generation feature, let’s change the <span class="thesansmonocd_w5regular_">'Your guess is too low.'</span> and <span class="thesansmonocd_w5regular_">'Your guess is too high.'</span> text to say the player’s guess. For example, the computer should say, “Your guess, 42, is too low.” You can also add a voice feature to other projects in this book, such as the rock, paper, scissors game.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1296" aria-label="575"></span>
+<h4 class="h1" id="calibre_link-2136"><span id="calibre_link-635"></span><span class="sans_futura_std_heavy_oblique_bi_">Singing “99 Bottles of Beer”</span></h4>
+<p class="tni"><i class="calibre5">Cumulative songs</i> are songs whose verses repeat with additions or slight changes. The songs “99 Bottles of Beer” and “The 12 Days of Christmas” are examples of cumulative songs. Write a program that sings (or at least speaks) the lyrics in “99 Bottles of Beer”:</p>
+<pre class="pre"><code class="calibre9">99 bottles of beer on the wall,
+99 bottles of beer,
+Take one down, pass it around,
+98 bottles of beer on the wall.
+</code></pre>
+<p class="tx">These lyrics repeat, with one fewer bottle each time. The song continues until it reaches zero bottles, at which point the last line is “No more bottles of beer on the wall.” (You may wish to have the program start at 2 or 3 instead of 99 to make testing easier.)</p>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-2137"><span id="calibre_link-636"></span><span class="sans_futura_std_heavy_oblique_bi_">YouTube Transcriber</span></h4>
+<p class="tni">Write a program that glues together the features of <span class="thesansmonocd_w5regular_">yt-dlp</span> and Whisper to automatically download YouTube videos and produce subtitle files in the <i class="calibre5">.srt</i> format. The input can be a list of URLs to download and transcribe. You can also add options to produce different subtitle formats. Python is an excellent “glue language” for combining the capabilities of different modules.</p>
+</section>
+</section>
+</section>
+</div>
+
+</div>
+
+
+
+
+</body></html>

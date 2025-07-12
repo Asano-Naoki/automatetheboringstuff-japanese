@@ -1,0 +1,745 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-430">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch16">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1088" aria-label="383"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1890">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">16</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">SQLITE DATABASES</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">You’re probably used to organizing information into spreadsheets such as Excel or Google Sheets, but most software stores its data in applications called <i class="calibre18">databases</i>. Databases make it easy for your programs to retrieve the specific data you want. If you had a spreadsheet or text file of cats and wanted to find the fur color of a cat named Zophie, you could press <small class="calibre19">CTRL</small>-F and enter “Zophie.” But what if you wanted to find the fur color of all cats that weighed between 3 and 5 kilograms and were born before October 2023? Even with the regular expressions from <span class="chapterintro_xref">Chapter 9</span>, this would be a tricky thing to code.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1090" aria-label="384"></span>Databases allow you to perform complex queries like this one, written in the mini language of <i class="calibre5">Structured Query Language (SQL)</i>. You’ll see the term <i class="calibre5">SQL</i> used to refer to both a language for database operations and the databases that understand this language; it’s often pronounced “es-cue-el” but also sometimes “sequel.” This chapter introduces you to SQL and database concepts using <i class="calibre5">SQLite</i> (pronounced either “sequel-ite,” “es-cue-lite,” or “es-cue-el-ite”), a lightweight database included with Python.</p>
+<p class="tx">SQLite is the most widely deployed database software, as it runs on every operating system and is small enough to embed within other applications. At the same time, SQLite’s simplifications make it notably different from other databases. While large database software such as PostgreSQL, MySQL, Microsoft SQL Server, and Oracle are intended to run on dedicated server hardware accessed over a network, SQLite stores the entire database in a single file on your computer.</p>
+<p class="tx">Even if you’re already familiar with SQL databases, SQLite has enough of its own quirks that you should read this chapter to learn how to make the most of it. You can find the online SQLite documentation at <i class="calibre5"><a href="https://sqlite.org/docs.html" class="calibre1">https://<wbr></wbr>sqlite<wbr></wbr>.org<wbr></wbr>/docs<wbr></wbr>.html</a></i> and the Python <span class="thesansmonocd_w5regular_">sqlite3</span> module documentation at <i class="calibre5"><a href="https://docs.python.org/3/library/sqlite3.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/sqlite3<wbr></wbr>.html</a></i>.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1891"><span id="calibre_link-431"></span><span class="sans_futura_std_bold_b_">Spreadsheets vs. Databases</span></h3>
+<p class="tni">Let’s consider the similarities and differences between spreadsheets and databases. In a spreadsheet, rows contain individual records, while columns represent the kind of data stored in the fields of each record. For example, Figure 16-1 is a spreadsheet of some of my cats. The columns list the name, birthday, fur color, and weight (in kilograms) of each cat.</p>
+<figure class="img"><img class="img2" id="calibre_link-777" src="images/000033.jpg" alt="An Excel spreadsheet containing the columns “Name”, “Birthdate”, “Fur”, and “Weight kg.” The rows are populated with information about cats." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 16-1: A spreadsheet stores data records as rows with a set column structure.</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1087" aria-label="385"></span>We can store this same information in a database. You can think of a database <i class="calibre5">table</i> as a spreadsheet, and a database can contain one or more tables. Tables have columns of different properties for each <i class="calibre5">record</i>, also called a <i class="calibre5">row</i> or <i class="calibre5">entry</i>. Databases like SQLite are called <i class="calibre5">relational databases</i>, where <i class="calibre5">relation</i> means that the database can contain multiple tables with relationships between them, as you’ll later see.</p>
+<p class="tx">Both spreadsheets and databases label the data they contain. A spreadsheet automatically labels the columns with letters and the rows with numbers. In addition, the example cat spreadsheet uses its first row to give the columns descriptive names. Each of the subsequent rows represents exactly one cat. In a SQL database, tables often have an ID column for each record’s <i class="calibre5">primary key</i>: a unique integer that can unambiguously identify the record. In SQLite, this column is called <span class="thesansmonocd_w5regular_">rowid</span>, and SQLite automatically adds it to your tables.</p>
+<p class="tx">Deleting a spreadsheet row moves up all the rows underneath it, changing their row numbers. But a database record’s primary key ID is unique and doesn’t change. This is useful in many situations. What if a cat were renamed or had a change in weight? What if we wanted to reorder the rows to list the cats alphabetically by name? Each cat needs a unique identification number that remains constant no matter how the data changes. We could add a Row ID column to our spreadsheet to simulate a SQLite table’s <span class="thesansmonocd_w5regular_">rowid</span> column. This ID value would stay the same even if rows were deleted or moved around the spreadsheet, as shown in Figure 16-2, where the cats with the Row IDs of 5 to 10 are deleted.</p>
+<figure class="img"><img class="img1" id="calibre_link-778" src="images/000034.jpg" alt="Two versions of an Excel spreadsheet with the columns “Row ID”, “Name”, “Birthdate”, “Fur”, and “Weight kg”. The “Row ID” column contains sequential ID numbers. In the second version of the spreadsheet, the rows with the IDs 5 through 10 have been deleted, and the column jumps straight from the row with the ID value of 4 to the row with the ID value of 11." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 16-2: The Row ID number, unlike the spreadsheet row numbers, offers a unique identifier for each record (left) even after cats with IDs 5 to 10 are deleted (right).</span></p></figcaption>
+</figure>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1205" aria-label="386"></span>There is a second way people use spreadsheets that is entirely unlike how databases tend to store data. Spreadsheets can serve as templates for forms rather than as row-based data storage. You may have seen spreadsheets such as Figure 16-3.</p>
+<figure class="img"><img class="img1" id="calibre_link-779" src="images/000035.jpg" alt="An Excel spreadsheet with the text “Time Slot Assignments for Site B Laboratory” in Row 1, the values “Time”, “Staff #1”, “Staff #2”, “Staff #3”, and “Staff #4” in row two, various time slots in the remaining column A cells, and various names in the remaining B through E cells. Column C also includes days of the week." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 16-3: A spreadsheet with a lot of formatting and a fixed sized is generally not a good fit for a database.</span></p></figcaption>
+</figure>
+<p class="tx">These spreadsheets tend to have a lot of formatting, with background colors, merged cells, and different fonts, so that they look good to human eyes. While the row-based data spreadsheets can expand infinitely downward as new data is added, these spreadsheets usually have a fixed size and fill-in-the-blank design. They’re often meant for humans to print out and look at, rather than for a Python program to extract data from them.</p>
+<p class="tx">Databases aren’t visually pleasing; they just contain raw data. More importantly, while spreadsheets give you the flexibility of putting any data into any cell, databases have a stricter structure to make data retrieval easier for software. If your data tends to look like the example in Chapter 14</span> and the EZSheets library from <span>Chapter 15</span> and leaving it in an Excel or Google spreadsheet.</p>
+</section>
+<section type="division" aria-labelledby="sec2">
+<h3 class="h" id="calibre_link-1892"><span id="calibre_link-432"></span><span class="sans_futura_std_bold_b_">SQLite vs. Other SQL Databases</span></h3>
+<p class="tni">If you’re used to working with other SQL databases, you might be wondering how SQLite compares. In short, SQLite strikes a balance between simplicity and power. It’s a full relational database that uses SQL to read and write massive amounts of data, but it runs within your Python program and <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1089" aria-label="387"></span>operates on a single file. Your program imports the <span class="thesansmonocd_w5regular_">sqlite3</span> module just as it would import <span class="thesansmonocd_w5regular_">sys</span>, <span class="thesansmonocd_w5regular_">math</span>, or any other module in the Python standard library.</p>
+<p class="tx">Here are the main differences between SQLite and other database software:</p>
+<ul class="ul">
+<li class="bl">SQLite databases are stored in a single file, which you can move, copy, or back up like any other file.</li>
+<li class="bl">SQLite can run on computers with few resources, such as embedded devices or decades-old laptops.</li>
+<li class="bl">SQLite is serverless; it doesn’t require a background server application to constantly run on your laptop, or any dedicated server hardware. There are no network connections involved.</li>
+<li class="bl">From the perspective of users, SQLite doesn’t require any installation or configuration. It’s part of the Python program.</li>
+<li class="bl">For faster performance, SQLite databases can exist entirely in memory and be saved to a file before the program exits.</li>
+<li class="bl">While SQLite columns have data types, such as numbers and text, just as other SQL databases do, SQLite doesn’t strictly enforce a column’s data type.</li>
+<li class="bl">There are no permission settings or user roles in SQLite. SQLite has no <span class="thesansmonocd_w5regular_">GRANT</span> or <span class="thesansmonocd_w5regular_">REVOKE</span> statements like in other SQL databases.</li>
+<li class="bl">SQLite is public domain software; you can use it commercially or any way you want without restriction.</li>
+</ul>
+<p class="tx">The main disadvantage of SQLite is that it can’t efficiently handle hundreds or thousands of simultaneous write operations (say, from a social media web app). Aside from that, SQLite is just as powerful as any database, able to reliably handle GBs or even TBs of data, as well as simultaneous read operations, quickly and easily.</p>
+<p class="tx">SQLite sells itself not so much as a competitor to other database software but as a competitor to using the <span class="thesansmonocd_w5regular_">open()</span> function to work with text files (or the JSON, XML, and CSV files you’ll learn about in <span>Chapter 18</span>). If your program needs the ability to store and quickly retrieve large amounts of data, SQLite is a better alternative to JSON or spreadsheet files.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h3 class="h" id="calibre_link-1893"><span id="calibre_link-433"></span><span class="sans_futura_std_bold_b_">Creating Databases and Tables</span></h3>
+<p class="tni">Let’s begin by creating our first database and table using SQL. SQL is a mini language you can work with from within Python, much like regex for regular expressions. Like regex, SQL queries are written as Python string values. And just as you could write your own Python code to perform the text pattern-matching that regular expressions perform, you <i class="calibre5">could</i> write your own custom Python code to search for matching data in Python dictionaries and lists. But writing regular expressions and SQL database queries makes these tasks much simpler in the long run, even if they first require you to learn a new skill. Let’s explore how to write queries that create tables in a new database.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1048" aria-label="388"></span>We’ll create a sample SQLite database in a file named <i class="calibre5">example.db</i> to store information about cats. To create a database, first import the <span class="thesansmonocd_w5regular_">sqlite3</span> module. (The <i class="calibre5">3</i> is for SQLite major version 3, which is unrelated to Python 3.) A SQLite database lives in a single file. The name of the file can be anything, but by convention we give it a <i class="calibre5">.db</i> file extension. The extension <i class="calibre5">.sqlite</i> is also commonly used.</p>
+<p class="tx">A database can contain multiple tables, and each table should store one particular type of data. For example, one table could contain records of cats, while another table could contain records of vaccinations given to specific cats in the first table. You can think of a table as a list of tuples, where each tuple is a table row. The <span class="thesansmonocd_w5regular_">cats</span> table is essentially the same as <span class="thesansmonocd_w5regular_">[('Zophie', '2021-01-24', 'black', 5.6), ('Colin', '2016-12-24', 'siamese', 6.2), ...]</span>, and so on.</p>
+<p class="tx">Let’s create a database, then create a table for the cat data, insert some cat records into it, read the data from the database, and close the database connection.</p>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-1894"><span id="calibre_link-434"></span><span class="sans_futura_std_heavy_oblique_bi_">Connecting to Databases</span></h4>
+<p class="tni">The first step of writing SQLite code is getting a <span class="thesansmonocd_w5regular_">Connection</span> object for the database file by calling <span class="thesansmonocd_w5regular_">sqlite3.connect()</span>. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('example.db', isolation_level=None)</b>
+</code></pre>
+<p class="tx">The first argument to the function can be either a string of a filename or a <span class="thesansmonocd_w5regular_">pathlib.Path</span> object for the database file. If this filename doesn’t belong to an existing SQLite database, the function creates a new file containing an empty database. For example, <span class="thesansmonocd_w5regular_">sqlite3.connect('example.db', isolation_level=None)</span> connects a database file named <i class="calibre5">example.db</i> in the current working directory. If this file doesn’t exist, the function creates an empty one.</p>
+<p class="tx">If the file you connect to exists but isn’t a SQLite database file, Python raises a <span class="thesansmonocd_w5regular_">sqlite3.DatabaseError: file is not a database</span> exception once you try to execute queries. <span>“Checking Path Validity” in Chapter 10</span> explains how to use the <span class="thesansmonocd_w5regular_">exists() Path</span> method and <span class="thesansmonocd_w5regular_">os.path.exists()</span> function, which can tell your program if a file exists or not.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">isolation_level=None</span> keyword argument causes the database to use autocommit mode. This relieves you of having to write <span class="thesansmonocd_w5regular_">commit()</span> method calls after each <span class="thesansmonocd_w5regular_">execute()</span> method call.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">sqlite3.connect()</span> function returns a <span class="thesansmonocd_w5regular_">Connection</span> object, which we store in a variable named <span class="thesansmonocd_w5regular_">conn</span> for these examples. Each <span class="thesansmonocd_w5regular_">Connection</span> object connects to one SQLite database file. You can, of course, choose any variable name you’d like for this <span class="thesansmonocd_w5regular_">Connection</span> object, and you should use more descriptive variable names if your program opens multiple databases at the same time. But for small programs that connect to only one database at a time, the name <span class="thesansmonocd_w5regular_">conn</span> is easy to write and descriptive enough. (The name <span class="thesansmonocd_w5regular_">con</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-971" aria-label="389"></span>would be even shorter, but is easy to misunderstand as “<i class="calibre5">con</i>sole,” “<i class="calibre5">con</i>tent,” or “<i class="calibre5">con</i>fusing name for a variable.”)</p>
+<p class="tx">When your program is done with the database, call <span class="thesansmonocd_w5regular_">conn.close()</span> to close the connection. The program also closes the connection automatically when it terminates.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1" id="calibre_link-1895"><span id="calibre_link-435"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating Tables</span></h4>
+<p class="tni">After connecting to a new, blank database, create a table with a <span class="thesansmonocd_w5regular_">CREATE TABLE</span> SQL query. To run SQL queries, you must call the <span class="thesansmonocd_w5regular_">execute()</span> method of <span class="thesansmonocd_w5regular_">Connection</span> objects. Pass this <span class="thesansmonocd_w5regular_">conn.execute()</span> method a string of the query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('example.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('CREATE TABLE IF NOT EXISTS cats (name TEXT NOT NULL,</b>
+<b class="calibre10">birthdate TEXT, fur TEXT, weight_kg REAL) STRICT')</b>
+&lt;sqlite3.Cursor object at 0x00000201B2399540&gt;
+</code></pre>
+<p class="tx">By convention, SQL keywords, such as <span class="thesansmonocd_w5regular_">CREATE</span> and <span class="thesansmonocd_w5regular_">TABLE</span>, are written using uppercase letters. However, SQLite doesn’t enforce this; the query <span class="thesansmonocd_w5regular_">'create table if not exists cats (name text not null, birthdate text, fur text, weight_kg real) strict'</span> runs just fine. Table and column names are also case-insensitive, but the convention is to make them lowercase and to separate multiple words with underscores, as in <span class="thesansmonocd_w5regular_">weight_kg</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">CREATE TABLE</span> statement raises a <span class="thesansmonocd_w5regular_">sqlite3.OperationalError: table cats already exists</span> exception if you try to create a table that already exists without the <span class="thesansmonocd_w5regular_">IF NOT EXISTS</span> part. Including this part is a quick way to avoid tripping over this exception, and you’ll almost always want to add it to your <span class="thesansmonocd_w5regular_">CREATE TABLE</span> queries.</p>
+<p class="tx">In our example, we follow the <span class="thesansmonocd_w5regular_">CREATE TABLE IF NOT EXISTS</span> keywords with the table name <span class="thesansmonocd_w5regular_">cats</span>. After the table name is a set of parentheses containing the column names and data types.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-1896"><span id="calibre_link-436"></span><span class="sans_futura_std_heavy_oblique_bi_">Defining Data Types</span></h4>
+<p class="tni">There are six data types in SQLite:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">NULL </span>Analogous to Python’s <span class="thesansmonocd_w5regular_">None</span></p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">INT</span> <b class="calibre10">or</b> <span class="sans_thesansmonocd_w7bold_b_">INTEGER</span> Analogous to Python’s <span class="thesansmonocd_w5regular_">int</span> type</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">REAL </span>A reference to the mathematics term <i class="calibre5">real number</i>; analogous to Python’s <span class="thesansmonocd_w5regular_">float</span> type</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">TEXT </span>Analogous to Python’s <span class="thesansmonocd_w5regular_">str</span> type</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">BLOB </span>Short for <i class="calibre5">Binary Large Object</i>; analogous to Python’s <span class="thesansmonocd_w5regular_">bytes</span> type and useful for storing entire files in a database</p>
+<p class="tni">SQLite has its own data types because it wasn’t built just for Python; other programming languages can interact with SQLite databases as well.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1165" aria-label="390"></span>Unlike other SQL database software, SQLite isn’t strict about the data types of its columns. This means SQLite will, by default, gladly store the string <span class="thesansmonocd_w5regular_">'Hello'</span> in an <span class="thesansmonocd_w5regular_">INTEGER</span> column without raising an exception. But SQLite’s data types aren’t entirely cosmetic, either; SQLite automatically <i class="calibre5">casts</i> (that is, changes) data to the column’s data type if possible, a feature called <i class="calibre5">type affinity</i>. For example, if you add the string <span class="thesansmonocd_w5regular_">'42'</span> to an <span class="thesansmonocd_w5regular_">INTEGER</span> column, SQLite automatically stores the value as the integer <span class="thesansmonocd_w5regular_">42</span>, because the column has a type affinity for integers. However, if you add the string <span class="thesansmonocd_w5regular_">'Hello'</span> to an <span class="thesansmonocd_w5regular_">INTEGER</span> column, SQLite will store <span class="thesansmonocd_w5regular_">'Hello'</span> (without error), because despite the integer type affinity, <span class="thesansmonocd_w5regular_">'Hello'</span> cannot be converted to an integer.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">STRICT</span> keyword enables <i class="calibre5">strict mode</i> for this table. Under strict mode, every column must be given a data type, and SQLite will raise a <span class="thesansmonocd_w5regular_">sqlite3.IntegrityError</span> exception if you try to insert data of the wrong type into the table. SQLite will still automatically cast data to the column’s data type; inserting <span class="thesansmonocd_w5regular_">'42'</span> into an <span class="thesansmonocd_w5regular_">INTEGER</span> column would insert the integer <span class="thesansmonocd_w5regular_">42</span>. However, the string <span class="thesansmonocd_w5regular_">'Hello'</span> cannot be cast to an integer, so attempting to insert it would raise an exception. I highly recommend using strict mode; it can give you an early warning about bugs caused by inserting incorrect data into your table.</p>
+<p class="tx">SQLite added the <span class="thesansmonocd_w5regular_">STRICT</span> keyword in version 3.37.0, which is used by Python 3.11 and later. Earlier versions don’t know about strict mode and will report a syntax error if you attempt to use it. You can always check the version of SQLite that Python is using by examining the <span class="thesansmonocd_w5regular_">sqlite3.sqlite _version</span> variable, which will look something like this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">sqlite3.sqlite_version</b>
+'3.<var class="calibre20">xx</var>.<var class="calibre20">xx</var>'
+</code></pre>
+<p class="tx">SQLite doesn’t have a Boolean data type, so use <span class="thesansmonocd_w5regular_">INTEGER</span> for Boolean data instead; you can store a <span class="thesansmonocd_w5regular_">1</span> to represent <span class="thesansmonocd_w5regular_">True</span> and a <span class="thesansmonocd_w5regular_">0</span> to represent <span class="thesansmonocd_w5regular_">False</span>. SQLite also doesn’t have a date, time, or datetime data type. Instead, you can use the <span class="thesansmonocd_w5regular_">TEXT</span> data type to store a string in a format listed in Table 16-1.</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-780"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 16-1:</span></span> <span class="sans_futura_std_book_">Recommended Formats for Dates, Times, and Datetimes in SQLite</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Format</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Example</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">YYYY-MM-DD</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">'2035-10-31'</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">YYYY-MM-DD HH:MM:SS</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'2035-10-31 16:30:00'</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">YYYY-MM-DD HH:MM:SS.SSS</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'2035-10-31 16:30:00.407'</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">HH:MM:SS</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'16:30:00'</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">HH:MM:SS.SSS</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">'16:30:00.407'</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1250" aria-label="391"></span>The <span class="thesansmonocd_w5regular_">NOT NULL</span> part of <span class="thesansmonocd_w5regular_">name TEXT NOT NULL</span> specifies that the Python <span class="thesansmonocd_w5regular_">None</span> value cannot be stored in the <span class="thesansmonocd_w5regular_">name</span> column. This is a good way to make a table column mandatory.</p>
+<p class="tx">SQLite tables automatically create a <span class="thesansmonocd_w5regular_">rowid</span> column containing a unique primary key integer. Even if your <span class="thesansmonocd_w5regular_">cats</span> table has two cats that coincidentally have the same name, birthday, fur color, and weight, the <span class="thesansmonocd_w5regular_">rowid</span> allows you to distinguish between them.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<h4 class="h1" id="calibre_link-1897"><span id="calibre_link-437"></span><span class="sans_futura_std_heavy_oblique_bi_">Listing Tables and Columns</span></h4>
+<p class="tni">All SQLite databases have a table named <span class="thesansmonocd_w5regular_">sqlite_schema</span> that lists metadata about the database, including all of its tables. To list the tables in the SQLite database, run the following query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('example.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type="table"').fetchall()</b>
+[('cats',)]
+</code></pre>
+<p class="tx">The output shows the <span class="thesansmonocd_w5regular_">cats</span> table we just created. (I explain the syntax of the <span class="thesansmonocd_w5regular_">SELECT</span> statement in <span>“Reading Data from the Database” on page 394</span>.) To obtain information about the columns in the <span class="thesansmonocd_w5regular_">cats</span> table, run the following query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('example.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA TABLE_INFO(cats)').fetchall()</b>
+[(0, 'name', 'TEXT', 1, None, 0), (1, 'birthdate', 'TEXT', 0, None, 0), (2,
+'fur', 'TEXT', 0, None, 0), (3, 'weight_kg', 'REAL', 0, None, 0)]
+</code></pre>
+<p class="tx">This query returns a list of tuples that each describe a column of the table. For example, the <span class="thesansmonocd_w5regular_">(1, 'birthdate', 'TEXT', 0, None, 0)</span> tuple provides the following information about the <span class="thesansmonocd_w5regular_">birthdate</span> column:</p>
+<p class="listplain"><b class="calibre10">Column position</b> The <span class="thesansmonocd_w5regular_">1</span> indicates that the column is second in the table. Column numbers are zero based, like Python list indexes, so the first column is at position 0.</p>
+<p class="listplain"><b class="calibre10">Name</b> <span class="thesansmonocd_w5regular_">'birthdate'</span> is the name of the column. Remember that SQLite column and table names are case insensitive.</p>
+<p class="listplain"><b class="calibre10">Data type</b> <span class="thesansmonocd_w5regular_">'TEXT'</span> is the SQLite data type of the <span class="thesansmonocd_w5regular_">birthdate</span> column.</p>
+<p class="listplain"><b class="calibre10">Whether the column is</b> <span class="sans_thesansmonocd_w7bold_b_">NOT NULL</span> The <span class="thesansmonocd_w5regular_">0</span> means <span class="thesansmonocd_w5regular_">False</span> and that the column is not <span class="thesansmonocd_w5regular_">NOT NULL</span> (that is, you can put <span class="thesansmonocd_w5regular_">None</span> values in this column).</p>
+<p class="listplain"><b class="calibre10">Default value</b> <span class="thesansmonocd_w5regular_">None</span> is the default value inserted if no other value is specified.</p>
+<p class="listplain"><b class="calibre10">Whether the column is the primary key</b> The <span class="thesansmonocd_w5regular_">0</span> means <span class="thesansmonocd_w5regular_">False</span>, meaning this column is not a primary-key column.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1079" aria-label="392"></span>Note that the <span class="thesansmonocd_w5regular_">sqlite_schema</span> table itself isn’t listed as a table. You’ll never need to modify the <span class="thesansmonocd_w5regular_">sqlite_schema</span> table yourself, and doing so will likely corrupt the database, making it unreadable.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h3 class="h" id="calibre_link-1898"><span id="calibre_link-438"></span><span class="sans_futura_std_bold_b_">CRUD Database Operations</span></h3>
+<p class="tni"><i class="calibre5">CRUD</i> is an acronym for the four basic operations that databases carry out: creating data, reading data, updating data, and deleting data. In SQLite, we perform these operations with <span class="thesansmonocd_w5regular_">INSERT</span>, <span class="thesansmonocd_w5regular_">SELECT</span>, <span class="thesansmonocd_w5regular_">UPDATE</span>, and <span class="thesansmonocd_w5regular_">DELETE</span> statements, respectively. Here are examples of each statement, which we’ll later pass as strings to <span class="thesansmonocd_w5regular_">conn.execute()</span>:</p>
+<ul class="ul">
+<li class="bl"><span class="thesansmonocd_w5regular_">INSERT INTO cats VALUES ("Zophie", "2021-01-24", "black", 5.6)</span></li>
+<li class="bl"><span class="thesansmonocd_w5regular_">SELECT rowid, * FROM cats ORDER BY fur</span></li>
+<li class="bl"><span class="thesansmonocd_w5regular_">UPDATE cats SET fur</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"gray tabby" WHERE rowid</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">1</span></li>
+<li class="bl"><span class="thesansmonocd_w5regular_">DELETE FROM cats WHERE rowid</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">1</span></li>
+</ul>
+<p class="tx">Most applications and social media websites are really just fancy user interfaces for a CRUD database. When you post a photo or reply, you’re creating a record in a database somewhere. When you scroll through a social media timeline, you’re reading records from the database. And when you edit or delete a post, you’re performing an update or a deletion operation. Whenever you’re learning a new app, programming language, or query language, use the CRUD acronym to remind yourself of which basic operations you should find out about.</p>
+<section type="division" aria-labelledby="sec9">
+<h4 class="h1" id="calibre_link-1899"><span id="calibre_link-439"></span><span class="sans_futura_std_heavy_oblique_bi_">Inserting Data into the Database</span></h4>
+<p class="tni">Now that we’ve created the database and a <span class="thesansmonocd_w5regular_">cats</span> table, let’s insert records for my pet cats. I have about 300 cats in my home, and using a SQLite database helps me keep track of them. An <span class="thesansmonocd_w5regular_">INSERT</span> statement can add new records to a table. Enter the following code into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('example.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('CREATE TABLE IF NOT EXISTS cats (name TEXT NOT NULL, birthdate TEXT,</b>
+<b class="calibre10">fur TEXT, weight_kg REAL) STRICT')</b>
+&lt;sqlite3.Cursor object at 0x00000201B2399540&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO cats VALUES ("Zophie", "2021-01-24", "black", 5.6)')</b>
+&lt;sqlite3.Cursor object at 0x00000162842E78C0&gt;
+</code></pre>
+<p class="tx">This <span class="thesansmonocd_w5regular_">INSERT</span> query adds a new row to the <span class="thesansmonocd_w5regular_">cats</span> table. Inside the parentheses are the comma-separated values for its columns. The parentheses are mandatory for <span class="thesansmonocd_w5regular_">INSERT</span> queries. Note that when inserting <span class="thesansmonocd_w5regular_">TEXT</span> values, I’ve used double quotation marks (<span class="sans_thesansmonocd_w7bold_b_">"</span>) because I’m already using single quotation marks (<span class="thesansmonocd_w5regular_">'</span>) for the query’s string. The <span class="thesansmonocd_w5regular_">sqlite3</span> module uses either single or double quotes for its <span class="thesansmonocd_w5regular_">TEXT</span> values.</p>
+<section type="division" aria-labelledby="sec10">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-869" aria-label="393"></span>
+<h5 class="h2" id="calibre_link-1900"><span class="sans_futura_std_bold_b_">Transactions</span></h5>
+<p class="tni">An <span class="thesansmonocd_w5regular_">INSERT</span> statement begins a <i class="calibre5">transaction</i>, which is a unit of work in a database. Transactions must pass the <i class="calibre5">ACID test</i>, a database concept meaning that transactions are:</p>
+<p class="listplain"><b class="calibre10">Atomic</b> The transaction is carried out either completely or not at all.</p>
+<p class="listplain"><b class="calibre10">Consistent</b> The transaction doesn’t violate constraints, such as <span class="thesansmonocd_w5regular_">NOT NULL</span> rules for columns.</p>
+<p class="listplain"><b class="calibre10">Isolated</b> One transaction doesn’t affect other transactions.</p>
+<p class="listplain"><b class="calibre10">Durable</b> If committed, the transaction results are written to persistent storage, such as the hard drive.</p>
+<p class="tx">SQLite is an ACID-compliant database; it has even passed tests that simulate the computer losing power in the middle of a transaction, so you have high assurance that the database file won’t be left in a corrupt, unusable state. A SQLite query will either completely insert data into the database or not insert it at all.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h5 class="h2" id="calibre_link-1901"><span class="sans_futura_std_bold_b_">SQL Injection Attacks</span></h5>
+<p class="tni">A category of hacking techniques called <i class="calibre5">SQL injection attacks</i> can change your queries to do things you didn’t intend. These techniques are beyond the scope of this book, and they mostly likely are not an issue for your code if your program isn’t accepting data from strangers on the internet. But to prevent them, use the <span class="thesansmonocd_w5regular_">?</span> question mark syntax whenever you reference variables when inserting or updating data in your database.</p>
+<p class="tx">For example, if I want to insert a new cat record based on data stored in variables, I shouldn’t insert these variables directly into the query string using Python, like this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_name = 'Zophie'</b>
+&gt;&gt;&gt; <b class="calibre10">cat_bday = '2021-01-24'</b>
+&gt;&gt;&gt; <b class="calibre10">fur_color = 'black'</b>
+&gt;&gt;&gt; <b class="calibre10">cat_weight = 5.6</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute(f'INSERT INTO cats VALUES ("{cat_name}", "{cat_bday}",</b>
+<b class="calibre10">"{fur_color}", {cat_weight})')</b>
+&lt;sqlite3.Cursor object at 0x0000022B91BB7C40&gt;
+</code></pre>
+<p class="tx">If the values of these variables came from user input such as a web app form, a hacker could potentially specify strings that changed the meaning of the query. Instead, I should use a <span class="thesansmonocd_w5regular_">?</span> in the query string, then pass the variables in a list argument following the query string:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO cats VALUES (?, ?, ?, ?)', [cat_name, cat_bday,</b>
+<b class="calibre10">fur_color, cat_weight])</b>
+&lt;sqlite3.Cursor object at 0x0000022B91BB7C40&gt;
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">execute()</span> method replaces the <span class="thesansmonocd_w5regular_">?</span> placeholders in the query string with the variable values after making sure they won’t cause a SQL injection attack. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-781" aria-label="394"></span>While such attacks are unlikely to apply to your code, it’s a good habit to use the <span class="thesansmonocd_w5regular_">?</span> placeholders instead of formatting the query string yourself.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-1902"><span id="calibre_link-440"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading Data from the Database</span></h4>
+<p class="tni">Once there’s data inside the database, you can read it with a <span class="thesansmonocd_w5regular_">SELECT</span> query. Enter the following into the interactive shell to read data from the <i class="calibre5">example.db</i> database:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('example.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats').fetchall()</b>
+[('Zophie', '2021-01-24', 'black', 5.6)]
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">execute()</span> method call for the <span class="thesansmonocd_w5regular_">SELECT</span> query returns a <span class="thesansmonocd_w5regular_">Cursor</span> object. To obtain the actual data, we call the <span class="thesansmonocd_w5regular_">fetchall()</span> method on this <span class="thesansmonocd_w5regular_">Cursor</span> object. Each record is returned as a tuple in the list of tuples. The data in each tuple appears in the order of the table’s columns.</p>
+<p class="tx">Instead of writing Python code to sort through this list of tuples yourself, you can make SQLite extract the specific information you want. The example <span class="thesansmonocd_w5regular_">SELECT</span> query has four parts:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">SELECT</span> keyword</li>
+<li class="bl">The columns you want to retrieve, where <span class="thesansmonocd_w5regular_">*</span> means “all columns except <span class="thesansmonocd_w5regular_">rowid</span>”</li>
+<li class="bl">The <span class="thesansmonocd_w5regular_">FROM</span> keyword</li>
+<li class="bl">The table to retrieve data from; in this case, the <span class="thesansmonocd_w5regular_">cats</span> table</li>
+</ul>
+<p class="tx">If you wanted just the <span class="thesansmonocd_w5regular_">rowid</span> and <span class="thesansmonocd_w5regular_">name</span> columns of records in the <span class="thesansmonocd_w5regular_">cats</span> table, your query would look like this:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, name FROM cats').fetchall()</b>
+[(1, 'Zophie')]
+</code></pre>
+<p class="tx">You can also use SQL to filter the query results, as you’ll learn in the next section.</p>
+<section type="division" aria-labelledby="sec13">
+<h5 class="h2" id="calibre_link-1903"><span class="sans_futura_std_bold_b_">Looping over Query Results</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">fetchall()</span> method returns your <span class="thesansmonocd_w5regular_">SELECT</span> query results as a list of tuples. A common coding pattern is to use this data in a <span class="thesansmonocd_w5regular_">for</span> loop to perform some operation for each tuple. For example, download the <i class="calibre5">sweigartcats.db</i> file from <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>, then enter the following into the interactive shell to process its data:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">for row in conn.execute('SELECT * FROM cats'):</b>
+<b class="calibre10">...     print('Row data:', row)</b>
+...     <b class="calibre10">print(row[0], 'is one of my favorite cats.')</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1904" aria-label="395"></span>...
+Row data: ('Zophie', '2021-01-24', 'gray tabby', 5.6)
+Zophie is one of my favorite cats.
+Row data: ('Miguel', '2016-12-24', 'siamese', 6.2)
+Miguel is one of my favorite cats.
+Row data: ('Jacob', '2022-02-20', 'orange and white', 5.5)
+Jacob is one of my favorite cats.
+<var class="calibre20">--snip--</var>
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">for</span> loop can iterate over the tuples of row data returned by <span class="thesansmonocd_w5regular_">conn.execute()</span> without calling <span class="thesansmonocd_w5regular_">fetchall()</span>, and the code in the body of the <span class="thesansmonocd_w5regular_">for</span> loop can operate on each row individually, because the <span class="thesansmonocd_w5regular_">row</span> variable populates with a tuple of row data from the query. The code can then access the columns using the tuple’s integer index: index <span class="thesansmonocd_w5regular_">0</span> for the name, index <span class="thesansmonocd_w5regular_">1</span> for the birthdate, and so on.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h5 class="h2" id="calibre_link-1905"><span class="sans_futura_std_bold_b_">Filtering Retrieved Data</span></h5>
+<p class="tni">Our <span class="thesansmonocd_w5regular_">SELECT</span> queries have been retrieving every row in the table, but we might want just the rows that match some filter criteria. Using the <i class="calibre5">sweigartcats.db</i> file, add a <span class="thesansmonocd_w5regular_">WHERE</span> clause to the <span class="thesansmonocd_w5regular_">SELECT</span> statement to provide search parameters, such as having black fur:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE fur = "black"').fetchall()</b>
+[<span class="code_codeannotation" aria-label="annotation1">❶</span>('Zophie', '2021-01-24', 'black', 5.6), ('Toby', '2021-05-17', 'black',
+6.8), ('Thor', '2013-05-14', 'black', 5.2), ('Sassy', '2017-08-20', 'black',
+7.5), ('Hope', '2016-05-22', 'black', 7.6)]
+</code></pre>
+<p class="tx">In this example, the <span class="thesansmonocd_w5regular_">WHERE</span> clause <span class="thesansmonocd_w5regular_">WHERE fur</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"black"</span> will retrieve data only for records that have <span class="thesansmonocd_w5regular_">"black"</span> in the <span class="thesansmonocd_w5regular_">fur</span> column.</p>
+<p class="tx">SQLite defines its own operators for use in the <span class="thesansmonocd_w5regular_">WHERE</span> clause, but they’re similar to Python’s operators: <span class="thesansmonocd_w5regular_">=</span>, <span class="thesansmonocd_w5regular_">!=</span>, <span class="thesansmonocd_w5regular_">&lt;</span>, <span class="thesansmonocd_w5regular_">&gt;</span>, <span class="thesansmonocd_w5regular_">&lt;=</span>, <span class="thesansmonocd_w5regular_">&gt;=</span>, <span class="thesansmonocd_w5regular_">AND</span>, <span class="thesansmonocd_w5regular_">OR</span>, and <span class="thesansmonocd_w5regular_">NOT</span>. Note that SQLite uses the <b class="calibre10">=</b> operator to mean “is equal to,” while Python uses the <span class="thesansmonocd_w5regular_">==</span> operator for that purpose. On either side of the operator, you can put a column name or a literal value.</p>
+<p class="tx">The comparison will occur for each row in the table. For example, for <span class="thesansmonocd_w5regular_">WHERE fur</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"black"</span>, SQLite makes the following comparisons:</p>
+<ul class="ul">
+<li class="bl">Because <span class="thesansmonocd_w5regular_">fur</span> is <span class="thesansmonocd_w5regular_">'black'</span> and <span class="thesansmonocd_w5regular_">'black'</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'black'</span> is true, SQLite includes the row at <span class="codeannotation" aria-label="annotation1">❶</span> in the results.</li>
+<li class="bl">For the row <span class="thesansmonocd_w5regular_">(2, 'Miguel', '2016-12-24', 'siamese', 6.2)</span>, <span class="thesansmonocd_w5regular_">fur</span> is <span class="thesansmonocd_w5regular_">'siamese'</span> and <span class="thesansmonocd_w5regular_">'siamese'</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'black'</span> is false, so it doesn’t include the row in the results.</li>
+<li class="bl">For the row <span class="thesansmonocd_w5regular_">(3, 'Jacob', '2022-02-20', 'orange and white', 5.5)</span>, <span class="thesansmonocd_w5regular_">fur</span> is <span class="thesansmonocd_w5regular_">'orange and white'</span> and <span class="thesansmonocd_w5regular_">'orange and white'</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'black'</span> is false, so it doesn’t include the row in the results.</li>
+</ul>
+<p class="tni">... and so on, for every row in the <span class="thesansmonocd_w5regular_">cats</span> table.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-935" aria-label="396"></span>Let’s continue the previous example with a more complicated <span class="thesansmonocd_w5regular_">WHERE</span> clause: <span class="thesansmonocd_w5regular_">WHERE fur</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"black" OR birthdate &gt;=</span> <span class="thesansmonocd_w5regular_">"2024-01-01"'</span>. Let’s also use the <span class="thesansmonocd_w5regular_">pprint.pprint()</span> function to “pretty print” the returned list:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pprint</b>
+&gt;&gt;&gt; <b class="calibre10">matching_cats = conn.execute('SELECT * FROM cats WHERE fur = "black"</b>
+<b class="calibre10">OR birthdate &gt;= "2024-01-01"').fetchall()</b>
+&gt;&gt;&gt; <b class="calibre10">pprint.pprint(matching_cats)</b>
+[('Zophie', '2021-01-24', 'black', 5.6),
+ ('Toby', '2021-05-17', 'black', 6.8),
+ ('Taffy', '2024-12-09', 'white', 7.0),
+ ('Hollie', '2024-08-07', 'calico', 6.0),
+ ('Lewis', '2024-03-19', 'orange tabby', 5.1),
+ ('Thor', '2013-05-14', 'black', 5.2),
+ ('Shell', '2024-06-16', 'tortoiseshell', 6.5),
+ ('Jasmine', '2024-09-05', 'orange tabby', 6.3),
+ ('Sassy', '2017-08-20', 'black', 7.5),
+ ('Hope', '2016-05-22', 'black', 7.6)]
+</code></pre>
+<p class="tx">All of the cats in the resulting <span class="thesansmonocd_w5regular_">matching_cats</span> list have either black fur or a birthdate after January 1, 2024. Note that the birthdate is just a string. While comparison operators like <span class="thesansmonocd_w5regular_">&gt;=</span> typically perform alphabetical comparisons on strings, they can also perform temporal comparisons, as long as the birthdate format is <i class="calibre5">YYYY-MM-DD</i>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">LIKE</span> operator lets you match just the start or end of a value, treating the percent sign (<span class="thesansmonocd_w5regular_">%)</span>as a wildcard. For example, <span class="thesansmonocd_w5regular_">name LIKE "%y"</span> matches all the names that end with <span class="thesansmonocd_w5regular_">'y'</span>, while <span class="thesansmonocd_w5regular_">name LIKE "Ja%"</span> matches all the names that start with <span class="thesansmonocd_w5regular_">'Ja'</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, name FROM cats WHERE name LIKE "%y"').fetchall()</b>
+[(5, 'Toby'), (11, 'Molly'), (12, 'Dusty'), (17, 'Mandy'), (18, 'Taffy'), (25, 'Rocky'), (27,
+'Bobby'), (30, 'Misty'), (34, 'Mitsy'), (38, 'Colby'), (40, 'Riley'), (46, 'Ruby'), (65,
+'Daisy'), (67, 'Crosby'), (72, 'Harry'), (77, 'Sassy'), (85, 'Lily'), (93, 'Spunky')]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, name FROM cats WHERE name LIKE "Ja%"').fetchall()</b>
+[(3, 'Jacob'), (49, 'Java'), (75, 'Jasmine'), (80, 'Jamison')]
+</code></pre>
+<p class="tx">You can also put percent signs at the start and end of a string to match text anywhere in the middle. For example, <span class="thesansmonocd_w5regular_">name LIKE "%ob%"</span> matches all names that have <span class="thesansmonocd_w5regular_">'ob'</span> anywhere in them:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, name FROM cats WHERE name LIKE "%ob%"').fetchall()</b>
+[(3, 'Jacob'), (5, 'Toby'), (27, 'Bobby')]
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">LIKE</span> operator does a case-insensitive match, so <span class="thesansmonocd_w5regular_">name LIKE "%ob%"</span> also matches <span class="thesansmonocd_w5regular_">'%OB%'</span>, <span class="thesansmonocd_w5regular_">'%Ob%'</span>, and <span class="thesansmonocd_w5regular_">'%oB%'</span>. To do a case-sensitive match, use the <span class="thesansmonocd_w5regular_">GLOB</span> operator and <span class="thesansmonocd_w5regular_">*</span> as the wildcard characters:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, name FROM cats WHERE name GLOB "*m*"').fetchall()</b>
+[(4, 'Gumdrop'), (9, 'Thomas'), (44, 'Sam'), (63, 'Cinnamon'), (75, 'Jasmine'),
+(79, 'Samantha'), (80, 'Jamison')]
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-930" aria-label="397"></span>While <span class="thesansmonocd_w5regular_">name LIKE "%m%"</span> matches either a lowercase or uppercase <i class="calibre5">m</i>, <span class="thesansmonocd_w5regular_">name GLOB "*m*"</span> matches only the lowercase <i class="calibre5">m</i>.</p>
+<p class="tx">SQLite’s wide set of operators and functionality rivals that of any full programming language. You can read more about it in the SQLite documentation at <i class="calibre5"><a href="https://www.sqlite.org/lang_expr.html" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.sqlite<wbr></wbr>.org<wbr></wbr>/lang<wbr></wbr>_expr<wbr></wbr>.html</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h5 class="h2" id="calibre_link-1906"><span class="sans_futura_std_bold_b_">Ordering the Results</span></h5>
+<p class="tni">While you can always sort the list returned by <span class="thesansmonocd_w5regular_">fetchall()</span> by calling Python’s <span class="thesansmonocd_w5regular_">sort()</span> method, it’s easier to have SQLite sort the data for you by adding an <span class="thesansmonocd_w5regular_">ORDER BY</span> clause to your <span class="thesansmonocd_w5regular_">SELECT</span> query. For example, if I wanted to sort the cats by fur color, I could enter the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3, pprint</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">pprint.pprint(conn.execute('SELECT * FROM cats ORDER BY fur').fetchall())</b>
+[('Iris', '2017-07-13', 'bengal', 6.8),
+ ('Ruby', '2023-12-22', 'bengal', 5.0),
+ ('Elton', '2020-05-28', 'bengal', 5.4),
+ ('Toby', '2021-05-17', 'black', 6.8),
+ ('Thor', '2013-05-14', 'black', 5.2),
+<var class="calibre20">--snip--</var>
+ ('Celine', '2015-04-18', 'white', 7.3),
+ ('Daisy', '2019-03-19', 'white', 6.0)]
+</code></pre>
+<p class="tx">If there is a <span class="thesansmonocd_w5regular_">WHERE</span> clause in your query, the <span class="thesansmonocd_w5regular_">ORDER BY</span> clause must come after it. You can also order the rows based on multiple columns. For example, if you want to first sort the rows by fur color and then sort the rows within each fur color by birthdate, run the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cur = conn.execute('SELECT * FROM cats ORDER BY fur, birthdate')</b>
+&gt;&gt;&gt; <b class="calibre10">pprint.pprint(cur.fetchall())</b>
+[('Iris', '2017-07-13', 'bengal', 6.8),
+ ('Elton', '2020-05-28', 'bengal', 5.4),
+ ('Ruby', '2023-12-22', 'bengal', 5.0),
+ ('Thor', '2013-05-14', 'black', 5.2),
+ ('Hope', '2016-05-22', 'black', 7.6),
+<var class="calibre20">--snip--</var>
+ ('Ginger', '2020-09-22', 'white', 5.8),
+ ('Taffy', '2024-12-09', 'white', 7.0)]
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">ORDER BY</span> clause lists the <span class="thesansmonocd_w5regular_">fur</span> column first, followed by the <span class="thesansmonocd_w5regular_">birthdate</span> column, separated by a comma. By default, these sorts are in ascending order: the smallest values come first, followed by larger values. To sort in descending order, add the <span class="thesansmonocd_w5regular_">DESC</span> keyword after the column name. You can also use the <span class="thesansmonocd_w5regular_">ASC</span> keyword to specify ascending order if you want your query to be explicit and readable. To practice using these keywords, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cur = conn.execute('SELECT * FROM cats ORDER BY fur ASC, birthdate DESC')</b>
+&gt;&gt;&gt; <b class="calibre10">pprint.pprint(cur.fetchall())</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1217" aria-label="398"></span>[('Ruby', '2023-12-22', 'bengal', 5.0),
+ ('Elton', '2020-05-28', 'bengal', 5.4),
+ ('Iris', '2017-07-13', 'bengal', 6.8),
+ ('Toby', '2021-05-17', 'black', 6.8),
+ ('Sassy', '2017-08-20', 'black', 7.5),
+<var class="calibre20">--snip--</var>
+ ('Mitsy', '2015-05-29', 'white', 5.0),
+ ('Celine', '2015-04-18', 'white', 7.3)]
+</code></pre>
+<p class="tx">The output lists the cats by fur color in ascending order (with <span class="thesansmonocd_w5regular_">'bengal'</span> coming before <span class="thesansmonocd_w5regular_">'white'</span>). Within each fur color, the cats are sorted by birthdate in descending order (with <span class="thesansmonocd_w5regular_">'2023-12-22'</span> coming before <span class="thesansmonocd_w5regular_">'2020-05-28'</span>).</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h5 class="h2" id="calibre_link-1907"><span class="sans_futura_std_bold_b_">Limiting the Number of Results</span></h5>
+<p class="tni">If you’re interested in viewing only the first few rows returned by your <span class="thesansmonocd_w5regular_">SELECT</span> query, you might try to use Python list slices to limit the results. For example, use the <span class="thesansmonocd_w5regular_">[:3]</span> slice to show only the first three rows in the <span class="thesansmonocd_w5regular_">cats</span> table:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats').fetchall()[:3]</b>  # This is inefficient.
+[('Zophie', '2021-01-24', 'gray tabby', 5.6), ('Miguel', '2016-12-24',
+'siamese', 6.2), ('Jacob', '2022-02-20', 'orange and white', 5.5)]
+</code></pre>
+<p class="tx">This code works, but it’s inefficient; it first fetches all of the rows from the table, then discards everything except for the first three. It would be faster for your program to fetch just the first three rows from the database. You can do this with a <span class="thesansmonocd_w5regular_">LIMIT</span> clause:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats LIMIT 3').fetchall()</b>
+[('Zophie', '2021-01-24', 'gray tabby', 5.6), ('Miguel', '2016-12-24',
+'siamese', 6.2), ('Jacob', '2022-02-20', 'orange and white', 5.5)]
+</code></pre>
+<p class="tx">This code runs faster than the code that fetches all the rows, especially for tables with a large number of rows. The <span class="thesansmonocd_w5regular_">LIMIT</span> clause must come after the <span class="thesansmonocd_w5regular_">WHERE</span> and <span class="thesansmonocd_w5regular_">ORDER BY</span> clauses if your <span class="thesansmonocd_w5regular_">SELECT</span> query includes them, as in the following example:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE fur="orange" ORDER BY birthdate LIMIT 4').fetchall()</b>
+[('Mittens', '2013-07-03', 'orange', 7.4), ('Piers', '2014-07-08', 'orange', 5.2),
+('Misty', '2016-07-08', 'orange', 5.2), ('Blaze', '2023-01-16', 'orange', 7.4)]
+</code></pre>
+<p class="tx">There are a few other clauses you can add to your <span class="thesansmonocd_w5regular_">SELECT</span> queries, but they are beyond the scope of this chapter. You can learn more about them in the SQLite documentation.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h5 class="h2" id="calibre_link-1908"><span class="sans_futura_std_bold_b_">Creating Indexes for Faster Data Reading</span></h5>
+<p class="tni">In a previous section, we ran a <span class="thesansmonocd_w5regular_">SELECT</span> query to find records based on matching names. You could speed up this search by creating an index on the <span class="thesansmonocd_w5regular_">name</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1054" aria-label="399"></span>column. A <i class="calibre5">SQL index</i> is a data structure that organizes a column’s data. As a result, queries with <span class="thesansmonocd_w5regular_">WHERE</span> clauses that use these columns will perform better. The downside is that the index takes up a little bit more storage, so queries that insert or update data will be slightly slower, because SQLite must also update the data’s index. If your database is large, and you read data from it more often than you insert or update its data, creating an index may be worthwhile. However, you should conduct testing to verify that the index actually improves performance.</p>
+<p class="tx">To create indexes on, say, the <span class="thesansmonocd_w5regular_">names</span> and <span class="thesansmonocd_w5regular_">birthdate</span> columns in the <span class="thesansmonocd_w5regular_">cats</span> table, run the following <span class="thesansmonocd_w5regular_">CREATE INDEX</span> queries:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('CREATE INDEX idx_name ON cats (name)')</b>
+&lt;sqlite3.Cursor object at 0x0000013EC121A040&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('CREATE INDEX idx_birthdate ON cats (birthdate)')</b>
+&lt;sqlite3.Cursor object at 0x0000013EC121A040&gt;
+</code></pre>
+<p class="tx">Indexes require names, and by convention, we name them after the column to which they apply, along with the <span class="thesansmonocd_w5regular_">idx_</span> prefix. Index names are global across the entire database, so if the database contains multiple tables with columns named <span class="thesansmonocd_w5regular_">birthdate</span>, you may also want to include the table in the index name, like <span class="thesansmonocd_w5regular_">idx_cats_birthdate</span>. To see all the indexes that exist for a table, check the built-in <span class="thesansmonocd_w5regular_">sqlite_schema</span> table with a <span class="thesansmonocd_w5regular_">SELECT</span> query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type = "index" AND</b>
+<b class="calibre10">tbl_name = "cats"').fetchall()</b>
+[('idx_name',), ('idx_birthdate',)]
+</code></pre>
+<p class="tx">If you change your mind or find that the indexes aren’t improving performance, you can delete them with a <span class="thesansmonocd_w5regular_">DROP INDEX</span> query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type = "index" AND</b>
+<b class="calibre10">tbl_name = "cats"').fetchall()</b>
+[('idx_birthdate',) ('idx_name',)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('DROP INDEX idx_name')</b>
+&lt;sqlite3.Cursor object at 0x0000013EC121A040&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type = "index" AND</b>
+<b class="calibre10">tbl_name = "cats"').fetchall()</b>
+[('idx_birthdate',)]
+</code></pre>
+<p class="tx">For small databases with only a few thousand records, you can safely ignore indexes, as the benefits they provide are negligible. However, if you find that your database queries are taking a noticeable amount of time, creating indexes could improve their performance.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec18">
+<h4 class="h1" id="calibre_link-1909"><span id="calibre_link-441"></span><span class="sans_futura_std_heavy_oblique_bi_">Updating Data in the Database</span></h4>
+<p class="tni">Once you’ve inserted rows into a table, you can change a row with an <span class="thesansmonocd_w5regular_">UPDATE</span> statement. For example, let’s update the record <span class="thesansmonocd_w5regular_">(1, 'Zophie', '2021-01-24',</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1276" aria-label="400"></span><span class="thesansmonocd_w5regular_">'black', 5.6)</span> to change the fur color from <span class="thesansmonocd_w5regular_">'black'</span> to <span class="thesansmonocd_w5regular_">'gray tabby'</span> in the <i class="calibre5">sweigartcats.db</i> file:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE rowid = 1').fetchall()</b>
+[('Zophie', '2021-01-24', 'black', 5.6)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('UPDATE cats SET fur = "gray tabby" WHERE rowid = 1')</b>
+&lt;sqlite3.Cursor object at 0x0000013EC121A040&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE rowid = 1').fetchall()</b>
+[('Zophie', '2021-01-24', 'gray tabby', 5.6)]
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">UPDATE</span> statement has the following parts:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">UPDATE</span> keyword</li>
+<li class="bl">The name of the table containing the rows to update</li>
+<li class="bl">The <span class="thesansmonocd_w5regular_">SET</span> clause, which specifies the column to update, as well as the value to update it to</li>
+<li class="bl">The <span class="thesansmonocd_w5regular_">WHERE</span> clause, which specifies which rows to update</li>
+</ul>
+<p class="tx">You can update multiple columns at a time by separating them with commas. For example, the query <span class="thesansmonocd_w5regular_">'UPDATE cats SET fur</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"black", weight_kg</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">6 WHERE rowid</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">1'</span> updates the value in the <span class="thesansmonocd_w5regular_">fur</span> and <span class="thesansmonocd_w5regular_">weight</span> columns to <span class="thesansmonocd_w5regular_">"black"</span> and <span class="thesansmonocd_w5regular_">6</span>, respectively.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">UPDATE</span> query updates every row in which the <span class="thesansmonocd_w5regular_">WHERE</span> clause is true. If you ran the query <span class="thesansmonocd_w5regular_">'UPDATE cats SET fur</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"gray tabby" WHERE name</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">"Zophie"'</span>, the updates would apply for every cat named Zophie. That might be more cats than you intended! This is why, in most update queries, the <span class="thesansmonocd_w5regular_">WHERE</span> clause uses the primary key from the <span class="thesansmonocd_w5regular_">rowid</span> column to specify an individual record to update. The primary key uniquely identifies a row, so using it in the <span class="thesansmonocd_w5regular_">WHERE</span> clause ensures that you update only the one row you intended.</p>
+<p class="tx">It’s a common bug to forget the <span class="thesansmonocd_w5regular_">WHERE</span> clause when updating data. For example, if you wanted to do a find-and-replace to change every cat with <span class="thesansmonocd_w5regular_">'white and orange'</span> fur to <span class="thesansmonocd_w5regular_">'orange and white'</span> fur, you would run the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('UPDATE cats SET fur = "orange and white" WHERE fur = "white and orange"')</b></code></pre>
+<p class="tx">If you forgot to include the <span class="thesansmonocd_w5regular_">WHERE</span> clause, the updates would apply to every row in the table. and suddenly all of your cats would have orange and white fur!</p>
+<p class="tx">To avoid this bug, always include a <span class="thesansmonocd_w5regular_">WHERE</span> clause in your <span class="thesansmonocd_w5regular_">UPDATE</span> queries, even if you intend to apply a change to every row. In that case, you can use <span class="thesansmonocd_w5regular_">WHERE 1</span>. Since <span class="thesansmonocd_w5regular_">1</span> is the value that SQLite uses for a Boolean <span class="thesansmonocd_w5regular_">True</span>, this tells SQLite to apply the change to every row. It may seem silly to have a superfluous <span class="thesansmonocd_w5regular_">WHERE 1</span> at the end of your query, but it lets you avoid dangerous bugs that could easily wipe out real data.</p>
+</section>
+<section type="division" aria-labelledby="sec19">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-958" aria-label="401"></span>
+<h4 class="h1" id="calibre_link-1910"><span id="calibre_link-442"></span><span class="sans_futura_std_heavy_oblique_bi_">Deleting Data from the Database</span></h4>
+<p class="tni">You can delete rows from a table with a <span class="thesansmonocd_w5regular_">DELETE</span> query. For example, to remove Zophie from the <span class="thesansmonocd_w5regular_">cats</span> table, run the following on the <i class="calibre5">sweigartcats.db</i> file:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, * FROM cats WHERE rowid = 1').fetchall()</b>
+[(1, 'Zophie', '2021-01-24', 'gray tabby', 5.6)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('DELETE FROM cats WHERE rowid = 1')</b>
+&lt;sqlite3.Cursor object at 0x0000020322D183C0&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE rowid = 1').fetchall()</b>
+[]
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">DELETE</span> statement has the following parts:</p>
+<ul class="ul">
+<li class="bl">The <span class="thesansmonocd_w5regular_">DELETE FROM</span> keywords</li>
+<li class="bl">The name of the table containing the rows to delete</li>
+<li class="bl">The <span class="thesansmonocd_w5regular_">WHERE</span> clause, which specifies which rows to delete</li>
+</ul>
+<p class="tx">As with the <span class="thesansmonocd_w5regular_">INSERT</span> statement, it’s vital to always include a <span class="thesansmonocd_w5regular_">WHERE</span> clause in your <span class="thesansmonocd_w5regular_">DELETE</span> statements; otherwise, you’ll delete every row from the table. If you intend to delete every row, use <span class="thesansmonocd_w5regular_">WHERE 1</span> so that you can identify any <span class="thesansmonocd_w5regular_">DELETE</span> statement without a <span class="thesansmonocd_w5regular_">WHERE</span> clause as a bug.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h3 class="h" id="calibre_link-1911"><span id="calibre_link-443"></span><span class="sans_futura_std_bold_b_">Rolling Back Transactions</span></h3>
+<p class="tni">You may sometimes want to run several queries all together, or else not run those queries at all, but you won’t know which you want to do until you’ve run at least some of the queries. One way to handle this situation is to begin a new transaction, execute the queries, and then either <i class="calibre5">commit</i> all of the queries to the database to complete the transaction or <i class="calibre5">roll them back</i> so that the database looks as if none of them were made.</p>
+<p class="tx">Normally, a new transaction starts and finishes every time you call <span class="thesansmonocd_w5regular_">conn.execute()</span> when connected to the SQLite database in autocommit mode. However, you can also run a <span class="thesansmonocd_w5regular_">BEGIN</span> query to start a new transaction; then, you can either complete the transaction by calling <span class="thesansmonocd_w5regular_">conn.commit()</span> or undo all the queries by calling <span class="thesansmonocd_w5regular_">conn.rollback()</span>.</p>
+<p class="tx">For example, let’s add two new cats to the <span class="thesansmonocd_w5regular_">cats</span> table, then roll back the transaction so that the table remains unchanged:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('BEGIN')</b>
+&lt;sqlite3.Cursor object at 0x00000219C8BF7C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO cats VALUES ("Socks", "2022-04-04", "white", 4.2)')</b>
+&lt;sqlite3.Cursor object at 0x00000219C8BF7C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO cats VALUES ("Fluffy", "2022-10-30", "gray", 4.5)')</b>
+&lt;sqlite3.Cursor object at 0x00000219C8BF7C40&gt;
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-950" aria-label="402"></span>&gt;&gt;&gt; <b class="calibre10">conn.rollback()</b>  # This undoes the INSERT statements.
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE name = "Socks"').fetchall()</b>
+[]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE name = "Fluffy"').fetchall()</b>
+[]
+</code></pre>
+<p class="tx">The new cats, Socks and Fluffy, were not inserted into the database.</p>
+<p class="tx">On the other hand, if you want to apply all of the queries you’ve run, call <span class="thesansmonocd_w5regular_">conn.commit()</span> to commit the changes to the database:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('BEGIN')</b>
+&lt;sqlite3.Cursor object at 0x00000219C8BF7C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO cats VALUES ("Socks", "2022-04-04", "white", 4.2)')</b>
+&lt;sqlite3.Cursor object at 0x00000219C8BF7C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO cats VALUES ("Fluffy", "2022-10-30", "gray", 4.5)')</b>
+&lt;sqlite3.Cursor object at 0x00000219C8BF7C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.commit()</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE name = "Socks"').fetchall()</b>
+[('Socks', '2022-04-04', 'white', 4.2)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats WHERE name = "Fluffy"').fetchall()</b>
+[('Fluffy', '2022-10-30', 'gray', 4.5)]
+</code></pre>
+<p class="tx">Now the cats Socks and Fluffy have records in the database.</p>
+</section>
+<section type="division" aria-labelledby="sec21">
+<h3 class="h" id="calibre_link-1912"><span id="calibre_link-444"></span><span class="sans_futura_std_bold_b_">Backing Up Databases</span></h3>
+<p class="tni">A friend of mine was once making changes to a database used by an e-commerce site specializing in collectible sports cards. She had to correct some naming mistakes in a few cards, and had just typed <span class="thesansmonocd_w5regular_">UPDATE cards SET name</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Chris Clemons'</span> when her cat walked on her keyboard, pressing <small class="calibre4">ENTER</small>. Without a <span class="thesansmonocd_w5regular_">WHERE</span> clause, the query updated every one of the thousands of cards for sale on the website.</p>
+<p class="tx">Fortunately, she had backups of the database, so she could restore it to its previous state. (This was especially useful because the same thing happened again in the exact same way, making her suspect the cat was doing it on purpose.)</p>
+<p class="tx">If a program isn’t currently accessing the SQLite database, you can back it up by simply copying the database file. A Python program might do this by calling <span class="thesansmonocd_w5regular_">shutil.copy('sweigartcats.db', 'backup.db')</span>, as described in <span>Chapter 11</span>. If your software is constantly reading or updating the database’s contents, however, you’ll need to use the <span class="thesansmonocd_w5regular_">Connection</span> object’s <span class="thesansmonocd_w5regular_">backup()</span> method instead. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">backup_conn = sqlite3.connect('backup.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.backup(backup_conn)</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-901" aria-label="403"></span>The <span class="thesansmonocd_w5regular_">backup()</span> method safely backs up the contents of the <i class="calibre5">sweigartcats.db</i> database to the <i class="calibre5">backup.db</i> file in between the other queries being run on it. Now that your data is safely backed up, your cat is free to step on your keyboard as much as it wants.</p>
+</section>
+<section type="division" aria-labelledby="sec22">
+<h3 class="h" id="calibre_link-1913"><span id="calibre_link-445"></span><span class="sans_futura_std_bold_b_">Altering and Dropping Tables</span></h3>
+<p class="tni">After creating a table in a database and inserting rows into it, you may want to rename the table or its columns. You may also wish to add or delete columns in the table, or even delete the entire table itself. You can use an <span class="thesansmonocd_w5regular_">ALTER TABLE</span> query to perform these actions.</p>
+<p class="tx">The following interactive shell examples start with a fresh copy of the <i class="calibre5">sweigartcats.db</i> database file. Run an <span class="thesansmonocd_w5regular_">ALTER TABLE RENAME</span> query to rename the <span class="thesansmonocd_w5regular_">cats</span> table to <span class="thesansmonocd_w5regular_">felines</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type="table"').fetchall()</b>
+[('cats',)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('ALTER TABLE cats RENAME TO felines')</b>  # Rename the table.
+&lt;sqlite3.Cursor object at 0x000001EDDB477C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type="table"').fetchall()</b>
+[('felines',)]
+</code></pre>
+<p class="tx">To rename a column in a table, run an <span class="thesansmonocd_w5regular_">ALTER TABLE RENAME COLUMN</span> query. For example, let’s rename the <span class="thesansmonocd_w5regular_">fur</span> column to <span class="thesansmonocd_w5regular_">description</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA TABLE_INFO(felines)').fetchall()[2]</b>  # List the third column.
+(2, 'fur', 'TEXT', 0, None, 0)
+&gt;&gt;&gt; <b class="calibre10">conn.execute('ALTER TABLE felines RENAME COLUMN fur TO description')</b>
+&lt;sqlite3.Cursor object at 0x000001EDDB477C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA TABLE_INFO(felines)').fetchall()[2]</b>  # List the third column.
+(2, 'description', 'TEXT', 0, None, 0)
+</code></pre>
+<p class="tx">To add a new column to the table, run an <span class="thesansmonocd_w5regular_">ALTER TABLE ADD COLUMN</span> query. For example, let’s add a new <span class="thesansmonocd_w5regular_">is_loved</span> column to the <span class="thesansmonocd_w5regular_">felines</span> table containing a Boolean value. SQLite uses <span class="thesansmonocd_w5regular_">0</span> for false values and <span class="thesansmonocd_w5regular_">1</span> for true values; we’ll set the default value for <span class="thesansmonocd_w5regular_">is_loved</span> to <span class="thesansmonocd_w5regular_">1</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('ALTER TABLE felines ADD COLUMN is_loved INTEGER DEFAULT 1')</b>
+&lt;sqlite3.Cursor object at 0x000001EDDB477C40&gt;
+&gt;&gt;&gt; <b class="calibre10">import pprint</b>
+&gt;&gt;&gt; <b class="calibre10">pprint.pprint(conn.execute('SELECT * FROM felines LIMIT 3').fetchall())</b>
+[('Zophie', '2021-01-24', 'gray tabby', 5.6, 1),
+ ('Miguel', '2016-12-24', 'siamese', 6.2, 1),
+ ('Jacob', '2022-02-20', 'orange and white', 5.5, 1)]
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-902" aria-label="404"></span>It turns out the <span class="thesansmonocd_w5regular_">is_loved</span> column isn’t needed, since I store a <span class="thesansmonocd_w5regular_">1</span> in it for all my cats, so I can remove the column with an <span class="thesansmonocd_w5regular_">ALTER TABLE DROP COLUMN</span> query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA TABLE_INFO(felines)').fetchall()</b>  # List all columns.
+[(0, 'name', 'TEXT', 1, None, 0), (1, 'birthdate', 'TEXT', 0, None, 0), (2, 'description', 'TEXT',
+0, None, 0), (3, 'weight_kg', 'REAL', 0, None, 0), (4, 'is_loved', 'INTEGER', 0, '1', 0)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('ALTER TABLE felines DROP COLUMN is_loved')</b>  # Delete the column.
+&lt;sqlite3.Cursor object at 0x000001EDDB477C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA TABLE_INFO(felines)').fetchall()</b>  # List all columns.
+[(0, 'name', 'TEXT', 1, None, 0), (1, 'birthdate', 'TEXT', 0, None, 0), (2, 'description', 'TEXT',
+0, None, 0), (3, 'weight_kg', 'REAL', 0, None, 0)]
+</code></pre>
+<p class="tx">Any data stored in the deleted column will also be deleted.</p>
+<p class="tx">If you want to delete the entire table, run a <span class="thesansmonocd_w5regular_">DROP TABLE</span> query:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type="table"').fetchall()</b>
+[('felines',)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('DROP TABLE felines')</b>  # Delete the entire table.
+&lt;sqlite3.Cursor object at 0x000001EDDB477C40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type="table"').fetchall()</b>
+[]
+</code></pre>
+<p class="tx">Try to limit how often you change your tables and columns, as you’ll also have to update the queries in your program to match.</p>
+</section>
+<section type="division" aria-labelledby="sec23">
+<h3 class="h" id="calibre_link-1914"><span id="calibre_link-446"></span><span class="sans_futura_std_bold_b_">Joining Multiple Tables with Foreign Keys</span></h3>
+<p class="tni">The structure of SQLite tables is rather strict; for example, each row has a set number of columns. But real-world data is often more complicated than a single table can capture. In relational databases, we can store complex data across multiple tables, and we can create links between them called <i class="calibre5">foreign keys</i>.</p>
+<p class="tx">Say we want to store information about the vaccinations our cats receive. We can’t just add columns to our <span class="thesansmonocd_w5regular_">cats</span> table, as each cat could have one vaccination or many. Also, for each vaccination, we’d also want to list the vaccination date and the name of the doctor who administered it. SQL tables are not good at storing a list of columns. You would not want to have columns named <span class="thesansmonocd_w5regular_">vaccination1</span>, <span class="thesansmonocd_w5regular_">vaccination2</span>, <span class="thesansmonocd_w5regular_">vaccination3</span>, and so on, for the same reason you wouldn’t want variables named <span class="thesansmonocd_w5regular_">vaccination1</span> and <span class="thesansmonocd_w5regular_">vaccination2</span>. If you create too many columns or variables, your code becomes a verbose, unreadable mess. If you create too few, you will have to constantly update your program to add more as needed.</p>
+<p class="tx">Whenever you have a varying amount of data to add to a row, it makes more sense to list the added data as rows in a separate table, then have those rows refer back to the rows in the main table. In our <i class="calibre5">sweigartcats.db</i> database, add a second <span class="thesansmonocd_w5regular_">vaccinations</span> table by entering the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1267" aria-label="405"></span>&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA foreign_keys = ON')</b>
+&lt;sqlite3.Cursor object at 0x000001E730AD03C0&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('CREATE TABLE IF NOT EXISTS vaccinations (vaccine TEXT,</b>
+<b class="calibre10">date_administered TEXT, administered_by TEXT, cat_id INTEGER,</b>
+<b class="calibre10">FOREIGN KEY(cat_id) REFERENCES cats(rowid)) STRICT')</b>
+&lt;sqlite3.Cursor object at 0x000001CA42767D40&gt;
+</code></pre>
+<p class="tx">The new <span class="thesansmonocd_w5regular_">vaccinations</span> table has a column named <span class="thesansmonocd_w5regular_">cat_id</span> with an <span class="thesansmonocd_w5regular_">INTEGER</span> type. The integer values in this column matches the <span class="thesansmonocd_w5regular_">rowid</span> values of the rows in the <span class="thesansmonocd_w5regular_">cats</span> table. We call the <span class="thesansmonocd_w5regular_">cat_id</span> column a <i class="calibre5">foreign key</i> because it refers to the primary key column of another table.</p>
+<p class="tx">In the <span class="thesansmonocd_w5regular_">cats</span> table, the cat Zophie has a <span class="thesansmonocd_w5regular_">rowid</span> of <span class="thesansmonocd_w5regular_">1</span>. To record her vaccinations, we insert new rows into the <span class="thesansmonocd_w5regular_">vaccinations</span> table with a <span class="thesansmonocd_w5regular_">cat_id</span> value of <span class="thesansmonocd_w5regular_">1</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO vaccinations VALUES ("rabies", "2023-06-06", "Dr. Echo", 1)')</b>
+&lt;sqlite3.Cursor object at 0x000001CA42767D40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO vaccinations VALUES ("FeLV", "2023-06-06", "Dr. Echo", 1)')</b>
+&lt;sqlite3.Cursor object at 0x000001CA42767D40&gt;
+&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM vaccinations').fetchall()</b>
+[('rabies', '2023-06-06', 'Dr. Echo', 1), ('FeLV', '2023-06-06', 'Dr. Echo', 1)]
+</code></pre>
+<p class="tx">We could record vaccinations for other cats by using their <span class="thesansmonocd_w5regular_">rowid</span>. If we wanted to add vaccination records for Mango, we could find Mango’s <span class="thesansmonocd_w5regular_">rowid</span> in the <span class="thesansmonocd_w5regular_">cats</span> table and then add records to the <span class="thesansmonocd_w5regular_">vaccinations</span> table using that value for the <span class="thesansmonocd_w5regular_">cat_id</span> column:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT rowid, * FROM cats WHERE name = "Mango"').fetchall()</b>
+[(23, 'Mango', '2017-02-12', 'tuxedo', 6.8)]
+&gt;&gt;&gt; <b class="calibre10">conn.execute('INSERT INTO vaccinations VALUES ("rabies", "2023-07-11", "Dr. Echo", 23)')</b>
+&lt;sqlite3.Cursor object at 0x000001CA42767D40&gt;
+</code></pre>
+<p class="tx">We can also perform a type of <span class="thesansmonocd_w5regular_">SELECT</span> query called an <i class="calibre5">inner join</i>, which returns the linked rows from both tables. For example, enter the following into the interactive shell to retrieve the <span class="thesansmonocd_w5regular_">vaccinations</span> rows joined with the data from the <span class="thesansmonocd_w5regular_">cats</span> table:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT * FROM cats INNER JOIN vaccinations ON cats.rowid = </b>
+<b class="calibre10">vaccinations.cat_id').fetchall()</b>
+[('Zophie', '2021-01-24', 'gray tabby', 5.6, 'rabies', '2023-06-06', 'Dr. Echo', 1),
+ ('Zophie', '2021-01-24', 'gray tabby', 5.6, 'FeLV', '2023-06-06', 'Dr. Echo', 1),
+ ('Mango', '2017-02-12', 'tuxedo', 6.8, 'rabies', '2023-07-11', 'Dr. Echo', 23)]
+</code></pre>
+<p class="tx">Note that while you could make <span class="thesansmonocd_w5regular_">cat_id</span> an <span class="thesansmonocd_w5regular_">INTEGER</span> column and use it as a foreign key without actually setting up the <span class="thesansmonocd_w5regular_">FOREIGN KEY(cat_id) REFERENCES cats(rowid)</span> syntax, foreign keys have several safety features to ensure that your data remains consistent. For example, you can’t insert or update a vaccination record using a <span class="thesansmonocd_w5regular_">cat_id</span> for a nonexistent cat. SQLite also forces you <span role="doc-pagebreak" type="pagebreak" id="calibre_link-951" aria-label="406"></span>to delete all vaccination records for a cat before deleting the cat so as to not leave behind “orphaned” vaccination records.</p>
+<p class="tx">These safety features are disabled by default. You can enable them by running the <span class="thesansmonocd_w5regular_">PRAGMA</span> query after calling <span class="thesansmonocd_w5regular_">sqlite3.connect()</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('PRAGMA foreign_keys = ON')</b></code></pre>
+<p class="tx">Foreign keys and joins have additional features, but they are outside the scope of this book.</p>
+</section>
+<section type="division" aria-labelledby="sec24">
+<h3 class="h" id="calibre_link-1915"><span id="calibre_link-447"></span><span class="sans_futura_std_bold_b_">In-Memory Databases and Backups</span></h3>
+<p class="tni">If your program is making a large number of queries, you can significantly improve the speed of your database by using an <i class="calibre5">in-memory database</i>. These databases are stored entirely in the computer’s memory rather than in a file on the computer’s hard drive. This makes changes incredibly fast. However, you’ll need to remember to save the in-memory database to a file using the <span class="thesansmonocd_w5regular_">backup()</span> method. If your program crashes in the middle of running, you’ll lose the entire in-memory database, just as you would the values in the program’s variables.</p>
+<p class="tx">The following example creates an in-memory database and then saves it to a database in the file <i class="calibre5">test.db</i>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">memory_db_conn = sqlite3.connect(':memory:',</b>
+<b class="calibre10">isolation_level=None)</b>  # Create an in-memory database.
+&gt;&gt;&gt; <b class="calibre10">memory_db_conn.execute('CREATE TABLE test (name TEXT, number REAL)')</b>
+&lt;sqlite3.Cursor object at 0x000001E730AD0340&gt;
+&gt;&gt;&gt; <b class="calibre10">memory_db_conn.execute('INSERT INTO test VALUES ("foo", 3.14)')</b>
+&lt;sqlite3.Cursor object at 0x000001D9B0A07EC0&gt;
+&gt;&gt;&gt; <b class="calibre10">file_db_conn = sqlite3.connect('test.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">memory_db_conn.backup(file_db_conn)</b>  # Save the database to test.db.
+</code></pre>
+<p class="tx">You can load a SQLite database file into memory with the <span class="thesansmonocd_w5regular_">backup()</span> method as well:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">file_db_conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">memory_db_conn = sqlite3.connect(':memory:', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">file_db_conn.backup(memory_db_conn)</b>
+&gt;&gt;&gt; <b class="calibre10">memory_db_conn.execute('SELECT * FROM cats LIMIT 3').fetchall()</b>
+[('Zophie', '2021-01-24', 'gray tabby', 5.6), ('Miguel', '2016-12-24',
+'siamese', 6.2), ('Jacob', '2022-02-20', 'orange and white', 5.5)]
+</code></pre>
+<p class="tx">There are some downsides to using in-memory databases. If your program crashes from an unhandled exception, you’ll lose the database. You can mitigate this risk by wrapping your code in a <span class="thesansmonocd_w5regular_">try</span> statement that catches any unhandled exceptions and then uses an <span class="thesansmonocd_w5regular_">except</span> statement to save the file to a database. <span>Chapter 4</span> covers exception handling with the <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements.</p>
+</section>
+<section type="division" aria-labelledby="sec25">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-921" aria-label="407"></span>
+<h3 class="h" id="calibre_link-1916"><span id="calibre_link-448"></span><span class="sans_futura_std_bold_b_">Copying Databases</span></h3>
+<p class="tni">You can obtain a copy of a database by calling the <span class="thesansmonocd_w5regular_">iterdump()</span> method on the <span class="thesansmonocd_w5regular_">Connection</span> object. This method returns an iterator that generates the text of the SQLite queries needed to re-create the database. You can use iterators in <span class="thesansmonocd_w5regular_">for</span> loops or pass them to the <span class="thesansmonocd_w5regular_">list()</span> function to convert them to a list of strings. For example, to get the SQLite queries needed to re-create the <i class="calibre5">sweigartcats.db</i> database, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import sqlite3</b>
+&gt;&gt;&gt; <b class="calibre10">conn = sqlite3.connect('sweigartcats.db', isolation_level=None)</b>
+&gt;&gt;&gt; <b class="calibre10">with open('sweigartcats-queries.txt', 'w', encoding='utf-8') as fileObj:</b>
+...     <b class="calibre10">for line in conn.iterdump():</b>
+...         <b class="calibre10">fileObj.write(line + '\n')</b>
+</code></pre>
+<p class="tx">This code creates a <i class="calibre5">sweigartcats-queries.txt</i> file with the following SQLite queries, which can re-create the database:</p>
+<pre class="pre"><code class="calibre9">BEGIN TRANSACTION;
+CREATE TABLE "cats" (name TEXT NOT NULL, birthdate TEXT, fur TEXT, weight_kg REAL) STRICT;
+INSERT INTO "cats" VALUES('Zophie','2021-01-24','gray tabby',5.6);
+INSERT INTO "cats" VALUES('Miguel','2016-12-24','siamese',6.2);
+INSERT INTO "cats" VALUES('Jacob','2022-02-20','orange and white',5.5);
+<var class="calibre20">--snip--</var>
+INSERT INTO "cats" VALUES('Spunky','2015-09-04','gray',5.9);
+INSERT INTO "cats" VALUES('Shadow','2021-01-18','calico',6.0);
+COMMIT;
+</code></pre>
+<p class="tx">The text of these queries will almost certainly be larger than the original database, but the queries have the advantage of being human readable and easy to edit before copying and pasting into your Python code or into a SQLite app, as we’ll cover next.</p>
+</section>
+<section type="division" aria-labelledby="sec26">
+<h3 class="h" id="calibre_link-1917"><span id="calibre_link-449"></span><span class="sans_futura_std_bold_b_">SQLite Apps</span></h3>
+<p class="tni">At times, you may want to investigate a SQLite database directly without having to write all of this extraneous Python code. You can do so by installing the <span class="thesansmonocd_w5regular_">sqlite3</span> command, which runs from a terminal command line window and is documented at <i class="calibre5"><a href="https://sqlite.org/cli.html" class="calibre1">https://<wbr></wbr>sqlite<wbr></wbr>.org<wbr></wbr>/cli<wbr></wbr>.html</a></i>.</p>
+<p class="tx">On Windows, download the files labeled “A bundle of command line tools for managing SQLite database files” from <i class="calibre5"><a href="https://sqlite.org/download.html" class="calibre1">https://<wbr></wbr>sqlite<wbr></wbr>.org<wbr></wbr>/download<wbr></wbr>.html</a></i> and place the <i class="calibre5">sqlite3.exe</i> program in a folder on the system <span class="thesansmonocd_w5regular_">PATH</span>. (See <span>Chapter 12</span> for information about the <span class="thesansmonocd_w5regular_">PATH</span> environment variable and terminal windows.) The <span class="thesansmonocd_w5regular_">sqlite3</span> command is preinstalled on macOS. For UbuntuLinux, run <span class="thesansmonocd_w5regular_">sudo apt install sqlite3</span> to install it.</p>
+<p class="tx">Next, in a terminal window, run <b class="calibre10">sqlite3 example.db</b> to connect to the database in <i class="calibre5">example.db</i>. If this file doesn’t exist, <span class="thesansmonocd_w5regular_">sqlite3</span> creates this file with an empty database. You can enter SQL queries into this tool, though unlike the queries passed to <span class="thesansmonocd_w5regular_">conn.execute()</span> in Python, they must end with a semicolon.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-981" aria-label="408"></span>For example, enter the following into the terminal window:</p>
+<pre class="pre"><code class="calibre9">C:\Users\Al&gt;<b class="calibre10">sqlite3 example.db</b>
+SQLite version 3.<var class="calibre20">xx.xx</var>
+Enter ".help" for usage hints.
+sqlite&gt; <b class="calibre10">CREATE TABLE IF NOT EXISTS cats (name TEXT NOT NULL,</b>
+<b class="calibre10">birthdate TEXT, fur TEXT, weight_kg REAL) STRICT;</b>
+sqlite&gt; <b class="calibre10">INSERT INTO cats VALUES ('Zophie', '2021-01-24', 'gray tabby', 4.7);</b>
+sqlite&gt; <b class="calibre10">SELECT * from cats;</b>
+Zophie|2021-01-24|gray tabby|4.7
+</code></pre>
+<p class="tx">As you can see in this example, the <span class="thesansmonocd_w5regular_">sqlite3</span> command line tool provides a sort of SQLite interactive shell for you to enter queries at its <span class="thesansmonocd_w5regular_">sqlite&gt;</span> prompt. The <span class="thesansmonocd_w5regular_">.help</span> command displays additional commands, such as <span class="thesansmonocd_w5regular_">.tables</span> (which shows the tables in the database) and <span class="thesansmonocd_w5regular_">.headers</span> (which lets you turn column headers on or off):</p>
+<pre class="pre"><code class="calibre9">sqlite&gt; <b class="calibre10">.tables</b>
+cats
+sqlite&gt; <b class="calibre10">.headers on</b>
+sqlite&gt; <b class="calibre10">SELECT * from cats;</b>
+name|birthdate|fur|weight_kg
+Zophie|2021-01-24|gray tabby|4.7
+</code></pre>
+<p class="tx">If the command line tool is too sparse for you, there are also free, open source apps for displaying SQLite databases in a graphical user interface (GUI) on Windows, macOS, and Linux:</p>
+<ul class="ul">
+<li class="bl">DB Browser for SQLite (<i class="calibre5"><a href="https://sqlitebrowser.org" class="calibre1">https://<wbr></wbr>sqlitebrowser<wbr></wbr>.org</a></i>)</li>
+<li class="bl">SQLite Studio (<i class="calibre5"><a href="https://sqlitestudio.pl" class="calibre1">https://<wbr></wbr>sqlitestudio<wbr></wbr>.pl</a></i>)</li>
+<li class="bl">DBeaver Community (<i class="calibre5"><a href="https://dbeaver.io" class="calibre1">https://<wbr></wbr>dbeaver<wbr></wbr>.io</a></i>)</li>
+</ul>
+<p class="tx">While these GUI apps make it easier to work with SQLite databases, it’s still worth learning the text-based syntax of SQLite queries.</p>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec27">
+<h3 class="h" id="calibre_link-1918"><span id="calibre_link-450"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">Computers make it possible to deal with large amounts of data, but simply putting data into a text file, or even a spreadsheet, might not organize it well enough for you to make efficient use of it. SQL databases such as SQLite offer an advanced way to not only store large amounts of information but also retrieve the precise data you want through the SQL language.</p>
+<p class="tx">SQLite is an impressive database, and Python comes with the <span class="thesansmonocd_w5regular_">sqlite3</span> module in its standard library. SQLite’s version of SQL is different from that used in other relational databases, but it’s similar enough that learning SQLite provides a good introduction to databases in general.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-998" aria-label="409"></span>SQLite databases live in a single file without a dedicated server. They can contain multiple tables (which you can think of as analogous to spreadsheets), and each table can contain multiple columns. To edit a table’s values, you can perform the CRUD operations (for create, read, update, and delete) with the <span class="thesansmonocd_w5regular_">INSERT</span>, <span class="thesansmonocd_w5regular_">SELECT</span>, <span class="thesansmonocd_w5regular_">UPDATE</span>, and <span class="thesansmonocd_w5regular_">DELETE</span> queries. To change tables and columns themselves, you can use the <span class="thesansmonocd_w5regular_">ALTER TABLE</span> and <span class="thesansmonocd_w5regular_">DROP TABLE</span> queries. Lastly, foreign keys allow you to link records in multiple tables together using a technique called joins.</p>
+<p class="tx">There’s a lot more to SQLite and databases than can be covered in one chapter. If you’d like to learn more about SQL databases in general, I recommend <i class="calibre5">Practical SQL,</i> 2nd edition (No Starch Press, 2022) by Anthony DeBarros.</p>
+</section>
+<section type="division" aria-labelledby="sec28">
+<h3 class="h" id="calibre_link-1919"><span id="calibre_link-451"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What Python instructions will obtain a <span class="thesansmonocd_w5regular_">Connection</span> object for a SQLite database in a file named <i class="calibre5">example.db</i>?</p>
+<p class="listnumber">  2.  What Python instruction will create a new table named <span class="thesansmonocd_w5regular_">students</span> with <span class="thesansmonocd_w5regular_">TEXT</span> columns named <span class="thesansmonocd_w5regular_">first_name</span>, <span class="thesansmonocd_w5regular_">last_name</span>, and <span class="thesansmonocd_w5regular_">favorite_color</span>?</p>
+<p class="listnumber">  3.  How do you connect to a SQLite database in autocommit mode?</p>
+<p class="listnumber">  4.  What’s the difference between the <span class="thesansmonocd_w5regular_">INTEGER</span> and <span class="thesansmonocd_w5regular_">REAL</span> data types in SQLite?</p>
+<p class="listnumber">  5.  What does strict mode add to a table?</p>
+<p class="listnumber">  6.  What does the <span class="thesansmonocd_w5regular_">*</span> in the query <span class="thesansmonocd_w5regular_">'SELECT * FROM cats'</span> mean?</p>
+<p class="listnumber">  7.  What does CRUD stand for?</p>
+<p class="listnumber">  8.  What does ACID stand for?</p>
+<p class="listnumber">  9.  What query adds new records to a table?</p>
+<p class="listnumber">10.  What query deletes records from a table?</p>
+<p class="listnumber">11.  What happens if you don’t specify the <span class="thesansmonocd_w5regular_">WHERE</span> clause in an <span class="thesansmonocd_w5regular_">UPDATE</span> query?</p>
+<p class="listnumber">12.  What is an index? What code would create an index for a column named <span class="thesansmonocd_w5regular_">birthdate</span> in a table named <span class="thesansmonocd_w5regular_">cats</span>?</p>
+<p class="listnumber">13.  What is a foreign key?</p>
+<p class="listnumber">14.  How can you delete a table named <span class="thesansmonocd_w5regular_">cats</span>?</p>
+<p class="listnumber">15.  What “filename” do you specify to create an in-memory database?</p>
+<p class="listnumber">16.  How can you copy a database to another database?</p>
+</section>
+<section type="division" aria-labelledby="sec29">
+<h3 class="h" id="calibre_link-1920"><span id="calibre_link-452"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec30">
+<h4 class="h1" id="calibre_link-1921"><span id="calibre_link-453"></span><span class="sans_futura_std_heavy_oblique_bi_">Cat Vaccination Checker</span></h4>
+<p class="tni">Download the <i class="calibre5">sweigartcats.db</i> database of my cats from the book’s resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>. Write a program <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1233" aria-label="410"></span>that opens this database and lists all cats that don’t have vaccines named <span class="thesansmonocd_w5regular_">'rabies'</span>, <span class="thesansmonocd_w5regular_">'FeLV'</span>, and <span class="thesansmonocd_w5regular_">'FVRCP'</span>. Also, check the database for errors by finding all vaccines that were administered on a date before the cat’s birthday.</p>
+</section>
+<section type="division" aria-labelledby="sec31">
+<h4 class="h1" id="calibre_link-1922"><span id="calibre_link-454"></span><span class="sans_futura_std_heavy_oblique_bi_">Meal Ingredients Database</span></h4>
+<p class="tni">Write a program that creates two tables, one for meals and one for ingredients, using these SQL queries:</p>
+<pre class="pre"><code class="calibre9">CREATE TABLE IF NOT EXISTS meals (name TEXT) STRICT
+CREATE TABLE IF NOT EXISTS ingredients (name TEXT,
+meal_id INTEGER, FOREIGN KEY(meal_id) REFERENCES meals
+(rowid)) STRICT
+</code></pre>
+<p class="tx">Then, write a program that prompts the user for input. If the user enters <span class="thesansmonocd_w5regular_">'quit'</span>, the program should exit. The user can also enter a new meal name, followed by a colon and a comma-delimited list of ingredients: <span class="thesansmonocd_w5regular_">'meal:ingredient1,ingredient2'</span>. Save the meal and its ingredients in the <span class="thesansmonocd_w5regular_">meals</span> and <span class="thesansmonocd_w5regular_">ingredients</span> tables.</p>
+<p class="tx">Finally, the user can enter the name of a meal or ingredient. If the name appears in the <span class="thesansmonocd_w5regular_">meals</span> table, the program should list the meal’s ingredients. If the name appears in the <span class="thesansmonocd_w5regular_">ingredients</span> table, the program should list every meal that uses this ingredient. For example, the output of the program could look like this:</p>
+<pre class="pre"><code class="calibre9">&gt; <b class="calibre10">onigiri:rice,nori,salt,sesame seeds</b>
+Meal added: onigiri
+&gt; <b class="calibre10">chicken and rice:chicken,rice,cream of chicken soup</b>
+Meal added: chicken and rice
+&gt; <b class="calibre10">onigiri</b>
+Ingredients of onigiri:
+  rice
+  nori
+  salt
+  sesame seeds
+&gt; <b class="calibre10">chicken</b>
+Meals that use chicken:
+  chicken and rice
+&gt; <b class="calibre10">rice</b>
+Meals that use rice:
+  onigiri
+chicken and rice
+&gt; <b class="calibre10">quit</b>
+</code></pre>
+</section>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

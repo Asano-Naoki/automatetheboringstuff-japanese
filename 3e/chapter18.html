@@ -1,0 +1,670 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-481">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch18">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1092" aria-label="437"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-1952">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">18</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">CSV, JSON, AND XML FILES</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">CSV, JSON, and XML are <i class="calibre18">data serialization formats</i> used to store data as plaintext files. Serialization converts data into a string to save your program’s work to a text file, transfer it over an internet connection, or even just copy and paste it into an email. Python comes with the <span class="sans_thesansmonocd_w5regular_">csv</span>, <span class="sans_thesansmonocd_w5regular_">json</span>, and <span class="sans_thesansmonocd_w5regular_">xml</span> modules to help you work with these file formats.</p>
+<p class="tx">While files in these formats are essentially text files that you could read and write with Python’s <span class="thesansmonocd_w5regular_">open()</span> function or the other file I/O functions from <span>Chapter 10</span>, it’s easier to use Python’s modules to handle them, just as we used the Beautiful Soup module in <span>Chapter 13</span> to handle HTML-formatted text. Each format has its own use case:</p>
+<p class="listplain"><b class="calibre10">Comma-separated values</b> (CSV, pronounced “see-ess-vee”) is a simplified spreadsheet format, and works best for storing a variable number of rows of data that share the same columns.</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1082" aria-label="438"></span><b class="calibre10">JavaScript Object Notation</b> (JSON, pronounced “JAY-sawn” or “Jason”) uses the same syntax as objects, arrays, and data types in the JavaScript programming language, though it doesn’t require you to know how to program in JavaScript. It was created as a simpler alternative to XML.</p>
+<p class="listplain"><b class="calibre10">Extensible Markup Language</b> (XML, pronounced “ex-em-el”) is an older, more established data serialization format widely used in enterprise software, but is overly complicated to work with if you don’t need its advanced features.</p>
+<p class="tx">This chapter covers the basics of these formats’ syntax and the Python code to work with them.</p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-1953"><span id="calibre_link-482"></span><span class="sans_futura_std_bold_b_">The CSV Format</span></h3>
+<p class="tni">Each line in a CSV file (which uses the <i class="calibre5">.csv</i> file extension) represents a row in a spreadsheet, and commas separate the cells in the row. For example, the spreadsheet <i class="calibre5">example3.xlsx</i> included in the online resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i> would look like this in a CSV file:</p>
+<pre class="pre"><code class="calibre9">4/5/2035 13:34,Apples,73
+4/5/2035 3:41,Cherries,85
+4/6/2035 12:46,Pears,14
+4/8/2035 8:59,Oranges,52
+4/10/2035 2:07,Apples,152
+4/10/2035 18:10,Bananas,23
+4/10/2035 2:40,Strawberries,98
+</code></pre>
+<p class="tx">I’ll use this file in this chapter’s CSV interactive shell examples. Download it or enter the text into a text editor and save it as <i class="calibre5">example3.csv</i>.</p>
+<p class="tx">You can think of CSV files as a list of lists of values. Python code could represent the <i class="calibre5">example3.csv</i> content as the value <span class="thesansmonocd_w5regular_">[['4/5/2035 13:34', 'Apples', '73'], ['4/5/2035 3:41', 'Cherries', '85'],</span> <span class="sans_thesansmonocd_w5regular_italic_">...</span> <span class="thesansmonocd_w5regular_">['4/10/2035 2:40', 'Strawberries', '98']]</span>. CSV files are simple, lacking many of the features of an Excel spreadsheet. For example, they:</p>
+<ul class="ul">
+<li class="bl">Don’t have multiple data types; every value is a string</li>
+<li class="bl">Don’t have settings for font size or color</li>
+<li class="bl">Don’t have multiple worksheets</li>
+<li class="bl">Can’t specify cell widths or cell heights</li>
+<li class="bl">Can’t merge cells</li>
+<li class="bl">Can’t have embedded images or charts</li>
+</ul>
+<p class="tx">The advantage of CSV files is simplicity. Many apps and programming languages support them, you can view them in text editors (including Mu), and they’re a straightforward way to represent spreadsheet data.</p>
+<p class="tx">Because CSV files are just text files, you might be tempted to read them as a string and then process that string using the techniques you learned in <span>Chapter 8</span>. For example, because each cell in a CSV file is separated by <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1083" aria-label="439"></span>a comma, you might try to call <span class="thesansmonocd_w5regular_">split(',')</span> on each line of text to get the comma-separated values as a list of strings. But not every comma in a CSV file represents the boundary between two cells. CSV files have a set of escape characters that allow you to include commas and other characters as part of the values. The <span class="thesansmonocd_w5regular_">split()</span> method doesn’t handle these escape characters. Because of these potential pitfalls, the <span class="thesansmonocd_w5regular_">csv</span> module provides a more reliable way to read and write CSV files.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-1954"><span id="calibre_link-483"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading CSV Files</span></h4>
+<p class="tni">To read a CSV file, you must create a <span class="thesansmonocd_w5regular_">csv.reader</span> object, which lets you iterate over lines in the CSV file. The <span class="thesansmonocd_w5regular_">csv</span> module comes with Python, so you can import it without having to first install it. Place <i class="calibre5">example3.csv</i> in the current working directory, then enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+&gt;&gt;&gt; <b class="calibre10">example_file = open('example3.csv')</b>
+&gt;&gt;&gt; <b class="calibre10">example_reader = csv.reader(example_file)</b>
+&gt;&gt;&gt; <b class="calibre10">example_data = list(example_reader)</b>
+&gt;&gt;&gt; <b class="calibre10">example_data</b>
+[['4/5/2035 13:34', 'Apples', '73'], ['4/5/2035 3:41', 'Cherries', '85'],
+['4/6/2035 12:46', 'Pears', '14'], ['4/8/2035 8:59', 'Oranges', '52'],
+['4/10/2035 2:07', 'Apples', '152'], ['4/10/2035 18:10', 'Bananas', '23'],
+['4/10/2035 2:40', 'Strawberries', '98']]
+&gt;&gt;&gt; <b class="calibre10">example_file.close()</b>
+</code></pre>
+<p class="tx">To read a CSV file with the <span class="thesansmonocd_w5regular_">csv</span> module, open it using the <span class="thesansmonocd_w5regular_">open()</span> function, just as you would any other text file, but instead of calling the <span class="thesansmonocd_w5regular_">read()</span> or <span class="thesansmonocd_w5regular_">readlines()</span> method on the <span class="thesansmonocd_w5regular_">File</span> object that <span class="thesansmonocd_w5regular_">open()</span> returns, pass it to the <span class="thesansmonocd_w5regular_">csv .reader()</span> function. This function should return a <span class="thesansmonocd_w5regular_">reader</span> object. Note that you can’t pass a filename string directly to the <span class="thesansmonocd_w5regular_">csv.reader()</span> function.</p>
+<p class="tx">The easiest way to access the values in the <span class="thesansmonocd_w5regular_">reader</span> object is to convert it to a plain Python list by passing it to <span class="thesansmonocd_w5regular_">list()</span>. Using <span class="thesansmonocd_w5regular_">list()</span> on this <span class="thesansmonocd_w5regular_">reader</span> object returns a list of lists, which you can store in a variable, like <span class="thesansmonocd_w5regular_">example_data</span>. Entering <span class="thesansmonocd_w5regular_">example_data</span> in the shell displays the list of lists.</p>
+<p class="tx">Now that you have the CSV file as a list of lists, you can access the value at a particular row and column with the expression <span class="thesansmonocd_w5regular_">example_data[row][col]</span>, where <span class="thesansmonocd_w5regular_">row</span> is the index of one of the lists in <span class="thesansmonocd_w5regular_">example_data</span> and <span class="thesansmonocd_w5regular_">col</span> is the index of the item you want from that list. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">example_data[0][0]</b>  # First row, first column
+'4/5/2035 13:34'
+&gt;&gt;&gt; <b class="calibre10">example_data[0][1]</b>  # First row, second column
+'Apples'
+&gt;&gt;&gt; <b class="calibre10">example_data[0][2]</b>  # First row, third column
+'73'
+&gt;&gt;&gt; <b class="calibre10">example_data[1][1]</b>  # Second row, second column
+'Cherries'
+&gt;&gt;&gt; <b class="calibre10">example_data[6][1]</b>  # Seventh row, second column
+'Strawberries'
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1084" aria-label="440"></span>As evident from the output, <span class="thesansmonocd_w5regular_">example_data[0][0]</span> goes into the first list and gives us the first string, <span class="thesansmonocd_w5regular_">example_data[0][2]</span> goes into the first list and gives us the third string, and so on.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1" id="calibre_link-1955"><span id="calibre_link-484"></span><span class="sans_futura_std_heavy_oblique_bi_">Accessing Data in a for Loop</span></h4>
+<p class="tni">For large CSV files, you may want to use the <span class="thesansmonocd_w5regular_">reader</span> object in a <span class="thesansmonocd_w5regular_">for</span> loop. This approach saves you from having to load the entire file into memory at once. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+&gt;&gt;&gt; <b class="calibre10">example_file = open('example3.csv')</b>
+&gt;&gt;&gt; <b class="calibre10">example_reader = csv.reader(example_file)</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">for row in example_reader:</b>
+...   <span class="code_codeannotation" aria-label="annotation2">❷</span> <b class="calibre10">print('Row #' + str(example_reader.line_num) + ' ' + str(row))</b>
+...
+Row #1 ['4/5/2035 13:34', 'Apples', '73']
+Row #2 ['4/5/2035 3:41', 'Cherries', '85']
+Row #3 ['4/6/2035 12:46', 'Pears', '14']
+Row #4 ['4/8/2035 8:59', 'Oranges', '52']
+Row #5 ['4/10/2035 2:07', 'Apples', '152']
+Row #6 ['4/10/2035 18:10', 'Bananas', '23']
+Row #7 ['4/10/2035 2:40', 'Strawberries', '98']
+</code></pre>
+<p class="tx">After you import the <span class="thesansmonocd_w5regular_">csv</span> module and make a <span class="thesansmonocd_w5regular_">reader</span> object from the CSV file, you can loop through the rows in the <span class="thesansmonocd_w5regular_">reader</span> object <span class="codeannotation" aria-label="annotation1">❶</span>. Each row is a list of values stored in the row variable, with each value in the list representing a cell.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">print()</span> function call <span class="codeannotation" aria-label="annotation2">❷</span> prints the number of the current row and the contents of the row. To get the row number, use the <span class="thesansmonocd_w5regular_">reader</span> object’s <span class="thesansmonocd_w5regular_">line_num</span> attribute, which stores an integer. If your CSV file contains column headers in the first row, you could use <span class="thesansmonocd_w5regular_">line_num</span> to check whether you’re on row 1 and run a <span class="thesansmonocd_w5regular_">continue</span> instruction to skip the headers. Unlike Python list indexes, line numbers in <span class="thesansmonocd_w5regular_">line_num</span> begin at 1, not 0.</p>
+<p class="tx">You can loop over the <span class="thesansmonocd_w5regular_">reader</span> object only once. To reread the CSV file, you must call <span class="thesansmonocd_w5regular_">open()</span> and <span class="thesansmonocd_w5regular_">csv.reader()</span> again to create another <span class="thesansmonocd_w5regular_">reader</span> object.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-1956"><span id="calibre_link-485"></span><span class="sans_futura_std_heavy_oblique_bi_">Writing CSV Files</span></h4>
+<p class="tni">A <span class="thesansmonocd_w5regular_">csv.writer</span> object lets you write data to a CSV file. To create a <span class="thesansmonocd_w5regular_">writer</span> object, use the <span class="thesansmonocd_w5regular_">csv.writer()</span> function. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">output_file = open('output.csv', 'w', newline='')</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">output_writer = csv.writer(output_file)</b>
+&gt;&gt;&gt; <b class="calibre10">output_writer.writerow(['spam', 'eggs', 'bacon', 'ham'])</b>
+21
+&gt;&gt;&gt; <b class="calibre10">output_writer.writerow(['Hello, world!', 'eggs', 'bacon', 'ham'])</b>
+32
+&gt;&gt;&gt; <b class="calibre10">output_writer.writerow([1, 2, 3.141592, 4])</b>
+16
+&gt;&gt;&gt; <b class="calibre10">output_file.close()</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1219" aria-label="441"></span>Call <span class="thesansmonocd_w5regular_">open()</span> and pass it <span class="thesansmonocd_w5regular_">'w'</span> to open a file in write mode <span class="codeannotation" aria-label="annotation1">❶</span>. This code should create an object you can then pass to <span class="thesansmonocd_w5regular_">csv.writer()</span> <span class="codeannotation" aria-label="annotation2">❷</span> to generate a <span class="thesansmonocd_w5regular_">writer</span> object.</p>
+<p class="tx">On Windows, you’ll also need to pass a blank string for the <span class="thesansmonocd_w5regular_">open()</span> function’s <span class="thesansmonocd_w5regular_">newline</span> keyword argument. For technical reasons that are beyond the scope of this book, if you forget to set the <span class="thesansmonocd_w5regular_">newline</span> argument, the rows in <i class="calibre5">output.csv</i> will be double-spaced, as shown in Figure 18-1.</p>
+<figure class="img"><img class="img2" id="calibre_link-800" src="images/000046.jpg" alt="Screenshot of a Windows computer desktop showing six overlapping calculator programs" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 18-1: A double-spaced CSV file</span></p></figcaption>
+</figure>
+<p class="tx">The <span class="thesansmonocd_w5regular_">writerow()</span> method of <span class="thesansmonocd_w5regular_">writer</span> objects takes a list argument. Each value in the list will appear in its own cell in the output CSV file. The method’s return value is the number of characters written to the file for that row (including newline characters). For example, this code in our example produces an <i class="calibre5">output.csv</i> file that looks like this:</p>
+<pre class="pre"><code class="calibre9">spam,eggs,bacon,ham
+"Hello, world!",eggs,bacon,ham
+1,2,3.141592,4
+</code></pre>
+<p class="tx">Notice how the <span class="thesansmonocd_w5regular_">writer</span> object automatically escapes the comma in the value <span class="thesansmonocd_w5regular_">'Hello, world!'</span> with double quotes in the CSV file. The <span class="thesansmonocd_w5regular_">csv</span> module saves you from having to handle these special cases yourself.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1" id="calibre_link-1957"><span id="calibre_link-486"></span><span class="sans_futura_std_heavy_oblique_bi_">Using Tabs Instead of Commas</span></h4>
+<p class="tni"><i class="calibre5">Tab-separated value (TSV)</i> files are similar to CSV files but, unsurprisingly, use tabs instead of commas. Their files have the <i class="calibre5">.tsv</i> file extension. Say you want to separate cells with a tab character instead of a comma and want the rows to be double-spaced. You could enter something like the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+&gt;&gt;&gt; <b class="calibre10">output_file = open('output.tsv', 'w', newline='')</b>
+&gt;&gt;&gt; <b class="calibre10">output_writer = csv.writer(output_file, delimiter='\t', lineterminator='\n\n')</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
+&gt;&gt;&gt; <b class="calibre10">output_writer.writerow(['spam', 'eggs', 'bacon', 'ham'])</b>
+21
+&gt;&gt;&gt; <b class="calibre10">output_writer.writerow(['Hello, world!', 'eggs', 'bacon', 'ham'])</b>
+30
+&gt;&gt;&gt; <b class="calibre10">output_writer.writerow([1, 2, 3.141592, 4])</b>
+16
+&gt;&gt;&gt; <b class="calibre10">output_file.close()</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1080" aria-label="442"></span>This code changes the delimiter and line terminator characters in your file. The <i class="calibre5">delimiter</i> is the character that appears between cells on a row. By default, the delimiter for a CSV file is a comma. The <i class="calibre5">line terminator</i> is the character that comes at the end of a row. By default, the line terminator is a newline. You can change characters to different values by using the <span class="thesansmonocd_w5regular_">delimiter</span> and <span class="thesansmonocd_w5regular_">lineterminator</span> keyword arguments with <span class="thesansmonocd_w5regular_">csv.writer()</span>.</p>
+<p class="tx">Passing <span class="thesansmonocd_w5regular_">delimiter='\t'</span> and <span class="thesansmonocd_w5regular_">lineterminator='\n\n'</span> <span class="codeannotation" aria-label="annotation1">❶</span> changes the delimiter to a tab and the line terminator to two newlines. The code then calls <span class="thesansmonocd_w5regular_">writerow()</span> three times to create three row, producing a file named <i class="calibre5">output.tsv</i> with the following contents:</p>
+<pre class="pre"><code class="calibre9">spam    eggs    bacon   ham
+
+Hello, world!   eggs    bacon   ham
+
+1   2   3.141592    4   
+</code></pre>
+<p class="tx">Tabs now separate the cells in the spreadsheet.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-1958"><span id="calibre_link-487"></span><span class="sans_futura_std_heavy_oblique_bi_">Handling Header Rows</span></h4>
+<p class="tni">For CSV files that contain header rows, it’s often more convenient to work with the <span class="thesansmonocd_w5regular_">DictReader</span> and <span class="thesansmonocd_w5regular_">DictWriter</span> objects rather than the <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> objects. While <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> read and write to CSV file rows by using lists, <span class="thesansmonocd_w5regular_">DictReader</span> and <span class="thesansmonocd_w5regular_">DictWriter</span> perform the same functions using dictionaries, treating the values in the first row as the keys.</p>
+<p class="tx">Download <i class="calibre5">exampleWithHeader3.csv</i> from the book’s online resources for the next example. This file is the same as <i class="calibre5">example3.csv</i> except it includes <i class="calibre5">Timestamp</i>, <i class="calibre5">Fruit</i>, and <i class="calibre5">Quantity</i> as column headers in the first row. To read the file, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+&gt;&gt;&gt; <b class="calibre10">example_file = open('exampleWithHeader3.csv')</b>
+&gt;&gt;&gt; <b class="calibre10">example_dict_reader = csv.DictReader(example_file)</b>
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">example_dict_data = list(example_dict_reader)</b>
+&gt;&gt;&gt; <b class="calibre10">example_dict_data</b>
+[{'Timestamp': '4/5/2035 3:41', 'Fruit': 'Cherries', 'Quantity': '85'},
+{'Timestamp': '4/6/2035 12:46', 'Fruit': 'Pears', 'Quantity': '14'},
+{'Timestamp': '4/8/2035 8:59', 'Fruit': 'Oranges', 'Quantity': '52'},
+{'Timestamp': '4/10/2035 2:07', 'Fruit': 'Apples', 'Quantity': '152'},
+{'Timestamp': '4/10/2035 18:10', 'Fruit': 'Bananas', 'Quantity': '23'},
+{'Timestamp': '4/10/2035 2:40', 'Fruit': 'Strawberries', 'Quantity': '98'}]
+&gt;&gt;&gt; <b class="calibre10">example_file = open('exampleWithHeader3.csv')</b>
+&gt;&gt;&gt; <b class="calibre10">example_dict_reader = csv.DictReader(example_file)</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">for row in example_dict_reader:</b>
+...     <b class="calibre10">print(row['Timestamp'], row['Fruit'], row['Quantity'])</b>
+...
+4/5/2035 13:34 Apples 73
+4/5/2035 3:41 Cherries 85
+4/6/2035 12:46 Pears 14
+4/8/2035 8:59 Oranges 52
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1081" aria-label="443"></span>4/10/2035 2:07 Apples 152
+4/10/2035 18:10 Bananas 23
+4/10/2035 2:40 Strawberries 98
+</code></pre>
+<p class="tx">By passing the <span class="thesansmonocd_w5regular_">DictReader</span> object to <span class="thesansmonocd_w5regular_">list()</span> <span class="codeannotation" aria-label="annotation1">❶</span>, you can get the CSV data as a list of dictionaries. Each row corresponds to one dictionary in the list. Alternatively, you can use the <span class="thesansmonocd_w5regular_">DictReader</span> object inside a <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation2">❷</span>. The <span class="thesansmonocd_w5regular_">DictReader</span> object sets <span class="thesansmonocd_w5regular_">row</span> to a dictionary object with keys derived from the headers in the first row. Using a <span class="thesansmonocd_w5regular_">DictReader</span> object means you don’t need additional code to skip the first row’s header information, as the <span class="thesansmonocd_w5regular_">DictReader</span> object does this for you.</p>
+<p class="tx">If you tried to use a <span class="thesansmonocd_w5regular_">DictReader</span> object with <i class="calibre5">example3.csv</i>, which doesn’t have column headers in the first row, the <span class="thesansmonocd_w5regular_">DictReader</span> object would use <span class="thesansmonocd_w5regular_">'4/5/2035 13:34'</span>, <span class="thesansmonocd_w5regular_">'Apples'</span>, and <span class="thesansmonocd_w5regular_">'73'</span> as the dictionary keys. To avoid this, you can supply the <span class="thesansmonocd_w5regular_">DictReader()</span> function with a second argument containing made-up header names:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+&gt;&gt;&gt; <b class="calibre10">example_file = open('example3.csv')</b>
+&gt;&gt;&gt; <b class="calibre10">example_dict_reader = csv.DictReader(example_file, ['time', 'name', 'amount'])</b>
+&gt;&gt;&gt; <b class="calibre10">for row in example_dict_reader:</b>
+...     <b class="calibre10">print(row['time'], row['name'], row['amount'])</b>
+...
+4/5/2035 13:34 Apples 73
+4/5/2035 3:41 Cherries 85
+4/6/2035 12:46 Pears 14
+4/8/2035 8:59 Oranges 52
+4/10/2035 2:07 Apples 152
+4/10/2035 18:10 Bananas 23
+4/10/2035 2:40 Strawberries 98
+</code></pre>
+<p class="tx">Because <i class="calibre5">example3.csv</i>’s first row doesn’t contain column headings, we created our own: <span class="thesansmonocd_w5regular_">'time'</span>, <span class="thesansmonocd_w5regular_">'name'</span>, and <span class="thesansmonocd_w5regular_">'amount'</span>. The <span class="thesansmonocd_w5regular_">DictWriter</span> objects use dictionaries to create CSV files:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
+&gt;&gt;&gt; <b class="calibre10">output_file = open('output.csv', 'w', newline='')</b>
+&gt;&gt;&gt; <b class="calibre10">output_dict_writer = csv.DictWriter(output_file, ['Name', 'Pet', 'Phone'])</b>
+&gt;&gt;&gt; <b class="calibre10">output_dict_writer.writeheader()</b>
+16
+&gt;&gt;&gt; <b class="calibre10">output_dict_writer.writerow({'Name': 'Alice', 'Pet': 'cat', 'Phone': '555-1234'})</b>
+20
+&gt;&gt;&gt; <b class="calibre10">output_dict_writer.writerow({'Name': 'Bob', 'Phone': '555-9999'})</b>
+15
+&gt;&gt;&gt; <b class="calibre10">output_dict_writer.writerow({'Phone': '555-5555', 'Name': 'Carol', 'Pet': 'dog'})</b>
+20
+&gt;&gt;&gt; <b class="calibre10">output_file.close()</b>
+</code></pre>
+<p class="tx">If you want your file to contain a header row, write that row by calling <span class="thesansmonocd_w5regular_">writeheader()</span>. Otherwise, skip calling <span class="thesansmonocd_w5regular_">writeheader()</span> to omit a header row from the file. You can then write each row of the CSV file with a <span class="thesansmonocd_w5regular_">writerow()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1286" aria-label="444"></span>method call, passing a dictionary that uses the headers as keys and contains the data to write to the file.</p>
+<p class="tx">The <i class="calibre5">output.csv</i> file that this code creates looks like this:</p>
+<pre class="pre"><code class="calibre9">Name,Pet,Phone
+Alice,cat,555-1234
+Bob,,555-9999
+Carol,dog,555-5555
+</code></pre>
+<p class="tx">The double commas indicate that Bob has a blank value for a pet. Notice that the order of the key-value pairs in the dictionaries you passed to <span class="thesansmonocd_w5regular_">writerow()</span> doesn’t matter; they’re written in the order of the keys given to <span class="thesansmonocd_w5regular_">DictWriter()</span>. For example, even though you passed the <span class="thesansmonocd_w5regular_">Phone</span> key and value before the <span class="thesansmonocd_w5regular_">Name</span> and <span class="thesansmonocd_w5regular_">Pet</span> keys and values in the fourth row, the phone number still appears last in the output.</p>
+<p class="tx">Notice also that any missing keys, such as <span class="thesansmonocd_w5regular_">'Pet'</span> in <span class="thesansmonocd_w5regular_">{'Name': 'Bob', 'Phone': '555-9999'}</span>, will become empty cells in the CSV file.</p>
+<p class="ph"><span id="calibre_link-488"></span><span class="sans_futura_std_heavy_b_">Project 13: Remove the Header from CSV Files</span></p>
+<p class="tni">Say you have the boring job of removing the first line from several hundred CSV files. Maybe you’ll be feeding them into an automated process that requires just the data, without the headers at the top of the columns. You <i class="calibre5">could</i> open each file in Excel, delete the first row, and resave the file—but that would take hours. Let’s write a program to do it instead.</p>
+<p class="tx">The program will need to open every file with the <i class="calibre5">.csv</i> extension in the current working directory, read the contents of the CSV file, and rewrite the contents without the first row to a file of the same name. This will replace the old contents of the CSV file with the new, headless contents.</p>
+<blockquote class="calibre17">
+<p class="note"><span class="sans_dogma_ot_bold_b_1">WARNING</span></p>
+</blockquote>
+<p class="note-txt"><i class="calibre5">As always, whenever you write a program that modifies files, be sure to back up the files first, in case your program doesn’t work the way you expect it to. You don’t want to accidentally erase your original files.</i></p>
+<p class="tx">At a high level, the program must do the following:</p>
+<ul class="ul">
+<li class="bl">Find all the CSV files in the current working directory.</li>
+<li class="bl">Read the full contents of each file.</li>
+<li class="bl">Write the contents, skipping the first line, to a new CSV file.</li>
+</ul>
+<p class="tx">At the code level, this means the program will need to do the following:</p>
+<ul class="ul">
+<li class="bl">Loop over a list of files from <span class="thesansmonocd_w5regular_">os.listdir()</span>, skipping the non-CSV files.</li>
+<li class="bl">Create a CSV <span class="thesansmonocd_w5regular_">reader</span> object and read the contents of the file, using the <span class="thesansmonocd_w5regular_">line_num</span> attribute to figure out which line to skip.</li>
+<li class="bl">Create a CSV <span class="thesansmonocd_w5regular_">writer</span> object and write the read-in data to the new file.</li>
+</ul>
+<p class="tx">For this project, open a new file editor window and save it as <i class="calibre5">removeCsvHeader.py</i>.</p>
+</section>
+<section type="division" aria-labelledby="sec7">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1959" aria-label="445"></span>
+<h4 class="h1" id="calibre_link-1960"><span id="calibre_link-489"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Loop Through Each File</span></h4>
+<p class="tni">The first thing your program needs to do is loop over a list of all CSV filenames for the current working directory. Make <i class="calibre5">removeCsvHeader.py</i> look like this:</p>
+<pre class="pre"><code class="calibre9"># Removes the header line from csv files
+import csv, os
+
+os.makedirs('headerRemoved', exist_ok=True)
+
+# Loop through every file in the current working directory.
+for csv_filename in os.listdir('.'):
+    if not csv_filename.endswith('.csv'):
+      <span class="code_codeannotation" aria-label="annotation1">❶</span> continue  # Skip non-CSV files.
+
+    print('Removing header from ' + csv_filename + '...')
+
+    # TODO: Read the CSV file (skipping the first row).
+
+    # TODO: Write the CSV file.
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">os.makedirs()</span> call create a <i class="calibre5">headerRemoved</i> folder in which to save the headless CSV files. A <span class="thesansmonocd_w5regular_">for</span> loop on <span class="thesansmonocd_w5regular_">os.listdir('.')</span> gets you partway there, but it will loop over <i class="calibre5">all</i> files in the working directory, so you’ll need to add some code at the start of the loop that skips filenames that don’t end with <i class="calibre5">.csv</i>. The <span class="thesansmonocd_w5regular_">continue</span> statement <span class="codeannotation" aria-label="annotation1">❶</span> makes the <span class="thesansmonocd_w5regular_">for</span> loop move on to the next filename when it comes across a non-CSV file.</p>
+<p class="tx">To see output as the program runs, print a message indicating which CSV file the program is working on. Then, add some <span class="thesansmonocd_w5regular_">TODO</span> comments indicating what the rest of the program should do.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h4 class="h1" id="calibre_link-1961"><span id="calibre_link-490"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Read the File</span></h4>
+<p class="tni">The program doesn’t remove the first line from the CSV file. Rather, it creates a new copy of the CSV file without the first line. That way, we can use the original file in case a bug incorrectly modifies the new file.</p>
+<p class="tx">The program will need a way to track whether it’s currently looping on the first row. Add the following to <i class="calibre5">removeCsvHeader.py</i>.</p>
+<pre class="pre"><code class="calibre9"># Removes the header line from csv files
+import csv, os
+
+<var class="calibre20">--snip--</var>
+
+<b class="calibre10">    # Read the CSV file (skipping the first row).</b>
+    <b class="calibre10">csv_rows = []</b>
+    <b class="calibre10">csv_file_obj = open(csv_filename)</b>
+<b class="calibre10">    reader_obj = csv.reader(csv_file_obj)</b>
+    <b class="calibre10">for row in reader_obj:</b>
+        <b class="calibre10">if reader_obj.line_num == 1:</b>
+            <b class="calibre10">continue  </b># Skip the first row.
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1962" aria-label="446"></span>        <b class="calibre10">csv_rows.append(row)</b>
+    <b class="calibre10">csv_file_obj.close()</b>
+
+    # TODO: Write the CSV file.
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">reader</span> object’s <span class="thesansmonocd_w5regular_">line_num</span> attribute can be used to determine which line in the CSV file it’s currently reading. Another <span class="thesansmonocd_w5regular_">for</span> loop will loop over the rows returned from the CSV <span class="thesansmonocd_w5regular_">reader</span> object, and all rows but the first will be appended to <span class="thesansmonocd_w5regular_">csv_rows</span>.</p>
+<p class="tx">As the <span class="thesansmonocd_w5regular_">for</span> loop iterates over each row, the code checks whether <span class="thesansmonocd_w5regular_">reader _obj.line_num</span> is set to <span class="thesansmonocd_w5regular_">1</span>. If so, it executes a <span class="thesansmonocd_w5regular_">continue</span> to move on to the next row without appending it to <span class="thesansmonocd_w5regular_">csv_rows</span>. For every subsequent row, the condition will be always be <span class="thesansmonocd_w5regular_">False</span>, and the code will append the row to <span class="thesansmonocd_w5regular_">csv_rows</span>.</p>
+</section>
+<section type="division" aria-labelledby="sec9">
+<h4 class="h1" id="calibre_link-1963"><span id="calibre_link-491"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Write the New CSV File</span></h4>
+<p class="tni">Now that <span class="thesansmonocd_w5regular_">csv_rows</span> contains all rows but the first row, we need to write the list to a CSV file in the <i class="calibre5">headerRemoved</i> folder. Add the following to <i class="calibre5">removeCsvHeader.py</i>:</p>
+<pre class="pre"><code class="calibre9"># Removes the header line from csv files
+import csv, os
+
+<var class="calibre20">--snip--</var>
+
+# Loop through every file in the current working directory.
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> for csv_filename in os.listdir('.'):
+    if not csv_filename.endswith('.csv'):
+        continue    # Skip non-CSV files.
+
+    <var class="calibre20">--snip--</var>
+
+<b class="calibre10">    # Write the CSV file.</b>
+    <b class="calibre10">csv_file_obj = open(os.path.join('headerRemoved', csv_filename), 'w', </b>
+<b class="calibre10">                 newline='')</b>
+    <b class="calibre10">csv_writer = csv.writer(csv_file_obj)</b>
+    <b class="calibre10">for row in csv_rows:</b>
+        <b class="calibre10">csv_writer.writerow(row)</b>
+    <b class="calibre10">csv_file_obj.close()</b>
+</code></pre>
+<p class="tx">The CSV <span class="thesansmonocd_w5regular_">writer</span> object will write the list to a CSV file in <span class="thesansmonocd_w5regular_">headerRemoved</span> using <span class="thesansmonocd_w5regular_">csv_filename</span> (which we also used in the CSV reader). After creating the <span class="thesansmonocd_w5regular_">writer</span> object, we loop over the sublists stored in <span class="thesansmonocd_w5regular_">csv_rows</span> and write each sublist to the file.</p>
+<p class="tx">The outer <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation1">❶</span> will then loop to the next filename returned by <span class="thesansmonocd_w5regular_">os.listdir('.')</span>. When that loop is finished, the program will be complete.</p>
+<p class="tx">To test your program, download <i class="calibre5">removeCsvHeader.zip</i> from the book’s online resources and unzip it to a folder. Then, run the <i class="calibre5">removeCsvHeader.py</i> program in that folder. The output will look like this:</p>
+<pre class="pre"><code class="calibre9">Removing header from NAICS_data_1048.csv...
+Removing header from NAICS_data_1218.csv...
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-927" aria-label="447"></span><var class="calibre20">--snip--</var>
+Removing header from NAICS_data_9834.csv...
+Removing header from NAICS_data_9986.csv...
+</code></pre>
+<p class="tx">This program should print a filename each time it strips the first line from a CSV file.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-1964"><span id="calibre_link-492"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
+<p class="tni">Programs that work with CSV files are similar to those that work with Excel files, as CSV and Excel are both spreadsheet files. For example, you could write programs to do the following:</p>
+<ul class="ul">
+<li class="bl">Compare data between different rows in a CSV file, or between multiple CSV files.</li>
+<li class="bl">Copy specific data from a CSV file to an Excel file, or vice versa.</li>
+<li class="bl">Check for invalid data or formatting mistakes in CSV files and alert the user about these errors.</li>
+<li class="bl">Read data from a CSV file as input for your Python programs.</li>
+</ul>
+</section>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h3 class="h" id="calibre_link-1965"><span id="calibre_link-493"></span><span class="sans_futura_std_bold_b_">Versatile Plaintext Formats</span></h3>
+<p class="tni">While CSV files are useful for storing rows of data that have the exact same columns, the JSON and XML formats can store a variety of data structures. (This book skips the less popular but still useful YAML and TOML formats.) These formats aren’t specific to Python; many programming languages have functions for reading and writing data in these formats.</p>
+<p class="tx">Each of these formats organizes data using the equivalent of nested Python dictionaries and lists. In other programming languages, you’ll see dictionaries referred to as <i class="calibre5">mappings</i>, <i class="calibre5">hash maps</i>, <i class="calibre5">hash tables</i>, or <i class="calibre5">associative arrays</i> (because they map, or associate, one piece of data, the key, to another, the value). Likewise, you may see Python’s lists called <i class="calibre5">arrays</i> in other languages. But the concepts are the same: they organize data into key-value pairs and lists.</p>
+<p class="tx">You can nest dictionaries and lists within other dictionaries and lists to form elaborate data structures. But if you want to save these data structures to a text file, you’ll need to choose a data serialization format such as JSON or XML. The Python modules in this chapter can <i class="calibre5">parse</i> (that is, read and understand) text written in these formats to create Python data structures from their text.</p>
+<p class="tx">These human-readable plaintext formats don’t make the most efficient use of disk space or memory, but they have the advantage of being easy to view and edit in a text editor and are language neutral, as programs written in any language can read or write text files. By contrast, the <span class="thesansmonocd_w5regular_">shelve</span> module, covered in <span>Chapter 10</span>, can store all Python data types in binary shelf files, but other languages don’t have modules to load this data into their programs.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1206" aria-label="448"></span>In the remainder of this chapter, I’ll represent the following Python data structure, which stores personal details about someone named Alice, in each of these formats, so you can compare and contrast them:</p>
+<pre class="pre"><code class="calibre9">{
+    "name": "Alice Doe",
+    "age": 30,
+    "car": None,
+    "programmer": True,
+    "address": {
+        "street": "100 Larkin St.",
+        "city": "San Francisco",
+        "zip": "94102"
+    },
+    "phone": [
+        {
+            "type": "mobile",
+            "number": "415-555-7890"
+        },
+        {
+            "type": "work",
+            "number": "415-555-1234"
+        }
+    ]
+}
+</code></pre>
+<p class="tx">These text formats have their own histories and occupy specific niches in the computing ecosystem. If you have to choose a data serialization format for storing your data, keep in mind that JSON is simpler than XML and more widely adopted than YAML, and that TOML is chiefly used as a format for configuration files. Lastly, coming up with your own data serialization format might be tempting, but it’s also reinventing the wheel, and you would have to write your own parser for your custom format. It’s better to simply choose an existing format.</p>
+<section type="division" aria-labelledby="sec12">
+<h4 class="h1" id="calibre_link-1966"><span id="calibre_link-494"></span><span class="sans_futura_std_heavy_oblique_bi_">JSON</span></h4>
+<p class="tni">JSON stores information as JavaScript source code, though many non-JavaScript applications use it. In particular, websites often make their data available to programmers in the JSON format through APIs like the OpenWeather API covered in <span>Chapter 13</span>. We save JSON-formatted text in plaintext files with the <i class="calibre5">.json</i> file extension. Here is the example data structure formatted as JSON text:</p>
+<pre class="pre"><code class="calibre9">{
+  "name": "Alice Doe",
+  "age": 30,
+  "car": null,
+  "programmer": true,
+  "address": {
+    "street": "100 Larkin St.",
+    "city": "San Francisco",
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1248" aria-label="449"></span>    "zip": "94102"
+  },
+  "phone": [
+    {
+      "type": "mobile",
+      "number": "415-555-7890"
+    },
+    {
+      "type": "work",
+      "number": "415-555-1234"
+    }
+  ]
+}
+</code></pre>
+<p class="tx">The first thing you’ll notice is that JSON is similar to Python syntax. Python’s dictionaries and JSON’s objects both use curly brackets and contain key-value pairs separated by commas, with each key and value separated by a colon. Python’s lists and JSON’s arrays both use square brackets and contain values separated by commas. In JSON, whitespace is insignificant outside of double-quoted strings, meaning you can space values however you like. However, it’s best to format nested objects and arrays with increased indentation, like blocks of indented Python code. In our example data, the list of phone numbers is indented by two spaces, with each phone number dictionary in the list indented by four spaces.</p>
+<p class="tx">But there are also differences between JSON and Python. Instead of Python’s <span class="thesansmonocd_w5regular_">None</span> value, JSON uses the JavaScript keyword <span class="thesansmonocd_w5regular_">null</span>. The Boolean values are JavaScript’s lowercase <span class="thesansmonocd_w5regular_">true</span> and <span class="thesansmonocd_w5regular_">false</span> keywords. JSON doesn’t allow JavaScript comments or multiline strings; all strings in JSON must use double quotes. Unlike Python lists, JSON arrays can’t have trailing commas, so while <span class="thesansmonocd_w5regular_">["spam", "eggs"]</span> is valid JSON, <span class="thesansmonocd_w5regular_">["spam", "eggs",]</span> is not.</p>
+<p class="tx">Facebook, Twitter, Yahoo!, Google, Tumblr, Wikipedia, Flickr, Data.gov, Reddit, IMDb, Rotten Tomatoes, LinkedIn, and many other popular sites offer APIs that work with JSON data. Some of these sites require registration, which is almost always free. You’ll have to find documentation to learn what URLs your program needs to request in order to get the data you want, as well as the general format of the JSON data structures returned. If the site offering the API has a Developers page, look for the documentation there.</p>
+<p class="tx">Python’s <span class="thesansmonocd_w5regular_">json</span> module handles the details of translating between a string formatted as JSON data and corresponding Python values with the <span class="thesansmonocd_w5regular_">json.loads()</span> and <span class="thesansmonocd_w5regular_">json.dumps()</span> functions. JSON can’t store every kind of Python value, only those of the following basic data types: strings, integers, floats, Booleans, lists, dictionaries, and <span class="thesansmonocd_w5regular_">NoneType</span>. JSON can’t represent Python-specific objects, such as <span class="thesansmonocd_w5regular_">File</span> objects, CSV <span class="thesansmonocd_w5regular_">reader</span> or <span class="thesansmonocd_w5regular_">writer</span> objects, or Selenium <span class="thesansmonocd_w5regular_">WebElement</span> objects. The full documentation for the <span class="thesansmonocd_w5regular_">json</span> module is at <i class="calibre5"><a href="https://docs.python.org/3/library/json.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/json<wbr></wbr>.html</a></i>.</p>
+<section type="division" aria-labelledby="sec13">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1126" aria-label="450"></span>
+<h5 class="h2" id="calibre_link-1967"><span class="sans_futura_std_bold_b_">Reading JSON Data</span></h5>
+<p class="tni">To translate a string containing JSON data into a Python value, pass it to the <span class="thesansmonocd_w5regular_">json.loads()</span> function. (The name means “load string,” not “loads.”) Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">import json</b>
+&gt;&gt;&gt; <b class="calibre10">json_string = '{"name": "Alice Doe", "age": 30, "car": null, "programmer":</b>
+<b class="calibre10"> true, "address": {"street": "100 Larkin St.", "city": "San Francisco", "zip":</b>
+<b class="calibre10"> "94102"}, "phone": [{"type": "mobile", "number": "415-555-7890"}, {"type": </b>
+<b class="calibre10">"work", "number": "415-555-1234"}]}'</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">python_data = json.loads(json_string)</b>
+&gt;&gt;&gt; <b class="calibre10">python_data</b>
+{'name': 'Alice Doe', 'age': 30, 'car': None, 'programmer': True, 'address':
+{'street': '100 Larkin St.', 'city': 'San Francisco', 'zip': '94102'},
+'phone': [{'type': 'mobile', 'number': '415-555-7890'}, {'type': 'work',
+'number': '415-555-1234'}]}
+</code></pre>
+<p class="tx">After you import the <span class="thesansmonocd_w5regular_">json</span> module <span class="codeannotation" aria-label="annotation1">❶</span>, you can call <span class="thesansmonocd_w5regular_">loads()</span> <span class="codeannotation" aria-label="annotation2">❷</span> and pass it a string of JSON data. Note that JSON strings always use double quotes. It should return the data as a Python dictionary.</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<h5 class="h2" id="calibre_link-1968"><span class="sans_futura_std_bold_b_">Writing JSON Data</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">json.dumps()</span> function (which means “dump string,” not “dumps”) will translate Python data into a string of JSON-formatted data. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import json</b>
+&gt;&gt;&gt; <b class="calibre10">python_data = {'name': 'Alice Doe', 'age': 30, 'car': None, 'programmer': True, 'address':</b>
+<b class="calibre10">{'street': '100 Larkin St.', 'city': 'San Francisco', 'zip': '94102'}, 'phone': [{'type': </b>
+<b class="calibre10">'mobile', 'number': '415-555-7890'}, {'type': 'work', 'number': '415-555-1234'}]}</b>
+&gt;&gt;&gt; <b class="calibre10">json_string = json.dumps(python_data)</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
+&gt;&gt;&gt; <b class="calibre10">print(json_string) </b><span class="code_codeannotation" aria-label="annotation2">❷</span>
+{"name": "Alice Doe", "age": 30, "car": null, "programmer": true, "address": {"street":
+"100 Larkin St.", "city": "San Francisco", "zip": "94102"}, "phone": [{"type": "mobile",
+"number": "415-555-7890"}, {"type": "work", "number": "415-555-1234"}]}
+&gt;&gt;&gt; <b class="calibre10">json_string = json.dumps(python_data, indent=2)</b> <span class="code_codeannotation" aria-label="annotation3">❸</span>
+&gt;&gt;&gt; <b class="calibre10">print(json_string)</b>
+{
+  "name": "Alice Doe",
+  "age": 30,
+  "car": null,
+  "programmer": true,
+  "address": {
+    "street": "100 Larkin St.",
+    "city": "San Francisco",
+<var class="calibre20">--snip--</var>
+}
+</code></pre>
+<p class="tx">The value passed to <span class="thesansmonocd_w5regular_">json.dumps()</span> <span class="codeannotation" aria-label="annotation1">❶</span> can consist only of the following basic Python data types: strings, integers, floats, Booleans, lists, dictionaries, and <span class="thesansmonocd_w5regular_">NoneType</span>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-909" aria-label="451"></span>By default, the entire JSON text is written on a single line <span class="codeannotation" aria-label="annotation2">❷</span>. This compressed format is fine for reading and writing JSON text between programs, but a multiline, indented form would be nicer for humans to read. The <span class="thesansmonocd_w5regular_">indent=2</span> keyword argument <span class="codeannotation" aria-label="annotation3">❸</span> formats the JSON text into separate lines, with two spaces of indentation for each nested dictionary or list. Unless your JSON is megabytes in size, increasing the size by adding the space and newline characters is worth it for the readability.</p>
+<p class="tx">Once you have the JSON text as a Python string value, you can write it to a <i class="calibre5">.json</i> file, pass it to a function, use it in a web request, or perform any other operation you can do with a string.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1" id="calibre_link-1969"><span id="calibre_link-495"></span><span class="sans_futura_std_heavy_oblique_bi_">XML</span></h4>
+<p class="tni">The XML file format is older than JSON but still widely used. Its syntax is similar to HTML, which we covered in <span>Chapter 18</span>, and involves nesting opening and closing tags inside angle brackets that contain other content. These tags are called <i class="calibre5">elements</i>. SVG image files are made up of text written in XML. The RSS and Atom web feed formats are also written in XML, and Microsoft Word documents are just ZIP files that have the <i class="calibre5">.docx</i> file extension and contain XML files.</p>
+<p class="tx">We store XML-formatted text in plaintext files with the <i class="calibre5">.xml</i> file extension. Here’s the example data structure formatted as XML:</p>
+<pre class="pre"><code class="calibre9">&lt;person&gt;
+    &lt;name&gt;Alice Doe&lt;/name&gt;
+    &lt;age&gt;30&lt;/age&gt;
+    &lt;programmer&gt;true&lt;/programmer&gt;
+    &lt;car xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/&gt;
+    &lt;address&gt;
+        &lt;street&gt;100 Larkin St.&lt;/street&gt;
+        &lt;city&gt;San Francisco&lt;/city&gt;
+        &lt;zip&gt;94102&lt;/zip&gt;
+    &lt;/address&gt;
+    &lt;phone&gt;
+        &lt;phoneEntry&gt;
+            &lt;type&gt;mobile&lt;/type&gt;
+            &lt;number&gt;415-555-7890&lt;/number&gt;
+        &lt;/phoneEntry&gt;
+        &lt;phoneEntry&gt;
+            &lt;type&gt;work&lt;/type&gt;
+            &lt;number&gt;415-555-1234&lt;/number&gt;
+        &lt;/phoneEntry&gt;
+    &lt;/phone&gt;
+&lt;/person&gt;
+</code></pre>
+<p class="tx">In this example, the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element has subelements <span class="thesansmonocd_w5regular_">&lt;name&gt;</span>, <span class="thesansmonocd_w5regular_">&lt;age&gt;</span>, and so on. The <span class="thesansmonocd_w5regular_">&lt;name&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;age&gt;</span> subelements are <i class="calibre5">child elements</i>, and <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> is their <i class="calibre5">parent element</i>. Valid XML documents must have a single <i class="calibre5">root element</i> that contains all the other elements, such as the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element in this <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1055" aria-label="452"></span>example. A document with multiple root elements like the following is not valid:</p>
+<pre class="pre"><code class="calibre9">&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;/person&gt;
+&lt;person&gt;&lt;name&gt;Bob Smith&lt;/name&gt;&lt;/person&gt;
+&lt;person&gt;&lt;name&gt;Carol Watanabe&lt;/name&gt;&lt;/person&gt;
+</code></pre>
+<p class="tx">XML is quite verbose compared to more modern serialization formats like JSON. Each element has an opening and closing tag, such as <span class="thesansmonocd_w5regular_">&lt;age&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;/age&gt;</span>. An XML element is a key-value pair, with the key being the element’s tag (in this case, <span class="thesansmonocd_w5regular_">&lt;age&gt;</span>) and the value being the text in between the opening and closing tags. XML text has no data type; everything in between the opening and closing tags is considered a string, including the <span class="thesansmonocd_w5regular_">94102</span> and <span class="thesansmonocd_w5regular_">true</span> text in our example data. Lists of data, such as the <span class="thesansmonocd_w5regular_">&lt;phone&gt;</span> element, have to name their individual items with their own elements, such as <span class="thesansmonocd_w5regular_">&lt;phoneEntry&gt;</span>. The “Entry” suffix for these subelements is just a naming convention.</p>
+<p class="tx">XML’s comments are identical to HTML’s comments: anything in between <span class="thesansmonocd_w5regular_">&lt;!--</span> and <span class="thesansmonocd_w5regular_">--&gt;</span> is meant to be ignored.</p>
+<p class="tx">Whitespace outside the opening and closing tags is insignificant, and you can format it however you like. There is no “null” value in XML, but you can approximate it by adding the <span class="thesansmonocd_w5regular_">xsi:nil="true"</span> and <span class="thesansmonocd_w5regular_">xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</span> attributes to a tag. XML attributes are key-value pairs written in a <span class="sans_thesansmonocd_w5regular_italic_">key="value"</span> format within the opening tag. The tag is written as a <i class="calibre5">self-closing tag</i>; instead of using a closing tag, the opening tag ends with <span class="thesansmonocd_w5regular_">/&gt;</span>, as in <span class="thesansmonocd_w5regular_">&lt;car xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/&gt;</span>.</p>
+<p class="tx">Tag and attribute names can be written in any case, but are lowercase by convention. Attribute values can be enclosed in single or double quotes, but double quotes are standard.</p>
+<p class="tx">Whether to use subelements or attributes is often ambiguous. Our example data uses these elements for the address data:</p>
+<pre class="pre"><code class="calibre9">&lt;address&gt;
+    &lt;street&gt;100 Larkin St.&lt;/street&gt;
+    &lt;city&gt;San Francisco&lt;/city&gt;
+    &lt;zip&gt;94102&lt;/zip&gt;
+&lt;/address&gt;
+</code></pre>
+<p class="tx">However, it could have easily formatted the subelement data as attributes in a self-closing <span class="thesansmonocd_w5regular_">&lt;address&gt;</span> element:</p>
+<pre class="pre"><code class="calibre9">&lt;address street="100 Larkin St." city="San Francisco" zip="94102" /&gt;</code></pre>
+<p class="tx">These sorts of ambiguities, as well as the verbose nature of tags, have made XML less popular than it once was. XML was widely deployed throughout the 1990s and 2000s, and much of that software is still used today. But unless you have a specific reason to use XML, you’re better served by using JSON.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1115" aria-label="453"></span>In general, XML software libraries have two ways of reading XML documents. The <i class="calibre5">Document Object Model (DOM)</i> approach reads the entire XML document into memory at once. This makes it easy to access data anywhere in the XML document, but generally only works for small or moderately sized XML documents. The <i class="calibre5">Simple API for XML (SAX)</i> approach reads the XML document as a stream of elements, so it doesn’t have to load the entire document into memory at once. This approach is ideal for XML documents that are gigabytes in size but is less convenient, as you can’t work with elements until you’ve iterated over them in the document.</p>
+<p class="tx">Python’s standard library has the <span class="thesansmonocd_w5regular_">xml.dom</span>, <span class="thesansmonocd_w5regular_">xml.sax</span>, and <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> modules for handling XML text. For our simple examples, we’ll use Python’s <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module to read the entire XML document at once.</p>
+<section type="division" aria-labelledby="sec16">
+<h5 class="h2" id="calibre_link-1970"><span class="sans_futura_std_bold_b_">Reading XML Files</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">xml.etree</span> module uses <span class="thesansmonocd_w5regular_">Element</span> objects to represent an XML element and its child elements. Enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">import xml.etree.ElementTree as ET</b>
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">xml_string = """&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;</b>
+<b class="calibre10">&lt;programmer&gt;true&lt;/programmer&gt;&lt;car xsi:nil="true" xmlns:xsi=</b>
+<b class="calibre10">"http://www.w3.org/2001/XMLSchema-instance”/&gt;&lt;address&gt;&lt;street&gt;</b>
+<b class="calibre10">100 Larkin St.&lt;/street&gt;&lt;city&gt;San Francisco&lt;/city&gt;&lt;zip&gt;94102&lt;/zip&gt;</b>
+<b class="calibre10">&lt;/address&gt;&lt;phone&gt;&lt;phoneEntry&gt;&lt;type&gt;mobile&lt;/type&gt;&lt;number&gt;415-555-</b>
+<b class="calibre10">7890&lt;/number&gt;&lt;/phoneEntry&gt;&lt;phoneEntry&gt;&lt;type&gt;work&lt;/type&gt;&lt;number&gt;</b>
+<b class="calibre10">415-555-1234&lt;/number&gt;&lt;/phoneEntry&gt;&lt;/phone&gt;&lt;/person&gt;"""</b>
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">root = ET.fromstring(xml_string)</b>
+&gt;&gt;&gt; <b class="calibre10">root</b>
+&lt;Element 'person' at 0x000001942999BBA0&gt;
+</code></pre>
+<p class="tx">We import the <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module <span class="codeannotation" aria-label="annotation1">❶</span> with the <span class="thesansmonocd_w5regular_">as ET</span> syntax so that we can enter <span class="thesansmonocd_w5regular_">ET</span> instead of the long <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module name. The <span class="thesansmonocd_w5regular_">xml_string</span> variable <span class="codeannotation" aria-label="annotation2">❷</span> contains the text of the XML we wish to parse, though this text could have just as easily been read from a text file with the <i class="calibre5">.xml</i> file extension. Finally, we pass this text to the <span class="thesansmonocd_w5regular_">ET.fromstring()</span> function <span class="codeannotation" aria-label="annotation3">❸</span>, which returns an <span class="thesansmonocd_w5regular_">Element</span> object containing the data we want to access. We’ll store this <span class="thesansmonocd_w5regular_">Element</span> object in a variable named <span class="thesansmonocd_w5regular_">root</span>.</p>
+<p class="tx">The <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module also has a <span class="thesansmonocd_w5regular_">parse()</span> function. You can pass it the name of a file from which to load XML, and it returns an <span class="thesansmonocd_w5regular_">Element</span> object:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import xml.etree.ElementTree as ET</b>
+&gt;&gt;&gt; <b class="calibre10">tree = ET.parse('my_data.xml')</b>
+&gt;&gt;&gt; <b class="calibre10">root = tree.getroot()</b>
+</code></pre>
+<p class="tx">Once you have an <span class="thesansmonocd_w5regular_">Element</span> object, you can access its <span class="thesansmonocd_w5regular_">tag</span> and <span class="thesansmonocd_w5regular_">text</span> Python attributes to see the name of the tag, as well as the text enclosed within its opening and closing tags. If you pass the <span class="thesansmonocd_w5regular_">Element</span> object to the <span class="thesansmonocd_w5regular_">list()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1203" aria-label="454"></span>function, it should return a list of its immediate child elements. Continue the interactive shell by entering the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">root.tag</b>
+'person'
+&gt;&gt;&gt; <b class="calibre10">list(root)</b>
+[&lt;Element 'name' at 0x00000150BA4ADDF0&gt;, &lt;Element 'age' at
+0x00000150BA4ADF30&gt;, &lt;Element 'programmer' at 0x00000150BA4ADEE0&gt;,
+&lt;Element 'car' at 0x00000150BA4ADD00&gt;, &lt;Element 'address' at
+0x00000150BA4ADCB0&gt;, &lt;Element 'phone' at 0x00000150BA4ADA30&gt;]
+</code></pre>
+<p class="tx">The child <span class="thesansmonocd_w5regular_">Element</span> objects of a parent <span class="thesansmonocd_w5regular_">Element</span> object are accessible through an integer index, just like Python lists. So, if <span class="thesansmonocd_w5regular_">root</span> contains the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element, then <span class="thesansmonocd_w5regular_">root[0]</span> and <span class="thesansmonocd_w5regular_">root[1]</span> contain the <span class="thesansmonocd_w5regular_">&lt;name&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;age&gt;</span> elements, respectively. You can access the <span class="thesansmonocd_w5regular_">tag</span> and <span class="thesansmonocd_w5regular_">text</span> attributes of all of these <span class="thesansmonocd_w5regular_">Element</span> objects. However, any self-closing tags, like <span class="thesansmonocd_w5regular_">&lt;car/&gt;</span>, will use <span class="thesansmonocd_w5regular_">None</span> for their <span class="thesansmonocd_w5regular_">text</span> attribute. For example, enter the following into the interactive shell:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">root[0].tag</b>
+'name'
+&gt;&gt;&gt; <b class="calibre10">root[0].text</b>
+'Alice Doe'
+&gt;&gt;&gt; <b class="calibre10">root[3].tag</b>
+'car'
+&gt;&gt;&gt; <b class="calibre10">root[3].text == None</b>  # &lt;car/&gt; has no text.<b class="calibre10"> </b>
+True
+&gt;&gt;&gt; <b class="calibre10">root[4].tag</b>
+'address'
+&gt;&gt;&gt; <b class="calibre10">root[4][0].tag</b>
+'street'
+&gt;&gt;&gt; <b class="calibre10">root[4][0].text</b>
+'100 Larkin St.'
+</code></pre>
+<p class="tx">From the <span class="thesansmonocd_w5regular_">root</span> element, you can explore the data in the entire XML document. You can also iterate over the immediate child elements by putting an <span class="thesansmonocd_w5regular_">Element</span> object in a <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for elem in root:</b>
+...     <b class="calibre10">print(elem.tag, '--', elem.text)</b>
+...
+name -- Alice Doe
+age -- 30
+programmer -- true
+car -- None
+address -- None
+phone -- None
+</code></pre>
+<p class="tx">If you want to iterate over all children underneath the <span class="thesansmonocd_w5regular_">Element</span>, you can call the <span class="thesansmonocd_w5regular_">iter()</span> method in a <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for elem in root.iter():</b>
+...     <b class="calibre10">print(elem.tag, '--', elem.text)</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1204" aria-label="455"></span>...
+person -- None
+name -- Alice Doe
+age -- 30
+programmer -- true
+car -- None
+address -- None
+street -- 100 Larkin St.
+city -- San Francisco
+zip -- 94102
+phone -- None
+phoneEntry -- None
+type -- mobile
+number -- 415-555-7890
+phoneEntry -- None
+type -- work
+number -- 415-555-1234
+</code></pre>
+<p class="tx">Optionally, you can pass a string to the <span class="thesansmonocd_w5regular_">iter()</span> method to filter for XML elements with a matching tag. This example calls <span class="thesansmonocd_w5regular_">iter('number')</span> to iterate over only the <span class="thesansmonocd_w5regular_">&lt;number&gt;</span> child elements of the root element:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for elem in root.iter('number'):</b>
+...     <b class="calibre10">print(elem.tag, '--', elem.text)</b>
+...
+number -- 415-555-7890
+number -- 415-555-1234
+</code></pre>
+<p class="tx">There’s much more to browsing the data in an XML document than the attributes and methods covered in this section. For example, just as the CSS selectors covered in <span>Chapter 13</span> can find elements in a web page’s HTML, a language called <i class="calibre5">XPath</i> can locate elements in an XML document. These concepts are beyond the scope of this chapter, but you can learn about them in the Python documentation at <i class="calibre5"><a href="https://docs.python.org/3/library/xml.etree.elementtree.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/xml<wbr></wbr>.etree<wbr></wbr>.elementtree<wbr></wbr>.html</a></i>.</p>
+<p class="tx">Python’s XML modules have no way to convert XML text to a Python data structure. However, the third-party <span class="thesansmonocd_w5regular_">xmltodict</span> module at <i class="calibre5"><a href="https://pypi.org/project/xmltodict/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/xmltodict<wbr></wbr>/</a></i> can do this. The full installation instructions are in <span>Appendix A</span>. Here is an example of its use:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import xmltodict</b>
+&gt;&gt;&gt; <b class="calibre10">xml_string = """&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;</b>
+<b class="calibre10">&lt;programmer&gt;true&lt;/programmer&gt;&lt;car xsi:nil="true" xmlns:xsi=</b>
+<b class="calibre10">"http://www.w3.org/2001/XMLSchema-instance”/&gt;&lt;address&gt;&lt;street&gt;</b>
+<b class="calibre10">100 Larkin St.&lt;/street&gt;&lt;city&gt;San Francisco&lt;/city&gt;&lt;zip&gt;94102</b>
+<b class="calibre10">&lt;/zip&gt;&lt;/address&gt;&lt;phone&gt;&lt;phoneEntry&gt;&lt;type&gt;mobile&lt;/type&gt;&lt;number&gt;</b>
+<b class="calibre10">415-555-7890&lt;/number&gt;&lt;/phoneEntry&gt;&lt;phoneEntry&gt;&lt;type&gt;work&lt;/type&gt;</b>
+<b class="calibre10">&lt;number&gt;415-555-1234&lt;/number&gt;&lt;/phoneEntry&gt;&lt;/phone&gt;&lt;/person&gt;"""</b>
+&gt;&gt;&gt; <b class="calibre10">python_data = xmltodict.parse(xml_string)</b>
+&gt;&gt;&gt; <b class="calibre10">python_data</b>
+{'person': {'name': 'Alice Doe', 'age': '30', 'programmer': 'true',
+'car': {'@xsi:nil': 'true', '@xmlns:xsi': 'http://www.w3.org/2001/
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-991" aria-label="456"></span>XMLSchema-instance'}, 'address': {'street': '100 Larkin St.', 'city':
+'San Francisco', 'zip': '94102'}, 'phone': {'phoneEntry': [{'type':
+'mobile', 'number': '415-555-7890'}, {'type': 'work', 'number':
+'415-555-1234'}]}}}
+</code></pre>
+<p class="tx">One reason the XML standard has fallen to the wayside compared to formats like JSON is that representing data types in XML is more complicated. For example, the <span class="thesansmonocd_w5regular_">&lt;programmer&gt;</span> element was parsed as the string value <span class="thesansmonocd_w5regular_">'true'</span> instead of the Boolean value <span class="thesansmonocd_w5regular_">True</span>. And the <span class="thesansmonocd_w5regular_">&lt;car&gt;</span> element was parsed into the awkward <span class="thesansmonocd_w5regular_">'car': {'@xsi:nil': 'true', '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance'}</span> key-value pair instead of the value <span class="thesansmonocd_w5regular_">None</span>. You must double-check the input and output of any XML module to verify that it is representing your data as you intend.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h5 class="h2" id="calibre_link-1971"><span class="sans_futura_std_bold_b_">Writing XML Files</span></h5>
+<p class="tni">The <span class="thesansmonocd_w5regular_">xml.etree</span> module is a bit unwieldy, so for small projects, you may be better off calling the <span class="thesansmonocd_w5regular_">open()</span> function and <span class="thesansmonocd_w5regular_">write()</span> method to create XML text yourself. But to create an XML document from scratch with the <span class="thesansmonocd_w5regular_">xml.etree</span> module, you’ll need to create a root <span class="thesansmonocd_w5regular_">Element</span> object (such as the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element in our example) and then call the <span class="thesansmonocd_w5regular_">SubElement()</span> function to create child elements for it. You can set any XML attributes in the element with the <span class="thesansmonocd_w5regular_">set()</span> method. For example, enter the following:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import xml.etree.ElementTree as ET</b>
+&gt;&gt;&gt; <b class="calibre10">person = ET.Element('person')</b>  # Create the root XML element.
+&gt;&gt;&gt; <b class="calibre10">name = ET.SubElement(person, 'name')</b>  # Create &lt;name&gt; and put it under &lt;person&gt;.
+&gt;&gt;&gt; <b class="calibre10">name.text = 'Alice Doe'</b>  # Set the text between &lt;name&gt; and &lt;/name&gt;.
+&gt;&gt;&gt; <b class="calibre10">age = ET.SubElement(person, 'age')</b>
+&gt;&gt;&gt; <b class="calibre10">age.text = '30'</b>  # XML content is always a string.
+&gt;&gt;&gt; <b class="calibre10">programmer = ET.SubElement(person, 'programmer')</b>
+&gt;&gt;&gt; <b class="calibre10">programmer.text = 'true'</b>
+&gt;&gt;&gt; <b class="calibre10">car = ET.SubElement(person, 'car')</b>
+&gt;&gt;&gt; <b class="calibre10">car.set('xsi:nil', 'true')</b>
+&gt;&gt;&gt; <b class="calibre10">car.set('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')</b>
+&gt;&gt;&gt; <b class="calibre10">address = ET.SubElement(person, 'address')</b>
+&gt;&gt;&gt; <b class="calibre10">street = ET.SubElement(address, 'street')</b>
+&gt;&gt;&gt; <b class="calibre10">street.text = '100 Larkin St.'</b>
+</code></pre>
+<p class="tx">For brevity, we’ll leave out the rest of the <span class="thesansmonocd_w5regular_">&lt;address&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;phone&gt;</span> elements. Call the <span class="thesansmonocd_w5regular_">ET.tostring()</span> and <span class="thesansmonocd_w5regular_">decode()</span> functions with the root <span class="thesansmonocd_w5regular_">Element</span> object to get a Python string of the XML text:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ET.tostring(person, encoding='utf-8').decode('utf-8')</b>
+'&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;programmer&gt;true&lt;/programmer&gt;
+&lt;car xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/&gt;
+&lt;address&gt;&lt;street&gt;100 Larkin St.&lt;/street&gt;&lt;/address&gt;&lt;/person&gt;'
+</code></pre>
+<p class="tx">It’s rather unfortunate that the <span class="thesansmonocd_w5regular_">tostring()</span> function returns a <span class="thesansmonocd_w5regular_">bytes</span> object instead of a string, necessitating a <span class="thesansmonocd_w5regular_">decode()</span> method call to obtain an actual string. But once you have the XML text as a Python string value, you can <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1143" aria-label="457"></span>write it to a <i class="calibre5">.xml</i> file, pass it to a function, use it in a web request, or do anything else you can do with a string.</p>
+</section>
+</section>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
+<h3 class="h" id="calibre_link-1972"><span id="calibre_link-496"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">CSV, JSON, and XML are common plaintext formats for storing data. They’re easy for programs to parse while still being human readable, so they are often used for simple spreadsheets or web app data. The <span class="thesansmonocd_w5regular_">csv</span>, <span class="thesansmonocd_w5regular_">json</span>, and <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> modules in the Python standard library greatly simplify the process of reading and writing these files, so you don’t need to do so with the <span class="thesansmonocd_w5regular_">open()</span> function.</p>
+<p class="tx">These formats are not specific to Python; many other programming languages and software applications use these file types. This chapter can help you write Python programs that can also interact with any apps that use them.</p>
+</section>
+<section type="division" aria-labelledby="sec19">
+<h3 class="h" id="calibre_link-1973"><span id="calibre_link-497"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  What are some features that Excel spreadsheets have but CSV spreadsheets don’t?</p>
+<p class="listnumber">  2.  What do you pass to <span class="thesansmonocd_w5regular_">csv.reader()</span> and <span class="thesansmonocd_w5regular_">csv.writer()</span> to create <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> objects?</p>
+<p class="listnumber">  3.  What modes do <span class="thesansmonocd_w5regular_">File</span> objects for <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> objects need to be opened in?</p>
+<p class="listnumber">  4.  What method takes a list argument and writes it to a CSV file?</p>
+<p class="listnumber">  5.  What do the <span class="thesansmonocd_w5regular_">delimiter</span> and <span class="thesansmonocd_w5regular_">lineterminator</span> keyword arguments do?</p>
+<p class="listnumber">  6.  Of CSV, JSON, and XML, which formats can be easily edited with a text editor application?</p>
+<p class="listnumber">  7.  What function takes a string of JSON data and returns a Python data structure?</p>
+<p class="listnumber">  8.  What function takes a Python data structure and returns a string of JSON data?</p>
+<p class="listnumber">  9.  Which data serialization format resembles HTML, with tags enclosed in angle brackets?</p>
+<p class="listnumber">10.  How does JSON write <span class="thesansmonocd_w5regular_">None</span> values?</p>
+<p class="listnumber">11.  How do you write Boolean values in JSON?</p>
+</section>
+<section type="division" aria-labelledby="sec20">
+<h3 class="h" id="calibre_link-1974"><span id="calibre_link-498"></span><span class="sans_futura_std_bold_b_">Practice Program: Excel-to-CSV Converter</span></h3>
+<p class="tni">Excel can save a spreadsheet to a CSV file with a few mouse clicks, but if you had to convert hundreds of Excel files to CSVs, it would take hours of clicking. Using the <span class="thesansmonocd_w5regular_">openpyxl</span> module from <span>Chapter 14</span>, write a program that reads all the Excel files in the current working directory and outputs them as CSV files.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1975" aria-label="458"></span>A single Excel file might contain multiple sheets; you’ll have to create one CSV file per sheet. The filenames of the CSV files should be <i class="calibre5">&lt;excel filename&gt;_&lt;sheet title&gt;.csv</i>, where <i class="calibre5">&lt;excel filename&gt;</i> is the filename of the Excel file without the file extension (for example, <i class="calibre5">spam_data</i>, not <i class="calibre5">spam_data.xlsx</i>) and <i class="calibre5">&lt;sheet title&gt;</i> is the string from the <span class="thesansmonocd_w5regular_">Worksheet</span> object’s <span class="thesansmonocd_w5regular_">title</span> variable.</p>
+<p class="tx">This program will involve many nested <span class="thesansmonocd_w5regular_">for</span> loops. The skeleton of the program should look something like this:</p>
+<pre class="pre"><code class="calibre9">for excel_file in os.listdir('.'):
+    # Skip non-xlsx files, load the workbook object.
+    for sheet_name in wb.sheetnames:
+        # Loop through every sheet in the workbook.
+        # Create the CSV filename from the Excel filename and sheet title.
+        # Create the csv.writer object for this CSV file.
+
+        # Loop through every row in the sheet.
+        for row_num in range(1, sheet.max_row + 1):
+            row_data = []    # Append each cell to this list.
+            # Loop through each cell in the row.
+            for col_num in range(1, sheet.max_column + 1):
+                # Append each cell's data to row_data
+           
+            # Write the row_data list to the CSV file.
+
+        csv_file.close()
+</code></pre>
+<p class="tx">Download the ZIP file <i class="calibre5">excelSpreadsheets.zip</i> from the book’s online resources and unzip the spreadsheets into the same directory as your program. You can use these as the files to test the program on.</p>
+</section>
+</section>
+</div>
+
+
+</div>
+
+
+
+</body></html>

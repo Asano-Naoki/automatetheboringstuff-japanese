@@ -1,0 +1,355 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+
+
+
+
+
+<div type="bodymatter" class="calibre" id="calibre_link-526">
+<section type="chapter" role="doc-chapter" aria-labelledby="ch20">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-2004" aria-label="479"></span>
+<hgroup>
+<h2 class="title" id="calibre_link-2005">
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">20</span></span>
+<span class="ct"><span class="sans_dogma_ot_bold_b_">SENDING EMAIL, TEXTS, AND PUSH NOTIFICATIONS</span></span>
+</h2>
+</hgroup>
+<figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
+</figure>
+<p class="introtni">Checking and replying to email is a huge time sink, and you can’t just write a program to handle all your email for you, as each message requires its own response. But you can still automate plenty of email-related tasks once you know how to write programs that can send and receive email.</p>
+<p class="tx">For example, maybe you have a spreadsheet full of customer records and want to send each customer a different form letter depending on their age and location details. Commercial software might not be able to do this for you. Fortunately, you can write your own program to send these emails, saving yourself a lot of time spent copying and pasting.</p>
+<p class="tx">You can also write programs to send SMS text messages and push notifications to notify you of things even while you’re away from your computer. If you’re automating a task that takes a couple of hours to do, you probably don’t want to go back to your computer every few minutes to check on the program’s status. Instead, the program can just text your phone when it’s <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1131" aria-label="480"></span>done, freeing you to focus on more important things while you’re away from your computer.</p>
+<p class="tx">This chapter features the EZGmail module, a simple way to send and read emails from Gmail accounts, as well as the free <i class="calibre5">ntfy</i> service that provides push notifications between devices.</p>
+<blockquote class="calibre17">
+<p class="note"><span class="sans_dogma_ot_bold_b_1">WARNING</span></p>
+</blockquote>
+<p class="note-txt"><i class="calibre5">I highly recommend that you set up a separate email account for any scripts that send or receive emails. This will prevent bugs in your programs from affecting your personal email account (by deleting emails or accidentally spamming your contacts, for example). It’s a good idea to first do a dry run by commenting out the code that actually sends or deletes emails and replacing it with a temporary</i> <span class="sans_thesansmonocd_w5regular_italic_">print()</span> <i class="calibre5">call. This way, you can test your program before running it for real.</i></p>
+<section type="division" aria-labelledby="sec1">
+<h3 class="h" id="calibre_link-2006"><span id="calibre_link-527"></span><span class="sans_futura_std_bold_b_">The Gmail API</span></h3>
+<p class="tni">Gmail owns close to one-third of the email client market share, and most likely you have at least one Gmail email address. Because of Gmail’s additional security and anti-spam measures, controlling a Gmail account is better done through the EZGmail module than through the <span class="thesansmonocd_w5regular_">smtplib</span> and <span class="thesansmonocd_w5regular_">imaplib</span> modules in Python’s standard library. I wrote EZGmail to work on top of the official Gmail API and provide functions that make it easy to use Gmail from Python. For full instructions on installing EZGmail, see <span>Appendix A</span>.</p>
+<section type="division" aria-labelledby="sec2">
+<h4 class="h1" id="calibre_link-2007"><span id="calibre_link-528"></span><span class="sans_futura_std_heavy_oblique_bi_">Enabling the API</span></h4>
+<p class="tni">Before you write code, you must first sign up for a Gmail email account at <i class="calibre5"><a href="https://gmail.com" class="calibre1">https://<wbr></wbr>gmail<wbr></wbr>.com</a></i>. Then, you must set up the Gmail API for your account through the Google Cloud console at <i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i>. These steps are identical to the steps for setting up EZSheets detailed in <span>Chapter 15</span>, so I won’t repeat them in this chapter. Create a new project and make sure to enable the Gmail API instead of the Google Sheets API. On step 2 of the OAuth consent screen configuration, add the <i class="calibre5"><a href="https://mail.google.com" class="calibre1">https://<wbr></wbr>mail<wbr></wbr>.google<wbr></wbr>.com</a></i> scope to let your Python scripts read and send email. When you’re done, you should have a credentials file and a token file.</p>
+<p class="tx">Then, in the interactive shell, enter the following code:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
+&gt;&gt;&gt; <b class="calibre10">ezgmail.init()</b>
+</code></pre>
+<p class="tx">If no error appears, EZGmail has been correctly installed.</p>
+</section>
+<section type="division" aria-labelledby="sec3">
+<h4 class="h1" id="calibre_link-2008"><span id="calibre_link-529"></span><span class="sans_futura_std_heavy_oblique_bi_">Sending Mail</span></h4>
+<p class="tni">Once EZGmail is configured, you should be able to send email with a single function call:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
+&gt;&gt;&gt; <b class="calibre10">ezgmail.send('recipient@example.com', 'Subject line', 'Body of the email')</b>
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1130" aria-label="481"></span>If you want to attach files to your email, you can provide an extra list argument to the <span class="thesansmonocd_w5regular_">send()</span> function:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ezgmail.send('recipient@example.com', 'Subject line', 'Body of the email',</b>
+<b class="calibre10">['attachment1.jpg', 'attachment2.mp3'])</b>
+</code></pre>
+<p class="tx">Note that as part of its security and anti-spam features, Gmail might not send repeated emails with the exact same text (as these are likely spam) or emails that contain <i class="calibre5">.exe</i> or <i class="calibre5">.zip</i> file attachments (as they are potentially viruses).</p>
+<p class="tx">You can also supply the optional keyword arguments <span class="thesansmonocd_w5regular_">cc</span> and <span class="thesansmonocd_w5regular_">bcc</span> to send carbon copies and blind carbon copies:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
+&gt;&gt;&gt; <b class="calibre10">ezgmail.send('recipient@example.com', 'Subject line', 'Body of the </b>
+<b class="calibre10">email', cc='friend@example.com', bcc='otherfriend@example.com,</b>
+<b class="calibre10">someoneelse@example.com')</b>
+</code></pre>
+<p class="tx">If you need to remember which Gmail address the <i class="calibre5">token.json</i> file is configured for, you can examine <span class="thesansmonocd_w5regular_">ezgmail.EMAIL_ADDRESS</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
+&gt;&gt;&gt; <b class="calibre10">ezgmail.EMAIL_ADDRESS</b>
+'example@gmail.com'
+</code></pre>
+<p class="tx">Be sure to treat the <i class="calibre5">token.json</i> file in the same way as your password. If someone else obtains this file, they can access your Gmail account (though they won’t be able to change your Gmail password). To revoke previously issued <i class="calibre5">token.json</i> files, return to the Google Cloud console and delete the credential for the compromised token. You will need to repeat the setup steps to generate a new credential and token file before you can resume using EZGmail.</p>
+</section>
+<section type="division" aria-labelledby="sec4">
+<h4 class="h1" id="calibre_link-2009"><span id="calibre_link-530"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading Mail</span></h4>
+<p class="tni">Gmail organizes email messages that are replies to each other into conversation threads. When you log in to Gmail in your web browser or through an app, you’re really looking at email threads rather than individual emails (even if the thread has only one email in it).</p>
+<p class="tx">EZGmail has <span class="thesansmonocd_w5regular_">GmailThread</span> and <span class="thesansmonocd_w5regular_">GmailMessage</span> objects to represent conversation threads and individual emails, respectively. A <span class="thesansmonocd_w5regular_">GmailThread</span> object has a <span class="thesansmonocd_w5regular_">messages</span> attribute that holds a list of <span class="thesansmonocd_w5regular_">GmailMessage</span> objects. The <span class="thesansmonocd_w5regular_">unread()</span> function returns a list of <span class="thesansmonocd_w5regular_">GmailThread</span> objects for the 25 most recent unread emails, which can then be passed to <span class="thesansmonocd_w5regular_">ezgmail.summary()</span> to print a summary of the conversation threads in that list:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
+&gt;&gt;&gt; <b class="calibre10">unread_threads = ezgmail.unread()  </b># List of GmailThread objects
+&gt;&gt;&gt; <b class="calibre10">ezgmail.summary(unread_threads)</b>
+Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
+Jon - Thanks for stopping me from buying Bitcoin. - Dec 09
+</code></pre>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-972" aria-label="482"></span>The <span class="thesansmonocd_w5regular_">summary()</span> function is handy for displaying a quick summary of the email threads, but to access specific messages (and parts of messages), you’ll want to examine the <span class="thesansmonocd_w5regular_">messages</span> attribute of the <span class="thesansmonocd_w5regular_">GmailThread</span> object. The <span class="thesansmonocd_w5regular_">messages</span> attribute contains a list of the <span class="thesansmonocd_w5regular_">GmailMessage</span> objects that make up the thread, and these have <span class="thesansmonocd_w5regular_">subject</span>, <span class="thesansmonocd_w5regular_">body</span>, <span class="thesansmonocd_w5regular_">timestamp</span>, <span class="thesansmonocd_w5regular_">sender</span>, and <span class="thesansmonocd_w5regular_">recipient</span> attributes that describe the email:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">len(unread_threads)</b>
+2
+&gt;&gt;&gt; <b class="calibre10">str(unread_threads[0])</b>
+"&lt;GmailThread len=2 snippet= Do you want to watch RoboCop this weekend?'&gt;"
+&gt;&gt;&gt; <b class="calibre10">len(unread_threads[0].messages)</b>
+2
+&gt;&gt;&gt; <b class="calibre10">str(unread_threads[0].messages[0])</b>
+"&lt;GmailMessage from='Al Sweigart &lt;al@inventwithpython.com&gt;' to='Jon Doe
+&lt;example@gmail.com&gt;' timestamp=datetime.datetime(2026, 12, 9, 13, 28, 48)
+subject='RoboCop' snippet='Do you want to watch RoboCop this weekend?'&gt;"
+&gt;&gt;&gt; <b class="calibre10">unread_threads[0].messages[0].subject</b>
+'RoboCop'
+&gt;&gt;&gt; <b class="calibre10">unread_threads[0].messages[0].body</b>
+'Do you want to watch RoboCop this weekend?\r\n'
+&gt;&gt;&gt; <b class="calibre10">unread_threads[0].messages[0].timestamp</b>
+datetime.datetime(2026, 12, 9, 13, 28, 48)
+&gt;&gt;&gt; <b class="calibre10">unread_threads[0].messages[0].sender</b>
+'Al Sweigart &lt;al@inventwithpython.com&gt;'
+&gt;&gt;&gt; <b class="calibre10">unread_threads[0].messages[0].recipient</b>
+'Jon Doe &lt;example@gmail.com&gt;'
+</code></pre>
+<p class="tx">To retrieve more than the 25 most recent unread emails, pass an integer for the <span class="thesansmonocd_w5regular_">maxResults</span> keyword argument. For example, <span class="thesansmonocd_w5regular_">ezgmail.unread(maxResults=50)</span> will return the 50 most recent unread emails.</p>
+<p class="tx">Like the <span class="thesansmonocd_w5regular_">ezgmail.unread()</span> function, the <span class="thesansmonocd_w5regular_">ezgmail.recent()</span> function will return the 25 most recent threads in your Gmail account:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">recent_threads = ezgmail.recent()</b>
+&gt;&gt;&gt; <b class="calibre10">len(recent_threads)</b>
+25
+&gt;&gt;&gt; <b class="calibre10">recent_threads = ezgmail.recent(maxResults=100)</b>
+&gt;&gt;&gt; <b class="calibre10">len(recent_threads)</b>
+46
+</code></pre>
+<p class="tx">You can pass an optional <span class="thesansmonocd_w5regular_">maxResults</span> keyword argument to change this limit.</p>
+</section>
+<section type="division" aria-labelledby="sec5">
+<h4 class="h1" id="calibre_link-2010"><span id="calibre_link-531"></span><span class="sans_futura_std_heavy_oblique_bi_">Searching for Mail</span></h4>
+<p class="tni">In addition to using <span class="thesansmonocd_w5regular_">ezgmail.unread()</span> and <span class="thesansmonocd_w5regular_">ezgmail.recent()</span>, you can search for specific emails, the same way you would if you entered queries into the Gmail search box, by calling <span class="thesansmonocd_w5regular_">ezgmail.search()</span>:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">result_threads = ezgmail.search('RoboCop')</b>
+&gt;&gt;&gt; <b class="calibre10">len(result_threads)</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1118" aria-label="483"></span>1
+&gt;&gt;&gt; <b class="calibre10">ezgmail.summary(result_threads)</b>
+Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
+</code></pre>
+<p class="tx">The previous <span class="thesansmonocd_w5regular_">search()</span> call should yield the same results as if you had entered <i class="calibre5">RoboCop</i> into the search box, as in Figure 20-1.</p>
+<figure class="img"><img class="img1" id="calibre_link-803" src="images/000056.jpg" alt="Screenshot of the search term “RoboCop” in the Gmail search bar." />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 20-1: Searching for</span> <span class="sans_futura_std_book_">RoboCop</span> <span class="sans_futura_std_book_oblique_i_">email at the Gmail website</span></p></figcaption>
+</figure>
+<p class="tx">Like <span class="thesansmonocd_w5regular_">unread()</span> and <span class="thesansmonocd_w5regular_">recent()</span>, the <span class="thesansmonocd_w5regular_">search()</span> function returns a list of <span class="thesansmonocd_w5regular_">GmailThread</span> objects. You can also pass to the <span class="thesansmonocd_w5regular_">search()</span> function any of the special search operators that you can enter into the search box, such as the following:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'label:UNREAD'</span> For unread email</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'from:al@inventwithpython.com'</span> For email from <i class="calibre5">al@inventwithpython.com</i></p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'subject:hello'</span> For email with “hello” in the subject</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'has:attachment'</span> For email with file attachments</p>
+<p class="tx">You can view a full list of search operators at <i class="calibre5"><a href="https://support.google.com/mail/answer/7190" class="calibre1">https://<wbr></wbr>support<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/mail<wbr></wbr>/answer<wbr></wbr>/7190</a></i>.</p>
+</section>
+<section type="division" aria-labelledby="sec6">
+<h4 class="h1" id="calibre_link-2011"><span id="calibre_link-532"></span><span class="sans_futura_std_heavy_oblique_bi_">Downloading Attachments</span></h4>
+<p class="tni">A <span class="thesansmonocd_w5regular_">GmailMessage</span> object has an <span class="thesansmonocd_w5regular_">attachments</span> attribute that is a list of filenames for the message’s attached files. You can pass any of these names to a <span class="thesansmonocd_w5regular_">GmailMessage</span> object’s <span class="thesansmonocd_w5regular_">downloadAttachment()</span> method to download the files. You can also download all of them at once with <span class="thesansmonocd_w5regular_">downloadAllAttachments()</span>. By default, EZGmail saves attachments to the current working directory, but you can pass an additional <span class="thesansmonocd_w5regular_">downloadFolder</span> keyword argument to <span class="thesansmonocd_w5regular_">downloadAttachment()</span> and <span class="thesansmonocd_w5regular_">downloadAllAttachments()</span> as well. Here is an example:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
+&gt;&gt;&gt; <b class="calibre10">threads = ezgmail.search('vacation photos')</b>
+&gt;&gt;&gt; <b class="calibre10">threads[0].messages[0].attachments</b>
+['tulips.jpg', 'canal.jpg', 'bicycles.jpg']
+&gt;&gt;&gt; <b class="calibre10">threads[0].messages[0].downloadAttachment('tulips.jpg')</b>
+&gt;&gt;&gt; <b class="calibre10">threads[0].messages[0].downloadAllAttachments(downloadFolder='vacation2026')</b>
+['tulips.jpg', 'canal.jpg', 'bicycles.jpg']
+</code></pre>
+<p class="tx">If a file already exists with the attachment’s filename, the downloaded attachment will automatically overwrite it.</p>
+<p class="tx">EZGmail contains additional features, and you can find the full documentation at <i class="calibre5"><a href="https://github.com/asweigart/ezgmail" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/ezgmail</a></i>.</p>
+</section>
+</section>
+<section type="division" aria-labelledby="sec7">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-937" aria-label="484"></span>
+<h3 class="h" id="calibre_link-2012"><span id="calibre_link-533"></span><span class="sans_futura_std_bold_b_">SMS Email Gateways</span></h3>
+<p class="tni">People are more likely to be near their smartphones than their computers, so text messages are often a more reliable way of sending immediate notifications than email. Also, text messages are usually shorter, making it more likely that a person will get around to reading them. The easiest, though not most reliable, way to send text messages is by using a <i class="calibre5">short message service (SMS) email gateway</i>, an email server that a cell phone provider has set up to receive texts via email and then forward them to the recipient as text messages.</p>
+<p class="tx">You can write a program to send these emails using EZGmail or the <span class="thesansmonocd_w5regular_">smtplib</span> module. The phone number and phone company’s email server make up the recipient email address. For example, to send a text to a Verizon customer with the phone number 212-555-1234, you would send an email to <i class="calibre5">2125551234@vtext.com</i>. The subject and body of the email would appear in the body of the text message.</p>
+<p class="tx">You can find the SMS email gateway for a cell phone provider by doing a web search for “sms email gateway <i class="calibre5">provider name</i>.” Table 20-1 lists the gateways for several popular providers. Many providers have separate email servers for SMS, which limits messages to 160 characters, and Multimedia Messaging Service (MMS), which has no character limit. If you wanted to send a photo, you would have to use the MMS gateway and attach the file to the email.</p>
+<p class="tx">If you don’t know the recipient’s cell phone provider, you can try searching for it using a carrier lookup site. The best way to find these sites is by searching the web for “find cell phone provider for number.” Many of these sites will let you look up numbers for free (though they will charge you to look up hundreds or thousands of phone numbers through their API).</p>
+<table class="basic-table">
+<caption class="calibre12"><p class="tt" id="calibre_link-804"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 20-1:</span></span> <span class="sans_futura_std_book_">SMS Email Gateways for Cell Phone Providers</span></p></caption>
+
+<thead class="calibre13">
+<tr class="calibre14">
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Cell phone provider</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">SMS gateway</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">MMS gateway</span></p></th>
+</tr>
+</thead>
+<tbody class="calibre15">
+<tr class="calibre16">
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">AT&amp;T</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@txt.att.net</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@mms.att.net</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Boost Mobile</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@sms.myboostmobile.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Same as SMS</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Cricket</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@sms.cricketwireless.net</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@mms.cricketwireless.net</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Google Fi</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@msg.fi.google.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Same as SMS</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Metro PCS</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@mymetropcs.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Same as SMS</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Republic Wireless</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@text.republicwireless.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Same as SMS</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Sprint (now T-Mobile)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@messaging.sprintpcs.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@pm.sprint.com</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">T-Mobile</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@tmomail.net</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Same as SMS</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">U.S. Cellular</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@email.uscc.net</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@mms.uscc.net</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Verizon</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@vtext.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@vzwpix.com</span></p></td>
+</tr>
+<tr class="calibre16">
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Virgin Mobile</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@vmobl.com</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@vmpix.com</span></p></td>
+</tr>
+<tr class="calibre14">
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Xfinity Mobile</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@vtext.com</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_oblique_i_">number@mypixmessages.com</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-997" aria-label="485"></span>While SMS email gateways are free and simple to use, there are several major disadvantages to them:</p>
+<ul class="ul">
+<li class="bl">You have no guarantee that the text will arrive promptly, or at all.</li>
+<li class="bl">You have no way of knowing if the text failed to arrive.</li>
+<li class="bl">The text recipient has no way of replying.</li>
+<li class="bl">SMS gateways may block you if you send too many emails, and there’s no way to find out how many is “too many.”</li>
+<li class="bl">The fact that the SMS gateway delivers a text message today doesn’t mean it will work tomorrow.</li>
+</ul>
+<p class="tx">Sending texts via an SMS gateway is ideal when you need to transmit the occasional nonurgent message. If you want a more reliable way to send SMS text messages, especially in bulk, you can use the API of a telecom service provider such as Twilio. These services often require a subscription or usage fees, and you may need to submit an application to use them. Regulations may differ for each country and change over time.</p>
+<p class="tx">An alternative to sending SMS texts is to use a free push notification service, as the next section will explain.</p>
+</section>
+<section type="division" aria-labelledby="sec8">
+<h3 class="h" id="calibre_link-2013"><span id="calibre_link-534"></span><span class="sans_futura_std_bold_b_">Push Notifications</span></h3>
+<p class="tni">HTTP <i class="calibre5">pub-sub notification services</i> allow you to send and receive short, disposable messages over the internet via HTTP web requests. <span>Chapter 13</span> covers the use of the Requests library to make HTTP requests, and we’ll use it here to interact with the free online service ntfy (pronounced “notify” and always written in lowercase) at <i class="calibre5"><a href="https://ntfy.sh" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh</a></i>. The ntfy service is free and doesn’t require any sign-up or registration.</p>
+<p class="tx">Before we get started, install the ntfy app on your mobile phone so that you can receive notifications. This app is free and can be found in the app stores for Android and iPhone. You can also receive notifications in your web browser by going to <i class="calibre5"><a href="https://ntfy.sh/app" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/app</a></i>.</p>
+<p class="tx">These apps check with the ntfy service for any messages sent to a topic. You can think of a topic as a chat room or group chat name. Anyone in the world can send messages to a topic, and anyone in the world can subscribe to a topic to read these messages. If you want to send messages to just yourself, use a secret topic with random letters. Treat this topic name as a password and share it only with those you intend to read the messages. This chapter will use the topic <span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span> in the example code, though I recommend you use your own secret topic that contains a suffix of random letters and numbers. Topics are case-sensitive, and even if you keep the topic a secret, do not use ntfy to send sensitive information such as passwords or credit card numbers.</p>
+<section type="division" aria-labelledby="sec9">
+<h4 class="h1" id="calibre_link-2014"><span id="calibre_link-535"></span><span class="sans_futura_std_heavy_oblique_bi_">Sending Notifications</span></h4>
+<p class="tni">Sending a push notification to everyone who is subscribed to a topic requires nothing more than making an HTTP request to the ntfy web server. This <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1266" aria-label="486"></span>means it can be done entirely with the Requests library. You don’t need to install a ntfy-specific package.</p>
+<p class="tx">To send the request, enter the following into the interactive shell. Replace the <span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span> example topic used throughout this chapter with your own random, secret topic:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import requests</b>
+&gt;&gt;&gt; <b class="calibre10">requests.post('https://ntfy.sh/AlSweigartZPgxBQ42', 'Hello, world!')</b>
+&lt;Response [200]&gt;
+</code></pre>
+<p class="tx">Note that we call <span class="thesansmonocd_w5regular_">requests.post()</span> to make a POST HTTP request to send a notification. This is different from the <span class="thesansmonocd_w5regular_">requests.get()</span> function covered in <span>Chapter 13</span> to download web pages.</p>
+<p class="tx">Anyone subscribed to the topic <span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span> will receive the message “Hello, world!” within a few seconds (though sometimes messages may be delayed by a few minutes). You can also view these yourself at <i class="calibre5"><a href="https://ntfy.sh/AlSweigartZPgxBQ42" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/AlSweigartZPgxBQ42</a></i>.</p>
+<p class="tx">The ntfy service has some limitations. Free users are limited to 250 messages per day, and messages can be 4,096 bytes in size at most. Flooding messages to various topics may result in your IP address becoming temporarily blocked. You can obtain a paid account to increase these limits on the ntfy website. Paid ntfy accounts can set reserved topics and limit who posts to them. If you don’t have permission to post to a reserved topic, you’ll get a <span class="thesansmonocd_w5regular_">&lt;Response [403]&gt;</span> response to your <span class="thesansmonocd_w5regular_">requests.post()</span> function call.</p>
+<p class="tx">Within the 4,096-byte limit, your messages can take on any format. Note that there is no way to determine who posted a message to a topic, so you may want to include “To” and “From” labels within the text of your message. Better yet, you could do so using JSON or some other data serialization format covered in <span>Chapter 18</span>.</p>
+<p class="tx">If you want your Python programs to send you a notification, these are the only two lines of code you need once you have the ntfy app installed on your phone and have subscribed to the topic. You’re free to run your Python program and step away for coffee, knowing that you’ll receive a notification on your phone when your program has finished its boring task.</p>
+</section>
+<section type="division" aria-labelledby="sec10">
+<h4 class="h1" id="calibre_link-2015"><span id="calibre_link-536"></span><span class="sans_futura_std_heavy_oblique_bi_">Transmitting Metadata</span></h4>
+<p class="tni">While the message you send is a freeform text string value, ntfy can optionally attach metadata values, such as a title, a priority level, and tags, to each message.</p>
+<p class="tx">A <i class="calibre5">title</i> is similar to an email subject line, and most apps display it above the message text in a larger font. A <i class="calibre5">priority level</i> ranges from 1 (the lowest priority) to 5 (the highest), with 3 being the default. A higher priority doesn’t deliver messages any faster; it just allows subscribers to configure their notification apps to display only messages of a certain priority or higher. <i class="calibre5">Tags</i> are keywords that subscribers can use to filter messages. Tags can also be the name of an emoji to display next to the message title. You can find a list of these emojis at <i class="calibre5"><a href="https://docs.ntfy.sh/publish/#tags-emojis" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.ntfy<wbr></wbr>.sh<wbr></wbr>/publish<wbr></wbr>/#tags<wbr></wbr>-emojis</a></i>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1269" aria-label="487"></span>This metadata is included in the HTTP request as headers, so you’ll need to pass a dictionary of them to the <span class="thesansmonocd_w5regular_">headers</span> keyword argument. Enter the following into the interactive shell to post a message with metadata:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import requests</b>
+&gt;&gt;&gt; <b class="calibre10">requests.post('https://ntfy.sh/AlSweigartZPgxBQ42', 'The rent is too high!', </b>
+<b class="calibre10">headers={'Title':'Important: Read this!', 'Tags': 'warning,neutral_face', 'Priority':'5'})</b>
+&lt;Response [200]&gt;
+</code></pre>
+<p class="tx">These features are useful for human users reading the notifications on their phone app. However, you can also write code so that Python scripts can receive push notifications, as we’ll discuss in the next section.</p>
+</section>
+<section type="division" aria-labelledby="sec11">
+<h4 class="h1" id="calibre_link-2016"><span id="calibre_link-537"></span><span class="sans_futura_std_heavy_oblique_bi_">Receiving Notifications</span></h4>
+<p class="tni">Your Python programs can also read the messages posted to a particular topic by making HTTP requests with the Requests library. Send a notification message using the code in the previous sections, and then enter the following into the interactive shell using the same topic as the notifications:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import requests</b>
+&gt;&gt;&gt; <b class="calibre10">resp = requests.get('https://ntfy.sh/AlSweigartZPgxBQ42/json?poll=1')</b>
+&gt;&gt;&gt; <b class="calibre10">resp.text</b>
+'{"id":"1jnHKeFNqwnS","time":1797823340,"expires":1797866540,"event":
+"message","topic":"AlSweigartZPgxBQ42","message":"Hello, world!"}\n
+{"id":"wZ22cjyKXw1F","time":1797823712,"expires":1797866912,"event":
+"message","topic":"AlSweigartZPgxBQ42","title":"Important: Read this!",
+"message":"The rent is too high!","priority":5,"tags":["warning",
+"neutral_face"]}\n'
+</code></pre>
+<p class="tx">Note that we call the <span class="thesansmonocd_w5regular_">requests.get()</span> function to receive notifications, unlike the <span class="thesansmonocd_w5regular_">requests.post()</span> function used when sending notifications. Also, the URL ends in <span class="thesansmonocd_w5regular_">/json?poll=1</span>.</p>
+<p class="tx">This is retrieving messages through polling, which returns all the messages for a topic that the server has. There are also streaming methods for retrieving ntfy messages, but polling has the simplest code. You can also add a <i class="calibre5">since</i> URL parameter after <i class="calibre5">poll=1</i> to get the messages by one of the following criteria:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=10m </span>Retrieves all messages for the topic in the last 10 minutes. You can also use <i class="calibre5">s</i> for seconds and <i class="calibre5">h</i> for hours, such as <i class="calibre5">since=2h30m</i> for all messages in the last two and a half hours.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=1737866912 </span>Retrieves all messages since the Unix epoch timestamp of <span class="thesansmonocd_w5regular_">1737866912</span>. This kind of timestamp is returned by <span class="thesansmonocd_w5regular_">time.time()</span> and represents the number of seconds since January 1, 1970. <span>Chapter 19</span> covers time-related functions.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=wZ22cjyKXw1F </span>Retrieves all messages after the message that had the ID of <span class="thesansmonocd_w5regular_">'wZ22cjyKXw1F'</span>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1207" aria-label="488"></span>Separate additional URL parameters by an ampersand (&amp;). For example, passing the URL <i class="calibre5"><a href="https://ntfy.sh/AlSweigartZPgxBQ42/json?poll=1&amp;since=10m" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/AlSweigartZPgxBQ42<wbr></wbr>/json<wbr></wbr>?poll<wbr></wbr>=1&amp;since<wbr></wbr>=10m</a></i> retrieves all messages for the <i class="calibre5">AlSweigartZPgxBQ42</i> topic in the last 10 minutes. To reduce the load on the ntfy server, you should poll only once a minute or once every few minutes rather than as fast as possible in an infinite loop. If you need to receive notifications immediately, consult the online documentation to read about subscribing to notification streams.</p>
+<p class="tx">The text of this HTTP response is not valid JSON, since it contains a JSON object on each line of text, rather than one JSON object, so we use the <span class="thesansmonocd_w5regular_">splitlines()</span> string method before parsing them individually with the <span class="thesansmonocd_w5regular_">json</span> module (as covered in <span>Chapter 18</span>). Continue the previous interactive shell example:</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import json</b>
+&gt;&gt;&gt; <b class="calibre10">notifications = []</b>
+&gt;&gt;&gt; <b class="calibre10">for json_text in resp.text.splitlines():</b>
+...     <b class="calibre10">notifications.append(json.loads(json_text))</b>
+...
+&gt;&gt;&gt; <b class="calibre10">notifications[0]['message']</b>
+'Hello, world!'
+&gt;&gt;&gt; <b class="calibre10">notifications[1]['message']</b>
+'The rent is too high!'
+</code></pre>
+<p class="tx">The <span class="thesansmonocd_w5regular_">json.loads()</span> function converts the JSON text from ntfy into a Python dictionary. Let’s look at each of the key value pairs:</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"id":"wZ22cjyKXw1F" </span>The <span class="thesansmonocd_w5regular_">'id'</span> key’s value is a unique identification string that can help differentiate multiple notifications even if they have the same text.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"time":1797823712 </span>The <span class="thesansmonocd_w5regular_">'time'</span> key’s value is a Unix epoch timestamp of when the notification was created. Calling <span class="thesansmonocd_w5regular_">str(datetime.datetime .fromtimestamp(1797823712))</span> returns the human-readable string <span class="thesansmonocd_w5regular_">'2026 -12-20 21:28:32'</span>.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"expires":1797866912 </span>The <span class="thesansmonocd_w5regular_">'expires'</span> key’s value is a Unix epoch timestamp of when the notification will be deleted from the ntfy server.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"event":"message" </span>The <span class="thesansmonocd_w5regular_">'event'</span> key’s value can be either <span class="thesansmonocd_w5regular_">'message'</span>, <span class="thesansmonocd_w5regular_">'open'</span>, <span class="thesansmonocd_w5regular_">'keepalive'</span>, or <span class="thesansmonocd_w5regular_">'poll_request'</span>. These event types are explained in the online documentation, but for now, you’re probably only interested in <span class="thesansmonocd_w5regular_">'message'</span> events.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"topic":"AlSweigartZPgxBQ42" </span>The topic part of the URL is repeated in the <span class="thesansmonocd_w5regular_">'topic'</span> key’s value.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"title":"Important: Read this!" </span>If the notification has a title, there will be a <span class="thesansmonocd_w5regular_">'title'</span> key with it as a string value.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"message":"The rent is too high!" </span>The <span class="thesansmonocd_w5regular_">'message'</span> key’s value is a string of the notification’s text.</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"priority":5 </span>If the notification has a priority, there will be a <span class="thesansmonocd_w5regular_">'priority'</span> key with an integer value from 1 to 5.</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2017" aria-label="489"></span><span class="sans_thesansmonocd_w7bold_b_">"tags":["warning","neutral_face"] </span>If the notification has tags, there will be a <span class="thesansmonocd_w5regular_">'tags'</span> key with it as a list of string values. These string values may be the names of emoji characters to display.</p>
+<p class="tx">By reading the values in this dictionary, your Python programs can use the Requests library to receive notifications made by users or other Python scripts. The ntfy service is one of the easiest ways to make programs that can communicate with each other over the internet (though keep in mind the limit of 250 messages per day for free users).</p>
+</section>
+</section>
+<section type="conclusion" role="doc-conclusion" aria-labelledby="sec12">
+<h3 class="h" id="calibre_link-2018"><span id="calibre_link-538"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
+<p class="tni">We communicate with each other over the internet and cell phone networks in dozens of different ways, but email and texting predominate. Your programs can communicate through these channels, which gives them powerful new notification features.</p>
+<p class="tx">As a security and spam precaution, some popular email services like Gmail don’t allow you to use the standard SMTP and IMAP protocols to access their services. The EZGmail package acts as a convenient wrapper for the Gmail API, letting your Python scripts access your Gmail account. I highly recommend that you set up a separate Gmail account for your scripts to use so that potential bugs in your program don’t cause problems for your personal Gmail account.</p>
+<p class="tx">Texting is a bit different from email, since, unlike with email, you’ll need more than just an internet connection to send SMS texts. You can use SMS email gateways to send texts from an email account, though this requires you to know the phone user’s telecom carrier and is not a reliable way to send messages. If you’re only sending short messages to yourself, you can use the push notification system at <i class="calibre5"><a href="https://ntfy.sh" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh</a></i>, then install the ntfy app on your phone to have your Python scripts send messages to topic subscribers.</p>
+<p class="tx">With these modules in your skill set, you’ll be able to program the specific conditions under which your programs should send notifications or reminders. Now your programs will have a reach that’s far beyond the computer they’re running on!</p>
+</section>
+<section type="division" aria-labelledby="sec13">
+<h3 class="h" id="calibre_link-2019"><span id="calibre_link-539"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
+<p class="listnumber">  1.  When using the Gmail API, what are the credentials and token files?</p>
+<p class="listnumber">  2.  In the Gmail API, what’s the difference between “thread” and “message” objects?</p>
+<p class="listnumber">  3.  Using <span class="thesansmonocd_w5regular_">ezgmail.search()</span>, how can you find emails that have file attachments?</p>
+<p class="listnumber">  4.  What are some of the disadvantages of using an SMS email gateway to send text messages?</p>
+<p class="listnumber">  5.  What Python library can send and receive notifications to ntfy?</p>
+</section>
+<section type="division" aria-labelledby="sec14">
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-944" aria-label="490"></span>
+<h3 class="h" id="calibre_link-2020"><span id="calibre_link-540"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
+<p class="tni">For practice, write programs to do the following tasks.</p>
+<section type="division" aria-labelledby="sec15">
+<h4 class="h1" id="calibre_link-2021"><span id="calibre_link-541"></span><span class="sans_futura_std_heavy_oblique_bi_">Umbrella Reminder</span></h4>
+<p class="tni"><span>Chapter 13</span> showed you how to use the <span class="thesansmonocd_w5regular_">requests</span> module to scrape data from <i class="calibre5"><a href="https://weather.gov" class="calibre1">https://<wbr></wbr>weather<wbr></wbr>.gov</a></i>. Write a program that runs just before you wake up in the morning and checks whether rain is in the forecast for that day. If so, have the program text you a reminder to pack an umbrella before leaving the house.</p>
+</section>
+<section type="division" aria-labelledby="sec16">
+<h4 class="h1" id="calibre_link-2022"><span id="calibre_link-542"></span><span class="sans_futura_std_heavy_oblique_bi_">Auto Unsubscriber</span></h4>
+<p class="tni">Write a program that scans your email account, finds all the unsubscribe links in all your emails, and automatically opens them in a browser. This program will have to log in to your Gmail account. You can use Beautiful Soup (covered in <span>Chapter 13</span>) to check for any instance where the word <i class="calibre5">unsubscribe</i> occurs within an HTML link tag. Once you have a list of these URLs, you can use <span class="thesansmonocd_w5regular_">webbrowser.open()</span> to automatically open all of these links in a browser.</p>
+<p class="tx">You’ll still have to manually go through and complete any additional steps to unsubscribe yourself from these lists. In most cases, this involves clicking a link to confirm. But this script saves you from having to go through all of your emails looking for unsubscribe links.</p>
+</section>
+<section type="division" aria-labelledby="sec17">
+<h4 class="h1" id="calibre_link-2023"><span id="calibre_link-543"></span><span class="sans_futura_std_heavy_oblique_bi_">Email-Based Computer Control</span></h4>
+<p class="tni">Write a program that checks an email or ntfy account every 15 minutes for any instructions you send it and executes those instructions automatically. For example, BitTorrent is a peer-to-peer downloading system. Using free BitTorrent software such as qBittorrent, you can download large media files on your home computer. If you send the program a (completely legal, not at all piratical) BitTorrent link, the program will eventually check its email or look for ntfy notifications, find this message, extract the link, and then launch qBittorrent to start downloading the file. This way, you can have your home computer begin downloads while you’re away, and finish the (completely legal, not at all piratical) download by the time you return home.</p>
+<p class="tx"><span>Chapter 19</span> covered how to launch programs on your computer using the <span class="thesansmonocd_w5regular_">subprocess.Popen()</span> function. For example, the following call would launch the qBittorrent program, along with a torrent file:</p>
+<pre class="pre"><code class="calibre9">qbProcess = subprocess.Popen(['C:\\Program Files (x86)\\qBittorrent\\
+qbittorrent.exe', 'shakespeare_complete_works.torrent'])
+</code></pre>
+<p class="tx">Of course, you’ll want the program to make sure the emails come from you. In particular, you might want to require that the emails contain a password, since it is fairly trivial for hackers to fake a “from” address in emails. The program should delete the emails it finds so that it doesn’t repeat instructions every time it checks the email account. As an extra feature, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2024" aria-label="491"></span>have the program email or text you a confirmation every time it executes a command. Since you won’t be sitting in front of the computer that is running the program, it’s a good idea to use the logging functions (see <span>Chapter 5</span>) to write a text file log that you can check if errors come up.</p>
+<p class="tx">The qBittorrent program (as well as other BitTorrent applications) has a feature that enables it to quit automatically after the download completes. <span>Chapter 19</span> explained how you can determine when a launched application has quit with the <span class="thesansmonocd_w5regular_">wait()</span> method for <span class="thesansmonocd_w5regular_">Popen</span> objects. The <span class="thesansmonocd_w5regular_">wait()</span> method call will block until qBittorrent has stopped, and then your program can email or text you a notification that the download has completed.</p>
+<p class="tx">There are plenty of possible features you could add to this project. If you get stuck, you can download an example implementation of this program from <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>.</p>
+</section>
+</section>
+</section>
+</div>
+
+
+
+</div>
+
+
+
+</body></html>
