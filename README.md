@@ -2,8 +2,8 @@
 
 Al Sweigart著[Automate the Boring Stuff with Python](https://automatetheboringstuff.com/)を日本語に訳します。
 
-日本語訳を随時このリポジトリに載せていきます。
-
+日本語訳を随時このリポジトリに載せ、[Pythonで退屈な作業を自動化する](https://asano-naoki.github.io/automatetheboringstuff-japanese/)
+に反映させていきます。
 
 ## 背景
 
