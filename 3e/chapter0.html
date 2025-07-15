@@ -1,4 +1,5 @@
-<html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><link href="style.css" rel="stylesheet" type="text/css" /><title>Automate the Boring Stuff with Python</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link href="style.css" rel="stylesheet" type="text/css" /><title>Pythonで退屈な作業を自動化する
+</title></head><body><div type="frontmatter" class="calibre" id="calibre_link-0">
 
 
 
@@ -7,44 +8,51 @@
 <section type="introduction" role="doc-introduction" aria-labelledby="int">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1376" aria-label="xxxi"></span>
 <hgroup>
-<h1 class="fmh" id="calibre_link-1377"><span class="sans_dogma_ot_bold_b_">INTRODUCTION</span></h1>
+<h1 class="fmh" id="calibre_link-1377"><span class="sans_dogma_ot_bold_b_">はじめに
+</span></h1>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">“You’ve just done in two hours what it takes the three of us two days to do.” My college roommate was working at a retail electronics store in the early 2000s. Occasionally, the store would receive a spreadsheet of thousands of product prices from other stores. A team of three employees would print the spreadsheet onto a thick stack of paper and split it among themselves. For each product price, they would look up their store’s price and note all the products that their competitors sold for less. It usually took a couple of days.</p>
-<p class="tx">“You know, I could write a program to do that if you have the original file for the printouts,” my roommate told them when he saw them sitting on the floor with papers scattered and stacked all around.</p>
-<p class="tx">After a couple of hours, he had a short program that read a competitor’s price from a file, found the product in the store’s database, and noted <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1052" aria-label="xxxii"></span>whether the competitor was cheaper. He was still new to programming, so he spent most of his time looking up documentation in a programming book. The actual program took only a few seconds to run. My roommate and his co-workers took an extra-long lunch that day.</p>
-<p class="tx">This is the power of computer programming. A computer is like a Swiss Army knife with tools for countless tasks. Many people spend hours clicking and typing to perform repetitive tasks, unaware that the machine they’re using could do their job in seconds if they gave it the right instructions.</p>
+<p class="introtni">「3人で2日かかる作業を君は2時間で仕上げたんだよ」
+私の大学のルームメイトは2000年代の初めに家電量販店で働いていました。
+その店では、他店の何千種類もの製品価格をまとめたスプレッドシートを用意していました。
+3人の従業員がそのスプレッドシートを印刷して、分厚い紙の束を分担して作業していました。
+製品ごとに価格を比較して、他店のほうが安い製品をリストアップしていました。
+この作業には数日かかっていました。
+</p>
+<p class="tx">私のルームメイトは、紙をまき散らして床に座って作業している姿を見て、「この印刷物の元ファイルがあれば、その作業をしてくれるプログラムを書くよ」と言いました。</p>
+<p class="tx">数時間後、ファイルから他店の製品価格を読み取り、自店のデータベースから同じ製品の価格を取得して、他店のほうが安ければ記録する短いプログラムを、ルームメイトは書き上げました。そのルームメイトはまだプログラミングの初心者だったので、プログラミング本を読んで調べるのにほとんどの時間を費やしました。プログラムの実行にかかった時間はほんの数秒です。その日、ルームメイトとその家電量販店の従業員は、とても長い昼食をとりました。</p>
+<p class="tx">これがコンピュータプログラミングの力です。コンピュータはさまざまな作業に使える万能ツールです。クリックして入力して…という反復作業に時間を浪費している人は多いです。正しい指示を与えればコンピュータは数秒でその作業ができることに気づいていないのでしょう。</p>
 <section type="division" aria-labelledby="sec1">
-<div class="calibre8"></div><h2 class="h" id="calibre_link-1378"><span id="calibre_link-4"></span><span class="sans_futura_std_bold_b_">Who Is This Book For?</span></h2>
-<p class="tni">Software is at the core of so many of the tools we use today: nearly everyone uses social networks to communicate, virtually all people have internet-connected phones in their purse or pocket, and most office jobs involve interacting with a computer to get work done. As a result, the demand for people who can code has skyrocketed. Countless books, online tutorials, and developer boot camps promise to turn ambitious beginners into software engineers with six-figure salaries.</p>
-<p class="tx">This book is not for those people. It’s for everyone else.</p>
-<p class="tx">On its own, this book won’t turn you into a professional software developer any more than a few guitar lessons will turn you into a rock star. But if you’re an office worker, administrator, academic, or anyone else who uses a computer for work or fun, you will learn the basics of programming so that you can automate simple tasks such as these:</p>
+<div class="calibre8"></div><h2 class="h" id="calibre_link-1378"><span id="calibre_link-4"></span><span class="sans_futura_std_bold_b_">対象読者</span></h2>
+<p class="tni">私たちが今使っているたくさんのツールの中心にはソフトウェアがあります。多くの人がSNSを使っていて、かばんやポケットの中にはインターネットに接続した電話があり、事務仕事にはコンピュータが欠かせません。その結果、コードを書ける人がますます求められるようになってきています。初心者でも年収1000万円のエンジニアになれると約束する本やオンライン教材やトレーニングコースがあふれています。</p>
+<p class="tx">本書はその類ではありません。万人に向けて書いた本です。</p>
+<p class="tx">この本を読んだだけでプロのソフトウェア開発者になれるわけではありません。ギターのレッスンを少し受けただけではロックスターになれないのと同じです。事務員であれ管理職であれ研究者であれ、コンピュータを仕事や趣味に使う人なら、本書を読めばプログラミングの基礎を身につけられます。以下のような単純作業を自動化できます。</p>
 <ul class="ul">
-<li class="bl">Moving and renaming thousands of files and sorting them into folders</li>
-<li class="bl">Filling out online forms&mdash;no typing required</li>
-<li class="bl">Downloading files or copying text from a website whenever it updates</li>
-<li class="bl">Having your computer text custom notifications to your phone</li>
-<li class="bl">Updating or formatting Excel spreadsheets</li>
-<li class="bl">Checking your email and sending out prewritten responses</li>
-<li class="bl">Creating databases and querying them for information</li>
-<li class="bl">Extracting text from images and audio files</li>
+<li class="bl">数千ファイルの名前を変更してフォルダに整理する</li>
+<li class="bl">タイピングせずにオンラインフォームに入力する</li>
+<li class="bl">ウェブサイトが更新されたらファイルをダウンロードしたりテキストをコピーしたりする</li>
+<li class="bl">コンピュータから携帯電話にメッセージを通知する</li>
+<li class="bl">Excelのスプレッドシートを更新したり整形したりする</li>
+<li class="bl">メールをチェックして事前に用意した返信を送信する</li>
+<li class="bl">データベースを作成して情報を検索する</li>
+<li class="bl">画像や音声ファイルから文字を抽出する</li>
 </ul>
-<p class="tx">These tasks are simple but time-consuming for humans, and they’re often so trivial or specific that there’s no ready-made software to perform them. Armed with a little bit of programming knowledge, however, you can have your computer do these tasks for you.</p>
+<p class="tx">こうした作業は単純ですが、人間が行うと時間がかかりますし、状況に特化しているため既製のソフトウェアでは対応できません。しかし、プログラミングの基礎知識があれば、コンピュータにこうした作業をさせることができます。</p>
 </section>
 <section type="division" aria-labelledby="sec2">
-<h2 class="h" id="calibre_link-1379"><span id="calibre_link-5"></span><span class="sans_futura_std_bold_b_">Coding Conventions Used in This Book</span></h2>
-<p class="tni">This book is not designed as a reference manual; it’s a guide for beginners. The coding style sometimes goes against best practices (for example, some programs use global variables), but this trade-off makes the code simpler to learn. Sophisticated programming concepts&mdash;like object-oriented programming, list comprehensions, and generators&mdash;aren’t covered because of the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1380" aria-label="xxxiii"></span>complexity they add. Veteran programmers may point out ways the code in this book could be changed to improve efficiency, but this book is mostly concerned with getting programs to work with the least amount of effort on your part.</p>
+<h2 class="h" id="calibre_link-1379"><span id="calibre_link-5"></span><span class="sans_futura_std_bold_b_">本書のコーディング規約</span></h2>
+<p class="tni">この本はリファレンスマニュアルではなく初心者用のガイドブックです。学習の便宜上、コーディングのスタイルがベストプラクティスから逸脱している場合があります（例：グローバル変数の使用）。オブジェクト指向、リスト内包表記、ジェネレータなどの複雑なプログラミングの概念は扱いません。熟練したプログラマはこうしたらもっと効率がよくなるのにと思うかもしれませんが、本書は最小限の労力でプログラムを動作させることに重点を置いています。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h2 class="h" id="calibre_link-1381"><span id="calibre_link-6"></span><span class="sans_futura_std_bold_b_">What Is Programming?</span></h2>
-<p class="tni">Television shows and films often show programmers furiously typing cryptic streams of 1s and 0s on glowing screens, but modern programming isn’t that mysterious. <i class="calibre5">Programming</i> is writing instructions for the computer to perform in a language the computer can understand. These instructions might crunch some numbers, modify text, look up information in files, or communicate with other computers over the internet.</p>
-<p class="tx">All programs use basic instructions as building blocks. Here are a few of the most common ones, in English:</p>
-<p class="listplain">“Do this; then do that.”</p>
-<p class="listplain">“If this condition is true, perform this action; otherwise, do that action.”</p>
-<p class="listplain">“Do this action exactly 27 times.”</p>
-<p class="listplain">“Keep doing that until this condition is true.”</p>
-<p class="tx">You can combine these building blocks to implement more intricate decisions too. For example, here are the programming instructions, called the <i class="calibre5">source code</i><a id="calibre_link-1382" class="calibre1"></a>, for a simple program written in the Python programming language. Starting at the top, the Python software runs lines of code (some of which are run only <i class="calibre5">if</i> a certain condition is true, or <i class="calibre5">else</i> Python runs some other line) until it reaches the bottom:</p>
+<h2 class="h" id="calibre_link-1381"><span id="calibre_link-6"></span><span class="sans_futura_std_bold_b_">プログラムとは何か</span></h2>
+<p class="tni">テレビ番組や映画では、プログラマが狂ったように0と1の羅列を光り輝くスクリーンに打ち込んでいる姿が映し出されますが、現代のプログラミングはその姿とほど遠いです。<i class="calibre5">プログラミング</i>とは、コンピュータが理解して実行できる指示を書くことです。数値計算、文書編集、情報検索、インターネット通信といった指示です。</p>
+<p class="tx">どのようなプログラムも、次のように、基本的な指示を組み合わせています。</p>
+<p class="listplain">「これをして、次にあれをする」</p>
+<p class="listplain">「この条件が真であればこれをして、偽であればあれをする」</p>
+<p class="listplain">「27回これをする」</p>
+<p class="listplain">「この条件が真になるまでこれをする」</p>
+<p class="tx">こうした基本的な指示を組み合わせてもっと複雑なことができます。以下の例は、Pythonというプログラミング言語で書かれた、<i class="calibre5">ソースコード</i><a id="calibre_link-1382" class="calibre1"></a>と呼ばれるプログラミングの指示です。Pythonのソフトウェアが最初の行から最後の行までコードを実行していきます（条件が真であるが偽であるかによって実行される行が変わります）。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> <span class="thesansmonocd_w5regular_">password_file = open('SecretPasswordFile.txt')</span>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> <span class="thesansmonocd_w5regular_">secret_password = password_file.read()</span>
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> <span class="thesansmonocd_w5regular_">print('Enter your password.')
@@ -56,120 +64,120 @@ typed_password = input()</span>
   else:
     </span><span class="codeannotated_codeannotation" aria-label="annotation8">❽</span> <span class="thesansmonocd_w5regular_">print('Access denied')</span>
 </code></pre>
-<p class="tx">You might not know anything about programming, but you could probably make a reasonable guess at what the previous code does just by reading it. First, the file <i class="calibre5">SecretPasswordFile.txt</i> is opened <span class="codeannotation" aria-label="annotation1">❶</span>, and the secret password in it is read <span class="codeannotation" aria-label="annotation2">❷</span>. Then, the user is prompted to input a password (from the keyboard) <span class="codeannotation" aria-label="annotation3">❸</span>. These two passwords are compared <span class="codeannotation" aria-label="annotation4">❹</span>, and if they’re the same, the program prints <i class="calibre5">Access granted</i> to the screen <span class="codeannotation" aria-label="annotation5">❺</span>. Next, the program checks whether the password is <i class="calibre5">12345</i> <span class="codeannotation" aria-label="annotation6">❻</span> and hints that this choice might not be the best for a password <span class="codeannotation" aria-label="annotation7">❼</span>. If the passwords are not the same, the program prints <i class="calibre5">Access denied</i> to the screen <span class="codeannotation" aria-label="annotation8">❽</span>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1244" aria-label="xxxiv"></span>Programming is a creative task, as are painting, writing, knitting, and constructing LEGO castles. Like a blank canvas for painting, software has many constraints but endless possibilities. The difference between programming and other creative activities is that your computer comes with all the raw materials you need to program; you don’t have to buy any additional canvas, paint, film, yarn, LEGO bricks, or electronic components. A decade-old laptop is more than powerful enough to write programs. Once you’ve written your program, you can copy it perfectly an infinite number of times. A knit sweater can be worn by only one person at a time, but a useful program can easily be shared online with the entire world.</p>
+<p class="tx">プログラミングがわからなくても、コードを読めば（英語の意味がわかれば）何をしようとしているか推測できるかもしれません。まず、<i class="calibre5">SecretPasswordFile.txt</i>を開き<span class="codeannotation" aria-label="annotation1">(❶)</span>、秘密のパスワードを読み取ります<span class="codeannotation" aria-label="annotation2">(❷)</span>。次に、ユーザーはパスワードを（キーボードから）入力するように求められます<span class="codeannotation" aria-label="annotation3">(❸)</span>。ファイルから読みったパスワードとユーザーが入力したパスワードを比較し<span class="codeannotation" aria-label="annotation4">(❹)</span>、一致すれば<i class="calibre5">Access granted</i>と画面に表示します<span class="codeannotation" aria-label="annotation5">(❺)</span>。そして、パスワードが<i class="calibre5">12345</i>であるかをチェックし<span class="codeannotation" aria-label="annotation6">(❻)</span>、そうであれば不適切なパスワードである旨を表示します<span class="codeannotation" aria-label="annotation7">(❼)</span>。パスワードが一致しなければ、<i class="calibre5">Access denied</i>と画面に表示します<span class="codeannotation" aria-label="annotation8">(❽)</span>。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1244" aria-label="xxxiv"></span>プログラミングは、絵を描いたり、文章を書いたり、編み物をしたり、レゴで城を作ったりするのと同じように創造的な作業です。キャンバスに絵を描くのと同じで、ソフトウェアのプログラミングには制約がありますが無限の可能性に開かれています。プログラミングとその他の創造的な活動との違いは、お使いのコンピュータでプログラミングに必要な原材料が揃っているということです。キャンバス、糸、画材、フィルム、レゴブロック、電子部品のような材料を買う必要はありません。10年落ちのノートパソコンでも十分にプログラミングを書けます。プログラムを一度書けば、何回でも繰り返し使えます。セーターを編んでも一人しか着れませんが、プログラムはオンラインで共有して世界中の人が使えます。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h2 class="h" id="calibre_link-1383"><span id="calibre_link-7"></span><span class="sans_futura_std_bold_b_">What Is Python?</span></h2>
-<p class="tni"><a id="calibre_link-1384" class="calibre1"></a><i class="calibre5">Python</i> refers to both a programming language (with syntax rules for writing what is considered valid Python code) and the interpreter software that reads source code (written in the Python language) and performs its instructions. You can download Windows, macOS, and Linux versions of the Python interpreter for free at <i class="calibre5"><a href="https://python.org" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org</a></i>.</p>
-<p class="tx">There are several programming languages, each with their strengths and weaknesses. Debating which is best often leads to pointless arguments over matters of opinion. But in my opinion, Python is the best <i class="calibre5">first</i> language to learn if you are new to programming. Python has a gentle learning curve and readable syntax. It doesn’t require learning dense concepts to do simple tasks. And if you want to go further into programming, learning a second language is easier when you first understand Python.</p>
-<p class="tx">The name Python comes from the surreal British comedy group Monty Python, not from the snake. Python programmers are affectionately called Pythonistas, and both Monty Python and serpentine references usually pepper Python tutorials and documentation.</p>
+<h2 class="h" id="calibre_link-1383"><span id="calibre_link-7"></span><span class="sans_futura_std_bold_b_">Pythonとは何か</span></h2>
+<p class="tni"><a id="calibre_link-1384" class="calibre1"></a><i class="calibre5">Python</i> という用語は、プログラミング言語（Pythonのコードには構文が決まっています）とソースコード（プログラミング言語Pythonで書かれたもの）を読んで指示を実行するインタープリタソフトウェアの両方を指します。WindowsでもmacOSでもLinuxでも、 <i class="calibre5"><a href="https://python.org" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org</a></i> から無料でPythonのインタープリタをダウンロードできます。</p>
+<p class="tx">プログラミング言語の種類はいろいろあり、それぞれに強みと弱みがあります。どのプログラミング言語が最高かという議論は好みの違いですから無益です。とはいえ、私見を述べるなら、Pythonが<i class="calibre5">最初に</i>学ぶプログラミング言語として最適です。Pythonの学習曲線はなだらかで、構文が読みやすいです。簡単な作業を行うために複雑な概念を学ぶ必要はありません。プログラミングをさらに極めたければ、最初にPythonを理解していると、次の言語を学ぶのが簡単になります。</p>
+<p class="tx">Pythonという名前は、ヘビではなく英国のコメディグループのMonty Pythonに由来しています。Pythonプログラマは親しみを込めてパイソニスタと呼ばれます。チュートリアルなどのドキュメントでは、Monty Pythonとヘビがよく題材に使われます。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h2 class="h" id="calibre_link-1385"><span id="calibre_link-8"></span><span class="sans_futura_std_bold_b_">Common Myths About Programming</span></h2>
-<p class="tni">Programming has an intimidating reputation, and billion-dollar software companies are household names. Even the English word <i class="calibre5">code</i> has an association with secrecy and cryptic connotations. This leads many people to think that only a select few can program. But coding is a skill anyone can learn, and I’d like to address some of the more common myths directly.</p>
+<h2 class="h" id="calibre_link-1385"><span id="calibre_link-8"></span><span class="sans_futura_std_bold_b_">プログラミングにまつわる神話</span></h2>
+<p class="tni">プログラミングはとっつきづらく、有名なソフトウェア会社は大金を稼いでいます。英語のコード（code）という単語には暗号という含意があります。ひと握りの選ばれた人しかプログラムを書けないと考えがちです。しかし、プログラミングは誰でも学べる技術です。以下では、いくつかのよく聞く神話に反論します。</p>
 <section type="division" aria-labelledby="sec6">
-<h3 class="h1" id="calibre_link-1386"><span id="calibre_link-9"></span><span class="sans_futura_std_heavy_oblique_bi_">Programmers Don’t Need to Know Much Math</span></h3>
-<p class="tni">The most common anxiety I hear about learning to program is the notion that it requires a lot of math. Actually, most programming doesn’t require math beyond basic arithmetic. Programming requires deduction and paying attention to detail more than mathematics. In fact, being good at programming isn’t that different from being good at solving Sudoku puzzles.</p>
-<p class="tx">To solve a Sudoku puzzle, you must fill in the numbers 1 through 9 for each row, each column, and each 3×3 interior square of the full 9×9 board. The puzzle provides you with some numbers to start, and you can <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1387" aria-label="xxxv"></span>find a solution by making deductions based on these numbers. In the puzzle shown in Figure 1, a 5 appears in the first and second rows, so it can’t show up in these rows again. Therefore, in the upper-right grid, it must appear in the third row. Because the last column also already has a 5 in it, the 5 can’t go to the right of the 6, so it must go to the left of the 6. Solving one row, column, or square will provide more clues for solving the rest of the puzzle, and as you fill in one group of numbers 1 to 9 and then another, you’ll soon solve the entire grid.</p>
-<figure class="img"><img class="img1" id="calibre_link-649" src="images/000004.jpg" alt="Two six-by-six Sudoku puzzle grids side by side. The first is partly filled in with digits, and the second is entirely filled in with digits." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 1: A new Sudoku puzzle (left) and its solution (right). Despite using numbers, Sudoku doesn’t involve much math. (Images © Wikimedia Commons)</span></p></figcaption>
+<h3 class="h1" id="calibre_link-1386"><span id="calibre_link-9"></span><span class="sans_futura_std_heavy_oblique_bi_">プログラマに数学はあまり必要でない</span></h3>
+<p class="tni">プログラミングには高度な数学が必要だという神話をよく耳にします。実際には、ほとんどのプログラミング言語で必要な数学は初歩的な計算です。数学よりも論理的に考えて細部に注意を払うことが求められます。プログラミングが得意だというのは、数独のパズルを解くのが得意だということとそう変わりはありません。</p>
+<p class="tx">数独は、行、列、3×3の太線の範囲のそれぞれについて、1から9までの数字を埋めるというパズルです。いくつかの数字が入った状態から始めて、それを手がかりに論理的に考えて解いていきます。図1では、5が1行目と2行目に入っているので、1行目と2行目にはもう5を入れることができません。右上の3×3の太線の範囲に着目すると、3行目に5を入れなければなりません。一番右の列にはすでに5が入っていますから、6の右隣に5を入れることはできません。よって、6の左隣に5を入れると確定できます。行、列、3×3の太線の範囲に着目しながら数字を埋めていくと、空白マスを埋める手がかりが増え、そのようにして数字を入れていくと、最終的には全部のマスを埋められます。</p>
+<figure class="img"><img class="img1" id="calibre_link-649" src="images/000004.jpg" alt=" " />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図1：数独のパズル例（左図）とその解答（右図）。数独では数字を扱いますが、数学とはあまり関係がありません。（図 © Wikimedia Commons）</span></p></figcaption>
 </figure>
-<p class="tx">The fact that Sudoku involves numbers doesn’t mean you have to be good at math to figure out the solution. The same is true of programming. Like solving a Sudoku puzzle, writing programs involves paying attention to details and breaking down a problem into individual steps. Similarly, when <i class="calibre5">debugging</i> programs (that is, finding and fixing errors), you’ll patiently observe what the program is doing and find the cause of the bugs. And like all skills, the more you program, the better you’ll become.</p>
+<p class="tx">数独が数字に関係あるからといって、数学が得意でないとパズルが解けないわけではありません。プログラミングも同じです。数独のパズルを解くのと同様に、プログラムを書くにも細部に注意を払って問題を順々に解きほぐしていくことが求められます。プログラムの <i class="calibre5">デバッグ</i>（エラーを発見して修正すること）をするにも、プログラムが何をしているか辛抱強く追っていき、バグの原因を突き止めます。どのような技術でもそうですが、やればやるほどうまくなります。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h3 class="h1" id="calibre_link-1388"><span id="calibre_link-10"></span><span class="sans_futura_std_heavy_oblique_bi_">You Are Not Too Old to Learn Programming</span></h3>
-<p class="tni">The second most common anxiety I hear about learning to program is that people think they’re too old to learn it. I read many internet comments from folks who think it’s too late for them because they are already (gasp!) 23 years old. This is clearly not “too old” to learn to program; many people learn much later in life.</p>
-<p class="tx">You don’t need to have started as a child to become a capable programmer. But the image of programmers as whiz kids is a persistent one. Unfortunately, I contribute to this myth when I tell others that I was in grade school when I started programming.</p>
-<p class="tx">However, programming is much easier to learn today than it was in the 1990s. Today, there are more books, better search engines, and many more online question-and-answer websites. On top of that, the programming languages themselves are far more user-friendly. For these reasons, <i class="calibre5">everything</i> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1389" aria-label="xxxvi"></span><i class="calibre5">I learned about programming in the years between grade school and high school graduation could be learned today in about a dozen weekends</i>. My head start wasn’t really much of a head start.</p>
-<p class="tx">It’s important to have a “growth mindset” about programming&mdash;in other words, understand that people develop programming skills through practice. They aren’t just born as programmers, and being unskilled at programming now is not an indication that you can never become an expert.</p>
+<h3 class="h1" id="calibre_link-1388"><span id="calibre_link-10"></span><span class="sans_futura_std_heavy_oblique_bi_">プログラムの学習に年齢は関係ない</span></h3>
+<p class="tni">次によく聞く神話は、歳を取りすぎているのでプログラムを学ぶことができないというものです。もう23歳だから遅すぎるといったインターネット上の書き込みをよく目にします。遅すぎることなんてありません。もっと年齢を重ねてからプログラムを学ぶ人はたくさんいます。</p>
+<p class="tx">有能なプログラマになるためには幼い頃から学び始めなければならないというのは神話です。しかし、プログラマは天才少年であるというイメージが根強いです。私もこの神話の一端を担っているかもしれません。というのも、私はプログラミングを小学生の頃に始めたからです。</p>
+<p class="tx">とはいえ、プログラミングを始めるのは、1990年代よりも今のほうがはるかに簡単です。本がたくさんありますし、検索エンジンの性能も上がっていますし、オンラインの質問回答サイトもたくさんあります。そして何より、プログラミング言語自体が非常に使いやすくなっています。こうした理由から、私が小学生から高校生の間に学んだ内容は、今なら3か月ほど週末に学習すれば追いつけます。私は全然有利な位置にいたわけではなかったのです。</p>
+<p class="tx">プログラミングでは向上心が重要です。言い換えると、練習が大事だということです。生まれつきのプログラマなんていませんし、今はプログラミングができなくても才能がないということではありません。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h3 class="h1" id="calibre_link-1390"><span id="calibre_link-11"></span><span class="sans_futura_std_heavy_oblique_bi_">AI Won’t Replace Programmers</span></h3>
-<p class="tni">In the 1990s, nanotechnology promised to change everything. New manufacturing processes and scientific innovation would revolutionize society, the thinking went. Carbon nanotubes, buckyballs, and diamonds the price of pencil lead, all assembled one atom at a time out of plentiful carbon by germ-size nanobots, would pave the way for materials 10 times stronger than steel at a fraction of the weight and cost. This would lead to space elevators, medical miracles, and home appliances that could create anything, just like the replicators on <i class="calibre5">Star Trek</i>! It would mean an end to economic scarcity, world hunger, and war. It would bring on a new age of enlightenment&mdash;as long as the nanobots didn’t turn on their human creators in a tiny robot uprising. And the technology was only 10 years away!</p>
-<p class="tx">Of course, the hype never happened. Real innovations certainly occurred at the nanoscale (the smartphone in your pocket uses a number of them). But the Star Trek replicators and other grandiose promises didn’t arrive, and the excitement over nanotechnology deflated to more realistic proportions.</p>
-<p class="tx">Let’s talk about AI.</p>
-<p class="tx">Personal computers changed everything. The internet changed everything. Social media changed everything. Smartphones changed everything. Cryptocurrency did not change everything, but it did reveal which of your cousins and co-workers were susceptible to get-rich-quick scams. Today, AI is the latest marvel to emerge from the tech industry. People use the term <i class="calibre5">AI</i> to mean everything from chess-playing computers to chatbots, so-called expert systems, and machine learning. In this book, I’ll use the term <i class="calibre5">large language model (LLM)</i>, which is the conceptual category behind OpenAI’s ChatGPT, Google’s Gemini, Facebook’s LLaMA, and other generative text systems.</p>
-<p class="tx">LLMs have caused many breathless claims and questions. Is AI going to take all of our jobs? Is it still worth learning to code? Are the AIs alive, and can I survive the AI-robot uprising?</p>
-<p class="tx">LLM technology is exciting, but to make it useful, we need to set realistic expectations so that we can avoid falling prey to sensationalist journalism and questionable “investment opportunities.” I hope I can deflate the hype and give you a more realistic view of how LLMs can help you learn to code. Let’s get some of these misconceptions out of the way right now:</p>
+<h3 class="h1" id="calibre_link-1390"><span id="calibre_link-11"></span><span class="sans_futura_std_heavy_oblique_bi_">AIがプログラマを不要にはしない</span></h3>
+<p class="tni">1990年代には、ナノテクノロジーがあらゆる面において変革をもたらすと喧伝されていました。新しい製造工程と科学革新が社会を変えると言われていました。細菌くらいの大きさのナノボットが炭素原子を1個ずつ組み立てる、カーボンナノチューブとバックミンスターフラーレンと鉛筆の芯と同じくらい安いダイヤモンドが、重量と価格が数分の1なのに鋼鉄よりも10倍硬い素材をもたらすと言われていました。この技術により、<i class="calibre5">スタートレック</i>のレプリケーターのように、宇宙エレベーターでも薬でも電化製品でも何でも作れるとされていました。希少性という経済学の概念が無用になり、世界的な飢餓と戦争を終わらせることを意味していました。ナノボットが蜂起して人間に歯向かわない限り、新しい啓蒙時代をもたらすはずでした。10年後にはそうなると言われていたのです。</p>
+<p class="tx">もちろん、そのような誇大広告が実現することはありませんでした。確かにナノテクノロジーが革新をもたらした面はあります（スマートフォンはナノテクノロジーを活用しています）。しかし、スタートレックのレプリケーターのような壮大な約束は果たされず、ナノテクノロジーへの熱狂は現実的な大きさにしぼみました。</p>
+<p class="tx">さて、AIについて述べましょう。</p>
+<p class="tx">パソコンがあらゆる物事を変えました。インターネットもソーシャルメディアもスマートフォンもあらゆる物事を変えました。暗号通貨はそこまでではありませんが、詐欺に騙されやすい人をあぶり出したかもしれません。今、AIがテクノロジー産業では最新の驚異になっています。通俗的には、<i class="calibre5">AI</i>という用語が、チェスをプレイするコンピュータからチャットボット、いわゆるエキスパートシステム、機械学習まで幅広い内容を指します。本書では、<i class="calibre5">大規模言語モデル（LLM）</i>を指して用います。LLMは、OpenAIのChatGPT、GoogleのGemini、FacebookのLLaMAなど、テキスト生成システムの背景となる概念です。</p>
+<p class="tx">LLMについては激しく議論されています。AIが私たちの仕事を奪うのだろうか、もうコードを書くための学習は不要なのか、AIは生きているのか、AIロボットの反乱に立ち向かえるのだろうか、などです。</p>
+<p class="tx">LLMの技術はすごいですが、センセーショナルな報道や疑わしい投資機会を勧める人たちの餌食とならずLLMを有効に活用するためには、現実的な期待を設定する必要があります。ここではLLMとコーディングについて、誇大広告ではなく現実的な視点を提供したいと思います。よくある誤解を解いておきます。</p>
 <ul class="ul">
-<li class="bl">LLMs are not conscious or sentient.</li>
-<li class="bl">LLMs will not replace human software engineers.</li>
-<li class="bl">LLMs do not alleviate the need to learn programming.</li>
-<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1311" aria-label="xxxvii"></span>LLMs will not replace most human jobs (though this won’t prevent your manager from thinking they can and laying you off anyway).</li>
-<li class="bl">LLMs are far from perfect, and are even <i class="calibre5">often</i> wrong.</li>
+<li class="bl">LLMには意識も感覚もありません。</li>
+<li class="bl">LLMは人間のソフトウェアエンジニアを不要にすることはありません。</li>
+<li class="bl">LLMはプログラミング学習を不要にすることはありません。</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1311" aria-label="xxxvii"></span>LLMはそれほど人間の仕事を奪いません（経営陣がそう誤解して従業員を解雇することはあり得ますが）。</li>
+<li class="bl">LLMは完全無欠ではなく、<i class="calibre5">よく</i>間違いを犯します。</li>
 </ul>
-<p class="tx">Those who insist on these misconceptions get their information from science fiction movies and internet videos, not from experience with actual LLMs. I highly recommend Simon Willison, Python Software Foundation board member and co-creator of the Django Web Framework, for his writing about AI at <i class="calibre5"><a href="https://simonwillison.net/about" class="calibre1">https://<wbr></wbr>simonwillison<wbr></wbr>.net<wbr></wbr>/about</a></i>. You can watch his sober and illuminating PyCon 2024 keynote speech on LLMs at <i class="calibre5"><a href="https://autbor.com/pycon2024keynote" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/pycon2024keynote</a></i>.</p>
-<p class="tx">How could LLMs help you as a programmer? What is obvious at this early stage is that learning to communicate with LLMs (so-called prompt engineering) is a skill, just like learning to effectively use a search engine is a skill. LLMs are not people, and you need to learn how to phrase your questions to get relevant and reliable answers. When LLMs confidently make up incorrect answers, we say that they are <i class="calibre5">hallucinating</i>. But this is just another way of anthropomorphizing an algorithm. LLMs don’t think; they generate text. That is to say, LLMs are <i class="calibre5">always</i> hallucinating, even when their answers happen to be correct.</p>
-<p class="tx">LLMs make large, obvious mistakes and simple, subtle mistakes, however. If you use them as a learning aid, you must vigilantly check everything the LLM tells you, big or small. It’s entirely valid to choose to forgo learning with LLMs altogether. At this point, the effectiveness of using LLMs in education is unproven. We don’t know for sure in what situations LLMs are useful as learning tools, or even if their benefits outweigh their costs.</p>
-<p class="tx">It’s no wonder that so many buy into the hype of LLMs. We carry devices in our pockets that scientists of the last century would consider supercomputers. They connect us to a global network of information (and misinformation). They can identify their position anywhere on Earth by listening to satellites in outer space. Software can already do seemingly magical things, but software isn’t magic. And by learning to program, you’ll get a far more grounded idea of what computers are capable of versus what is just hype.</p>
+<p class="tx">実際にLLMを使った経験ではなく、SF映画などに基づいてこうした誤解に固執する人がいます。Python Software Foundationの理事でウェブフレームワークDjangoの共同開発者であるSimon Willisonの解説をご覧いただきたいです。AIに関する記事を <i class="calibre5"><a href="https://simonwillison.net/about" class="calibre1">https://<wbr></wbr>simonwillison<wbr></wbr>.net<wbr></wbr>/about</a></i> で読めますし、PyCon 2024での基調講演を <i class="calibre5"><a href="https://autbor.com/pycon2024keynote" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/pycon2024keynote</a></i> で見られます（英語です）。</p>
+<p class="tx">LLMはプログラマにどう役立つのでしょうか。現時点ではっきりしていることは、LLMとのコミュニケーション（プロンプトエンジニアリング）は一つの技術だということです。検索エンジンをうまく使うのが一つの技術であるのと同じです。LLMは人間ではないので、意義があり信頼できる回答を得るためには質問文を工夫する必要があります。LLMは自信満々で不正確な回答をすることがあります。<i class="calibre5">ハルシネーション</i>と呼ばれる現象です。しかしこれはアルゴリズムの擬人化であって正確な表現ではありません。LLMは思考するのではなくテキストを生成します。つまり、LLMの回答は、その内容が正しかろうが正しくなかろうが、<i class="calibre5">すべて</i>ハルシネーションです。</p>
+<p class="tx">LLMは目につきやすい大きな間違いを犯すこともあれば、目につきにくい小さな間違いを犯すこともあります。LLMを学習に用いるなら、回答の正確性をチェックしなければなりません。学習段階ではLLMをまったく使わないという選択をするのが妥当です。現在のところ、教育でLLMが有効かどうかは定かではありません。どういう状況であればLLMが学習に役立つか、利点が欠点を上回るかについては、まだ不確かです。</p>
+<p class="tx">LLMのの誇大広告に賭ける人がたくさんいても驚きはしません。20世紀のスーパーコンピュータに匹敵するデバイスを私たちはポケットの中に入れているくらいですから。しかもそのデバイスはグローバルなネットワークに接続しています（ネットワーク上の情報は正しいこともあれば正しくないこともありますが）。宇宙空間にある人工衛星からそのデバイスが存在する地球上の位置を特定することもできます。ソフトウェアは魔法のように見えることがありますが、魔法ではありません。プログラミングを学ぶと、コンピュータができることをしっかりと把握して、誇大広告と判別できるようになります。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h2 class="h" id="calibre_link-1391"><span id="calibre_link-12"></span><span class="sans_futura_std_bold_b_">About This Book</span></h2>
-<p class="tni">The first part of this book teaches you how to program in Python. The second part covers various software libraries for automating different kinds of tasks. I recommend reading the chapters of Part I in order, then skipping to the chapters in Part II that interest you. Here’s a brief rundown of what you’ll find in each chapter.</p>
-<p class="listhead"><b class="calibre10">Part I: Programming Fundamentals</b></p>
-<p class="listplain"><b class="calibre10">Chapter 1: Python Basics</b> Covers expressions, the most basic type of Python instruction, and how to use the Python interactive shell software to experiment with code.</p>
-<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1392" aria-label="xxxviii"></span><b class="calibre10">Chapter 2: if-else and Flow Control</b> Explains how to make programs decide which instructions to execute so that your code can intelligently respond to different conditions.</p>
-<p class="listplain"><b class="calibre10">Chapter 3: Loops</b> Explains how to make programs repeat instructions a set number of times, or for as long as a certain condition holds.</p>
-<p class="listplain"><b class="calibre10">Chapter 4: Functions</b> Instructs you on how to define your own functions so that you can organize your code into more manageable chunks.</p>
-<p class="listplain"><b class="calibre10">Chapter 5: Debugging</b> Shows how to use Python’s various bug-finding and bug-fixing tools.</p>
-<p class="listplain"><b class="calibre10">Chapter 6: Lists</b> Introduces the list data type and explains how to organize data.</p>
-<p class="listplain"><b class="calibre10">Chapter 7: Dictionaries and Structuring Data</b> Introduces the dictionary data type and shows you more powerful ways to organize data.</p>
-<p class="listplain"><b class="calibre10">Chapter 8: Strings and Text Editing</b> Covers working with text data (called <i class="calibre5">strings</i> in Python).</p>
-<p class="listhead"><b class="calibre10">Part II: Automating Tasks</b></p>
-<p class="listplain"><b class="calibre10">Chapter 9: Text Pattern Matching with Regular Expressions</b> Covers how Python can manipulate strings and search for text patterns with regular expressions.</p>
-<p class="listplain"><b class="calibre10">Chapter 10: Reading and Writing Files</b> Explains how your program can read the contents of text files and save information to files on your hard drive.</p>
-<p class="listplain"><b class="calibre10">Chapter 11: Organizing Files</b> Shows how Python can copy, move, rename, and delete large numbers of files much faster than a human user can. Also explains compressing and decompressing files.</p>
-<p class="listplain"><b class="calibre10">Chapter 12: Designing and Deploying Command Line Programs</b> Explains how you can package your Python programs to easily run them either on your own computer or on co-workers’ computers.</p>
-<p class="listplain"><b class="calibre10">Chapter 13: Web Scraping</b> Shows how to write programs that can automatically download web pages and parse them for information. This is called <i class="calibre5">web scraping</i>.</p>
-<p class="listplain"><b class="calibre10">Chapter 14: Excel Spreadsheets</b> Covers programmatically manipulating Excel spreadsheets so that you don’t have to read them. This is helpful when the number of documents you have to analyze is in the hundreds or thousands.</p>
-<p class="listplain"><b class="calibre10">Chapter 15: Google Sheets</b> Covers how to read and update Google Sheets, a popular web-based spreadsheet application, using Python.</p>
-<p class="listplain"><b class="calibre10">Chapter 16: SQLite Databases</b> Explains how to use relational databases with SQLite, the tiny but powerful open source database that comes with Python.</p>
-<p class="listplain"><b class="calibre10">Chapter 17: PDF and Word Documents</b> Covers programmatically reading Word and PDF documents.</p>
-<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1240" aria-label="xxxix"></span><b class="calibre10">Chapter 18: CSV, JSON, and XML Files</b> Continues to explain how to programmatically manipulate documents, now discussing the data serialization formats CSV, JSON, and XML.</p>
-<p class="listplain"><b class="calibre10">Chapter 19: Keeping Time, Scheduling Tasks, and Launching Programs</b> Explains how Python programs handle time and dates and how to schedule your computer to perform tasks at certain times. Also shows how your Python programs can launch non-Python programs.</p>
-<p class="listplain"><b class="calibre10">Chapter 20: Sending Email, Texts, and Push Notifications</b> Explains how to write programs that can notify you via email or mobile communications, or send these messages to others.</p>
-<p class="listplain"><b class="calibre10">Chapter 21: Making Graphs and Manipulating Images</b> Explains how to programmatically manipulate images, such as JPEG or PNG files, and work with the Matplotlib graph-making library.</p>
-<p class="listplain"><b class="calibre10">Chapter 22: Recognizing Text in Images</b> Covers how to extract text from images and scanned documents for further processing with the PyTesseract package.</p>
-<p class="listplain"><b class="calibre10">Chapter 23: Controlling the Keyboard and Mouse</b> Explains how to programmatically control the mouse and keyboard to automate clicks and key presses.</p>
-<p class="listplain"><b class="calibre10">Chapter 24: Text-to-Speech and Speech Recognition Engines</b> Covers how to use advanced computer science packages to not only generate spoken audio from text, but also convert spoken audio to text.</p>
-<p class="tx">You can download source code and other resources for the examples in this book at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>. To see many of this book’s programs in action, visit <i class="calibre5"><a href="https://autbor.com/3" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/3</a></i>.</p>
+<h2 class="h" id="calibre_link-1391"><span id="calibre_link-12"></span><span class="sans_futura_std_bold_b_">本書について</span></h2>
+<p class="tni">本書の前半の第1部ではPythonプログラミングの基礎を扱います。後半の第2部では多種多様な作業を自動化できるさまざまなソフトウェアライブラリを紹介します。第1部は最初から順番に読むことをおすすめしますが、第2部は興味のある章をつまみ食いして構いません。各章の概要を紹介します。</p>
+<p class="listhead"><b class="calibre10">第1部 プログラミングの基礎</b></p>
+<p class="listplain"><b class="calibre10">第1章 Pythonの基礎</b>　Pythonの命令の基本形である式を扱います。Python対話型シェルソフトウェアを使ってコードを実行してみる方法も説明します。</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1392" aria-label="xxxviii"></span><b class="calibre10">第2章 if-elseとフロー制御</b>　プログラムがどの命令を実行するか決められる方法を説明します。条件に応じて賢く振る舞えるようになります。</p>
+<p class="listplain"><b class="calibre10">第3章 ループ</b>　命令を一定の回数または一定の条件が満たされる間実行する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第4章 関数</b>　自分で関数を定義する方法を説明します。関数を定義すると、コードを整理して管理しやすくなります。</p>
+<p class="listplain"><b class="calibre10">第5章 デバッグ</b>　Pythonで利用できる、バグを発見して修正するツールを紹介します。</p>
+<p class="listplain"><b class="calibre10">第6章 リスト</b>　リストデータ型を紹介し、データを整理する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第7章 辞書とデータの構造化</b>　辞書データ型を紹介し、データを整理するより強力な方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第8章 文字列とテキスト編集</b>　テキストデータ（Pythonでは<i class="calibre5">文字列</i>と呼ばれます）を扱います。</p>
+<p class="listhead"><b class="calibre10">第2部 業務自動化</b></p>
+<p class="listplain"><b class="calibre10">第9章 正規表現によるテキストパターンマッチング</b>　Pythonで文字列を操作して正規表現でパターンを検索する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第10章 ファイルの読み書き</b>　テキストファイルの中身の読み取りと書き込みを扱います。</p>
+<p class="listplain"><b class="calibre10">第11章 ファイルの整理</b>　手動で行うよりも素早く大量のファイルをコピー、移動、リネーム、削除する方法を説明します。ファイルの圧縮と解凍も扱います。</p>
+<p class="listplain"><b class="calibre10">第12章 コマンドラインプログラム</b>　Pythonのプログラムを自分のコンピュータや他人のコンピュータで簡単に実行する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第13章 ウェブスクレイピング</b>　ウェブページを自動的にダウンロードして情報を解析するプログラムを書きます。これは<i class="calibre5">ウェブスクレイピング</i>と呼ばれます。</p>
+<p class="listplain"><b class="calibre10">第14章 Excelファイル</b>　プログラムからExcelファイルを操作します。大量のExcelファイルを分析する際に役立ちます。</p>
+<p class="listplain"><b class="calibre10">第15章 Googleスプレッドシート</b>　GoogleスプレッドシートをPythonで読み書きする方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第16章 SQLiteデータベース</b>　リレーショナルデータベースの使い方を説明します。Pythonですぐに使える小規模ながら強力なオープンソースのデータベースであるSQLiteを利用します。</p>
+<p class="listplain"><b class="calibre10">第17章 PDFとWord文書</b>　プログラムでWordとPDFの文書を読む方法を説明します。</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1240" aria-label="xxxix"></span><b class="calibre10">第18章 CSV、JSON、XML</b>　データシリアライズフォーマットのCSV、JSON、XMLをプログラムで操作する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第19章 日時、スケジュール、プログラムの起動</b>　Pythonでの日時の扱い方と、コンピュータに指定した時間に作業を実行させる方法を説明します。Pythonから別のプログラムをどのように起動するかも説明します。</p>
+<p class="listplain"><b class="calibre10">第20章 メール送信、ショートメール送信、プッシュ通知</b>　メールやショートメールなどで通知を行うプログラムを書く方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第21章 グラフ作成と画像処理</b>　JPEGやPNGの画像処理と、Matplotlibライブラリを利用したグラフ作成を説明します。</p>
+<p class="listplain"><b class="calibre10">第22章 画像中の文字認識</b>　画像やスキャンした文書から文字を抽出してPyTesseractパッケージで処理する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第23章 キーボードとマウスの制御</b>　クリックとキー入力を自動化するためにマウスとキーボードをプログラムで制御する方法を説明します。</p>
+<p class="listplain"><b class="calibre10">第24章 読み上げと音声認識</b>　高度なコンピュータ科学パッケージを使って読み上げと音声認識を行う方法を説明します。</p>
+<p class="tx">本書で示したコード例その他の資料を <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i> でダウンロードできます。<i class="calibre5"><a href="https://autbor.com/3" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/3</a></i> では本書で紹介したプログラムの動作を確認できます。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h2 class="h" id="calibre_link-1393"><span id="calibre_link-13"></span><span class="sans_futura_std_bold_b_">Downloading and Installing Python</span></h2>
-<p class="tni">You can download Python for Windows, macOS, and Ubuntu Linux for free at <i class="calibre5"><a href="https://python.org/downloads" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org<wbr></wbr>/downloads</a></i>.</p>
-<p class="tx">The download page detects your operating system and recommends the download package for your computer. There are unofficial Python installers for Android and iOS mobile operating systems, but those are beyond the scope of this book. Windows, macOS, and Linux have their own installation options as well. Download the installer for your operating system and run the program to install the Python interpreter software.</p>
-<p class="tx">New versions of Python or your operating system may change the steps needed to install Python. If you encounter difficulties, you can consult <i class="calibre5"><a href="https://autbor.com/install/" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/install<wbr></wbr>/</a></i> for up-to-date instructions.</p>
+<h2 class="h" id="calibre_link-1393"><span id="calibre_link-13"></span><span class="sans_futura_std_bold_b_">Pythonのダウンロードとインストール</span></h2>
+<p class="tni">Windows、macOS、Ubuntu（Linux）用のPythonを <i class="calibre5"><a href="https://python.org/downloads" class="calibre1">https://<wbr></wbr>python<wbr></wbr>.org<wbr></wbr>/downloads</a></i> から無料でダウンロードできます。</p>
+<p class="tx">ダウンロードページはお使いのOSに応じたパッケージのダウンロードを勧めてくれます。AndroidとiOS用の非公式のPythonインストーラーも存在しますが、本書では扱いません。Windows、macOS、Linuxでインストールオプションがいろいろあります。OSに応じたインストーラーをダウンロードして実行し、Pythonインタープリタソフトウェアをインストールしてください。</p>
+<p class="tx">PythonやOSのバージョンによってはインストールの手順が異なる場合があります。うまくいかないときは  <i class="calibre5"><a href="https://autbor.com/install/" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/install<wbr></wbr>/</a></i> で最新のインストール方法をご参照ください。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h2 class="h" id="calibre_link-1394"><span id="calibre_link-14"></span><span class="sans_futura_std_bold_b_">Downloading and Installing Mu</span></h2>
-<p class="tni">While the <i class="calibre5">Python interpreter</i> is the software that runs your Python programs, the <i class="calibre5">Mu editor software</i> is where you’ll enter your programs, much the way you enter text in a word processor. You can download Mu from <i class="calibre5"><a href="https://codewith.mu" class="calibre1">https://<wbr></wbr>codewith<wbr></wbr>.mu</a></i>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1154" aria-label="xl"></span>On Windows and macOS, download the installer for your operating system, then run it by double-clicking the installer file. If you are on macOS, running the installer opens a window where you must drag the Mu icon to the Applications folder icon to continue the installation. If you are on Ubuntu, you’ll need to install Mu as a Python package. In that case, click the <b class="calibre10">Instructions</b> button in the Python Package section of the download page.</p>
+<h2 class="h" id="calibre_link-1394"><span id="calibre_link-14"></span><span class="sans_futura_std_bold_b_">Muのダウンロードとインストール</span></h2>
+<p class="tni">前節で紹介した<i class="calibre5">Pythonインタープリタ</i>はPythonプログラムを実行するソフトウェアであるのに対し、本節で紹介する<i class="calibre5">Muエディタ</i> はワープロで文書を作成するのと同じ要領でプログラムを書くソフトウェアです。<i class="calibre5"><a href="https://codewith.mu" class="calibre1">https://<wbr></wbr>codewith<wbr></wbr>.mu</a></i> からMuをダウンロードできます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1154" aria-label="xl"></span>WindowsとmacOSでは、OSに応じたインストーラーをダウンロードしてダブルクリックして実行します。macOSをお使いでしたら、インストーラーを実行するとウィンドウが開くので、Muのアイコンをアプリケーションフォルダアイコンにドラッグしてインストールを継続します。Ubuntuをお使いでしたら、MuをPythonのパッケージとしてインストールします。ダウンロードページのPython Packageセクションにある<b class="calibre10">Instructions</b>ボタンをクリックします。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h2 class="h" id="calibre_link-1395"><span id="calibre_link-15"></span><span class="sans_futura_std_bold_b_">Starting Mu</span></h2>
-<p class="tni">Once it’s installed, you can start Mu:</p>
+<h2 class="h" id="calibre_link-1395"><span id="calibre_link-15"></span><span class="sans_futura_std_bold_b_">Muの起動</span></h2>
+<p class="tni">インストール後は以下のようにしてMuを起動します。</p>
 <ul class="ul">
-<li class="bl">On Windows, click the Start icon in the lower-left corner of your screen, enter <b class="calibre10">Mu Editor</b> in the search box, and select it.</li>
-<li class="bl">On macOS, open the Finder window, click <b class="calibre10">Applications</b>, and then click <b class="calibre10">mu-editor</b>. You can also run <b class="calibre10">Mu Editor</b> from Spotlight.</li>
-<li class="bl">On Ubuntu, select <b class="calibre10">Applications</b><span class="listbullet_menuarrow"></span><b class="calibre10">Accessories</b><span class="listbullet_menuarrow"></span><b class="calibre10">Terminal</b> and then enter <span class="sans_thesansmonocd_w7bold_b_">python3 &ndash;m mu</span>.</li>
+<li class="bl">Windowsでは、画面左下のスタートアイコンをクリックし、検索ボックスに<b class="calibre10">Mu Editor</b>と入力して選びます。</li>
+<li class="bl">macOSでは、Finderウィンドウを開き、<b class="calibre10">Applications</b>をクリックしてから<b class="calibre10">mu-editor</b>をクリックします。Spotlightから<b class="calibre10">Mu Editor</b>を実行することもできます。</li>
+<li class="bl">Ubuntuでは、<b class="calibre10">Applications</b><span class="listbullet_menuarrow"></span><b class="calibre10">Accessories</b><span class="listbullet_menuarrow"></span><b class="calibre10">Terminal</b>の順に選択してターミナルを起動して、<span class="sans_thesansmonocd_w7bold_b_">python3 –m mu</span>を実行します。</li>
 </ul>
-<p class="tx">The first time Mu runs, a Select Mode window will appear with options for Adafruit CircuitPython, BBC micro:bit, Pygame Zero, Python 3, and others. Select <b class="calibre10">Python 3</b>. You can always change the mode later by clicking the <b class="calibre10">Mode</b> button at the top of the editor window.</p>
+<p class="tx">Muの初回起動時には、モードの選択ウィンドウが表示されます。Adafruit CircuitPython、BBC micro:bit、Pygame Zero、Python 3その他の選択肢があります。<b class="calibre10">Python 3</b>を選んでください。後からでもエディタ画面上部の <b class="calibre10">モード</b>ボタンをクリックすれば変更できます。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h2 class="h" id="calibre_link-1396"><span id="calibre_link-16"></span><span class="sans_futura_std_bold_b_">Starting IDLE</span></h2>
-<p class="tni">This book uses Mu as an editor and interactive shell. However, you can use any number of editors for writing Python code. The <i class="calibre5">interactive development environment (IDLE)</i> software installs along with Python, and it can serve as a second editor if for some reason you can’t get Mu installed or working. Let’s start IDLE now (assuming Python 3.13 is the version you installed):</p>
+<h2 class="h" id="calibre_link-1396"><span id="calibre_link-16"></span><span class="sans_futura_std_bold_b_">IDLEの起動</span></h2>
+<p class="tni">本書ではエディタと対話型シェルにMuを用いますが、他のエディタを使用しても構いません。<i class="calibre5">interactive development environment (IDLE)</i>がPythonといっしょにインストールされますから、Muがうまく使えない場合にはIDLEをご利用ください。以下ではIDLEの使い方を説明します（Pythonのバージョンは3.13だと仮定します）。</p>
 <ul class="ul">
-<li class="bl">On Windows, click the Start icon in the lower-left corner of your screen, enter <b class="calibre10">IDLE</b> in the search box, and select <b class="calibre10">IDLE (Python 3.13 64-bit)</b>.</li>
-<li class="bl">On macOS, open the Finder window, click <b class="calibre10">Applications</b>, click <b class="calibre10">Python 3.13</b>, and then click the IDLE icon. You can also run IDLE from Spotlight.</li>
-<li class="bl">On Ubuntu, select <b class="calibre10">Applications</b><span class="listbullet_menuarrow"></span><b class="calibre10">Accessories</b><span class="listbullet_menuarrow"></span><b class="calibre10">Terminal</b> and then enter <span class="sans_thesansmonocd_w7bold_b_">idle</span>. (You may also be able to click <b class="calibre10">Show Apps</b> at the bottom of the Ubuntu sidebar and then click <b class="calibre10">IDLE</b>.)</li>
+<li class="bl">Windowsでは、画面左下のスタートアイコンをクリックし、検索ボックスに <b class="calibre10">IDLE</b>と入力して<b class="calibre10">IDLE (Python 3.13 64-bit)</b>を選びます。</li>
+<li class="bl">macOSでは、Finderウィンドウを開き、<b class="calibre10">Applications</b>,をクリックしてから<b class="calibre10">Python 3.13</b>をクリックし、IDLEアイコンをクリックします。SpotlightからIDLEを実行することもできます。</li>
+<li class="bl">Ubuntuでは、<b class="calibre10">Applications</b><span class="listbullet_menuarrow"></span><b class="calibre10">Accessories</b><span class="listbullet_menuarrow"></span><b class="calibre10">Terminal</b>の順に選択してターミナルを起動して、<span class="sans_thesansmonocd_w7bold_b_">idle</span>を実行します（Ubuntuのサイドバーの<b class="calibre10">Show Apps</b>をクリックして<b class="calibre10">IDLE</b>をクリックしても起動できます）。</li>
 </ul>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h2 class="h" id="calibre_link-1397"><span id="calibre_link-17"></span><span class="sans_futura_std_bold_b_">The Interactive Shell</span></h2>
-<p class="tni">When you run Mu, the window that appears is called the <i class="calibre5">file editor</i> window. You can open the <i class="calibre5">interactive shell</i> by clicking the REPL button. A shell is a program that lets you enter instructions into the computer, much like the Terminal or Command Prompt on macOS and Windows, respectively. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-862" aria-label="xli"></span>Python’s interpreter software will immediately run any instructions you enter into the Python interactive shell.</p>
-<p class="tx">In Mu, the interactive shell is a pane in the lower half of the window with something like the following text:</p>
+<h2 class="h" id="calibre_link-1397"><span id="calibre_link-17"></span><span class="sans_futura_std_bold_b_">対話型シェル</span></h2>
+<p class="tni">Muを起動すると、<i class="calibre5">file editor</i>ウィンドウが表示されます。REPLボタンをクリックすると<i class="calibre5">対話型シェル</i>が開きます。シェルはコンピュータに命令できるプログラムです。macOSのターミナルやWindowsのコマンドプロンプトに似ています。Python対話型シェルに入力した命令はすぐにPythonのインタープリタによって実行されます。</p>
+<p class="tx">Muでは、以下のような対話型シェルがウィンドウの下半分の枠に表示されます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">Jupyter QtConsole
 Python 3
 Type 'copyright', 'credits' or 'license' for more information
@@ -177,21 +185,21 @@ IPython -- An enhanced Interactive Python. Type '?' for help.</span>
 
 <span class="thesansmonocd_w5regular_">In [1]:</span>
 </code></pre>
-<p class="tx">If you run IDLE, the interactive shell is the window that first appears. It should be mostly blank except for text that looks something like this:</p>
+<p class="tx">IDLEを実行すると、まず対話型シェルのウィンドウが立ち上がります。以下のようなほぼ空白のウィンドウが表示されます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span></code></pre>
-<p class="tx"><span class="thesansmonocd_w5regular_">In [1]:</span> and <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> are called <i class="calibre5">prompts</i>. The examples in this book will use the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt to represent the interactive shell, since it’s more common. If you run Python from the Terminal or Command Prompt, they’ll use the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt as well. The <span class="thesansmonocd_w5regular_">In [1]:</span> prompt was invented by Jupyter Notebook, another popular Python editor.</p>
-<p class="tx">For example, enter the following into the interactive shell next to the prompt:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">In [1]:</span> と <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> は <i class="calibre5">プロンプト</i>と呼ばれます。本書では <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> で対話型シェルのプロンプトを表します。これは一般的な表記です。ターミナルまたはコマンドプロンプトからPythonを実行するときにも、 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> というプロンプトが表示されます。<span class="thesansmonocd_w5regular_">In [1]:</span> というプロンプトはJupyter Notebookというまた別のPythonエディタによるものです。</p>
+<p class="tx">例えば、以下の内容を対話型シェルのプロンプトに続けて入力してください。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">print('Hello, world!')</b></code></pre>
-<p class="tx">After you write the line and press <small class="calibre4">ENTER</small>, the interactive shell should display this in response:</p>
+<p class="tx">この行を入力して<small class="calibre4">エンター</small>キーを押すと、対話型シェルは次のように反応します。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">print('Hello, world!')</b>
 <span class="thesansmonocd_w5regular_">Hello, world!</span>
 </code></pre>
-<p class="tx">You’ve just given the computer an instruction, and it did what you told it to do!</p>
+<p class="tx">コンピュータに指示を与え、指示した内容を実行させました。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h2 class="h" id="calibre_link-1398"><span id="calibre_link-18"></span><span class="sans_futura_std_bold_b_">How to Find Help</span></h2>
-<p class="tni">Programmers tend to learn by searching the internet for answers to their questions. This is quite different from the way many people are accustomed to learning&mdash;through an in-person teacher who lectures and can answer questions. What’s great about using the internet as a schoolroom is that there are whole communities of folks who can help you solve your problems. Indeed, your questions have probably already been answered, and the answers are waiting online for you to find them. If you encounter an error message or have trouble making your code work, you won’t be the first person to have your problem, and finding a solution is easier than you might think.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1399" aria-label="xlii"></span>For example, let’s cause an error on purpose: enter <span class="sans_thesansmonocd_w7bold_b_">'42'</span> <span class="sans_thesansmonocd_w7bold_b_">+</span> <span class="sans_thesansmonocd_w7bold_b_">3</span> into the interactive shell. You don’t need to know what this instruction means right now, but the result should look like this:</p>
+<h2 class="h" id="calibre_link-1398"><span id="calibre_link-18"></span><span class="sans_futura_std_bold_b_">ヘルプの見つけ方</span></h2>
+<p class="tni">プログラマはインターネットを検索して疑問を解消しながら学習を進める傾向にあります。これは多くの人がなじんできた、教師が講義と質疑応答を行う学習方法とは異なります。学習にインターネットを用いる大きな利点は、問題の解決を助けてくれる人たちのコミュニティが存在することです。実際、自分が抱いた疑問はおそらくすでに誰かが答えてくれていて、その回答がオンラインに準備されています。エラーメッセージを目にしたりコードを動かすのに苦労しているとしたら、同じ問題をほかの人がすでに経験しているでしょうから、解決策を見つけるのは意外と簡単です。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1399" aria-label="xlii"></span>一例として、意図的にエラーを発生させてみましょう。<span class="sans_thesansmonocd_w7bold_b_">'42'</span> <span class="sans_thesansmonocd_w7bold_b_">+</span> <span class="sans_thesansmonocd_w7bold_b_">3</span> と対話型シェルに入力してください。この命令がどういう意味なのか現時点ではわからなくても大丈夫です。以下のような結果が表示されるはずです。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'42' + 3</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> <span class="thesansmonocd_w5regular_">Traceback (most recent call last):
   File "&lt;pyshell#0&gt;", line 1, in &lt;module&gt;
@@ -199,37 +207,37 @@ IPython -- An enhanced Interactive Python. Type '?' for help.</span>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> <span class="thesansmonocd_w5regular_">TypeError: can only concatenate str (not "int") to str
 &gt;&gt;&gt;</span>
 </code></pre>
-<p class="tx">The error message <span class="codeannotation" aria-label="annotation2">❷</span> appears because Python couldn’t understand your instruction. The traceback part <span class="codeannotation" aria-label="annotation1">❶</span> of the error message shows the specific instruction and line number that Python had trouble with. If you’re not sure what to make of a particular error message, search for it online. Enter <b class="calibre10">“TypeError: can only concatenate str (not "int") to str”</b> (including the quotation marks) into your favorite search engine, and you should see tons of links explaining what the error message means and what causes it, as shown in Figure 2.</p>
+<p class="tx">Pythonがこの命令を理解できなかったためにエラーメッセージが表示されます<span class="codeannotation" aria-label="annotation2">(❷)</span>。エラーメッセージのtracebackの部分<span class="codeannotation" aria-label="annotation1">(❶)</span>にエラーの原因となった命令と行番号が表示されています。エラーメッセージの意味がわからなかったとしても、オンラインで検索できます。検索エンジンで<b class="calibre10">“TypeError: can only concatenate str (not "int") to str”</b>とクォーテーションマークを含めてエラーメッセージを入力して検索してみてください。図2のように、このエラーメッセージの意味と原因を説明するリンクがたくさん見つかるはずです。</p>
 <figure class="img"><img class="img1" id="calibre_link-650" src="images/000055.jpg" alt="An internet browser window showing search results for the message “TypeError: can only concatenate str (not “int”) to str.” Results include the websites Stack Overflow and Python Pool." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 2: The Google results for an error message can be very helpful.</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図2：Googleでエラーメッセージを検索すると大きな助けが得られます。</span></p></figcaption>
 </figure>
-<p class="tx">You’ll often find that someone else had the same question as you and that some other helpful person has already answered it. No one person can know everything about programming, so an everyday part of any software developer’s job is looking up answers to technical questions.</p>
+<p class="tx">すでに誰かが同じ質問をして回答が付いているのがわかるでしょう。プログラムのすべてを知っている人などいませんから、ソフトウェア開発者は誰でも日常的に技術的な疑問の回答を調べています。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h2 class="h" id="calibre_link-1400"><span id="calibre_link-19"></span><span class="sans_futura_std_bold_b_">Asking Smart Programming Questions</span></h2>
-<p class="tni">If you can’t find the answer by searching online, try asking people in a web forum such as Stack Overflow (<i class="calibre5"><a href="https://stackoverflow.com" class="calibre1">https://<wbr></wbr>stackoverflow<wbr></wbr>.com</a></i>) or the “learn programming” subreddit at <i class="calibre5"><a href="https://reddit.com/r/learnprogramming" class="calibre1">https://<wbr></wbr>reddit<wbr></wbr>.com<wbr></wbr>/r<wbr></wbr>/learnprogramming</a></i>. But keep in <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1401" aria-label="xliii"></span>mind there are smart ways to ask programming questions that help others help you. To begin with, be sure to read the Frequently Asked Questions sections at these websites about the proper way to post questions.</p>
-<p class="tx">When asking programming questions, remember to do the following:</p>
+<h2 class="h" id="calibre_link-1400"><span id="calibre_link-19"></span><span class="sans_futura_std_bold_b_">プログラミングの利口な質問をする</span></h2>
+<p class="tni">オンラインで検索しても回答が見つからなければ、Stack Overflow (<i class="calibre5"><a href="https://stackoverflow.com" class="calibre1">https://<wbr></wbr>stackoverflow<wbr></wbr>.com</a></i> )やredditの“learn programming”( <i class="calibre5"><a href="https://reddit.com/r/learnprogramming" class="calibre1">https://<wbr></wbr>reddit<wbr></wbr>.com<wbr></wbr>/r<wbr></wbr>/learnprogramming</a></i> )のようなウェブフォーラムで質問してみてください。ただし、プログラミングの利口な質問をするように心がけてください。まず、ウェブフォーラムのFAQ（よくある質問）を熟読し、質問を投稿する方法を調べます。</p>
+<p class="tx">プログラミングの質問をする際には、以下の点に注意してください。</p>
 <ul class="ul">
-<li class="bl">Explain what you are trying to do, not just what you did. This lets your helper know if you are on the wrong track.</li>
-<li class="bl">Specify the point at which the error happens. Does it occur at the very start of the program or only after you do a certain action?</li>
-<li class="bl">Copy and paste the <i class="calibre5">entire</i> error message and your code to <i class="calibre5"><a href="https://pastebin.com" class="calibre1">https://<wbr></wbr>pastebin<wbr></wbr>.com</a></i> or <i class="calibre5"><a href="https://gist.github.com" class="calibre1">https://<wbr></wbr>gist<wbr></wbr>.github<wbr></wbr>.com</a></i>. These websites make it easy to share large amounts of code with people online, without losing any text formatting. You can then put the URL of the posted code in your email or forum post. For example, here are the locations of some pieces of code I’ve posted: <i class="calibre5"><a href="https://pastebin.com/2k3LqDsd" class="calibre1">https://<wbr></wbr>pastebin<wbr></wbr>.com<wbr></wbr>/2k3LqDsd</a></i> and <i class="calibre5"><a href="https://gist.github.com/asweigart/6912168" class="calibre1">https://<wbr></wbr>gist<wbr></wbr>.github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/6912168</a></i>.</li>
-<li class="bl">Explain what you’ve already tried to do to solve your problem. This tells people you’ve already put in some work to figure things out on your own.</li>
-<li class="bl">List the version of Python you’re using. Also, say which operating system and version you’re running.</li>
-<li class="bl">If the error came up after you made a change to your code, explain exactly what you changed.</li>
-<li class="bl">Say whether you’re able to reproduce the error every time you run the program or whether it happens only after you perform certain actions. In the latter case, also explain what those actions are.</li>
+<li class="bl">やったことだけでなく、やろうとしていること（そのプログラムの目的）を説明してください。方針が間違っているという回答が得られるかもしれません。</li>
+<li class="bl">エラーが発生する箇所を特定してください。プログラムを実行した瞬間にエラーが発生するのか、特定の行動を取った後にだけ発生するのかなどです。</li>
+<li class="bl">エラーメッセージとコード<i class="calibre5">全体</i>を <i class="calibre5"><a href="https://pastebin.com" class="calibre1">https://<wbr></wbr>pastebin<wbr></wbr>.com</a></i> や <i class="calibre5"><a href="https://gist.github.com" class="calibre1">https://<wbr></wbr>gist<wbr></wbr>.github<wbr></wbr>.com</a></i> にコピーして貼り付けてください。これらのサイトでは、フォーマットもそのままに、大量のコードをオンラインで共有できます。共有URLをフォーラムに投稿します。例えば、 <i class="calibre5"><a href="https://pastebin.com/2k3LqDsd" class="calibre1">https://<wbr></wbr>pastebin<wbr></wbr>.com<wbr></wbr>/2k3LqDsd</a></i> や <i class="calibre5"><a href="https://gist.github.com/asweigart/6912168" class="calibre1">https://<wbr></wbr>gist<wbr></wbr>.github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/6912168</a></i> に筆者が投稿した例があります。</li>
+<li class="bl">問題を解決するためにすでに試したことを説明してください。そうすることで、自分で解決に向けて努力したことが伝わります。</li>
+<li class="bl">お使いのPythonのバージョンと、プログラムを実行したOSとそのバージョンを書いてください。</li>
+<li class="bl">コードに変更を加えた後にエラーが発生するようになったのであれば、どこを変更したかを説明してください。</li>
+<li class="bl">プログラミングを実行すると毎回エラーを再現できるのか、それとも特定の行動を取った後にだけエラーが発生するのかを書いてください。後者の場合、どういう行動を取るとエラーが発生するのかを説明してください。</li>
 </ul>
-<p class="tx">Always follow good online etiquette as well. For example, don’t post your questions in all caps or make unreasonable demands of the people trying to help you.</p>
-<p class="tx">You can find more information on how to ask for programming help in the blog post at <i class="calibre5"><a href="https://autbor.com/help" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/help</a></i>. I love helping people discover Python. I write programming tutorials on my blog at <i class="calibre5"><a href="https://inventwithpython.com/blog" class="calibre1">https://<wbr></wbr>inventwithpython<wbr></wbr>.com<wbr></wbr>/blog</a></i>, and you can contact me with questions at <i class="calibre5">al@inventwithpython.com</i>, although you may get a faster response by posting your questions to <i class="calibre5"><a href="https://reddit.com/r/inventwithpython" class="calibre1">https://<wbr></wbr>reddit<wbr></wbr>.com<wbr></wbr>/r<wbr></wbr>/inventwithpython</a></i>.</p>
+<p class="tx">オンライン上でのエチケットに従ってください。例えば、質問文を過度に強調したり過大な要求をしたりしないでください。</p>
+<p class="tx"><i class="calibre5"><a href="https://autbor.com/help" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/help</a></i> のブログ記事でプログラミングの質問の仕方をもっと詳細に説明しています。筆者はみなさんがPythonを利用するのを助けたいと思っており、<i class="calibre5"><a href="https://inventwithpython.com/blog" class="calibre1">https://<wbr></wbr>inventwithpython<wbr></wbr>.com<wbr></wbr>/blog</a></i> のブログ記事でプログラミングのチュートリアルを書きました。<i class="calibre5">al@inventwithpython.com</i> にメールを送っていただいても構いませんが、 <i class="calibre5"><a href="https://reddit.com/r/inventwithpython" class="calibre1">https://<wbr></wbr>reddit<wbr></wbr>.com<wbr></wbr>/r<wbr></wbr>/inventwithpython</a></i> に質問を投稿したほうが早いでしょう。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h2 class="h" id="calibre_link-1402"><span id="calibre_link-20"></span><span class="sans_futura_std_bold_b_">New to the Third Edition</span></h2>
-<p class="tni">This fully revised and updated edition includes 16 new programming projects so you can practice the skills you’ll learn. You’ll find a complete introduction to SQLite and relational databases with Python’s sqlite3 module. You’ll explore how to compile Python scripts into executable programs on Windows, macOS, and Linus; and create command line programs and run them. You’ll also learn how to perform PDF operations with PyPDF and PdfMiner, use Playwright in addition to Selenium to control web browsers, make your programs talk with text-to-speech libraries, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1403" aria-label="xliv"></span>use OpenAI’s Whisper library to create text transcriptions from audio and video files, extract text from images with PyTesseract, create graphs with matplotlib, and more.</p>
+<h2 class="h" id="calibre_link-1402"><span id="calibre_link-20"></span><span class="sans_futura_std_bold_b_">第3版での変更点</span></h2>
+<p class="tni">全面的に改訂して更新したこの第3版では、新しいプログラミングプロジェクトを16個追加したので、学習したスキルをしっかりと練習できます。Pythonのsqlite3モジュールを使ったSQLiteリレーショナルデータベースの導入も加筆しました。PythonのスクリプトをWindows、macOS、Linuxでの実行ファイルにコンパイルする方法も書き加えました。コマンドラインプログラムの作成と実行も扱いました。PyPDFとPdfMineを使ったPDFの操作、Seleniumに加えてPlaywrightを利用したウェブブラウザの制御、文字認識、OpenAIのWhisperライブラリを利用した音声ファイルや動画ファイルからの音声認識、PyTesseractによる画像中の文字認識、Matplotlibによるグラフ作成など、新しい内容がてんこ盛りです。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
-<h2 class="h" id="calibre_link-1404"><span id="calibre_link-21"></span><span class="sans_futura_std_bold_b_">Summary</span></h2>
-<p class="tni">For most people, their computer is just an appliance instead of a tool. But by learning how to program, you’ll gain access to one of the most powerful tools of the modern world, and you’ll have fun along the way. Programming isn’t brain surgery&mdash;it’s fine for amateurs to experiment and make mistakes.</p>
-<p class="tx">This book assumes you have zero programming knowledge and will teach you quite a bit, but you may have questions beyond its scope. Remember that asking effective questions and knowing how to find answers are invaluable tools on your programming journey.</p>
-<p class="tx">Let’s begin!</p>
+<h2 class="h" id="calibre_link-1404"><span id="calibre_link-21"></span><span class="sans_futura_std_bold_b_">まとめ</span></h2>
+<p class="tni">ほとんどの人にとって、コンピュータはツールではなくただの家電製品です。しかしプログラミングを学ぶと、現代の最も強力なツールにアクセスできるようになり、楽しいです。プログラミングは脳外科手術ではありません。素人が実験して間違えても問題ありません。</p>
+<p class="tx">本書を読むのに事前のプログラミング知識は必要ありません。かなりたくさんの内容を説明しますが、本書の範囲を超えた疑問が生じるかもしれません。効果的に質問して回答を得る方法を知ることは、プログラミング人生において計り知れないほどの価値があります。</p>
+<p class="tx">それでは始めましょう。</p>
 </section>
 </section>
 </div>
