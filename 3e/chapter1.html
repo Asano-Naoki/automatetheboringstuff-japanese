@@ -9,101 +9,100 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-788" aria-label="3"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1406">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">1</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">PYTHON BASICS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">1</span></span><span class="ct"><span class="sans_dogma_ot_bold_b_">Pythonの基礎</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">The Python programming language has a wide range of syntactical constructions, standard library functions, and interactive development environment features. Fortunately, you can ignore most of that; you just need to learn enough to write some handy little programs.</p>
-<p class="tx">To accomplish this, however, you’ll have to master some programming concepts. Like a wizard in training, you might think these concepts seem tedious, but with some practice, they’ll enable you to command your computer like a magic wand and perform incredible feats.</p>
-<p class="tx">This chapter has a few examples that encourage you to enter code into the <i class="calibre5">interactive shell</i>, also called the <i class="calibre5">read-evaluate-print-loop (REPL)</i>, which lets you run (or <i class="calibre5">execute</i>) Python instructions one at a time and instantly shows you the results. Using the interactive shell is great for learning what basic Python instructions do, so give it a try as you follow along. You’ll remember the things you do much better than the things you only read.</p>
+<p class="introtni">Pythonというプログラミング言語には、多種多様な構文、標準ライブラリ、関数、対話的な開発環境の機能がありますが、その大半を使わずにちょっとしたプログラムを書くことができますから、必要なことだけを学びましょう。</p>
+<p class="tx">とはいえ、ちょっとしたプログラムを書くためにも、プログラミングの基本概念を知っておかなければなりません。小説や映画の主人公が魔法使いになるための訓練で感じるように、基本概念の訓練は退屈だと感じるかもしれません。ですが、少し勉強して練習すれば、魔法のようにコンピュータを動かせるようになります。</p>
+<p class="tx">この章では、<i class="calibre5">REPL</i> (Read-Evaluate-Print Loop)とも呼ばれる<i class="calibre5">対話型シェル</i>で例を示します。対話型シェルでPythonを<i class="calibre5">実行</i>すると、すぐに結果が表示されます。対話型シェルは基本的なPythonの実行を学習するのに最適ですから、ぜひご自分でも試してみてください。読み流すのではなく実際に実行すると、格段に記憶の定着がよくなります。</p>
 <section type="division" aria-labelledby="sec1">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1197" aria-label="4"></span>
-<h3 class="h" id="calibre_link-1407"><span id="calibre_link-24"></span><span class="sans_futura_std_bold_b_">Entering Expressions into the Interactive Shell</span></h3>
-<p class="tni">You can run the interactive shell by launching the Mu editor. This book’s <span>introduction</span> provides setup instructions for downloading and installing it. On Windows, open the Start menu, enter <b class="calibre10">Mu</b>, and open the Mu app. On macOS, open your Applications folder and double-click <b class="calibre10">Mu</b>. Click the <b class="calibre10">New</b> button and save an empty file as <i class="calibre5">blank.py</i>. When you run this blank file by clicking the <b class="calibre10">Run</b> button or pressing F5, it will open the interactive shell, which will open as a new pane at the bottom of the Mu editor’s window. You should see a <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt in the interactive shell.</p>
-<p class="tx">You can also run the interactive shell from the command line Terminal (on macOS and Linux) or Windows Terminal (on Windows, where you could also use the older Command Prompt application). After opening these command line windows, enter <span class="sans_thesansmonocd_w7bold_b_">python</span> (on Windows) or <span class="sans_thesansmonocd_w7bold_b_">python3</span> (on macOS and Linux). You’ll see the same <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt for the interactive shell. If you want to run a program, run <span class="thesansmonocd_w5regular_">python</span> or <span class="thesansmonocd_w5regular_">python3</span> followed by the name of the program’s <i class="calibre5">.py</i> file, such as <span class="thesansmonocd_w5regular_">python blank.py</span>. Be sure you don’t run <span class="thesansmonocd_w5regular_">python</span> on macOS’s Terminal, as this may launch the older, backward-incompatible Python 2.7 version on certain versions of macOS. You may even see a message saying <span class="thesansmonocd_w5regular_">WARNING: Python 2.7 is not recommended</span>. Exit the 2.7 interactive shell and run <span class="thesansmonocd_w5regular_">python3</span> instead.</p>
-<p class="tx">Enter <span class="sans_thesansmonocd_w7bold_b_">2</span> <span class="sans_thesansmonocd_w7bold_b_">+</span> <span class="sans_thesansmonocd_w7bold_b_">2</span> at the prompt to have Python do some simple math. The Mu window should now look like this:</p>
+<h3 class="h" id="calibre_link-1407"><span id="calibre_link-24"></span><span class="sans_futura_std_bold_b_">対話型シェルに式を入力する</span></h3>
+<p class="tni">Muエディタを起動すると、対話型シェルを実行できます。本書の<span>はじめに</span>でMuエディタをダウンロードしてインストールする手順を示しました。Windowsをお使いでしたら、スタートメニューから<b class="calibre10">Mu</b>と打ち込んで起動してくださいMacをお使いでしたら、Applicationsフォルダを開いて<b class="calibre10">Mu</b>をダブルクリックしてください。<b class="calibre10">新規</b>ボタンを押し、空のファイルを<i class="calibre5">blank.py</i>という名前で保存してください。<b class="calibre10">実行</b>ボタンを押すかF5キーを押すと、Muエディタのウィンドウの下半分の枠に対話型シェルが表示されます。<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>というプロンプトが表示されているはずです。</p>
+<p class="tx">macOSとLinuxのターミナル、あるいはWindowsのコマンドプロンプトから対話型シェルを実行することもできます。macOSまたはLinuxならターミナルを開いて<span class="sans_thesansmonocd_w7bold_b_">python3</span>と入力して実行します。Windowsならコマンドプロンプトを開いて<span class="sans_thesansmonocd_w7bold_b_">python</span> と入力して実行します。<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>というプロンプトが表示されます。ファイルに書いたプログラムを実行したい場合は、<span class="thesansmonocd_w5regular_">python blank.py</span>のように、<span class="thesansmonocd_w5regular_">python</span>または<span class="thesansmonocd_w5regular_">python3</span>に続けて<i class="calibre5">.py</i>ファイルのファイル名を指定します。macOSで<span class="thesansmonocd_w5regular_">python</span>としないように気をつけてください。<span class="thesansmonocd_w5regular_">python</span>とすると、古くて互換性のないPython 2.7が起動してしまう可能性があります。<span class="thesansmonocd_w5regular_">WARNING: Python 2.7 is not recommended</span>という警告メッセージが表示されたら、python2.7の対話型シェルを終了し、<span class="thesansmonocd_w5regular_">python3</span>を実行します。</p>
+<p class="tx">プロンプトに<span class="sans_thesansmonocd_w7bold_b_">2</span> <span class="sans_thesansmonocd_w7bold_b_">+</span> <span class="sans_thesansmonocd_w7bold_b_">2</span> と入力してPythonに計算させてみましょう。Muのウィンドウがこのようになるはずです。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">2 + 2</b>
 <span class="thesansmonocd_w5regular_">4
 &gt;&gt;&gt;</span>
 </code></pre>
-<p class="tx">In Python, <span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span> is called an <i class="calibre5">expression</i>, which is the most basic kind of programming instruction in the language. Expressions consist of <i class="calibre5">values</i> (such as <span class="thesansmonocd_w5regular_">2</span>) and <i class="calibre5">operators</i> (such as <span class="thesansmonocd_w5regular_">+</span>), and they can always <i class="calibre5">evaluate</i> (that is, reduce) down to a single value. That means you can use expressions anywhere in Python code that you could also use a value.</p>
-<p class="tx">In the previous example, <span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span> is evaluated down to a single value, <span class="thesansmonocd_w5regular_">4</span>. A single value with no operators is also considered an expression, though it evaluates only to itself, as shown here:</p>
+<p class="tx">Pythonで<span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span>は<i class="calibre5">式</i>です。式はプログラミングの最も基本的な要素です。式は<span class="thesansmonocd_w5regular_">2</span>のような<i class="calibre5">値</i>と、<span class="thesansmonocd_w5regular_">+</span>のような<i class="calibre5">演算子</i>から構成されます。式は<i class="calibre5">評価</i>されて一つの値になります。つまり、値を書くべき箇所に式を書くことができます。</p>
+<p class="tx">先ほどの例では、<span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span> が評価されて<span class="thesansmonocd_w5regular_">4</span>という一つの値になりました。演算子のない値も式であると考えることができます。評価されても同じ値です。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">2</b>
 <span class="thesansmonocd_w5regular_">2</span>
 </code></pre>
-<p class="tx">The Mu editor has a REPL button that shows an interactive shell with a prompt that looks like <span class="thesansmonocd_w5regular_">In [1]:</span>. The popular Jupyter Notebook editor uses this kind of interactive shell. You can use this interactive shell the same way as the normal Python interactive shell with the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> prompt. REPLs are not unique to Python; many programming languages also offer REPLs so that you can experiment with their code.</p>
+<p class="tx">MuエディタでREPLボタンを押すと、<span class="thesansmonocd_w5regular_">In [1]:</span>のようなプロンプトの対話型シェルが表示されます。Jupyter Notebookエディタがこの種の対話型シェルを使っています。<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>プロンプトの通常のPythonの対話型シェルと同じように使えます。REPLはPythonに固有なのではなく、多くのプログラミング言語で採用されており、コードを実験してみることができます。</p>
 <aside class="box" aria-label="box-1">
-<p class="bt" id="calibre_link-1408"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-797" aria-label="5"></span><span class="sans_futura_std_bold_b_">ERRORS ARE OKAY!</span></p>
-<p class="btni"><span class="sans_futura_std_book_">The best thing about computers is that they carry out the exact instructions you give them. This is also the worst thing about computers. Computers can’t use common sense to figure out what you intended to do. Programs will crash if they contain code the computer can’t understand, which will cause Python to show an error message. Error messages don’t damage your computer, though, so don’t be afraid to make mistakes. A</span> <span class="sans_futura_std_book_oblique_i_">crash</span> <span class="sans_futura_std_book_">just means the program unexpectedly stopped running.</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">Get used to seeing error messages, because you’ll constantly encounter them (even if you have decades of programming experience). Error messages are often vague and not meant to be immediately understood by beginners. If you want to know more about an error, you can search for the exact error message text online for more information. Note that if you are using the Mu editor, the keyboard shortcut for copying highlighted text in the interactive shell pane to the clipboard is CTRL-SHIFT-C, while the shortcut for copying text in the main file editor pane is the standard CTRL-C. You can also check out the resources at</span> <span class="sans_futura_std_book_oblique_i_"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></span> <span class="sans_futura_std_book_">to see a list of common Python error messages and their meanings.</span></p>
+<p class="bt" id="calibre_link-1408"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-797" aria-label="5"></span><span class="sans_futura_std_bold_b_">エラーは友達</span></p>
+<p class="btni">コンピュータの長所は、指示を正確に実行することです。これは同時にコンピュータの短所でもあります。コンピュータが常識を働かせて意図を汲み取ってくれることはありません。コンピュータに理解できないコードがあると、プログラムがクラッシュして、エラーメッセージが表示されます。エラーメッセージがコンピュータを壊すことはありませんから、怖がらないでください。<span class="sans_futura_std_book_oblique_i_">クラッシュ</span>は、プログラムの実行が予期せず停止したというだけのことです。</p>
+<p class="boxb-last"><span class="sans_futura_std_book_">エラーメッセージに慣れてください。しょっちゅうエラーメッセージを目にすることになります（何十年のプログラミング経験があったとしても）。エラーメッセージは曖昧で初心者にはすぐに理解できないかもしれません。エラーについてもっと詳しく知りたければ、エラーメッセージで検索すれば情報を得られます。Muエディタを使っているなら、CTRL-SHIFT-Cで対話型シェル枠内の強調表示されているテキストをコピーできます。CTRL-Cでファイルエディタ枠内のテキストをコピーできます。よく見るPythonのエラーメッセージとその意味は、</span> <span class="sans_futura_std_book_oblique_i_"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></span> <span class="sans_futura_std_book_">でまとめてありますので、そちらもご参照ください（英語）。</p>
 </aside>
-<p class="tx">Programming involves some math operations you might not be familiar with:</p>
+<p class="tx">プログラミングには見慣れない数学演算子がいくつかあります。</p>
 <ul class="ul">
-<li class="bl">Exponentiation (or <i class="calibre5">to the power of</i>) is multiplying a number by itself repeatedly, just like multiplication is adding a number to itself repeatedly. For example, <i class="calibre5">two to the power of four</i> (or <i class="calibre5">two to the fourth power</i>), written as or 2<sup class="calibre11">4</sup> or <span class="thesansmonocd_w5regular_">2 ** 4</span>, is the number two multiplied by itself four times: 2<sup class="calibre11">4</sup> = 2 × 2 × 2 × 2 = 16.</li>
-<li class="bl">Modular arithmetic is similar to the remainder result of division. For example, <span class="thesansmonocd_w5regular_">14 % 4</span> evaluates to <span class="thesansmonocd_w5regular_">2</span> because 14 divided by 4 is 3 with remainder 2. Even though Python’s modulo operator is <span class="thesansmonocd_w5regular_">%</span>, modular arithmetic has nothing to do with percentages.</li>
-<li class="bl">Integer division is the same as regular division except the result is rounded down. For example, <span class="thesansmonocd_w5regular_">25 / 8</span> is <span class="thesansmonocd_w5regular_">3.125</span> but <span class="thesansmonocd_w5regular_">25 // 8</span> is <span class="thesansmonocd_w5regular_">3</span>, and <span class="thesansmonocd_w5regular_">29 / 10</span> is <span class="thesansmonocd_w5regular_">2.9</span> but <span class="thesansmonocd_w5regular_">29 // 10</span> is <span class="thesansmonocd_w5regular_">2</span>.</li>
+<li class="bl">累乗はある数を何度もかけ算するという意味です。かけ算がある数を何度も足し算するという意味なのと同じです。例えば、<i class="calibre5">2の4乗</i>は、2<sup class="calibre11">4</sup> または <span class="thesansmonocd_w5regular_">2 ** 4</span>と表記され、2<sup class="calibre11">4</sup> = 2 × 2 × 2 × 2 = 16です。</li>
+<li class="bl">剰余演算とは、割り算の余りのことです。例えば、<span class="thesansmonocd_w5regular_">14 % 4</span>は<span class="thesansmonocd_w5regular_">2</span>と評価されます。14割る4は3余り2だからです。Pythonの剰余演算子は<span class="thesansmonocd_w5regular_">%</span>ですが、剰余演算とパーセントは何の関係もありません。</li>
+<li class="bl">整数除算は割り算をして商の小数点以下を切り捨てます。例えば、<span class="thesansmonocd_w5regular_">25 / 8</span>は<span class="thesansmonocd_w5regular_">3.125</span>ですが、<span class="thesansmonocd_w5regular_">25 // 8</span>は<span class="thesansmonocd_w5regular_">3</span>です。<span class="thesansmonocd_w5regular_">29 / 10</span> は<span class="thesansmonocd_w5regular_">2.9</span>ですが、<span class="thesansmonocd_w5regular_">29 // 10</span>は<span class="thesansmonocd_w5regular_">2</span>です。</li>
 </ul>
-<p class="tx">You can use plenty of other operators in Python expressions too. For example, Table 1-1 lists all the math operators in Python.</p>
+<p class="tx">Pythonの式ではほかにもいろいろな演算子を使えます。表1-1にPythonの数学演算子を全部まとめました。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-830" aria-label="6"></span>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-651"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 1-1:</span></span> <span class="sans_futura_std_book_">Math Operators</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-651"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 1-1：</span></span><span class="sans_futura_std_book_">数学演算子</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Operator</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Operation</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Example</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Evaluates to ...</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">演算子</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">演算</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">例</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">値（計算結果）</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">**</span></p></td>
-<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Exponentiation</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">累乗</span></p></td>
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">2 ** 3</span></p></td>
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">8</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Modulus/remainder</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">（割り算をしたときの）余り</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">22 % 8</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">6</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">//</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Integer division</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">整数の割り算（商の整数部分）</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">22 // 8</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">2</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">/</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Division</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">割り算</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">22 / 8</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">2.75</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">*</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Multiplication</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">かけ算</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">3 * 5</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">15</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">-</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Subtraction</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">引き算</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">5 - 2</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">3</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">+</span></p></td>
-<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Addition</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">足し算</span></p></td>
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span></p></td>
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">4</span></p></td>
 </tr>
 </tbody>
 </table>
-<p class="tx">The <i class="calibre5">order of operations</i> (also called <i class="calibre5">precedence</i>) of Python math operators is similar to that of mathematics. The <span class="thesansmonocd_w5regular_">**</span> operator is evaluated first; the <span class="thesansmonocd_w5regular_">*</span>, <span class="thesansmonocd_w5regular_">/</span>, <span class="thesansmonocd_w5regular_">//</span>, and <span class="thesansmonocd_w5regular_">%</span> operators are evaluated next, from left to right; and the <span class="thesansmonocd_w5regular_">+</span> and <span class="thesansmonocd_w5regular_">-</span> operators are evaluated last (also from left to right). You can use parentheses to override the usual precedence if you need to. Whitespace in between the operators and values doesn’t matter in Python, except for the indentation at the beginning of the line. But the <i class="calibre5">convention</i>, or unofficial rule, is to have a single space in between operators and values. Enter the following expressions into the interactive shell:</p>
+<p class="tx"><i class="calibre5">演算の順序</i>（<i class="calibre5">優先順位</i>）は、数学と似ています。<span class="thesansmonocd_w5regular_">**</span>が最初で、<span class="thesansmonocd_w5regular_">*</span>と<span class="thesansmonocd_w5regular_">/</span>と<span class="thesansmonocd_w5regular_">//</span>と<span class="thesansmonocd_w5regular_">%</span>が二番目で、<span class="thesansmonocd_w5regular_">+</span>と<span class="thesansmonocd_w5regular_">-</span>が最後です。優先順位が同じなら左から右という順序です。丸かっこを使うと優先順位を変えられます。行頭のインデントを除き、演算子と値の間のスペースをPythonは無視しますが、スペースを1つ分入れるのが<i class="calibre5">慣例</i>です。対話型シェルに以下の式を入力してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">2 + 3 * 6</b>
 <span class="thesansmonocd_w5regular_">20
 &gt;&gt;&gt;</span> <b class="calibre10">(2 + 3) * 6</b>
@@ -123,14 +122,14 @@
 &gt;&gt;&gt;</span> <b class="calibre10">(5 - 1) * ((7 + 1) / (3 - 1))</b>
 <span class="thesansmonocd_w5regular_">16.0</span>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-784" aria-label="7"></span>In each case, you as the programmer must enter the expression, but Python does the hard part of evaluating it. Python will keep evaluating parts of the expression until it becomes a single value:</p>
-<figure class="img"><img class="img2" id="calibre_link-1315" src="images/000106.jpg" alt="A flow chart showing how a mathematical expression evaluates to its solution." />
-<figcaption><p class="cap">Description</p></figcaption>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-784" aria-label="7"></span>プログラマが式を入力すると、Pythonが計算をして値を出してくれます。下図で示されるように、一つの値になるまでPythonが式の評価を行います。</p>
+<figure class="img"><img class="img2" id="calibre_link-1315" src="images/000106.jpg" alt="" />
+<figcaption><p class="cap"></p></figcaption>
 </figure>
-<p class="tx">These rules for gether to form expressions are a fundamental part of Python as a programming language, just like the grammar rules that help us communicate. Here’s an example:</p>
-<p class="listplain">This is a grammatically correct English sentence.</p>
-<p class="listplain">This grammatically is sentence not English correct a.</p>
-<p class="tx">The second line is difficult to parse because it doesn’t follow the rules of English. Similarly, if you enter a bad Python instruction, Python won’t be able to understand it and will display a <span class="thesansmonocd_w5regular_">SyntaxError</span> error message, as shown here:</p>
+<p class="tx">式を形成するこうしたルールが、プログラミング言語Pythonの基礎的な部分です。自然言語の文法のようなものです。次に例を示します。</p>
+<p class="listplain">これは文法的に正しい英語の文です。</p>
+<p class="listplain">これ文法的に文ではない英語正しいは。</p>
+<p class="tx">2行目の文は文法に則していないので解釈しづらいです。同様に、ルールに則さない命令を入力すると、Pythonは解釈できずに<span class="thesansmonocd_w5regular_">SyntaxError</span>というエラーメッセージを表示します。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">5 +</b>
 <span class="thesansmonocd_w5regular_">  File "&lt;python-input-0&gt;", line 1
     5 +
@@ -142,63 +141,63 @@ SyntaxError: invalid syntax
             ^
 SyntaxError: invalid syntax</span>
 </code></pre>
-<p class="tx">You can always test whether an instruction works by entering it into the interactive shell. Don’t worry about breaking the computer; the worst that could happen is that Python responds with an error message. Professional software developers get error messages all the time while writing code.</p>
+<p class="tx">対話型シェルで実行してみると動作するかどうかがわかります。コンピュータを壊してしまうのではないかという心配はご無用です。最悪でもPythonがエラーメッセージを表示するだけです。プロのソフトウェア開発者もコードを書いている間にしょっちゅうエラーメッセージに遭遇します。</p>
 </section>
 <section type="division" aria-labelledby="sec2">
-<h3 class="h" id="calibre_link-1409"><span id="calibre_link-25"></span><span class="sans_futura_std_bold_b_">The Integer, Floating-Point, and String Data Types</span></h3>
-<p class="tni">Remember that expressions are just values combined with operators, and they always evaluate to a single value. A <i class="calibre5">data type</i> is a category for values, and every value belongs to exactly one data type. The most common data types <span role="doc-pagebreak" type="pagebreak" id="calibre_link-865" aria-label="8"></span>in Python are listed in Table 1-2. The values <span class="thesansmonocd_w5regular_">-2</span> and <span class="thesansmonocd_w5regular_">30</span>, for example, are said to be <i class="calibre5">integer</i> values. The integer (or <i class="calibre5">int</i>) data type indicates values that are whole numbers. Numbers with a decimal point, such as <span class="thesansmonocd_w5regular_">3.14</span>, are called <i class="calibre5">floating-point numbers</i> (or <i class="calibre5">floats</i>). Note that even though the value <span class="thesansmonocd_w5regular_">42</span> is an integer, the value <span class="thesansmonocd_w5regular_">42.0</span> would be a floating-point number. Programmers often use <i class="calibre5">number</i> to refer to ints and floats collectively, although <i class="calibre5">number</i> itself is not a Python data type.</p>
-<p class="tx">One subtle detail about Python is that any math performed using an int and a float results in a float, not an int. While <span class="thesansmonocd_w5regular_">3</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">4</span> evaluates to the integer <span class="thesansmonocd_w5regular_">7</span>, the expression <span class="thesansmonocd_w5regular_">3</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">4.0</span> evaluates to the floating-point number <span class="thesansmonocd_w5regular_">7.0</span>. Any division between two integers with the <span class="thesansmonocd_w5regular_">/</span> division operator results in a float as well. For example, <span class="thesansmonocd_w5regular_">16 / 4</span> evaluates to <span class="thesansmonocd_w5regular_">4.0</span> and not <span class="thesansmonocd_w5regular_">4</span>. Most of the time, this information doesn’t matter for your program, but knowing it will explain why your numbers may suddenly gain a decimal point.</p>
+<h3 class="h" id="calibre_link-1409"><span id="calibre_link-25"></span><span class="sans_futura_std_bold_b_">整数、浮動小数点数、文字列のデータ型</span></h3>
+<p class="tni">おさらいをすると、式は演算子と値から構成され、評価されて一つの値になります。すべての値は一つの<i class="calibre5">データ型</i>に属します。Pythonの一般的なデータ型を表1-2にまとめました。<span class="thesansmonocd_w5regular_">-2</span>や<span class="thesansmonocd_w5regular_">30</span>は、<i class="calibre5">整数</i>値です。整数を表すデータ型です。<i class="calibre5">int</i>と表現されることがあります。<span class="thesansmonocd_w5regular_">3.14</span>などは<i class="calibre5">浮動小数点数</i>です。<i class="calibre5">float</i>と表現されることがあります。<span class="thesansmonocd_w5regular_">42</span>は整数ですが、<span class="thesansmonocd_w5regular_">42.0</span>は浮動小数点数です。プログラマは整数と浮動小数点数をまとめて<i class="calibre5">数値</i>と呼びますが、<i class="calibre5">数値型</i>というPythonのデータ型はありません。</p>
+<p class="tx">少し細かいことですが、Pythonで整数と浮動小数点数の計算を行うと、その結果は整数ではなく浮動小数点数になります。<span class="thesansmonocd_w5regular_">3</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">4</span>は整数の<span class="thesansmonocd_w5regular_">7</span>と評価されますが、<span class="thesansmonocd_w5regular_">3</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">4.0</span>は浮動小数点数の<span class="thesansmonocd_w5regular_">7.0</span>と評価されます。<span class="thesansmonocd_w5regular_">/</span>で2つの整数の割り算をすると、結果は浮動小数点数になります。例えば、<span class="thesansmonocd_w5regular_">16 / 4</span>は<span class="thesansmonocd_w5regular_">4.0</span>と評価されるのであって、<span class="thesansmonocd_w5regular_">4</span>と評価されるのではありません。ほとんどの場合、これは大した問題ではありませんが、突然小数点が表示される理由はこれです。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-653"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 1-2:</span></span> <span class="sans_futura_std_book_">Common Data Types</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-653"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 1-2:</span></span> <span class="sans_futura_std_book_">一般的なデータ型</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Data type</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Examples</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">データ型</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">例</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
-<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Integer (int)</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">整数(int)</span></p></td>
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">-2</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">-1</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">0</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">1</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">2</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">3</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">4</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">5</span></p></td>
 </tr>
 <tr class="calibre14">
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Floating-point number (float)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">浮動小数点数(float)</span></p></td>
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">-1.25</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">-1.0</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">-0.5</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">0.0</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">0.5</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">1.0</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">1.25</span></p></td>
 </tr>
 <tr class="calibre16">
-<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">String (str)</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">文字列(str)</span></p></td>
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">'a'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'aa'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'aaa'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'Hello!'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'11 cats'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'5'</span></p></td>
 </tr>
 </tbody>
 </table>
-<p class="tx">Python programs can also have text values called <i class="calibre5">strings</i>, or <i class="calibre5">strs</i> (pronounced “stirs”). Always surround your string in single-quote (<span class="thesansmonocd_w5regular_">'</span>) characters (as in <span class="thesansmonocd_w5regular_">'Hello'</span> or <span class="thesansmonocd_w5regular_">'Goodbye cruel world!'</span>) so that Python knows where the string begins and ends. You can even have a string with no characters in it, <span class="thesansmonocd_w5regular_">''</span>, called a <i class="calibre5">blank string</i> or an <i class="calibre5">empty string</i>. Strings are explained in greater detail in <span>Chapter 8</span>.</p>
-<p class="tx">You may see the error message <span class="thesansmonocd_w5regular_">SyntaxError: unterminated string literal</span>, as in this example:</p>
+<p class="tx"><i class="calibre5">文字列</i>(<i class="calibre5">str</i>)と呼ばれる値もあります。文字列はシングルクォート(<span class="thesansmonocd_w5regular_">'</span>)で囲んでください。<span class="thesansmonocd_w5regular_">'Hello'</span>や<span class="thesansmonocd_w5regular_">'Goodbye cruel world!'</span>といった具合にです。そうすると、どこまでが文字列かがわかります。<span class="thesansmonocd_w5regular_">''</span>のように文字を含まない文字列も定義できます。これは<i class="calibre5">空白文字列</i>や<i class="calibre5">空文字列</i>と呼ばれます。文字列については<span>第4章</span>で詳しく説明します。</p>
+<p class="tx">以下の例のように、<span class="thesansmonocd_w5regular_">SyntaxError: unterminated string literal</span>というエラーメッセージを目にすることがあるかもしれません。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'Hello, world!</b>
 <span class="thesansmonocd_w5regular_">SyntaxError: unterminated string literal (detected at line 1)</span>
 </code></pre>
-<p class="tx">This error means you probably forgot the final single-quote character at the end of the string.</p>
+<p class="tx">このエラーの原因は、シングルクォートの閉じ忘れである可能性が高いです。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h3 class="h" id="calibre_link-1410"><span id="calibre_link-26"></span><span class="sans_futura_std_bold_b_">String Concatenation and Replication</span></h3>
-<p class="tni">The meaning of an operator may change based on the data types of the values next to it. For example, <span class="thesansmonocd_w5regular_">+</span> is the addition operator when it operates on two integers or floating-point values. However, when <span class="thesansmonocd_w5regular_">+</span> is used to combine two string values, it joins the strings as the <i class="calibre5">string concatenation</i> operator. Enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-1410"><span id="calibre_link-26"></span><span class="sans_futura_std_bold_b_">文字列の結合と繰り返し</span></h3>
+<p class="tni">演算子の意味はその隣の値のデータ型に応じて変わることがあります。例えば、<span class="thesansmonocd_w5regular_">+</span>は、整数や浮動小数点数に対しては加算を意味します。他方で、<span class="thesansmonocd_w5regular_">+</span>が文字列に対して用いられると、<i class="calibre5">文字列結合</i>演算子になります。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'Alice' + 'Bob'</b>
 <span class="thesansmonocd_w5regular_">'AliceBob'</span>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1137" aria-label="9"></span>The expression evaluates down to a single, new string value that combines the text of the two strings. However, if you try to use the <span class="thesansmonocd_w5regular_">+</span> operator on a string and an integer value, Python won’t know how to handle this and will display an error message:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1137" aria-label="9"></span>この式は一つの新しい値に評価されました。2つの文字列を結合した文字列です。文字列と整数に対して<span class="thesansmonocd_w5regular_">+</span>演算子を使おうとしたら、エラーになります。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'Alice' + 42</b>
 <span class="thesansmonocd_w5regular_">Traceback (most recent call last):
   File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
     'Alice' + 42
 TypeError: can only concatenate str (not "int") to str</span>
 </code></pre>
-<p class="tx">The error message <span class="thesansmonocd_w5regular_">can only concatenate str (not "int") to str</span> means that Python thought you were trying to concatenate an integer to the string <span class="thesansmonocd_w5regular_">'Alice'</span>. Your code will have to explicitly convert the integer to a string because Python cannot do this automatically. (I’ll explain how to convert between data types in <span>“Dissecting the Program” on page 14</span>, where we talk about the <span class="thesansmonocd_w5regular_">str()</span>, <span class="thesansmonocd_w5regular_">int()</span>, and <span class="thesansmonocd_w5regular_">float()</span> functions.)</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">*</span> operator multiplies two integer or floating-point values. But when the <span class="thesansmonocd_w5regular_">*</span> operator is used on one string value and one integer value, it becomes the <i class="calibre5">string replication</i> operator. Enter a string multiplied by a number into the interactive shell to see this in action:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">can only concatenate str (not "int") to str</span>というエラーメッセージは、文字列<span class="thesansmonocd_w5regular_">'Alice'</span>に整数を結合しようとしたために表示されました。<span class="thesansmonocd_w5regular_">'Alice42'</span>という文字列を得たければ、整数を文字列に変換してから結合します。Pythonではこうした変換が自動的には行われません。(データ型の変換については、 「<span>最初のプログラムの解説</span>」で説明します。<span class="thesansmonocd_w5regular_">str()</span>、<span class="thesansmonocd_w5regular_">int()</span>、<span class="thesansmonocd_w5regular_">float()</span>関数を使います。)</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">*</span>演算子は整数または浮動小数点数に対してはかけ算を意味します。しかし、<span class="thesansmonocd_w5regular_">*</span>演算子を文字列と整数の間で使うと、 <i class="calibre5">文字列繰り返し</i>演算子になります。対話型シェルで試してみましょう。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'Alice' * 5</b>
 <span class="thesansmonocd_w5regular_">'AliceAliceAliceAliceAlice'</span>
 </code></pre>
-<p class="tx">The expression evaluates down to a single string value that repeats the original string a number of times equal to the integer value. String replication is a useful trick, but it’s not used as often as string concatenation.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">*</span> operator can only be used with two numeric values (for multiplication), or one string value and one integer value (for string replication). Otherwise, Python will just display an error message, such as the following:</p>
+<p class="tx">この式は、元の文字列を5回繰り返した一つの文字列の値に評価されます。文字列の繰り返しが役に立つことがありますが、文字列の連結ほど頻繁には使われません。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">*</span>演算子は2つの数値の間（かけ算）か、文字列と整数値の間（文字列の繰り返し）でしか使えません。それ以外の使い方をすると、以下のようなエラーメッセージが表示されます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'Alice' * 'Bob'</b>
 <span class="thesansmonocd_w5regular_">Traceback (most recent call last):
   File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
@@ -210,21 +209,21 @@ TypeError: can't multiply sequence by non-int of type 'str'
     'Alice' * 5.0
 TypeError: can't multiply sequence by non-int of type 'float'</span>
 </code></pre>
-<p class="tx">It makes sense that Python wouldn’t understand these expressions: you can’t multiply two words, and it’s hard to replicate an arbitrary string a fractional number of times.</p>
-<p class="tx">Expressions, data types, and operators may seem abstract to you right now, but as you learn more about these concepts, you’ll be able to create increasingly sophisticated programs that do math on data pulled from spreadsheets, websites, the output of other programs, and other places.</p>
+<p class="tx">このような式をPythonは理解できません。2つの単語のかけ算は意味不明ですし、文字列を小数回繰り返すことには無理があります。</p>
+<p class="tx">式、データ型、演算子は抽象的に感じられるかもしれませんが、これらの概念について詳しくなると、スプレッドシートやウェブサイトや別のプログラムの出力などから得たデータを計算する、洗練されたプログラムを書けるようになります。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-841" aria-label="10"></span>
-<h3 class="h" id="calibre_link-1411"><span id="calibre_link-27"></span><span class="sans_futura_std_bold_b_">Storing Values in Variables</span></h3>
-<p class="tni">A <i class="calibre5">variable</i> is like a box in the computer’s memory where you can store a single value. If you want to use the result of an evaluated expression later in your program, you can save it inside a variable.</p>
+<h3 class="h" id="calibre_link-1411"><span id="calibre_link-27"></span><span class="sans_futura_std_bold_b_">変数に値を格納する</span></h3>
+<p class="tni"><i class="calibre5">変数</i>は、一つの値を格納できる、コンピュータのメモリ内の箱のようなものです。式を評価した結果を変数に格納すると、あとで使えます。</p>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1412"><span id="calibre_link-28"></span><span class="sans_futura_std_heavy_oblique_bi_">Assignment Statements</span></h4>
-<p class="tni">You’ll store values in variables with an <i class="calibre5">assignment statement</i>. An assignment statement consists of a variable name, an equal sign (called the <i class="calibre5">assignment operator</i>), and the value to be stored. If you enter the assignment statement <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">42</span>, a variable named <span class="thesansmonocd_w5regular_">spam</span> will have the integer value <span class="thesansmonocd_w5regular_">42</span> stored in it.</p>
-<p class="tx">You can think of a variable as a labeled box that a value is placed in, but <span>Chapter 6</span> explains how a name tag attached to the value might be a better metaphor. Both are shown in Figure 1-1.</p>
-<figure class="img"><img class="img3" id="calibre_link-655" src="images/000001.jpg" alt="On the left-hand side, a packing box labeled “spam” contains 42. On the right-hand side, a tag labeled “spam” is attached to 42." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 1-1: The code</span> <span class="sans_thesansmonocd_w5regular_italic_">spam = 42</span> <span class="sans_futura_std_book_oblique_i_">is like telling the program, “The variable</span> <span class="sans_thesansmonocd_w5regular_italic_">spam</span> <span class="sans_futura_std_book_oblique_i_">now has the integer value 42 in it.”</span></p></figcaption>
+<h4 class="h1" id="calibre_link-1412"><span id="calibre_link-28"></span><span class="sans_futura_std_heavy_oblique_bi_">代入文</span></h4>
+<p class="tni"><i class="calibre5">代入文</i>で値を変数に格納できます。代入文は、変数名と格納する値をイコール記号(<i class="calibre5">代入演算子</i>)で結びます。<span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">42</span>という代入文を入力すると、<span class="thesansmonocd_w5regular_">spam</span>という名前の変数が<span class="thesansmonocd_w5regular_">42</span>という値を持つようになります。</p>
+<p class="tx">変数はその中に値を入れられるラベル付きの箱だと考えることができますが、値に取り付けられたネームタグのほうがより適切な比喩であることを<span>第6章</span>で説明します。図1-1で両方の比喩を示します。</p>
+<figure class="img"><img class="img3" id="calibre_link-655" src="images/000001.jpg" alt=" " />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 1-1：</span> <span class="sans_thesansmonocd_w5regular_italic_">spam = 42</span> は、「変数<span class="sans_thesansmonocd_w5regular_italic_">spam</span>は整数値<span class="sans_futura_std_book_oblique_i_">42</span>を持つ」と読みます</p></figcaption>
 </figure>
-<p class="tx">For example, enter the following into the interactive shell:</p>
+<p class="tx">対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam = 40</b>
 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam</b>
 <span class="thesansmonocd_w5regular_">40
@@ -237,7 +236,7 @@ TypeError: can't multiply sequence by non-int of type 'float'</span>
 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam</b>
 <span class="thesansmonocd_w5regular_">42</span>
 </code></pre>
-<p class="tx">A variable is <i class="calibre5">initialized</i> (or created) the first time a value is stored in it <span class="codeannotation" aria-label="annotation1">❶</span>. After that, you can use it in expressions with other variables and values <span class="codeannotation" aria-label="annotation2">❷</span>. When a variable is assigned a new value <span class="codeannotation" aria-label="annotation3">❸</span>, the old value is forgotten, which is why <span class="thesansmonocd_w5regular_">spam</span> evaluated to <span class="thesansmonocd_w5regular_">42</span> instead of <span class="thesansmonocd_w5regular_">40</span> at the end of the example. This is called <i class="calibre5">overwriting</i> the variable. Enter the following code into the interactive shell to try overwriting a string:</p>
+<p class="tx">初めて値が格納されたときに変数が<i class="calibre5">初期化</i>（作成）されます（<span class="codeannotation" aria-label="annotation1">➊</span>）。ほかの変数や値とともに、式中で変数を使えます（<span class="codeannotation" aria-label="annotation2">➋</span>）。変数に新しい値が代入されると（<span class="codeannotation" aria-label="annotation3">➌</span>）、古い値は消えてしまいます。よって、この例の最後では、<span class="thesansmonocd_w5regular_">spam</span>が<span class="thesansmonocd_w5regular_">40</span>ではなく<span class="thesansmonocd_w5regular_">42</span>になります。これを変数の<i class="calibre5">上書き</i>と言います。文字列を上書きする、次の例を対話型シェルで試してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam = 'Hello'</b>
 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam</b>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-874" aria-label="11"></span><span class="thesansmonocd_w5regular_">'Hello'
@@ -245,77 +244,77 @@ TypeError: can't multiply sequence by non-int of type 'float'</span>
 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam</b>
 <span class="thesansmonocd_w5regular_">'Goodbye'</span>
 </code></pre>
-<p class="tx">Just like the box in Figure 1-1, the <span class="thesansmonocd_w5regular_">spam</span> variable in Figure 1-2 stores <span class="thesansmonocd_w5regular_">'Hello'</span> until you replace the string with <span class="thesansmonocd_w5regular_">'Goodbye'</span>.</p>
-<figure class="img"><img class="img3" id="calibre_link-656" src="images/000002.jpg" alt="On the left-hand side, arrows show the text “Goodbye” entering a packing box labeled “spam” and the text “Hello” leaving the box. On the right-hand side, a tag labeled “spam” is attached to the text “Goodbye” with a solid line and to the text “Hello” with a dotted line." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 1-2: When a new value is assigned to a variable, the old one is forgotten.</span></p></figcaption>
+<p class="tx">図 1-2に示すように、変数<span class="thesansmonocd_w5regular_">spam</span>は<span class="thesansmonocd_w5regular_">'Hello'</span>という文字列を格納してから、<span class="thesansmonocd_w5regular_">'Goodbye'</span>を格納するように入れ替えられました。</p>
+<figure class="img"><img class="img3" id="calibre_link-656" src="images/000002.jpg" alt=" " />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 1-2：変数に新しい値が代入されると古い値は消えてしまいます</span></p></figcaption>
 </figure>
-<p class="tx">You can also think of overwriting a variable as reassigning the name tag to a new value.</p>
+<p class="tx">変数の代入は、ネームタグを新しい値に付け替えるのだと考えられます。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-1413"><span id="calibre_link-29"></span><span class="sans_futura_std_heavy_oblique_bi_">Variable Names</span></h4>
-<p class="tni">A good variable name describes the data it contains. Imagine that you moved to a new house and labeled all of your moving boxes as <i class="calibre5">Stuff</i>. You’d never find anything! Most of this book’s examples (and Python’s documentation) use generic variable names like <span class="thesansmonocd_w5regular_">spam</span>, <span class="thesansmonocd_w5regular_">eggs</span>, and <span class="thesansmonocd_w5regular_">bacon</span>, which come from the Monty Python “Spam” sketch. But in your programs, descriptive names will help make your code more readable.</p>
-<p class="tx">Though you can name your variables almost anything, Python does have some naming restrictions. Your variable name must obey the following four rules:</p>
+<h4 class="h1" id="calibre_link-1413"><span id="calibre_link-29"></span><span class="sans_futura_std_heavy_oblique_bi_">変数名</span></h4>
+<p class="tni">中に入っているデータがどのようなものであるかがわかるような変数名をつけるようにしてください。引っ越しをして全部のダンボール箱に <i class="calibre5">「もの」</i> と書かれていたら困りますよね。これでは何も見つけられません。この本やPythonの公式ドキュメントの例では <span class="thesansmonocd_w5regular_">spam</span>、<span class="thesansmonocd_w5regular_">eggs</span>、<span class="thesansmonocd_w5regular_">bacon</span>といった変数名がよく使われます。これはMonty Pythonの“Spam”というスケッチ・コメディーに由来しています。自分が書くプログラムでは、そのような変数名を使わず、わかりやすい変数名にしてください。</p>
+<p class="tx">変数にはほとんどどのような名前でもつけられますが、Pythonには変数名の制約がいくらかあります。Pythonの変数名の制約は以下の4つです。</p>
 <ul class="ul">
-<li class="bl">It can’t have spaces.</li>
-<li class="bl">It can use only letters, numbers, and the underscore (<span class="thesansmonocd_w5regular_">_</span>) character.</li>
-<li class="bl">It can’t begin with a number.</li>
-<li class="bl">It can’t be a Python keyword, such as <span class="thesansmonocd_w5regular_">if</span>, <span class="thesansmonocd_w5regular_">for</span>, <span class="thesansmonocd_w5regular_">return</span>, or other keywords you’ll learn in this book.</li>
+<li class="bl">スペースは入れられません。</li>
+<li class="bl">文字と数字とアンダースコア (<span class="thesansmonocd_w5regular_">_</span>)しか使えません。</li>
+<li class="bl">数字で始めることはできません。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">if</span>、<span class="thesansmonocd_w5regular_">for</span>、<span class="thesansmonocd_w5regular_">return</span>など、本書で学習するPythonのキーワードは使えません。</li>
 </ul>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-875" aria-label="12"></span>Table 1-3 shows examples of legal variable names.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-875" aria-label="12"></span>表1-3に有効な変数名の例を示します。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-657"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 1-3:</span></span> <span class="sans_futura_std_book_">Valid and Invalid Variable Names</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-657"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 1-3：</span></span> <span class="sans_futura_std_book_">有効な変数名と無効な変数名</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Valid variable names</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Invalid variable names</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">有効な変数名</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">無効な変数名</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">current_balance</span></p></td>
-<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">current-balance</span> <span class="sans_futura_std_book_">(hyphens are not allowed)</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">current-balance</span><span class="sans_futura_std_book_">（ハイフンは使用不可）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">currentBalance</span></p></td>
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">current balance</span> <span class="sans_futura_std_book_">(spaces are not allowed)</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">current balance</span><span class="sans_futura_std_book_">（スペースは使用不可）</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">account4</span></p></td>
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">4account</span> <span class="sans_futura_std_book_">(can’t begin with a number)</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">4account</span><span class="sans_futura_std_book_">（数字で始まってはいけない）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">_42</span></p></td>
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">42</span> <span class="sans_futura_std_book_">(can begin with an underscore but not a number)</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">42</span><span class="sans_futura_std_book_">（数字で始まってはいけない）</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">TOTAL_SUM</span></p></td>
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">TOTAL_$UM</span> <span class="sans_futura_std_book_">(special characters like</span> <span class="thesansmonocd_w5regular_">$</span> <span class="sans_futura_std_book_">are not allowed)</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">$TOTAL_$UM</span><span class="sans_futura_std_book_">（</span><span class="thesansmonocd_w5regular_">$</span><span class="sans_futura_std_book_">のような特殊文字は使用不可）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">hello</span></p></td>
-<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">'hello'</span> <span class="sans_futura_std_book_">(special characters like ' are not allowed)</span></p></td>
+<td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">'hello'</span><span class="sans_futura_std_book_">（'のような特殊文字は使用不可）</span></p></td>
 </tr>
 </tbody>
 </table>
-<p class="tx">Variable names are case-sensitive, meaning that <span class="thesansmonocd_w5regular_">spam</span>, <span class="thesansmonocd_w5regular_">SPAM</span>, <span class="thesansmonocd_w5regular_">Spam</span>, and <span class="thesansmonocd_w5regular_">sPaM</span> are four different variables. It is a Python convention to start your variables with a lowercase letter: <span class="thesansmonocd_w5regular_">spam</span> instead of <span class="thesansmonocd_w5regular_">Spam</span>.</p>
+<p class="tx">変数名では大文字と小文字を区別します。<span class="thesansmonocd_w5regular_">spam</span>、<span class="thesansmonocd_w5regular_">SPAM</span>、<span class="thesansmonocd_w5regular_">Spam</span>、<span class="thesansmonocd_w5regular_">sPaM</span>は4つの別々の変数です。<span class="thesansmonocd_w5regular_">Spam</span>ではなく<span class="thesansmonocd_w5regular_">spam</span>のように、.Pythonの慣習では変数名を小文字で始めます。</p>
 <aside class="box" aria-label="box-2">
-<p class="bt" id="calibre_link-1414"><span class="sans_futura_std_bold_b_">CODE STYLE OPINIONS AND PEP 8</span></p>
-<p class="btni"><span class="sans_futura_std_book_">Previous editions of this book used</span> <span class="sans_futura_std_book_oblique_i_">camelCase</span> <span class="sans_futura_std_book_">instead of underscores to separate words in variable names; that is, variables</span> <span class="thesansmonocd_w5regular_">lookedLikeThis</span> <span class="sans_futura_std_book_">instead of</span> <span class="thesansmonocd_w5regular_">looking_like_this</span><span class="sans_futura_std_book_">. The latter form is called</span> <span class="sans_futura_std_book_oblique_i_">snake_case</span> <span class="sans_futura_std_book_">because the underscores between words look like little snakes (while the uppercase letters in camelCase look like the humps on a camel). Some experienced programmers may point out that the official Python code style document, PEP 8, says that underscores should be used. I unapologetically prefer camelCase and point to the “A Foolish Consistency Is the Hobgoblin of Little Minds” section in PEP 8 itself as my defense:</span></p>
-<p class="boxextractpara"><span class="sans_futura_std_book_oblique_i_">Consistency with the style guide is important. But most importantly: know when to be inconsistent—sometimes the style guide just doesn’t apply. When in doubt, use your best judgment.</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">The computer doesn’t care which style you use, and PEP 8 is not a stone tablet of irrefutable commandments. It doesn’t matter which style you use as long as you use the same style consistently. To prove this, I’ve rewritten the code in this book to use snake_case because it truly doesn’t matter either way.</span></p>
+<p class="bt" id="calibre_link-1414"><span class="sans_futura_std_bold_b_">コーディング規約への意見とPEP8</span></p>
+<p class="btni"><span class="sans_futura_std_book_">本書の前の版では、変数名の単語をアンダースコアで区切るのではなく、</span><span class="sans_futura_std_book_oblique_i_">キャメルケース</span><span class="sans_futura_std_book_">で表していました。</span><span class="thesansmonocd_w5regular_">looking_like_this</span>ではなく<span class="thesansmonocd_w5regular_">lookedLikeThis</span>と表していたということです<span class="sans_futura_std_book_">。変数名の単語をアンダースコアで区切る表記は</span><span class="sans_futura_std_book_oblique_i_">スネークケース</span><span class="sans_futura_std_book_">と呼ばれます。 単語と単語の間にアンダースコアがあるのが小さなヘビ（スネーク）のように見えるからです。（単語の境界を大文字にする表記がキャメルケースと呼ばれるのはラクダ（キャメル）のこぶのように見えるからです。）Pythonのコーディング規約であるPEP8ではアンダースコアが推奨されていると指摘する人がいるかもしれません。その指摘に対しては、PEP8に「一貫性にこだわりすぎるのは、狭い心の現れである」とあり、私はキャメルケースを好むと言わせていただきます。</span></p>
+<p class="boxextractpara"><span class="sans_futura_std_book_oblique_i_">コーディング規約との一貫性は重要です。しかしもっと重要なのは、一貫性を崩すべきときを弁えることです。コーディング規約が当てはまらない場合があります。迷ったらご自身の良識に従ってください。</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">コンピュータはスネークケースでもキャメルケースでも気にしません。PEP8は絶対遵守の戒律を記した石版ではありません。同じ書き方で統一しさえすれば、どちらを採用しても構いません。そのことを証明するために、私は本書のこの版でコードをスネークケースに書き換えました。本当にどちらの書き方でもいいのです。</span></p>
 </aside>
 </section>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h3 class="h" id="calibre_link-1415"><span id="calibre_link-30"></span><span class="sans_futura_std_bold_b_">Your First Program</span></h3>
-<p class="tni">While the interactive shell is good for running Python instructions one at a time, to write entire Python programs you’ll enter the instructions into the file editor. The <i class="calibre5">file editor</i> is similar to text editors such as Notepad and TextMate, but it has some features specifically for entering source code. To open a new file in Mu, click the <b class="calibre10">New</b> button on the top row.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1153" aria-label="13"></span>The tab that appears should contain a cursor awaiting your input, but it’s different from the interactive shell, which runs Python instructions as soon as you press <small class="calibre4">ENTER</small>. The file editor lets you enter many instructions, save the file, and run the program. Here’s how you can tell the difference between the two:</p>
+<h3 class="h" id="calibre_link-1415"><span id="calibre_link-30"></span><span class="sans_futura_std_bold_b_">最初のプログラム</span></h3>
+<p class="tni">対話型シェルはPythonの命令を一つずつ実行するのに便利ですが、まとまりのあるPythonのプログラムを書こうとするなら、命令をファイルエディタに書きます。<i class="calibre5">ファイルエディタ</i>はメモ帳やTextMateなどのテキストエディタと似ていますが、ソースコードを書くための特別な機能が備わっています。Muで新しいファイルを開くには、画面上部の<b class="calibre10">新規</b>ボタンを押します。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1153" aria-label="13"></span>新しく開いたタブにプログラムを書いていきます。 <small class="calibre4">エンター</small>キーを押すと即座に実行される対話型シェルとは異なり、プログラムを続けて入力します。ファイルエディタでは、好きなだけ命令を書き、ファイルを保存して、プログラムを実行できます。対話型シェルとファイルエディタの違いは次のとおりです。</p>
 <ul class="ul">
-<li class="bl">The interactive shell will always be the one with the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> or <span class="thesansmonocd_w5regular_">In [1]:</span> prompt.</li>
-<li class="bl">The file editor won’t have the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> or <span class="thesansmonocd_w5regular_">In [1]:</span> prompt.</li>
+<li class="bl">対話型シェルでは常に<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>または<span class="thesansmonocd_w5regular_">In [1]:</span> のプロンプトが表示されています。</li>
+<li class="bl">ファイルエディタでは<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>または<span class="thesansmonocd_w5regular_">In [1]:</span>のプロンプトがありません。</li>
 </ul>
-<p class="tx">Now it’s time to create your first program! When the file editor window opens, enter the following into it:</p>
+<p class="tx">最初のプログラムを書いてみましょう。ファイルエディタのウィンドウが開いたら、以下の内容を入力してください。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_"># This program says hello and asks for my name.</span>
 
 <span class="thesansmonocd_w5regular_">print('Hello, world!')
@@ -328,9 +327,9 @@ print('What is your age?')  # Ask for their age.
 my_age = input('&gt;')
 print('You will be ' + str(int(my_age) + 1) + ' in a year.')</span>
 </code></pre>
-<p class="tx">Once you’ve entered your source code, save it so that you won’t have to retype it each time you start Mu. Click <b class="calibre10">Save</b>, enter <b class="calibre10">hello.py</b> in the File Name field, and then click <b class="calibre10">Save</b>.</p>
-<p class="tx">You should save your programs every once in a while as you type them. That way, if the computer crashes or you accidentally exit Mu, you won’t lose the code. As a shortcut, you can press <small class="calibre4">CTRL</small>-S on Windows and Linux or <span class="sans_futura_std_book_"></span>-S on macOS to save your file.</p>
-<p class="tx">Once you’ve saved, let’s run our program. Press the F5 key or click the <b class="calibre10">Run</b> button. Enter your name when your program asks for it. The program’s output in the interactive shell should look something like this:</p>
+<p class="tx">このソースコードを入力したら、再利用できるように保存してください。<b class="calibre10">保存</b>ボタンを押し、ファイル名欄に<b class="calibre10">hello.py</b>と入力して、<b class="calibre10">保存</b>をクリックします。</p>
+<p class="tx">プログラムを書く際には適宜保存してください。保存すると、コンピュータがクラッシュしたりMuを終了したりしても、コードが失われることはありません。WindowsとLinuxでは<small class="calibre4">CTRL</small>-S、macOSでは<span class="sans_futura_std_book_"></span>-Sのショートカットキーでも保存できます。</p>
+<p class="tx">プログラムを保存したら実行してみましょう。F5キーを押すか、<b class="calibre10">実行</b>ボタンを押してください。プログラムに入力を求められたら名前と年齢を入力してください。対話型シェルに例えば次のように出力されます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">Hello, world!
 What is your name?
 &gt;</span><b class="calibre10">Al</b>
@@ -342,59 +341,59 @@ What is your age?
 <span class="thesansmonocd_w5regular_">You will be 5 in a year.
 &gt;&gt;&gt;</span>
 </code></pre>
-<p class="tx">When there are no more lines of code to execute, the Python program <i class="calibre5">terminates</i>; that is, it stops running. (You can also say that the Python program <i class="calibre5">exits</i>.) The Mu editor displays the <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> interactive shell prompt after the program terminated, in case you’d like to enter some further Python code.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-654" aria-label="14"></span>You can close the file editor by clicking the <b class="calibre10">X</b> on the file’s tab, just like closing a browser tab. To reload a saved program, click <b class="calibre10">Load</b> from the menu. Do that now, and in the window that appears, choose <b class="calibre10">hello.py</b> and click the <b class="calibre10">Open</b> button. Your previously saved <i class="calibre5">hello.py</i> program should open in the file editor window.</p>
-<p class="tx">You can view the step-by-step execution of a program using the Python Tutor visualization tool at <i class="calibre5"><a href="http://pythontutor.com" class="calibre1">http://pythontutor.com</a></i>. Click the forward button to move through each step of the program’s execution. You’ll be able to see how the variables’ values and the output change.</p>
+<p class="tx">実行するコードの行がなくなるとPythonのプログラムは<i class="calibre5">終了</i>します。Muエディタはプログラムの終了後に<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>の対話型シェルを表示します。Pythonのコードを続けて入力できます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-654" aria-label="14"></span>ウィンドウ上部の<b class="calibre10">X</b> 印をクリックするとファイルエディタを閉じることができます。保存したプログラムをもう一度読み込みたければ、メニューの<b class="calibre10">開く</b>ボタンを押します。表示されるウィンドウで <b class="calibre10">hello.py</b>を選んで<b class="calibre10">開く</b>ボタンを押します。以前に保存した<i class="calibre5">hello.py</i>プログラムがファイルエディタウィンドウで開きます。</p>
+<p class="tx"> <i class="calibre5"><a href="http://pythontutor.com" class="calibre1">http://pythontutor.com</a></i> で提供されているPython Tutor視覚化ツールを利用すると、プログラムの実行状況を見られます。プログラムの各実行段階を行ったり来たりできます。変数に格納されている値と出力がどのように変化するかを確かめられます。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h3 class="h" id="calibre_link-1416"><span id="calibre_link-31"></span><span class="sans_futura_std_bold_b_">Dissecting the Program</span></h3>
-<p class="tni">With your new program open in the file editor, let’s take a quick tour of the Python instructions it uses by looking at what each line of code does.</p>
+<h3 class="h" id="calibre_link-1416"><span id="calibre_link-31"></span><span class="sans_futura_std_bold_b_">最初のプログラムの解説</span></h3>
+<p class="tni">ファイルエディタで作成した最初のプログラムについて、コードを一行ずつ解説します。</p>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-1417"><span id="calibre_link-32"></span><span class="sans_futura_std_heavy_oblique_bi_">Comments</span></h4>
-<p class="tni">The following line is called a <i class="calibre5">comment</i>:</p>
+<h4 class="h1" id="calibre_link-1417"><span id="calibre_link-32"></span><span class="sans_futura_std_heavy_oblique_bi_">コメント</span></h4>
+<p class="tni">次の行は<i class="calibre5">コメント</i>です。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_"># This program says hello and asks for my name.</span></code></pre>
-<p class="tx">Python ignores comments, and you can use them to write notes or remind yourself what the code is trying to do. Any text for the rest of the line following a hash mark (<span class="thesansmonocd_w5regular_">#</span>) is part of a comment.</p>
-<p class="tx">Sometimes programmers will put a <span class="thesansmonocd_w5regular_">#</span> in front of a line of code to temporarily remove it while testing a program. This is called <i class="calibre5">commenting out</i> code, and it can be useful when you’re trying to figure out why a program isn’t working. You can remove the <span class="thesansmonocd_w5regular_">#</span> later when you are ready to put the line back in.</p>
-<p class="tx">Python also ignores the blank line after the comment. You can add as many blank lines to your program as you want. This spacing can make your code easier to read, like paragraphs in a book.</p>
+<p class="tx">Pythonはコメントを無視しますから、コードの意図などをメモするのに使えます。各行で<span class="thesansmonocd_w5regular_">#</span>よりあとの部分はコメントになります。</p>
+<p class="tx">プログラムの動作をテストするときに、特定の行を実行されないようにするために<span class="thesansmonocd_w5regular_">#</span>を行頭につけることがあります。これは<i class="calibre5">コメントアウト</i>と呼ばれます。プログラムがうまく動かない原因を突き止めるときに使えるテクニックです。<span class="thesansmonocd_w5regular_">#</span>を取り除けば、その行が実行されるようになります。</p>
+<p class="tx">Pythonは空白行も無視します。好きなだけ空白行を入れられます。空白行を適当な箇所に入れて、段落分けをするとコードが読みやすくなります。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1418"><span id="calibre_link-33"></span><span class="sans_futura_std_heavy_oblique_bi_">The print() Function</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">print()</span> function displays the string value inside its parentheses on the screen:</p>
+<h4 class="h1" id="calibre_link-1418"><span id="calibre_link-33"></span><span class="sans_futura_std_heavy_oblique_bi_">print()関数</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">print()</span>関数はかっこ内の文字列値を画面に表示します。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">print('Hello, world!')
 print('What is your name?')  # Ask for their name.</span>
 </code></pre>
-<p class="tx">The line <span class="thesansmonocd_w5regular_">print('Hello, world!')</span> means “Print out the text in the string <span class="thesansmonocd_w5regular_">'Hello, world!'</span>.” When Python executes this line, you say that Python is <i class="calibre5">calling</i> the <span class="thesansmonocd_w5regular_">print()</span> function and the string value is being <i class="calibre5">passed</i> to the function. A value that is passed to a function call is an <i class="calibre5">argument.</i> Notice that the quotes are not printed to the screen. They just mark where the string begins and ends; they are not part of the string value’s text.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">print('Hello, world!')</span>行は、文字列<span class="thesansmonocd_w5regular_">'Hello, world!'</span>のテキストを表示するという意味です。この行を実行するときに、Pythonが<span class="thesansmonocd_w5regular_">print()</span>関数を<i class="calibre5">呼び出し</i>、文字列値がその関数に<i class="calibre5">渡され</i>ます。関数に渡される値のことを<i class="calibre5">引数</i>と呼びます。引用符（クォート）は画面に表示されないことに注意してください。クォートは文字列の始まりと終わりを示す記号であり、文字列値には含まれません。</p>
 <blockquote class="calibre17">
 <p class="note"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-906" aria-label="15"></span><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">You can also use this function to display a blank line on the screen; call <span class="sans_thesansmonocd_w5regular_italic_">print()</span> with nothing in between the parentheses.</i></p>
-<p class="tx">When you write a function name, the opening and closing parentheses at the end identify it as the name of a function. This is why in this book, you’ll see <span class="thesansmonocd_w5regular_">print()</span> rather than <span class="thesansmonocd_w5regular_">print</span>. It’s a standard convention to have no spaces in between the function name and the opening parentheses, even though Python doesn’t require this. <span>Chapter 3</span> describes functions in more detail.</p>
+<p class="note-txt"><i class="calibre5"><span class="sans_thesansmonocd_w5regular_italic_">print()</span>とかっこ内に何も入れずに呼び出すと空白行を画面に表示できます。</i></p>
+<p class="tx">関数の名前を書くときには、開きかっこと閉じかっこをつけて関数名であることをはっきりさせます。本書で<span class="thesansmonocd_w5regular_">print</span>ではなく<span class="thesansmonocd_w5regular_">print()</span>と書いているのはそのためです。関数名と開きかっこの間に空白を入れないのが標準的な慣習です。空白を入れても実行はできます。<span>第3章</span>で関数について詳しく説明します。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-1419"><span id="calibre_link-34"></span><span class="sans_futura_std_heavy_oblique_bi_">The input() Function</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">input()</span> function waits for the user to type some text on the keyboard and press <small class="calibre4">ENTER</small>:</p>
+<h4 class="h1" id="calibre_link-1419"><span id="calibre_link-34"></span><span class="sans_futura_std_heavy_oblique_bi_">input()関数</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">input()</span>関数は、ユーザーがテキストを入力して<small class="calibre4">エンター</small>キーを押すのを待ちます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">my_name = input('&gt;')</span></code></pre>
-<p class="tx">This function call evaluates to a string identical to the user’s text, and the rest of the code assigns the <span class="thesansmonocd_w5regular_">my_name</span> variable to this string value. The <span class="thesansmonocd_w5regular_">'&gt;'</span> string passed to the function causes the <span class="thesansmonocd_w5regular_">&gt;</span> prompt to appear, which serves as an indicator to the user that they are expected to enter something. Your programs don’t have to pass a string to the <span class="thesansmonocd_w5regular_">input()</span> function; if you call <span class="thesansmonocd_w5regular_">input()</span>, the program will wait for the user’s text without displaying any prompt.</p>
+<p class="tx">この関数を呼び出した結果は、ユーザーが入力したテキストの文字列になります。この行は、変数<span class="thesansmonocd_w5regular_">my_name</span>にその値を代入しています。<span class="thesansmonocd_w5regular_">'&gt;'</span>という文字列をこの関数に渡しているので、<span class="thesansmonocd_w5regular_">&gt;</span>プロンプトが表示されます。ユーザーに対して何らかの入力を求める目印になります。<span class="thesansmonocd_w5regular_">input()</span>関数に文字列を渡さずに呼び出すこともできます。<span class="thesansmonocd_w5regular_">input()</span>と引数なしで呼び出すと、プロンプトを何も表示せずにユーザーの入力を待ちます。</p>
 <aside class="box" aria-label="box-3">
-<p class="bt" id="calibre_link-1420"><span class="sans_futura_std_bold_b_">THE &gt; AND &gt;&gt;&gt; PROMPTS</span></p>
-<p class="btni"><span class="sans_futura_std_book_">You can pass any string to</span> <span class="thesansmonocd_w5regular_">input()</span> <span class="sans_futura_std_book_">to change the prompt that appears when your program runs. Calling</span> <span class="thesansmonocd_w5regular_">input('&gt;')</span> <span class="sans_futura_std_book_">puts an angle bracket</span> <span class="thesansmonocd_w5regular_">&gt;</span> <span class="sans_futura_std_book_">on the screen as the prompt. This is different from the</span> <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <span class="sans_futura_std_book_">prompt that appears in the Python interactive shell. In this book, the</span> <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <span class="sans_futura_std_book_">prompt indicates a response to the Python interactive shell and the</span> <span class="thesansmonocd_w5regular_">&gt;</span> <span class="sans_futura_std_book_">prompt indicates a response to a program running the</span> <span class="thesansmonocd_w5regular_">input('&gt;')</span> <span class="sans_futura_std_book_">call. My choice of</span> <span class="thesansmonocd_w5regular_">'&gt;'</span> <span class="sans_futura_std_book_">was arbitrary; you can use any prompt you want or no prompt at all.</span></p>
+<p class="bt" id="calibre_link-1420"><span class="sans_futura_std_bold_b_">&gt; と &gt;&gt;&gt; のプロンプト</span></p>
+<p class="btni"><span class="thesansmonocd_w5regular_">input()</span><span class="sans_futura_std_book_">関数に渡した文字列がプログラムの実行時にプロンプトとして表示されます。</span><span class="thesansmonocd_w5regular_">input('&gt;')</span><span class="sans_futura_std_book_">を呼び出すと山かっこ</span> <span class="thesansmonocd_w5regular_">&gt;</span><span class="sans_futura_std_book_">がプロンプトとして画面に表示されます。Pythonの対話型シェルで表示される</span> <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>と区別できます。本書では</span><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span><span class="sans_futura_std_book_">プロンプトはPython対話型シェルのプロンプトであることを示し、</span><span class="thesansmonocd_w5regular_">&gt;</span><span class="sans_futura_std_book_">プロンプトはプログラムの実行時に</span><span class="thesansmonocd_w5regular_">input('&gt;')</span><span class="sans_futura_std_book_">を呼び出していることを示します。私が</span><span class="thesansmonocd_w5regular_">'&gt;'</span><span class="sans_futura_std_book_">を選んだことに深い理由はなく、好きなものをプロンプトとして使えますし、プロンプトを表示しなくても構いません。</span></p>
 </aside>
-<p class="tx">You can think of the <span class="thesansmonocd_w5regular_">input()</span> function call as an expression that evaluates to whatever string the user typed. If the user entered <span class="thesansmonocd_w5regular_">'Al'</span>, the assignment statement would effectively be <span class="thesansmonocd_w5regular_">my_name</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Al'</span>.</p>
-<p class="tx">If you call <span class="thesansmonocd_w5regular_">input()</span> and see an error message, like <span class="thesansmonocd_w5regular_">NameError: name 'Al' is not defined</span>, the problem is that you’re running the code with Python 2 instead of Python 3.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">input()</span>関数は、ユーザーが入力した文字列値に評価される式であると考えることができます。ユーザーが<span class="thesansmonocd_w5regular_">'Al'</span>と入力したとしたら、<span class="thesansmonocd_w5regular_">my_name</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Al'</span>と評価されます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">input()</span>を呼び出して<span class="thesansmonocd_w5regular_">NameError: name 'Al' is not defined</span>のようなエラーが発生した場合は、Python3ではなくPython2で実行していることがエラーの原因です。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h4 class="h1" id="calibre_link-1421"><span id="calibre_link-35"></span><span class="sans_futura_std_heavy_oblique_bi_">The Greeting Message</span></h4>
-<p class="tni">The following call to <span class="thesansmonocd_w5regular_">print()</span> contains the expression <span class="thesansmonocd_w5regular_">'It is good to meet you, '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">my_name</span> between the parentheses:</p>
+<h4 class="h1" id="calibre_link-1421"><span id="calibre_link-35"></span><span class="sans_futura_std_heavy_oblique_bi_">あいさつメッセージ</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">print()</span>を呼び出している次のコードは、<span class="thesansmonocd_w5regular_">'It is good to meet you, '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">my_name</span> という式がかっこ内にあります。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">print('It is good to meet you, ' + my_name)</span></code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1138" aria-label="16"></span>Remember that expressions can always evaluate to a single value. If <span class="thesansmonocd_w5regular_">'Al'</span> is the value stored in <span class="thesansmonocd_w5regular_">my_name</span>, then this expression evaluates to <span class="thesansmonocd_w5regular_">'It is good to meet you, Al'</span>. This single string value is then passed to <span class="thesansmonocd_w5regular_">print()</span>, which prints it on the screen.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1138" aria-label="16"></span>式は一つの値に評価されることを思い出してください。<span class="thesansmonocd_w5regular_">my_name</span>に<span class="thesansmonocd_w5regular_">'Al'</span>という値が格納されているとすると、この式は<span class="thesansmonocd_w5regular_">'It is good to meet you, Al'</span>に評価されます。この一つの値が<span class="thesansmonocd_w5regular_">print()</span>に渡され、画面に表示されます。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h4 class="h1" id="calibre_link-1422"><span id="calibre_link-36"></span><span class="sans_futura_std_heavy_oblique_bi_">The len() Function</span></h4>
-<p class="tni">You can pass the <span class="thesansmonocd_w5regular_">len()</span> function a string value (or a variable containing a string), and the function evaluates to the integer value of the number of characters in that string:</p>
+<h4 class="h1" id="calibre_link-1422"><span id="calibre_link-36"></span><span class="sans_futura_std_heavy_oblique_bi_">len()関数</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">len()</span>関数に文字列値（または文字列を含む変数）を渡すと、文字数の整数値に評価されます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">print('The length of your name is:')
 print(len(my_name))</span>
 </code></pre>
-<p class="tx">Enter the following into the interactive shell to try this:</p>
+<p class="tx">対話型シェルで試してみましょう。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">len('hello')</b>
 <span class="thesansmonocd_w5regular_">5
 &gt;&gt;&gt;</span> <b class="calibre10">len('My very energetic monster just scarfed nachos.')</b>
@@ -402,33 +401,33 @@ print(len(my_name))</span>
 &gt;&gt;&gt;</span> <b class="calibre10">len('')</b>
 <span class="thesansmonocd_w5regular_">0</span>
 </code></pre>
-<p class="tx">Just like in those examples, <span class="thesansmonocd_w5regular_">len(my_name)</span> evaluates to an integer. We say that the <span class="thesansmonocd_w5regular_">len()</span> function call <i class="calibre5">returns</i> or <i class="calibre5">outputs</i> this integer value, and the value is the function call’s <i class="calibre5">return value</i>. It is then passed to <span class="thesansmonocd_w5regular_">print()</span> to be displayed on the screen. The <span class="thesansmonocd_w5regular_">print()</span> function allows you to pass it either integer values or string values, but notice the error that shows up when you enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">len(my_name)</span>は整数値に評価されます。<span class="thesansmonocd_w5regular_">len()</span>関数の呼び出しは、その整数値を<i class="calibre5">返し</i>、<i class="calibre5">出力します</i>。この整数値は関数呼び出しの <i class="calibre5">返り値</i>です。そして<span class="thesansmonocd_w5regular_">print()</span>関数に渡されて画面に表示されます。<span class="thesansmonocd_w5regular_">print()</span>関数の引数は整数値でも文字列値でも構いません。ただし、以下のコードはエラーになります。</p>
 <pre class="pre"><code class="calibre9"> <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">print('I am ' + 29 + ' years old.')</b>
 <span class="thesansmonocd_w5regular_">Traceback (most recent call last):
   File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
     print('I am ' + 29 + ' years old.')
 TypeError: can only concatenate str (not "int") to str</span>
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">print()</span> function isn’t causing that error; rather, it’s the expression you tried to pass to <span class="thesansmonocd_w5regular_">print()</span>. You’ll get the same error message if you type the expression into the interactive shell on its own:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">print()</span>関数がエラーを発生させるのではなく、<span class="thesansmonocd_w5regular_">print()</span>に渡した式がエラーを発生させるのです。この式だけでも同じエラーになります。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">'I am ' + 29 + ' years old.'</b>
 <span class="thesansmonocd_w5regular_">Traceback (most recent call last):
   File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
     'I am ' + 29 + ' years old.'
 TypeError: can only concatenate str (not "int") to str</span>
 </code></pre>
-<p class="tx">Python gives an error because the <span class="thesansmonocd_w5regular_">+</span> operator can be used only to add two numbers together or to concatenate two strings. You can’t add an integer to a string because this is not allowed in Python. You can fix this by using a string version of the integer instead, as explained in the next section.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">+</span>演算子は、2つの数値を加算するか、または2つの文字列を結合するかです。数値と文字列を足すことはできません。Pythonの文法に反します。数値の代わりに文字列を使うことでこのエラーを回避できます。次の節で説明します。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-785" aria-label="17"></span>
-<h4 class="h1" id="calibre_link-1423"><span id="calibre_link-37"></span><span class="sans_futura_std_heavy_oblique_bi_">The str(), int(), and float() Functions</span></h4>
-<p class="tni">If you want to concatenate an integer such as <span class="thesansmonocd_w5regular_">29</span> with a string to pass to <span class="thesansmonocd_w5regular_">print()</span>, you’ll need to get the value <span class="thesansmonocd_w5regular_">'29'</span>, which is the string form of <span class="thesansmonocd_w5regular_">29</span>. The <span class="thesansmonocd_w5regular_">str()</span> function can be passed an integer value and will return a string value version of the integer, as follows:</p>
+<h4 class="h1" id="calibre_link-1423"><span id="calibre_link-37"></span><span class="sans_futura_std_heavy_oblique_bi_"> str()関数、int()関数、float()関数</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">29</span>のような整数と文字列とを結合して<span class="thesansmonocd_w5regular_">print()</span>関数に渡したければ、整数<span class="thesansmonocd_w5regular_">29</span>の文字列型である<span class="thesansmonocd_w5regular_">'29'</span>を使う必要があります。次に示すように、<span class="thesansmonocd_w5regular_">str()</span>関数に整数値を渡すと文字列型になります。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">str(29)</b>
 <span class="thesansmonocd_w5regular_">'29'
 &gt;&gt;&gt;</span> <b class="calibre10">print('I am ' + str(29) + ' years old.')</b>
 <span class="thesansmonocd_w5regular_">I am 29 years old.</span>
 </code></pre>
-<p class="tx">Because <span class="thesansmonocd_w5regular_">str(29)</span> evaluates to <span class="thesansmonocd_w5regular_">'29'</span>, the expression <span class="thesansmonocd_w5regular_">'I am '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">str(29)</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">' years old.'</span> evaluates to <span class="thesansmonocd_w5regular_">'I am '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">'29'</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">' years old.'</span>, which in turn evaluates to <span class="thesansmonocd_w5regular_">'I am 29 years old.'</span> This is the string value that is passed to the <span class="thesansmonocd_w5regular_">print()</span> function.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">str()</span>, <span class="thesansmonocd_w5regular_">int()</span>, and <span class="thesansmonocd_w5regular_">float()</span> functions will evaluate to the string, integer, and floating-point forms of the value you pass, respectively. Try converting some values in the interactive shell with these functions, and watch what happens:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">str(29)</span>は<span class="thesansmonocd_w5regular_">'29'</span>に評価されますから、式<span class="thesansmonocd_w5regular_">'I am '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">str(29)</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">' years old.'</span>は<span class="thesansmonocd_w5regular_">'I am '</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">'29'</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">' years old.'</span>,に評価され、最終的には<span class="thesansmonocd_w5regular_">'I am 29 years old.'</span>に評価されます。その値が</span>print()</span>関数に渡されます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">str()</span>関数、<span class="thesansmonocd_w5regular_">int()</span>関数、<span class="thesansmonocd_w5regular_">float()</span>関数は、それぞれ、引数を文字列型、整数型、浮動小数点数型に評価します。対話型シェルでこれらの関数を使って値を変換してどうなるか見てみましょう。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">str(0)</b>
 <span class="thesansmonocd_w5regular_">'0'
 &gt;&gt;&gt;</span> <b class="calibre10">str(-3.14)</b>
@@ -446,23 +445,23 @@ TypeError: can only concatenate str (not "int") to str</span>
 &gt;&gt;&gt;</span> <b class="calibre10">float(10)</b>
 <span class="thesansmonocd_w5regular_">10.0</span>
 </code></pre>
-<p class="tx">The previous examples call the <span class="thesansmonocd_w5regular_">str()</span>, <span class="thesansmonocd_w5regular_">int()</span>, and <span class="thesansmonocd_w5regular_">float()</span> functions and pass them values of the other data types to obtain a string, integer, or floating-point form of those values.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">str()</span> function is handy when you have an integer or float that you want to concatenate to a string. The <span class="thesansmonocd_w5regular_">int()</span> function is also helpful if you have a number as a string value that you want to use in some mathematics. For example, the <span class="thesansmonocd_w5regular_">input()</span> function always returns a string, even if the user enters a number. Enter <span class="sans_thesansmonocd_w7bold_b_">spam</span> <span class="sans_thesansmonocd_w7bold_b_">=</span> <span class="sans_thesansmonocd_w7bold_b_">input()</span> into the interactive shell, then enter <span class="sans_thesansmonocd_w7bold_b_">101</span> when it waits for your text:</p>
+<p class="tx">この例では、<span class="thesansmonocd_w5regular_">str()</span>関数、<span class="thesansmonocd_w5regular_">int()</span>関数、<span class="thesansmonocd_w5regular_">float()</span>関数に、異なるデータ型の値を渡して文字列型、整数型、浮動小数点数型に変換しています。 </p>
+<p class="tx"><span class="thesansmonocd_w5regular_">str()</span>関数は整数型あるいは浮動小数点数型の値を文字列と結合したいときに便利です。<span class="thesansmonocd_w5regular_">int()</span>関数は文字列型の数字を使って計算したいときに便利です。例えば、<span class="thesansmonocd_w5regular_">input()</span>関数はユーザーが数字を入力したとしても文字列を返します。対話型シェルに <span class="sans_thesansmonocd_w7bold_b_">spam</span> <span class="sans_thesansmonocd_w7bold_b_">=</span> <span class="sans_thesansmonocd_w7bold_b_">input()</span>と入力して、<span class="sans_thesansmonocd_w7bold_b_">101</span>と打ち込んでエンターキーを押します。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam = input()</b>
 <b class="calibre10">101</b>
 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam</b>
 <span class="thesansmonocd_w5regular_">'101'</span>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-786" aria-label="18"></span>The value stored inside <span class="thesansmonocd_w5regular_">spam</span> isn’t the integer <span class="thesansmonocd_w5regular_">101</span> but the string <span class="thesansmonocd_w5regular_">'101'</span>. If you want to do math using the value in <span class="thesansmonocd_w5regular_">spam</span>, use the <span class="thesansmonocd_w5regular_">int()</span> function to get its integer form and then store this as the variable’s new value. If <span class="thesansmonocd_w5regular_">spam</span> is the string <span class="thesansmonocd_w5regular_">'101'</span>, then the expression <span class="thesansmonocd_w5regular_">int(spam)</span> will evaluate to the integer value <span class="thesansmonocd_w5regular_">101</span>, and the assignment statement <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">int(spam)</span> will be equivalent to <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">101</span>:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-786" aria-label="18"></span><span class="thesansmonocd_w5regular_">spam</span>に格納される値は、整数値の<span class="thesansmonocd_w5regular_">101</span>ではなく、文字列値の<span class="thesansmonocd_w5regular_">'101'</span>です。<span class="thesansmonocd_w5regular_">spam</span>の値を使って計算をしたい場合は、<span class="thesansmonocd_w5regular_">int()</span>関数を使って整数に変換し、その値を格納します。<span class="thesansmonocd_w5regular_">spam</span>の値が文字列の<span class="thesansmonocd_w5regular_">'101'</span>だとしたら、<span class="thesansmonocd_w5regular_">int(spam)</span>は整数値の<span class="thesansmonocd_w5regular_">101</span>に評価されます。よって、<span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">int(spam)</span>という式は、<span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">101</span>と等しいです。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam = int(spam)</b>
 <span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam</b>
 <span class="thesansmonocd_w5regular_">101</span>
 </code></pre>
-<p class="tx">Now you should be able to treat the <span class="thesansmonocd_w5regular_">spam</span> variable as an integer instead of a string:</p>
+<p class="tx">これで変数<span class="thesansmonocd_w5regular_">spam</span>を文字列ではなく整数として扱えます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">spam * 10 / 5</b>
 <span class="thesansmonocd_w5regular_">202.0</span>
 </code></pre>
-<p class="tx">Note that if you pass a value to <span class="thesansmonocd_w5regular_">int()</span> that it cannot evaluate as an integer, Python will display an error message:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">int()</span>に整数として評価できない値を渡すとエラーが発生します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">int('99.99')</b>
 Traceback (most recent call last):
   File "&lt;python-input-0&gt;", line 1, in &lt;module&gt;
@@ -474,21 +473,21 @@ Traceback (most recent call last):
     int('twelve')
 ValueError: invalid literal for int() with base 10: 'twelve'
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">int()</span> function is also useful if you need to round a floating-point number down:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">int()</span>関数は、浮動小数点数値の切り捨てにも使えます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">int(7.7)</b>
 7
 &gt;&gt;&gt; <b class="calibre10">int(7.7) + 1</b>
 8
 </code></pre>
-<p class="tx">You used the <span class="thesansmonocd_w5regular_">int()</span> and <span class="thesansmonocd_w5regular_">str()</span> functions in the last three lines of your program to get a value of the appropriate data type for the code:</p>
+<p class="tx">最初のプログラムの最後の3行でデータ型を適切に変換するために、<span class="thesansmonocd_w5regular_">int()</span>関数と<span class="thesansmonocd_w5regular_">str()</span>関数を使いました。</p>
 <pre class="pre"><code class="calibre9">print('What is your age?')  # Ask for their age.
 my_age = input('&gt;')
 print('You will be ' + str(int(my_age) + 1) + ' in a year.')
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">my_age</span> variable contains the value returned from <span class="thesansmonocd_w5regular_">input()</span>. Because the <span class="thesansmonocd_w5regular_">input()</span> function always returns a string (even if the user entered a number), you can use the <span class="thesansmonocd_w5regular_">int(my_age)</span> code to return an integer value of the string in <span class="thesansmonocd_w5regular_">my_age</span>. This integer value is then added to <span class="thesansmonocd_w5regular_">1</span> in the expression <span class="thesansmonocd_w5regular_">int(my_age)</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1</span>.</p>
+<p class="tx">変数<span class="thesansmonocd_w5regular_">my_age</span>には<span class="thesansmonocd_w5regular_">input()</span>関数から取得した値が格納されます。<span class="thesansmonocd_w5regular_">input()</span>関数は（ユーザーが数字を入力したとしても）必ず文字列を返すので、<span class="thesansmonocd_w5regular_">int(my_age)</span>で<span class="thesansmonocd_w5regular_">my_age</span>の文字列値を整数値に変換します。この整数値に<span class="thesansmonocd_w5regular_">int(my_age)</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1</span>という式で<span class="thesansmonocd_w5regular_">1</span>を足します。</p>
 <aside class="box" aria-label="box-4">
-<p class="bt" id="calibre_link-1424"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1139" aria-label="19"></span><span class="sans_futura_std_bold_b_">TEXT AND NUMBER EQUIVALENCE</span></p>
-<p class="btni"><span class="sans_futura_std_book_">Although the string value of a number is considered a completely different value from the integer or floating-point version, an integer can be equal to a floating point:</span></p>
+<p class="bt" id="calibre_link-1424"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1139" aria-label="19"></span><span class="sans_futura_std_bold_b_">文字列と数値の異同</span></p>
+<p class="btni"><span class="sans_futura_std_book_">文字列値と整数値ないし浮動小数点数値は異なるものだとみなされますが、整数値と浮動小数点数値は同じものだとみなされます。</span></p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">42</b> <b class="calibre10">==</b> <b class="calibre10">'42'</b>
 False
 &gt;&gt;&gt; <b class="calibre10">42</b> <b class="calibre10">==</b> <b class="calibre10">42.0</b>
@@ -496,18 +495,18 @@ True
 &gt;&gt;&gt; <b class="calibre10">42.0</b> <b class="calibre10">==</b> <b class="calibre10">0042.000</b>
 True
 </code></pre>
-<p class="boxb-last"><span class="sans_futura_std_book_">Python makes this distinction because strings are text, while integers and floats are numbers.</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">文字列はテキストであり、整数と小数は数値なので、このような結果になります。</span></p>
 </aside>
-<p class="tx">The result of this addition is passed to the <span class="thesansmonocd_w5regular_">str()</span> function: <span class="thesansmonocd_w5regular_">str(int(my _age)</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1)</span>. The string value returned is then concatenated with the strings <span class="thesansmonocd_w5regular_">'You will be '</span> and <span class="thesansmonocd_w5regular_">' in a year.'</span> to evaluate to one large string value. This large string is finally passed to <span class="thesansmonocd_w5regular_">print()</span> to be displayed on the screen.</p>
-<p class="tx">Let’s say the user enters the string <span class="thesansmonocd_w5regular_">'4'</span> for <span class="thesansmonocd_w5regular_">my_age</span>. The evaluation steps would look something like the following:</p>
-<figure class="img"><img class="img3" id="calibre_link-1317" src="images/000107.jpg" alt="A diagram showing how the expression in a call to the print function evaluates to its final value." />
-<figcaption><p class="cap">Description</p></figcaption>
+<p class="tx">この足し算をした結果を<span class="thesansmonocd_w5regular_">str()</span>関数に渡します。<span class="thesansmonocd_w5regular_">str(int(my _age)</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1)</span>です。返される文字列を、<span class="thesansmonocd_w5regular_">'You will be '</span>と<span class="thesansmonocd_w5regular_">' in a year.'</span>の間に入れて結合し、一つの長い文字列を作ります。この長い文字列を<span class="thesansmonocd_w5regular_">print()</span>に渡し、画面に表示します。</p>
+<p class="tx">ユーザーが<span class="thesansmonocd_w5regular_">my_age</span>に<span class="thesansmonocd_w5regular_">'4'</span>と入力したとしましょう。この一連の評価を以下に図示しました。</p>
+<figure class="img"><img class="img3" id="calibre_link-1317" src="images/000107.jpg" alt="" />
+<figcaption><p class="cap"></p></figcaption>
 </figure>
-<p class="tx">The string <span class="thesansmonocd_w5regular_">'4'</span> is converted to an integer, so you can add <span class="thesansmonocd_w5regular_">1</span> to it. The result is <span class="thesansmonocd_w5regular_">5</span>. The <span class="thesansmonocd_w5regular_">str()</span> function converts the result back to a string, so you can concatenate it with the second string, <span class="thesansmonocd_w5regular_">'in a year.'</span>, to create the final message.</p>
+<p class="tx">文字列の<span class="thesansmonocd_w5regular_">'4'</span>が整数に変換されるので、<span class="thesansmonocd_w5regular_">1</span>を足せます。その結果は<span class="thesansmonocd_w5regular_">5</span>です。<span class="thesansmonocd_w5regular_">str()</span>関数で計算結果を文字列に戻し、<span class="thesansmonocd_w5regular_">'in a year.'</span>と結合して、メッセージを完成させます。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h4 class="h1" id="calibre_link-1425"><span id="calibre_link-38"></span><span class="sans_futura_std_heavy_oblique_bi_">The type() Function</span></h4>
-<p class="tni">Integer, floating-point, and string aren’t the only data types in Python. As you continue to learn about programming, you may come across values of other data types. You can always pass these to the <span class="thesansmonocd_w5regular_">type()</span> function to <span role="doc-pagebreak" type="pagebreak" id="calibre_link-876" aria-label="20"></span>determine what type they are. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1425"><span id="calibre_link-38"></span><span class="sans_futura_std_heavy_oblique_bi_">type()関数</span></h4>
+<p class="tni">Pythonには、整数、浮動小数点数、文字列以外のデータ型があります。プログラミングの学習を続けると、他のデータ型に出くわすかもしれません。type()関数に渡せばデータ型を判別できます。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">type(42)</b>
 &lt;class 'int'&gt;
 &gt;&gt;&gt; <b class="calibre10">type(42.0)</b>
@@ -520,11 +519,11 @@ True
 &gt;&gt;&gt; <b class="calibre10">type(len(name))</b>  # The len() function returns integer values.
 &lt;class 'int'&gt;
 </code></pre>
-<p class="tx">Not only can you pass any value to <span class="thesansmonocd_w5regular_">type()</span>, but (as with any function call) you can also pass it any variable or expression to determine the data type of the value that it evaluates to. The <span class="thesansmonocd_w5regular_">type()</span> function itself returns values, but the angle brackets mean they are not syntactically valid Python code; you cannot run code like <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">&lt;class 'str'&gt;</span>.</p>
+<p class="tx"> <span class="thesansmonocd_w5regular_">type()</span>関数には、値だけでなく、値に評価される変数や式を渡すこともできます（上記の例を参照）。<span class="thesansmonocd_w5regular_">type()</span>関数自体も値を返しますが、山かっこがついていることからわかるように、その値を<span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">&lt;class 'str'&gt;</span>のように代入することはできません。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h4 class="h1" id="calibre_link-1426"><span id="calibre_link-39"></span><span class="sans_futura_std_heavy_oblique_bi_">The round() and abs() Functions</span></h4>
-<p class="tni">Let’s learn about two more Python functions that, like the <span class="thesansmonocd_w5regular_">len()</span> function, take an argument and return a value. The <span class="thesansmonocd_w5regular_">round()</span> function accepts a float value and returns the nearest integer. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1426"><span id="calibre_link-39"></span><span class="sans_futura_std_heavy_oblique_bi_">round()関数とabs()関数</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">len()</span>関数と同様に引数を取って値を返す関数をさらに2つ見てみましょう。<span class="thesansmonocd_w5regular_">round()</span>関数は浮動小数点数を引数に取ってその数に最も近い整数を返します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">round(3.14)</b>
 3
 &gt;&gt;&gt; <b class="calibre10">round(7.7)</b>
@@ -532,14 +531,14 @@ True
 &gt;&gt;&gt; <b class="calibre10">round(-2.2)</b>
 -2
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">round()</span> function also accepts an optional second argument specifying how many decimal places it should round. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">round()</span>関数は、小数点以下の桁数を指定する第二引数を取ることができます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">round(3.14, 1)</b>
 3.1
 &gt;&gt;&gt; <b class="calibre10">round(7.7777, 3)</b>
 7.778
 </code></pre>
-<p class="tx">The behavior for rounding half numbers is a bit odd. The function call <span class="thesansmonocd_w5regular_">round(3.5)</span> rounds up to <span class="thesansmonocd_w5regular_">4</span>, while <span class="thesansmonocd_w5regular_">round(2.5)</span> rounds down to <span class="thesansmonocd_w5regular_">2</span>. For halfway numbers that end with .5, the number is rounded to the nearest even integer. This is called <i class="calibre5">banker’s rounding</i>.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">abs()</span> function returns the absolute value of the number argument. In mathematics, this is defined as the distance from <span class="thesansmonocd_w5regular_">0</span>, but I find it easier to <span role="doc-pagebreak" type="pagebreak" id="calibre_link-954" aria-label="21"></span>think of it as the positive form of the number. Enter the following into the interactive shell:</p>
+<p class="tx">中間の値を渡したときの挙動は少し奇妙です。<span class="thesansmonocd_w5regular_">round(3.5)</span>を呼び出すと<span class="thesansmonocd_w5regular_">4</span>になりますが、<span class="thesansmonocd_w5regular_">round(2.5)</span>は<span class="thesansmonocd_w5regular_">2</span>になります。.5という中間の値は、最も近い偶数に丸められます。これは<i class="calibre5">銀行丸め</i>と呼ばれます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">abs()</span>関数は引数の絶対値を返します。数学的には<span class="thesansmonocd_w5regular_">0</span>からの距離と定義されますが、個人的にはその数の正の数だと簡便に考えています。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">abs(25)</b>
 25
 &gt;&gt;&gt; <b class="calibre10">abs(-25)</b>
@@ -549,24 +548,24 @@ True
 &gt;&gt;&gt; <b class="calibre10">abs(0)</b>
 0
 </code></pre>
-<p class="tx">Python comes with several different functions that you’ll learn about in this book. This section demonstrates how you can experiment with them in the interactive shell to see how they behave with different inputs. This is a common technique for practicing the new code that you learn.</p>
+<p class="tx">Pythonにはまだほかにも関数があり、本書でも登場します。この節では、入力を変えながら関数を対話型シェルで実験してその振る舞いを観察する方法を示しました。新しいコードを学んで練習する際に使えるテクニックです。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h3 class="h" id="calibre_link-1427"><span id="calibre_link-40"></span><span class="sans_futura_std_bold_b_">How Computers Store Data with Binary Numbers</span></h3>
-<p class="tni">That’s enough Python code for now. At this point, you might think that programming seems almost magical. How does the computer know to transform <span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span> into <span class="thesansmonocd_w5regular_">4</span>? The answer is too complicated for this book, but I can explain part of what’s going on behind the scenes by discussing what binary numbers (numbers that have only the digits 1 and 0) have to do with computing.</p>
-<p class="tx">Hacking in movies often involves streams of 1s and 0s flowing across the screen. This looks mysterious and impressive, but what do these 1s and 0s actually mean? The answer is that binary is the simplest number system, and it can be implemented with inexpensive components for computer hardware. Binary, also called the <i class="calibre5">base-2 number system</i>, can represent all of the same numbers that our more familiar base-10 <i class="calibre5">decimal number system</i> can. Decimal has 10 digits, 0 through 9. Table 1-4 shows the first 27 integers in decimal and binary.</p>
+<h3 class="h" id="calibre_link-1427"><span id="calibre_link-40"></span><span class="sans_futura_std_bold_b_">コンピュータがどのようにしてデータを2進数で保存しているか</span></h3>
+<p class="tni">ここまでPythonのコードをたくさん見てきました。プログラミングを魔法のように感じたかもしれません。コンピュータはどのようにして<span class="thesansmonocd_w5regular_">2</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">2</span>を<span class="thesansmonocd_w5regular_">4</span>に変形しているのでしょうか。その答えは本書で扱うにはあまりにも込み入っていますが、答えの一部を説明することはできます。2進数（1と0の数字しかない数値）がコンピュータと大いに関係しています。</p>
+<p class="tx">映画ではハッカーが画面に1と0の羅列を表示させることがよくあります。その場面は神秘的で印象的ですが、この1と0は何を意味しているのでしょうか。2進法が最も単純な記数法で、コンピュータハードウェアの安価な部品でも実装できるというのがその答えです。2進法（<i class="calibre5">2を基数とする記数法</i>）は、私たちがなじんでいる<i class="calibre5">10を基数とする記数法</i>と同じ数値をすべて表現できます。10進法では0から9の10の数字があります。表1-4は10進数の0から26までの数値を2進数で示しています。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-659"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 1-4:</span></span> <span class="sans_futura_std_book_">Equivalent Decimal and Binary Numbers</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-659"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 1-4：</span></span> <span class="sans_futura_std_book_">10進数と2進数の対応表</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Decimal</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Binary</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Decimal</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Binary</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Decimal</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Binary</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">10進数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">2進数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">10進数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">2進数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">10進数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">2進数</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
@@ -644,36 +643,36 @@ True
 </tr>
 </tbody>
 </table>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-969" aria-label="22"></span>Think of these number systems as a mechanical odometer, like in Figure 1-3. When you reach the last digit, they each reset to 0 while incrementing the value of the next digit over. In decimal, the last digit is 9, and in binary, the last digit is 1. That’s why the decimal number after 9 is 10 and the decimal number after 999 is 1000. Similarly, the binary number after 1 is 10 and the binary number after 111 is 1000. However, <i class="calibre5">10</i> in binary doesn’t represent the same quantity as <i class="calibre5">ten</i> in decimal; rather, it represents <i class="calibre5">two</i>. And <i class="calibre5">1000</i> in binary doesn’t mean <i class="calibre5">one thousand</i> in decimal, but rather <i class="calibre5">eight</i>. You can view an interactive binary and decimal odometer at <i class="calibre5"><a href="https://inventwithpython.com/odometer" class="calibre1">https://<wbr></wbr>inventwithpython<wbr></wbr>.com<wbr></wbr>/odometer</a></i>.</p>
-<figure class="img"><img class="img1" id="calibre_link-660" src="images/000003.jpg" alt="On the left side, an odometer reading “00000099” transitions to reading “00000100.” On the right side, and odometer reading “01100011” transitions to reading “01100100.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 1-3: A mechanical odometer in decimal (left) and in binary (right)</span></p></figcaption>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-969" aria-label="22"></span>記数法は図1-3のような走行距離計を思い浮かべると理解しやすいです。最後の数字に到達したら次の桁に進んでこれまでの桁は0にリセットします。10進法では最後の数字が9で、2進法では最後の数字が1です。10進法では、9の次は10で、999の次は1000です。同様に、2進法では、1の次は10で、111の次は1000です。2進数の<i class="calibre5">10</i>は10進数の<i class="calibre5">十</i>と同じ量ではなく、<i class="calibre5">二</i>と同じ量を示します。2進数の<i class="calibre5">1000</i>は10進数の<i class="calibre5">千</i>と同じ量ではなく、<i class="calibre5">八</i>と同じ量を示します。<i class="calibre5"><a href="https://inventwithpython.com/odometer" class="calibre1">https://<wbr></wbr>inventwithpython<wbr></wbr>.com<wbr></wbr>/odometer</a></i> で2進数と10進数の走行距離計の動きを見られます。</p>
+<figure class="img"><img class="img1" id="calibre_link-660" src="images/000003.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 1-3：10進法（左側）と2進法（右側）の走行距離計</span></p></figcaption>
 </figure>
-<p class="tx">Representing binary numbers with computer hardware is simpler than representing decimal numbers because there are only two states to represent. For example, Blu-ray discs and DVDs have smooth <i class="calibre5">lands</i> and indented <i class="calibre5">pits</i> etched on their surface that will or won’t reflect the disc player’s laser, respectively. Circuits can have electric current flowing through them or no electric current. These various hardware standards all have ways of representing two different states. On the other hand, it’d be expensive to create high-quality electronic components that are sensitive enough to detect the difference between 10 different voltage levels with reliable accuracy. It’s more economical to use simple components, and two binary states are as simple as you can get.</p>
-<p class="tx">These binary digits are called <i class="calibre5">bits</i> for short. A single bit can represent two numbers, and 8 bits (or 1 <i class="calibre5">byte</i>) can represent 2<sup class="calibre11">8</sup>, or 256, numbers, ranging from 0 to 255 in decimal or 0 to 11111111 in binary. This is similar to how a single decimal digit can represent 10 numbers (0 to 9), while an eight-digit decimal number can represent 10<sup class="calibre11">8</sup> or 100,000,000 numbers (0 to 99,999,999). Files on your computer are measured in how many bytes they take up:</p>
+<p class="tx">コンピュータのハードウェアで2進数を表現するのは、10進数を表現するよりも単純です。2つの状態を表現できれば事足りるからです。例えば、ブルーレイディスクとDVDは、なめらかな<i class="calibre5">ランド</i>と出っ張った <i class="calibre5">ピット</i>が表面にあり、ディスクプレイヤーのレーザーを反射するか反射しないかのどちらかになります。回路では電流が流れているか流れていないかのどちらかです。こうしたさまざまなハードウェア標準は、すべて2つの状態を表現する方法です。他方で、10種類の電圧を信頼できる精度で検出できる高品質の電子部品を作ると高価になってしまいます。単純な部品を使うほうが経済的で、2つの状態を表現するのは単純です。</p>
+<p class="tx">2進数の数字（binary digits）は略して<i class="calibre5">ビット（bits）</i>と呼ばれます。1ビットで2つの数値を表現でき、8ビット（1<i class="calibre5">バイト</i>）で2<sup class="calibre11">8</sup>、つまり256の数値を表現できます。10進数では0から255まで、2進数では0から11111111までです。10進数の一つの数字が10の数値（0から9）を表現でき、8つの10進数で10<sup class="calibre11">8</sup>、つまり100,000,000（0から99,999,999まで）の数値を表現できるのと同様です。コンピュータ上のファイルはバイトでサイズが測られます。</p>
 <ul class="ul">
-<li class="bl">A kilobyte (KB) is 2<sup class="calibre11">10</sup> or 1,024 bytes.</li>
-<li class="bl">A megabyte (MB) is 2<sup class="calibre11">20</sup> or 1,048,576 bytes (or 1,024KB).</li>
-<li class="bl">A gigabyte (GB) is 2<sup class="calibre11">30</sup> or 1,073,741,824 bytes (or 1,024MB).</li>
-<li class="bl">A terabyte (TB) is 2<sup class="calibre11">40</sup> or 1,099,511,627,776 bytes (or 1,024GB).</li>
+<li class="bl">1キロバイト（KB）は、2<sup class="calibre11">10</sup>、つまり1,024バイトです。</li>
+<li class="bl">1メガバイト（MB）は、2<sup class="calibre11">20</sup>、つまり1,048,576バイト（1,024KB）です。</li>
+<li class="bl">1ギガバイト（GB）は、2<sup class="calibre11">30</sup>、つまり1,073,741,824 バイト（1,024MB）です。</li>
+<li class="bl">1テラバイト（TB）は、2<sup class="calibre11">40</sup>、つまり1,099,511,627,776バイト（1,024GB）です。</li>
 </ul>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-928" aria-label="23"></span>The text of Shakespeare’s <i class="calibre5">Romeo and Juliet</i> is about 135KB. A high-resolution photo is about 2MB to 5MB. A movie can be anywhere from 1GB to 50GB, depending on picture quality and movie length. However, hard drive and flash memory manufacturers blatantly lie about what these terms mean. For example, by calling a TB 1,000,000,000,000 bytes instead of 1,099,511,627,776 bytes, they can advertise a 9.09TB hard drive as 10TB.</p>
-<p class="tx">The 1s and 0s of binary can represent not only any integer but also any form of data. Instead of 0 to 255, a byte can represent the numbers –128 to 127 using a system called <i class="calibre5">two’s complement</i>. Fractional floating-point numbers can be represented in binary using a system called <i class="calibre5">IEEE-754</i>.</p>
-<p class="tx">Text can be stored on computers as binary numbers by assigning each letter, punctuation mark, or symbol a unique number. A system for representing text as numbers is called an <i class="calibre5">encoding</i>. The most popular encoding for text is UTF-8. In UTF-8, a capital letter <i class="calibre5">A</i> is represented by the decimal number 65 (or 01000001 as an 8-bit binary number), a <i class="calibre5">?</i> (question mark) is represented by the number 63, and the numeral character <i class="calibre5">7</i> is represented by the number 55. The string <span class="thesansmonocd_w5regular_">'Hello'</span> is stored as the numbers 72, 101, 108, 108, and 111. When stored in a computer, “Hello” appears as a stream of bits: 0100100001100101011011000110110001101111.</p>
-<p class="tx">Wow! Just like in those hacker movies!</p>
-<p class="tx">Engineers need to invent a way to encode each form of data as numbers. Photos and images can be broken up into a two-dimensional grid of colored squares called <i class="calibre5">pixels</i>. Each pixel can use three bytes to represent how much red, green, and blue color it contains. (<span>Chapter 21</span> covers image data in more detail.) But for a short example, the numbers 255, 0, and 255 could represent a pixel with the maximum amount of red and blue but zero green, resulting in a purple pixel.</p>
-<p class="tx">Sound is made up of waves of compressed air that reach our ears, which our brains interpret as audio sensation. We can graph the intensity and frequency of these waves over time. The numbers on this graph can then be converted to binary numbers and stored on a computer, which later control speakers to reproduce the sound. This is a simplification of how computer audio works, but describes how numbers can represent Beethoven’s Symphony No. 5.</p>
-<p class="tx">The data for several images combines with audio data to store videos. All forms of information can be encoded into binary numbers. There is, of course, a great deal more detail to it than this, but this is how 1s and 0s represent the wide variety of data in our information age.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-928" aria-label="23"></span>シェイクスピアの<i class="calibre5">『ロミオとジュリエット』</i>のテキストは約135KBです。高解像度の写真は約2MBから5MBです。映画は画質と長さによりますが、1GBから50GBに収まります。ハードドライブとフラッシュメモリの製造元は、製品のサイズについてうそをついています。例えば、1TBを、1,099,511,627,776 バイトではなく1,000,000,000,000バイトで計算し、9.09TBのハードドライブを10TBと宣伝しています。</p>
+<p class="tx">2進数の1と0は、整数だけでなく、どのようなデータでも表現できます。0から255までの整数の代わりに、<i class="calibre5">2の補数</i>を用いて–128から127までの数値を表すことができます。浮動小数点数は<i class="calibre5">IEEE-754</i>を用いて表現できます。</p>
+<p class="tx">テキストもコンピュータでは2進数として保存されています。文字と句読点と記号に一意の数値を対応させます。数値でテキストを表現する体系を<i class="calibre5">エンコーディング</i>と呼びます。UTF-8が最も一般的なエンコーディングです。UTF-8では、大文字の<i class="calibre5">A</i>は10進数の65（8ビットの2進数では01000001）、<i class="calibre5">?</i>（クエスチョンマーク）は63、文字の<i class="calibre5">7</i>は55、文字列<span class="thesansmonocd_w5regular_">'Hello'</span> は72、101、108、108、111で表現されます。コンピュータに保存された“Hello”は0100100001100101011011000110110001101111というビットの並びになっています。</p>
+<p class="tx"> ハッカーの映画と同じですね。</p>
+<p class="tx">エンジニアは各形式のデータを数値にエンコードする方法を編み出す必要があります。写真や画像は、<i class="calibre5">ピクセル</i>と呼ばれる色の付いた正方形を並べた二次元の格子に分解できます。各ピクセルは、3バイトを使用して、赤、緑、青の度合いを表します。<span>第21章</span>で画像データをもっと詳しく説明しますが、ここで簡単な例を挙げましょう。255, 0, 255は赤と青が最大量で緑はゼロ、つまり紫のピクセルを表します。</p>
+<p class="tx">音は圧縮された空気の波で構成されており、それが耳に届くと脳が聴覚として解釈します。音波の強度と周波数をグラフ化できます。このグラフの数値を2進数に変換してコンピュータに保存すると、スピーカーを操作して音を再現できます。単純化すると、コンピュータオーディオはこのように機能しています。例えばベートーヴェンの交響曲第5番を、このようにして数値で表現できます。</p>
+<p class="tx">画像データと音声データを組み合わせると動画になります。どのような形式の情報であっても2進数にエンコードできます。ここではかなり簡略化してお伝えしましたが、1と0で情報時代におけるさまざまなデータを表現する方法をご理解いただけたことと存じます。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
-<h3 class="h" id="calibre_link-1428"><span id="calibre_link-41"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">You can compute expressions with a calculator or enter string concatenations with a word processor. You can even do string replication easily by copying and pasting text. But expressions, and their component values—operators, variables, and function calls—are the basic building blocks that make up programs. Once you know how to handle these elements, you will be able to instruct Python to operate on large amounts of data for you.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1429" aria-label="24"></span>You’ll find it helpful to remember the different types of operators (<span class="thesansmonocd_w5regular_">+</span>, <span class="thesansmonocd_w5regular_">-</span>, <span class="thesansmonocd_w5regular_">*</span>, <span class="thesansmonocd_w5regular_">/</span>, <span class="thesansmonocd_w5regular_">//</span>, <span class="thesansmonocd_w5regular_">%</span>, and <span class="thesansmonocd_w5regular_">**</span> for math operations, and <span class="thesansmonocd_w5regular_">+</span> and <span class="thesansmonocd_w5regular_">*</span> for string operations) and the three data types (integers, floating-point numbers, and strings) introduced in this chapter.</p>
-<p class="tx">I introduced a few different functions as well. The <span class="thesansmonocd_w5regular_">print()</span> and <span class="thesansmonocd_w5regular_">input()</span> functions handle simple text output (to the screen) and input (from the keyboard). The <span class="thesansmonocd_w5regular_">len()</span> function takes a string and evaluates to an int of the number of characters in the string. The <span class="thesansmonocd_w5regular_">str()</span>, <span class="thesansmonocd_w5regular_">int()</span>, and <span class="thesansmonocd_w5regular_">float()</span> functions will evaluate to the string, integer, or floating-point number form of the value they are passed. The <span class="thesansmonocd_w5regular_">round()</span> function returns the rounded integer, and the <span class="thesansmonocd_w5regular_">abs()</span> function returns the absolute value of the arguments.</p>
-<p class="tx">In the next chapter, you’ll learn how to tell Python to make intelligent decisions about what code to run, what code to skip, and what code to repeat based on the values it has. This is known as <i class="calibre5">flow control</i>, and it allows you to write programs that make intelligent decisions.</p>
+<h3 class="h" id="calibre_link-1428"><span id="calibre_link-41"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">計算機を使えば式を計算をできますし、ワープロを使えば文字列を結合できます。コピーアンドペーストで文字列を繰り返すのも簡単です。しかし、こうした操作の背後にある式とその構成要素（演算子、変数、関数）は、プログラムを構成する基本的な部品です。これらの構成要素の扱い方を知れば、Pythonで大規模なデータ処理もできるようになります。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1429" aria-label="24"></span>本章では、さまざまな演算子（数学演算の<span class="thesansmonocd_w5regular_">+</span>、<span class="thesansmonocd_w5regular_">-</span>、<span class="thesansmonocd_w5regular_">*</span>、<span class="thesansmonocd_w5regular_">/</span>、<span class="thesansmonocd_w5regular_">//</span>、<span class="thesansmonocd_w5regular_">%</span>、<span class="thesansmonocd_w5regular_">**</span>と、文字列操作の<span class="thesansmonocd_w5regular_">+</span>、<span class="thesansmonocd_w5regular_">*</span>）と3つのデータ型(整数型、浮動小数点数型)について説明しました。</p>
+<p class="tx">関数もいくつか紹介しました。<span class="thesansmonocd_w5regular_">print()</span>関数と<span class="thesansmonocd_w5regular_">input()</span>関数は、テキストの（画面への）出力と（キーボードからの）入力を処理します。<span class="thesansmonocd_w5regular_">len()</span>関数は文字列を受け取り、その文字数を整数で返します。<span class="thesansmonocd_w5regular_">str()</span>関数、<span class="thesansmonocd_w5regular_">int()</span>関数、<span class="thesansmonocd_w5regular_">float()</span>関数は、それぞれ、渡した値のデータ型を文字列型、整数型、浮動小数点数型に変換します。<span class="thesansmonocd_w5regular_">round()</span>関数は丸めた整数を返し、<span class="thesansmonocd_w5regular_">abs()</span>関数は引数の絶対値を返します。</p>
+<p class="tx">次章では、どのコードを実行してどのコードを飛ばすか、どのコードを繰り返し実行するかなどを、Pythonに指示する方法を学びます。これは<i class="calibre5">フロー制御</i>と呼ばれ、プログラムに何らかの判断をさせます。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
-<h3 class="h" id="calibre_link-1430"><span id="calibre_link-42"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  Which of the following are operators, and which are values?</p>
+<h3 class="h" id="calibre_link-1430"><span id="calibre_link-42"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. 以下のものを演算子と値とに分類してください。</p>
 <pre class="pre"><code class="calibre9">*
 'hello'
 -88.8
@@ -682,26 +681,26 @@ True
 +
 5
 </code></pre>
-<p class="listnumber">  2.  Which of the following is a variable, and which is a string?</p>
+<p class="listnumber">  2. 以下のものを変数と文字列とに分類してください。</p>
 <pre class="pre"><code class="calibre9">spam
 'spam'
 </code></pre>
-<p class="listnumber">  3.  Name three data types.</p>
-<p class="listnumber">  4.  What is an expression made up of? What do all expressions do?</p>
-<p class="listnumber">  5.  This chapter introduced assignment statements, like <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">10</span>. What is the difference between an expression and a statement?</p>
-<p class="listnumber">  6.  What does the variable <span class="thesansmonocd_w5regular_">bacon</span> contain after the following code runs?</p>
+<p class="listnumber">  3. データ型を3つ挙げてください。</p>
+<p class="listnumber">  4. 式は何から構成されますか？　式は何を行いますか？</p>
+<p class="listnumber">  5. 本章では<span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">10</span>のような代入文を紹介しました。式と文はどう違いますか？</p>
+<p class="listnumber">  6. 以下のコードの実行後に、変数<span class="thesansmonocd_w5regular_">bacon</span>の値はどうなりますか？</p>
 <pre class="pre"><code class="calibre9">bacon = 20
 bacon + 1
 </code></pre>
-<p class="listnumber">  7.  What should the following two expressions evaluate to?</p>
+<p class="listnumber">  7. 以下の2つの式は評価されてどのような値になりますか？</p>
 <pre class="pre"><code class="calibre9">'spam' + 'spamspam'
 'spam' * 3
 </code></pre>
-<p class="listnumber">  8.  Why is <span class="thesansmonocd_w5regular_">eggs</span> a valid variable name while <span class="thesansmonocd_w5regular_">100</span> is invalid?</p>
-<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1431" aria-label="25"></span>  9.  What three functions can be used to get the integer, floating-point number, or string version of a value?</p>
-<p class="listnumber">10.  Why does this expression cause an error? How can you fix it?</p>
+<p class="listnumber">  8. <span class="thesansmonocd_w5regular_">eggs</span>は有効な変数名で、<span class="thesansmonocd_w5regular_">100</span>は無効な変数名なのはなぜですか？</p>
+<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1431" aria-label="25"></span>  9. 整数型、浮動小数点数型、文字列型の値を取得するために使う3つの関数は何ですか？</p>
+<p class="listnumber">10. この式がエラーになるのはなぜですか？また、どのように修正しますか？</p>
 <pre class="pre"><code class="calibre9">'I eat ' + 99 + ' burritos.'</code></pre>
-<p class="listplain"><b class="calibre10">Extra credit:</b> Search online for the Python documentation for the <span class="thesansmonocd_w5regular_">len()</span> function. It will be on a web page titled “Built-in Functions.” Skim the list of other functions Python has, look up what the <span class="thesansmonocd_w5regular_">bin()</span> and <span class="thesansmonocd_w5regular_">hex()</span> functions do, and experiment with them in the interactive shell.</p>
+<p class="listplain"><b class="calibre10">ボーナスポイント：</b>Pythonの公式ドキュメントで<span class="thesansmonocd_w5regular_">len()</span>関数を調べてください。「組み込み関数」というタイトルのウェブページにあります。Pythonの関数一覧を見て、<span class="thesansmonocd_w5regular_">bin()</span>関数と<span class="thesansmonocd_w5regular_">hex()</span> 関数の機能を調べ、対話型シェルで実験してみてください。</p>
 </section>
 </section>
 </div>
