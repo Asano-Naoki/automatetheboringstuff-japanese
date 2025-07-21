@@ -11,62 +11,61 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1160" aria-label="49"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1455">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">3</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">LOOPS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">3</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">ループ</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">In the previous chapter, you learned how to make programs run certain blocks of code while skipping others. But there’s more to flow control than this. In this chapter, you’ll learn how to repeatedly execute blocks of code using loops. Python’s two kinds of loops, <span class="sans_thesansmonocd_w5regular_">while</span> and <span class="sans_thesansmonocd_w5regular_">for</span>, open up the full power of automation, because they can run lines of code millions of times per second. You’ll also learn how to import code libraries, called <i class="calibre18">modules</i>, to make even more functions available to your programs.</p>
+<p class="introtni">前章では、プログラムに特定のブロックを実行させて別のブロックを飛ばさせる方法を説明しました。フロー制御はこれだけではありません。本章では、ループを使ってブロックを繰り返し実行する方法を説明します。Pythonには、<span class="sans_thesansmonocd_w5regular_">while</span>と<span class="sans_thesansmonocd_w5regular_">for</span>の2種類のループがあります。これらを使うと1秒で何百万回もコードを実行できるので、自動化の力を最大限に発揮できます。<i class="calibre18">モジュール</i>と呼ばれるコードライブラリをインポートする方法も説明します。これにより利用できる関数を増やすことができます。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1456"><span id="calibre_link-61"></span><span class="sans_futura_std_bold_b_">while Loop Statements</span></h3>
-<p class="tni">You can make a block of code execute over and over again using a <span class="thesansmonocd_w5regular_">while</span> statement. The code in a <span class="thesansmonocd_w5regular_">while</span> clause will be executed as long as the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1457" aria-label="50"></span>statement’s condition is <span class="thesansmonocd_w5regular_">True</span>. In code, a <span class="thesansmonocd_w5regular_">while</span> statement always consists of the following:</p>
+<h3 class="h" id="calibre_link-1456"><span id="calibre_link-61"></span><span class="sans_futura_std_bold_b_">whileループ文</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">while</span>文を使うとコードを何度も繰り返し実行できます。while文の条件が<span class="thesansmonocd_w5regular_">True</span>である限り、<span class="thesansmonocd_w5regular_">while</span>節のコードが実行されます。<span class="thesansmonocd_w5regular_">while</span>文は常に次のような形になります。</p>
 <ul class="ul">
-<li class="bl">The <span class="thesansmonocd_w5regular_">while</span> keyword</li>
-<li class="bl">A condition (that is, an expression that evaluates to <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>)</li>
-<li class="bl">A colon</li>
-<li class="bl">Starting on the next line, an indented block of code (called the <span class="thesansmonocd_w5regular_">while</span> clause or <span class="thesansmonocd_w5regular_">while</span> block)</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">while</span>というキーワード</li>
+<li class="bl">条件（<span class="thesansmonocd_w5regular_">True</span>または<span class="thesansmonocd_w5regular_">False</span>に評価される式）</li>
+<li class="bl">コロン</li>
+<li class="bl">インデントされたコードブロック（<span class="thesansmonocd_w5regular_">while</span>節または<span class="thesansmonocd_w5regular_">while</span>ブロックと呼ばれます）</li>
 </ul>
-<p class="tx">You can see that a <span class="thesansmonocd_w5regular_">while</span> statement looks similar to an <span class="thesansmonocd_w5regular_">if</span> statement. The difference is in how they behave. At the end of an <span class="thesansmonocd_w5regular_">if</span> clause, the program execution continues after the <span class="thesansmonocd_w5regular_">if</span> statement. But at the end of a <span class="thesansmonocd_w5regular_">while</span> clause, the program execution jumps back to the start of the <span class="thesansmonocd_w5regular_">while</span> statement. The <span class="thesansmonocd_w5regular_">while</span> clause is often called the <i class="calibre5">while loop</i> or just the <i class="calibre5">loop</i>.</p>
-<p class="tx">Let’s look at an <span class="thesansmonocd_w5regular_">if</span> statement and a <span class="thesansmonocd_w5regular_">while</span> loop that use the same condition and take the same actions based on that condition. Here is the code with an <span class="thesansmonocd_w5regular_">if</span> statement:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">while</span>文は<span class="thesansmonocd_w5regular_">if</span>文と似ていますが、動作が違います。<span class="thesansmonocd_w5regular_">if</span>節が終わるとプログラムの実行はそのあとから継続します。<span class="thesansmonocd_w5regular_">while</span>節が終わるとプログラムの実行は<span class="thesansmonocd_w5regular_">while</span>文の先頭に戻ります。<span class="thesansmonocd_w5regular_">while</span>節は<i class="calibre5">whileループ</i>（あるいは単に<i class="calibre5">ループ</i>）と呼ばれることが多いです。</p>
+<p class="tx">条件が同じで実行するプログラムも同じである<span class="thesansmonocd_w5regular_">if</span>文と<span class="thesansmonocd_w5regular_">while</span>ループの動作を比べてみましょう。こちらが<span class="thesansmonocd_w5regular_">if</span>文のコードです。</p>
 <pre class="pre"><code class="calibre9">spam = 0
 if spam &lt; 5:
     print('Hello, world.')
     spam = spam + 1
 </code></pre>
-<p class="tx">Here is the code with a <span class="thesansmonocd_w5regular_">while</span> statement:</p>
+<p class="tx">こちらが<span class="thesansmonocd_w5regular_">while</span>文のコードです。</p>
 <pre class="pre"><code class="calibre9">spam = 0
 while spam &lt; 5:
     print('Hello, world.')
     spam = spam + 1
 </code></pre>
-<p class="tx">These statements are similar; both <span class="thesansmonocd_w5regular_">if</span> and <span class="thesansmonocd_w5regular_">while</span> check the value of <span class="thesansmonocd_w5regular_">spam</span>, and if it’s less than <span class="thesansmonocd_w5regular_">5</span>, they print a message. But when you run these two code snippets, something very different happens for each one. For the <span class="thesansmonocd_w5regular_">if</span> statement, the output is simply <span class="thesansmonocd_w5regular_">"Hello, world."</span> But for the <span class="thesansmonocd_w5regular_">while</span> statement, it’s <span class="thesansmonocd_w5regular_">"Hello, world."</span> repeated five times! Take a look at the flowcharts for these two pieces of code, Figures 3-1 and 3-2, to see why this happens.</p>
+<p class="tx">この2つのコードはよく似ています。<span class="thesansmonocd_w5regular_">if</span>文も<span class="thesansmonocd_w5regular_">while</span>文も<span class="thesansmonocd_w5regular_">spam</span>の値を確認し、5よりも小さければメッセージを表示します。しかしこの2つのコードを実行すると、大きな違いがあります。<span class="thesansmonocd_w5regular_">if</span>文では<span class="thesansmonocd_w5regular_">"Hello, world."</span>が一度だけ表示されます。<span class="thesansmonocd_w5regular_">while</span>文では<span class="thesansmonocd_w5regular_">"Hello, world."</span>が5回繰り返し表示されます。図3-1と図3-2のフローチャートを見比べてください。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1458" aria-label="51"></span>
-<figure class="img"><img class="img3" id="calibre_link-681" src="images/000085.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 3-1: The flowchart for the if statement code</span> Description</p></figcaption>
+<figure class="img"><img class="img3" id="calibre_link-681" src="images/000085.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 3-1：if文のコードのフローチャート</span></p></figcaption>
 </figure>
-<p class="tx">The code with the <span class="thesansmonocd_w5regular_">if</span> statement checks the condition, and it prints <span class="thesansmonocd_w5regular_">"Hello, world."</span> only once if that condition is true. The code with the <span class="thesansmonocd_w5regular_">while</span> loop, on the other hand, will print it five times. The loop stops after five prints because the integer in <span class="thesansmonocd_w5regular_">spam</span> increases by one at the end of each loop iteration, which means that the loop will execute five times before <span class="thesansmonocd_w5regular_">spam &lt; 5</span> is <span class="thesansmonocd_w5regular_">False</span>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">if</span>文のコードは条件を確認し、その条件が真であれば<span class="thesansmonocd_w5regular_">Hello, world.</span>を一度だけ表示します。<span class="thesansmonocd_w5regular_">while</span>ループのコードは5回表示します。<span class="thesansmonocd_w5regular_">spam</span>に格納される整数はループごとに1つずつ増えていきますから、5回繰り返したあとには<span class="thesansmonocd_w5regular_">spam &lt; 5</span>が<span class="thesansmonocd_w5regular_">False</span>になります。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1312" aria-label="52"></span>
-<figure class="img"><img class="img1" id="calibre_link-682" src="images/000086.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 3-2: The flowchart for the while statement code</span> Description</p></figcaption>
+<figure class="img"><img class="img1" id="calibre_link-682" src="images/000086.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 3-2：while文のコードのフローチャート</span></p></figcaption>
 </figure>
-<p class="tx">In the <span class="thesansmonocd_w5regular_">while</span> loop, the condition is always checked at the start of each <i class="calibre5">iteration</i> (that is, each time the loop is executed). If the condition is <span class="thesansmonocd_w5regular_">True</span>, then the clause is executed, and afterward, the condition is checked again. The first time the condition is found to be <span class="thesansmonocd_w5regular_">False</span>, the <span class="thesansmonocd_w5regular_">while</span> clause is skipped.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">while</span>ループでは条件が<i class="calibre5">反復（イテレーション）</i>ごとに判定されます。つまり、ループが実行されるごとに条件が判定されます。条件が<span class="thesansmonocd_w5regular_">True</span>であれば節が実行され、そのあとで条件が再び判定されます。条件が<span class="thesansmonocd_w5regular_">False</span>になると、<span class="thesansmonocd_w5regular_">while</span>節が飛ばされます。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-1459"><span id="calibre_link-62"></span><span class="sans_futura_std_heavy_oblique_bi_">An Annoying while Loop</span></h4>
-<p class="tni">Here’s a small example program that will keep asking you to type, literally, <span class="sans_thesansmonocd_w7bold_b_">your name</span>. Select <b class="calibre10">File</b><span class="listbullet_menuarrow"></span><b class="calibre10">New</b> to open a new file editor window, enter the following code, and save the file as <i class="calibre5">yourName.py</i>:</p>
+<h4 class="h1" id="calibre_link-1459"><span id="calibre_link-62"></span><span class="sans_futura_std_heavy_oblique_bi_">厄介なwhileループ</span></h4>
+<p class="tni">これは文字通りに<span class="sans_thesansmonocd_w7bold_b_">your name（あなたの名前）</span>の入力を求め続けるサンプルプログラムです。Muエディタの画面上部の<span class="listbullet_menuarrow">新規</span>ボタンを押し、以下のコードを入力して、<i class="calibre5">yourName.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">name = ''
 while name != 'your name':
     print('Please type your name.')
     name = input('&gt;')
 print('Thank you!')
 </code></pre>
-<p class="tx">First, the program sets the <span class="thesansmonocd_w5regular_">name</span> variable to an empty string. This is so that the <span class="thesansmonocd_w5regular_">name !=</span> <span class="thesansmonocd_w5regular_">'your name'</span> condition will evaluate to <span class="thesansmonocd_w5regular_">True</span> and the program execution will enter the <span class="thesansmonocd_w5regular_">while</span> loop’s clause.</p>
-<p class="tx">The code inside this clause asks the user to type their name, which is assigned to the <span class="thesansmonocd_w5regular_">name</span> variable. Since this is the last line of the block, the execution moves back to the start of the <span class="thesansmonocd_w5regular_">while</span> loop and reevaluates the condition. If the value in <span class="thesansmonocd_w5regular_">name</span> is <i class="calibre5">not</i> equal to the string <span class="thesansmonocd_w5regular_">'your name'</span>, the condition is <span class="thesansmonocd_w5regular_">True</span>, and the execution enters the <span class="thesansmonocd_w5regular_">while</span> clause again.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1460" aria-label="53"></span>But once the user literally enters <span class="thesansmonocd_w5regular_">your name</span>, the condition of the <span class="thesansmonocd_w5regular_">while</span> loop will be <span class="thesansmonocd_w5regular_">'your name' !=</span> <span class="thesansmonocd_w5regular_">'your name'</span>, which evaluates to <span class="thesansmonocd_w5regular_">False</span>. Now, instead of the program execution reentering the <span class="thesansmonocd_w5regular_">while</span> loop’s clause, Python skips past it and continues running the rest of the program. Figure 3-3 shows the flowchart for the <i class="calibre5">yourName.py</i> program.</p>
-<figure class="img"><img class="img3" id="calibre_link-685" src="images/000087.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 3-3: The flowchart for the</span> <span class="sans_futura_std_book_">yourName.py</span> <span class="sans_futura_std_book_oblique_i_">program</span> Description</p></figcaption>
+<p class="tx">このプログラムでは、まず、変数<span class="thesansmonocd_w5regular_">name</span>に空文字列を設定します。<span class="thesansmonocd_w5regular_">name !=</span> <span class="thesansmonocd_w5regular_">'your name'</span>の条件は<span class="thesansmonocd_w5regular_">True</span>ですから、<span class="thesansmonocd_w5regular_">while</span>ループ節を実行します。</p>
+<p class="tx">while節ではユーザーに名前の入力を求め、入力された値を変数<span class="thesansmonocd_w5regular_">name</span>に代入します。while節の最終行に達したので、ループの最初に戻り、条件を再評価します。<span class="thesansmonocd_w5regular_">name</span>の値が<span class="thesansmonocd_w5regular_">'your name'</span><i class="calibre5">でなければ</i>、条件は<span class="thesansmonocd_w5regular_">True</span>になり、<span class="thesansmonocd_w5regular_">while</span>節がもう一度実行されます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1460" aria-label="53"></span>ユーザーが<span class="thesansmonocd_w5regular_">your name</span>と入力すると、<span class="thesansmonocd_w5regular_">while</span>ループの条件が<span class="thesansmonocd_w5regular_">'your name' !=</span> <span class="thesansmonocd_w5regular_">'your name'</span>となり、<span class="thesansmonocd_w5regular_">False</span>に評価されます。<span class="thesansmonocd_w5regular_">while</span>ループ節を実行せず、残りのプログラムに進みます。図3-3は<i class="calibre5">yourName.py</i>プログラムのフローチャートです。</p>
+<figure class="img"><img class="img3" id="calibre_link-685" src="images/000087.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 3-3：</span> <span class="sans_futura_std_book_">yourName.py</span> <span class="sans_futura_std_book_oblique_i_">プログラムのフローチャート</span></p></figcaption>
 </figure>
-<p class="tx">Now let’s see <i class="calibre5">yourName.py</i> in action. Press F5 to run it, and enter something other than <span class="thesansmonocd_w5regular_">your name</span> a few times before you give the program what it wants:</p>
+<p class="tx"><i class="calibre5">yourName.py</i>を動かしてみましょう。F5キーを押すと実行できます。<span class="thesansmonocd_w5regular_">your name</span>以外の内容を何度か入力してから、最後に<span class="thesansmonocd_w5regular_">your name</span>と入力してみてください。</p>
 <pre class="pre"><code class="calibre9">Please type your name.
 &gt;<b class="calibre10">Al</b>
 Please type your name.
@@ -77,12 +76,12 @@ Please type your name.
 &gt;<b class="calibre10">your name</b>
 Thank you!
 </code></pre>
-<p class="tx">If you never enter <span class="thesansmonocd_w5regular_">your name</span>, then the <span class="thesansmonocd_w5regular_">while</span> loop’s condition will never be <span class="thesansmonocd_w5regular_">False</span>, and the program will just keep asking you the question forever. Here, the <span class="thesansmonocd_w5regular_">input()</span> call lets the user enter the right string to make the program move on. In other programs, the condition might never actually <span role="doc-pagebreak" type="pagebreak" id="calibre_link-979" aria-label="54"></span>change, and that can be a problem. Let’s look at how you can break out of a <span class="thesansmonocd_w5regular_">while</span> loop.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">your name</span>と入力しない限り、<span class="thesansmonocd_w5regular_">while</span>ループの条件は<span class="thesansmonocd_w5regular_">False</span>にならないので、永遠に入力を求められます。このプログラムでは、<span class="thesansmonocd_w5regular_">input()</span>関数の呼び出しに対して正しい文字列（your name）を入力すると、ループから抜け出せます。条件が常にTrueとなるループを作ってしまうことがあります。次は<span class="thesansmonocd_w5regular_">while</span>ループから抜け出す方法を見てみましょう。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-1461"><span id="calibre_link-63"></span><span class="sans_futura_std_heavy_oblique_bi_">break Statements</span></h4>
-<p class="tni">There is a shortcut to getting the program execution to break out of a <span class="thesansmonocd_w5regular_">while</span> loop’s clause early. If the execution reaches a <span class="thesansmonocd_w5regular_">break</span> statement, it immediately exits the <span class="thesansmonocd_w5regular_">while</span> loop’s clause. In code, a <span class="thesansmonocd_w5regular_">break</span> statement simply contains the <span class="thesansmonocd_w5regular_">break</span> keyword.</p>
-<p class="tx">Here’s a program that does the same thing as the previous <i class="calibre5">yourName.py</i> program but uses a <span class="thesansmonocd_w5regular_">break</span> statement to escape the loop. Enter the following code, and save the file as <i class="calibre5">yourName2.py</i>:</p>
+<h4 class="h1" id="calibre_link-1461"><span id="calibre_link-63"></span><span class="sans_futura_std_heavy_oblique_bi_">break文</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">while</span>ループ節から抜け出す方法があります。<span class="thesansmonocd_w5regular_">break</span>文を実行すると、<span class="thesansmonocd_w5regular_">while</span>ループ節から抜けます。<span class="thesansmonocd_w5regular_">break</span>文は<span class="thesansmonocd_w5regular_">break</span>というキーワードだけから成り立ちます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">break</span>文を使って先ほどの <i class="calibre5">yourName.py</i>プログラムと同じ動作をするプログラムです。次のコードを<i class="calibre5">yourName2.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">while True:
     print('Please type your name.')
     name = input('&gt;')
@@ -90,26 +89,26 @@ Thank you!
         break
 print('Thank you!')
 </code></pre>
-<p class="tx">The first line creates an <i class="calibre5">infinite loop</i>; it is a <span class="thesansmonocd_w5regular_">while</span> loop whose condition is always <span class="thesansmonocd_w5regular_">True</span>. (The expression <span class="thesansmonocd_w5regular_">True</span>, after all, always evaluates to the value <span class="thesansmonocd_w5regular_">True</span>.) After the program execution enters this loop, it will exit the loop only when a <span class="thesansmonocd_w5regular_">break</span> statement is executed. (An infinite loop that <i class="calibre5">never</i> exits is a common programming bug.)</p>
-<p class="tx">Just like before, this program asks the user to enter <span class="thesansmonocd_w5regular_">your name</span>. Now, however, while the execution is still inside the <span class="thesansmonocd_w5regular_">while</span> loop, an <span class="thesansmonocd_w5regular_">if</span> statement checks whether <span class="thesansmonocd_w5regular_">name</span> is equal to <span class="thesansmonocd_w5regular_">'your name'</span>. If this condition is <span class="thesansmonocd_w5regular_">True</span>, the <span class="thesansmonocd_w5regular_">break</span> statement is run, and the execution moves out of the loop to <span class="thesansmonocd_w5regular_">print('Thank you!')</span>. Otherwise, the <span class="thesansmonocd_w5regular_">if</span> statement clause that contains the <span class="thesansmonocd_w5regular_">break</span> statement is skipped, which puts the execution at the end of the <span class="thesansmonocd_w5regular_">while</span> loop. At this point, the program execution jumps back to the start of the <span class="thesansmonocd_w5regular_">while</span> statement to recheck the condition. Since this condition is merely the <span class="thesansmonocd_w5regular_">True</span> Boolean value, the execution enters the loop to ask the user to enter <span class="thesansmonocd_w5regular_">your name</span> again. See Figure 3-4 for this program’s flowchart.</p>
+<p class="tx">1行目で<i class="calibre5">無限ループ</i>を作っています。条件が常に<span class="thesansmonocd_w5regular_">True</span>になる<span class="thesansmonocd_w5regular_">while</span> ループです。（<span class="thesansmonocd_w5regular_">True</span>は常に<span class="thesansmonocd_w5regular_">True</span>に評価されます。）このループから抜け出すには、<span class="thesansmonocd_w5regular_">break</span>文の実行が必要です。（抜け道のない無限ループというバグを作ってしまうことがよくあります。）</p>
+<p class="tx">先のプログラムと同様に、ユーザーに<span class="thesansmonocd_w5regular_">your name</span>の入力を求めます。今回は<span class="thesansmonocd_w5regular_">while</span>ループの中で<span class="thesansmonocd_w5regular_">if</span>文を使い、<span class="thesansmonocd_w5regular_">name</span>が<span class="thesansmonocd_w5regular_">'your name'</span>に等しいかどうかを確認しています。その条件が<span class="thesansmonocd_w5regular_">True</span>になれば、<span class="thesansmonocd_w5regular_">break</span>文を実行します。そして、ループから出て、<span class="thesansmonocd_w5regular_">print('Thank you!')</span> を実行します。それ以外の場合は、<span class="thesansmonocd_w5regular_">break</span>文を含む<span class="thesansmonocd_w5regular_">if</span>節は飛ばされ、<span class="thesansmonocd_w5regular_">while</span>ループの最後に到達します。ここまで来たら、<span class="thesansmonocd_w5regular_">while</span>文の最初に戻り、条件を再確認します。whileループの条件は<span class="thesansmonocd_w5regular_">True</span>というブール値ですから、ループの中に入り、もう一度<span class="thesansmonocd_w5regular_">your name</span>の入力をユーザーに求めます。図3-4はこのプログラムのフローチャートです。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1051" aria-label="55"></span>
-<figure class="img"><img class="img3" id="calibre_link-687" src="images/000088.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 3-4: The flowchart for the</span> <span class="sans_futura_std_book_">yourName2.py</span> <span class="sans_futura_std_book_oblique_i_">program with an infinite loop. Note that the X path will logically never happen, because the loop condition is always</span> <span class="sans_thesansmonocd_w5regular_italic_">True</span><span class="sans_futura_std_book_oblique_i_">.</span> Description</p></figcaption>
+<figure class="img"><img class="img3" id="calibre_link-687" src="images/000088.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 3-4：無限ループの</span><span class="sans_futura_std_book_">yourName2.py</span><span class="sans_futura_std_book_oblique_i_">プログラムのフローチャート。ループの条件が常に</span><span class="sans_thesansmonocd_w5regular_italic_">True</span><span class="sans_futura_std_book_oblique_i_">ですから、X印の経路をたどることは絶対にありません。</span></p></figcaption>
 </figure>
-<p class="tx">Run <i class="calibre5">yourName2.py</i>, and enter the same text you entered for <i class="calibre5">yourName.py</i>. The rewritten program should respond in the same way as the original.</p>
+<p class="tx"><i class="calibre5">yourName2.py</i>を実行して、<i class="calibre5">yourName.py</i>を実行したときと同じように試してみてください。どちらも同じように動作するはずです。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-1462"><span id="calibre_link-64"></span><span class="sans_futura_std_heavy_oblique_bi_">continue Statements</span></h4>
-<p class="tni">Like <span class="thesansmonocd_w5regular_">break</span> statements, we use <span class="thesansmonocd_w5regular_">continue</span> statements inside loops. When the program execution reaches a <span class="thesansmonocd_w5regular_">continue</span> statement, the program execution immediately jumps back to the start of the loop and reevaluates the loop’s condition. (This is also what happens when the execution reaches the end of the loop.)</p>
+<h4 class="h1" id="calibre_link-1462"><span id="calibre_link-64"></span><span class="sans_futura_std_heavy_oblique_bi_">continue文</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">break</span>文と同じように、<span class="thesansmonocd_w5regular_">continue</span>文はループの中で使います。<span class="thesansmonocd_w5regular_">continue</span>文を実行すると、ループの最初に戻り、ループの条件を再評価します。（ループの最後まで到達したときの動作と同じです。）</p>
 <aside class="box" aria-label="box-6">
-<p class="bt" id="calibre_link-1463"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1194" aria-label="56"></span><span class="sans_futura_std_bold_b_">TRAPPED IN AN INFINITE LOOP?</span></p>
-<p class="btni"><span class="sans_futura_std_book_">If you ever run a program that has a bug causing it to get stuck in an infinite loop, press CTRL-C. This will send a</span> <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> <span class="sans_futura_std_book_">error to your program and cause it to stop immediately. You can also click the Stop button at the top of the Mu window. Try stopping a program by creating a simple infinite loop in the file editor, and save the program as</span> <span class="sans_futura_std_book_oblique_i_">infiniteLoop.py</span><span class="sans_futura_std_book_">. If you are running the program from Mu, you can also click the Stop button:</span></p>
+<p class="bt" id="calibre_link-1463"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1194" aria-label="56"></span><span class="sans_futura_std_bold_b_">無限ループに陥ったら</span></p>
+<p class="btni"><span class="sans_futura_std_book_">無限ループに陥ったらCTRL-Cを押してください。</span><span class="thesansmonocd_w5regular_">KeyboardInterrupt</span><span class="sans_futura_std_book_">エラーが送出され、プログラムが直ちに停止します。Muウィンドウの上部にある停止ボタンをクリックしても構いません。単純な無限ループを作って</span><span class="sans_futura_std_book_oblique_i_">infiniteLoop.py</span>という名前で保存し、プログラムの停止を試してみてください。<span class="sans_futura_std_book_">Muからプログラムを実行している場合は、停止ボタンを押すこともできます。</p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">while True:</span>
     print('Hello, world!')
 </code></pre>
-<p class="boxb-last"><span class="sans_futura_std_book_">When you run this program, it will print</span> <span class="thesansmonocd_w5regular_">Hello, world!</span> <span class="sans_futura_std_book_">to the screen forever because the</span> <span class="thesansmonocd_w5regular_">while</span> <span class="sans_futura_std_book_">statement’s condition is always</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">. CTRL-C is also handy if you want to simply terminate your program immediately, even if it’s not stuck in an infinite loop.</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">このプログラムを実行すると、</span><span class="thesansmonocd_w5regular_">Hello, world!</span><span class="sans_futura_std_book_">が画面に表示され続けます。</span><span class="thesansmonocd_w5regular_">while</span><span class="sans_futura_std_book_">文の条件が常に</span><span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">だからです。CTRL-C は無限ループだけでなく直ちにプログラムを停止したいときによく使います。</p>
 </aside>
-<p class="tx">Let’s use <span class="thesansmonocd_w5regular_">continue</span> to write a program that asks for a name and password. Enter the following code into a new file editor window and save the program as <i class="calibre5">swordfish.py</i>:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">continue</span>を使い、名前とパスワードを尋ねるプログラムを書いてみましょう。以下のコードを<i class="calibre5">swordfish.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">while True:
     print('Who are you?')
     name = input('&gt;')
@@ -121,12 +120,12 @@ print('Thank you!')
         <span class="code_codeannotation" aria-label="annotation4">❹</span> break
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> print('Access granted.')   
 </code></pre>
-<p class="tx">If the user enters any name besides <span class="thesansmonocd_w5regular_">Joe</span> <span class="codeannotation" aria-label="annotation1">❶</span>, the <span class="thesansmonocd_w5regular_">continue</span> statement <span class="codeannotation" aria-label="annotation2">❷</span> causes the program execution to jump back to the start of the loop. When the program reevaluates the condition, the execution will always enter the loop, because the condition is simply the value <span class="thesansmonocd_w5regular_">True</span>. Once the user makes it past that <span class="thesansmonocd_w5regular_">if</span> statement, they are asked for a password <span class="codeannotation" aria-label="annotation3">❸</span>. If the password entered is <span class="thesansmonocd_w5regular_">swordfish</span>, the <span class="thesansmonocd_w5regular_">break</span> statement <span class="codeannotation" aria-label="annotation4">❹</span> is run, and the execution jumps out of the <span class="thesansmonocd_w5regular_">while</span> loop to print <span class="thesansmonocd_w5regular_">Access granted.</span> <span class="codeannotation" aria-label="annotation5">❺</span> Otherwise, the execution continues to the end of the <span class="thesansmonocd_w5regular_">while</span> loop, where it then jumps back to the start of the loop. See Figure 3-5 for this program’s flowchart.</p>
+<p class="tx">ユーザーが<span class="thesansmonocd_w5regular_">Joe</span>以外の名前を入力すると（<span class="codeannotation" aria-label="annotation1">➊</span>）、<span class="thesansmonocd_w5regular_">continue</span>文（<span class="codeannotation" aria-label="annotation2">➋</span>）によりループの最初に戻ります。条件を再評価し、値が<span class="thesansmonocd_w5regular_">True</span>なので、ループの中に入ります。（ユーザーが<span class="thesansmonocd_w5regular_">Joe</span>という名前を入力して）<span class="thesansmonocd_w5regular_">if</span>文を突破すると、パスワードの入力が求められます（<span class="codeannotation" aria-label="annotation3">➌</span>）。<span class="thesansmonocd_w5regular_">swordfish</span>というパスワードが入力されると、<span class="thesansmonocd_w5regular_">break</span>文（<span class="codeannotation" aria-label="annotation4">➍</span>）が実行され、<span class="thesansmonocd_w5regular_">while</span>ループを抜けて、<span class="thesansmonocd_w5regular_">Access granted</span>と表示されます（<span class="codeannotation" aria-label="annotation5">➎</span>）。それ以外のパスワードが入力されると、<span class="thesansmonocd_w5regular_">while</span>ループの最後に到達し、ループの最初に戻ります。図3-5&lt;はこのプログラムのフローチャートです。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1464" aria-label="57"></span>
-<figure class="img"><img class="img1" id="calibre_link-689" src="images/000089.jpg" alt="A flowchart that connects boxes with branching paths labeled “True” and “False.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 3-5: The flowchart for the</span> <span class="sans_futura_std_book_">swordfish.py</span> <span class="sans_futura_std_book_oblique_i_">program. The X path will logically never happen, because the loop condition is always</span> <span class="sans_thesansmonocd_w5regular_italic_">True</span><span class="sans_futura_std_book_oblique_i_">.</span> Description</p></figcaption>
+<figure class="img"><img class="img1" id="calibre_link-689" src="images/000089.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 3-5：</span><span class="sans_futura_std_book_">swordfish.py</span> <span class="sans_futura_std_book_oblique_i_">プログラムのフローチャート。ループの条件は常に</span><span class="sans_thesansmonocd_w5regular_italic_">True</span><span class="sans_futura_std_book_oblique_i_">ですから、X印の経路をたどることは絶対にありません。</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-975" aria-label="58"></span>Run this program and give it some input. Until you claim to be Joe, the program shouldn’t ask for a password, and once you enter the correct password, it should exit:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-975" aria-label="58"></span>このプログラムを実行して、入力を試してみてください。Joeと入力するまで、プログラムはパスワードの入力を求めることはありません。正しいパスワードを入力すると、プログラムは終了します。</p>
 <pre class="pre"><code class="calibre9">Who are you?
 &gt;<b class="calibre10">I'm fine, thanks. Who are you?</b>
 Who are you?
@@ -140,8 +139,8 @@ Hello, Joe. What is the password? (It is a fish.)
 Access granted.
 </code></pre>
 <aside class="box" aria-label="box-7">
-<p class="bt" id="calibre_link-1465"><span class="sans_futura_std_bold_b_">“TRUTHY” AND “FALSEY” VALUES AND THE BOOL() FUNCTION</span></p>
-<p class="btni"><span class="sans_futura_std_book_">Conditions will consider some values in other data types equivalent to</span> <span class="thesansmonocd_w5regular_">True</span> <span class="sans_futura_std_book_">or</span> <span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">. When used in conditions,</span> <span class="thesansmonocd_w5regular_">0</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">0.0</span><span class="sans_futura_std_book_">, and</span> <span class="thesansmonocd_w5regular_">''</span> <span class="sans_futura_std_book_">(the empty string) are considered</span> <span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">, while all other values are considered</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">. For example, look at the following program:</span></p>
+<p class="bt" id="calibre_link-1465"><span class="sans_futura_std_bold_b_">真っぽい値と偽っぽい値</span></p>
+<p class="btni"><span class="sans_futura_std_book_">条件では、ブール型以外のデータ型の値が</span><span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">または</span><span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">と判定されます。条件では、</span><span class="thesansmonocd_w5regular_">0</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">0.0</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">''</span><span class="sans_futura_std_book_">（空文字列）は</span><span class="thesansmonocd_w5regular_">False</span><span class="sans_futura_std_book_">だと判定され、その他の値は</span><span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">だと判定されます。以下の例を見てください。</span></p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">name = ''</span>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> while not name:
     print('Enter your name:')
@@ -152,9 +151,9 @@ num_of_guests = int(input('&gt;'))
     <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> print('Be sure to have enough room for all your guests.')
 print('Done')
 </code></pre>
-<p class="boxb-last"><span class="sans_futura_std_book_">If the user enters a blank string for</span> <span class="thesansmonocd_w5regular_">name</span><span class="sans_futura_std_book_">, the</span> <span class="thesansmonocd_w5regular_">while</span> <span class="sans_futura_std_book_">statement’s condition will be</span> <span class="thesansmonocd_w5regular_">True</span> <span class="codeannotation" aria-label="annotation1">❶</span><span class="sans_futura_std_book_">, and the program will continue to ask for a name. If the value for</span> <span class="thesansmonocd_w5regular_">num_of_guests</span> <span class="sans_futura_std_book_">is not 0</span> <span class="codeannotation" aria-label="annotation2">❷</span><span class="sans_futura_std_book_">, the condition is considered to be</span> <span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">, and the program will print a reminder for the user</span> <span class="codeannotation" aria-label="annotation3">❸</span><span class="sans_futura_std_book_">.</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">You could have entered</span> <span class="thesansmonocd_w5regular_">not name !=</span> <span class="thesansmonocd_w5regular_">''</span> <span class="sans_futura_std_book_">instead of</span> <span class="thesansmonocd_w5regular_">not name</span><span class="sans_futura_std_book_">, and</span> <span class="thesansmonocd_w5regular_">num_of_guests !=</span> <span class="thesansmonocd_w5regular_">0</span> <span class="sans_futura_std_book_">instead of</span> <span class="thesansmonocd_w5regular_">num_of_guests</span><span class="sans_futura_std_book_">, but using the truthy and falsey values can make your code easier to read.</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">If you want to know if a value is truthy or falsey, pass it to the</span> <span class="thesansmonocd_w5regular_">bool()</span> <span class="sans_futura_std_book_">function as in this interactive shell example:</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">ユーザーが</span><span class="thesansmonocd_w5regular_">name</span><span class="sans_futura_std_book_">に空白文字列を入力すると、</span><span class="thesansmonocd_w5regular_">while</span><span class="sans_futura_std_book_">文の条件が</span><span class="thesansmonocd_w5regular_">True</span>になり（<span class="codeannotation" aria-label="annotation1">➊</span><span class="sans_futura_std_book_">）、プログラムは名前の入力を求め続けます。</span><span class="thesansmonocd_w5regular_">num_of_guests</span><span class="sans_futura_std_book_">の値が0でなければ（</span><span class="codeannotation" aria-label="annotation2">➋</span><span class="sans_futura_std_book_">）、条件が</span><span class="thesansmonocd_w5regular_">True</span><span class="sans_futura_std_book_">になり、リマインダを表示します（</span><span class="codeannotation" aria-label="annotation3">➌</span><span class="sans_futura_std_book_">）。</span></p>
+<p class="boxb-last"><span class="thesansmonocd_w5regular_">not name</span><span class="sans_futura_std_book_">の代わりに</span><span class="thesansmonocd_w5regular_">not name !=</span> <span class="thesansmonocd_w5regular_">''</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">num_of_guests</span><span class="thesansmonocd_w5regular_">の代わりに</span><span class="thesansmonocd_w5regular_">num_of_guests !=</span> <span class="thesansmonocd_w5regular_">0</span><span class="sans_futura_std_book_">と書くこともできますが、真っぽい値や偽っぽい値を使うとコードが読みやすくなります。</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">ある値が真っぽい値か偽っぽい値かを知りたければ、</span><span class="thesansmonocd_w5regular_">bool()</span><span class="sans_futura_std_book_">関数に渡してください。以下に例を示します。</span></p>
 <pre class="pre"><code class="calibre9"><span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span> <b class="calibre10">bool(0)</b>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1158" aria-label="59"></span>False
 &gt;&gt;&gt; <b class="calibre10">bool(42)</b>
@@ -168,29 +167,29 @@ False
 </section>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h3 class="h" id="calibre_link-1466"><span id="calibre_link-65"></span><span class="sans_futura_std_bold_b_">for Loops and the range() Function</span></h3>
-<p class="tni">The <span class="thesansmonocd_w5regular_">while</span> loop keeps looping while its condition is <span class="thesansmonocd_w5regular_">True</span> (which is the reason for its name), but what if you want to execute a block of code only a certain number of times? You can do this with a <span class="thesansmonocd_w5regular_">for</span> loop statement and the <span class="thesansmonocd_w5regular_">range()</span> function.</p>
-<p class="tx">In code, a <span class="thesansmonocd_w5regular_">for</span> statement looks something like <span class="thesansmonocd_w5regular_">for i in range(5):</span> and includes the following:</p>
+<h3 class="h" id="calibre_link-1466"><span id="calibre_link-65"></span><span class="sans_futura_std_bold_b_">forループとrange()関数</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">while</span>ループでは条件が<span class="thesansmonocd_w5regular_">True</span>である間はループの実行を繰り返しますが、コードブロックを一定回数実行したいときにはどうすればよいでしょうか。<span class="thesansmonocd_w5regular_">for</span>ループ文と<span class="thesansmonocd_w5regular_">range()</span>関数を使います。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>文は<span class="thesansmonocd_w5regular_">for i in range(5):</span>のような形で使います。</p>
 <ul class="ul">
-<li class="bl">The <span class="thesansmonocd_w5regular_">for</span> keyword</li>
-<li class="bl">A variable name</li>
-<li class="bl">The <span class="thesansmonocd_w5regular_">in</span> keyword</li>
-<li class="bl">A call to the <span class="thesansmonocd_w5regular_">range()</span> function with up to three integers passed to it</li>
-<li class="bl">A colon</li>
-<li class="bl">Starting on the next line, an indented block of code (called the <span class="thesansmonocd_w5regular_">for</span> clause or <span class="thesansmonocd_w5regular_">for</span> block)</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">for</span>というキーワード</li>
+<li class="bl">変数名</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">in</span>というキーワード</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">range()</span>関数の呼び出し（最大3つの引数）</li>
+<li class="bl">コロン</li>
+<li class="bl">インデントされたコードブロック（<span class="thesansmonocd_w5regular_">for</span>節または<span class="thesansmonocd_w5regular_">for</span>ブロックと呼ばれます）</li>
 </ul>
-<p class="tx">Let’s create a new program called <i class="calibre5">fiveTimes.py</i> to help you see a <span class="thesansmonocd_w5regular_">for</span> loop in action:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループの動作を確認するために新しいプログラムを書いて、<i class="calibre5">fiveTimes.py</i>という新しい名前で保存します。</p>
 <pre class="pre"><code class="calibre9">print('Hello!')
 for i in range(5):
     print('On this iteration, i is set to ' + str(i))
 print('Goodbye!')
 </code></pre>
-<p class="tx">The code in the <span class="thesansmonocd_w5regular_">for</span> loop’s clause is run five times. The first time it is run, the variable <span class="thesansmonocd_w5regular_">i</span> is set to <span class="thesansmonocd_w5regular_">0</span>. The <span class="thesansmonocd_w5regular_">print()</span> call in the clause will print <span class="thesansmonocd_w5regular_">On this iteration, i is set to 0</span>. After Python finishes an iteration through all the code inside the <span class="thesansmonocd_w5regular_">for</span> loop’s clause, the execution goes back to the top of the loop, and the <span class="thesansmonocd_w5regular_">for</span> statement increments <span class="thesansmonocd_w5regular_">i</span> by one. This is why <span class="thesansmonocd_w5regular_">range(5)</span> results in five iterations through the clause, with <span class="thesansmonocd_w5regular_">i</span> being set to <span class="thesansmonocd_w5regular_">0</span>, then <span class="thesansmonocd_w5regular_">1</span>, then <span class="thesansmonocd_w5regular_">2</span>, then <span class="thesansmonocd_w5regular_">3</span>, and then <span class="thesansmonocd_w5regular_">4</span>. The variable <span class="thesansmonocd_w5regular_">i</span> will go up to, but will not include, the integer passed to <span class="thesansmonocd_w5regular_">range()</span>. Figure 3-6 shows the flowchart for the <i class="calibre5">fiveTimes.py</i> program.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループの節が5回実行されます。1回目の実行時には、変数<span class="thesansmonocd_w5regular_">i</span>に<span class="thesansmonocd_w5regular_">0</span>が設定されます。ループ節で<span class="thesansmonocd_w5regular_">print()</span>関数を呼び出し、<span class="thesansmonocd_w5regular_">On this iteration, i is set to 0</span>を表示します。<span class="thesansmonocd_w5regular_">for</span>ループ節の実行を終えるとループの最初に戻り、<span class="thesansmonocd_w5regular_">for</span>文の<span class="thesansmonocd_w5regular_">i</span>を1増加させます。このようにして<span class="thesansmonocd_w5regular_">range(5)</span>が節の実行を5回繰り返します。<span class="thesansmonocd_w5regular_">i</span>が<span class="thesansmonocd_w5regular_">0</span>、<span class="thesansmonocd_w5regular_">1</span>、<span class="thesansmonocd_w5regular_">2</span>、<span class="thesansmonocd_w5regular_">3</span>、<span class="thesansmonocd_w5regular_">4</span>と増えていきます。変数<span class="thesansmonocd_w5regular_">i</span>は、<span class="thesansmonocd_w5regular_">range()</span>関数に渡された整数まで増加していきます（その整数は含みません）。図3-6は<i class="calibre5">fiveTimes.py</i>プログラムのフローチャートです。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1171" aria-label="60"></span>
-<figure class="img"><img class="img3" id="calibre_link-691" src="images/000090.jpg" alt="A flowchart that connects boxes with branching paths labeled “Looping” and “Done looping.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 3-6: The flowchart for the</span> <span class="sans_futura_std_book_">fiveTimes.py</span> <span class="sans_futura_std_book_oblique_i_">program</span> Description</p></figcaption>
+<figure class="img"><img class="img3" id="calibre_link-691" src="images/000090.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 3-6：</span><span class="sans_futura_std_book_">fiveTimes.py</span><span class="sans_futura_std_book_oblique_i_">プログラムのフローチャート</span></p></figcaption>
 </figure>
-<p class="tx">Here is the complete output of the program:</p>
+<p class="tx">プログラムの出力はこのようになります。</p>
 <pre class="pre"><code class="calibre9">Hello!
 On this iteration, i is set to 0
 On this iteration, i is set to 1
@@ -200,23 +199,23 @@ On this iteration, i is set to 4
 
 Goodbye!
 </code></pre>
-<p class="tx">You can use <span class="thesansmonocd_w5regular_">break</span> and <span class="thesansmonocd_w5regular_">continue</span> statements inside <span class="thesansmonocd_w5regular_">for</span> loops as well. The <span class="thesansmonocd_w5regular_">continue</span> statement will continue to the next value of the <span class="thesansmonocd_w5regular_">for</span> loop’s counter, as if the program execution had reached the end of the loop and returned to the start. In fact, you can use <span class="thesansmonocd_w5regular_">continue</span> and <span class="thesansmonocd_w5regular_">break</span> statements only inside <span class="thesansmonocd_w5regular_">while</span> and <span class="thesansmonocd_w5regular_">for</span> loops. If you try to use these statements elsewhere, Python will give you an error.</p>
-<p class="tx">As another <span class="thesansmonocd_w5regular_">for</span> loop example, consider this story about the mathematician Carl Friedrich Gauss. When Gauss was a boy, a teacher wanted to give the class some busywork. The teacher told them to add up all the numbers from 0 to 100. Young Gauss came up with a clever trick to figure out the answer in a few seconds, but you can write a Python program with a <span class="thesansmonocd_w5regular_">for</span> loop to do this calculation for you:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループでも<span class="thesansmonocd_w5regular_">break</span>文と<span class="thesansmonocd_w5regular_">continue</span>文を使うことができます。<span class="thesansmonocd_w5regular_">continue</span>文は<span class="thesansmonocd_w5regular_">for</span>ループのカウンターを次の数に進めて実行を続けます。ループの最後に到達してループの最初に戻るのと同じ要領です。<span class="thesansmonocd_w5regular_">continue</span>文と<span class="thesansmonocd_w5regular_">break</span>文を使えるのは、<span class="thesansmonocd_w5regular_">while</span>ループと<span class="thesansmonocd_w5regular_">for</span>ループの中だけです。それ以外の場所で使おうとしたら、エラーが発生します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループの別の例を見てみましょう。数学者ガウスの逸話をもとにしています。ガウスは少年時代に先生から手間のかかる問題を出されました。0から100までを全部足すという問題です。ガウスは賢い方法を思いついて数秒で答えを出しましたが、<span class="thesansmonocd_w5regular_">for</span>ループを使って（愚直に）その計算をするプログラムを書けます。</p>
 <pre class="pre"><code class="calibre9">total = 0
 for num in range(101):
     total = total + num
 print(total)  
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1026" aria-label="61"></span>The result should be 5,050. When the program first starts, the <span class="thesansmonocd_w5regular_">total</span> variable is set to <span class="thesansmonocd_w5regular_">0</span>. The <span class="thesansmonocd_w5regular_">for</span> loop then executes <span class="thesansmonocd_w5regular_">total</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">total</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">num</span> 101 times, each time with an incremented <span class="thesansmonocd_w5regular_">num</span> variable. By the time the loop has finished all of its 101 iterations, every integer from <span class="thesansmonocd_w5regular_">0</span> to <span class="thesansmonocd_w5regular_">100</span> will have been added to <span class="thesansmonocd_w5regular_">total</span>. At this point, <span class="thesansmonocd_w5regular_">total</span> is printed to the screen. Even on the slowest computers, this program takes less than a second to complete.</p>
-<p class="tx">(Young Gauss figured out a way to solve the problem in seconds. There are 50 pairs of numbers that add up to 101: 1 + 100, 2 + 99, 3 + 98, and so on, until 50 + 51. Since 50 × 101 is 5,050, the sum of all the numbers from 0 to 100 is 5,050. Clever kid!)</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1026" aria-label="61"></span>答えは5,050になるはずです。プログラムの実行開始時に変数<span class="thesansmonocd_w5regular_">total</span>の値を<span class="thesansmonocd_w5regular_">0</span>に設定します。<span class="thesansmonocd_w5regular_">for</span>ループで、<span class="thesansmonocd_w5regular_">total</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">total</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">num</span>を101回実行します。毎回変数<span class="thesansmonocd_w5regular_">num</span>の値が1ずつ増えていきます。<span class="thesansmonocd_w5regular_">0</span>から<span class="thesansmonocd_w5regular_">100</span>まで101回繰り返して<span class="thesansmonocd_w5regular_">total</span>で合計を得ます。<span class="thesansmonocd_w5regular_">total</span>を画面に表示します。非常に遅いコンピュータでも、これくらいのプログラムでしたら1秒もかからないでしょう。</p>
+<p class="tx">（ガウス少年は数秒でこの問題を解く方法を見つけました。1 + 100, 2 + 99, 3 + 98…50 + 51と、合計すると101になるペアが50組あります。50 × 101は5,050ですから、0から100までの合計は5,050です。賢い子どもです。）</p>
 <aside class="box" aria-label="box-8">
-<p class="bt" id="calibre_link-1467"><span class="sans_futura_std_bold_b_">WHY “UP TO BUT NOT INCLUDING”?</span></p>
-<p class="btni"><span class="sans_futura_std_book_">It may seem strange that the</span> <span class="thesansmonocd_w5regular_">range()</span> <span class="sans_futura_std_book_">function in</span> <span class="thesansmonocd_w5regular_">for</span> <span class="sans_futura_std_book_">loops has you specify the number that the loop goes up to, minus one. In programming, ranges are often specified in a “closed, open” format that includes the starting number but excludes the ending number. For example, the range 0, 10 would include the numbers 0 to 9 instead of 0 to 10. There are many advantages of using “closed, open” instead of “closed, closed” that lead to fewer bugs. Calculating the size of the range is just a matter of subtracting the starting number from the ending number. The 0, 10 range (which has the numbers 0 to 9 instead of 0 to 10) has 10 – 0 or 10 numbers. With a “closed, closed” range of 0, 9, you have to calculate the length as 9 – 0 + 1. (And it’s easy to mistakenly do</span> <span class="sans_futura_std_book_oblique_i_">off-by-one</span> <span class="sans_futura_std_book_">errors like 9 – 0 – 1.) The start of the next range 10, 20 is just a matter of using the previous ending number as the new starting number.</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">For programs that deal with timestamps, the “closed, open” range of 00:00:00, 24:00:00.0 is much easier to work with than the “closed, closed” range of 00:00:00, 23:59:59.999. “Closed, open” ranges may seem odd at first, but they’ll become second nature as you get more experience writing code.</span></p>
+<p class="bt" id="calibre_link-1467"><span class="sans_futura_std_bold_b_">なぜその数値までであってその数値を含まないのか</span></p>
+<p class="btni"><span class="thesansmonocd_w5regular_">for</span><span class="sans_futura_std_book_">ループの</span><span class="thesansmonocd_w5regular_">range()</span><span class="sans_futura_std_book_">関数で指定した数値よりも1小さい数までしかループしないのが奇妙に思われるかもしれません。プログラミングでは、「閉区間、開区間」形式で範囲を指定する場合が多いです。開始点は含みますが、終了点は含みません。例えば、0, 10の範囲だと、0は含みますが10は含みません。「閉区間、閉区間」形式ではなく「閉区間、開区間」形式を採用することには、バグを抑える利点があります。その範囲の大きさを計算するときに、終了点から開始点を単純に引き算できます。0, 10の範囲（10は含まず9までです）には、 10 – 0で10の数値があると計算できます。0, 9の「閉区間、閉区間」形式だと、9 – 0 + 1で計算しなければなりません（1を引くという間違いを犯しがちです）。次の範囲は、10, 20のように、前の範囲の終了点の数値を次の範囲の開始点の数値に指定できます。</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">タイムスタンプを扱うプログラムでは、 00:00:00, 24:00:00.0のような「閉区間、開区間」形式のほうが、00:00:00, 23:59:59.999のような「閉区間、閉区間」形式よりも、圧倒的に扱いやすいです。最初は「閉区間、開区間」形式が奇妙に思われるかもしれませんが、コードを書く経験を積めば自然に思えてきます。</span></p>
 </aside>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-1468"><span id="calibre_link-66"></span><span class="sans_futura_std_heavy_oblique_bi_">An Equivalent while Loop</span></h4>
-<p class="tni">You can actually use a <span class="thesansmonocd_w5regular_">while</span> loop to do the same thing as a <span class="thesansmonocd_w5regular_">for</span> loop; <span class="thesansmonocd_w5regular_">for</span> loops are just more concise. Let’s rewrite <i class="calibre5">fiveTimes.py</i> to use a <span class="thesansmonocd_w5regular_">while</span> loop equivalent of a <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<h4 class="h1" id="calibre_link-1468"><span id="calibre_link-66"></span><span class="sans_futura_std_heavy_oblique_bi_">whileループで同じことをする</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">for</span>ループと同じことを<span class="thesansmonocd_w5regular_">while</span>ループでもできますが、<span class="thesansmonocd_w5regular_">for</span>ループのほうが簡潔です。<span class="thesansmonocd_w5regular_">for</span>の<i class="calibre5">fiveTimes.py</i>を<span class="thesansmonocd_w5regular_">while</span>ループで書き直してみましょう。</p>
 <pre class="pre"><code class="calibre9">print('Hello!')
 i = 0
 while i &lt; 5:
@@ -224,36 +223,36 @@ while i &lt; 5:
     i = i + 1
 print('Goodbye!')
 </code></pre>
-<p class="tx">If you run this program, the output should look the same as the <i class="calibre5">fiveTimes.py</i> program, which uses a <span class="thesansmonocd_w5regular_">for</span> loop. Remember that <span class="thesansmonocd_w5regular_">for</span> loops are <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1281" aria-label="62"></span>useful for looping a specific number of times, and <span class="thesansmonocd_w5regular_">while</span> loops are useful for looping as long as a particular condition is true.</p>
+<p class="tx">プログラムを実行したときの出力は<span class="thesansmonocd_w5regular_">for</span>ループを使った<i class="calibre5">fiveTimes.py</i>と同じです。<span class="thesansmonocd_w5regular_">for</span>ループは回数を指定してループさせるときに便利で、<span class="thesansmonocd_w5regular_">while</span>ループは特定の条件が満たされる限りループさせるときに便利です。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h4 class="h1" id="calibre_link-1469"><span id="calibre_link-67"></span><span class="sans_futura_std_heavy_oblique_bi_">Arguments to range()</span></h4>
-<p class="tni">Some functions can be called with multiple arguments separated by a comma, and <span class="thesansmonocd_w5regular_">range()</span> is one of them. This lets you change the integer passed to <span class="thesansmonocd_w5regular_">range()</span> to follow any sequence of integers, including starting at a number other than zero:</p>
+<h4 class="h1" id="calibre_link-1469"><span id="calibre_link-67"></span><span class="sans_futura_std_heavy_oblique_bi_">range()関数の引数</span></h4>
+<p class="tni">カンマ区切りで複数の引数を取れる関数があります。<span class="thesansmonocd_w5regular_">range()</span>関数がそうです。<span class="thesansmonocd_w5regular_">range()</span>関数に引数を渡すことで、ゼロ以外の数字から連続する整数を得ることができます。</p>
 <pre class="pre"><code class="calibre9">for i in range(12, 16):
     print(i)
 </code></pre>
-<p class="tx">The first argument will be where the <span class="thesansmonocd_w5regular_">for</span> loop’s variable starts, and the second argument will be up to, but not including, the number to stop at:</p>
+<p class="tx">第一引数は<span class="thesansmonocd_w5regular_">for</span>ループの変数が開始する数値であり、第二引数は終了する数値（その数値は含まない）です。</p>
 <pre class="pre"><code class="calibre9">12
 13
 14
 15
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">range()</span> function can also be called with three arguments. The first two arguments will be the start and stop values, and the third will be the <i class="calibre5">step argument</i>. The step is the amount by which the variable is increased after each iteration:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">range()</span>関数に3つの引数を渡すこともできます。第一引数と第二引数は開始と終了で、第三引数は<i class="calibre5">増分</i>です。増分とは、繰り返しごとに変数の値が増やされる量のことです。</p>
 <pre class="pre"><code class="calibre9">for i in range(0, 10, 2):
     print(i)
 </code></pre>
-<p class="tx">So, calling <span class="thesansmonocd_w5regular_">range(0, 10, 2)</span> will count from zero to eight by intervals of two:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">range(0, 10, 2)</span>は、0から8まで2ずつ増やしていきます。</p>
 <pre class="pre"><code class="calibre9">0
 2
 4
 6
 8
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">range()</span> function is flexible in the sequence of numbers it produces for <span class="thesansmonocd_w5regular_">for</span> loops. <i class="calibre5">For</i> example (I never apologize for my puns), you can even use a negative number for the step argument to make the <span class="thesansmonocd_w5regular_">for</span> loop count down instead of up:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">range()</span>関数は<span class="thesansmonocd_w5regular_">for</span>ループで柔軟に使えます。例えば、増分に負の数を指定すると、<span class="thesansmonocd_w5regular_">for</span>ループでカウントダウンをできます。</p>
 <pre class="pre"><code class="calibre9">for i in range(5, -1, -1):
     print(i)
 </code></pre>
-<p class="tx">This <span class="thesansmonocd_w5regular_">for</span> loop would have the following output:</p>
+<p class="tx">この<span class="thesansmonocd_w5regular_">for</span>ループの出力は次のとおりです。</p>
 <pre class="pre"><code class="calibre9">5
 4
 3
@@ -261,45 +260,45 @@ print('Goodbye!')
 1
 0
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-760" aria-label="63"></span>Running a <span class="thesansmonocd_w5regular_">for</span> loop to print <span class="thesansmonocd_w5regular_">i</span> with <span class="thesansmonocd_w5regular_">range(5, -1, -1)</span> should print the numbers from five down to zero.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-760" aria-label="63"></span><span class="thesansmonocd_w5regular_">range(5, -1, -1)</span>の<span class="thesansmonocd_w5regular_">for</span>ループで<span class="thesansmonocd_w5regular_">i</span>を表示すると、5から0までカウントダウンします。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h3 class="h" id="calibre_link-1470"><span id="calibre_link-68"></span><span class="sans_futura_std_bold_b_">Importing Modules</span></h3>
-<p class="tni">All Python programs can call a basic set of functions called <i class="calibre5">built-in functions</i>, including the <span class="thesansmonocd_w5regular_">print()</span>, <span class="thesansmonocd_w5regular_">input()</span>, and <span class="thesansmonocd_w5regular_">len()</span> functions you’ve seen before. Python also comes with a set of modules called the <i class="calibre5">standard library</i>. Each module is a Python program that contains a related group of functions that can be embedded in your programs. For example, the <span class="thesansmonocd_w5regular_">math</span> module has mathematics-related functions, the <span class="thesansmonocd_w5regular_">random</span> module has random number–related functions, and so on.</p>
-<p class="tx">Before you can use the functions in a module, you must import the module with an <span class="thesansmonocd_w5regular_">import</span> statement. In code, an <span class="thesansmonocd_w5regular_">import</span> statement consists of the following:</p>
+<h3 class="h" id="calibre_link-1470"><span id="calibre_link-68"></span><span class="sans_futura_std_bold_b_">モジュールのインポート</span></h3>
+<p class="tni">Pythonでは、これまで見てきたように、<span class="thesansmonocd_w5regular_">print()</span>、<span class="thesansmonocd_w5regular_">input()</span>、<span class="thesansmonocd_w5regular_">len()</span>などの<i class="calibre5">組み込み関数</i>をどこからでも呼び出せます。組み込み関数とは別に、Pythonには<i class="calibre5">標準ライブラリ</i>と呼ばれるモジュールがあります。各モジュールは、プログラムに組み込むことができる一連の関数を集めたものです。例えば、<span class="thesansmonocd_w5regular_">math</span>モジュールは数学に関連する関数、<span class="thesansmonocd_w5regular_">random</span>モジュールはランダムな数値に関連する関数、といった具合です。</p>
+<p class="tx">これらの関数を使う前に、<span class="thesansmonocd_w5regular_">import</span>文でモジュールをインポートしなければなりません。<span class="thesansmonocd_w5regular_">import</span>文は次のように書きます。</p>
 <ul class="ul">
-<li class="bl">The <span class="thesansmonocd_w5regular_">import</span> keyword</li>
-<li class="bl">The name of the module</li>
-<li class="bl">Optionally, more module names, as long as they are separated by commas</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">import</span>というキーワード</li>
+<li class="bl">モジュール名</li>
+<li class="bl">カンマ区切りで複数のモジュールを一度にインポートできます。</li>
 </ul>
-<p class="tx">Once you import a module, you can use all the cool functions of that module. Let’s give it a try with the <span class="thesansmonocd_w5regular_">random</span> module, which will give us access to the <span class="thesansmonocd_w5regular_">random.randint()</span> function.</p>
-<p class="tx">Enter this code into the file editor, and save it as <i class="calibre5">printRandom.py</i>:</p>
+<p class="tx">モジュールをインポートすると、そのモジュールに含まれるすべての関数を使えるようになります。<span class="thesansmonocd_w5regular_">random</span>モジュールを試してみましょう。<span class="thesansmonocd_w5regular_">random.randint()</span>関数が使えるようになります。</p>
+<p class="tx">次のコードを<i class="calibre5">printRandom.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import random
 for i in range(5):
     print(random.randint(1, 10))
 </code></pre>
-<p class="tx">When you run this program, the output will look something like this:</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">4
 1
 8
 4
 1
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">random.randint()</span> function call evaluates to a random integer value between the two integers that you pass it. Because <span class="thesansmonocd_w5regular_">randint()</span> is in the <span class="thesansmonocd_w5regular_">random</span> module, you must first enter <span class="sans_thesansmonocd_w7bold_b_">random.</span> in front of the function name to tell Python to look for this function inside the <span class="thesansmonocd_w5regular_">random</span> module.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">random.randint()</span>関数を呼び出すと、渡した2つの整数の間でランダムな整数値に評価されます。<span class="thesansmonocd_w5regular_">randint()</span>は<span class="thesansmonocd_w5regular_">random</span>モジュール内にありますから、関数名の前に<span class="sans_thesansmonocd_w7bold_b_">random.</span>とつけなければなりません。そうすればPythonが<span class="thesansmonocd_w5regular_">random</span>モジュール内の関数を探してくれます。</p>
 <aside class="box" aria-label="box-9">
-<p class="bt" id="calibre_link-1471"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-938" aria-label="64"></span><span class="sans_futura_std_bold_b_">DON’T OVERWRITE MODULE NAMES</span></p>
-<p class="btni"><span class="sans_futura_std_book_">When you save your Python scripts, take care not to give them a name that is used by one of Python’s modules, such as</span> <span class="sans_futura_std_book_oblique_i_">random.py</span><span class="sans_futura_std_book_">,</span> <span class="sans_futura_std_book_oblique_i_">sys.py</span><span class="sans_futura_std_book_">,</span> <span class="sans_futura_std_book_oblique_i_">os.py</span><span class="sans_futura_std_book_">, or</span> <span class="sans_futura_std_book_oblique_i_">math.py</span><span class="sans_futura_std_book_">. If you accidentally name one of your programs, say,</span> <span class="sans_futura_std_book_oblique_i_">random.py</span><span class="sans_futura_std_book_">, and use an</span> <span class="thesansmonocd_w5regular_">import random</span> <span class="sans_futura_std_book_">statement in another program, your program will import your</span> <span class="sans_futura_std_book_oblique_i_">random.py</span> <span class="sans_futura_std_book_">file instead of Python’s</span> <span class="thesansmonocd_w5regular_">random</span> <span class="sans_futura_std_book_">module. This can lead to errors such as</span> <span class="thesansmonocd_w5regular_">AttributeError: module 'random' has no attribute 'randint'</span><span class="sans_futura_std_book_">, since your</span> <span class="sans_futura_std_book_oblique_i_">random.py</span> <span class="sans_futura_std_book_">file doesn’t have the functions that the real</span> <span class="thesansmonocd_w5regular_">random</span> <span class="sans_futura_std_book_">module has. Don’t use the names of any built-in Python functions for your file or variable names, either. Some common Python names are</span> <span class="thesansmonocd_w5regular_">all</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">any</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">date</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">email</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">file</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">format</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">hash</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">id</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">input</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">list</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">min</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">max</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">object</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">open</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">random</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">set</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">str</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">sum</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">test</span><span class="sans_futura_std_book_">, and</span> <span class="thesansmonocd_w5regular_">type</span><span class="sans_futura_std_book_">.</span></p>
+<p class="bt" id="calibre_link-1471"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-938" aria-label="64"></span><span class="sans_futura_std_bold_b_">モジュール名を上書きしないてください</span></p>
+<p class="btni"><span class="sans_futura_std_book_">自分で書いたPythonスクリプトを保存するときは、</span><span class="sans_futura_std_book_oblique_i_">random.py</span><span class="sans_futura_std_book_">、</span><span class="sans_futura_std_book_oblique_i_">sys.py</span><span class="sans_futura_std_book_">、</span><span class="sans_futura_std_book_oblique_i_">os.py</span><span class="sans_futura_std_book_">、</span><span class="sans_futura_std_book_oblique_i_">math.py</span><span class="sans_futura_std_book_">のようなモジュール名と同じ名前で保存しないように気をつけてください。モジュール名と同じ名前、例えば</span><span class="sans_futura_std_book_oblique_i_">random.py</span><span class="sans_futura_std_book_">という名前で保存してしまうと、</span><span class="thesansmonocd_w5regular_">import random</span><span class="sans_futura_std_book_">文が、Pythonの標準ライブラリである</span><span class="sans_futura_std_book_oblique_i_">random</span><span class="sans_futura_std_book_">ではなく、自分が書いた</span><span class="thesansmonocd_w5regular_">random.py</span><span class="sans_futura_std_book_">をインポートしてしまいます。そうすると、</span><span class="thesansmonocd_w5regular_">AttributeError: module 'random' has no attribute 'randint'</span><span class="sans_futura_std_book_">のようなエラーにつながります。自分が書いた</span><span class="sans_futura_std_book_oblique_i_">random.py</span><span class="sans_futura_std_book_">には、標準モジュールの</span><span class="thesansmonocd_w5regular_">random</span><span class="sans_futura_std_book_">にはあるはずの関数が存在しないからです。組み込み関数の名前も使わないでください。Pythonでよく使うモジュールや組み込み関数の名前（自分で書いたPythonスクリプトを保存する際につけてはいけない名前）は</span> <span class="thesansmonocd_w5regular_">all</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">any</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">date</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">email</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">file</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">format</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">hash</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">id</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">input</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">list</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">min</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">max</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">object</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">open</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">random</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">set</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">str</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">sum</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">test</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">type</span><span class="sans_futura_std_book_">などです。</span></p>
 </aside>
-<p class="tx">Here’s an example of an <span class="thesansmonocd_w5regular_">import</span> statement that imports four different modules:</p>
+<p class="tx">4つのモジュールをインポートする<span class="thesansmonocd_w5regular_">import</span>文の例です。</p>
 <pre class="pre"><code class="calibre9">import random, sys, os, math</code></pre>
-<p class="tx">Now we can use any of the functions in these four modules. You’ll learn more about them later in the book.</p>
-<p class="tx">An alternative form of the <span class="thesansmonocd_w5regular_">import</span> statement is composed of the <span class="thesansmonocd_w5regular_">from</span> keyword, followed by the module name, the <span class="thesansmonocd_w5regular_">import</span> keyword, and a star (<span class="thesansmonocd_w5regular_">*</span>); for example, <span class="thesansmonocd_w5regular_">from random import *</span>. With this form of <span class="thesansmonocd_w5regular_">import</span> statement, calls to functions in <span class="thesansmonocd_w5regular_">random</span> won’t need the <span class="thesansmonocd_w5regular_">random.</span> prefix. However, using the full name makes for more readable code, so it is better to use the <span class="thesansmonocd_w5regular_">import random</span> form of the statement.</p>
+<p class="tx">これで4つのモジュールの中にある関数が使えるようになります。これらの関数については本書のあとの部分で詳しく学びます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">import</span>の前に<span class="thesansmonocd_w5regular_">from</span> というキーワードが来る文もあります。<span class="thesansmonocd_w5regular_">from random import *</span>のように、<span class="thesansmonocd_w5regular_">from</span>のあとにモジュール名を書き、<span class="thesansmonocd_w5regular_">import</span>のあとにキーワードやアスタリスク（<span class="thesansmonocd_w5regular_">*</span>）などを書きます。この形で<span class="thesansmonocd_w5regular_">import</span>文を書くと、<span class="thesansmonocd_w5regular_">random</span>モジュール中の関数を呼び出すときに<span class="thesansmonocd_w5regular_">random.</span>をつける必要がなくなります。とはいえ、モジュール名をつけたほうがわかりやすいですから、<span class="thesansmonocd_w5regular_">import random</span>の形の文を書いたほうがよいです。</p>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h3 class="h" id="calibre_link-1472"><span id="calibre_link-69"></span><span class="sans_futura_std_bold_b_">Ending a Program Early with sys.exit()</span></h3>
-<p class="tni">The last flow control concept to cover is how to <i class="calibre5">terminate</i>, or exit, the program. Programs always terminate if the program execution reaches the bottom of the instructions. However, you can cause the program to terminate before the last instruction by calling the <span class="thesansmonocd_w5regular_">sys.exit()</span> function. Since this function is in the <span class="thesansmonocd_w5regular_">sys</span> module, you have to import <span class="thesansmonocd_w5regular_">sys</span> before your program can use it.</p>
-<p class="tx">Open a file editor window and enter the following code, saving it as <i class="calibre5">exitExample.py</i>:</p>
+<h3 class="h" id="calibre_link-1472"><span id="calibre_link-69"></span><span class="sans_futura_std_bold_b_">sys.exit()でプログラムを途中で終了する</span></h3>
+<p class="tni">フロー制御の説明の締めくくりとしてプログラムを<i class="calibre5">途中で終了</i>する方法をお伝えします。命令の最後に到達したらプログラムの実行は終了します。しかし、<span class="thesansmonocd_w5regular_">sys.exit()</span>関数を呼び出せば、命令の最後に到達する前にプログラムを終了させられます。この関数は<span class="thesansmonocd_w5regular_">sys</span>モジュール内にありますから、使用前に<span class="thesansmonocd_w5regular_">sys</span>をインポートしなければなりません。</p>
+<p class="tx">次のコードを<i class="calibre5">exitExample.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import sys
 
 while True:
@@ -309,11 +308,11 @@ while True:
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1182" aria-label="65"></span>        sys.exit()
     print('You typed ' + response + '.')
 </code></pre>
-<p class="tx">Run this program in your code editor. This program has an infinite loop with no <span class="thesansmonocd_w5regular_">break</span> statement inside. The only way this program will end is if the execution reaches the <span class="thesansmonocd_w5regular_">sys.exit()</span> call. When <span class="thesansmonocd_w5regular_">response</span> is equal to <span class="thesansmonocd_w5regular_">'exit'</span>, the line containing the <span class="thesansmonocd_w5regular_">sys.exit()</span> call is executed. Since the <span class="thesansmonocd_w5regular_">response</span> variable is set by the <span class="thesansmonocd_w5regular_">input()</span> function, the user must enter <span class="thesansmonocd_w5regular_">exit</span> in order to stop the program.</p>
+<p class="tx">このプログラムを実行してみてください。<span class="thesansmonocd_w5regular_">break</span>文のない無限ループです。このプログラムを終了させるために、<span class="thesansmonocd_w5regular_">sys.exit()</span>を呼び出します。変数<span class="thesansmonocd_w5regular_">response</span>の値が<span class="thesansmonocd_w5regular_">'exit'</span>と等しければ、<span class="thesansmonocd_w5regular_">sys.exit()</span>を呼び出す行が実行されます。変数<span class="thesansmonocd_w5regular_">response</span>は<span class="thesansmonocd_w5regular_">input()</span>関数により設定されますから、ユーザーが<span class="thesansmonocd_w5regular_">exit</span>と入力すればプログラムを終了させられます。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h3 class="h" id="calibre_link-1473"><span id="calibre_link-70"></span><span class="sans_futura_std_bold_b_">A Short Program: Guess the Number</span></h3>
-<p class="tni">The examples I’ve shown you so far are useful for introducing basic concepts, but now you’ll see how everything you’ve learned comes together in a more complete program. In this section, I’ll show you a simple guess the number game. When you run this program, the output will look something like this:</p>
+<h3 class="h" id="calibre_link-1473"><span id="calibre_link-70"></span><span class="sans_futura_std_bold_b_">短いプログラム：数当てゲーム</span></h3>
+<p class="tni">ここまでは例を通じて基本概念を説明してきました。ここからは学んだことを組み合わせてもっと本格的なプログラムを書いてみましょう。この節では、単純な数当てゲームを紹介します。このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">I am thinking of a number between 1 and 20.
 Take a guess.
 &gt;<b class="calibre10">10</b>
@@ -328,7 +327,7 @@ Take a guess.
 &gt;<b class="calibre10">16</b>
 Good job! You got it in 4 guesses!
 </code></pre>
-<p class="tx">Enter the following source code into the file editor, and save the file as <i class="calibre5">guessTheNumber.py</i>:</p>
+<p class="tx">次のコードを<i class="calibre5">guessTheNumber.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9"># This is a guess the number game.
 import random
 secret_number = random.randint(1, 20)
@@ -351,12 +350,12 @@ for guesses_taken in range(1, 7):
 else:
     print('Nope. The number was ' + str(secret_number))
 </code></pre>
-<p class="tx">Let’s look at this code line by line, starting at the top:</p>
+<p class="tx">このコードを最初から一行ずつ見ていきましょう。</p>
 <pre class="pre"><code class="calibre9"># This is a guess the number game.
 import random
 secret_number = random.randint(1, 20)
 </code></pre>
-<p class="tx">First, a comment at the top of the code explains what the program does. Then, the program imports the <span class="thesansmonocd_w5regular_">random</span> module so that it can use the <span class="thesansmonocd_w5regular_">random.randint()</span> function to generate a number for the user to guess. The return value, a random integer between 1 and 20, is stored in the variable <span class="thesansmonocd_w5regular_">secret_number</span>:</p>
+<p class="tx">1行目はプログラムの動作を説明するコメントです。2行目で<span class="thesansmonocd_w5regular_">random</span>モジュールをインポートしています。あとでユーザーに当ててもらう数を生成するのに<span class="thesansmonocd_w5regular_">random.randint()</span>関数を使うためです。その関数の返り値である1から20までのランダムな整数を、変数<span class="thesansmonocd_w5regular_">secret_number</span>に格納します。</p>
 <pre class="pre"><code class="calibre9">print('I am thinking of a number between 1 and 20.')
 
 # Ask the player to guess 6 times.
@@ -364,27 +363,27 @@ for guesses_taken in range(1, 7):
     print('Take a guess.')
     guess = int(input('&gt;'))
 </code></pre>
-<p class="tx">The program tells the player that it has come up with a secret number and will give the player six chances to guess it. The code lets the player enter a guess and checks that guess in a <span class="thesansmonocd_w5regular_">for</span> loop that will loop at most six times. The first thing that happens in the loop is that the player types in a guess. Because <span class="thesansmonocd_w5regular_">input()</span> returns a string, its return value is passed straight into <span class="thesansmonocd_w5regular_">int()</span>, which translates the string into an integer value. This gets stored in a variable named <span class="thesansmonocd_w5regular_">guess</span>:</p>
+<p class="tx">秘密の数があって、それを6回以内に当ててもらいます。プレイヤーが推測した数を入力し、最大6回繰り返す<span class="thesansmonocd_w5regular_">for</span>ループの中で当たっているかどうか確かめます。ループの中ではまずプレイヤーが推測した数を入力します。<span class="thesansmonocd_w5regular_">input()</span>関数は文字列を返しますから、<span class="thesansmonocd_w5regular_">int()</span>関数で文字列を整数値に変換します。それを<span class="thesansmonocd_w5regular_">guess</span>という名前の変数に格納します。</p>
 <pre class="pre"><code class="calibre9">    if guess &lt; secret_number:
         print('Your guess is too low.')
     elif guess &gt; secret_number:
         print('Your guess is too high.')
 </code></pre>
-<p class="tx">These few lines of code check whether the guess is less than or greater than the secret number. In either case, a hint is printed to the screen:</p>
+<p class="tx">この4行では、プレイヤーが推測した数が秘密の数よりも小さいか大きいかを確認しています。どちらの場合も、推測した数が小さすぎるか大きすぎるかのヒントが画面に表示されます。</p>
 <pre class="pre"><code class="calibre9">    else:
         break  # This condition is the correct guess!
 </code></pre>
-<p class="tx">If the guess is neither higher nor lower than the secret number, then it must be equal to the secret number—in which case, you want the program execution to break out of the <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<p class="tx">推測した数が大きすぎも小さすぎもしない場合、つまり秘密の数に等しい場合、<span class="thesansmonocd_w5regular_">for</span>ループから抜け出します。</p>
 <pre class="pre"><code class="calibre9">if guess == secret_number:
     print('Good job! You got it in ' + str(guesses_taken) + ' guesses!')
 else:
     print('Nope. The number was ' + str(secret_number))
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1289" aria-label="67"></span>After the <span class="thesansmonocd_w5regular_">for</span> loop, the previous <span class="thesansmonocd_w5regular_">if-else</span> statement checks whether the player has correctly guessed the number and then prints an appropriate message to the screen. In both cases, the program displays a variable that contains an integer value (<span class="thesansmonocd_w5regular_">guesses_taken</span> and <span class="thesansmonocd_w5regular_">secret_number</span>). Since it must concatenate these integer values to strings, it passes these variables to the <span class="thesansmonocd_w5regular_">str()</span> function, which returns the string value form of these integers. Now these strings can be concatenated with the <span class="thesansmonocd_w5regular_">+</span> operators before finally being passed to the <span class="thesansmonocd_w5regular_">print()</span> function call.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1289" aria-label="67"></span><span class="thesansmonocd_w5regular_">for</span>ループのあとでは、<span class="thesansmonocd_w5regular_">if-else</span>文でプレイヤーが数を当てられたかどうかを確認し、その結果に応じたメッセージを画面に表示しています。どちらの場合も、推測に挑戦した回数の<span class="thesansmonocd_w5regular_">guesses_taken</span>と秘密の数の<span class="thesansmonocd_w5regular_">secret_number</span>の値を表示します。その整数値を文字列と結合するので、整数値を<span class="thesansmonocd_w5regular_">str()</span>関数に渡し、整数値から文字列値を得ています。それらの文字列を<span class="thesansmonocd_w5regular_">+</span>演算子で結合し、最後に<span class="thesansmonocd_w5regular_">print()</span>関数に渡しています。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h3 class="h" id="calibre_link-1474"><span id="calibre_link-71"></span><span class="sans_futura_std_bold_b_">A Short Program: Rock, Paper, Scissors</span></h3>
-<p class="tni">Let’s use the programming concepts we’ve learned so far to create a simple rock, paper, scissors game. The output will look like this:</p>
+<h3 class="h" id="calibre_link-1474"><span id="calibre_link-71"></span><span class="sans_futura_std_bold_b_">短いプログラム：じゃんけん</span></h3>
+<p class="tni">これまでに学んだ概念を使って、簡単なじゃんけんプログラムを作ってみましょう。出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">ROCK, PAPER, SCISSORS
 0 Wins, 0 Losses, 0 Ties
 Enter your move: (r)ock (p)aper (s)cissors or (q)uit
@@ -402,7 +401,7 @@ You win!
 Enter your move: (r)ock (p)aper (s)cissors or (q)uit
 &gt;<b class="calibre10">q</b>
 </code></pre>
-<p class="tx">Enter the following source code into the file editor, and save the file as <i class="calibre5">rpsGame.py</i>:</p>
+<p class="tx">次のコードを<i class="calibre5">rpsGame.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import random, sys
 
 print('ROCK, PAPER, SCISSORS')
@@ -466,7 +465,7 @@ while True:  # The main game loop
         print('You lose!')
         losses = losses + 1
 </code></pre>
-<p class="tx">Let’s look at this code line by line, starting at the top:</p>
+<p class="tx">このコードを最初から一行ずつ見ていきましょう。</p>
 <pre class="pre"><code class="calibre9">import random, sys
 
 print('ROCK, PAPER, SCISSORS')
@@ -476,7 +475,7 @@ wins = 0
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1476" aria-label="69"></span>losses = 0
 ties = 0
 </code></pre>
-<p class="tx">First, we import the <span class="thesansmonocd_w5regular_">random</span> and <span class="thesansmonocd_w5regular_">sys</span> modules so that our program can call the <span class="thesansmonocd_w5regular_">random.randint()</span> and <span class="thesansmonocd_w5regular_">sys.exit()</span> functions. We also set up three variables to keep track of how many wins, losses, and ties the player has had:</p>
+<p class="tx">まず、<span class="thesansmonocd_w5regular_">random</span>モジュールと<span class="thesansmonocd_w5regular_">sys</span>モジュールをインポートしています。あとで<span class="thesansmonocd_w5regular_">random.randint()</span>関数と<span class="thesansmonocd_w5regular_">sys.exit()</span>関数を呼び出すためです。次に、プレイヤーの勝ち数、負け数、引き分け数を格納する3つの変数を初期化しています。</p>
 <pre class="pre"><code class="calibre9">while True:  # The main game loop
     print('%s Wins, %s Losses, %s Ties' % (wins, losses, ties))
     while True:  # The player input loop
@@ -488,7 +487,7 @@ ties = 0
             break  # Break out of the player input loop.
         print('Type one of r, p, s, or q.')
 </code></pre>
-<p class="tx">This program uses a <span class="thesansmonocd_w5regular_">while</span> loop inside another <span class="thesansmonocd_w5regular_">while</span> loop. The first loop is the main game loop, and a single game of rock, paper, scissors is played on each iteration through this loop. The second loop asks for input from the player, and keeps looping until the player has entered an <span class="thesansmonocd_w5regular_">r</span>, <span class="thesansmonocd_w5regular_">p</span>, <span class="thesansmonocd_w5regular_">s</span>, or <span class="thesansmonocd_w5regular_">q</span> for their move. The <span class="thesansmonocd_w5regular_">r</span>, <span class="thesansmonocd_w5regular_">p</span>, and <span class="thesansmonocd_w5regular_">s</span> correspond to rock, paper, and scissors, respectively, while the <span class="thesansmonocd_w5regular_">q</span> means the player intends to quit. In that case, <span class="thesansmonocd_w5regular_">sys.exit()</span> is called and the program exits. If the player has entered <span class="thesansmonocd_w5regular_">r</span>, <span class="thesansmonocd_w5regular_">p</span>, or <span class="thesansmonocd_w5regular_">s</span>, the execution breaks out of the loop. Otherwise, the program reminds the player to enter <span class="thesansmonocd_w5regular_">r</span>, <span class="thesansmonocd_w5regular_">p</span>, <span class="thesansmonocd_w5regular_">s</span>, or <span class="thesansmonocd_w5regular_">q</span> and goes back to the start of the loop:</p>
+<p class="tx">このプログラムでは、<span class="thesansmonocd_w5regular_">while</span>ループの中で<span class="thesansmonocd_w5regular_">while</span>ループを使っています。最初の外側のループはメインのゲームを行うループであり、ループの繰り返しがじゃんけんの繰り返しに対応します。2つ目の内側のループは、プレイヤーの入力を待ちます。<span class="thesansmonocd_w5regular_">r</span>、<span class="thesansmonocd_w5regular_">p</span>、<span class="thesansmonocd_w5regular_">s</span>、<span class="thesansmonocd_w5regular_">q</span>が有効な入力です。<span class="thesansmonocd_w5regular_">r</span>、<span class="thesansmonocd_w5regular_">p</span>、<span class="thesansmonocd_w5regular_">s</span>はグー（石を表すrockの頭文字でr）、パー（紙を表すpaperの頭文字でp）、チョキ（はさみを表すscissorsの頭文字でs）に対応します。<span class="thesansmonocd_w5regular_">q</span>は終了（quitの頭文字でq）です。終了の場合は<span class="thesansmonocd_w5regular_">sys.exit()</span> を呼び出してプログラムを終了させます。プレイヤーが<span class="thesansmonocd_w5regular_">r</span>、<span class="thesansmonocd_w5regular_">p</span>、<span class="thesansmonocd_w5regular_">s</span>のどれかを入力したら、内側のループを抜けます。それ以外の入力に対しては、<span class="thesansmonocd_w5regular_">r</span>、<span class="thesansmonocd_w5regular_">p</span>、<span class="thesansmonocd_w5regular_">s</span>、<span class="thesansmonocd_w5regular_">q</span>のいずれかを入力するように促すメッセージを表示して、ループの最初に戻ります。</p>
 <pre class="pre"><code class="calibre9">    # Display what the player chose:
     if player_move == 'r':
         print('ROCK versus...')
@@ -497,7 +496,7 @@ ties = 0
     elif player_move == 's':
         print('SCISSORS versus...')
 </code></pre>
-<p class="tx">The player’s move is displayed on the screen:</p>
+<p class="tx">プレイヤーの手を画面に表示します。</p>
 <pre class="pre"><code class="calibre9">    # Display what the computer chose:
     move_number = random.randint(1, 3)
     if move_number == 1:
@@ -510,7 +509,7 @@ ties = 0
         computer_move = 's'
         print('SCISSORS')
 </code></pre>
-<p class="tx">Next, the program randomly selects the computer’s move. Because <span class="thesansmonocd_w5regular_">random.randint()</span> will always return a random number, the code stores the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-961" aria-label="70"></span><span class="thesansmonocd_w5regular_">1</span>, <span class="thesansmonocd_w5regular_">2</span>, or <span class="thesansmonocd_w5regular_">3</span> integer value it returns in a variable named <span class="thesansmonocd_w5regular_">move_number</span>. The program then stores an <span class="thesansmonocd_w5regular_">'r'</span>, <span class="thesansmonocd_w5regular_">'p'</span>, or <span class="thesansmonocd_w5regular_">'s'</span> string in <span class="thesansmonocd_w5regular_">computer_move</span> based on the integer in <span class="thesansmonocd_w5regular_">move_number</span>, as well as displays the computer’s move:</p>
+<p class="tx">次にコンピュータの手をランダムに選びます。<span class="thesansmonocd_w5regular_">random.randint()</span>はランダムな数を返しますから、<span class="thesansmonocd_w5regular_">1</span>、<span class="thesansmonocd_w5regular_">2</span>、<span class="thesansmonocd_w5regular_">3</span>の整数をランダムに選んで<span class="thesansmonocd_w5regular_">move_number</span>という名前の変数に格納します。<span class="thesansmonocd_w5regular_">move_number</span>の整数値に応じて<span class="thesansmonocd_w5regular_">'r'</span>、<span class="thesansmonocd_w5regular_">'p'</span>、<span class="thesansmonocd_w5regular_">'s'</span>という文字列のいずれかを<span class="thesansmonocd_w5regular_">computer_move</span>という名前の変数に格納し、そのコンピュータの手を画面に表示します。</p>
 <pre class="pre"><code class="calibre9">    # Display and record the win/loss/tie:
     if player_move == computer_move:
         print('It is a tie!')
@@ -534,21 +533,21 @@ ties = 0
         print('You lose!')
         losses = losses + 1
 </code></pre>
-<p class="tx">Finally, the program compares the strings in <span class="thesansmonocd_w5regular_">player_move</span> and <span class="thesansmonocd_w5regular_">computer_move</span>, and displays the results on the screen. It also increments the <span class="thesansmonocd_w5regular_">wins</span>, <span class="thesansmonocd_w5regular_">losses</span>, or <span class="thesansmonocd_w5regular_">ties</span> variable appropriately. Once the execution reaches the end, it jumps back to the start of the main program loop to begin another game.</p>
-<p class="tx">If you liked these guess the number and rock, paper, scissors games, you can find the source code to other simple Python programs in <i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021).</p>
+<p class="tx">最後に、<span class="thesansmonocd_w5regular_">player_move</span>（プレイヤーの手）と<span class="thesansmonocd_w5regular_">computer_move</span>（コンピュータの手）を比較して、勝負の結果を画面に表示します。その結果に応じて、<span class="thesansmonocd_w5regular_">wins</span>（勝ち）、<span class="thesansmonocd_w5regular_">losses</span>（負け）、<span class="thesansmonocd_w5regular_">ties</span>（引き分け）変数の値を増やします。プログラムがこの部分に到達すると、外側のメインのループの最初に戻り、次の勝負を始めます。</p>
+<p class="tx">このじゃんけんが気に入ったら、 <i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021)に収録した他の単純なPythonプログラムのソースコードもご覧ください。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec12">
-<h3 class="h" id="calibre_link-1477"><span id="calibre_link-72"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">Loops let your programs execute code over and over again while a certain condition evaluates to <span class="thesansmonocd_w5regular_">True</span>. The <span class="thesansmonocd_w5regular_">break</span> and <span class="thesansmonocd_w5regular_">continue</span> statements are useful if you need to exit a loop or jump back to the loop’s start.</p>
-<p class="tx">These flow control statements will let you write more intelligent programs. You can also use another type of flow control by writing your own functions, which is the topic of the next chapter.</p>
+<h3 class="h" id="calibre_link-1477"><span id="calibre_link-72"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">ループを使うと、指定した条件が<span class="thesansmonocd_w5regular_">True</span>である限り繰り返しコードを実行できます。ループから抜けたりループの最初に戻ったりするには、<span class="thesansmonocd_w5regular_">break</span>文と<span class="thesansmonocd_w5regular_">continue</span>文が使えます。</p>
+<p class="tx">こうしたフロー制御文を活用すれば、賢いプログラムを書けます。自分で関数を作成することでもフロー制御ができますが、これは次章のテーマとします。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h3 class="h" id="calibre_link-1478"><span id="calibre_link-73"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What keys can you press if your Python program is stuck in an infinite loop?</p>
-<p class="listnumber">  2.  What is the difference between <span class="thesansmonocd_w5regular_">break</span> and <span class="thesansmonocd_w5regular_">continue</span>?</p>
-<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1479" aria-label="71"></span>  3.  What is the difference between <span class="thesansmonocd_w5regular_">range(10)</span>, <span class="thesansmonocd_w5regular_">range(0, 10)</span>, and <span class="thesansmonocd_w5regular_">range(0, 10, 1)</span> in a <span class="thesansmonocd_w5regular_">for</span> loop?</p>
-<p class="listnumber">  4.  Write a short program that prints the numbers <span class="thesansmonocd_w5regular_">1</span> to <span class="thesansmonocd_w5regular_">10</span> using a <span class="thesansmonocd_w5regular_">for</span> loop. Then, write an equivalent program that prints the numbers <span class="thesansmonocd_w5regular_">1</span> to <span class="thesansmonocd_w5regular_">10</span> using a <span class="thesansmonocd_w5regular_">while</span> loop.</p>
-<p class="listnumber">  5.  If you had a function named <span class="thesansmonocd_w5regular_">bacon()</span> inside a module named <span class="thesansmonocd_w5regular_">spam</span>, how would you call it after importing <span class="thesansmonocd_w5regular_">spam</span>?</p>
+<h3 class="h" id="calibre_link-1478"><span id="calibre_link-73"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. プログラムが無限ループに陥ったときにどのキーを押しますか？</p>
+<p class="listnumber">  2. <span class="thesansmonocd_w5regular_">break</span>と<span class="thesansmonocd_w5regular_">continue</span>の違いを説明してください。</p>
+<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1479" aria-label="71"></span>  3. <span class="thesansmonocd_w5regular_">for</span>ループで、<span class="thesansmonocd_w5regular_">range(10)</span>と<span class="thesansmonocd_w5regular_">range(0, 10)</span>と<span class="thesansmonocd_w5regular_">range(0, 10, 1)</span>はどう違いますか？</p>
+<p class="listnumber">  4. <span class="thesansmonocd_w5regular_">for</span>ループを使って、<span class="thesansmonocd_w5regular_">1</span>から<span class="thesansmonocd_w5regular_">10</span>までの数を表示するプログラムを書いてください。<span class="thesansmonocd_w5regular_">while</span> ループを使って、<span class="thesansmonocd_w5regular_">1</span>から<span class="thesansmonocd_w5regular_">10</span>までの数を表示するプログラムを書いてください。</p>
+<p class="listnumber">  5. <span class="thesansmonocd_w5regular_">spam</span>モジュールの中に<span class="thesansmonocd_w5regular_">bacon()</span>関数があるとしたら、<span class="thesansmonocd_w5regular_">spam</span>モジュールをインポートしたあとでその関数をどのように呼び出しますか？</p>
 </section>
 </section>
 </div>
