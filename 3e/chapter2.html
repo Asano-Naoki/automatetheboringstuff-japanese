@@ -419,17 +419,17 @@ else:
 <p class="tni">ブール値と<span class="thesansmonocd_w5regular_">if</span>-<span class="thesansmonocd_w5regular_">else</span>文を使った以下のコードを<i class="calibre5">oppositeday.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">today_is_opposite_day = True
 
-# Set say_it_is_opposite_day based on today_is_opposite_day:
+# today_is_opposite_dayに応じてsay_it_is_opposite_dayを設定する
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> if today_is_opposite_day == True:
     say_it_is_opposite_day = True
 else:
     say_it_is_opposite_day = False
 
-# If it is opposite day, toggle say_it_is_opposite_day:
+# 反対言葉の日ならsay_it_is_opposite_dayのブール値を反転する
 if today_is_opposite_day == True:
   <span class="code_codeannotation" aria-label="annotation2">❷</span> say_it_is_opposite_day = not say_it_is_opposite_day
 
-# Say what day it is:
+# 今日が反対言葉の日かどうかを言う
 if say_it_is_opposite_day == True:
     print('Today is Opposite Day.')
 else:
@@ -445,7 +445,7 @@ else:
 <pre class="pre"><code class="calibre9">print('Enter TB or GB for the advertised unit:')
 unit = input('&gt;')
 
-# Calculate the amount that the advertised capacity lies:
+# 宣伝がうそをついている容量を計算する
 if unit == 'TB' or unit == 'tb':
     discrepancy = 1000000000000 / 1099511627776
 elif unit == 'GB' or unit == 'gb':
@@ -455,14 +455,14 @@ print('Enter the advertised capacity:')
 advertised_capacity = input('&gt;')
 advertised_capacity = float(advertised_capacity)
 
-# Calculate the real capacity, round it to the nearest hundredths,
-# and convert it to a string so it can be concatenated:
+# 実際の容量を計算し、100分の1の位に丸めて、
+# 結合できるように文字列に変換する
 real_capacity = str(round(advertised_capacity * discrepancy, 2))
 
 print('The actual capacity is ' + real_capacity + ' ' + unit)
 </code></pre>
 <p class="tx">このプログラムは、ユーザーにハードドライブの単位をTBかGBで入力するように求めます。</p>
-<pre class="pre"><code class="calibre9"># Calculate the amount that the advertised capacity lies:
+<pre class="pre"><code class="calibre9"># 宣伝がうそをついている容量を計算する
 if unit == 'TB' or unit == 'tb':
     discrepancy = 1000000000000 / 1099511627776
 elif unit == 'GB' or unit == 'gb':
@@ -470,8 +470,8 @@ elif unit == 'GB' or unit == 'gb':
 </code></pre>
 <p class="tx">TBはGBよりも大きく、単位が大きければ大きいほど、宣伝されている容量と実際の容量との乖離が大きくなります。<span class="thesansmonocd_w5regular_">if</span>文と<span class="thesansmonocd_w5regular_">elif</span>文は、<span class="thesansmonocd_w5regular_">or</span>ブール演算子を使っていて、ユーザーが単位を小文字で入力しても大文字で入力しても動作するようになっています。ユーザーがそれ以外の入力をすると、<span class="thesansmonocd_w5regular_">if</span>節も<span class="thesansmonocd_w5regular_">elif</span>節も実行されないので、変数discrepancyへの代入は行われません。プログラムが変数discrepancyを使おうとしたときにエラーが発生します。これについてはあとで対処します。</p>
 <p class="tx">次に、ユーザーは指定した単位で宣伝されているサイズを入力します。</p>
-<pre class="pre"><code class="calibre9"># Calculate the real capacity, round it to the nearest hundredths,
-# and convert it to a string so it can be concatenated:
+<pre class="pre"><code class="calibre9"># 実際の容量を計算し、100分の1の位に丸めて、
+# 結合できるように文字列に変換する
 real_capacity = str(round(advertised_capacity * discrepancy, 2))
 </code></pre>
 <p class="tx">この1行でたくさんのことをしています。ユーザーが単位とサイズを10TBと入力したとしましょう。この行のコードの一番内側から見ていくと、<span class="thesansmonocd_w5regular_">advertised_capacity</span>と<span class="thesansmonocd_w5regular_">discrepancy</span>のかけ算が行われています。このようにして実際の容量を計算するのですが、<span class="thesansmonocd_w5regular_">9.094947017729282</span>のように小数点以下の桁数が多くなってしまいます。そこで、この数値を<span class="thesansmonocd_w5regular_">round()</span>関数の第一引数として渡し、第二引数に<span class="thesansmonocd_w5regular_">2</span>を指定します。この<span class="thesansmonocd_w5regular_">round()</span>関数の呼び出しは、先の例で言うと、<span class="thesansmonocd_w5regular_">9.09</span>を返します。これは浮動小数点数値ですが、次の行でメッセージの文字列と結合するために文字列がほしいです。そのために<span class="thesansmonocd_w5regular_">str()</span>関数に渡します。Pythonはこの1行のコードを以下のように評価します。</p>
