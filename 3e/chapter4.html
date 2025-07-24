@@ -11,18 +11,18 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1170" aria-label="73"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1480">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">4</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">FUNCTIONS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">4</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">関数</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">A <i class="calibre18">function</i> is like a mini program within a program. Python provides several built-in functions, such as the <span class="sans_thesansmonocd_w5regular_">print()</span>, <span class="sans_thesansmonocd_w5regular_">input()</span>, and <span class="sans_thesansmonocd_w5regular_">len()</span> functions from the previous chapters, but you can also write your own. In this chapter, you’ll create functions, explore the call stack used to determine the order in which functions in a program run, and learn about the scope of variables inside and outside functions.</p>
+<p class="introtni"><i class="calibre18">関数</i>は、プログラム内のミニプログラムのようなものです。
+Pythonには、前章までに紹介した<span class="sans_thesansmonocd_w5regular_">print()</span>関数、<span class="sans_thesansmonocd_w5regular_">input()</span>関数、<span class="sans_thesansmonocd_w5regular_">len()</span> 関数のような組み込み関数がありますが、自分で関数を作ることもできます。本章では、関数を作成し、ブログラム内で関数の実行順を決める呼び出しスタックを調べ、関数内外での変数のスコープについて説明します。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1481"><span id="calibre_link-75"></span><span class="sans_futura_std_bold_b_">Creating Functions</span></h3>
-<p class="tni">To better understand how functions work, let’s create one. Enter this program into the file editor and save it as <i class="calibre5">helloFunc.py</i>:</p>
+<h3 class="h" id="calibre_link-1481"><span id="calibre_link-75"></span><span class="sans_futura_std_bold_b_">関数の作成</span></h3>
+<p class="tni">関数の働きを理解するために一つ作ってみましょう。次のコードを<i class="calibre5">helloFunc.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def hello():
-    # Prints three greetings
+    # 3つのあいさつを表示
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1101" aria-label="74"></span>    print('Good morning!')
     print('Good afternoon!')
     print('Good evening!')
@@ -32,9 +32,9 @@ hello()
 print('ONE MORE TIME!')
 hello()
 </code></pre>
-<p class="tx">The first line is a <span class="thesansmonocd_w5regular_">def</span> statement, which defines a function named <span class="thesansmonocd_w5regular_">hello()</span>. The code in the block that follows the <span class="thesansmonocd_w5regular_">def</span> statement is the body of the function. This code executes when the function is called, not when the function is first defined.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">hello()</span> lines after the function are function calls. In code, a function call is just the function’s name followed by parentheses, possibly with some number of arguments in between the parentheses. When the program execution reaches these calls, it will jump to the first line in the function and begin executing the code there. When it reaches the end of the function, the execution returns to the line that called the function and continues moving through the code as before.</p>
-<p class="tx">Because this program calls <span class="thesansmonocd_w5regular_">hello()</span> three times, the code in the <span class="thesansmonocd_w5regular_">hello()</span> function is executed three times. When you run this program, the output looks like this:</p>
+<p class="tx">1行目は<span class="thesansmonocd_w5regular_">def</span>文です。<span class="thesansmonocd_w5regular_">hello()</span>という名前の関数を定義しています。<span class="thesansmonocd_w5regular_">def</span>文に続くブロックのコードは関数の本体です。関数が呼び出されたときにこのコードが実行されます。関数の定義時に実行されるのではありません。</p>
+<p class="tx">関数を定義したあとの<span class="thesansmonocd_w5regular_">hello()</span>の行が関数の呼び出しです。関数名のあとにかっこをつけて関数を呼び出します。かっこ内に引数があることもあります。プログラム実行が関数呼び出しにたどり着くと、関数本体の最初の行からコードを実行し始めます。関数本体の最後まで実行すると、関数が呼び出された行に戻り、そこからコードの実行を続けます。</p>
+<p class="tx">このプログラムでは <span class="thesansmonocd_w5regular_">hello()</span>を3回呼び出していますから、<span class="thesansmonocd_w5regular_">hello()</span>関数が3回実行されます。このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">Good morning!
 Good afternoon!
 Good evening!
@@ -46,7 +46,7 @@ Good morning!
 Good afternoon!
 Good evening!
 </code></pre>
-<p class="tx">A major purpose of functions is to group code that gets executed multiple times. Without a function defined, you would have to copy and paste this code each time you wanted to run it, and the program would look like this:</p>
+<p class="tx">関数を作る主な目的は、何回も実行されるコードをまとめることです。関数を作らなければ、次のようにその都度コピーアンドペーストすることになります。</p>
 <pre class="pre"><code class="calibre9">print('Good morning!')
 print('Good afternoon!')
 print('Good evening!')
@@ -58,14 +58,14 @@ print('Good morning!')
 print('Good afternoon!')
 print(' Good evening!')
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-925" aria-label="75"></span>In general, you always want to avoid duplicating code, because if you ever decide to update the code (for example, because you find a bug you need to fix), you’ll have to remember to change the code in every place you copied it.</p>
-<p class="tx">As you gain programming experience, you’ll often find yourself <i class="calibre5">deduplicating</i>, which means getting rid of copied-and-pasted code. Deduplication makes your programs shorter, easier to read, and easier to update.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-925" aria-label="75"></span>一般に、コードをコピーアンドペーストすることは避けたほうがよいです。バグを発見したなどの理由でコードを更新するときに、コピーしたコードを全部更新するのは大変だからです。</p>
+<p class="tx">プログラミングの経験を積むと、<i class="calibre5">重複排除</i>コードを書くようになります。コードのコピーアンドペーストをしないということです。重複を避けると、プログラムが短くなり、読みやすくて更新しやすくなります。</p>
 </section>
 <section type="division" aria-labelledby="sec2">
-<h3 class="h" id="calibre_link-1482"><span id="calibre_link-76"></span><span class="sans_futura_std_bold_b_">Arguments and Parameters</span></h3>
-<p class="tni">When you call the <span class="thesansmonocd_w5regular_">print()</span> or <span class="thesansmonocd_w5regular_">len()</span> function, you pass it values, called <i class="calibre5">arguments</i>, by entering them between the parentheses. You can also define your own functions that accept arguments. Enter this example into the file editor and save it as <i class="calibre5">helloFunc2.py</i>:</p>
+<h3 class="h" id="calibre_link-1482"><span id="calibre_link-76"></span><span class="sans_futura_std_bold_b_">引数とパラメータ（仮引数）</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">print()</span>関数や<span class="thesansmonocd_w5regular_">len()</span>関数を呼び出すときに、かっこ内に<i class="calibre5">引数</i>と呼ばれる値を渡すことがあります。それと同じように引数を取る関数を定義できます。次のコードを<i class="calibre5">helloFunc2.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> def say_hello_to(name):
-    # Prints three greetings to the name provided
+    # 与えられた名前に対して3つのあいさつを表示
   <span class="code_codeannotation" aria-label="annotation2">❷</span> print('Good morning, ' + name)
     print('Good afternoon, ' + name)
     print('Good evening, ' + name)
@@ -73,7 +73,7 @@ print(' Good evening!')
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> say_hello_to('Alice')
 say_hello_to('Bob')
 </code></pre>
-<p class="tx">When you run this program, the output looks like this:</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">Good morning, Alice
 Good afternoon, Alice
 Good evening, Alice
@@ -81,32 +81,32 @@ Good morning, Bob
 Good afternoon, Bob
 Good evening, Bob
 </code></pre>
-<p class="tx">The definition of the <span class="thesansmonocd_w5regular_">say_hello_to()</span> function has a parameter called <span class="thesansmonocd_w5regular_">name</span> <span class="codeannotation" aria-label="annotation1">❶</span>. <i class="calibre5">Parameters</i> are variables that contain arguments. When a function is called with arguments, the arguments are stored in the parameters. The first time the <span class="thesansmonocd_w5regular_">say_hello_to()</span> function is called, it’s passed the argument <span class="thesansmonocd_w5regular_">'Alice'</span> <span class="codeannotation" aria-label="annotation3">❸</span>. The program execution enters the function, and the parameter <span class="thesansmonocd_w5regular_">name</span> is automatically set to <span class="thesansmonocd_w5regular_">'Alice'</span>, which gets printed by the <span class="thesansmonocd_w5regular_">print()</span> statement <span class="codeannotation" aria-label="annotation2">❷</span>. You should use parameters in your function if you need it to follow slightly different instructions depending on the values you pass to the function call.</p>
-<p class="tx">One special thing to note about parameters is that the value stored in a parameter is forgotten when the function returns. For example, if you added <span class="thesansmonocd_w5regular_">print(name)</span> after <span class="thesansmonocd_w5regular_">say_hello_to('Bob')</span> in the previous program, the program would give you an error because there is no variable named <span class="thesansmonocd_w5regular_">name</span>. This variable gets destroyed after the function call <span class="thesansmonocd_w5regular_">say_hello_to('Bob')</span> returns, so <span class="thesansmonocd_w5regular_">print(name)</span> would refer to a <span class="thesansmonocd_w5regular_">name</span> variable that does not exist.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1100" aria-label="76"></span>The terms <i class="calibre5">define</i>, <i class="calibre5">call</i>, <i class="calibre5">pass</i>, <i class="calibre5">argument</i>, and <i class="calibre5">parameter</i> can be confusing. To review their meanings, consider a code example:</p>
+<p class="tx">このプログラムでの<span class="thesansmonocd_w5regular_">say_hello_to()</span>関数の定義には、<span class="thesansmonocd_w5regular_">name</span>というパラメータ（仮引数）があります（<span class="codeannotation" aria-label="annotation1">➊</span>）。<i class="calibre5">パラメータ</i>とは、引数（真引数）を受け取る変数のことです。引数を渡して関数を呼び出したときに、パラメータが引数を受け取ります。<span class="thesansmonocd_w5regular_">say_hello_to()</span> 関数の1回目の呼び出しでは、<span class="thesansmonocd_w5regular_">'Alice'</span>という引数が渡されています（<span class="codeannotation" aria-label="annotation3">➌</span>）。プログラム実行は関数を実行し、パラメータ<span class="thesansmonocd_w5regular_">name</span>に<span class="thesansmonocd_w5regular_">'Alice'</span>という引数が設定されます。そして、その引数とあいさつが<span class="thesansmonocd_w5regular_">print()</span>文で表示されます（<span class="codeannotation" aria-label="annotation2">➋</span>）。関数呼び出しに渡した値に応じて微妙に異なる命令を実行したい場合には、関数内でパラメータを使います</p>
+<p class="tx">パラメータに格納される値は関数の呼び出しが終わると失われます。例えば、先のプログラムで<span class="thesansmonocd_w5regular_">say_hello_to('Bob')</span> のあとに<span class="thesansmonocd_w5regular_">print(name)</span>を書き加えても、エラーになります。変数<span class="thesansmonocd_w5regular_">name</span>に値が入っていないからです。<span class="thesansmonocd_w5regular_">say_hello_to('Bob')</span>の呼び出し後にパラメータの変数は破棄されるので、<span class="thesansmonocd_w5regular_">print(name)</span>に使われている変数<span class="thesansmonocd_w5regular_">name</span>は存在しないのです。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1100" aria-label="76"></span><i class="calibre5">定義する</i>、<i class="calibre5">呼び出す</i>、<i class="calibre5">渡す</i>、<i class="calibre5">引数</i>、<i class="calibre5">パラメータ</i>という用語は混乱しがちです。これらの用語をおさらいするためにコード例を見てみましょう。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> def say_hello_to(name):
-    # Prints three greetings to the name provided
+    # 与えられた名前に対して3つのあいさつを表示
     print('Good morning, ' + name)
     print('Good afternoon, ' + name)
     print('Good evening, ' + name)
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> say_hello_to('Al')
 </code></pre>
-<p class="tx">To <i class="calibre5">define</i> a function is to create it, just as an assignment statement like <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">42</span> creates the <span class="thesansmonocd_w5regular_">spam</span> variable. The <span class="thesansmonocd_w5regular_">def</span> statement defines the <span class="thesansmonocd_w5regular_">say_hello_to()</span> function <span class="codeannotation" aria-label="annotation1">❶</span>. The <span class="thesansmonocd_w5regular_">say_hello_to('Al')</span> line <span class="codeannotation" aria-label="annotation2">❷</span> <i class="calibre5">calls</i> the now-created function, sending the execution to the top of the function’s code. This function call is <i class="calibre5">passing</i> the string '<span class="thesansmonocd_w5regular_">Al</span>' to the function. A value being passed in a function call is an <i class="calibre5">argument</i>. Arguments are assigned to local variables called <i class="calibre5">parameters</i>. The argument <span class="thesansmonocd_w5regular_">'Al</span>' is assigned to the <span class="thesansmonocd_w5regular_">name</span> parameter.</p>
-<p class="tx">It’s easy to mix up these terms, but keeping them straight will ensure that you know precisely what the text in this chapter means.</p>
+<p class="tx">関数を<i class="calibre5">定義する</i>ということは関数を作ることです。 <span class="thesansmonocd_w5regular_">spam</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">42</span> のような文で変数<span class="thesansmonocd_w5regular_">spam</span>を作るのと同じです。<span class="thesansmonocd_w5regular_">def</span>文で<span class="thesansmonocd_w5regular_">say_hello_to()</span>関数を定義しています（<span class="codeannotation" aria-label="annotation1">➊</span>）。<span class="thesansmonocd_w5regular_">say_hello_to('Al')</span>の行は、先ほど作った関数を<i class="calibre5">呼び出し</i>、 関数のコードを実行します（<span class="codeannotation" aria-label="annotation2">➋</span>）。この関数呼び出しでは、<span class="thesansmonocd_w5regular_">'Al'</span>という文字列値を関数に<i class="calibre5">渡し</i>ています。呼び出し時に関数に渡される値は<i class="calibre5">引数</i>です。引数<i class="calibre5">'Al'</i>がローカル変数に割り当てられます。引数<span class="thesansmonocd_w5regular_">'Al'</span>が割り当てられる変数は<span class="thesansmonocd_w5regular_">パラメータ</span>です。</p>
+<p class="tx">これらの用語を混同しがちですが、ここで正しく理解しておくと、この章の内容を正確に把握できるようになります。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h3 class="h" id="calibre_link-1483"><span id="calibre_link-77"></span><span class="sans_futura_std_bold_b_">Return Values and return Statements</span></h3>
-<p class="tni">When you call the <span class="thesansmonocd_w5regular_">len()</span> function and pass it an argument such as <span class="thesansmonocd_w5regular_">'Hello'</span>, the function call evaluates to the integer value <span class="thesansmonocd_w5regular_">5</span>, which is the length of the string you passed it. In general, the value to which a function call evaluates is called the <i class="calibre5">return value</i> of the function.</p>
-<p class="tx">When creating a function using the <span class="thesansmonocd_w5regular_">def</span> statement, you can specify the return value with a <span class="thesansmonocd_w5regular_">return</span> statement, which consists of the following:</p>
+<h3 class="h" id="calibre_link-1483"><span id="calibre_link-77"></span><span class="sans_futura_std_bold_b_">返り値とreturn文</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">'Hello'</span>のような引数を渡して<span class="thesansmonocd_w5regular_">len()</span>関数を呼び出すと、その文字数である<span class="thesansmonocd_w5regular_">5</span>のような整数に評価されます。一般化して言うと、関数呼び出しにより評価される値を、関数の<i class="calibre5">返り値（戻り値）</i>と呼びます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">def</span>文により自分で関数を作るときに、<span class="thesansmonocd_w5regular_">return</span>文で返り値を指定できます。次のような形になります。</p>
 <ul class="ul">
-<li class="bl">The <span class="thesansmonocd_w5regular_">return</span> keyword</li>
-<li class="bl">The value or expression that the function should return</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">return</span>というキーワード</li>
+<li class="bl">関数が返す値または式</li>
 </ul>
-<p class="tx">In the case of an expression, the return value is whatever this expression evaluates to. For example, the following program defines a function that returns a different string depending on the number it is passed as an argument. Enter this code into the file editor and save it as <i class="calibre5">magic8Ball.py</i>:</p>
+<p class="tx">式を使うと、その式が評価する値が返り値になります。例えば、次のプログラムは、渡された引数の数字によって別々の文字列を返す関数を定義しています。次のコードを<i class="calibre5">magic8Ball.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> import random
 
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> def get_answer(answer_number):
-    # Returns a fortune answer based on what int answer_number is, 1 to 9
+    # answer_numberの値1から9に応じて答えを返す
   <span class="code_codeannotation" aria-label="annotation3">❸</span> if answer_number == 1:
         return 'It is certain'
     elif answer_number == 2:
@@ -132,78 +132,78 @@ input('&gt;')
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> fortune = get_answer(r)
 <span class="codeannotated_codeannotation" aria-label="annotation6">❻</span> print(fortune)
 </code></pre>
-<p class="tx">When the program starts, Python first imports the <span class="thesansmonocd_w5regular_">random</span> module <span class="codeannotation" aria-label="annotation1">❶</span>. Then comes the definition of the <span class="thesansmonocd_w5regular_">get_answer()</span> function <span class="codeannotation" aria-label="annotation2">❷</span>. Because the function isn’t being called, the code inside it is not run. Next, the program calls the <span class="thesansmonocd_w5regular_">random.randint()</span> function with two arguments: <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">9</span> <span class="codeannotation" aria-label="annotation4">❹</span>. This function evaluates a random integer between <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">9</span> (including <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">9</span> themselves), then stores it in a variable named <span class="thesansmonocd_w5regular_">r</span>.</p>
-<p class="tx">Now the program calls the <span class="thesansmonocd_w5regular_">get_answer()</span> function with <span class="thesansmonocd_w5regular_">r</span> as the argument <span class="codeannotation" aria-label="annotation5">❺</span>. The program execution moves to the top of that function <span class="codeannotation" aria-label="annotation3">❸</span>, storing the value <span class="thesansmonocd_w5regular_">r</span> in a parameter named <span class="thesansmonocd_w5regular_">answer_number</span>. Then, depending on the value in <span class="thesansmonocd_w5regular_">answer_number</span>, the function returns one of many possible string values. The execution returns to the line at the bottom of the program that originally called <span class="thesansmonocd_w5regular_">get_answer()</span> <span class="codeannotation" aria-label="annotation5">❺</span> and assigns the returned string to a variable named <span class="thesansmonocd_w5regular_">fortune</span>, which then gets passed to a <span class="thesansmonocd_w5regular_">print()</span> call <span class="codeannotation" aria-label="annotation6">❻</span> and printed to the screen.</p>
-<p class="tx">Note that because you can pass return values as arguments to other function calls, you could shorten these three lines</p>
+<p class="tx">最初に<span class="thesansmonocd_w5regular_">random</span>モジュールをインポートしています（<span class="codeannotation" aria-label="annotation1">➊</span>）。次に<span class="thesansmonocd_w5regular_">get_answer()</span>関数を定義しています（<span class="codeannotation" aria-label="annotation2">➋</span>）。関数の呼び出しではなく定義ですから、この時点でコードが実行されるわけではありません。次に、<span class="thesansmonocd_w5regular_">1</span>と<span class="thesansmonocd_w5regular_">9</span>という2つの引数を渡して<span class="thesansmonocd_w5regular_">random.randint()</span>関数を呼び出します（<span class="codeannotation" aria-label="annotation4">➍</span>）。<span class="thesansmonocd_w5regular_">1</span>から<span class="thesansmonocd_w5regular_">9</span>までの整数（<span class="thesansmonocd_w5regular_">1</span>と<span class="thesansmonocd_w5regular_">9</span>を含む）に評価され、変数<span class="thesansmonocd_w5regular_">r</span>に格納されます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">r</span>を引数として<span class="thesansmonocd_w5regular_">get_answer()</span>関数を呼び出します（<span class="codeannotation" aria-label="annotation5">➎</span>）。プログラム実行はこの関数の最初に移動し、<span class="thesansmonocd_w5regular_">r</span>の値がパラメータ<span class="thesansmonocd_w5regular_">answer_number</span>に格納されます（<span class="codeannotation" aria-label="annotation3">➌</span>）。この関数は、<span class="thesansmonocd_w5regular_">answer_number</span>の値に応じて文字列を返します。プログラム実行は<span class="thesansmonocd_w5regular_">get_answer()</span>を呼び出した行に戻ります（<span class="codeannotation" aria-label="annotation5">➎</span>）。変数<span class="thesansmonocd_w5regular_">fortune</span>に返り値が代入され、<span class="thesansmonocd_w5regular_">print()</span>の呼び出しに渡され、画面に表示されます（<span class="codeannotation" aria-label="annotation6">➏</span>）。</p>
+<p class="tx">返り値を別の関数呼び出しの引数として渡すことができますから、次の3行を縮めて書くことができます。</p>
 <pre class="pre"><code class="calibre9">r = random.randint(1, 9)
 fortune = get_answer(r)
 print(fortune)
 </code></pre>
-<p class="tni">to this single equivalent line:</p>
+<p class="tni">この3行は次の1行と同じです。</p>
 <pre class="pre"><code class="calibre9">print(get_answer(random.randint(1, 9)))</code></pre>
-<p class="tx">Remember that expressions consist of values and operators; you can use a function call in an expression because the call evaluates to its return value.</p>
+<p class="tx">式は値と演算子から成り立っていることを思い出してください。関数呼び出しは返り値に評価されますから、式中で使うことができます。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h3 class="h" id="calibre_link-1484"><span id="calibre_link-78"></span><span class="sans_futura_std_bold_b_">The</span> <span class="sans_futura_std_bold_b_">None Value</span></h3>
-<p class="tni">In Python, a value called <span class="thesansmonocd_w5regular_">None</span> represents the absence of a value. The <span class="thesansmonocd_w5regular_">None</span> value is the only value of the <span class="thesansmonocd_w5regular_">NoneType</span> data type. (Other programming <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1245" aria-label="78"></span>languages might call this value <span class="thesansmonocd_w5regular_">null</span>, <span class="thesansmonocd_w5regular_">nil</span>, or <span class="thesansmonocd_w5regular_">undefined</span>.) Just like the Boolean <span class="thesansmonocd_w5regular_">True</span> and <span class="thesansmonocd_w5regular_">False</span> values, you must always write <span class="thesansmonocd_w5regular_">None</span> with a capital <i class="calibre5">N</i>.</p>
-<p class="tx">This value-without-a-value can be helpful when you need to store something that shouldn’t be confused for a real value in a variable. One place where <span class="thesansmonocd_w5regular_">None</span> is used is as the return value of <span class="thesansmonocd_w5regular_">print()</span>. The <span class="thesansmonocd_w5regular_">print()</span> function displays text on the screen, and doesn’t need to return anything in the same way <span class="thesansmonocd_w5regular_">len()</span> or <span class="thesansmonocd_w5regular_">input()</span> does. But since all function calls need to evaluate to a return value, <span class="thesansmonocd_w5regular_">print()</span> returns <span class="thesansmonocd_w5regular_">None</span>. To see this in action, enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-1484"><span id="calibre_link-78"></span><span class="sans_futura_std_bold_b_">None値</span></h3>
+<p class="tni">Pythonには<span class="thesansmonocd_w5regular_">None</span>値という値が存在します。値がないことを表します。<span class="thesansmonocd_w5regular_">None</span>値は<span class="thesansmonocd_w5regular_">NoneType</span>データ型の唯一の値です。（値がないことを表す値として、ほかのプログラミング言語では、<span class="thesansmonocd_w5regular_">null</span>、<span class="thesansmonocd_w5regular_">nil</span>、<span class="thesansmonocd_w5regular_">undefined</span>という値があったりします。）ブール値の<span class="thesansmonocd_w5regular_">True</span>と<span class="thesansmonocd_w5regular_">False</span>と同じように、<span class="thesansmonocd_w5regular_">None</span>は大文字の<i class="calibre5">N</i>で始めます。</p>
+<p class="tx">値がないことを表すこの値は、変数に何らかの値を格納しなければならないのだけれども実際的な値を格納したくないときに便利です。<span class="thesansmonocd_w5regular_">print()</span>の返り値は<span class="thesansmonocd_w5regular_">None</span>です。<span class="thesansmonocd_w5regular_">print()</span>関数は画面にテキストを表示しますが、<span class="thesansmonocd_w5regular_">len()</span>関数や<span class="thesansmonocd_w5regular_">input()</span>関数のように返り値は必要ありません。しかし、関数はすべて値を返さなければならないので、<span class="thesansmonocd_w5regular_">print()</span>関数は<span class="thesansmonocd_w5regular_">None</span>を返します。これを確認するために、次のコードを対話型シェルに入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">spam = print('Hello!')</b>
 Hello!
 &gt;&gt;&gt; <b class="calibre10">None == spam</b>
 True
 </code></pre>
-<p class="tx">Behind the scenes, Python adds <span class="thesansmonocd_w5regular_">return None</span> to the end of any function definition with no <span class="thesansmonocd_w5regular_">return</span> statement. This behavior resembles the way in which a <span class="thesansmonocd_w5regular_">while</span> or <span class="thesansmonocd_w5regular_">for</span> loop implicitly ends with a <span class="thesansmonocd_w5regular_">continue</span> statement. Functions also return <span class="thesansmonocd_w5regular_">None</span> if you use a <span class="thesansmonocd_w5regular_">return</span> statement without a value (that is, just the <span class="thesansmonocd_w5regular_">return</span> keyword by itself).</p>
+<p class="tx">Pythonは、明示的な<span class="thesansmonocd_w5regular_">return</span>文がなくても、関数の定義の最後に<span class="thesansmonocd_w5regular_">return None</span>を付け加えます。<span class="thesansmonocd_w5regular_">while</span>や<span class="thesansmonocd_w5regular_">for</span>のループで最後に到達すると<span class="thesansmonocd_w5regular_">continue</span>文が書かれていなくても最初に戻るのと似ています。また、<span class="thesansmonocd_w5regular_">return</span>文を値なしで使うと（<span class="thesansmonocd_w5regular_">return</span>というキーワードだけを書くと）、<span class="thesansmonocd_w5regular_">None</span>が返されます。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h3 class="h" id="calibre_link-1485"><span id="calibre_link-79"></span><span class="sans_futura_std_bold_b_">Named Parameters</span></h3>
-<p class="tni">Python identifies most arguments by their position in the function call. For example, <span class="thesansmonocd_w5regular_">random.randint(1, 10)</span> is different from <span class="thesansmonocd_w5regular_">random.randint(10, 1)</span>. The first call returns a random integer between <span class="thesansmonocd_w5regular_">1</span> and <span class="thesansmonocd_w5regular_">10</span> because the first argument determines the low end of the range and the next argument determines its high end, while the second function call causes an error.</p>
-<p class="tx">On the other hand, Python identifies <i class="calibre5">named parameters</i> by the name placed before them in the function call. You’ll also hear named parameters called keyword parameters or keyword arguments, though they have nothing to do with Python keywords. Programmers often use named parameters to provide optional arguments. For example, the <span class="thesansmonocd_w5regular_">print()</span> function uses the optional parameters <span class="thesansmonocd_w5regular_">end</span> and <span class="thesansmonocd_w5regular_">sep</span> to specify separator characters to print at the end of its arguments and between its arguments, respectively. If you ran a program without these arguments</p>
+<h3 class="h" id="calibre_link-1485"><span id="calibre_link-79"></span><span class="sans_futura_std_bold_b_">名前付きパラメータ</span></h3>
+<p class="tni">Pythonの関数呼び出しでは、引数を位置によって特定することが多いです。例えば、<span class="thesansmonocd_w5regular_">random.randint(1, 10)</span>は<span class="thesansmonocd_w5regular_">random.randint(10, 1)</span>とは異なります。前者は<span class="thesansmonocd_w5regular_">1</span>から<span class="thesansmonocd_w5regular_">10</span>までの整数をランダムに返します。第一引数が範囲の始まりで第二引数が範囲の終わりです。後者はエラーになります。</p>
+<p class="tx">位置引数とは異なり、<i class="calibre5">名前付きパラメータ</i>は、関数の呼び出し時の引数の前の名前によって特定されます。名前付きパラメータは、キーワードパラメータやキーワード引数と呼ばれることもありますが、Pythonのキーワードとは関係ありません。名前付きパラメータはオプションの引数として使われることが多いです。例えば、<span class="thesansmonocd_w5regular_">print()</span>関数には<span class="thesansmonocd_w5regular_">end</span>と<span class="thesansmonocd_w5regular_">sep</span>というオプションのパラメータがあります。それぞれ、出力の終わりをどうするか、引数の間（区切り）をどうするかを指定するパラメータです。次のコードを実行するとします。</p>
 <pre class="pre"><code class="calibre9">print('Hello')
 print('World')
 </code></pre>
-<p class="tni">the output would look like this:</p>
+<p class="tni">出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">Hello
 World
 </code></pre>
-<p class="tx">The two strings appear on separate lines because the <span class="thesansmonocd_w5regular_">print()</span> function automatically adds a newline character to the end of the string it is passed. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1132" aria-label="79"></span>However, you can set the <span class="thesansmonocd_w5regular_">end</span> named parameter to change the newline character to a different string. For example, if the code were this</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">print()</span>関数は自動的に改行文字を追加するので、2つの出力が別々の行に現れます。<span class="thesansmonocd_w5regular_">end</span>名前付きパラメータを設定すると、改行文字から変更できます。例えば、次のコードを実行するとします。</p>
 <pre class="pre"><code class="calibre9">print('Hello', end='')
 print('World')
 </code></pre>
-<p class="tni">the output would look like this:</p>
+<p class="tni">出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">HelloWorld</code></pre>
-<p class="tx">The output appears on a single line because Python no longer prints a newline after <span class="thesansmonocd_w5regular_">'Hello'</span>. Instead, it prints a blank string. This is useful if you need to disable the newline that gets added to the end of every <span class="thesansmonocd_w5regular_">print()</span> function call. Say you wanted to print the heads-or-tails results of a series of coin flips. Printing the output on a single line makes the output prettier, as in this <i class="calibre5">coinflip.py</i> program:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">'Hello'</span>のあとに改行がなくなるので、一行で出力されます。改行文字の代わりに空文字列が出力されています。<span class="thesansmonocd_w5regular_">print()</span>関数を呼び出すたびに付け加えられる改行を無効にできます。コイン投げの結果を表示したいとします。 <i class="calibre5">coinflip.py</i>プログラムのように、出力を1行で表示したほうが見やすいです。</p>
 <pre class="pre"><code class="calibre9">import random
-for i in range(100):  # Perform 100 coin flips.
+for i in range(100):  # コイン投げを100回実行
     if random.randint(0, 1) == 0:
         print('H', end=' ')
     else:
         print('T', end=' ')
-print()  # Print one newline at the end.
+print()  # 最後に1つ改行
 </code></pre>
-<p class="tx">This program displays the H and T results on one compact line, instead of spreading them out with one H or T result per line:</p>
+<p class="tx">このプログラムを実行すると、H（head、表）とT（Tail、裏）の結果が1行でコンパクトに表示されます。1行に1回の結果を表示するよりも見やすいです。</p>
 <pre class="pre"><code class="calibre9">T H T T T H H T T T T H H H H T H H T T T T T H T T T T T H T T T T T H T H T
 H H H T T H T T T T H T H H H T H H T H T T T T T H T T H T T T T H T H H H T
 T T T H T T T T H H H T H T H H H H T H H T
 </code></pre>
-<p class="tx">Similarly, when you pass multiple string values to <span class="thesansmonocd_w5regular_">print()</span>, the function automatically separates them with a single space. To see this behavior, enter the following into the interactive shell:</p>
+<p class="tx">また、<span class="thesansmonocd_w5regular_">print()</span>関数に複数の文字列を渡すと、自動的に半角スペースで区切られます。それを確かめるために、以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print('cats', 'dogs', 'mice')</b>
 cats dogs mice
 </code></pre>
-<p class="tx">You could replace the default separating string by passing the <span class="thesansmonocd_w5regular_">sep</span> named parameter a different string. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">sep</span>名前付きパラメータに区切り文字を渡すと、そのデフォルトの挙動を変更できます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">print('cats', 'dogs', 'mice', sep=',')</b>
 cats,dogs,mice
 </code></pre>
-<p class="tx">You can add named parameters to the functions you write as well, but first, you’ll have to learn about the list and dictionary data types in <span>Chapters 6</span> and <span>7</span>. For now, just know that some functions have optional named parameters you can specify when calling the function.</p>
+<p class="tx">自分で作る関数にキーワード引数を設けることもできます。しかしその前に<span>第6章</span>と<span>第7章</span>でリストと辞書のデータ型を学ぶ必要があります。今のところは、関数の呼び出し時にオプションのキーワード引数を渡せる関数があるということを知っておいてください。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-994" aria-label="80"></span>
-<h3 class="h" id="calibre_link-1486"><span id="calibre_link-80"></span><span class="sans_futura_std_bold_b_">The Call Stack</span></h3>
-<p class="tni">Imagine that you had a meandering conversation with someone. You talked about your friend Alice, which then reminded you of a story about your co-worker Bob, but first you had to explain something about your cousin Carol. You finished your story about Carol and went back to talking about Bob, and when you finished your story about Bob, you went back to talking about Alice. But then you were reminded about your brother David, so you told a story about him, and then you got back to finishing your original story about Alice. Your conversation followed a <i class="calibre5">stack</i>-like structure, like in Figure 4-1. In a stack, items get added or removed from the top only, and the current topic is always at the top of the stack.</p>
-<figure class="img"><img class="img1" id="calibre_link-693" src="images/000091.jpg" alt="A diagram showing the evolution of a stack of names, from left to right" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 4-1: Your meandering conversation stack</span> Description</p></figcaption>
+<h3 class="h" id="calibre_link-1486"><span id="calibre_link-80"></span><span class="sans_futura_std_bold_b_">呼び出しスタック</span></h3>
+<p class="tni">誰かととりとめのない会話をしている場面を想像してください。友人のAliceの話をしたら同僚のBobのことを思い出しましたが、その前にいとこのCarolのことを説明しなければなりません。Carolの説明をしてBobの話に戻り、Bobの話をしてからAliceの話に戻ります。しかしその前に兄のDavidことを思い出したのでその話をしてから、Aliceの話に戻ります。この会話は図4-1のような<i class="calibre5">スタック</i>構造をしています。スタックでは、項目（先ほどの会話の例で言うと話題）を一番上に追加するか一番上から削除するかのどちらかしかできません。現在の項目（話題）が常にスタックの一番上にあります。</p>
+<figure class="img"><img class="img1" id="calibre_link-693" src="images/000091.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 4-1：とりとめのない会話のスタック</span></p></figcaption>
 </figure>
-<p class="tx">Like your meandering conversation, calling a function doesn’t send the execution on a one-way trip to the top of a function. Python will remember which line of code called the function so that the execution can return there when it encounters a <span class="thesansmonocd_w5regular_">return</span> statement. If that original function called other functions, the execution would return to <i class="calibre5">those</i> function calls first, before returning from the original function call. The function call at the top of the stack is the execution’s current location.</p>
-<p class="tx">Open a file editor window and enter the following code, saving it as <i class="calibre5">abcdCallStack.py</i>:</p>
+<p class="tx">こうしたとりとめのない会話と同じように、関数呼び出しはプログラム実行を関数の最初に移動させてから元の呼び出し場所に戻って来ます。Pythonは関数が呼び出された行を覚えていて、<span class="thesansmonocd_w5regular_">return</span>文に到達するとその行に戻ります。最初に実行した関数内で別の関数を呼び出すと、プログラム実行は<i class="calibre5">別の</i>関数を呼び出してから、最初の関数の実行に戻ります。スタックの一番上にある関数呼び出しがプログラム実行の現在位置です。</p>
+<p class="tx">次のコードを<i class="calibre5">abcdCallStack.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def a():
     print('a() starts')
   <span class="code_codeannotation" aria-label="annotation1">❶</span> b()
@@ -225,7 +225,7 @@ def d():
 
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> a()
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1487" aria-label="81"></span>If you run this program, the output will look like this:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1487" aria-label="81"></span>この関数を実行すると、出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">a() starts
 b() starts
 c() starts
@@ -235,55 +235,55 @@ d() starts
 d() returns
 a() returns
 </code></pre>
-<p class="tx">When <span class="thesansmonocd_w5regular_">a()</span> is called <span class="codeannotation" aria-label="annotation5">❺</span>, it calls <span class="thesansmonocd_w5regular_">b()</span> <span class="codeannotation" aria-label="annotation1">❶</span>, which in turn calls <span class="thesansmonocd_w5regular_">c()</span> <span class="codeannotation" aria-label="annotation3">❸</span>. The <span class="thesansmonocd_w5regular_">c()</span> function doesn’t call anything; it just displays <span class="thesansmonocd_w5regular_">c() starts</span> <span class="codeannotation" aria-label="annotation4">❹</span> and <span class="thesansmonocd_w5regular_">c() returns</span> before returning to the line in <span class="thesansmonocd_w5regular_">b()</span> that called it <span class="codeannotation" aria-label="annotation3">❸</span>. Once the execution returns to the code in <span class="thesansmonocd_w5regular_">b()</span> that called <span class="thesansmonocd_w5regular_">c()</span>, it returns to the line in <span class="thesansmonocd_w5regular_">a()</span> that called <span class="thesansmonocd_w5regular_">b()</span> <span class="codeannotation" aria-label="annotation1">❶</span>. The execution continues to the next line in the <span class="thesansmonocd_w5regular_">a()</span> function <span class="codeannotation" aria-label="annotation2">❷</span>, which is a call to <span class="thesansmonocd_w5regular_">d()</span>. Like the <span class="thesansmonocd_w5regular_">c()</span> function, the <span class="thesansmonocd_w5regular_">d()</span> function also doesn’t call anything. It just displays <span class="thesansmonocd_w5regular_">d() starts</span> and <span class="thesansmonocd_w5regular_">d() returns</span> before returning to the line in <span class="thesansmonocd_w5regular_">a()</span> that called it. Because <span class="thesansmonocd_w5regular_">d()</span> contains no other code, the execution returns to the line in <span class="thesansmonocd_w5regular_">a()</span> that called <span class="thesansmonocd_w5regular_">d()</span> <span class="codeannotation" aria-label="annotation2">❷</span>. The last line in <span class="thesansmonocd_w5regular_">a()</span> displays <span class="thesansmonocd_w5regular_">a() returns</span> before returning to the original <span class="thesansmonocd_w5regular_">a()</span> call at the end of the program <span class="codeannotation" aria-label="annotation5">❺</span>.</p>
-<p class="tx">The <i class="calibre5">call stack</i> is how Python remembers where to return the execution after each function call. The call stack isn’t stored in a variable in your program; rather, it’s a section of your computer’s memory that Python handles automatically behind the scenes. When your program calls a function, Python creates a <i class="calibre5">frame object</i> on the top of the call stack. Frame objects store the line number of the original function call so that Python can remember where to return. If the program makes another function call, Python adds another frame object above the other one on the call stack.</p>
-<p class="tx">When a function call returns, Python removes a frame object from the top of the stack and moves the execution to the line number stored in it. Note that frame objects always get added and removed from the top of the stack, and not from any other place. Figure 4-2 illustrates the state of the call stack in <i class="calibre5">abcdCallStack.py</i> as each function is called and returns.</p>
-<figure class="img"><img class="img1" id="calibre_link-695" src="images/000092.jpg" alt="A diagram showing the evolution of a stack of function calls, from left to right" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 4-2: The frame objects of the call stack as</span> <span class="sans_futura_std_book_">abcdCallStack.py</span> <span class="sans_futura_std_book_oblique_i_">calls and returns from functions</span> Description</p></figcaption>
+<p class="tx"><span class="thesansmonocd_w5regular_">a()</span>が呼び出されると（<span class="codeannotation" aria-label="annotation5">➎</span>）、<span class="thesansmonocd_w5regular_">b()</span>を呼び出し（<span class="codeannotation" aria-label="annotation1">➊</span>）、続いて<span class="thesansmonocd_w5regular_">c()</span>を呼び出します（<span class="codeannotation" aria-label="annotation3">➌</span>）。<span class="thesansmonocd_w5regular_">c()</span>はほかの関数を呼び出さず、<span class="thesansmonocd_w5regular_">c() starts</span>と<span class="thesansmonocd_w5regular_">c() returns</span>を表示します（<span class="codeannotation" aria-label="annotation4">➍</span>）。そして、<span class="thesansmonocd_w5regular_">c()</span>を呼び出した<span class="thesansmonocd_w5regular_">b()</span>の行に戻ります（<span class="codeannotation" aria-label="annotation3">➌</span>）。<span class="thesansmonocd_w5regular_">c()</span>を呼び出した<span class="thesansmonocd_w5regular_">b()</span>の行に戻り、<span class="thesansmonocd_w5regular_">b()</span>の実行を終えると、<span class="thesansmonocd_w5regular_">b()</span>を呼び出した<span class="thesansmonocd_w5regular_">a()</span> の行に戻ります（<span class="codeannotation" aria-label="annotation1">➊</span>）。<span class="thesansmonocd_w5regular_">b()</span>を呼び出した次の行、つまり<span class="thesansmonocd_w5regular_">d()</span>を呼び出す行に進みます（<span class="codeannotation" aria-label="annotation2">➋</span>）。<span class="thesansmonocd_w5regular_">c()</span>と同様<span class="thesansmonocd_w5regular_">d()</span>もほかの関数を呼び出しません。<span class="thesansmonocd_w5regular_">d() starts</span>と<span class="thesansmonocd_w5regular_">d() returns</span>を表示し、<span class="thesansmonocd_w5regular_">d()</span>を呼び出した<span class="thesansmonocd_w5regular_">a()</span>の行に戻ります(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">a()</span>の最終行で<span class="thesansmonocd_w5regular_">a() returns</span>を表示し、<span class="thesansmonocd_w5regular_">a()</span>を呼び出した元の行に戻ります（<span class="codeannotation" aria-label="annotation5">➎</span>）。</p>
+<p class="tx"><i class="calibre5">呼び出しスタック</i>は、Pythonが関数を呼び出したあとに戻る場所を覚えておく仕組みです。呼び出しスタックはプログラム中の変数に保存されているのではなくコンピュータのメモリに保存されていて、Pythonが背後で処理しています。プログラムが関数を呼び出すと、Pythonは呼び出しスタックの一番上に<i class="calibre5">フレームオブジェクト</i>を作成します。フレームオブジェクトが関数を呼び出した行番号を保存することにより、Pythonが関数の実行後に戻る場所がわかります。さらに関数を呼び出すと、呼び出しスタックの一番上に別のフレームオブジェクトを作成します。</p>
+<p class="tx">関数の呼び出しが終わると、Pythonはスタックの一番上のフレームオブジェクトを削除し、そのフレームオブジェクトに保存されている行番号に戻ります。フレームオブジェクトは必ず一番上から処理されます。図4-2は<i class="calibre5">abcdCallStack.py</i>で関数の実行ごとに呼び出しスタックがどうなっているかを示しています。</p>
+<figure class="img"><img class="img1" id="calibre_link-695" src="images/000092.jpg" alt="" />
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 4-2：</span><span class="sans_futura_std_book_">abcdCallStack.py</span><span class="sans_futura_std_book_oblique_i_">における関数の実行ごとの呼び出しスタックのフレームオブジェクト</span></p></figcaption>
 </figure>
-<p class="tx">The top of the call stack is the currently executing function. When the call stack is empty, the execution is on a line outside all functions.</p>
-<p class="tx">The call stack is a technical detail that you don’t strictly need to know about to write programs. It’s enough to understand that function calls return to the line number they were called from. However, understanding <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1178" aria-label="82"></span>call stacks makes it easier to understand local and global scopes, described in the next section.</p>
+<p class="tx">呼び出しスタックの一番上には現在実行されている関数があります。呼び出しスタックが空になると、プログラム実行は関数外にあります。</p>
+<p class="tx">プログラムを書くのに呼び出しスタックの技術的な細部まで知る必要はありません。関数を呼び出したあとには呼び出し行に戻ることを理解していれば十分です。呼び出しスタックを理解すると、次のセクションで説明するローカルスコープとグローバルスコープを理解する助けになります。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h3 class="h" id="calibre_link-1488"><span id="calibre_link-81"></span><span class="sans_futura_std_bold_b_">Local and Global Scopes</span></h3>
-<p class="tni">Only code within a called function can access the parameters and variables assigned in that function. These variables are said to exist in that function’s  <i class="calibre5">local scope</i>. By contrast, code anywhere in a program can access variables that are assigned outside all functions. These variables are said to exist in the <i class="calibre5">global scope</i>. A variable that exists in a local scope is called a <i class="calibre5">local variable</i>, while a variable that exists in a global scope is called a <i class="calibre5">global variable</i>. A variable must be one or the other; it cannot be both local and global.</p>
-<p class="tx">Think of a <i class="calibre5">scope</i> as a container for variables. There is only one global scope, created when your program begins. When your program terminates, it destroys the global scope, and all of its variables get forgotten. A new local scope gets created whenever a program calls a function. Any variables assigned in the function exist within the function’s local scope. When the function returns, the local scope gets destroyed, along with these variables.</p>
-<p class="tx">Python uses scoping because it enables a function to modify its variables, yet interact with the rest of the program through its parameters and its return value only. This narrows down the number of lines of code that might be causing a bug. If your program contained nothing but global variables, and contained a bug caused by a variable set to a bad value, you might struggle to track down the location of this bad value. It could have been set from anywhere in the program, which could be hundreds or thousands of lines long! But if the bug occurred in a local variable, you can restrict your search to a single function.</p>
-<p class="tx">For this reason, while using global variables in small programs is fine, it’s a bad habit to rely on global variables as your programs get larger and larger.</p>
+<h3 class="h" id="calibre_link-1488"><span id="calibre_link-81"></span><span class="sans_futura_std_bold_b_">ローカルスコープとグローバルスコープ</span></h3>
+<p class="tni">呼び出された関数内のコードだけが、その関数内のパラメータと変数にアクセスできます。関数内の変数は、その関数の<i class="calibre5">ローカルスコープ</i>の中にあります。逆に、すべての関数の外にある変数には、プログラムのどこからでもアクセスできます。関数外の変数は、<i class="calibre5">グローバルスコープ</i>の中にあります。ローカルスコープの中にある変数を<i class="calibre5">ローカル変数</i>と呼び、グローバルスコープの中にある変数を<i class="calibre5">グローバル変数</i>と呼びます。変数は必ずローカル変数かグローバル変数のどちらかになります。</p>
+<p class="tx"><i class="calibre5">スコープ</i>は変数を入れている容器だと考えてください。グローバルスコープは、プログラムの実行開始時に作られ、一つだけ存在します。プログラムが終了すると、グローバルスコープは破棄され、その中に入っている変数もすべて破棄されます。ローカルスコープは関数の呼び出し時に新しく作られます。関数内の変数はすべてその関数のローカルスコープ内にあります。関数の実行が終わると、ローカルスコープは破棄され、その中にある変数も破棄されます。</p>
+<p class="tx">Pythonでは、関数がパラメータと返り値を通じてのみ変数を変更できるようにするために、スコープが存在しています。そうすることでバグの原因となる可能性のあるコードの行数を絞り込めます。もしグローバル変数しかなかったとすると、変数におかしな値が設定されているせいでバグが発生したら、どこでその値が設定されたかを追いかけるのが大変です。プログラムのどこからでも変数に値を設定できることになるからです。得てしてプログラムは数千行に及びます。これに対し、ローカル変数におかしな値が設定されているせいでバグが発生したら、その1つの関数を追うだけですみます。</p>
+<p class="tx">そのため、小さなプログラムでグローバル変数を使っても構いませんが、大きなプログラムでグローバル変数に頼るのは悪い習慣です。</p>
 <section type="division" aria-labelledby="sec8">
-<h4 class="h1" id="calibre_link-1489"><span id="calibre_link-82"></span><span class="sans_futura_std_heavy_oblique_bi_">Scope Rules</span></h4>
-<p class="tni">When working with local and global variables, keep the following rules in mind:</p>
+<h4 class="h1" id="calibre_link-1489"><span id="calibre_link-82"></span><span class="sans_futura_std_heavy_oblique_bi_">スコープのルール</span></h4>
+<p class="tni">ローカル変数とグローバル変数を使うときには、以下のルールを意識してください。</p>
 <ul class="ul">
-<li class="bl">Code that is in the global scope, outside all functions, can’t use local variables.</li>
-<li class="bl">Code that is in one function’s local scope can’t use variables in any other local scope.</li>
-<li class="bl">Code in a local scope can access global variables.</li>
-<li class="bl">You can use the same name for different variables if they are in different scopes. That is, there can be a local variable named <span class="thesansmonocd_w5regular_">spam</span> and a global variable also named <span class="thesansmonocd_w5regular_">spam</span>.</li>
+<li class="bl">すべての関数の外側であるグローバルスコープでローカル変数は使用不可</li>
+<li class="bl">関数内のローカルスコープで別のローカルスコープ内の変数は使用不可</li>
+<li class="bl">ローカルスコープでグローバル変数は使用可</li>
+<li class="bl">スコープが異なれば同じ名前を別々の変数に使える（ローカル変数<span class="thesansmonocd_w5regular_">spam</span>とグローバル変数<span class="thesansmonocd_w5regular_">spam</span>は別物）</li>
 </ul>
-<p class="tx">Let’s review these rules with examples.</p>
+<p class="tx">これらのルールを例で確かめてみましょう。</p>
 <section type="division" aria-labelledby="sec9">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1490" aria-label="83"></span>
-<h5 class="h2" id="calibre_link-1491"><span class="sans_futura_std_bold_b_">Code That Is in the Global Scope Can’t Use Local Variables</span></h5>
-<p class="tni">Consider the following code, which will cause an error when you run it:</p>
+<h5 class="h2" id="calibre_link-1491"><span class="sans_futura_std_bold_b_">グローバルスコープでローカル変数は使用不可</span></h5>
+<p class="tni">次のコードを実行するとエラーが発生します。</p>
 <pre class="pre"><code class="calibre9">def spam():
   <span class="code_codeannotation" aria-label="annotation1">❶</span> eggs = 'sss'
 spam()
 print(eggs)
 </code></pre>
-<p class="tx">The program’s output will look like this:</p>
+<p class="tx">このプログラムの出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">Traceback (most recent call last):
   File "C:/test1.py", line 4, in &lt;module&gt;
     print(eggs)
 NameError: name 'eggs' is not defined
 </code></pre>
-<p class="tx">The error happens because the <span class="thesansmonocd_w5regular_">eggs</span> variable exists only in the local scope created when <span class="thesansmonocd_w5regular_">spam()</span> is called <span class="codeannotation" aria-label="annotation1">❶</span>. Once the program execution returns from <span class="thesansmonocd_w5regular_">spam()</span>, that local scope gets destroyed, and there is no longer a variable named <span class="thesansmonocd_w5regular_">eggs</span>. So when your program tries to run <span class="thesansmonocd_w5regular_">print(eggs)</span>, Python gives you an error saying that <span class="thesansmonocd_w5regular_">eggs</span> is not defined. This makes sense if you think about it; when the program execution is in the global scope, no local scopes exist, so there can’t be any local variables. This is why you can only reference global variables in the global scope.</p>
+<p class="tx">変数<span class="thesansmonocd_w5regular_">eggs</span>は<span class="thesansmonocd_w5regular_">spam()</span>が呼び出されて変数が作成されたローカルスコープ内に存在します（<span class="codeannotation" aria-label="annotation1">➊</span>）。<span class="thesansmonocd_w5regular_">spam()</span>の実行後にそのローカルスコープは破棄され、変数<span class="thesansmonocd_w5regular_">eggs</span>は存在しなくなります。よって、<span class="thesansmonocd_w5regular_">print(eggs)</span>を実行しようとすると、<span class="thesansmonocd_w5regular_">eggs</span>が定義されていないというエラーが発生します。プログラム実行がグローバルスコープにあるときは、ローカルスコープは存在しませんから、ローカル変数もありません。グローバルスコープではグローバル変数しか使えないのです。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h5 class="h2" id="calibre_link-1492"><span class="sans_futura_std_bold_b_">Code That Is in a Local Scope Can’t Use Variables in Other Local Scopes</span></h5>
-<p class="tni">Python creates a new local scope whenever a program calls a function, even when the function is called from another function. Consider this program:</p>
+<h5 class="h2" id="calibre_link-1492"><span class="sans_futura_std_bold_b_">ローカルスコープでほかのローカルスコープの変数は使用不可</span></h5>
+<p class="tni">関数が呼び出されるたびに新しいローカルスコープが作られます。ある関数内で別の関数を呼び出すときもそうです。次のプログラムを見てください。</p>
 <pre class="pre"><code class="calibre9">def spam():
     eggs = 'SPAMSPAM'
   <span class="code_codeannotation" aria-label="annotation1">❶</span> bacon()
-  <span class="code_codeannotation" aria-label="annotation2">❷</span> print(eggs)  # Prints 'SPAMSPAM'
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> print(eggs)  # 'SPAMSPAM'が表示される
 
 def bacon():
     ham = 'hamham'
@@ -291,120 +291,120 @@ def bacon():
 
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> spam()
 </code></pre>
-<p class="tx">When the program starts, it calls the <span class="thesansmonocd_w5regular_">spam()</span> function <span class="codeannotation" aria-label="annotation3">❸</span>, creating a local scope. The <span class="thesansmonocd_w5regular_">spam()</span> function sets the local variable <span class="thesansmonocd_w5regular_">eggs</span> to <span class="thesansmonocd_w5regular_">'SPAMSPAM'</span>, then calls the <span class="thesansmonocd_w5regular_">bacon()</span> function <span class="codeannotation" aria-label="annotation1">❶</span>, creating a second local scope. Multiple local scopes can exist at the same time. In this new local scope, the local variable <span class="thesansmonocd_w5regular_">ham</span> gets set to <span class="thesansmonocd_w5regular_">'hamham'</span>, and a local variable <span class="thesansmonocd_w5regular_">eggs</span> (which differs from the one in <span class="thesansmonocd_w5regular_">spam()</span>’s local scope) gets created and set to <span class="thesansmonocd_w5regular_">'BACONBACON'</span>. At this point, the program has two local variables named <span class="thesansmonocd_w5regular_">eggs</span> that exist simultaneously: one that is local to <span class="thesansmonocd_w5regular_">spam()</span> and one that is local to <span class="thesansmonocd_w5regular_">bacon()</span>.</p>
-<p class="tx">When <span class="thesansmonocd_w5regular_">bacon()</span> returns, Python destroys the local scope for that call, including its <span class="thesansmonocd_w5regular_">eggs</span> variable. The program execution continues in the <span class="thesansmonocd_w5regular_">spam()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1227" aria-label="84"></span>function, printing the value of <span class="thesansmonocd_w5regular_">eggs</span> <span class="codeannotation" aria-label="annotation2">❷</span>. Because the local scope for the call to <span class="thesansmonocd_w5regular_">spam()</span> still exists, the only <span class="thesansmonocd_w5regular_">eggs</span> variable is the <span class="thesansmonocd_w5regular_">spam()</span> function’s <span class="thesansmonocd_w5regular_">eggs</span> variable, which was set to <span class="thesansmonocd_w5regular_">'SPAMSPAM'</span>. This is what the program prints.</p>
+<p class="tx">プログラムの実行を開始すると、<span class="thesansmonocd_w5regular_">spam()</span>関数が呼び出され（<span class="codeannotation" aria-label="annotation3">❸</span>）、ローカルスコープが作られます。<span class="thesansmonocd_w5regular_">spam()</span>関数が、ローカル変数<span class="thesansmonocd_w5regular_">eggs</span>に <span class="thesansmonocd_w5regular_">'SPAMSPAM'</span>を設定し、<span class="thesansmonocd_w5regular_">bacon()</span>関数を呼び出して（<span class="codeannotation" aria-label="annotation1">➊</span>）、2つ目のローカルスコープを作成します。同時に複数のローカルスコープが存在します。この新しいローカルスコープ内で、ローカル変数<span class="thesansmonocd_w5regular_">ham</span>に <span class="thesansmonocd_w5regular_">'hamham'</span>が設定され、ローカル変数<span class="thesansmonocd_w5regular_">eggs</span>に <span class="thesansmonocd_w5regular_">'BACONBACON'</span>が設定されます。これは<span class="thesansmonocd_w5regular_">spam()</span>のローカル変数<span class="thesansmonocd_w5regular_">eggs</span>とは別物です。この時点で、プログラムには、2つの<span class="thesansmonocd_w5regular_">eggs</span>という名前のローカル変数が同時に存在します。1つは<span class="thesansmonocd_w5regular_">spam()</span>のローカル変数で、もう1つは<span class="thesansmonocd_w5regular_">bacon()</span>のローカル変数です。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">bacon()</span>の実行が終わると、そのローカルスコープは破棄され、そのローカル変数<span class="thesansmonocd_w5regular_">eggs</span>も破棄されます。<span class="thesansmonocd_w5regular_">spam()</span>関数のプログラム実行が継続し、<span class="thesansmonocd_w5regular_">eggs</span>の値を表示します（<span class="codeannotation" aria-label="annotation2">❷</span>）。<span class="thesansmonocd_w5regular_">spam()</span>のローカルスコープはまだ存在しており、変数<span class="thesansmonocd_w5regular_">eggs</span>は<span class="thesansmonocd_w5regular_">spam()</span>関数のローカルスコープにだけあります。その値は<span class="thesansmonocd_w5regular_">'SPAMSPAM'</span>です。プログラムはこれを表示します。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h5 class="h2" id="calibre_link-1493"><span class="sans_futura_std_bold_b_">Code That Is in a Local Scope Can Use Global Variables</span></h5>
-<p class="tni">So far, I’ve demonstrated that code in the global scope can’t access variables in a local scope; nor can code in a different local scope. Now consider the following program:</p>
+<h5 class="h2" id="calibre_link-1493"><span class="sans_futura_std_bold_b_">ローカルスコープでグローバル変数は使用可</span></h5>
+<p class="tni">ここまで、グローバルスコープでローカル変数は使用不可であることと、ローカルスコープでほかのローカルスコープの変数は使用不可であることを示してきました。次のプログラムを見てください。</p>
 <pre class="pre"><code class="calibre9">def spam():
-    print(eggs)  # Prints 'GLOBALGLOBAL'
+    print(eggs)  # 'GLOBALGLOBAL'が表示される
 eggs = 'GLOBALGLOBAL'
 spam()
 print(eggs)
 </code></pre>
-<p class="tx">Because the <span class="thesansmonocd_w5regular_">spam()</span> function has no parameter named <span class="thesansmonocd_w5regular_">eggs</span>, nor any code that assigns <span class="thesansmonocd_w5regular_">eggs</span> a value, Python considers the function’s use of <span class="thesansmonocd_w5regular_">eggs</span> a reference to the global variable <span class="thesansmonocd_w5regular_">eggs</span>. This is why the program prints <span class="thesansmonocd_w5regular_">'GLOBALGLOBAL'</span> when it’s run.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">eggs</span>という名前のパラメータも、変数<span class="thesansmonocd_w5regular_">eggs</span>に値を代入しているコードも、<span class="thesansmonocd_w5regular_">spam()</span>関数にはありませんから、<span class="thesansmonocd_w5regular_">spam()</span>で<span class="thesansmonocd_w5regular_">eggs</span>が使われると、グローバル変数の<span class="thesansmonocd_w5regular_">eggs</span>だとPythonは解釈します。よって、このプログラムを実行すると、<span class="thesansmonocd_w5regular_">'GLOBALGLOBAL'</span>が表示されます。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h5 class="h2" id="calibre_link-1494"><span class="sans_futura_std_bold_b_">Local and Global Variables Can Have the Same Name</span></h5>
-<p class="tni">Technically, it’s perfectly acceptable to use the same variable name for a global variable and local variables in different scopes. But, to simplify your life, avoid doing this. To see what could happen, enter the following code into the file editor and save it as <i class="calibre5">localGlobalSameName.py</i>:</p>
+<h5 class="h2" id="calibre_link-1494"><span class="sans_futura_std_bold_b_">同名のローカル変数とグローバル変数は別物</span></h5>
+<p class="tni">同名のグローバル変数とローカル変数を別物として使うことがPythonでは技術的に可能です。技術的に可能だからといってそのようなことはしないでください。同名のグローバル変数とローカル変数を使うとどうなるかを確認するために、次のコードを<i class="calibre5">localGlobalSameName.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def spam():
   <span class="code_codeannotation" aria-label="annotation1">❶</span> eggs = 'spam local'
-    print(eggs)  # Prints 'spam local'
+    print(eggs)  # 'spam local'が表示される
 
 def bacon():
   <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'bacon local'
-    print(eggs)  # Prints 'bacon local'
+    print(eggs)  # 'bacon local'が表示される
     spam()
-    print(eggs)  # Prints 'bacon local'
+    print(eggs)  # 'bacon local'が表示される
 
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> eggs = 'global'
 bacon()
-print(eggs)  # Prints 'global'
+print(eggs)  # 'global'が表示される
 </code></pre>
-<p class="tx">When you run this program, it outputs the following:</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">bacon local
 spam local
 bacon local
 global
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1179" aria-label="85"></span>This program actually contains three different variables, but confusingly, they’re all named <span class="thesansmonocd_w5regular_">eggs</span>. The variables are as follows:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1179" aria-label="85"></span>このプログラムには3つの異なる変数がありますが、まぎらわしいことに全部同じ<span class="thesansmonocd_w5regular_">eggs</span>という名前です。3つの変数は次のとおりです。</p>
 <ul class="ul">
-<li class="bl">A variable named <span class="thesansmonocd_w5regular_">eggs</span> that exists in a local scope when <span class="thesansmonocd_w5regular_">spam()</span> is called <span class="codeannotation" aria-label="annotation1">❶</span></li>
-<li class="bl">A variable named <span class="thesansmonocd_w5regular_">eggs</span> that exists in a local scope when <span class="thesansmonocd_w5regular_">bacon()</span> is called <span class="codeannotation" aria-label="annotation2">❷</span></li>
-<li class="bl">A variable named <span class="thesansmonocd_w5regular_">eggs</span> that exists in the global scope <span class="codeannotation" aria-label="annotation3">❸</span></li>
+<li class="bl"><span class="thesansmonocd_w5regular_">spam()</span>ローカルスコープ内の変数<span class="thesansmonocd_w5regular_">eggs</span>(<span class="codeannotation" aria-label="annotation1">❶</span>)</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">bacon()</span>ローカルスコープ内の変数<span class="thesansmonocd_w5regular_">eggs</span>(<span class="codeannotation" aria-label="annotation2">❷</span>)</li>
+<li class="bl">グローバルスコープ内の変数<span class="thesansmonocd_w5regular_">eggs</span>(<span class="codeannotation" aria-label="annotation3">❸</span>)</li>
 </ul>
-<p class="tx">Because these three separate variables all have the same name, it can be hard to keep track of the one in use at any given time. Instead, give all variables unique names, even when they appear in different scopes.</p>
+<p class="tx">この3つの別々の変数が同じ名前ですから、どの変数が使われているかを見極めるのが困難です。スコープが別々でも変数には一意に識別できる名前を付けてください。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h4 class="h1" id="calibre_link-1495"><span id="calibre_link-83"></span><span class="sans_futura_std_heavy_oblique_bi_">The global Statement</span></h4>
-<p class="tni">If you need to modify a global variable from within a function, use the <span class="thesansmonocd_w5regular_">global</span> statement. Including a line such as <span class="thesansmonocd_w5regular_">global eggs</span> at the top of a function tells Python, “In this function, <span class="thesansmonocd_w5regular_">eggs</span> refers to the  global variable, so don’t create a local variable with this name.” For example, enter the following code into the file editor and save it as <i class="calibre5">globalStatement.py</i>:</p>
+<h4 class="h1" id="calibre_link-1495"><span id="calibre_link-83"></span><span class="sans_futura_std_heavy_oblique_bi_">グローバル文</span></h4>
+<p class="tni">関数内からグローバル変数を変更する場合は、<span class="thesansmonocd_w5regular_">global</span>文を使います。<span class="thesansmonocd_w5regular_">global eggs</span>のような行が関数の冒頭にあると、「この関数では<span class="thesansmonocd_w5regular_">eggs</span>はグローバル変数なのでこの名前のローカル変数を作らないでください」という意味になります。次のコードを<i class="calibre5">globalStatement.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def spam():
   <span class="code_codeannotation" aria-label="annotation1">❶</span> global eggs
   <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'spam'
 
 eggs = 'global'
 spam()
-print(eggs)  # Prints 'spam'
+print(eggs)  # 'spam'が表示される
 </code></pre>
-<p class="tx">When you run this program, the final <span class="thesansmonocd_w5regular_">print()</span> call will output this:</p>
+<p class="tx">このコードを実行すると、最後の<span class="thesansmonocd_w5regular_">print()</span>により次のように表示されます。</p>
 <pre class="pre"><code class="calibre9">spam</code></pre>
-<p class="tx">Because <span class="thesansmonocd_w5regular_">eggs</span> is declared <span class="thesansmonocd_w5regular_">global</span> at the top of <span class="thesansmonocd_w5regular_">spam()</span> <span class="codeannotation" aria-label="annotation1">❶</span>, setting <span class="thesansmonocd_w5regular_">eggs</span> to <span class="thesansmonocd_w5regular_">'spam'</span><span class="codeannotation" aria-label="annotation2">❷</span> changes the value of the globally scoped <span class="thesansmonocd_w5regular_">eggs</span>. No local <span class="thesansmonocd_w5regular_">eggs</span> variable is ever created.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">spam()</span>関数の冒頭で<span class="thesansmonocd_w5regular_">eggs</span>が<span class="thesansmonocd_w5regular_">global</span>文で宣言されていますから（<span class="codeannotation" aria-label="annotation1">❶</span>）、<span class="thesansmonocd_w5regular_">eggs</span>に<span class="thesansmonocd_w5regular_">'spam'</span>が代入されたときに（<span class="codeannotation" aria-label="annotation2">➋</span>）、グローバルスコープの<span class="thesansmonocd_w5regular_">eggs</span>に代入されます。ローカル変数の<span class="thesansmonocd_w5regular_">eggs</span>は作成されません。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h4 class="h1" id="calibre_link-1496"><span id="calibre_link-84"></span><span class="sans_futura_std_heavy_oblique_bi_">Scope Identification</span></h4>
-<p class="tni">Use these four rules to tell whether a variable belongs to a local scope or the global scope:</p>
-<p class="listnumberf">  1.  A variable in the global scope (that is, outside all functions) is always a global variable.</p>
-<p class="listnumber">  2.  A variable in a function with a <span class="thesansmonocd_w5regular_">global</span> statement is always a global variable in that function.</p>
-<p class="listnumber">  3.  Otherwise, if a function uses a variable in an assignment statement, it is a local variable.</p>
-<p class="listnumberl">  4.  However, if the function uses a variable but never in an assignment statement, it is a global variable.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1293" aria-label="86"></span>To get a better feel for these rules, here’s an example program. Enter the following code into the file editor and save it as <i class="calibre5">sameNameLocalGlobal.py</i>:</p>
+<h4 class="h1" id="calibre_link-1496"><span id="calibre_link-84"></span><span class="sans_futura_std_heavy_oblique_bi_">スコープの識別</span></h4>
+<p class="tni">以下の4つのルールで、変数がローカル変数なのかグローバル変数なのかを見分けられます。</p>
+<p class="listnumberf">  1. グローバルスコープの変数（すべての関数の外で使われている変数）は、間違いなくグローバル変数です。</p>
+<p class="listnumber">  2. 関数にglobal文があれば、それも間違いなくグローバル変数です。</p>
+<p class="listnumber">  3. 関数内にglobal文がなくて変数が代入文で使われていたら、ローカル変数になります。</p>
+<p class="listnumberl">  4. 関数内にglobal文がなくても代入文で使われていなければ、グローバル変数です。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1293" aria-label="86"></span>このルールになじむために、もう一つプログラム例を挙げます。次のコードを<i class="calibre5">sameNameLocalGlobal.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def spam():
   <span class="code_codeannotation" aria-label="annotation1">❶</span> global eggs
-    eggs = 'spam'  # This is the global variable.
+    eggs = 'spam'  # グローバル変数
 
 def bacon():
-  <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'bacon'  # This is a local variable.
+  <span class="code_codeannotation" aria-label="annotation2">❷</span> eggs = 'bacon'  # ローカル変数
 
 def ham():
-  <span class="code_codeannotation" aria-label="annotation3">❸</span> print(eggs)  # This is the global variable.
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> print(eggs)  # グローバル変数
 
-eggs = 'global'  # This is the global variable.
+eggs = 'global'  # グローバル変数
 spam()
 print(eggs)
 </code></pre>
-<p class="tx">In the <span class="thesansmonocd_w5regular_">spam()</span> function, <span class="thesansmonocd_w5regular_">eggs</span> refers to the global <span class="thesansmonocd_w5regular_">eggs</span> variable because the function includes a <span class="thesansmonocd_w5regular_">global</span> statement for it <span class="codeannotation" aria-label="annotation1">❶</span>. In <span class="thesansmonocd_w5regular_">bacon()</span>, <span class="thesansmonocd_w5regular_">eggs</span> is a local variable because the function includes an assignment statement for it <span class="codeannotation" aria-label="annotation2">❷</span>. In <span class="thesansmonocd_w5regular_">ham()</span> <span class="codeannotation" aria-label="annotation3">❸</span>, <span class="thesansmonocd_w5regular_">eggs</span> is the global variable because the function contains no assignment statement or <span class="thesansmonocd_w5regular_">global</span> statement for the variable. If you run <i class="calibre5">sameNameLocalGlobal.py</i>, the output will look like this:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">spam()</span>関数内では、<span class="thesansmonocd_w5regular_">eggs</span>の<span class="thesansmonocd_w5regular_">global</span>文がありますから、<span class="thesansmonocd_w5regular_">eggs</span>はグローバル変数です（<span class="codeannotation" aria-label="annotation1">➊</span>）。<span class="thesansmonocd_w5regular_">bacon()</span>関数内では、代入文があるので、<span class="thesansmonocd_w5regular_">eggs</span>はローカル変数です（<span class="codeannotation" aria-label="annotation2">➋</span>）。<span class="thesansmonocd_w5regular_">ham()</span>関数内では、<span class="thesansmonocd_w5regular_">global</span>文はありませんが代入文で使われていないので、<span class="thesansmonocd_w5regular_">eggs</span>はグローバル変数です（<span class="codeannotation" aria-label="annotation3">➌</span>）。<i class="calibre5">sameNameLocalGlobal.py</i>を実行すると、出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">spam</code></pre>
-<p class="tx">If you try to use a local variable in a function before you assign a value to it, as in the following program, Python will give you an error. To see this, enter the following into the file editor and save it as <i class="calibre5">sameNameError.py</i>:</p>
+<p class="tx">次のプログラムのように、関数内で変数に値を代入する前にその変数（ローカル変数）を使おうとすると、エラーが発生します。次のコードを<i class="calibre5">sameNameError.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def spam():
-    print(eggs)  # ERROR!
+    print(eggs)  # エラー
   <span class="code_codeannotation" aria-label="annotation1">❶</span> eggs = 'spam local'
    
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> eggs = 'global'
 spam()
 </code></pre>
-<p class="tx">If you run the previous program, it produces an error message:</p>
+<p class="tx">このプログラムを実行すると、エラーメッセージが表示されます。</p>
 <pre class="pre"><code class="calibre9">Traceback (most recent call last):
   File "C:/sameNameError.py", line 6, in &lt;module&gt;
     spam()
   File "C:/sameNameError.py", line 2, in spam
-    print(eggs)  # ERROR!
+    print(eggs)  # エラー
 UnboundLocalError: local variable 'eggs' referenced before assignment
 </code></pre>
-<p class="tx">This error happens because Python sees that there is an assignment statement for <span class="thesansmonocd_w5regular_">eggs</span> in the <span class="thesansmonocd_w5regular_">spam()</span> function <span class="codeannotation" aria-label="annotation1">❶</span> and, therefore, considers any mention of an <span class="thesansmonocd_w5regular_">eggs</span> variable in <span class="thesansmonocd_w5regular_">spam()</span> to be a local variable. But because <span class="thesansmonocd_w5regular_">print(eggs)</span> is executed before <span class="thesansmonocd_w5regular_">eggs</span> is assigned anything, the local variable <span class="thesansmonocd_w5regular_">eggs</span> doesn’t exist. Python won’t fall back to using the global <span class="thesansmonocd_w5regular_">eggs</span> variable <span class="codeannotation" aria-label="annotation2">❷</span>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-933" aria-label="87"></span>The name of the error, <span class="thesansmonocd_w5regular_">UnboundLocalError</span>, can be somewhat confusing. In Python, <i class="calibre5">binding</i> is another way of saying <i class="calibre5">assigning</i>, so this error indicates that the program used a local variable before it was assigned a value.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">spam()</span>関数には<span class="thesansmonocd_w5regular_">eggs</span>の代入文がありますから（<span class="codeannotation" aria-label="annotation1">➊</span>）、<span class="thesansmonocd_w5regular_">spam()</span>内の<span class="thesansmonocd_w5regular_">eggs</span>はローカル変数です。しかし<span class="thesansmonocd_w5regular_">eggs</span>に値が代入される前に<span class="thesansmonocd_w5regular_">print(eggs)</span>を実行しているので、ローカル変数<span class="thesansmonocd_w5regular_">eggs</span>はまだ存在しません。グローバル変数の<span class="thesansmonocd_w5regular_">eggs</span>が参照されることはありません（<span class="codeannotation" aria-label="annotation2">➋</span>）。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-933" aria-label="87"></span><span class="thesansmonocd_w5regular_">UnboundLocalError</span>というエラー名はややわかりづらいです。Pythonでは、<i class="calibre5">（boundの原形である）bind</i>が<i class="calibre5">代入</i>と同じ意味で、代入前にローカル変数を使ったことを示しています。</p>
 <aside class="box" aria-label="box-10">
-<p class="bt" id="calibre_link-1497"><span class="sans_futura_std_bold_b_">FUNCTIONS AS “BLACK BOXES”</span></p>
-<p class="btni"><span class="sans_futura_std_book_">Often, all you need to know about a function are its inputs (the parameters) and its output value; you don’t always have to burden yourself with how the function’s code actually works. When you think about functions in this high-level way, it’s common to say that you’re treating a function as a “black box.”</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">This idea is fundamental to modern programming. Later chapters in this book will show you several modules with functions that were written by other people. While you can take a peek at the source code if you’re curious, you don’t need to know how these functions work in order to use them. And because writing functions without global variables is encouraged, you usually don’t have to worry about the function’s code interacting with the rest of your program.</span></p>
+<p class="bt" id="calibre_link-1497"><span class="sans_futura_std_bold_b_">関数はブラックボックス</span></p>
+<p class="btni"><span class="sans_futura_std_book_">関数では入力（パラメータ）と出力値さえわかれば十分なことが多いです。関数のコードがどのように動作するかを必ず理解しなければならないわけではありません。このように抽象化して捉えると、関数はブラックボックスだと言えます。</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">この考え方は現代のプログラミングの基礎になっています。本書の後半の章ではほかの人が書いたモジュールの関数を紹介します。興味があればソースコードを覗いてみることはできますが、関数を使うのにそこまでする必要はありません。関数ではグローバル変数を使わないことが推奨されていますから、関数が自分の書いたプログラムに干渉する心配は普通しなくてよいです。</span></p>
 </aside>
 </section>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h3 class="h" id="calibre_link-1498"><span id="calibre_link-85"></span><span class="sans_futura_std_bold_b_">Exception Handling</span></h3>
-<p class="tni">Right now, getting an error, or <i class="calibre5">exception</i>, in your Python program means the entire program will crash. You don’t want this to happen in real-world programs. Instead, you want the program to detect errors, handle them, and then continue to run.</p>
-<p class="tx">For example, consider the following program, which has a divide-by-zero error. Open a file editor window and enter the following code, saving it as <i class="calibre5">zeroDivide.py</i>:</p>
+<h3 class="h" id="calibre_link-1498"><span id="calibre_link-85"></span><span class="sans_futura_std_bold_b_">例外処理</span></h3>
+<p class="tni">これまでの知識では、エラー、すなわち<i class="calibre5">例外</i>が発生すると、プログラム全体がクラッシュします。実務で使うプログラムではそれは避けたいでしょう。クラッシュさせずにエラーを検知して、しかるべき処理を行い、プログラムの実行を続けたい場面があるはずです。</p>
+<p class="tx">例えば、次に紹介するプログラムでは、0で割り算をするとエラーが発生します。次のコードを<i class="calibre5">zeroDivide.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def spam(divide_by):
     return 42 / divide_by
 
@@ -413,7 +413,7 @@ print(spam(12))
 print(spam(0))
 print(spam(1))
 </code></pre>
-<p class="tx">We’ve defined a function called <span class="thesansmonocd_w5regular_">spam</span>, given it a parameter, and then printed the value of that function with various parameters to see what happens. This is the output you get when you run the previous code:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">spam</span>関数を定義して、いろいろなパラメータを渡してその関数を実行した結果を表示しています。このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">21.0
 3.5
 Traceback (most recent call last):
@@ -423,16 +423,16 @@ Traceback (most recent call last):
     return 42 / divide_by
 ZeroDivisionError: division by zero
 </code></pre>
-<p class="tx">A <span class="thesansmonocd_w5regular_">ZeroDivisionError</span> happens whenever you try to divide a number by zero. From the line number given in the error message, you know that the <span class="thesansmonocd_w5regular_">return</span> statement in <span class="thesansmonocd_w5regular_">spam()</span> is causing an error.</p>
-<p class="tx">Most of the time, exceptions indicate a bug in your code that you need to fix. But sometimes exceptions can be expected and recovered from. For example, in <span>Chapter 10</span> you’ll learn how to read text from files. If you specify a filename for a file that doesn’t exist, Python raises a <span class="thesansmonocd_w5regular_">FileNotFoundError</span> exception. You might want to handle this exception by asking the user to enter the filename again rather than having this unhandled exception immediately crash your program.</p>
-<p class="tx">Errors can be handled with <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements. The code that could potentially have an error is put in a <span class="thesansmonocd_w5regular_">try</span> clause. The program execution moves to the start of a following <span class="thesansmonocd_w5regular_">except</span> clause if an error happens.</p>
-<p class="tx">You can put the previous divide-by-zero code in a <span class="thesansmonocd_w5regular_">try</span> clause and have an <span class="thesansmonocd_w5regular_">except</span> clause contain code to handle what happens when this error occurs:</p>
+<p class="tx">0で割り算しようとすると<span class="thesansmonocd_w5regular_">ZeroDivisionError</span>が発生します。エラーメッセージ中に示されている行番号から、<span class="thesansmonocd_w5regular_">spam()</span>の<span class="thesansmonocd_w5regular_">return</span>文でエラーが発生していることがわかります。</p>
+<p class="tx">ほとんどの場合、例外が発生するのはバグがコードに混入しているせいで、そのバグを修正する必要があります。しかし、（コードのバグではない何らかの事情により）例外の発生が想定され、例外から回復することが求められる場合もあります。例えば、<span>第10章</span>では、ファイルからテキストを読み取ります。存在しないファイルのファイル名を指定すると、<span class="thesansmonocd_w5regular_">FileNotFoundError</span>例外が送出されます。プログラムをクラッシュさせるのではなく、例外を処理してユーザーにファイル名をもう一度入力してもらう動作を期待するかもしれません。</p>
+<p class="tx">エラーは<span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文で処理できます。エラーが発生する可能性のあるコードを<span class="thesansmonocd_w5regular_">try</span>節に入れます。エラーが発生するとプログラム実行が<span class="thesansmonocd_w5regular_">except</span>節に移ります。</p>
+<p class="tx">先の0で割り算をするコードを<span class="thesansmonocd_w5regular_">try</span>節に入れ、エラー発生時の処理をするコードを<span class="thesansmonocd_w5regular_">except</span>節に書きます。</p>
 <pre class="pre"><code class="calibre9">def spam(divide_by):
     try:
-        # Any code in this block that causes ZeroDivisionError won't crash the program:
+        # このブロックでZeroDivisionErrorが発生してもプログラムはクラッシュしない
         return 42 / divide_by
     except ZeroDivisionError:
-        # If ZeroDivisionError happened, the code in this block runs:
+        # ZeroDivisionErrorが発生するとこのブロックのコードが実行される
         print('Error: Invalid argument.')
 
 print(spam(2))
@@ -440,14 +440,14 @@ print(spam(12))
 print(spam(0))
 print(spam(1))
 </code></pre>
-<p class="tx">When code in a <span class="thesansmonocd_w5regular_">try</span> clause causes an error, the program execution immediately moves to the code in the <span class="thesansmonocd_w5regular_">except</span> clause. After running that code, the execution continues as normal. If the program doesn’t raise an exception in the <span class="thesansmonocd_w5regular_">try</span> clause, the program skips the code in the <span class="thesansmonocd_w5regular_">except</span> clause. The output of the previous program is as follows:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">try</span>節のコードでエラーが発生すると、直ちにプログラム実行は<span class="thesansmonocd_w5regular_">except</span>節に移ります。そして、通常どおりプログラム実行が継続します。<span class="thesansmonocd_w5regular_">try</span>節で例外が送出されなければ、<span class="thesansmonocd_w5regular_">except</span> 節は飛ばされます。先のプログラムの出力は次のとおりです。</p>
 <pre class="pre"><code class="calibre9">21.0
 3.5
 Error: Invalid argument.
 None
 42.0
 </code></pre>
-<p class="tx">Note that any errors that occur in function calls in a <span class="thesansmonocd_w5regular_">try</span> block will also be caught. Consider the following program, which instead has the <span class="thesansmonocd_w5regular_">spam()</span> calls in the <span class="thesansmonocd_w5regular_">try</span> block:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">try</span>節の関数内で発生するエラーが捕捉されます。<span class="thesansmonocd_w5regular_">spam()</span>関数の呼び出しを<span class="thesansmonocd_w5regular_">try</span>節のブロックに入れた次のプログラムを見てみましょう。</p>
 <pre class="pre"><code class="calibre9">def spam(divide_by):
     return 42 / divide_by
 
@@ -459,16 +459,16 @@ None
 except ZeroDivisionError:
     print('Error: Invalid argument.')
 </code></pre>
-<p class="tx">When this program is run, the output looks like this:</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">21.0
 3.5
 Error: Invalid argument.
 </code></pre>
-<p class="tx">The reason <span class="thesansmonocd_w5regular_">print(spam(1))</span> is never executed is because once the execution jumps to the code in the <span class="thesansmonocd_w5regular_">except</span> clause, it does not return to the <span class="thesansmonocd_w5regular_">try</span> clause. Instead, it just continues moving down the program as normal.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">print(spam(1))</span>が実行されないのは、プログラム実行が<span class="thesansmonocd_w5regular_">except</span>節に移ると<span class="thesansmonocd_w5regular_">try</span>節には戻って来ないからです。<span class="thesansmonocd_w5regular_">except</span>節のあとから通常どおりプログラム実行を続けます。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h3 class="h" id="calibre_link-1500"><span id="calibre_link-86"></span><span class="sans_futura_std_bold_b_">A Short Program: Zigzag</span></h3>
-<p class="tni">Let’s use the programming concepts you’ve learned so far to create a small animation program. This program will create a back-and-forth zigzag pattern until the user stops it by pressing the Mu editor’s Stop button or by pressing <small class="calibre4">CTRL</small>-C. When you run this program, the output will look something like this:</p>
+<h3 class="h" id="calibre_link-1500"><span id="calibre_link-86"></span><span class="sans_futura_std_bold_b_">短いプログラム：ジグザグ</span></h3>
+<p class="tni">これまでに学んだ内容を活かしてちょっとしたアニメーションプログラムを書いてみましょう。停止ボタンを押すか<small class="calibre4">CTRL</small>-Cキーを押すかして実行を止めるまでジグザグのアニメーションを表示します。このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">    ********
    ********
   ********
@@ -479,86 +479,86 @@ Error: Invalid argument.
    ********
     ********
 </code></pre>
-<p class="tx">Enter the following source code into the file editor, and save the file as <i class="calibre5">zigzag.py</i>:</p>
+<p class="tx">次のコードをファイルエディタに入力して<i class="calibre5">zigzag.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import time, sys
-indent = 0  # How many spaces to indent
-indent_increasing = True  # Whether the indentation is increasing or not
+indent = 0  # インデントさせるスペースの個数
+indent_increasing = True  # インデントを増やしていくか減らしていくか
 
 try:
-    while True:  # The main program loop
+    while True:  # メインプログラムループ
         print(' ' * indent, end='')
         print('********')
-        time.sleep(0.1) # Pause for 1/10th of a second.
+        time.sleep(0.1) # 0.1秒停止
 
         if indent_increasing
-            # Increase the number of spaces:
+            # スペースの個数を増やす
             indent = indent + 1
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1208" aria-label="90"></span>            if indent == 20:
-                # Change direction:
+                # 方向転換
                 indent_increasing = False
         else:
-            # Decrease the number of spaces:
+            # スペースの個数を減らす
             indent = indent - 1
             if indent == 0:
-                # Change direction:
+                # 方向転換
                 indent_increasing = True
 except KeyboardInterrupt:
     sys.exit()
 </code></pre>
-<p class="tx">Let’s look at this code line by line, starting at the top:</p>
+<p class="tx">このコードを最初から一行ずつ見ていきましょう。</p>
 <pre class="pre"><code class="calibre9">import time, sys
-indent = 0 # How many spaces to indent
-indent_increasing = True  # Whether the indentation is increasing or not
+indent = 0 # インデントさせるスペースの個数
+indent_increasing = True  # インデントを増やしていくか減らしていくか
 </code></pre>
-<p class="tx">First, we’ll import the <span class="thesansmonocd_w5regular_">time</span> and <span class="thesansmonocd_w5regular_">sys</span> modules. Our program uses two variables. The <span class="thesansmonocd_w5regular_">indent</span> variable keeps track of how many spaces of indentation occur before the band of eight asterisks, and the <span class="thesansmonocd_w5regular_">indent_increasing</span> variable contains a Boolean value to determine whether the amount of indentation is increasing or decreasing:</p>
+<p class="tx">最初に<span class="thesansmonocd_w5regular_">time</span>モジュールと<span class="thesansmonocd_w5regular_">sys</span>モジュールをインポートしています。このプログラムには2つの変数があります。変数<span class="thesansmonocd_w5regular_">indent</span>は8個のアスタリスクの前のスペースの個数で、変数<span class="thesansmonocd_w5regular_">indent_increasing</span>はインデントを増やすか減らすかを示すブール値です。</p>
 <pre class="pre"><code class="calibre9">try:
-    while True:  # The main program loop
+    while True:  # メインプログラムループ
         print(' ' * indent, end='')
         print('********')
-        time.sleep(0.1) # Pause for 1/10 of a second.
+        time.sleep(0.1) # 0.1秒停止
 </code></pre>
-<p class="tx">Next, we place the rest of the program inside a <span class="thesansmonocd_w5regular_">try</span> statement. When the user presses <small class="calibre4">CTRL</small>-C while a Python program is running, Python raises the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception. If there is no <span class="thesansmonocd_w5regular_">try</span>-<span class="thesansmonocd_w5regular_">except</span> statement to catch this exception, the program crashes with an ugly error message. However, we want our program to cleanly handle the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception by calling <span class="thesansmonocd_w5regular_">sys.exit()</span>. (You can find the code that accomplishes this in the <span class="thesansmonocd_w5regular_">except</span> statement at the end of the program.)</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">while True:</span> infinite loop will repeat the instructions in the program forever. This involves using <span class="thesansmonocd_w5regular_">' ' * indent</span> to print the correct number of spaces for the indentation. We don’t want to automatically print a newline after these spaces, so we also pass <span class="thesansmonocd_w5regular_">end=''</span> to the first <span class="thesansmonocd_w5regular_">print()</span> call. A second <span class="thesansmonocd_w5regular_">print()</span> call prints the band of asterisks. We haven’t discussed the <span class="thesansmonocd_w5regular_">time.sleep()</span> function yet; suffice it to say that it introduces a one-tenth-of-a-second pause in our program:</p>
+<p class="tx">残りのプログラムは<span class="thesansmonocd_w5regular_">try</span>節に入れています。プログラムの実行中に<small class="calibre4">CTRL</small>-Cが押されると、Pythonが<span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>例外を送出します。<span class="thesansmonocd_w5regular_">try</span>-<span class="thesansmonocd_w5regular_">except</span>文がなければ、プログラムはクラッシュして見苦しいエラーメッセージが表示されます。このプログラムでは、<span class="thesansmonocd_w5regular_">sys.exit()</span>を呼び出して<span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>例外をきれいに処理しています。（プログラムの最後の<span class="thesansmonocd_w5regular_">except</span>文でその処理をしています。）</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">while True:</span>の無限ループによりプログラムは永久に繰り返されます。その無限ループ内で <span class="thesansmonocd_w5regular_">' ' * indent</span>により、スペースを適当な分量だけ入れています。これらのスペースのあとに改行してほしくありませんから、最初の<span class="thesansmonocd_w5regular_">print()</span>の呼び出しでは<span class="thesansmonocd_w5regular_">end=''</span>を指定しています。2つ目の<span class="thesansmonocd_w5regular_">print()</span>の呼び出しでアスタリスクを表示します。<span class="thesansmonocd_w5regular_">time.sleep()</span>関数をこれまでに説明していませんでしたが、ここでプログラムが0.1秒停止することがわかれば十分です。</p>
 <pre class="pre"><code class="calibre9">        if indent_increasing:
-            # Increase the number of spaces:
+            # スペースの個数を増やす
             indent = indent + 1
             if indent == 20:
-                indent_increasing = False  # Change direction
+                indent_increasing = False  # 方向転換
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1209" aria-label="91"></span>Next, we want to adjust the amount of indentation used the next time we print asterisks. If <span class="thesansmonocd_w5regular_">indent_increasing</span> is <span class="thesansmonocd_w5regular_">True</span>, we’ll add <span class="thesansmonocd_w5regular_">1</span> to <span class="thesansmonocd_w5regular_">indent</span>, but once indent reaches <span class="thesansmonocd_w5regular_">20</span>, we’ll decrease the indentation:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1209" aria-label="91"></span>それから、次にアスタリスクを表示するときのインデントの量を調整します。<span class="thesansmonocd_w5regular_">indent_increasing</span>が<span class="thesansmonocd_w5regular_">True</span>なら、<span class="thesansmonocd_w5regular_">indent</span>を<span class="thesansmonocd_w5regular_">1</span>増やします。インデントが<span class="thesansmonocd_w5regular_">20</span>に達したら、インデントを減らすようにします。</p>
 <pre class="pre"><code class="calibre9">        else:
-            # Decrease the number of spaces:
+            # スペースの個数を減らす
             indent = indent - 1
             if indent == 0:
-                indent_increasing = True  # Change direction
+                indent_increasing = True  # 方向転換
 </code></pre>
-<p class="tx">If <span class="thesansmonocd_w5regular_">indent_increasing</span> is <span class="thesansmonocd_w5regular_">False</span>, we’ll want to subtract one from <span class="thesansmonocd_w5regular_">indent</span>. Once indent reaches <span class="thesansmonocd_w5regular_">0</span>, we’ll want the indentation to increase once again. Either way, the program execution will jump back to the start of the main program loop to print the asterisks again.</p>
-<p class="tx">If the user presses <small class="calibre4">CTRL</small>-C at any point that the program execution is in the <span class="thesansmonocd_w5regular_">try</span> block, this <span class="thesansmonocd_w5regular_">except</span> statement raises and handles the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">indent_increasing</span>が<span class="thesansmonocd_w5regular_">False</span>なら、<span class="thesansmonocd_w5regular_">indent</span>を1減らします。インデントが<span class="thesansmonocd_w5regular_">0</span>に達したら、またインデントを増やすようにします。インデントを増やそうが減らそうが、メインのループの最初に戻り、アスタリスクを表示します。</p>
+<p class="tx">プログラムが<span class="thesansmonocd_w5regular_">try</span>ブロックを実行中に<small class="calibre4">CTRL</small>-Cが押されると、<span class="thesansmonocd_w5regular_">except</span>文が<span class="thesansmonocd_w5regular_">KeyboardInterrrupt</span>例外を送出し、その例外を処理します。</p>
 <pre class="pre"><code class="calibre9">except KeyboardInterrupt:
     sys.exit()
 </code></pre>
-<p class="tx">The program execution moves inside the <span class="thesansmonocd_w5regular_">except</span> block, which runs <span class="thesansmonocd_w5regular_">sys.exit()</span> and quits the program. This way, even though the main program loop is infinite, the user has a way to shut down the program.</p>
+<p class="tx">プログラム実行が<span class="thesansmonocd_w5regular_">except</span>ブロックに移り、<span class="thesansmonocd_w5regular_">sys.exit()</span>を実行して、プログラムを終了します。このように、メインのプログラムが無限ループだとしても、プログラムを終了させる方法があります。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h3 class="h" id="calibre_link-1501"><span id="calibre_link-87"></span><span class="sans_futura_std_bold_b_">A Short Program: Spike</span></h3>
-<p class="tni">Let’s create another scrolling animation program. This program uses string replication and nested loops to draw spikes. Open a new file in your code editor, enter the following code, and save it as <i class="calibre5">spike.py</i>:</p>
+<h3 class="h" id="calibre_link-1501"><span id="calibre_link-87"></span><span class="sans_futura_std_bold_b_">短いプログラム：グラフのスパイク</span></h3>
+<p class="tni">もう一つアニメーションのプログラムを作ってみましょう。このプログラムでは、文字列の繰り返しと入れ子になったループを使ってグラフのスパイクを描画します。次のコードを<i class="calibre5">spike.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import time, sys
 
 try:
-    while True:  # The main program loop
-        # Draw lines with increasing length:
+    while True:  # メインプログラムループ
+        # 長さを増やしながら線を引く
         for i in range(1, 9):
             print('-' * (i * i))
             time.sleep(0.1)
 
-        # Draw lines with decreasing length:
+        # 長さを減らしながら線を引く
         for i in range(7, 1, -1):
             print('-' * (i * i))
             time.sleep(0.1)
 except KeyboardInterrupt:
     sys.exit()
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1298" aria-label="92"></span>When you run this program, it repeatedly draws the following spike:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1298" aria-label="92"></span>このプログラムを実行すると、次のようなグラフのスパイクを繰り返し描画します。</p>
 <pre class="pre"><code class="calibre9">-
 ----
 ---------
@@ -574,50 +574,50 @@ except KeyboardInterrupt:
 ---------
 ----
 </code></pre>
-<p class="tx">Like the previous zigzag program, the spike program needs to call the <span class="thesansmonocd_w5regular_">time.sleep()</span> and <span class="thesansmonocd_w5regular_">sys.exit()</span> functions. The first line imports the <span class="thesansmonocd_w5regular_">time</span> and <span class="thesansmonocd_w5regular_">sys</span> modules. A <span class="thesansmonocd_w5regular_">try</span> block will catch the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception raised when the user presses <small class="calibre4">CTRL</small>-C, and an infinite loop continues drawing spikes forever.</p>
-<p class="tx">The first <span class="thesansmonocd_w5regular_">for</span> loop draws spikes of increasing sizes:</p>
-<pre class="pre"><code class="calibre9">        # Draw lines with increasing length:
+<p class="tx">一つ前のジグザグプログラムと同様に、スパイクプログラムには<span class="thesansmonocd_w5regular_">time.sleep()</span>関数と<span class="thesansmonocd_w5regular_">sys.exit()</span>関数が必要です。最初に<span class="thesansmonocd_w5regular_">time</span>モジュールと<span class="thesansmonocd_w5regular_">sys</span>モジュールをインポートしています。<span class="thesansmonocd_w5regular_">try</span>ブロックは<span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>例外を捕捉します。ユーザーが<small class="calibre4">CTRL</small>-Cを押すと例外が送出されます。それまでは無限ループでグラフのスパイクを描画し続けます。</p>
+<p class="tx">1つ目の<span class="thesansmonocd_w5regular_">for</span>ループではスパイク部分を増やしながら描画します。</p>
+<pre class="pre"><code class="calibre9">        # 長さを増やしながら線を引く
         for i in range(1, 9):
             print('-' * (i * i))
             time.sleep(0.1)
 </code></pre>
-<p class="tx">Because the <span class="thesansmonocd_w5regular_">i</span> variable is set to <span class="thesansmonocd_w5regular_">1</span>, then <span class="thesansmonocd_w5regular_">2</span>, then <span class="thesansmonocd_w5regular_">3</span>, and so on, up to but not including <span class="thesansmonocd_w5regular_">9</span>, the following <span class="thesansmonocd_w5regular_">print()</span> call replicates the <span class="thesansmonocd_w5regular_">'-'</span> strings by <span class="thesansmonocd_w5regular_">1 * 1</span> (that is, <span class="thesansmonocd_w5regular_">1</span>), then <span class="thesansmonocd_w5regular_">2 * 2</span> (that is, <span class="thesansmonocd_w5regular_">4</span>), then <span class="thesansmonocd_w5regular_">3 * 3</span> (that is, <span class="thesansmonocd_w5regular_">9</span>), and so on. This code is what creates the strings that are 1, 4, 9, 16, 25, 36, 49, and then 64 dashes long. By having exponentially longer strings, we create the top half of the spike.</p>
-<p class="tx">To draw the bottom half of the spike, we need another <span class="thesansmonocd_w5regular_">for</span> loop that causes <span class="thesansmonocd_w5regular_">i</span> to start at <span class="thesansmonocd_w5regular_">7</span> and then decrease down to <span class="thesansmonocd_w5regular_">1</span>, not including <span class="thesansmonocd_w5regular_">1</span>:</p>
-<pre class="pre"><code class="calibre9">        # Draw lines with decreasing length:
+<p class="tx">変数<span class="thesansmonocd_w5regular_">i</span>は<span class="thesansmonocd_w5regular_">1</span>、<span class="thesansmonocd_w5regular_">2</span>、<span class="thesansmonocd_w5regular_">3</span>と<span class="thesansmonocd_w5regular_">9</span>まで増えていくので（<span class="thesansmonocd_w5regular_">9</span>は含みません）、<span class="thesansmonocd_w5regular_">print()</span>は文字列<span class="thesansmonocd_w5regular_">'-'</span>を<span class="thesansmonocd_w5regular_">1 * 1</span>で<span class="thesansmonocd_w5regular_">1</span>、<span class="thesansmonocd_w5regular_">2 * 2</span>で<span class="thesansmonocd_w5regular_">4</span>、<span class="thesansmonocd_w5regular_">3 * 3</span>で<span class="thesansmonocd_w5regular_">9</span>と増やしながら表示していきます。このコードは、1、4、9、16、25、36、49、64と<span class="thesansmonocd_w5regular_">'-'</span>の長さを増やしていきます。このように指数関数的に増やすことで、グラフのスパイクの前半を描画します。</p>
+<p class="tx">グラフのスパイクの後半を描画するために、2つ目の<span class="thesansmonocd_w5regular_">for</span>ループでは、<span class="thesansmonocd_w5regular_">i</span>を<span class="thesansmonocd_w5regular_">7</span>から始めて<span class="thesansmonocd_w5regular_">1</span>まで減らしていきます（<span class="thesansmonocd_w5regular_">1</span>は含みません）。</p>
+<pre class="pre"><code class="calibre9">        # 長さを減らしながら線を引く
         for i in range(7, 1, -1):
             print('-' * (i * i))
             time.sleep(0.1)
 </code></pre>
-<p class="tx">You can modify the <span class="thesansmonocd_w5regular_">9</span> and the <span class="thesansmonocd_w5regular_">7</span> values in the two <span class="thesansmonocd_w5regular_">for</span> loops if you want to change how wide the spike becomes. The rest of the code will continue to work just fine with these new values.</p>
+<p class="tx">グラフのスパイクの幅を変えたければ、2つの<span class="thesansmonocd_w5regular_">for</span>ループ内の<span class="thesansmonocd_w5regular_">9</span>と<span class="thesansmonocd_w5regular_">7</span>の値を調整できます。値を調整してもコードの他の部分はそのままで大丈夫です。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
-<h3 class="h" id="calibre_link-1502"><span id="calibre_link-88"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">Functions are the primary way to compartmentalize your code into logical groups. Since the variables in functions exist in their own local scopes, the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1503" aria-label="93"></span>code in one function cannot directly affect the values of local variables in other functions. This limits the sections of code able to change the values of your variables, which can be helpful when it comes to debugging.</p>
-<p class="tx">Functions are a great tool to help you organize your code. You can think of them as black boxes: they have inputs in the form of parameters and outputs in the form of return values, and the code in them doesn’t affect variables in other functions.</p>
-<p class="tx">In previous chapters, a single error could cause your programs to crash. In this chapter, you learned about <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements, which can run code when an error has been detected. This can make your programs more resilient to common error cases.</p>
+<h3 class="h" id="calibre_link-1502"><span id="calibre_link-88"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">関数はコードを論理的に分割する主な方法です。関数内の変数はその関数のローカルスコープ内に存在しますから、ある関数のコードが別の関数の変数の値を直接変更することはできません。そのため、変数の値がどこで変更されたかが限定され、デバッグの労が減ります。</p>
+<p class="tx">関数を利用するとコードを整理できます。関数はブラックボックスだと考えられます。パラメータの形で入力を受け取り、返り値の形で出力を返します。関数内のコードはほかの関数内の変数に影響を及ぼしません。</p>
+<p class="tx">これまでの章では、エラーが1回でも発生するとプログラムがクラッシュしました。本章では、<span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文を学習し、エラーを検知してコードの実行を続けられるようになりました。これで一般的なエラーに対するプログラムの耐障害性が高まりました。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
-<h3 class="h" id="calibre_link-1504"><span id="calibre_link-89"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  Why are functions advantageous to have in your programs?</p>
-<p class="listnumber">  2.  When does the code in a function execute: when the function is defined or when the function is called?</p>
-<p class="listnumber">  3.  What statement creates a function?</p>
-<p class="listnumber">  4.  What is the difference between a function and a function call?</p>
-<p class="listnumber">  5.  How many global scopes are there in a Python program? How many local scopes are there?</p>
-<p class="listnumber">  6.  What happens to variables in a local scope when the function call returns?</p>
-<p class="listnumber">  7.  What is a return value? Can a return value be part of an expression?</p>
-<p class="listnumber">  8.  If a function does not have a <span class="thesansmonocd_w5regular_">return</span> statement, what is the return value of a call to that function?</p>
-<p class="listnumber">  9.  How can you force a variable in a function to refer to the global variable?</p>
-<p class="listnumber">10.  What is the data type of <span class="thesansmonocd_w5regular_">None</span>?</p>
-<p class="listnumber">11.  What does the <span class="thesansmonocd_w5regular_">import areallyourpetsnamederic</span> statement do?</p>
-<p class="listnumber">12.  If you had a function named <span class="thesansmonocd_w5regular_">bacon()</span> in a module named <span class="thesansmonocd_w5regular_">spam</span>, how would you call it after importing <span class="thesansmonocd_w5regular_">spam</span>?</p>
-<p class="listnumber">13.  How can you prevent a program from crashing when it gets an error?</p>
-<p class="listnumber">14.  What goes in the <span class="thesansmonocd_w5regular_">try</span> clause? What goes in the <span class="thesansmonocd_w5regular_">except</span> clause?</p>
-<p class="listnumber">15.  Write the following program in a file named <i class="calibre5">notrandomdice.py</i> and run it. Why does each function call return the same number?</p>
+<h3 class="h" id="calibre_link-1504"><span id="calibre_link-89"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. プログラムで関数を利用するとどのような利点がありますか？</p>
+<p class="listnumber">  2. 関数内のコードが実行されるのは、関数が定義されたときか関数が呼び出されたときのどちらですか？</p>
+<p class="listnumber">  3. 関数を作成するにはどのような文を書きますか？</p>
+<p class="listnumber">  4. 関数と関数呼び出しの違いは何ですか？</p>
+<p class="listnumber">  5. Pythonのプログラムにはグローバルスコープがいくつありますか？　ローカルスコープはいくつありますか？</p>
+<p class="listnumber">  6. 関数の呼び出しが終わったときにその関数のローカルスコープ内の変数はどうなりますか？</p>
+<p class="listnumber">  7. 返り値とは何ですか？　返り値を式の一部にすることはできますか？</p>
+<p class="listnumber">  8. 関数に<span class="thesansmonocd_w5regular_">return</span>文がない場合に、その関数を呼び出したときの返り値はどうなりますか？</p>
+<p class="listnumber">  9. どのようにすれば関数内の変数がグローバル変数を参照できますか？</p>
+<p class="listnumber">10. <span class="thesansmonocd_w5regular_">None</span>のデータ型は何ですか？</p>
+<p class="listnumber">11. <span class="thesansmonocd_w5regular_">import areallyourpetsnamederic</span>文は何を行いますか？</p>
+<p class="listnumber">12. <span class="thesansmonocd_w5regular_">spam</span>モジュールに<span class="thesansmonocd_w5regular_">bacon()</span>関数があるとします。<span class="thesansmonocd_w5regular_">spam</span>モジュールをインポートしてから、その関数をどのように呼び出しますか？</p>
+<p class="listnumber">13. どのようにすればエラーが発生したときにプログラムがクラッシュするのを防げますか？</p>
+<p class="listnumber">14. <span class="thesansmonocd_w5regular_">try</span>節と<span class="thesansmonocd_w5regular_">except</span>節とは何ですか？</p>
+<p class="listnumber">15. 次のコードを<i class="calibre5">notrandomdice.py</i>という名前で保存して実行してください。関数呼び出しが同じ数値ばかりを返すのはなぜですか？</p>
 <pre class="pre"><code class="calibre9">import random
 random_number = random.randint(1, 6)
 
 def get_random_dice_roll():
-<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1031" aria-label="94"></span>    # Returns a random integer from 1 to 6
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1031" aria-label="94"></span>    # 1から6までのランダムな整数を返す
     return random_number
 
 print(get_random_dice_roll())
@@ -627,23 +627,23 @@ print(get_random_dice_roll())
 </code></pre>
 </section>
 <section type="division" aria-labelledby="sec20">
-<h3 class="h" id="calibre_link-1505"><span id="calibre_link-90"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-1505"><span id="calibre_link-90"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec21">
-<h4 class="h1" id="calibre_link-1506"><span id="calibre_link-91"></span><span class="sans_futura_std_heavy_oblique_bi_">The Collatz Sequence</span></h4>
-<p class="tni">Write a function named <span class="thesansmonocd_w5regular_">collatz()</span> that has one parameter named <span class="thesansmonocd_w5regular_">number</span>. If <span class="thesansmonocd_w5regular_">number</span> is even, then <span class="thesansmonocd_w5regular_">collatz()</span> should print <span class="thesansmonocd_w5regular_">number // 2</span> and return this value. If <span class="thesansmonocd_w5regular_">number</span> is odd, then <span class="thesansmonocd_w5regular_">collatz()</span> should print and return <span class="thesansmonocd_w5regular_">3 * number</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">1</span>.</p>
-<p class="tx">Then, write a program that lets the user enter an integer and that keeps calling <span class="thesansmonocd_w5regular_">collatz()</span> on that number until the function returns the value <span class="thesansmonocd_w5regular_">1</span>. (Amazingly enough, this sequence actually works for any integer; sooner or later, using this sequence, you’ll arrive at 1! Even mathematicians aren’t sure why. Your program is exploring what’s called the <i class="calibre5">Collatz sequence</i>, sometimes called “the simplest impossible math problem.”)</p>
-<p class="tx">Remember to convert the return value from <span class="thesansmonocd_w5regular_">input()</span> to an integer with the <span class="thesansmonocd_w5regular_">int()</span> function; otherwise, it will be a string value. To make the output more compact, the <span class="thesansmonocd_w5regular_">print()</span> calls that print the numbers should have a <span class="thesansmonocd_w5regular_">sep=' '</span> named parameter to print all values on one line.</p>
-<p class="tx">The output of this program could look something like this:</p>
+<h4 class="h1" id="calibre_link-1506"><span id="calibre_link-91"></span><span class="sans_futura_std_heavy_oblique_bi_">コラッツの問題</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">number</span>をパラメータとする<span class="thesansmonocd_w5regular_">collatz()</span>という名前の関数を作成してください。<span class="thesansmonocd_w5regular_">number</span>が偶数なら<span class="thesansmonocd_w5regular_">collatz()</span>は<span class="thesansmonocd_w5regular_">number // 2（2で割った商）</span>を表示して、その値を返します。<span class="thesansmonocd_w5regular_">number</span>が奇数なら、<span class="thesansmonocd_w5regular_">collatz()</span>は<span class="thesansmonocd_w5regular_">3 * number + 1（3倍して1を足した数）</span>を表示して、その値を返します。</p>
+<p class="tx">ユーザーが整数を入力すると、その整数を最初の引数として、返り値が<span class="thesansmonocd_w5regular_">1</span>になるまで<span class="thesansmonocd_w5regular_">collatz()</span>関数を繰り返し適用するプログラムを書いてください。（驚くべきことに、最初にどのような整数を与えても、この手順で必ず1にたどり着きます。数学者にとってさえもその理由ははっきりしていません。最も単純な解決不能問題とも言われる<i class="calibre5">コラッツの問題</i>です。）</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">input()</span>の返り値を<span class="thesansmonocd_w5regular_">int()</span>関数で整数に変換するのを忘れないでください。そうしないと文字列値になってしまいます。出力をコンパクトにするために、<span class="thesansmonocd_w5regular_">sep=' '</span>と名前付きパラメータを設定して、<span class="thesansmonocd_w5regular_">print()</span>がすべての値を1行で表示するようにしてください。</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">Enter number:
 3
 3 10 5 16 8 4 2 1
 </code></pre>
-<p class="tx">Hint: An integer <span class="thesansmonocd_w5regular_">number</span> is even if <span class="thesansmonocd_w5regular_">number % 2</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">0</span>, and it’s odd if <span class="thesansmonocd_w5regular_">number % 2</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">1</span>.</p>
+<p class="tx">ヒント：<span class="thesansmonocd_w5regular_">number</span>は、<span class="thesansmonocd_w5regular_">number % 2</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">0</span>なら偶数で、<span class="thesansmonocd_w5regular_">number % 2</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">1</span>なら奇数です。</p>
 </section>
 <section type="division" aria-labelledby="sec22">
-<h4 class="h1" id="calibre_link-1507"><span id="calibre_link-92"></span><span class="sans_futura_std_heavy_oblique_bi_">Input Validation</span></h4>
-<p class="tni">Add <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements to the previous project to detect whether the user entered a non-integer string. Normally, the <span class="thesansmonocd_w5regular_">int()</span> function will raise a <span class="thesansmonocd_w5regular_">ValueError</span> error if it is passed a non-integer string, as in <span class="thesansmonocd_w5regular_">int('puppy')</span>. In the <span class="thesansmonocd_w5regular_">except</span> clause, print a message to the user saying they must enter an integer.</p>
+<h4 class="h1" id="calibre_link-1507"><span id="calibre_link-92"></span><span class="sans_futura_std_heavy_oblique_bi_">入力値の検証</span></h4>
+<p class="tni">先ほどのプログラムに<span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文を追加して、ユーザーが整数以外を入力したら検知されるようにしてください。<span class="thesansmonocd_w5regular_">int('puppy')</span>のように整数ではない文字列が渡されると、<span class="thesansmonocd_w5regular_">int()</span>関数は<span class="thesansmonocd_w5regular_">ValueError</span>エラーを送出します。<span class="thesansmonocd_w5regular_">except</span>節では、整数を入力しなければならない旨のメッセージを表示してください。</p>
 </section>
 </section>
 </section>
