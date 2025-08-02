@@ -348,7 +348,7 @@ for guesses_taken in range(1, 7):
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1279" aria-label="66"></span>if guess == secret_number:
     print('Good job!You got it in ' + str(guesses_taken) + ' guesses!')
 else:
-    print('Nope. The number was ' + str(secret_number))
+    print('The number was ' + str(secret_number))
 </code></pre>
 <p class="tx">このコードを最初から一行ずつ見ていきましょう。</p>
 <pre class="pre"><code class="calibre9"># 数当てゲーム
@@ -375,9 +375,9 @@ for guesses_taken in range(1, 7):
 </code></pre>
 <p class="tx">推測した数が大きすぎも小さすぎもしない場合、つまり秘密の数に等しい場合、<span class="thesansmonocd_w5regular_">for</span>ループから抜け出します。</p>
 <pre class="pre"><code class="calibre9">if guess == secret_number:
-    print('Good job! You got it in ' + str(guesses_taken) + ' guesses!')
+    print('Good job!You got it in ' + str(guesses_taken) + ' guesses!')
 else:
-    print('Nope. The number was ' + str(secret_number))
+    print('The number was ' + str(secret_number))
 </code></pre>
 <p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1289" aria-label="67"></span><span class="thesansmonocd_w5regular_">for</span>ループのあとでは、<span class="thesansmonocd_w5regular_">if-else</span>文でプレイヤーが数を当てられたかどうかを確認し、その結果に応じたメッセージを画面に表示しています。どちらの場合も、推測に挑戦した回数の<span class="thesansmonocd_w5regular_">guesses_taken</span>と秘密の数の<span class="thesansmonocd_w5regular_">secret_number</span>の値を表示します。その整数値を文字列と結合するので、整数値を<span class="thesansmonocd_w5regular_">str()</span>関数に渡し、整数値から文字列値を得ています。それらの文字列を<span class="thesansmonocd_w5regular_">+</span>演算子で結合し、最後に<span class="thesansmonocd_w5regular_">print()</span>関数に渡しています。</p>
 </section>
