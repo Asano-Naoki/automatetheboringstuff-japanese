@@ -11,35 +11,34 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1623" aria-label="185"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1624">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">9</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">TEXT PATTERN MATCHING WITH REGULAR EXPRESSIONS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">9</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">正規表現によるテキストパターンマッチング</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">You may be familiar with the process of searching for text by pressing <small class="calibre19">CTRL</small>-F and entering the words you’re looking for. <i class="calibre18">Regular expressions</i> go one step further: they allow you to specify a pattern of text to search for. You may not know a business’s exact phone number, but if you live in the United States or Canada, you know it will consist of a three-digit area code, followed by a hyphen, then three more digits, another hyphen, and four more digits. This is how you, as a human, know a phone number when you see it: 415-555-1234 is a phone number, but $4,155,551,234 is not.</p>
-<p class="tx">We recognize all sorts of other text patterns every day: email addresses have @ symbols in the middle, US Social Security numbers have nine digits and two hyphens, website URLs often have periods and forward slashes, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1114" aria-label="186"></span>news headlines use title case, and social media hashtags begin with # and contain no spaces, to give some examples.</p>
-<p class="tx">Regular expressions are helpful, but few nonprogrammers know about them, even though most modern text editors and word processors have find-and-replace features that can search based on regular expressions. Regular expressions are huge time-savers, not just for software users but also for programmers. In fact, in the <i class="calibre5">Guardian</i> article “Here’s What ICT Should Really Teach Kids: How to Do Regular Expressions,” tech writer Cory Doctorow argues that we should be teaching regular expressions before we teach programming:</p>
-<p class="blockquote">Knowing [regular expressions] can mean the difference between solving a problem in 3 steps and solving it in 3,000 steps. When you’re a nerd, you forget that the problems you solve with a couple keystrokes can take other people days of tedious, error-prone work to slog through.</p>
-<p class="tx">In this chapter, you’ll start by writing a program to find text patterns <i class="calibre5">without</i> using regular expressions and then learn how to use regular expressions to make the code simpler. I’ll show you basic matching with regular expressions, then move on to some more powerful features, such as string substitution and creating your own character classes. You’ll also learn how to use the Humre module, which offers plain-English substitutes for regular expressions’ cryptic symbol-based syntax.</p>
+<p class="introtni"><small class="calibre19">CTRL</small>-Fを押して探したい語を入力してテキストを検索するという作業には、すでにおなじみかもしれません。<i class="calibre18">正規表現</i>はそれよりもさらに強力です。（固定したテキストだけでなく）検索したいテキストのパターンを指定できるのです。アメリカ合衆国あるいはカナダの電話番号を検索したいとしたら、3桁-3桁-4桁の形になっているので、415-555-1234は電話番号だけれども$4,155,551,234は電話番号ではないとわかります。 </p>
+<p class="tx">私たちは日々、あらゆるテキストのパターンを識別しています。例をいくつか挙げると、メールアドレスなら途中に@がありますし、アメリカ合衆国の社会保障番号ならハイフンが2つある9桁の数字ですし、URLならドット（.）とスラッシュ（/）が入っていることが多いですし、英語のニュースの見出しならそれぞれの単語の語頭が大文字になっていますし、ソーシャルメディアのハッシュタグは#で始まりスペースを含みません。</p>
+<p class="tx">正規表現は便利なのですが、非プログラマで正規表現を知っている人はほとんどいません。現代のテキストエディタやワープロには、たいてい正規表現で検索や置換ができる機能が備わっているにもかかわらずです。正規表現を使うと、ソフトウェアのユーザーだけでなく、プログラマの時間を大いに節約できます。実際、<i class="calibre5">Guardian</i>紙の記事“Here’s What ICT Should Really Teach Kids: How to Do Regular Expressions”で、技術ジャーナリストのCory Doctorowは、プログラミングよりも前に正規表現を教えるべきだと主張しています。</p>
+<p class="blockquote">［正規表現を］知れば、問題を3000ステップで解いていたのを、3ステップで解けるようになるというくらいの違いがあります。専門家なら数回のキー操作で解決できる問題に対して、他の人は数日かけて退屈で間違えやすい作業に苦労して取り組みます。</p>
+<p class="tx">本章では、正規表現を<i class="calibre5">使わずに</i>テキストのパターンを探すプログラムを書いてから、正規表現を使ってコードをシンプルにしていきます。正規表現での基本的なマッチについて説明してから、文字列置換や文字クラスの自作など、もっと強力な機能に進みます。正規表現の暗号のような構文ではなく平易な英語で表現できるHumreモジュールの使い方も説明します。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1625"><span id="calibre_link-190"></span><span class="sans_futura_std_bold_b_">Finding Text Patterns Without Regular Expressions</span></h3>
-<p class="tni">Say you want to find a US phone number in a string; you’re looking for three numbers, a hyphen, three numbers, a hyphen, and four numbers. Here’s an example: 415-555-4242.</p>
-<p class="tx">Let’s write a function named <span class="thesansmonocd_w5regular_">is_phone_number()</span> to check whether a string matches this pattern and return either <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>. Open a new file editor tab and enter the following code, then save the file as <i class="calibre5">isPhoneNumber.py</i>:</p>
+<h3 class="h" id="calibre_link-1625"><span id="calibre_link-190"></span><span class="sans_futura_std_bold_b_">正規表現を使わずにテキストのパターンを探す</span></h3>
+<p class="tni">文字列中からアメリカ合衆国の電話番号を探したいとします。3桁の数字、ハイフン、3桁の数字、ハイフン、4桁の数字という形です。例えば、415-555-4242です。</p>
+<p class="tx">文字列がこのパターンにマッチするかどうかを調べ <span class="thesansmonocd_w5regular_">True</span>または<span class="thesansmonocd_w5regular_">False</span>を返す、<span class="thesansmonocd_w5regular_">is_phone_number()</span>という名前の関数を書きましょう。新しいファイルエディタウィンドウを開いて、以下のコードを<i class="calibre5">isPhoneNumber.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">def is_phone_number(text):
-  <span class="code_codeannotation" aria-label="annotation1">❶</span> if len(text) != 12:  # Phone numbers have exactly 12 characters.
+  <span class="code_codeannotation" aria-label="annotation1">❶</span> if len(text) != 12:  # 電話番号はぴったり12文字
         return False
-    for i in range(0, 3):  # The first three characters must be numbers.
+    for i in range(0, 3):  # 最初の3文字は数字
       <span class="code_codeannotation" aria-label="annotation2">❷</span> if not text[i].isdecimal():
             return False
-  <span class="code_codeannotation" aria-label="annotation3">❸</span> if text[3] != '-':  # The fourth character must be a dash.
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> if text[3] != '-':  # 4文字目はハイフン
         return False
-    for i in range(4, 7): # The next three characters must be numbers.
+    for i in range(4, 7): # 次の3文字は数字
       <span class="code_codeannotation" aria-label="annotation4">❹</span> if not text[i].isdecimal():
             return False
-  <span class="code_codeannotation" aria-label="annotation5">❺</span> if text[7] != '-':  # The eighth character must be a dash.
+  <span class="code_codeannotation" aria-label="annotation5">❺</span> if text[7] != '-':  # 8文字目はハイフン
         return False
-    for i in range(8, 12):  # The next four characters must be numbers.
+    for i in range(8, 12):  # 次の4文字は数字
       <span class="code_codeannotation" aria-label="annotation6">❻</span> if not text[i].isdecimal():
             return False
   <span class="code_codeannotation" aria-label="annotation7">❼</span> return True
@@ -49,15 +48,15 @@ print(is_phone_number('415-555-4242'))
 print('Is Moshi moshi a phone number?', is_phone_number('Moshi moshi'))
 print(is_phone_number('Moshi moshi'))
 </code></pre>
-<p class="tx">When this program is run, the output looks like this:</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">Is 415-555-4242 a phone number?
 True
 Is Moshi moshi a phone number?
 False
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">is_phone_number()</span> function has code that does several checks to determine whether the string in <span class="thesansmonocd_w5regular_">text</span> is a valid phone number. If any of these checks fail, the function returns <span class="thesansmonocd_w5regular_">False</span>. First, the code checks that the string is exactly 12 characters long <span class="codeannotation" aria-label="annotation1">❶</span>. Then, it checks that the area code (that is, the first three characters in <span class="thesansmonocd_w5regular_">text</span>) consists of only numeric characters <span class="codeannotation" aria-label="annotation2">❷</span> by calling the <span class="thesansmonocd_w5regular_">isdecimal()</span> string method. The rest of the function checks that the string follows the pattern of a phone number: the number must have the first hyphen after the area code <span class="codeannotation" aria-label="annotation3">❸</span>, three more numeric characters <span class="codeannotation" aria-label="annotation4">❹</span>, another hyphen <span class="codeannotation" aria-label="annotation5">❺</span>, and finally, four more numeric characters <span class="codeannotation" aria-label="annotation6">❻</span>. If the program execution manages to get past all the checks, it returns <span class="thesansmonocd_w5regular_">True</span> <span class="codeannotation" aria-label="annotation7">❼</span>.</p>
-<p class="tx">Calling <span class="thesansmonocd_w5regular_">is_phone_number()</span> with the argument <span class="thesansmonocd_w5regular_">'415-555-4242'</span> will return <span class="thesansmonocd_w5regular_">True</span>. Calling <span class="thesansmonocd_w5regular_">is_phone_number()</span> with <span class="thesansmonocd_w5regular_">'Moshi moshi'</span> will return <span class="thesansmonocd_w5regular_">False</span>; the first test fails because <span class="thesansmonocd_w5regular_">'Moshi moshi'</span> is not 12 characters long.</p>
-<p class="tx">If you wanted to find a phone number within a larger string, you would have to add even more code to locate the pattern. Replace the last four <span class="thesansmonocd_w5regular_">print()</span> function calls in <i class="calibre5">isPhoneNumber.py</i> with the following:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">is_phone_number()</span>関数では、<span class="thesansmonocd_w5regular_">text</span>の文字列が電話番号であるかどうかを判定するために、いくつかのチェックを行っています。これらのチェックのうちどれか一つでも失敗すれば、関数は<span class="thesansmonocd_w5regular_">False</span>を返します。まず、文字列がぴったり12文字であるかチェックします(<span class="codeannotation" aria-label="annotation1">❶</span>)。次に、<span class="thesansmonocd_w5regular_">isdecimal()</span>文字列メソッドを呼び出して、市外局番（<span class="thesansmonocd_w5regular_">text</span>の最初の3文字）が数字のみで構成されているかをチェックします(<span class="codeannotation" aria-label="annotation2">❷</span>)。残りのコードでは、文字列が電話番号のパターンに従っているかをチェックします。市外局番のあとにハイフンがあるか(<span class="codeannotation" aria-label="annotation3">❸</span>)、その次にさらに3桁の数字があるか(<span class="codeannotation" aria-label="annotation4">❹</span>)、さらにハイフンがあるか(<span class="codeannotation" aria-label="annotation5">❺</span>)、最後に4桁の数字があるか(<span class="codeannotation" aria-label="annotation6">❻</span>)のチェックです。すべてのチェックを通過したら、<span class="thesansmonocd_w5regular_">True</span>を返します(<span class="codeannotation" aria-label="annotation7">❼</span>)。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">is_phone_number()</span>を<span class="thesansmonocd_w5regular_">'415-555-4242'</span>という引数で呼び出すと、<span class="thesansmonocd_w5regular_">True</span>が返されます。<span class="thesansmonocd_w5regular_">is_phone_number()</span>を<span class="thesansmonocd_w5regular_">'Moshi moshi'</span>という引数で呼び出すと、<span class="thesansmonocd_w5regular_">False</span>が返されます。<span class="thesansmonocd_w5regular_">'Moshi moshi'</span>は12文字ではないので、最初のチェックで引っかかります。</p>
+<p class="tx">長い文字列の中から電話番号を見つけたければ、パターンを適用する場所を決めるコードをさらに書く必要があります。最後の<span class="thesansmonocd_w5regular_">print()</span>関数呼び出しを以下のコードに書き換えて<i class="calibre5">isPhoneNumber.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">message = 'Call me at 415-555-1011 tomorrow. 415-555-9999 is my office.'
 for i in range(len(message)):
   <span class="code_codeannotation" aria-label="annotation1">❶</span> segment = message[i:i+12]
@@ -65,67 +64,67 @@ for i in range(len(message)):
         print('Phone number found: ' + segment)
 print('Done')
 </code></pre>
-<p class="tx">When this program is run, the output will look like this:</p>
+<p class="tx">このプログラムを実行すると、出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">Phone number found: 415-555-1011
 Phone number found: 415-555-9999
 Done
 </code></pre>
-<p class="tx">On each iteration of the <span class="thesansmonocd_w5regular_">for</span> loop, a new segment of 12 characters from <span class="thesansmonocd_w5regular_">message</span> is assigned to the variable <span class="thesansmonocd_w5regular_">segment</span> <span class="codeannotation" aria-label="annotation1">❶</span>. For example, on the first iteration, <span class="thesansmonocd_w5regular_">i</span> is <span class="thesansmonocd_w5regular_">0</span>, and <span class="thesansmonocd_w5regular_">segment</span> is assigned <span class="thesansmonocd_w5regular_">message[0:12]</span> (that is, the string <span class="thesansmonocd_w5regular_">'Call me at 4'</span>). On the next iteration, <span class="thesansmonocd_w5regular_">i</span> is <span class="thesansmonocd_w5regular_">1</span>, and <span class="thesansmonocd_w5regular_">segment</span> is assigned <span class="thesansmonocd_w5regular_">message[1:13]</span> (the string <span class="thesansmonocd_w5regular_">'all me at 41'</span>). In other words, on each iteration of the <span class="thesansmonocd_w5regular_">for</span> loop, <span class="thesansmonocd_w5regular_">segment</span> takes on the following values</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループでは、<span class="thesansmonocd_w5regular_">message</span>から新しく12文字切り取って<span class="thesansmonocd_w5regular_">segment</span>に代入し、反復処理します(<span class="codeannotation" aria-label="annotation1">❶</span>)。例えば、最初の反復では、<span class="thesansmonocd_w5regular_">i</span> が<span class="thesansmonocd_w5regular_">0</span>であり、<span class="thesansmonocd_w5regular_">segment</span>には<span class="thesansmonocd_w5regular_">message[0:12]</span>が代入されます（文字列は<span class="thesansmonocd_w5regular_">'Call me at 4'</span>)になります）。次の反復では、<span class="thesansmonocd_w5regular_">i</span>が<span class="thesansmonocd_w5regular_">1</span>であり、<span class="thesansmonocd_w5regular_">segment</span>には<span class="thesansmonocd_w5regular_">message[1:13]</span>が代入されます（文字列は<span class="thesansmonocd_w5regular_">'all me at 41'</span>になります）。つまり、<span class="thesansmonocd_w5regular_">for</span>ループの反復では、<span class="thesansmonocd_w5regular_">segment</span>が順に次の値になります。</p>
 <pre class="pre"><code class="calibre9">'Call me at 4'
 'all me at 41'
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1044" aria-label="188"></span>'ll me at 415'
 'l me at 415-'
 </code></pre>
-<p class="tni">and so on, until its last value is <span class="thesansmonocd_w5regular_">'s my office.'</span></p>
-<p class="tx">The loop’s code passes <span class="thesansmonocd_w5regular_">segment</span> to <span class="thesansmonocd_w5regular_">is_phone_number()</span> to check whether it matches the phone number pattern <span class="codeannotation" aria-label="annotation2">❷</span>, and if so, it prints the segment. Once it has finished going through <span class="thesansmonocd_w5regular_">message</span>, we print <span class="thesansmonocd_w5regular_">Done</span>.</p>
-<p class="tx">While the string in <span class="thesansmonocd_w5regular_">message</span> is short in this example, the program would run in less than a second even if it were millions of characters long. A similar program that finds phone numbers using regular expressions would also run in less than a second; however, regular expressions make writing these programs much quicker.</p>
+<p class="tni">最後は<span class="thesansmonocd_w5regular_">'s my office.'</span>になります。</p>
+<p class="tx">ループのコードでは<span class="thesansmonocd_w5regular_">segment</span>を<span class="thesansmonocd_w5regular_">is_phone_number()</span>に渡し、電話番号のパターンにマッチするかどうかをチェックしています(<span class="codeannotation" aria-label="annotation2">❷</span>)。マッチすればその部分の文字列を表示します。<span class="thesansmonocd_w5regular_">message</span>の処理が終われば<span class="thesansmonocd_w5regular_">Done</span>と表示します。</p>
+<p class="tx">この例では<span class="thesansmonocd_w5regular_">message</span>の文字列が短かったですが、たとえ数百万字であってもプログラムの実行には1秒もかからないでしょう。正規表現で電話番号を探す似たようなプログラムも1秒もかかりません。それでも、正規表現を使うと、こうしたプログラムを素早く書けます。</p>
 </section>
 <section type="division" aria-labelledby="sec2">
-<h3 class="h" id="calibre_link-1627"><span id="calibre_link-191"></span><span class="sans_futura_std_bold_b_">Finding Text Patterns with Regular Expressions</span></h3>
-<p class="tni">The previous phone number–finding program works, but it uses a lot of code to do something limited. The <span class="thesansmonocd_w5regular_">is_phone_number()</span> function is 17 lines but can find only one phone number format. What about a phone number formatted like 415.555.4242 or (415) 555-4242? And what if the phone number had an extension, like 415-555-4242 x99? The <span class="thesansmonocd_w5regular_">is_phone_number()</span> function would fail to find them. You could add yet more code for these additional patterns, but there is an easier way to tackle the problem.</p>
-<p class="tx">Regular expressions, called <i class="calibre5">regexes</i> for short, are a sort of mini language that describes a pattern of text. For example, the characters <span class="thesansmonocd_w5regular_">\d</span> in a regex stand for a decimal numeral between 0 and 9. Python uses the regex string <span class="thesansmonocd_w5regular_">r'\d\d\d-\d\d\d-\d\d\d\d'</span> to match the same text pattern the previous <span class="thesansmonocd_w5regular_">is_phone_number()</span> function did: a string of three numbers, a hyphen, three more numbers, another hyphen, and four numbers. Any other string would not match the <span class="thesansmonocd_w5regular_">r'\d\d\d-\d\d\d-\d\d\d\d'</span> regex.</p>
-<p class="tx">Regular expressions can be much more sophisticated than this one. For example, adding a numeral, such as 3, in curly brackets (<span class="thesansmonocd_w5regular_">{3}</span>) after a pattern is like saying, “Match this pattern three times.” So the slightly shorter regex <span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span> also matches the phone number pattern.</p>
-<p class="tx">Note that we often write regex strings as raw strings, with the <span class="thesansmonocd_w5regular_">r</span> prefix. This is useful, as regex strings often have backslashes. Without using raw strings, we would have to enter expressions such as <span class="thesansmonocd_w5regular_">'\\d'</span>.</p>
-<p class="tx">Before we cover all of the details of regular expression syntax, let’s go over how to use them in Python. We’ll stick with the example regular expression string <span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span> used to find US phone numbers in a text string <span class="thesansmonocd_w5regular_">'My number is 415-555-4242'</span>. The general process of using regular expressions in Python involves four steps:</p>
-<p class="listnumberf">  1.  Import the <span class="thesansmonocd_w5regular_">re</span> module.</p>
-<p class="listnumber">  2.  Pass the regex string to <span class="thesansmonocd_w5regular_">re.compile()</span> to get a <span class="thesansmonocd_w5regular_">Pattern</span> object.</p>
-<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1136" aria-label="189"></span>  3.  Pass the text string to the <span class="thesansmonocd_w5regular_">Pattern</span> object’s <span class="thesansmonocd_w5regular_">search()</span> method to get a <span class="thesansmonocd_w5regular_">Match</span> object.</p>
-<p class="listnumberl">  4.  Call the <span class="thesansmonocd_w5regular_">Match</span> object’s <span class="thesansmonocd_w5regular_">group()</span> method to get the string of the matched text.</p>
-<p class="tx">In the interactive shell, these steps look like this:</p>
+<h3 class="h" id="calibre_link-1627"><span id="calibre_link-191"></span><span class="sans_futura_std_bold_b_">正規表現を使ってテキストのパターンを探す</span></h3>
+<p class="tni">先ほど説明した電話番号探索プログラムは動作しますが、コード量が多いです。<span class="thesansmonocd_w5regular_">is_phone_number()</span>関数は17行ですが、1つの電話番号形式しか探せません。415.555.4242 や (415) 555-4242のような形式はどうでしょうか。415-555-4242 x99のような内線番号がある形式はどうでしょうか。<span class="thesansmonocd_w5regular_">is_phone_number()</span>関数はそれらを見つけることはできません。こうした追加的なパターンに対応するためのコードをさらに書くこともできますが、もっと簡単なやり方があります。</p>
+<p class="tx">正規表現（<i class="calibre5">regexes</i>）は、テキストのパターンを記述するミニ言語です。例えば、正規表現の<span class="thesansmonocd_w5regular_">\d</span>は0から9までの10進法の数値を表します。Pythonでは、<span class="thesansmonocd_w5regular_">r'\d\d\d-\d\d\d-\d\d\d\d'</span>という正規表現の文字列で、3桁の数字、ハイフン、3桁の数字、ハイフン、4桁の数字という形の、先ほどの<span class="thesansmonocd_w5regular_">is_phone_number()</span>関数が対象としていたテキストのパターンにマッチします。ほかの文字列は、正規表現の<span class="thesansmonocd_w5regular_">r'\d\d\d-\d\d\d-\d\d\d\d'</span>にマッチしません。</p>
+<p class="tx">正規表現はさらに洗練させられます。例えば、パターンのあとに波かっこの中に3を書けば（<span class="thesansmonocd_w5regular_">{3}</span>）、「このパターンを3回繰り返すものにマッチ」します。先ほどの正規表現を短く書いた<span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span>も電話番号のパターンにマッチします。</p>
+<p class="tx">正規表現の文字列は、<span class="thesansmonocd_w5regular_">r</span>をつけたraw文字列として書くことが多いです。正規表現ではバックスラッシュを多用するので、そのほうが便利です。raw文字列を使わなければ、<span class="thesansmonocd_w5regular_">'\\d'</span>のような表記にしなければなりません。</p>
+<p class="tx">正規表現の詳細に立ち入る前に、Pythonで正規表現を使う方法をまとめます。<span class="thesansmonocd_w5regular_">'My number is 415-555-4242'</span>のようなテキスト文字列からアメリカ合衆国の電話番号を見つけるために使う、<span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span>という正規表現文字列を例に説明します。以下の4ステップでPythonの正規表現を使えます。</p>
+<p class="listnumberf">  1. <span class="thesansmonocd_w5regular_">re</span>モジュールをインポートします。</p>
+<p class="listnumber">  2. <span class="thesansmonocd_w5regular_">re.compile()</span>に正規表現文字列を渡して<span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトを取得します。</p>
+<p class="listnumber"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1136" aria-label="189"></span>  3. <span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトの<span class="thesansmonocd_w5regular_">search()</span>メソッドにテキスト文字列を渡して<span class="thesansmonocd_w5regular_">Match</span>オブジェクトを取得します。</p>
+<p class="listnumberl">  4. <span class="thesansmonocd_w5regular_">Match</span>オブジェクトの<span class="thesansmonocd_w5regular_">group()</span>メソッドを呼び出し、マッチしたテキスト文字列を取得します。</p>
+<p class="tx">対話型シェルでは、これらの手順は次のようになります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">phone_num_pattern_obj = re.compile(r'\d{3}-\d{3}-\d{4}')</b>
 &gt;&gt;&gt; <b class="calibre10">match_obj = phone_num_pattern_obj.search('My number is 415-555-4242.')</b>
 &gt;&gt;&gt; <b class="calibre10">match_obj.group()</b>
 '415-555-4242'
 </code></pre>
-<p class="tx">All regex functions in Python are in the <span class="thesansmonocd_w5regular_">re</span> module. Most of the examples in this chapter will require the <span class="thesansmonocd_w5regular_">re</span> module, so remember to import it at the beginning of the program. Otherwise, you’ll get a <span class="thesansmonocd_w5regular_">NameError: name 're' is not defined</span> error message. As with importing any module, you need to import it only once per program or interactive shell session.</p>
-<p class="tx">Passing the regular expression string to <span class="thesansmonocd_w5regular_">re.compile()</span> returns a <span class="thesansmonocd_w5regular_">Pattern</span> object. You only need to compile the <span class="thesansmonocd_w5regular_">Pattern</span> object once; after that, you can call the <span class="thesansmonocd_w5regular_">Pattern</span> object’s <span class="thesansmonocd_w5regular_">search()</span> method for as many different text strings as you want.</p>
-<p class="tx">A <span class="thesansmonocd_w5regular_">Pattern</span> object’s <span class="thesansmonocd_w5regular_">search()</span> method searches the string it is passed for any matches to the regex. The <span class="thesansmonocd_w5regular_">search()</span> method will return <span class="thesansmonocd_w5regular_">None</span> if the regex pattern isn’t found in the string. If the pattern <i class="calibre5">is</i> found, the <span class="thesansmonocd_w5regular_">search()</span> method returns a <span class="thesansmonocd_w5regular_">Match</span> object, which will have a <span class="thesansmonocd_w5regular_">group()</span> method that returns a string of the matched text.</p>
+<p class="tx">Pythonの正規表現の関数はすべて<span class="thesansmonocd_w5regular_">re</span>モジュールに入っています。本章のほとんどの例では<span class="thesansmonocd_w5regular_">re</span>モジュールが必要ですから、プログラムの冒頭で忘れずにインポートしてください。そうしないと<span class="thesansmonocd_w5regular_">NameError: name 're' is not defined</span>エラーメッセージが表示されます。どのモジュールでもそうですが、一つのプログラム中あるいは対話型セッション中で一回インポートすれば足ります。</p>
+<p class="tx">正規表現文字列を<span class="thesansmonocd_w5regular_">re.compile()</span>に渡すと<span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトが返されます。<span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトのコンパイルは一度だけで大丈夫です。以後は<span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトの<span class="thesansmonocd_w5regular_">search()</span>メソッドを何度でも呼び出せます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトの<span class="thesansmonocd_w5regular_">search()</span>メソッドは、渡された文字列を探索して正規表現にマッチするかどうかを調べます。正規表現のパターンを文字列中に発見できなければ<span class="thesansmonocd_w5regular_">search()</span>メソッドは<span class="thesansmonocd_w5regular_">None</span>を返します。パターンを発見したら、<span class="thesansmonocd_w5regular_">search()</span>メソッドは<span class="thesansmonocd_w5regular_">Match</span>オブジェクトを返します。そのオブジェクトの<span class="thesansmonocd_w5regular_">group()</span>メソッドでマッチしたテキストの文字列を取り出せます。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">注記</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">While I encourage you to enter the example code into the interactive shell, you could also make use of web-based regular expression testers, which can show you exactly how a regex matches a piece of text that you enter. I recommend the testers at</i> <span class="dedication_italic"><a href="https://pythex.org" class="calibre1">https://<wbr></wbr>pythex<wbr></wbr>.org</a></span> <i class="calibre5">and</i> <span class="dedication_italic"><a href="https://regex101.com" class="calibre1">https://<wbr></wbr>regex101<wbr></wbr>.com</a></span><i class="calibre5">. Different programming languages have slightly different regular expression syntax, so be sure to select the “Python” flavor on these websites.</i></p>
+<p class="note-txt"><i class="calibre5">対話型シェルでコード例を試してみることをおすすめしますが、ウェブベースの正規表現テストを活用してもよいでしょう。入力したテキストに正規表現がどうマッチするか確かめられます。</i> <span class="dedication_italic"><a href="https://pythex.org" class="calibre1">https://<wbr></wbr>pythex<wbr></wbr>.org</a></span> <i class="calibre5">と</i> <span class="dedication_italic"><a href="https://regex101.com" class="calibre1">https://<wbr></wbr>regex101<wbr></wbr>.com</a></span><i class="calibre5">を推奨します。プログラム言語ごとに微妙に異なる正規表現の構文を用いるので、これらのウェブサイトではPythonを選んでください。</i></p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h3 class="h" id="calibre_link-1628"><span id="calibre_link-192"></span><span class="sans_futura_std_bold_b_">The Syntax of Regular Expressions</span></h3>
-<p class="tni">Now that you know the basic steps for creating and finding regular expression objects using Python, you’re ready to learn the full range of regular expression syntax. In this section, you’ll learn how to group regular expression elements together with parentheses, escape special characters, match several alternative groups with the pipe character, and return all matches with the <span class="thesansmonocd_w5regular_">findall()</span> method.</p>
+<h3 class="h" id="calibre_link-1628"><span id="calibre_link-192"></span><span class="sans_futura_std_bold_b_">正規表現の構文</span></h3>
+<p class="tni">Pythonで正規表現を使う基本的な手順がわかりましたから、正規表現の構文を幅広く学んでいきましょう。この節では、かっこで正規表現の要素をグループ化する方法、特別な文字をエスケープする方法、パイプで選択的にマッチさせる方法、<span class="thesansmonocd_w5regular_">findall()</span>メソッドですべてのマッチを返す方法を説明します。</p>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-1629"><span id="calibre_link-193"></span><span class="sans_futura_std_heavy_oblique_bi_">Grouping with Parentheses</span></h4>
-<p class="tni">Say you want to separate one smaller part of the matched text, such as the area code, from the rest of the phone number (to, for example, perform some operation on it). Adding parentheses will create <i class="calibre5">groups</i> in the regex <span role="doc-pagebreak" type="pagebreak" id="calibre_link-844" aria-label="190"></span>string: <span class="thesansmonocd_w5regular_">r'(\d\d\d)-(\d\d\d-\d\d\d\d)'</span>. Then, you can use the <span class="thesansmonocd_w5regular_">group()</span> method of <span class="thesansmonocd_w5regular_">Match</span> objects to grab the matching text from just one group.</p>
-<p class="tx">The first set of parentheses in a regex string will be group <span class="thesansmonocd_w5regular_">1</span>. The second set will be group <span class="thesansmonocd_w5regular_">2</span>. By passing the integer <span class="thesansmonocd_w5regular_">1</span> or <span class="thesansmonocd_w5regular_">2</span> to the <span class="thesansmonocd_w5regular_">group()</span> method, you can grab different parts of the matched text. Passing <span class="thesansmonocd_w5regular_">0</span> or nothing to the <span class="thesansmonocd_w5regular_">group()</span> method will return the entire matched text. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1629"><span id="calibre_link-193"></span><span class="sans_futura_std_heavy_oblique_bi_">かっこでグループ化する</span></h4>
+<p class="tni">例えば電話番号のうちで市外局番に別の処理をするなど、マッチしたテキストの一部を取り出したい場合があります。<span class="thesansmonocd_w5regular_">r'(\d\d\d)-(\d\d\d-\d\d\d\d)'</span>のように丸かっこで囲むと正規表現文字列を<i class="calibre5">グループ化</i>できます。<span class="thesansmonocd_w5regular_">Match</span>オブジェクトの<span class="thesansmonocd_w5regular_">group()</span>メソッドでマッチしたテキストをグループごとに取得できます。</p>
+<p class="tx">正規表現文字列中の最初のかっこがグループ<span class="thesansmonocd_w5regular_">1</span>で、2番目のかっこがグループ<span class="thesansmonocd_w5regular_">2</span>です。整数の<span class="thesansmonocd_w5regular_">1</span>や<span class="thesansmonocd_w5regular_">2</span>を<span class="thesansmonocd_w5regular_">group()</span>メソッドに渡すと、マッチしたテキストの対応する部分を取得できます。<span class="thesansmonocd_w5regular_">group()</span>メソッドに<span class="thesansmonocd_w5regular_">0</span>を渡すか何も渡さなければ、マッチしたテキスト全体が返されます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">phone_re = re.compile(r'(\d\d\d)-(\d\d\d-\d\d\d\d)')</b>
 &gt;&gt;&gt; <b class="calibre10">mo = phone_re.search('My number is 415-555-4242.')</b>
-&gt;&gt;&gt; <b class="calibre10">mo.group(1)</b>  # Returns the first group of the matched text
+&gt;&gt;&gt; <b class="calibre10">mo.group(1)</b>  # マッチしたテキストの最初のグループを返す
 '415'
-&gt;&gt;&gt; <b class="calibre10">mo.group(2)</b>  # Returns the second group of the matched text
+&gt;&gt;&gt; <b class="calibre10">mo.group(2)</b>  # マッチしたテキストの2番目のグループを返す
 '555-4242'
-&gt;&gt;&gt; <b class="calibre10">mo.group(0)</b>  # Returns the full matched text
+&gt;&gt;&gt; <b class="calibre10">mo.group(0)</b>  # マッチしたテキスト全体を返す
 '415-555-4242'
-&gt;&gt;&gt; <b class="calibre10">mo.group()</b>  # Also returns the full matched text
+&gt;&gt;&gt; <b class="calibre10">mo.group()</b>  # これもマッチしたテキスト全体を返す
 '415-555-4242'
 </code></pre>
-<p class="tx">If you would like to retrieve all the groups at once, use the <span class="thesansmonocd_w5regular_">groups()</span> method (note the plural form in the name):</p>
+<p class="tx">すべてのグループをまとめて取得したければ、<span class="thesansmonocd_w5regular_">groups()</span>メソッドを使います（複数形になっていることに注意してください）。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">mo.groups()</b>
 ('415', '555-4242')
 &gt;&gt;&gt; <b class="calibre10">area_code, main_number = mo.groups()</b>
@@ -134,12 +133,12 @@ Done
 &gt;&gt;&gt; <b class="calibre10">print(main_number)</b>
 555-4242
 </code></pre>
-<p class="tx">Because <span class="thesansmonocd_w5regular_">mo.groups()</span> returns a tuple of multiple values, you can use the multiple-assignment trick to assign each value to a separate variable, as in the previous <span class="thesansmonocd_w5regular_">area_code, main_number</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">mo.groups()</span> line.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">mo.groups()</span>は複数の値が中に入ったタプルを返しますから、<span class="thesansmonocd_w5regular_">area_code, main_number</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">mo.groups()</span>の行のように、多重代入を使って複数の変数に代入できます。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1630"><span id="calibre_link-194"></span><span class="sans_futura_std_heavy_oblique_bi_">Using Escape Characters</span></h4>
-<p class="tni">Parentheses create groups in regular expressions and are not interpreted as part of the text pattern. So, what do you do if you need to match a parenthesis in your text? For instance, maybe the phone numbers you are trying to match have the area code set in parentheses: <span class="thesansmonocd_w5regular_">'(415) 555-4242'</span>.</p>
-<p class="tx">In this case, you need to escape the <span class="thesansmonocd_w5regular_">(</span>and) characters with a backslash. The <span class="thesansmonocd_w5regular_">\(</span>and <span class="thesansmonocd_w5regular_">\)</span> escaped parentheses will be interpreted as part of the pattern you are matching. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1630"><span id="calibre_link-194"></span><span class="sans_futura_std_heavy_oblique_bi_">エスケープ文字</span></h4>
+<p class="tni">丸かっこは正規表現の中でグループを作り、テキストのパターンであるとは解釈されません。そうすると、テキスト中で丸かっこにマッチさせたいときにはどうすればよいのでしょうか。例えば、マッチさせたい電話番号は、<span class="thesansmonocd_w5regular_">'(415) 555-4242'</span>のように丸かっこ内に市外局番が書かれているかもしれません。</p>
+<p class="tx">この場合、<span class="thesansmonocd_w5regular_">(</span>と<span class="thesansmonocd_w5regular_">)</span>をバックスラッシュでエスケープする必要があります。<span class="thesansmonocd_w5regular_">\(</span>と<span class="thesansmonocd_w5regular_">\)</span>で丸かっこをエスケープすれば、マッチさせたいパターンの一部であると解釈されます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'(\(\d\d\d\)) (\d\d\d-\d\d\d\d)')</b>
 &gt;&gt;&gt; <b class="calibre10">mo = pattern.search('My phone number is (415) 555-4242.')</b>
 &gt;&gt;&gt; <b class="calibre10">mo.group(1)</b>
@@ -147,23 +146,23 @@ Done
 &gt;&gt;&gt; <b class="calibre10">mo.group(2)</b>
 '555-4242'
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-863" aria-label="191"></span>The <span class="thesansmonocd_w5regular_">\(</span>and <span class="thesansmonocd_w5regular_">\)</span> escape characters in the raw string passed to <span class="thesansmonocd_w5regular_">re.compile()</span> will match actual parenthesis characters. In regular expressions, the following characters have special meanings:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-863" aria-label="191"></span><span class="thesansmonocd_w5regular_">re.compile()</span>に渡されるraw文字列の<span class="thesansmonocd_w5regular_">\(</span>と<span class="thesansmonocd_w5regular_">\)</span>のエスケープ文字は、丸かっこにマッチします。正規表現では、以下の文字（記号）には特別な意味があります。</p>
 <pre class="pre"><code class="calibre9">$ () * + - . ? [\] ^ {|}</code></pre>
-<p class="tx">If you want to detect these characters as part of your text pattern, you need to escape them with a backslash:</p>
+<p class="tx">これらの文字（記号）をテキストのパターンの一部にしたければ、バックスラッシュでエスケープする必要があります。</p>
 <pre class="pre"><code class="calibre9">\$ \(\) \* \+ \- \. \? \[\\ \] \^ \{\| \}</code></pre>
-<p class="tx">Always double-check that you haven’t mistaken escaped parentheses <span class="thesansmonocd_w5regular_">\(</span>and <span class="thesansmonocd_w5regular_">\)</span> for unescaped parentheses <span class="thesansmonocd_w5regular_">(</span>and) in a regular expression. If you receive an error message about “missing)” or “unbalanced parenthesis,” you may have forgotten to include the closing unescaped parenthesis for a group, like in this example:</p>
+<p class="tx">正規表現でエスケープしていない丸かっこ<span class="thesansmonocd_w5regular_">(</span>と<span class="thesansmonocd_w5regular_">)</span>を、エスケープした丸かっこ<span class="thesansmonocd_w5regular_">\(</span>と<span class="thesansmonocd_w5regular_">\)</span>に取り違えていないかを、必ずダブルチェックしてください。“missing)”や“unbalanced parenthesis,”のようなエラーメッセージが表示されたら、以下の例のように、グループ化のかっこを閉じ忘れている可能性があります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">re.compile(r'(\(Parentheses\)')</b>
 Traceback (most recent call last):
 <var class="calibre20">--snip--</var>
 re.error: missing), unterminated subpattern at position 0
 </code></pre>
-<p class="tx">The error message tells you that there is an opening parenthesis at index <span class="thesansmonocd_w5regular_">0</span> of the <span class="thesansmonocd_w5regular_">r'(\(Parentheses\)'</span> string that is missing its corresponding closing parenthesis. Using the Humre module described later in this chapter helps prevent these kinds of typos.</p>
+<p class="tx">エラーメッセージを読むと、文字列<span class="thesansmonocd_w5regular_">r'(\(Parentheses\)'</span>のインデックス<span class="thesansmonocd_w5regular_">0</span>にある開き丸かっこに対応する閉じ丸かっこが欠けていることがわかります。本章の最後のほうで説明するHumreモジュールを使うと、こうしたミスを防げます。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-1631"><span id="calibre_link-195"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching Characters from Alternate Groups</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">|</span> character is called a <i class="calibre5">pipe</i>, and it’s used as the <i class="calibre5">alternation operator</i> in regular expressions. You can use it anywhere you want to match one of multiple expressions. For example, the regular expression <span class="thesansmonocd_w5regular_">r'Cat|Dog'</span> will match either <span class="thesansmonocd_w5regular_">'Cat'</span> or <span class="thesansmonocd_w5regular_">'Dog'</span>.</p>
-<p class="tx">You can also use the pipe to match one of several patterns as part of your regex. For example, say you wanted to match any of the strings <span class="thesansmonocd_w5regular_">'Caterpillar'</span>, <span class="thesansmonocd_w5regular_">'Catastrophe'</span>, <span class="thesansmonocd_w5regular_">'Catch'</span>, or <span class="thesansmonocd_w5regular_">'Category'</span>. Since all of these strings start with <span class="thesansmonocd_w5regular_">Cat</span>, it would be nice if you could specify that prefix only once. You can do this by using the pipe within parentheses to separate the possible suffixes. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1631"><span id="calibre_link-195"></span><span class="sans_futura_std_heavy_oblique_bi_">選択的なグループからのマッチ</span></h4>
+<p class="tni">正規表現では、<i class="calibre5">パイプ</i>と呼ばれる<span class="thesansmonocd_w5regular_">|</span>を選択演算子として用います。複数の表現のうちどれか一つにマッチさせられます。例えば、正規表現<span class="thesansmonocd_w5regular_">r'Cat|Dog'</span>は、<span class="thesansmonocd_w5regular_">'Cat'</span>か<span class="thesansmonocd_w5regular_">'Dog'</span>のどちらかにマッチします。</p>
+<p class="tx">正規表現の一部に選択演算子を使うことで、複数のパターンにマッチさせられます。例えば、<span class="thesansmonocd_w5regular_">'Caterpillar'</span>、<span class="thesansmonocd_w5regular_">'Catastrophe'</span>、<span class="thesansmonocd_w5regular_">'Catch'</span>、<span class="thesansmonocd_w5regular_">'Category'</span>という文字列にマッチさせたいとします。これらの文字列はすべて<span class="thesansmonocd_w5regular_">Cat</span>で始まっていますから、その共通部分を一度だけ指定できるとうれしいです。共通部分をくくりだして丸かっこ内でパイプを使うと、それを実現できます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'Cat(erpillar|astrophe|ch|egory)')</b>
 &gt;&gt;&gt; <b class="calibre10">match = pattern.search('Catch me if you can.')</b>
@@ -172,25 +171,25 @@ re.error: missing), unterminated subpattern at position 0
 &gt;&gt;&gt; <b class="calibre10">match.group(1)</b>
 'ch'
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1156" aria-label="192"></span>The method call <span class="thesansmonocd_w5regular_">match.group()</span> returns the full matched text <span class="thesansmonocd_w5regular_">'Catch'</span>, while <span class="thesansmonocd_w5regular_">match.group(1)</span> returns just the part of the matched text inside the first parentheses group, <span class="thesansmonocd_w5regular_">'ch'</span>. By using the pipe character and grouping parentheses, you can specify several alternative patterns you would like your regex to match.</p>
-<p class="tx">If you need to match an actual pipe character, escape it with a backslash, like <span class="thesansmonocd_w5regular_">\|</span>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1156" aria-label="192"></span><span class="thesansmonocd_w5regular_">match.group()</span>メソッドを呼び出すと、マッチしたテキスト全体である<span class="thesansmonocd_w5regular_">'Catch'</span>が返されます。<span class="thesansmonocd_w5regular_">match.group(1)</span>はテキスト内で最初の丸かっこのグループでマッチした部分<span class="thesansmonocd_w5regular_">'ch'</span>だけを返します。パイプとグループ化を活用すれば、正規表現でマッチさせたい選択的なパターンを指定できます。</p>
+<p class="tx">パイプ記号にマッチさせたい場合は、<span class="thesansmonocd_w5regular_">\|</span>のようにバックスラッシュでエスケープしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h4 class="h1" id="calibre_link-1632"><span id="calibre_link-196"></span><span class="sans_futura_std_heavy_oblique_bi_">Returning All Matches</span></h4>
-<p class="tni">In addition to a <span class="thesansmonocd_w5regular_">search()</span> method, <span class="thesansmonocd_w5regular_">Pattern</span> objects have a <span class="thesansmonocd_w5regular_">findall()</span> method. While <span class="thesansmonocd_w5regular_">search()</span> will return a <span class="thesansmonocd_w5regular_">Match</span> object of the <i class="calibre5">first</i> matched text in the searched string, the <span class="thesansmonocd_w5regular_">findall()</span> method will return the strings of <i class="calibre5">every</i> match in the searched string.</p>
-<p class="tx">There is one detail you need to keep in mind when using <span class="thesansmonocd_w5regular_">findall()</span>. The method returns a list of strings <i class="calibre5">as long as there are no groups in the regular expression</i>. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1632"><span id="calibre_link-196"></span><span class="sans_futura_std_heavy_oblique_bi_">すべてのマッチを返す</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトには、<span class="thesansmonocd_w5regular_">search()</span>メソッドのほかに、<span class="thesansmonocd_w5regular_">findall()</span>メソッドがあります。<span class="thesansmonocd_w5regular_">search()</span>は検索文字列が<i class="calibre5">最初に</i>マッチした<span class="thesansmonocd_w5regular_">Match</span>オブジェクトを返すのに対し、<span class="thesansmonocd_w5regular_">findall()</span>メソッドは検索文字列の<i class="calibre5">すべての</i>マッチを返します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">findall()</span>を使う際に覚えておくべきことが一つあります。。このメソッドは、正規表現にグループがなければ文字列のリストを返します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
-&gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'\d{3}-\d{3}-\d{4}')  </b># This regex has no groups.
+&gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'\d{3}-\d{3}-\d{4}')  </b># グループなしの正規表現
 &gt;&gt;&gt; <b class="calibre10">pattern.findall('Cell: 415-555-9999 Work: 212-555-0000')</b>
 ['415-555-9999', '212-555-0000']
 </code></pre>
-<p class="tx">If there <i class="calibre5">are</i> groups in the regular expression, then <span class="thesansmonocd_w5regular_">findall()</span> will return a list of tuples. Each tuple represents a single match, and the tuple has strings for each group in the regex. To see this behavior in action, enter the following into the interactive shell (and notice that the regular expression being compiled now has groups in parentheses):</p>
+<p class="tx">正規表現にグループがあれば、<span class="thesansmonocd_w5regular_">findall()</span>はタプルのリストを返します。それぞれのタプルが一つのマッチを表し、グループの文字列がタプルに含まれます。対話型シェルに次のコードを入力してこの動作を確かめてみましょう（今回は正規表現を丸かっこでグループ化しています）。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
-&gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'(\d{3})-(\d{3})-(\d{4})')  </b># This regex has groups.
+&gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'(\d{3})-(\d{3})-(\d{4})')  </b># グループありの正規表現
 &gt;&gt;&gt; <b class="calibre10">pattern.findall('Cell: 415-555-9999 Work: 212-555-0000')</b>
 [('415', '555', '9999'), ('212', '555', '0000')]
 </code></pre>
-<p class="tx">Also keep in mind that <span class="thesansmonocd_w5regular_">findall()</span> doesn’t overlap matches. For example, matching three numbers with the regex string <span class="thesansmonocd_w5regular_">r'\d{3}'</span> matches the first three numbers in <span class="thesansmonocd_w5regular_">'1234'</span> but not the last three:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">findall()</span>は重なる部分でマッチしないことも覚えておいてください。例えば、正規表現文字列<span class="thesansmonocd_w5regular_">r'\d{3}'</span>で3つの数字にマッチさせると、<span class="thesansmonocd_w5regular_">'1234'</span>の最初の3つの数字にマッチしますが、最後の3つの数字にはマッチしません。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'\d{3}')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.findall('1234')</b>
@@ -200,72 +199,72 @@ re.error: missing), unterminated subpattern at position 0
 &gt;&gt;&gt; <b class="calibre10">pattern.findall('123456')</b>
 ['123', '456']
 </code></pre>
-<p class="tx">Because the first three digits in <span class="thesansmonocd_w5regular_">'1234'</span> have been matched as <span class="thesansmonocd_w5regular_">'123'</span>, the digits <span class="thesansmonocd_w5regular_">'234'</span> won’t be included in further matches, even though they fit the <span class="thesansmonocd_w5regular_">r'\d{3}'</span> pattern.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">'1234'</span>の最初の3つの数字が <span class="thesansmonocd_w5regular_">'123'</span>としてマッチするので、<span class="thesansmonocd_w5regular_">'234'</span>はさらなるマッチ対象には含まれません。<span class="thesansmonocd_w5regular_">r'\d{3}'</span>というパターンに合致するように見えてもこういう結果になります。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec8">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-853" aria-label="193"></span>
-<h3 class="h" id="calibre_link-1633"><span id="calibre_link-197"></span><span class="sans_futura_std_bold_b_">Qualifier Syntax: What Characters to Match</span></h3>
-<p class="tni">Regular expressions are split into two parts: the <i class="calibre5">qualifiers</i> that dictate what characters you are trying to match followed by the <i class="calibre5">quantifiers</i> that dictate how many characters you are trying to match. In the <span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span> phone number regex string example we’ve been using, the <span class="thesansmonocd_w5regular_">r'\d'</span> and <span class="thesansmonocd_w5regular_">'-'</span> parts are qualifiers and the <span class="thesansmonocd_w5regular_">'{3}'</span> and <span class="thesansmonocd_w5regular_">'{4}'</span> are quantifiers. Let’s now examine the syntax of qualifiers.</p>
+<h3 class="h" id="calibre_link-1633"><span id="calibre_link-197"></span><span class="sans_futura_std_bold_b_">質指定構文：どの文字にマッチさせるか</span></h3>
+<p class="tni">正規表現は2つの部分に分解できます。どの文字にマッチさせるかという<i class="calibre5">質指定子</i>と、どれだけの量にマッチさせるかという<i class="calibre5">量指定子</i>です。例の<span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span>という電話番号の正規表現文字列であれば、<span class="thesansmonocd_w5regular_">r'\d'</span>と<span class="thesansmonocd_w5regular_">'-'</span>の部分が質指定子で、<span class="thesansmonocd_w5regular_">'{3}'</span>と<span class="thesansmonocd_w5regular_">'{4}'</span>が量指定子です。まず質指定子から説明します。</p>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-1634"><span id="calibre_link-198"></span><span class="sans_futura_std_heavy_oblique_bi_">Using Character Classes and Negative Character Classes</span></h4>
-<p class="tni">Although you can define a single character to match, as we’ve done in the previous examples, you can also define a set of characters to match inside square brackets. This set is called a <i class="calibre5">character class</i>. For example, the character class <span class="thesansmonocd_w5regular_">[aeiouAEIOU]</span> will match any vowel, both lowercase and uppercase. It’s the equivalent of writing <span class="thesansmonocd_w5regular_">a|e|i|o|u|A|E|I|O|U</span>, but it’s easier to type. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1634"><span id="calibre_link-198"></span><span class="sans_futura_std_heavy_oblique_bi_">文字クラスと否定文字クラス</span></h4>
+<p class="tni">ここまでの例で見てきたようにマッチさせる一つの文字を指定することができますが、角かっこ内で複数の文字を指定することもできます。これを<i class="calibre5">文字クラス</i>と呼びます。例えば、<span class="thesansmonocd_w5regular_">[aeiouAEIOU]</span>という文字クラスは、小文字と大文字のすべての母音にマッチします。<span class="thesansmonocd_w5regular_">a|e|i|o|u|A|E|I|O|U</span>と書くのと同じですが、文字クラスのほうが書きやすいです。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">vowel_pattern = re.compile(r'[aeiouAEIOU]')</b>
 &gt;&gt;&gt; <b class="calibre10">vowel_pattern.findall('RoboCop eats BABY FOOD.')</b>
 ['o', 'o', 'o', 'e', 'a', 'A', 'O', 'O']
 </code></pre>
-<p class="tx">You can also include ranges of letters or numbers by using a hyphen. For example, the character class <span class="thesansmonocd_w5regular_">[a-zA-Z0-9]</span> will match all lowercase letters, uppercase letters, and numbers.</p>
-<p class="tx">Note that, inside the square brackets, the normal regular expression symbols are not interpreted as such. This means you do not need to escape characters such as parentheses inside the square brackets if you want to match literal parentheses. For example, the character class <span class="thesansmonocd_w5regular_">[()]</span> will match either an open or close parenthesis. You do not need to write this as <span class="thesansmonocd_w5regular_">[\(\)]</span>.</p>
-<p class="tx">By placing a caret character (<span class="thesansmonocd_w5regular_">^</span>) just after the character class’s opening bracket, you can make a <i class="calibre5">negative character class</i>. A negative character class will match all the characters that are <i class="calibre5">not</i> in the character class. For example, enter the following into the interactive shell:</p>
+<p class="tx">ハイフンを使って文字や数字の範囲を含めることもできます。例えば、<span class="thesansmonocd_w5regular_">[a-zA-Z0-9]</span>という文字クラスは、アルファベットのすべての小文字と大文字と数字にマッチします。</p>
+<p class="tx">角かっこ内では正規表現で特別な意味を持つ記号が特別な意味に解釈されないことに注意してください。角かっこ内では丸かっこなどをエスケープしなくてもよいということです。例えば、文字クラス<span class="thesansmonocd_w5regular_">[()]</span>は開き丸かっこと閉じ丸かっこのどちらかにマッチします。<span class="thesansmonocd_w5regular_">[\(\)]</span>と書く必要はありません。</p>
+<p class="tx">文字クラスの開き角かっこの直後にキャレット（<span class="thesansmonocd_w5regular_">^</span>）を置くと、<i class="calibre5">否定文字クラス</i>を作れます。否定文字クラスは、その文字クラスに含まれ<i class="calibre5">ない</i>文字すべてにマッチします。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">consonant_pattern = re.compile(r'[^aeiouAEIOU]')</b>
 &gt;&gt;&gt; <b class="calibre10">consonant_pattern.findall('RoboCop eats BABY FOOD.')</b>
 ['R', 'b', 'C', 'p', ' ', 't', 's', ' ', 'B', 'B', 'Y', ' ', 'F', 'D', '.']
 </code></pre>
-<p class="tx">Now, instead of matching every vowel, we’re matching every character that isn’t a vowel. Keep in mind that this includes spaces, newlines, punctuation characters, and numbers.</p>
+<p class="tx">すべての母音にマッチするのではなく、すべての母音以外の文字にマッチします。スペースや改行や句読記号や数字にもマッチする点に注意してください。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1635"><span id="calibre_link-199"></span><span class="sans_futura_std_heavy_oblique_bi_">Using Shorthand Character Classes</span></h4>
-<p class="tni">In the earlier phone number regex example, you learned that <span class="thesansmonocd_w5regular_">\d</span> could stand for any numeric digit. That is, <span class="thesansmonocd_w5regular_">\d</span> is shorthand for the regular <span role="doc-pagebreak" type="pagebreak" id="calibre_link-857" aria-label="194"></span>expression <span class="thesansmonocd_w5regular_">0|1|2|3|4|5|6|7|8|9</span> or <span class="thesansmonocd_w5regular_">[0-9]</span>. There are many such <i class="calibre5">shorthand character classes</i>, as shown in Table 9-1.</p>
+<h4 class="h1" id="calibre_link-1635"><span id="calibre_link-199"></span><span class="sans_futura_std_heavy_oblique_bi_">短縮文字クラス</span></h4>
+<p class="tni">先の電話番号の正規表現の例では、<span class="thesansmonocd_w5regular_">\d</span>が10進数のすべての数字を表すと説明しました。<span class="thesansmonocd_w5regular_">\d</span>は<span class="thesansmonocd_w5regular_">0|1|2|3|4|5|6|7|8|9</span>や<span class="thesansmonocd_w5regular_">[0-9]</span>の短縮記法です。表9-1に示すように、<i class="calibre5">短縮文字クラス</i>はほかにもあります。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-725"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 9-1:</span></span> <span class="sans_futura_std_book_">Shorthand Codes for Common Character Classes</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-725"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 9-1：</span></span><span class="sans_futura_std_book_">一般的な短縮文字クラス</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Shorthand character class</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Represents ...</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">短縮文字クラス</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">表現内容</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">\d</span></p></td>
-<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Any numeric digit from 0 to 9.</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">0から9までのすべての数字</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\D</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Any character that is</span> <span class="sans_futura_std_book_oblique_i_">not</span> <span class="sans_futura_std_book_">a numeric digit from 0 to 9.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">0から9までの数字以外のすべて</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\w</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Any letter, numeric digit, or the underscore character. (Think of this as matching “word” characters.)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">すべての文字と数字とアンダースコア（単語にマッチするものだと考えてください）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\W</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Any character that is</span> <span class="sans_futura_std_book_oblique_i_">not</span> <span class="sans_futura_std_book_">a letter, numeric digit, or the underscore character.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">文字と数字とアンダースコア以外のすべて</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">\s</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Any space, tab, or newline character. (Think of this as matching “space” characters.)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">スペースとタブと改行（スペース文字だと考えてください）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">\S</span></p></td>
-<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Any character that is</span> <span class="sans_futura_std_book_oblique_i_">not</span> <span class="sans_futura_std_book_">a space, tab, or newline character.</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">スペースとタブと改行以外のすべて</span></p></td>
 </tr>
 </tbody>
 </table>
-<p class="tx">Note that while <span class="thesansmonocd_w5regular_">\d</span> matches digits and <span class="thesansmonocd_w5regular_">\w</span> matches digits, letters, and the underscore, there is no shorthand character class that matches only letters. Though you can use the <span class="thesansmonocd_w5regular_">[a-zA-Z]</span> character class, this character class won’t match accented letters or non-Roman alphabet letters such as <span class="thesansmonocd_w5regular_">'é'</span>. Also, remember to use raw strings to escape the backslash: <span class="thesansmonocd_w5regular_">r'\d'</span>.</p>
-<p class="tx">For example, enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">\d</span>は数字にマッチして<span class="thesansmonocd_w5regular_">\w</span>は数字と文字とアンダースコアにマッチしますが、文字だけにマッチする短縮文字クラスは存在しません。<span class="thesansmonocd_w5regular_">[a-zA-Z]</span>という文字クラスを使うことができますが、これは<span class="thesansmonocd_w5regular_">'é'</span>のようなアクセント文字や非ローマアルファベット文字にはマッチしません。また、バックスラッシュをエスケープするために、<span class="thesansmonocd_w5regular_">r'\d'</span>のようにraw文字列を使うようにしてください。</p>
+<p class="tx">対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'\d+\s\w+')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.findall('12 drummers, 11 pipers, 10 lords, 9 ladies, 8 maids, </b>
@@ -273,38 +272,38 @@ re.error: missing), unterminated subpattern at position 0
 ['12 drummers', '11 pipers', '10 lords', '9 ladies', '8 maids', '7 swans', '
 6 geese', '5 rings', '4 birds', '3 hens', '2 doves', '1 partridge']
 </code></pre>
-<p class="tx">The regular expression <span class="thesansmonocd_w5regular_">\d+\s\w+</span> will match text that has one or more numeric digits (<span class="thesansmonocd_w5regular_">\d+</span>), followed by a whitespace character (<span class="thesansmonocd_w5regular_">\s</span>), followed by one or more letter/digit/underscore characters (<span class="thesansmonocd_w5regular_">\w+</span>). The <span class="thesansmonocd_w5regular_">findall()</span> method returns all matching strings of the regular expression pattern in a list.</p>
+<p class="tx">正規表現<span class="thesansmonocd_w5regular_">\d+\s\w+</span>は、1つ以上の数字（<span class="thesansmonocd_w5regular_">\d+</span>）にスペース（<span class="thesansmonocd_w5regular_">\s</span>）が続き、さらに文字か数字かアンダースコア（<span class="thesansmonocd_w5regular_">\w+</span>）が続くテキストにマッチします。<span class="thesansmonocd_w5regular_">findall()</span>メソッドは正規表現のパターンにマッチする文字列をすべてリストで返します。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-1636"><span id="calibre_link-200"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching Everything with the Dot Character</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">.</span> (or <i class="calibre5">dot</i>) character in a regular expression string matches any character except for a newline. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1636"><span id="calibre_link-200"></span><span class="sans_futura_std_heavy_oblique_bi_">ドットで全てにマッチさせる</span></h4>
+<p class="tni">ドット（<span class="thesansmonocd_w5regular_">.</span>）を正規表現文字列で使うと、改行文字以外のすべての文字にマッチします。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">at_re = re.compile(r'.at')</b>
 &gt;&gt;&gt; <b class="calibre10">at_re.findall('The cat in the hat sat on the flat mat.')</b>
 ['cat', 'hat', 'sat', 'lat', 'mat']
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1232" aria-label="195"></span>Remember that the dot character will match just one character, which is why the text <span class="thesansmonocd_w5regular_">flat</span> in the previous example matched only <span class="thesansmonocd_w5regular_">lat</span>. To match an actual period, escape the dot with a backslash: <span class="thesansmonocd_w5regular_">\.</span></p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1232" aria-label="195"></span>ドットは1文字だけにマッチするのを忘れないでください。上記の例<span class="thesansmonocd_w5regular_">flat</span>が<span class="thesansmonocd_w5regular_">lat</span>にしかマッチしないのはそのためです。ドットそのものにマッチさせたい場合は、<span class="thesansmonocd_w5regular_">\.</span>のようにバックスラッシュでエスケープしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h4 class="h1" id="calibre_link-1637"><span id="calibre_link-201"></span><span class="sans_futura_std_heavy_oblique_bi_">Being Careful What You Match For</span></h4>
-<p class="tni">The best and worst thing about regular expressions is that they will match exactly what you ask for. Here are some common points of confusion regarding character classes:</p>
+<h4 class="h1" id="calibre_link-1637"><span id="calibre_link-201"></span><span class="sans_futura_std_heavy_oblique_bi_">マッチ対象に注意する</span></h4>
+<p class="tni">正規表現は、良くも悪くも、指定したパターンに正確にマッチします。ここでは文字クラスで誤解しやすい点を取り上げます。</p>
 <ul class="ul">
-<li class="bl">The <span class="thesansmonocd_w5regular_">[A-Z]</span> or <span class="thesansmonocd_w5regular_">[a-z]</span> character class matches uppercase or lowercase letters, respectively, but not both. You need to use <span class="thesansmonocd_w5regular_">[A-Za-z]</span> to match both cases.</li>
-<li class="bl">The <span class="thesansmonocd_w5regular_">[A-Za-z]</span> character class matches only plain, unaccented letters. For example, the regex string <span class="thesansmonocd_w5regular_">r'First Name: ([A-Za-z]+)'</span> would match “First Name: ” followed by a group of one or more unaccented letters. But singer Sin<span>é</span>ad O’Connor’s first name would match up to the <i class="calibre5">é</i> only, and the group would be set to <span class="thesansmonocd_w5regular_">'Sin'</span>.</li>
-<li class="bl">The <span class="thesansmonocd_w5regular_">\w</span> character class matches all letters, including accented letters and characters from other alphabets. But it also matches numbers and the underscore character, so the regex string <span class="thesansmonocd_w5regular_">r'First Name: (\w+)'</span> may match more than you intended.</li>
-<li class="bl">The <span class="thesansmonocd_w5regular_">\w</span> character class matches all letters, but the regex string <span class="thesansmonocd_w5regular_">r'Last Name: (\w+)'</span> would capture Sin<span>é</span>ad O’Connor’s last name only up until the apostrophe character. This means the group would capture her last name as <span class="thesansmonocd_w5regular_">'O'</span>.</li>
-<li class="bl">Straight and smart quote characters (<span class="thesansmonocd_w5regular_">' " ‘ ’ “ ”</span>) are considered completely different from each other and must be specified separately.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">[A-Z]</span>や<span class="thesansmonocd_w5regular_">[a-z]</span>の文字クラスは、大文字あるいは小文字のアルファベットにマッチしますが、両方にマッチするわけではありません。大文字と小文字の両方にマッチさせるには<span class="thesansmonocd_w5regular_">[A-Za-z]</span>と書きます。</li>
+<li class="bl">文字クラス<span class="thesansmonocd_w5regular_">[A-Za-z]</span>はアクセント記号のないアルファベットにマッチします。例えば、正規表現文字列<span class="thesansmonocd_w5regular_">r'First Name: ([A-Za-z]+)'</span>は“First Name: ”のあとにアクセントのないアルファベットが来るものにマッチします。歌手Sin<span>é</span>ad O’Connorの名前では<i class="calibre5">é</i>の手前までしかマッチしません。グループ化されるのは<span class="thesansmonocd_w5regular_">'Sin'</span>になります。</li>
+<li class="bl">文字クラス<span class="thesansmonocd_w5regular_">\w</span>は、アクセントのあるアルファベットや非アルファベットも含めて、すべての文字にマッチします。ただし、数字とアンダースコアにもマッチするので、<span class="thesansmonocd_w5regular_">r'First Name: (\w+)'</span>は意図した以上のものにマッチする可能性があります。</li>
+<li class="bl">文字クラス<span class="thesansmonocd_w5regular_">\w</span>はすべての文字にマッチしますが、正規表現文字列<span class="thesansmonocd_w5regular_">r'Last Name: (\w+)'</span>はSin<span>é</span>ad O’Connorの名前のアポストロフィの手前までしかマッチしません。グループ化されるのは<span class="thesansmonocd_w5regular_">'O'</span>になります。</li>
+<li class="bl">クォート記号（<span class="thesansmonocd_w5regular_">' " ‘ ’ “ ”</span>）はそれぞれ別物として扱われるので、別々に指定しなければなりません。</li>
 </ul>
-<p class="tx">Real-world data is complicated. Even if your program manages to capture Sin<span class="dedication_italic">é</span>ad O’Connor’s name, it could fail with Jean-Paul Sartre’s name because of the hyphen.</p>
-<p class="tx">Of course, when software declares a name to be invalid input, it is the software, and not the name, that has a bug; people’s names cannot be invalid. You can learn more about this issue from Patrick McKenzie’s article “Falsehoods Programmers Believe About Names” at <i class="calibre5"><a href="https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.kalzumeus<wbr></wbr>.com<wbr></wbr>/2010<wbr></wbr>/06<wbr></wbr>/17<wbr></wbr>/falsehoods<wbr></wbr>-programmers<wbr></wbr>-believe<wbr></wbr>-about<wbr></wbr>-names<wbr></wbr>/</a></i>. This article spawned a genre of similar “falsehoods programmers believe” pieces about how software mishandles dates, time zones, currencies, postal addresses, genders, airport codes, and love. Watch Carina C. Zona’s 2015 PyCon talk on the topic, “Schemas for the Real World,” at <i class="calibre5"><a href="https://youtu.be/PYYfVqtcWQY" class="calibre1">https://<wbr></wbr>youtu<wbr></wbr>.be<wbr></wbr>/PYYfVqtcWQY</a></i>.</p>
+<p class="tx">現実世界のデータは複雑です。Sin<span class="dedication_italic">é</span>ad O’Connorの名前をうまく扱えたとしても、Jean-Paul Sartreの名前ではハイフンがあるのでうまくいかないかもしれません。</p>
+<p class="tx">もちろん、ソフトウェアが名前を正常に処理できないときには、名前が悪いのではなくソフトウェアが悪いです。人の名前が異常だと言うことはできません。<i class="calibre5"><a href="https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.kalzumeus<wbr></wbr>.com<wbr></wbr>/2010<wbr></wbr>/06<wbr></wbr>/17<wbr></wbr>/falsehoods<wbr></wbr>-programmers<wbr></wbr>-believe<wbr></wbr>-about<wbr></wbr>-names<wbr></wbr>/</a></i>で読めるPatrick McKenzieの記事“Falsehoods Programmers Believe About Names”にもっと詳しく書かれています。この記事は、思い込みのせいでソフトウェアが日付、タイムゾーン、通貨、郵便番号、性別、空港コードなどをうまく処理できない、「プログラマの誤った信念」というジャンルを生み出しました。<i class="calibre5"><a href="https://youtu.be/PYYfVqtcWQY" class="calibre1">https://<wbr></wbr>youtu<wbr></wbr>.be<wbr></wbr>/PYYfVqtcWQY</a></i>でCarina C. Zona’s 2015 PyCon talkの“Schemas for the Real World”をご覧ください。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h3 class="h" id="calibre_link-1638"><span id="calibre_link-202"></span><span class="sans_futura_std_bold_b_">Quantifier Syntax: How Many Qualifiers to Match</span></h3>
-<p class="tni">In a regular expression string, quantifiers follow qualifier characters to dictate how many of them to match. For example, in the phone number regex considered earlier, the <span class="thesansmonocd_w5regular_">{3}</span> follows the <span class="thesansmonocd_w5regular_">\d</span> to match exactly three digits. If <span role="doc-pagebreak" type="pagebreak" id="calibre_link-868" aria-label="196"></span>there is no quantifier following a qualifier, the qualifier must appear exactly once: you can think of <span class="thesansmonocd_w5regular_">r'\d'</span> as being the same as <span class="thesansmonocd_w5regular_">r'\d{1}'</span>.</p>
+<h3 class="h" id="calibre_link-1638"><span id="calibre_link-202"></span><span class="sans_futura_std_bold_b_">量指定子：どれだけの量にマッチさせるか</span></h3>
+<p class="tni">正規表現文字列では、質指定子のあとに量指定子をつけることで、どれだけの量にマッチさせるかを指定します。先の電話番号の例で言うと、<span class="thesansmonocd_w5regular_">\d</span>のあとの<span class="thesansmonocd_w5regular_">{3}</span>は3桁の数字にマッチさせます。質指定子のあとに量指定子がなければ、1つだけになります。<span class="thesansmonocd_w5regular_">r'\d'</span>は<span class="thesansmonocd_w5regular_">r'\d{1}'</span>と同じだと考えることができます。</p>
 <section type="division" aria-labelledby="sec14">
-<h4 class="h1" id="calibre_link-1639"><span id="calibre_link-203"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching an Optional Pattern</span></h4>
-<p class="tni">Sometimes you may want to match a pattern only optionally. That is, the regex should match zero or one of the preceding qualifiers. The <span class="thesansmonocd_w5regular_">?</span> character flags the preceding qualifier as optional. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1639"><span id="calibre_link-203"></span><span class="sans_futura_std_heavy_oblique_bi_">あってもなくてもマッチするパターン</span></h4>
+<p class="tni">指定したパターンがあってもなくてもマッチさせたいことが時々あります。質指定子に0または1の量を指定するということです。質指定子に<span class="thesansmonocd_w5regular_">?</span>をつけるとその意味になります。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'42!?')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.search('42!')</b>
@@ -312,18 +311,18 @@ re.error: missing), unterminated subpattern at position 0
 &gt;&gt;&gt; <b class="calibre10">pattern.search('42')</b>
 &lt;re.Match object; span=(0, 2), match='42'&gt;
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">?</span> part of the regular expression means that the pattern <span class="thesansmonocd_w5regular_">!</span> is optional. So it matches both <span class="thesansmonocd_w5regular_">42!</span> (with the exclamation mark) and <span class="thesansmonocd_w5regular_">42</span> (without it).</p>
-<p class="tx">As you’re beginning to see, regular expression syntax’s reliance on symbols and punctuation makes it tricky to read: the <span class="thesansmonocd_w5regular_">?</span> question mark has meaning in regex syntax, but the <span class="thesansmonocd_w5regular_">!</span> exclamation mark doesn’t. So <span class="thesansmonocd_w5regular_">r'42!?'</span> means <span class="thesansmonocd_w5regular_">'42'</span> optionally followed by a <span class="thesansmonocd_w5regular_">'!'</span>, but <span class="thesansmonocd_w5regular_">r'42?!'</span> means <span class="thesansmonocd_w5regular_">'4'</span> optionally followed by <span class="thesansmonocd_w5regular_">'2'</span> followed by <span class="thesansmonocd_w5regular_">'!'</span>:</p>
+<p class="tx">正規表現の<span class="thesansmonocd_w5regular_">?</span>の部分は、<span class="thesansmonocd_w5regular_">!</span>があってもなくてもいいことを示します。よって、これは<span class="thesansmonocd_w5regular_">42!</span>（エクスクラメーションマークあり）と<span class="thesansmonocd_w5regular_">42</span>（エクスクラメーションマークなし）の両方にマッチします。</p>
+<p class="tx">そろそろお気づきの頃かと存じますが、正規表現の構文は特別な意味を持つ記号に依存しているので、読みづらいです。クエスチョンマーク（<span class="thesansmonocd_w5regular_">?</span>）には特別な意味がありますが、エクスクラメーションマーク（<span class="thesansmonocd_w5regular_">!</span>）には特別な意味がありません。<span class="thesansmonocd_w5regular_">r'42!?'</span>は、<span class="thesansmonocd_w5regular_">'42'</span>のあとに<span class="thesansmonocd_w5regular_">'!'</span>があってもなくてもマッチするという意味になりますが、<span class="thesansmonocd_w5regular_">r'42?!'</span>は<span class="thesansmonocd_w5regular_">'4'</span>と<span class="thesansmonocd_w5regular_">'!'</span>の間に<span class="thesansmonocd_w5regular_">'2'</span>があってもなくてもマッチするという意味になります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'42?!')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.search('42!')</b>
 &lt;re.Match object; span=(0, 3), match='42!'&gt;
 &gt;&gt;&gt; <b class="calibre10">pattern.search('4!')</b>
 &lt;re.Match object; span=(0, 2), match='4!'&gt;
-&gt;&gt;&gt; <b class="calibre10">pattern.search('42') == None  </b># No match
+&gt;&gt;&gt; <b class="calibre10">pattern.search('42') == None  </b># マッチしない
 True
 </code></pre>
-<p class="tx">To make multiple characters optional, place them in a group and put the <span class="thesansmonocd_w5regular_">?</span> after the group. In the earlier phone number example, you can use <span class="thesansmonocd_w5regular_">?</span> to make the regex look for phone numbers that either do or do not have an area code. Enter the following into the interactive shell:</p>
+<p class="tx">複数の文字があってもなくてもマッチさせるには、その複数の文字をグループ化して、その直後に<span class="thesansmonocd_w5regular_">?</span>を置きます。先の電話番号の例なら、<span class="thesansmonocd_w5regular_">?</span>を使って市外局番があってもなくてもマッチさせることができます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'(\d{3}-)?\d{3}-\d{4}')</b>
 &gt;&gt;&gt; <b class="calibre10">match1 = pattern.search('My number is 415-555-4242')</b>
 &gt;&gt;&gt; <b class="calibre10">match1.group()</b>
@@ -333,13 +332,13 @@ True
 &gt;&gt;&gt; <b class="calibre10">match2.group()</b>
 '555-4242'
 </code></pre>
-<p class="tx">You can think of the <span class="thesansmonocd_w5regular_">?</span> as saying, “Match zero or one of the group preceding this question mark.”</p>
-<p class="tx">If you need to match an actual question mark character, escape it with <span class="thesansmonocd_w5regular_">\?</span>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">?</span>は「このクエスチョンマークの直前のグループがあってもなくてもマッチする」という意味になります。</p>
+<p class="tx">クエスチョンマークにマッチさせたければ、<span class="thesansmonocd_w5regular_">\?</span>のようにエスケープしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-867" aria-label="197"></span>
-<h4 class="h1" id="calibre_link-1640"><span id="calibre_link-204"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching Zero or More Qualifiers</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">*</span> (called the <i class="calibre5">star</i> or <i class="calibre5">asterisk</i>) means “match zero or more.” In other words, the qualifier that precedes the star can occur any number of times in the text. It can be completely absent or repeated over and over again. Take a look at the following example:</p>
+<h4 class="h1" id="calibre_link-1640"><span id="calibre_link-204"></span><span class="sans_futura_std_heavy_oblique_bi_">0個以上という量指定子</span></h4>
+<p class="tni">アスタリスク（<span class="thesansmonocd_w5regular_">*</span>）は、「0個以上」を意味します。言い換えると、その直前の質指定子が、何回繰り返し出現しても構わないということです。まったくなくてもマッチしますし、何回繰り返されていてもマッチします。次の例を見てください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile('Eggs(and spam)*')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.search('Eggs')</b>
@@ -351,12 +350,12 @@ True
 &gt;&gt;&gt; <b class="calibre10">pattern.search('Eggs and spam and spam and spam')</b>
 &lt;re.Match object; span=(0, 31), match='Eggs and spam and spam and spam'&gt;
 </code></pre>
-<p class="tx">While the <span class="thesansmonocd_w5regular_">'Eggs'</span> part of the string must appear once, there can be any number of <span class="thesansmonocd_w5regular_">' and spam'</span> following it, including zero instances.</p>
-<p class="tx">If you need to match an actual star character, prefix the star in the regular expression with a backslash, <span class="thesansmonocd_w5regular_">\*</span>.</p>
+<p class="tx">文字列の<span class="thesansmonocd_w5regular_">'Eggs'</span>という部分は1回だけ現れますが、それに続く<span class="thesansmonocd_w5regular_">' and spam'</span>という部分は何回出現しても構いませんし、出現しなくても構いません。</p>
+<p class="tx">アスタリスクにマッチさせたければ、<span class="thesansmonocd_w5regular_">\*</span>のようにバックスラッシュでエスケープしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h4 class="h1" id="calibre_link-1641"><span id="calibre_link-205"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching One or More Qualifiers</span></h4>
-<p class="tni">While <span class="thesansmonocd_w5regular_">*</span> means “match zero or more,” the <span class="thesansmonocd_w5regular_">+</span> (or <i class="calibre5">plus</i>) means “match one or more.” Unlike the star, which does not require its qualifier to appear in the matched string, the plus requires the qualifier preceding it to appear <i class="calibre5">at least once</i>. It is not optional. Enter the following into the interactive shell, and compare it with the star regexes in the previous section:</p>
+<h4 class="h1" id="calibre_link-1641"><span id="calibre_link-205"></span><span class="sans_futura_std_heavy_oblique_bi_">1個以上という量指定子</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">*</span>は「0個以上」を意味しましたが、プラス（<span class="thesansmonocd_w5regular_">+</span>）は「1個以上」を意味します。出現しなくてもマッチするアスタリスクとは異なり、プラスはその直前の質指定子が<i class="calibre5">少なくとも1回</i>は出現しなければマッチしません。出現するかしないかが選択的ではないということです。対話型シェルに次の内容を入力して、先のアスタリスクの例と比べてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pattern = re.compile('Eggs(and spam)+')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.search('Eggs and spam')</b>
 &lt;re.Match object; span=(0, 13), match='Eggs and spam'&gt;
@@ -365,24 +364,24 @@ True
 &gt;&gt;&gt; <b class="calibre10">pattern.search('Eggs and spam and spam and spam')</b>
 &lt;re.Match object; span=(0, 31), match='Eggs and spam and spam and spam'&gt;
 </code></pre>
-<p class="tx">The regex <span class="thesansmonocd_w5regular_">'Eggs(and spam)+'</span> will not match the string <span class="thesansmonocd_w5regular_">'Eggs'</span>, because the plus sign requires at least one <span class="thesansmonocd_w5regular_">' and spam'</span>.</p>
-<p class="tx">You’ll often use parentheses in your regex strings to group together qualifiers so that a quantifier can apply to the entire group. For example, you could match any combination of dots and dashes of Morse code with <span class="thesansmonocd_w5regular_">r'(\.|\-)+'</span> (though this expression would also match invalid Morse code combinations).</p>
-<p class="tx">If you need to match an actual plus sign character, prefix the plus sign with a backslash to escape it: <span class="thesansmonocd_w5regular_">\+</span>.</p>
+<p class="tx">正規表現<span class="thesansmonocd_w5regular_">'Eggs(and spam)+'</span>は<span class="thesansmonocd_w5regular_">'Eggs'</span>にはマッチしません。プラスは少なくとも1回の<span class="thesansmonocd_w5regular_">' and spam'</span>にマッチします。</p>
+<p class="tx">正規表現文字列内で量指定子を使うときには、グループ全体に適用するために、丸かっこを使ってグループ化することがよくあるでしょう。例えば、モールス信号のドットとダッシュの組み合わせを<span class="thesansmonocd_w5regular_">r'(\.|\-)+'</span>でマッチさせられます（この表現は正しくないモールス信号にもマッチします）。</p>
+<p class="tx">プラス記号にマッチさせたければ、<span class="thesansmonocd_w5regular_">\+</span>のようにバックスラッシュでエスケープしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-851" aria-label="198"></span>
-<h4 class="h1" id="calibre_link-1642"><span id="calibre_link-206"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching a Specific Number of Qualifiers</span></h4>
-<p class="tni">If you have a group that you want to repeat a specific number of times, follow the group in your regex with a number in curly brackets. For example, the regex <span class="thesansmonocd_w5regular_">(Ha){3}</span> will match the string <span class="thesansmonocd_w5regular_">'HaHaHa'</span> but not <span class="thesansmonocd_w5regular_">'HaHa'</span>, since the latter has only two repeats of the <span class="thesansmonocd_w5regular_">(Ha)</span> group.</p>
-<p class="tx">Instead of one number, you can specify a range by writing a minimum, a comma, and a maximum in between the curly brackets. For example, the regex <span class="thesansmonocd_w5regular_">(Ha){3,5}</span> will match <span class="thesansmonocd_w5regular_">'HaHaHa'</span>, <span class="thesansmonocd_w5regular_">'HaHaHaHa'</span>, and <span class="thesansmonocd_w5regular_">'HaHaHaHaHa'</span>.</p>
-<p class="tx">You can also leave out the first or second number in the curly brackets to keep the minimum or maximum unbounded. For example, <span class="thesansmonocd_w5regular_">(Ha){3,}</span> will match three or more instances of the <span class="thesansmonocd_w5regular_">(Ha)</span> group, while <span class="thesansmonocd_w5regular_">(Ha){,5}</span> will match zero to five instances. Curly brackets can help make your regular expressions shorter. These two regular expressions match identical patterns:</p>
+<h4 class="h1" id="calibre_link-1642"><span id="calibre_link-206"></span><span class="sans_futura_std_heavy_oblique_bi_">指定した回数のマッチ</span></h4>
+<p class="tni">繰り返し回数を指定してマッチさせたければ、その回数を波かっこで囲みます。例えば、正規表現<span class="thesansmonocd_w5regular_">(Ha){3}</span>は<span class="thesansmonocd_w5regular_">'HaHaHa'</span>にマッチしますが、<span class="thesansmonocd_w5regular_">(Ha)</span>が2回しか繰り返されていない<span class="thesansmonocd_w5regular_">'HaHa'</span>にはマッチしません。</p>
+<p class="tx">波かっこ内に一つの数値で回数を指定するのではなく、最小回数とカンマと最大回数で範囲を指定することもできます。例えば、<span class="thesansmonocd_w5regular_">(Ha){3,5}</span>は<span class="thesansmonocd_w5regular_">'HaHaHa'</span>、<span class="thesansmonocd_w5regular_">'HaHaHaHa'</span>、<span class="thesansmonocd_w5regular_">'HaHaHaHaHa'</span>にマッチします。</p>
+<p class="tx">最小回数と最大回数は省略可能です。例えば、<span class="thesansmonocd_w5regular_">(Ha){3,}</span>は<span class="thesansmonocd_w5regular_">(Ha)</span>の3回以上の繰り返しにマッチし、<span class="thesansmonocd_w5regular_">(Ha){,5}</span>は5回以下の繰り返しにマッチします。波かっこを使うと正規表現を短く書けます。この2つの正規表現は同じパターンを示しています。</p>
 <pre class="pre"><code class="calibre9">(Ha){3}
 HaHaHa
 </code></pre>
-<p class="tx">So do these two regular expressions:</p>
+<p class="tx">この2つも同じです。</p>
 <pre class="pre"><code class="calibre9">(Ha){3,5}
 (HaHaHa)|(HaHaHaHa)|(HaHaHaHaHa)
 </code></pre>
-<p class="tx">Enter the following into the interactive shell:</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">haRegex = re.compile(r'(Ha){3}')</b>
 &gt;&gt;&gt; <b class="calibre10">match1 = haRegex.search('HaHaHa')</b>
@@ -393,15 +392,15 @@ HaHaHa
 &gt;&gt;&gt; <b class="calibre10">match == None</b>
 True
 </code></pre>
-<p class="tx">Here, <span class="thesansmonocd_w5regular_">(Ha){3}</span> matches <span class="thesansmonocd_w5regular_">'HaHaHa'</span> but not <span class="thesansmonocd_w5regular_">'Ha'</span>. Because it doesn’t match <span class="thesansmonocd_w5regular_">'HaHa'</span>, <span class="thesansmonocd_w5regular_">search()</span> returns <span class="thesansmonocd_w5regular_">None</span>.</p>
-<p class="tx">The syntax of the curly bracket quantifier is similar to Python’s slice syntax (such as <span class="thesansmonocd_w5regular_">'Hello, world!'[3:5]</span>, which evaluates to <span class="thesansmonocd_w5regular_">'lo'</span>). But there are key differences. In the regex quantifier, the two numbers are separated by a comma and not a colon. Also, the second number in the quantifier is inclusive: <span class="thesansmonocd_w5regular_">'(Ha){3,5}'</span> matches up to <i class="calibre5">and including</i> five instances of the <span class="thesansmonocd_w5regular_">'(Ha)'</span> qualifier.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">(Ha){3}</span>は<span class="thesansmonocd_w5regular_">'HaHaHa'</span>にマッチしますが、<span class="thesansmonocd_w5regular_">'Ha'</span>にはマッチしません。<span class="thesansmonocd_w5regular_">'HaHa'</span>にマッチしないので<span class="thesansmonocd_w5regular_">search()</span>は<span class="thesansmonocd_w5regular_">None</span>を返します。</p>
+<p class="tx">波かっこの量指定子の構文は、Pythonのスライスの構文（例：<span class="thesansmonocd_w5regular_">'Hello, world!'[3:5]</span>が<span class="thesansmonocd_w5regular_">'lo'</span>に評価されます）に似ています。しかし大きな違いがあります。正規表現の量指定子は、コロンではなくカンマで2つの数値を区切ります。また、量指定子の2つ目の数値は含まれます。<span class="thesansmonocd_w5regular_">'(Ha){3,5}'</span>は<span class="thesansmonocd_w5regular_">'(Ha)'</span>質指定子が5回繰り返されるものも含みます。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec18">
-<h3 class="h" id="calibre_link-1643"><span id="calibre_link-207"></span><span class="sans_futura_std_bold_b_">Greedy and Non-greedy Matching</span></h3>
-<p class="tni">Because <span class="thesansmonocd_w5regular_">(Ha){3,5}</span> can match three, four, or five instances of <span class="thesansmonocd_w5regular_">Ha</span> in the string <span class="thesansmonocd_w5regular_">'HaHaHaHaHa'</span>, you may wonder why the <span class="thesansmonocd_w5regular_">Match</span> object’s call to <span class="thesansmonocd_w5regular_">group()</span> in the previous curly bracket example returns <span class="thesansmonocd_w5regular_">'HaHaHaHaHa'</span> instead of the shorter <span role="doc-pagebreak" type="pagebreak" id="calibre_link-858" aria-label="199"></span>possibilities. After all, <span class="thesansmonocd_w5regular_">'HaHaHa'</span> and <span class="thesansmonocd_w5regular_">'HaHaHaHa'</span> are also valid matches of the regular expression <span class="thesansmonocd_w5regular_">(Ha){3,5}</span>.</p>
-<p class="tx">Python’s regular expressions are <i class="calibre5">greedy</i> by default, which means that in ambiguous situations, they will match the longest string possible. The <i class="calibre5">non-greedy</i> (also called <i class="calibre5">lazy</i>) version of the curly brackets, which matches the shortest string possible, must follow the closing curly bracket with a question mark.</p>
-<p class="tx">Enter the following into the interactive shell, and notice the difference between the greedy and non-greedy forms of the curly brackets searching the same string:</p>
+<h3 class="h" id="calibre_link-1643"><span id="calibre_link-207"></span><span class="sans_futura_std_bold_b_">貪欲マッチと非貪欲マッチ</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">(Ha){3,5}</span>は<span class="thesansmonocd_w5regular_">'HaHaHaHaHa'</span>のうちの<span class="thesansmonocd_w5regular_">Ha</span>の3回、4回、5回の繰り返しにマッチするので、先の波かっこの例でなぜ<span class="thesansmonocd_w5regular_">Match</span>オブジェクトの<span class="thesansmonocd_w5regular_">group()</span>呼び出しがもっと短いものではなく<span class="thesansmonocd_w5regular_">'HaHaHaHaHa'</span>を返したのか不思議に思うかもしれません。<span class="thesansmonocd_w5regular_">'HaHaHa'</span>と<span class="thesansmonocd_w5regular_">'HaHaHaHa'</span>も正規表現<span class="thesansmonocd_w5regular_">(Ha){3,5}</span>の正しいマッチですから。</p>
+<p class="tx">Pythonの正規表現はデフォルトでは<i class="calibre5">貪欲</i>です。曖昧な状況では可能な限り長い文字列にマッチさせるということです。可能な限り短い文字列にマッチさせる<i class="calibre5">非貪欲（怠惰）</i>なマッチにしたければ、波かっこを閉じたあとにクエスチョンマークをつけます。</p>
+<p class="tx">次の内容を対話型シェルに入力し、波かっこで同じ文字列を対象とした貪欲なマッチと非貪欲なマッチの違いを確認してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">greedy_pattern = re.compile(r'(Ha){3,5}')</b>
 &gt;&gt;&gt; <b class="calibre10">match1 = greedy_pattern.search('HaHaHaHaHa')</b>
@@ -413,18 +412,18 @@ True
 &gt;&gt;&gt; <b class="calibre10">match2.group()</b>
 'HaHaHa'
 </code></pre>
-<p class="tx">Note that the question mark can have two meanings in regular expressions: declaring a lazy match or declaring an optional qualifier. These meanings are entirely unrelated.</p>
-<p class="tx">It’s worth pointing out that, technically, you could get by without using the optional <span class="thesansmonocd_w5regular_">?</span> quantifier, or even the <span class="thesansmonocd_w5regular_">*</span> and <span class="thesansmonocd_w5regular_">+</span> quantifiers:</p>
+<p class="tx">正規表現ではクエスチョンマークに2つの意味があります。非貪欲なマッチとあってもなくてもマッチする量指定子の2つです。この2つは全く関係ありません。</p>
+<p class="tx">技術的には、<span class="thesansmonocd_w5regular_">?</span>、<span class="thesansmonocd_w5regular_">*</span>、<span class="thesansmonocd_w5regular_">+</span>の量指定子を使わずにすませられます。</p>
 <ul class="ul">
-<li class="bl">The <span class="thesansmonocd_w5regular_">?</span> quantifier is the same as <span class="thesansmonocd_w5regular_">{0,1}</span>.</li>
-<li class="bl">The <span class="thesansmonocd_w5regular_">*</span> quantifier is the same as <span class="thesansmonocd_w5regular_">{0,}</span>.</li>
-<li class="bl">The <span class="thesansmonocd_w5regular_">+</span> quantifier is the same as <span class="thesansmonocd_w5regular_">{1,}</span>.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">?</span>量指定子は<span class="thesansmonocd_w5regular_">{0,1}</span>と同じです。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">*</span>量指定子は<span class="thesansmonocd_w5regular_">{0,}</span>と同じです。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">+</span>量指定子は<span class="thesansmonocd_w5regular_">{1,}</span>と同じです。</li>
 </ul>
-<p class="tx">However, the <span class="thesansmonocd_w5regular_">?</span>, <span class="thesansmonocd_w5regular_">*</span>, and <span class="thesansmonocd_w5regular_">+</span> quantifiers are common shorthand.</p>
+<p class="tx">とはいえ、<span class="thesansmonocd_w5regular_">?</span>、<span class="thesansmonocd_w5regular_">*</span>、<span class="thesansmonocd_w5regular_">+</span>量指定子はよく使われる短縮記法です。</p>
 <section type="division" aria-labelledby="sec19">
-<h4 class="h1" id="calibre_link-1644"><span id="calibre_link-208"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching Everything</span></h4>
-<p class="tni">Sometimes you may want to match everything and anything. For example, say you want to match the string <span class="thesansmonocd_w5regular_">'First Name:'</span>, followed by any and all text, followed by <span class="thesansmonocd_w5regular_">'Last Name:'</span> and any text once again. You can use the dot-star (<span class="thesansmonocd_w5regular_">.*</span>) to stand in for that “anything.” Remember that the dot character means “any single character except the newline,” and the star character means “zero or more of the preceding character.”</p>
-<p class="tx">Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1644"><span id="calibre_link-208"></span><span class="sans_futura_std_heavy_oblique_bi_">すべてにマッチさせる</span></h4>
+<p class="tni">すべてにマッチさせたい場面が時々あります。例えば、<span class="thesansmonocd_w5regular_">'First Name:'</span>のあとに何らかのテキストがあり、続けて<span class="thesansmonocd_w5regular_">'Last Name:'</span>のあとに何らかのテキストがあるときなどです。「何でも」を表すのにドットスター（<span class="thesansmonocd_w5regular_">.*</span>）を使えます。ドットは「改行以外のすべての文字」という意味ですし、スター（アスタリスク）は「0個以上」という意味です。</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">name_pattern = re.compile(r'First Name: (.*) Last Name: (.*)')</b>
 &gt;&gt;&gt; <b class="calibre10">name_match = name_pattern.search('First Name: Al Last Name: Sweigart')</b>
@@ -433,8 +432,8 @@ True
 &gt;&gt;&gt; <b class="calibre10">name_match.group(2)</b>
 'Sweigart'
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1117" aria-label="200"></span>The dot-star uses greedy mode: it will always try to match as much text as possible. To match any and all text in a non-greedy or lazy fashion, use the dot, star, and question mark (<span class="thesansmonocd_w5regular_">.*?</span>). As when it’s used with curly brackets, the question mark tells Python to match in a non-greedy way.</p>
-<p class="tx">Enter the following into the interactive shell to see the difference between the greedy and non-greedy expressions:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1117" aria-label="200"></span>ドットスターは貪欲です。できる限り長いテキストにマッチします。非貪欲にしたければ、ドットスターのあとにクエスチョンマークをつけてください（<span class="thesansmonocd_w5regular_">.*?</span>）。波かっこのあとにクエスチョンマークをつけたときと同じように、非貪欲マッチにできます。</p>
+<p class="tx">以下の内容を対話型シェルに入力し、貪欲と非貪欲の違いを確認してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">lazy_pattern = re.compile(r'&lt;.*?>')</b>
 &gt;&gt;&gt; <b class="calibre10">match1 = lazy_pattern.search('&lt;To serve man&gt; for dinner.&gt;')</b>
@@ -446,12 +445,12 @@ True
 &gt;&gt;&gt; <b class="calibre10">match2.group()</b>
 '&lt;To serve man&gt; for dinner.&gt;'
 </code></pre>
-<p class="tx">Both regexes roughly translate to “Match an opening angle bracket, followed by anything, followed by a closing angle bracket.” But the string <span class="thesansmonocd_w5regular_">'&lt;To serve man&gt; for dinner.&gt;'</span> has two possible matches for the closing angle bracket. In the non-greedy version of the regex, Python matches the shortest possible string: <span class="thesansmonocd_w5regular_">'&lt;To serve man&gt;'</span>. In the greedy version, Python matches the longest possible string: <span class="thesansmonocd_w5regular_">'&lt;To serve man&gt; for dinner.&gt;'</span>.</p>
+<p class="tx">どちらの正規表現も、大まかに言うと、「小なり記号と大なり記号にマッチして、間に何が入っていてもよい」という内容になります。しかし、文字列<span class="thesansmonocd_w5regular_">'&lt;To serve man&gt; for dinner.&gt;'</span>には、大なり記号に関して2つの可能性があります。非貪欲マッチでは、可能な限り短い文字列である<span class="thesansmonocd_w5regular_">'&lt;To serve man&gt;'</span>にマッチします。貪欲マッチでは、可能な限り長い文字列である<span class="thesansmonocd_w5regular_">'&lt;To serve man&gt; for dinner.&gt;'</span>にマッチします。</p>
 </section>
 <section type="division" aria-labelledby="sec20">
-<h4 class="h1" id="calibre_link-1645"><span id="calibre_link-209"></span><span class="sans_futura_std_heavy_oblique_bi_">Matching Newline Characters</span></h4>
-<p class="tni">The dot in <span class="thesansmonocd_w5regular_">.*</span> will match everything except a newline. By passing <span class="thesansmonocd_w5regular_">re.DOTALL</span> as the second argument to <span class="thesansmonocd_w5regular_">re.compile()</span>, you can make the dot character match <i class="calibre5">all</i> characters, including the newline character.</p>
-<p class="tx">Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1645"><span id="calibre_link-209"></span><span class="sans_futura_std_heavy_oblique_bi_">改行文字のマッチ</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">.*</span>のドットは改行以外のすべてにマッチします。<span class="thesansmonocd_w5regular_">re.compile()</span>の第二引数に<span class="thesansmonocd_w5regular_">re.DOTALL</span>を渡すと、ドットが改行を含めて<i class="calibre5">すべての</i>文字にマッチします。</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">no_newline_re = re.compile('.*')</b>
 &gt;&gt;&gt;<b class="calibre10"> no_newline_re.search('Serve the public trust.\nProtect the innocent. </b>
@@ -463,14 +462,14 @@ True
 <b class="calibre10">\nUphold the law.').group()</b>
 'Serve the public trust.\nProtect the innocent.\nUphold the law.'
 </code></pre>
-<p class="tx">The regex <span class="thesansmonocd_w5regular_">no_newline_re</span>, which did not have <span class="thesansmonocd_w5regular_">re.DOTALL</span> passed to the <span class="thesansmonocd_w5regular_">re.compile()</span> call that created it, will match everything only up to the first newline character, whereas <span class="thesansmonocd_w5regular_">newline_re</span>, which <i class="calibre5">did</i> have <span class="thesansmonocd_w5regular_">re.DOTALL</span> passed to <span class="thesansmonocd_w5regular_">re.compile()</span>, matches everything. This is why the <span class="thesansmonocd_w5regular_">newline_re.search()</span> call matches the full string, including its newline characters.</p>
+<p class="tx">正規表現<span class="thesansmonocd_w5regular_">no_newline_re</span>は、<span class="thesansmonocd_w5regular_">re.compile()</span>に<span class="thesansmonocd_w5regular_">re.DOTALL</span>を渡していないので、最初の改行までのすべてにマッチします。他方で、<span class="thesansmonocd_w5regular_">newline_re</span>は<span class="thesansmonocd_w5regular_">re.compile()</span>に<span class="thesansmonocd_w5regular_">re.DOTALL</span>を渡しているので、すべてにマッチします。<span class="thesansmonocd_w5regular_">newline_re.search()</span>を呼び出すと改行文字を含めて文字列全体にマッチするのはそのためです。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec21">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-852" aria-label="201"></span>
-<h3 class="h" id="calibre_link-1646"><span id="calibre_link-210"></span><span class="sans_futura_std_bold_b_">Matching at the Start and End of a String</span></h3>
-<p class="tni">You can use the caret symbol (<span class="thesansmonocd_w5regular_">^</span>) at the start of a regex to indicate that a match must occur at the <i class="calibre5">beginning</i> of the searched text. Likewise, you can put a dollar sign (<span class="thesansmonocd_w5regular_">$</span>) at the end of the regex to indicate that the string must <i class="calibre5">end</i> with this regex pattern. And you can use the <span class="thesansmonocd_w5regular_">^</span> and <span class="thesansmonocd_w5regular_">$</span> together to indicate that the entire string must match the regex—that is, it’s not enough for a match to be made on some subset of the string.</p>
-<p class="tx">For example, the <span class="thesansmonocd_w5regular_">r'^Hello'</span> regular expression string matches strings that begin with <span class="thesansmonocd_w5regular_">'Hello'</span>. Enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-1646"><span id="calibre_link-210"></span><span class="sans_futura_std_bold_b_">文字列の先頭や末尾でのマッチ</span></h3>
+<p class="tni">キャレット記号（<span class="thesansmonocd_w5regular_">^</span>）で正規表現の先頭を示すことができます。テキストの<i class="calibre5">先頭</i>でマッチしなければならなくなります。同様に、ドル記号（<span class="thesansmonocd_w5regular_">$</span>）で正規表現の<i class="calibre5">末尾</i>を示すことができます。<span class="thesansmonocd_w5regular_">^</span>と<span class="thesansmonocd_w5regular_">$</span>を同時に使えば、（先頭と末尾を指定することになるので）文字列全体のマッチを指定できます。文字列の一部とはマッチしなくなります。</p>
+<p class="tx">例えば、正規表現<span class="thesansmonocd_w5regular_">r'^Hello'</span>は、<span class="thesansmonocd_w5regular_">'Hello'</span>で始まる文字列とマッチします。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">begins_with_hello = re.compile(r'^Hello')</b>
 &gt;&gt;&gt; <b class="calibre10">begins_with_hello.search('Hello, world!')</b>
@@ -478,7 +477,7 @@ True
 &gt;&gt;&gt; <b class="calibre10">begins_with_hello.search('He said "Hello."') == None</b>
 True
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">r'\d$'</span> regular expression string matches strings that end with a numeric character between 0 and 9. Enter the following into the interactive shell:</p>
+<p class="tx">正規表現<span class="thesansmonocd_w5regular_">r'\d$'</span>は、0から9の数字で終わる文字列にマッチします。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">ends_with_number = re.compile(r'\d$')</b>
 &gt;&gt;&gt; <b class="calibre10">ends_with_number.search('Your number is 42')</b>
@@ -486,7 +485,7 @@ True
 &gt;&gt;&gt; <b class="calibre10">ends_with_number.search('Your number is forty two.') == None</b>
 True
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">r'^\d+$'</span> regular expression string matches strings that both begin and end with one or more numeric characters. Enter the following into the interactive shell:</p>
+<p class="tx">正規表現<span class="thesansmonocd_w5regular_">r'^\d+$'</span>は、最初から最後まで数字であるものにマッチします。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">whole_string_is_num = re.compile(r'^\d+$')</b>
 &gt;&gt;&gt; <b class="calibre10">whole_string_is_num.search('1234567890')</b>
@@ -494,55 +493,56 @@ True
 &gt;&gt;&gt; <b class="calibre10">whole_string_is_num.search('12345xyz67890') == None</b>
 True
 </code></pre>
-<p class="tx">The last two <span class="thesansmonocd_w5regular_">search()</span> calls in the previous interactive shell example demonstrate how the entire string must match the regex if <span class="thesansmonocd_w5regular_">^</span> and <span class="thesansmonocd_w5regular_">$</span> are used. (I always confuse the meanings of these two symbols, so I use the mnemonic “carrots cost dollars” to remind myself that the caret comes first and the dollar sign comes last.)</p>
-<p class="tx">You can also use <span class="thesansmonocd_w5regular_">\b</span> to make a regex pattern match only on a <i class="calibre5">word boundary</i>: the start of a word, end of a word, or both the start and end of a word. In this case, a “word” is a sequence of letters separated by non-letter <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1647" aria-label="202"></span>characters. For example, <span class="thesansmonocd_w5regular_">r'\bcat.*?\b'</span> matches a word that begins with <span class="thesansmonocd_w5regular_">'cat'</span> followed by any other characters up to the next word boundary:</p>
+<p class="tx">最後の2つの<span class="thesansmonocd_w5regular_">search()</span>の呼び出しを見ると、<span class="thesansmonocd_w5regular_">^</span>と<span class="thesansmonocd_w5regular_">$</span>を使えば文字列全体にマッチさせるということがどういう意味なのかわかります。（私はこれら2つの記号の意味を取り違えることが多いので、「キャロット（にんじん）は数ドルする」と記憶して、キャレットが最初でドルが最後だと覚えています。）</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">\b</span>を使うと単語の境界（単語の始まり、単語の終わり、単語の始まりと終わりの両方）にマッチさせられます。「単語」とは、ここでは文字以外のもので分割された文字の連続のことです。例えば、<span class="thesansmonocd_w5regular_">r'\bcat.*?\b'</span>は、<span class="thesansmonocd_w5regular_">'cat'</span>で始まり次の単語の境界までマッチします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'\bcat.*?\b')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.findall('The cat found a catapult catalog in the catacombs.')</b>
 ['cat', 'catapult', 'catalog', 'catacombs']
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">\B</span> syntax matches anything that is not a word boundary:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">\B</span>は単語の境界以外でマッチします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'\Bcat\B')</b>
-&gt;&gt;&gt; <b class="calibre10">pattern.findall('certificate')</b>  # Match
+&gt;&gt;&gt; <b class="calibre10">pattern.findall('certificate')</b>  # マッチする
 ['cat']
-&gt;&gt;&gt; <b class="calibre10">pattern.findall('catastrophe')</b>  # No match
+&gt;&gt;&gt; <b class="calibre10">pattern.findall('catastrophe')</b>  # マッチしない
 []
 </code></pre>
-<p class="tx">It is useful for finding matches in the middle of a word.</p>
+<p class="tx">単語の境界以外でマッチさせると便利が場合があります。</p>
 <aside class="box" aria-label="box-12">
-<p class="bt" id="calibre_link-1648"><span class="sans_futura_std_bold_b_">A REVIEW OF REGEX SYMBOLS</span></p>
-<p class="btni"><span class="sans_futura_std_book_">This chapter has covered a lot of notation so far, so here’s a quick review of what you’ve learned about basic regular expression syntax:</span></p>
+<p class="bt" id="calibre_link-1648"><span class="sans_futura_std_bold_b_">正規表現の記号のおさらい</span></p>
+<p class="btni"><span class="sans_futura_std_book_">この章ではここまでたくさんの表記を紹介してきました。基本的な正規表現の構文のおさらいをしましょう。</span></p>
 <ul class="ul">
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">?</span> <span class="sans_futura_std_book_">matches zero or one instance of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">*</span> <span class="sans_futura_std_book_">matches zero or more instances of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">+</span> <span class="sans_futura_std_book_">matches one or more instances of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">{n}</span> <span class="sans_futura_std_book_">matches exactly</span> <span class="sans_futura_std_book_oblique_i_">n</span> <span class="sans_futura_std_book_">instances of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">{n,}</span> <span class="sans_futura_std_book_">matches</span> <span class="sans_futura_std_book_oblique_i_">n</span> <span class="sans_futura_std_book_">or more instances of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">{,m}</span> <span class="sans_futura_std_book_">matches 0 to</span> <span class="sans_futura_std_book_oblique_i_">m</span> <span class="sans_futura_std_book_">instances of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">{n,m}</span> <span class="sans_futura_std_book_">matches at least</span> <span class="sans_futura_std_book_oblique_i_">n</span> <span class="sans_futura_std_book_">and at most</span> <span class="sans_futura_std_book_oblique_i_">m</span> <span class="sans_futura_std_book_">instances of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">{n,m}?</span> <span class="sans_futura_std_book_">or</span> <span class="thesansmonocd_w5regular_">*?</span> <span class="sans_futura_std_book_">or</span> <span class="thesansmonocd_w5regular_">+?</span> <span class="sans_futura_std_book_">performs a non-greedy match of the preceding qualifier.</span></li>
-<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">^spam</span> <span class="sans_futura_std_book_">means the string must begin with</span> <span class="sans_futura_std_book_oblique_i_">spam</span><span class="sans_futura_std_book_">.</span></li>
-<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">spam$</span> <span class="sans_futura_std_book_">means the string must end with</span> <span class="sans_futura_std_book_oblique_i_">spam</span><span class="sans_futura_std_book_">.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">.</span> <span class="sans_futura_std_book_">matches any character, except newline characters.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">\d</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">\w</span><span class="sans_futura_std_book_">, and</span> <span class="thesansmonocd_w5regular_">\s</span> <span class="sans_futura_std_book_">match a digit, word, or space character, respectively.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">The</span> <span class="thesansmonocd_w5regular_">\D</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">\W</span><span class="sans_futura_std_book_">, and</span> <span class="thesansmonocd_w5regular_">\S</span> <span class="sans_futura_std_book_">match anything except a digit, word, or space character, respectively.</span> <span class="thesansmonocd_w5regular_">[abc]</span> <span class="sans_futura_std_book_">matches any character between the square brackets (such as</span> <span class="sans_futura_std_book_oblique_i_">a</span><span class="sans_futura_std_book_">,</span> <span class="sans_futura_std_book_oblique_i_">b</span><span class="sans_futura_std_book_">, or</span> <span class="sans_futura_std_book_oblique_i_">c</span><span class="sans_futura_std_book_">).</span></li>
-<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">[^abc]</span> <span class="sans_futura_std_book_">matches any character that isn’t between the square brackets.</span></li>
-<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">(Hello)</span> <span class="sans_futura_std_book_">groups</span> <span class="thesansmonocd_w5regular_">'Hello'</span> <span class="sans_futura_std_book_">together as a single qualifier.</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">?</span><span class="sans_futura_std_book_">は質指定子の0回または1回にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">*</span><span class="sans_futura_std_book_">は質指定子の0回以上にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">+</span><span class="sans_futura_std_book_">は質指定子の1回以上にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">{n}</span><span class="sans_futura_std_book_">は質指定子のちょうど</span><span class="sans_futura_std_book_oblique_i_">n</span><span class="sans_futura_std_book_">回にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">{n,}</span><span class="sans_futura_std_book_">は質指定子の</span><span class="sans_futura_std_book_oblique_i_">n</span><span class="sans_futura_std_book_">回以上にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">{,m}</span><span class="sans_futura_std_book_">は質指定子の</span><span class="sans_futura_std_book_oblique_i_">m</span><span class="sans_futura_std_book_">回以下にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">{n,m}</span><span class="sans_futura_std_book_">は質指定子の</span><span class="sans_futura_std_book_oblique_i_">n</span> <span class="sans_futura_std_book_">回以上</span><span class="sans_futura_std_book_oblique_i_">m</span><span class="sans_futura_std_book_">回以下にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">{n,m}?</span><span class="sans_futura_std_book_">や</span><span class="thesansmonocd_w5regular_">*?</span><span class="sans_futura_std_book_">や</span><span class="thesansmonocd_w5regular_">+?</span><span class="sans_futura_std_book_">は、質指定子の非貪欲マッチです。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">^spam</span><span class="sans_futura_std_book_">は文字列が</span><span class="sans_futura_std_book_oblique_i_">spam</span><span class="sans_futura_std_book_">で始まればマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">spam$</span><span class="sans_futura_std_book_">は文字列が</span><span class="sans_futura_std_book_oblique_i_">spam</span><span class="sans_futura_std_book_">で終わればマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">.</span><span class="sans_futura_std_book_">は改行以外のすべての文字にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">\d</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">\w</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">\s</span><span class="sans_futura_std_book_">は、それぞれ、数字、単語、空白文字にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">\D</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">\W</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">\S</span><span class="sans_futura_std_book_">は、それぞれ、数字以外、単語以外、空白文字以外にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">[abc]</span><span class="sans_futura_std_book_">は、</span><span class="sans_futura_std_book_oblique_i_">a</span><span class="sans_futura_std_book_">または</span><span class="sans_futura_std_book_oblique_i_">b</span><span class="sans_futura_std_book_">または</span><span class="sans_futura_std_book_oblique_i_">c</span><span class="sans_futura_std_book_">のように、角かっこ内のどの文字にでもマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">[^abc]</span><span class="sans_futura_std_book_">は角かっこ内の文字以外のすべての文字にマッチします。</span></li>
+<li class="boxlistbullet"><span class="thesansmonocd_w5regular_">(Hello)</span><span class="sans_futura_std_book_">のようにグループ化すると、</span><span class="thesansmonocd_w5regular_">'Hello'</span><span class="sans_futura_std_book_">を一つの質指定子として扱います。</span></li>
 </ul>
 </aside>
 </section>
 <section type="division" aria-labelledby="sec22">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-947" aria-label="203"></span>
-<h3 class="h" id="calibre_link-1649"><span id="calibre_link-211"></span><span class="sans_futura_std_bold_b_">Case-Insensitive Matching</span></h3>
-<p class="tni">Normally, regular expressions match text with the exact casing you specify. For example, the following regexes match completely different strings:</p>
+<h3 class="h" id="calibre_link-1649"><span id="calibre_link-211"></span><span class="sans_futura_std_bold_b_">大文字と小文字を区別しないマッチ</span></h3>
+<p class="tni">通常、正規表現は、大文字と小文字を区別してマッチします。例えば、以下の正規表現は全部異なります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern1 = re.compile('RoboCop')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern2 = re.compile('ROBOCOP')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern3 = re.compile('robOcop')</b>
 &gt;&gt;&gt; <b class="calibre10">pattern4 = re.compile('RobocOp')</b>
 </code></pre>
-<p class="tx">But sometimes you care only about matching the letters, and aren’t worried about whether they’re uppercase or lowercase. To make your regex case-insensitive, you can pass <span class="thesansmonocd_w5regular_">re.IGNORECASE</span> or <span class="thesansmonocd_w5regular_">re.I</span> as a second argument to <span class="thesansmonocd_w5regular_">re.compile()</span>. Enter the following into the interactive shell:</p>
+<p class="tx">しかし、大文字と小文字を関係なく文字に着目してマッチさせたい場合もあるでしょう。大文字と小文字を区別せずにマッチさせるには、<span class="thesansmonocd_w5regular_">re.IGNORECASE</span>または<span class="thesansmonocd_w5regular_">re.I</span>を<span class="thesansmonocd_w5regular_">re.compile()</span>の第二引数として渡します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(r'robocop', re.I)</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.search('RoboCop is part man, part machine, all cop.').group()</b>
@@ -554,136 +554,136 @@ True
 &gt;&gt;&gt; <b class="calibre10">pattern.search('Have you seen robocop?').group()</b>
 'robocop'
 </code></pre>
-<p class="tx">The regular expression now matches strings with any casing.</p>
+<p class="tx">正規表現が大文字と小文字を区別せずにマッチするようになります。</p>
 </section>
 <section type="division" aria-labelledby="sec23">
-<h3 class="h" id="calibre_link-1650"><span id="calibre_link-212"></span><span class="sans_futura_std_bold_b_">Substituting Strings</span></h3>
-<p class="tni">Regular expressions don’t merely find text patterns; they can also substitute new text in place of those patterns. The <span class="thesansmonocd_w5regular_">sub()</span> method for <span class="thesansmonocd_w5regular_">Pattern</span> objects accepts two arguments. The first is a string that should replace any matches. The second is the string of the regular expression. The <span class="thesansmonocd_w5regular_">sub()</span> method returns a string with the substitutions applied.</p>
-<p class="tx">For example, enter the following into the interactive shell to replace secret agents’ names with <span class="thesansmonocd_w5regular_">CENSORED</span>:</p>
+<h3 class="h" id="calibre_link-1650"><span id="calibre_link-212"></span><span class="sans_futura_std_bold_b_">文字列置換</span></h3>
+<p class="tni">正規表現は、パターンを検索するだけでなく、パターンを新しいテキストで置換することもできます。<span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトの<span class="thesansmonocd_w5regular_">sub()</span>メソッドは2つの引数を取ります。第一引数はマッチしたときに置換する文字列です。第二引数は正規表現の文字列です。<span class="thesansmonocd_w5regular_">sub()</span>メソッドは置換後の文字列を返します。</p>
+<p class="tx">例えば、以下の内容を対話型シェルに入力すると、諜報部員の名前を<span class="thesansmonocd_w5regular_">CENSORED</span>に置換します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">agent_pattern = re.compile(r'Agent \w+')</b>
 &gt;&gt;&gt; <b class="calibre10">agent_pattern.sub('CENSORED', 'Agent Alice contacted Agent Bob.')</b>
 'CENSORED contacted CENSORED.'
 </code></pre>
-<p class="tx">Sometimes you may need to use the matched text itself as part of the substitution. In the first argument to <span class="thesansmonocd_w5regular_">sub()</span>, you can include <span class="thesansmonocd_w5regular_">\1</span>, <span class="thesansmonocd_w5regular_">\2</span>, <span class="thesansmonocd_w5regular_">\3</span>, and so on, to mean “Enter the text of group <span class="thesansmonocd_w5regular_">1</span>, <span class="thesansmonocd_w5regular_">2</span>, <span class="thesansmonocd_w5regular_">3</span>, and so on, in the substitution.” This syntax is called a <i class="calibre5">back reference</i>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-861" aria-label="204"></span>For example, say you want to censor the names of the secret agents by showing just the first letters of their names. To do this, you could use the regex <span class="thesansmonocd_w5regular_">Agent (\w)\w*</span> and pass <span class="thesansmonocd_w5regular_">r'\1****'</span> as the first argument to <span class="thesansmonocd_w5regular_">sub()</span>:</p>
+<p class="tx">マッチしたテキストの一部を用いて置換したい場合もあるでしょう。<span class="thesansmonocd_w5regular_">sub()</span>の第一引数に、グループ<span class="thesansmonocd_w5regular_">1</span>、グループ<span class="thesansmonocd_w5regular_">2</span>、グループ<span class="thesansmonocd_w5regular_">3</span>…を意味する<span class="thesansmonocd_w5regular_">\1</span>、<span class="thesansmonocd_w5regular_">\2</span>、<span class="thesansmonocd_w5regular_">\3</span>…を含められます。この構文は<i class="calibre5">後方参照</i>と呼ばれます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-861" aria-label="204"></span>例えば、諜報部員の名前を最初の文字だけ残して検閲したいとしましょう。そのためには<span class="thesansmonocd_w5regular_">Agent (\w)\w*</span>という正規表現を用い、<span class="thesansmonocd_w5regular_">sub()</span>の第一引数に<span class="thesansmonocd_w5regular_">r'\1****'</span>を渡します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">agent_pattern = re.compile(r'Agent (\w)\w*')</b>
 &gt;&gt;&gt; <b class="calibre10">agent_pattern.sub(r'\1****', 'Agent Alice contacted Agent Bob.')</b>
 'A**** contacted B****.'
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">\1</span> in the regular expression string is replaced by whatever text was matched by group <span class="thesansmonocd_w5regular_">1</span>—that is, the <span class="thesansmonocd_w5regular_">(\w)</span> group of the regular expression.</p>
+<p class="tx">正規表現文字列の<span class="thesansmonocd_w5regular_">\1</span>はグループ<span class="thesansmonocd_w5regular_">1</span>にマッチしたテキスト、ここでは<span class="thesansmonocd_w5regular_">(\w)</span>のグループにマッチしたテキストが入ります。</p>
 </section>
 <section type="division" aria-labelledby="sec24">
-<h3 class="h" id="calibre_link-1651"><span id="calibre_link-213"></span><span class="sans_futura_std_bold_b_">Managing Complex Regexes with Verbose Mode</span></h3>
-<p class="tni">Regular expressions are fine if the text pattern you need to match is simple. But matching complicated text patterns might require long, convoluted regular expressions. You can mitigate this complexity by telling the <span class="thesansmonocd_w5regular_">re.compile()</span> function to ignore whitespace and comments inside the regular expression string. Enable this “verbose mode” by passing the variable <span class="thesansmonocd_w5regular_">re.VERBOSE</span> as the second argument to <span class="thesansmonocd_w5regular_">re.compile()</span>.</p>
-<p class="tx">Now, instead of a hard-to-read regular expression like this</p>
+<h3 class="h" id="calibre_link-1651"><span id="calibre_link-213"></span><span class="sans_futura_std_bold_b_">複雑な正規表現の冗長モードでの管理</span></h3>
+<p class="tni">正規表現でマッチさせたいパターンが単純であればまあいいでしょう。しかし、複雑なパターンにマッチさせるためには、長くて込み入った正規表現が必要になります。<span class="thesansmonocd_w5regular_">re.compile()</span>関数に正規表現文字列中のスペースとコメントを無視させるよう伝えることにより、この複雑さを緩和できます。<span class="thesansmonocd_w5regular_">re.compile()</span>の第二引数に<span class="thesansmonocd_w5regular_">re.VERBOSE</span>を渡すことで「冗長モード」を有効にします。</p>
+<p class="tx">このような読みにくい正規表現の代わりに</p>
 <pre class="pre"><code class="calibre9">pattern = re.compile(r'((\d{3}|\(\d{3}\))?(\s|-|\.)?\d{3}(\s|-
 |\.)\d{4}(\s*(ext|x|ext\.)\s*\d{2,5})?)')
 </code></pre>
-<p class="tni">you can spread the regular expression over multiple lines and use comments to label its components, like this:</p>
+<p class="tni">このように複数行で正規表現を書いてコメントを入れることができるようになります。</p>
 <pre class="pre"><code class="calibre9">pattern = re.compile(r'''(
-    (\d{3}|\(\d{3}\))?  # Area code
-    (\s|-|\.)?  # Separator
-    \d{3}  # First three digits
-    (\s|-|\.)  # Separator
-    \d{4}  # Last four digits
-    (\s*(ext|x|ext\.)\s*\d{2,5})?  # Extension
+    (\d{3}|\(\d{3}\))?# 市外局番
+    (\s|-|\.)?# 区切り
+    \d{3}  # 最初の3桁の数字
+    (\s|-|\.)  # 区切り
+    \d{4}  # 最後の4桁の数字
+    (\s*(ext|x|ext\.)\s*\d{2,5})?# 内線番号
     )''', re.VERBOSE)
 </code></pre>
-<p class="tx">Note how the previous example uses the triple-quote syntax (<span class="thesansmonocd_w5regular_">'''</span>) to create a multiline string so that you can spread the regular expression definition over many lines, making it much more legible.</p>
-<p class="tx">The comment rules inside the regular expression string are the same as for regular Python code: the <span class="thesansmonocd_w5regular_">#</span> symbol and everything after it until the end of the line are ignored. Also, the extra spaces inside the multiline string for the regular expression are not considered part of the text pattern to be matched. This lets you organize the regular expression so that it’s easier to read.</p>
-<p class="tx">While verbose mode makes your regex strings more readable, I advise you to instead use the Humre module, covered later in this chapter, to improve the readability of your regular expressions.</p>
+<p class="tx">三重引用符（<span class="thesansmonocd_w5regular_">'''</span>）を使って複数行文字列を作成し、正規表現を複数行で書くことで、読みやすくしています。</p>
+<p class="tx">正規表現文字列中のコメントのルールは、通常のPythonのコードのルールと同じです。<span class="thesansmonocd_w5regular_">#</span>記号からその行の終わりまではコメントとして無視されます。また、複数行文字列内のスペースはマッチさせるパターンであるとは解釈されません。これにより、正規表現を読みやすく整列させられます。</p>
+<p class="tx">冗長モードで書くと正規表現を読みやすくできます。もっとも、正規表現を読みやすくするためには、本章の終わりで紹介するHumreモジュールを活用することをおすすめします。</p>
 </section>
 <section type="division" aria-labelledby="sec25">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-864" aria-label="205"></span>
-<h3 class="h" id="calibre_link-1652"><span id="calibre_link-214"></span><span class="sans_futura_std_bold_b_">Combining re.IGNORECASE, re.DOTALL, and re.VERBOSE</span></h3>
-<p class="tni">What if you want to use <span class="thesansmonocd_w5regular_">re.VERBOSE</span> to write comments in your regular expression, but also want to use <span class="thesansmonocd_w5regular_">re.IGNORECASE</span> to ignore capitalization? Unfortunately, the <span class="thesansmonocd_w5regular_">re.compile()</span> function takes only a single value as its second argument.</p>
-<p class="tx">You can get around this limitation by combining the <span class="thesansmonocd_w5regular_">re.IGNORECASE</span>, <span class="thesansmonocd_w5regular_">re.DOTALL</span>, and <span class="thesansmonocd_w5regular_">re.VERBOSE</span> variables using the pipe character (<span class="thesansmonocd_w5regular_">|</span>), which in this context is known as the <i class="calibre5">bitwise or</i> operator. For example, if you want a regular expression that is case-insensitive <i class="calibre5">and</i> includes newlines to match the dot character, you would form your <span class="thesansmonocd_w5regular_">re.compile()</span> call like this:</p>
+<h3 class="h" id="calibre_link-1652"><span id="calibre_link-214"></span><span class="sans_futura_std_bold_b_">re.IGNORECASEとre.DOTALLとre.VERBOSEを組み合わせる</span></h3>
+<p class="tni">正規表現中にコメントを書きたくて<span class="thesansmonocd_w5regular_">re.VERBOSE</span>を使い、さらに大文字と小文字を区別しないように<span class="thesansmonocd_w5regular_">re.IGNORECASE</span>を使いたい場合には、どうすればよいでしょうか。あいにく、<span class="thesansmonocd_w5regular_">re.compile()</span>関数は第二引数に一つの値しか取りません。</p>
+<p class="tx"><i class="calibre5">ビット論理和</i>演算子として知られるパイプ（<span class="thesansmonocd_w5regular_">|</span>）を使って変数<span class="thesansmonocd_w5regular_">re.IGNORECASE</span>、<span class="thesansmonocd_w5regular_">re.DOTALL</span>、<span class="thesansmonocd_w5regular_">re.VERBOSE</span>を組み合わせることによりこの制約を回避できます。例えば、大文字と小文字を区別せず、かつドットに改行もマッチさせたければ、<span class="thesansmonocd_w5regular_">re.compile()</span>をこのように呼び出します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">some_regex = re.compile('foo', re.IGNORECASE | re.DOTALL)</b></code></pre>
-<p class="tx">Including all three options in the second argument looks like this:</p>
+<p class="tx">第二引数の3つのオプションをすべて含めるならこうします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">some_regex = re.compile('foo', re.IGNORECASE | re.DOTALL | re.VERBOSE)</b></code></pre>
-<p class="tx">This syntax is a little old-fashioned and originates from early versions of Python. The details of the bitwise operators are beyond the scope of this book, but check out the resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition </a></i>for more information. You can also pass other options for the second argument; they’re uncommon, but you can read more about them in the resources too.</p>
-<p class="ph"><span id="calibre_link-215"></span><span class="sans_futura_std_heavy_b_">Project 3: Extract Contact Information from Large Documents</span></p>
-<p class="tni">Say you’ve been given the boring task of finding every phone number and email address in a long web page or document. If you manually scroll through the page, you might end up searching for a long time. But if you had a program that could search the text in your clipboard for phone numbers and email addresses, you could simply press <small class="calibre4">CTRL</small>-A to select all the text, press <small class="calibre4">CTRL</small>-C to copy it to the clipboard, and then run your program. It could replace the text on the clipboard with just the phone numbers and email addresses it finds.</p>
-<p class="tx">Whenever you’re tackling a new project, it can be tempting to dive right into writing code. But more often than not, it’s best to take a step back and consider the bigger picture. I recommend first drawing up a high-level plan for what your program needs to do. Don’t think about the actual code yet; you can worry about that later. Right now, stick to broad strokes.</p>
-<p class="tx">For example, your phone number and email address extractor will need to do the following:</p>
+<p class="tx">この構文は初期のPythonに由来していて少し古臭いです。ビット演算子の詳細は本書の範囲外ですが、詳細については<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition </a></i>をご覧ください。第二引数に渡せるオプションはほかにもありますが、あまり一般的ではないので、それについては別途お調べください。</p>
+<p class="ph"><span id="calibre_link-215"></span><span class="sans_futura_std_heavy_b_">プロジェクト3：長い文書から連絡先情報を抽出する</span></p>
+<p class="tni">長いウェブページや文書から電話番号とメールアドレスをすべて見つけるという退屈な作業をしなければならないとします。ページを手動でスクロールして探すと、とても長い時間がかかります。クリップボードからテキストを検索して電話番号とメールアドレスを見つけてくれるプログラムがあればどうでしょうか。<small class="calibre4">CTRL</small>-Aを押すとすべてのテキストを選択でき、<small class="calibre4">CTRL</small>-Cを押すとそれをクリップボードにコピーできます。その状態でプログラムを実行すると、クリップボードの内容を発見した電話番号とメールアドレスに書き換えます。</p>
+<p class="tx">新たなプロジェクトに取り組む際に、すぐにコードを書き始めたくなるかもしれません。しかし、多くの場合、一歩引いて大きな構想を練るのがベストです。プログラムが実行する内容の計画を高水準で書くことをおすすめします。まだ実際のコードのことは考えないでください。それはあとから何とでもなります。今は大きな動きを捉えてください。</p>
+<p class="tx">例えば、今回の電話番号とメールアドレスを抽出するプログラムなら、以下の内容が必要です。</p>
 <ul class="ul">
-<li class="bl">Get the text from the clipboard.</li>
-<li class="bl">Find all phone numbers and email addresses in the text.</li>
-<li class="bl">Paste them onto the clipboard.</li>
+<li class="bl">クリップボードからテキストを取得する</li>
+<li class="bl">そのテキストの中からすべての電話番号とメールアドレスを見つける</li>
+<li class="bl">見つけた電話番号とメールアドレスをクリップボードに貼り付ける</li>
 </ul>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1653" aria-label="206"></span>Now you can start thinking about how this might work in code. The code will need to do the following:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1653" aria-label="206"></span>ここでこれをどのように動作させるかのコードを考え始めます。以下の内容が必要になります。</p>
 <ul class="ul">
-<li class="bl">Use the <span class="thesansmonocd_w5regular_">pyperclip</span> module to copy and paste strings.</li>
-<li class="bl">Create two regexes, one for matching phone numbers and one for matching email addresses.</li>
-<li class="bl">Find all matches (not just the first match) of both regexes.</li>
-<li class="bl">Neatly format the matched strings into a single string to paste.</li>
-<li class="bl">Display some kind of message if no matches were found in the text.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">pyperclip</span>モジュールで文字列のコピーと貼り付けを行う</li>
+<li class="bl">電話番号用とメールアドレス用の2つの正規表現を作成する</li>
+<li class="bl">2つの正規表現にマッチするものすべて（最初のマッチだけでなく）を取得する</li>
+<li class="bl">マッチした文字列を貼り付けられるように一つの文字列にきちんと整形する</li>
+<li class="bl">マッチしなければ何らかのメッセージを表示する</li>
 </ul>
-<p class="tx">This list is like a road map for the project. As you write the code, you can focus on each of these steps separately, and each step should seem fairly manageable. They’re also expressed in terms of things you already know how to do in Python.</p>
+<p class="tx">このリストはプロジェクトのロードマップのようなものです。コードを書くときには、これらのステップごとに取り組むと、何とかなりそうに見えてきます。Pythonでどのように実現するかという観点から表現します。</p>
 <section type="division" aria-labelledby="sec26">
-<h4 class="h1" id="calibre_link-1654"><span id="calibre_link-216"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Create a Regex for Phone Numbers</span></h4>
-<p class="tni">First, you have to create a regular expression to search for phone numbers. Create a new file, enter the following, and save it as <i class="calibre5">phoneAndEmail.py</i>:</p>
+<h4 class="h1" id="calibre_link-1654"><span id="calibre_link-216"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：電話番号用の正規表現の作成</span></h4>
+<p class="tni">まず、電話番号用の正規表現を作成します。新しいファイルエディタウィンドウを開いて、以下のコードを<i class="calibre5">phoneAndEmail.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import pyperclip, re
 
 phone_re = re.compile(r'''(
-    (\d{3}|\(\d{3}\))?  # Area code
-    (\s|-|\.)?  # Separator
-    (\d{3})  # First three digits
-    (\s|-|\.)  # Separator
-    (\d{4})  # Last four digits
-    (\s*(ext|x|ext\.)\s*(\d{2,5}))?  # Extension
+    (\d{3}|\(\d{3}\))?# 市外局番
+    (\s|-|\.)?# 区切り
+    (\d{3})  # 最初の3桁の数字
+    (\s|-|\.)  # 区切り
+    (\d{4})  # 最後の4桁の数字
+    (\s*(ext|x|ext\.)\s*(\d{2,5}))?# 内線番号
     )''', re.VERBOSE)
 
-# TODO: Create email regex.
+# TODO：メールアドレス用の正規表現を作成する
 
-# TODO: Find matches in clipboard text.
+# TODO：クリップボードのテキストでマッチさせる
 
-# TODO: Copy results to the clipboard.
+# TODO: 結果をクリップボードに貼り付ける
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">TODO</span> comments are just a skeleton for the program. They’ll be replaced as you write the actual code.</p>
-<p class="tx">The phone number begins with an <i class="calibre5">optional</i> area code, so we follow the area code group with a question mark. Since the area code can be just three digits (that is, <span class="thesansmonocd_w5regular_">\d{3}</span>) <i class="calibre5">or</i> three digits within parentheses (that is, <span class="thesansmonocd_w5regular_">\(\d{3}\)</span>), you should have a pipe joining those parts. You can add the regex comment <span class="thesansmonocd_w5regular_"># Area code</span> to this part of the multiline string to help you remember what <span class="thesansmonocd_w5regular_">(\d{3}|\(\d{3}\))?</span> is supposed to match.</p>
-<p class="tx">The phone number separator character can be an <i class="calibre5">optional</i> space (<span class="thesansmonocd_w5regular_">\s</span>), hyphen (<span class="thesansmonocd_w5regular_">-</span>), or period (<span class="thesansmonocd_w5regular_">.</span>), so we should also join these parts using pipes. The next few parts of the regular expression are straightforward: three digits, followed by another separator, followed by four digits. The last part is an <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1164" aria-label="207"></span>optional extension made up of any number of spaces followed by <span class="thesansmonocd_w5regular_">ext</span>, <span class="thesansmonocd_w5regular_">x</span>, or <span class="thesansmonocd_w5regular_">ext.</span>, followed by two to five digits.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">TODO</span>コメントはプログラムの骨組みです。実際にその部分のコードを書いたらコメントは削除します。</p>
+<p class="tx">電話番号で市外局番を書くこともあれば書かないこともあるので、市外局番をグループ化してクエスチョンマークをつけました。市外局番は3桁なので（訳注：日本の市外局番は3桁とは限りません）、<span class="thesansmonocd_w5regular_">\d{3}</span>です。市外局番がかっこ内に書かれている場合は<span class="thesansmonocd_w5regular_">\(\d{3}\)</span>です。これらをパイプでつなぎます。<span class="thesansmonocd_w5regular_">(\d{3}|\(\d{3}\))?</span>が何にマッチするのかを思い出せるように、複数行文字列の正規表現中に<span class="thesansmonocd_w5regular_"># 市外局番</span>というコメントを入れておきます。</p>
+<p class="tx">電話番号の区切りとなる可能性があるのは、スペース（<span class="thesansmonocd_w5regular_">\s</span>）かハイフン（<span class="thesansmonocd_w5regular_">-</span>）かピリオド（<span class="thesansmonocd_w5regular_">.</span>）なので、これらをパイプでつなげます。その次の部分は見たままです。3桁の数字、区切り、4桁の数字です。最後の部分は内線番号です。<span class="thesansmonocd_w5regular_">ext</span>か<span class="thesansmonocd_w5regular_">x</span>か<span class="thesansmonocd_w5regular_">ext.</span>にスペースを入れて2〜5桁の数字が続く可能性があります。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">注記</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">It’s easy to get mixed up when writing regular expressions that contain groups with parentheses <span class="sans_thesansmonocd_w5regular_italic_">()</span> and escaped parentheses <span class="sans_thesansmonocd_w5regular_italic_">\(\)</span>. Remember to double-check that you’re using the correct syntax if you get a “missing), unterminated subpattern” error message.</i></p>
+<p class="note-txt"><i class="calibre5">グループ化のかっこ<span class="sans_thesansmonocd_w5regular_italic_">()</span>とエスケープしたかっこ<span class="sans_thesansmonocd_w5regular_italic_">\(\)</span>が混在している正規表現では混乱しがちです。“missing), unterminated subpattern”エラーメッセージが表示されたら、正しく表現できているかダブルチェックしてください。</i></p>
 </section>
 <section type="division" aria-labelledby="sec27">
-<h4 class="h1" id="calibre_link-1655"><span id="calibre_link-217"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Create a Regex for Email Addresses</span></h4>
-<p class="tni">You will also need a regular expression that can match email addresses. Make your program look like the following:</p>
+<h4 class="h1" id="calibre_link-1655"><span id="calibre_link-217"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：メールアドレス用の正規表現の作成</span></h4>
+<p class="tni">メールアドレス用の正規表現も必要です。以下のようなコードになります。</p>
 <pre class="pre"><code class="calibre9">import pyperclip, re
 
 phone_re = re.compile(r'''(
 --<var class="calibre20">snip</var>--
 
-<b class="calibre10"># Create email regex.</b>
+<b class="calibre10"># メールアドレス用の正規表現</b>
 <b class="calibre10">email_re = re.compile(r'''(</b>
-<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> [a-zA-Z0-9._%+-]+  </b># Username
-<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> @  # @ symbol</b>
-<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> [a-zA-Z0-9.-]+  </b># Domain name
-<b class="calibre10">    (\.[a-zA-Z]{2,4})  </b># Dot-something
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> [a-zA-Z0-9._%+-]+  </b># ユーザー名
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> @  # @記号</b>
+<b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> [a-zA-Z0-9.-]+  </b># ドメイン名
+<b class="calibre10">    (\.[a-zA-Z]{2,4})  </b># ドット何とか
 <b class="calibre10">    )''', re.VERBOSE)</b>
 
-# TODO: Find matches in clipboard text.
+# TODO：クリップボードのテキストでマッチさせる
 
-# TODO: Copy results to the clipboard.
+# TODO: 結果をクリップボードに貼り付ける
 </code></pre>
-<p class="tx">The username part of the email address <span class="codeannotation" aria-label="annotation1">❶</span> consists of one or more characters that can be any of the following: lowercase and uppercase letters, numbers, a dot, an underscore, a percent sign, a plus sign, or a hyphen. You can put all of these into a character class: <span class="thesansmonocd_w5regular_">[a-zA-Z0-9._%+-]</span>.</p>
-<p class="tx">The domain and username are separated by an <span class="thesansmonocd_w5regular_">@</span> symbol <span class="codeannotation" aria-label="annotation2">❷</span>. The domain name <span class="codeannotation" aria-label="annotation3">❸</span> has a slightly less permissive character class, with only letters, numbers, periods, and hyphens: <span class="thesansmonocd_w5regular_">[a-zA-Z0-9.-]</span>. Last is the “dot-com” part (technically known as the <i class="calibre5">top-level domain</i>), which can really be dot-anything.</p>
-<p class="tx">The format for email addresses has a lot of weird rules. This regular expression won’t match every possible valid email address, but it will match almost any typical email address you’ll encounter.</p>
+<p class="tx">メールアドレスのユーザー名の部分(<span class="codeannotation" aria-label="annotation1">❶</span>)は、小文字と大文字のアルファベット、数字、ドット、アンダースコア、パーセント記号、プラス記号、ハイフンの中からなる1文字以上の文字列です。文字クラス<span class="thesansmonocd_w5regular_">[a-zA-Z0-9._%+-]</span>でそれを表します。</p>
+<p class="tx">ドメインとユーザー名は<span class="thesansmonocd_w5regular_">@</span>で区切られます(<span class="codeannotation" aria-label="annotation2">❷</span>)。ドメイン名(<span class="codeannotation" aria-label="annotation3">❸</span>)に使える文字種はユーザー名に使える文字種よりも少ないです。アルファベット、数字、ピリオド、ハイフンだけで、<span class="thesansmonocd_w5regular_">[a-zA-Z0-9.-]</span>です。最後はドットコム的な部分で（技術的には<i class="calibre5">トップレベルドメイン</i>と呼ばれます）、ドット何とかという形です。</p>
+<p class="tx">メールアドレスの形式には奇妙なルールがたくさんあり、この正規表現ですべてのあり得るメールアドレスにマッチするわけではありませんが、探している典型的なメールアドレスにはほぼマッチするでしょう。</p>
 </section>
 <section type="division" aria-labelledby="sec28">
-<h4 class="h1" id="calibre_link-1656"><span id="calibre_link-218"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Find All Matches in the Clipboard Text</span></h4>
-<p class="tni">Now that you’ve specified the regular expressions for phone numbers and email addresses, you can let Python’s <span class="thesansmonocd_w5regular_">re</span> module do the hard work of finding all the matches on the clipboard. The <span class="thesansmonocd_w5regular_">pyperclip.paste()</span> function will get a string value of the text on the clipboard, and the <span class="thesansmonocd_w5regular_">findall()</span> regex method will return a list of tuples.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1657" aria-label="208"></span>Make your program look like the following:</p>
+<h4 class="h1" id="calibre_link-1656"><span id="calibre_link-218"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ3：クリップボードのテキストからすべてのマッチを見つける</span></h4>
+<p class="tni">電話番号用とメールアドレス用の正規表現を作成しましたから、クリップボードからすべてのマッチを見つけるという面倒な作業をPythonの<span class="thesansmonocd_w5regular_">re</span>モジュールにやらせましょう。<span class="thesansmonocd_w5regular_">pyperclip.paste()</span>関数でクリップボードのテキストの文字列値を取得し、正規表現の<span class="thesansmonocd_w5regular_">findall()</span>メソッドでマッチしたリストをタプルで返します。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1657" aria-label="208"></span>以下のようなコードになります。</p>
 <pre class="pre"><code class="calibre9">import pyperclip, re
 
 phone_re = re.compile(r'''(
 --<var class="calibre20">snip</var>--
 
-<b class="calibre10"># Find matches in clipboard text.</b>
+<b class="calibre10"># クリップボードのテキストでマッチさせる</b>
 <b class="calibre10">text = str(pyperclip.paste())</b>
 
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> matches = []</b>
@@ -693,17 +693,17 @@ phone_re = re.compile(r'''(
 <b class="calibre10">        phone_num += ' x' + groups[6]</b>
 <b class="calibre10">    matches.append(phone_num)</b>
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> for groups in email_re.findall(text):</b>
-<b class="calibre10">    matches.append(groups)</b>
+<b class="calibre10">    matches.append(groups[0])</b>
 
-# TODO: Copy results to the clipboard.
+# TODO：結果をクリップボードに貼り付ける
 </code></pre>
-<p class="tx">There is one tuple for each match, and each tuple contains strings for each group in the regular expression. Remember that group <span class="thesansmonocd_w5regular_">0</span> matches the entire regular expression, so the group at index <span class="thesansmonocd_w5regular_">0</span> of the tuple is the one you are interested in.</p>
-<p class="tx">As you can see at <span class="codeannotation" aria-label="annotation1">❶</span>, you’ll store the matches in a list variable named <span class="thesansmonocd_w5regular_">matches</span>. It starts off as an empty list and a couple of <span class="thesansmonocd_w5regular_">for</span> loops. For the email addresses, you append group <span class="thesansmonocd_w5regular_">0</span> of each match <span class="codeannotation" aria-label="annotation3">❸</span>. For the matched phone numbers, you don’t want to just append group <span class="thesansmonocd_w5regular_">0</span>. While the program <i class="calibre5">detects</i> phone numbers in several formats, you want the phone number appended to be in a single, standard format. The <span class="thesansmonocd_w5regular_">phone_num</span> variable contains a string built from groups <span class="thesansmonocd_w5regular_">1</span>, <span class="thesansmonocd_w5regular_">3</span>, <span class="thesansmonocd_w5regular_">5</span>, and <span class="thesansmonocd_w5regular_">6</span> of the matched text <span class="codeannotation" aria-label="annotation2">❷</span>. (These groups are the area code, first three digits, last four digits, and extension.)</p>
+<p class="tx">マッチごとに一つのタプルがあり、各タプルには正規表現のそれぞれのグループの文字列が含まれています。グループ<span class="thesansmonocd_w5regular_">0</span>は正規表現全体ですから、タプルのインデックス<span class="thesansmonocd_w5regular_">0</span>が対象になります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">matches</span>という名前のリスト変数にマッチした結果を格納します(<span class="codeannotation" aria-label="annotation1">❶</span>)。空リストで始めて2つの<span class="thesansmonocd_w5regular_">for</span>ループに入ります。メールアドレスに関しては、マッチごとにグループ<span class="thesansmonocd_w5regular_">0</span>を追加します(<span class="codeannotation" aria-label="annotation3">❸</span>)。電話番号に関しては、単純にグループ<span class="thesansmonocd_w5regular_">0</span>を追加するわけにはいきません。いくつかの形式の電話番号を検出しているので、一つの標準化した形式でリストに追加します。変数<span class="thesansmonocd_w5regular_">phone_num</span>には、マッチした文字列のグループ<span class="thesansmonocd_w5regular_">1</span>、<span class="thesansmonocd_w5regular_">3</span>、<span class="thesansmonocd_w5regular_">5</span>、<span class="thesansmonocd_w5regular_">6</span>から組み立てた文字列を格納します(<span class="codeannotation" aria-label="annotation2">❷</span>)。（これらのグループは、市外局番、3桁の数字、4桁の数字、内線番号です。）</p>
 </section>
 <section type="division" aria-labelledby="sec29">
-<h4 class="h1" id="calibre_link-1658"><span id="calibre_link-219"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 4: Join the Matches into a String</span></h4>
-<p class="tni">Now that you have the email addresses and phone numbers as a list of strings in <span class="thesansmonocd_w5regular_">matches</span>, you want to put them on the clipboard. The <span class="thesansmonocd_w5regular_">pyperclip.copy()</span> function takes only a single string value, not a list of strings, so you must call the <span class="thesansmonocd_w5regular_">join()</span> method on <span class="thesansmonocd_w5regular_">matches</span>.</p>
-<p class="tx">Make your program look like the following:</p>
+<h4 class="h1" id="calibre_link-1658"><span id="calibre_link-219"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ4：すべてのマッチを一つの文字列にする</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">matches</span>というリストの中にメールアドレスと電話番号の文字列を準備できましたから、次はこれらをクリップボードに貼り付けます。<span class="thesansmonocd_w5regular_">pyperclip.copy()</span>関数は、文字列のリストではなく、一つの文字列値を取るので、<span class="thesansmonocd_w5regular_">matches</span>について<span class="thesansmonocd_w5regular_">join()</span>メソッドを呼び出します。</p>
+<p class="tx">以下のようなコードになります。</p>
 <pre class="pre"><code class="calibre9">import pyperclip, re
 
 phone_re = re.compile(r'''(
@@ -711,7 +711,7 @@ phone_re = re.compile(r'''(
 for groups in email_re.findall(text):
     matches.append(groups[0])
 
-<b class="calibre10"># Copy results to the clipboard.</b>
+<b class="calibre10"># 結果をクリップボードに貼り付ける</b>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1186" aria-label="209"></span><b class="calibre10">if len(matches) &gt; 0:</b>
 <b class="calibre10">    pyperclip.copy('\n'.join(matches))</b>
 <b class="calibre10">    print('Copied to clipboard:')</b>
@@ -719,8 +719,8 @@ for groups in email_re.findall(text):
 <b class="calibre10">else:</b>
 <b class="calibre10">    print('No phone numbers or email addresses found.')</b>
 </code></pre>
-<p class="tx">To make it easier to see that the program is working, we also print any matches you find to the terminal window. If no phone numbers or email addresses were found, the program tells the user this.</p>
-<p class="tx">To test your program, open your web browser to the No Starch Press contact page at <i class="calibre5"><a href="https://nostarch.com/contactus" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/contactus</a></i> press <small class="calibre4">CTRL</small>-A to select all the text on the page, and press <small class="calibre4">CTRL</small>-C to copy it to the clipboard. When you run this program, the output should look something like this:</p>
+<p class="tx">プログラムの動作を見えやすくするために、マッチしたものをターミナルウィンドウに表示します。電話番号とメールアドレスが一つも見つからなければ、そのことをユーザーに知らせます。</p>
+<p class="tx">このプログラムを試すには、<i class="calibre5"><a href="https://nostarch.com/contactus" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/contactus</a></i>のNo Starch Press のお問い合わせページを開き、<small class="calibre4">CTRL</small>-Aを押してそのページのすべてのテキストを選択して、<small class="calibre4">CTRL</small>-Cを押してクリップボードにコピーしてください。このプログラムを実行すると、以下のように表示されるはずです。</p>
 <pre class="pre"><code class="calibre9">Copied to clipboard:
 800-555-7240
 415-555-9900
@@ -730,43 +730,43 @@ media@nostarch.com
 academic@nostarch.com
 info@nostarch.com
 </code></pre>
-<p class="tx">You can modify this script to search for mailing addresses, social media handles, and many other types of text patterns.</p>
+<p class="tx">このプログラムを改造すれば、メーリングリストのアドレス、ソーシャルメディアのハンドルネーム、その他のテキストパターンを探すことができます。</p>
 </section>
 <section type="division" aria-labelledby="sec30">
-<h4 class="h1" id="calibre_link-1659"><span id="calibre_link-220"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
-<p class="tni">Identifying patterns of text (and possibly substituting them with the <span class="thesansmonocd_w5regular_">sub()</span> method) has many different potential applications. For example, you could do the following:</p>
+<h4 class="h1" id="calibre_link-1659"><span id="calibre_link-220"></span><span class="sans_futura_std_heavy_oblique_bi_">似たようなプログラムのアイデア</span></h4>
+<p class="tni">テキストのパターンを指定できると（<span class="thesansmonocd_w5regular_">sub()</span>メソッドで置換もできます）、さまざまなアプリケーションを作成できる可能性に開かれます。例えば、以下の内容が考えられます。</p>
 <ul class="ul">
-<li class="bl">Find website URLs that begin with <i class="calibre5">http://</i> or <i class="calibre5">https://</i>.</li>
-<li class="bl">Clean up dates in different date formats (such as 3/14/2030, 03-14-2030, and 2030/3/14) by replacing them with dates in a single, standard format.</li>
-<li class="bl">Remove sensitive information such as Social Security numbers or credit card numbers.</li>
-<li class="bl">Find common typos, such as multiple spaces between words, accidentally accidentally repeated words, or multiple exclamation marks at the ends of sentences. Those are annoying!!</li>
+<li class="bl"><i class="calibre5">http://</i>または<i class="calibre5">https://</i>で始まるURLを探す</li>
+<li class="bl">（3/14/2030や03-14-2030や2030/3/14のような）日付のフォーマットを標準的なフォーマットに統一する</li>
+<li class="bl">社会保障番号やクレジットカード番号のような機密情報を取り除く</li>
+<li class="bl">単語と単語の間の複数スペースや重複やエクスクラメーションマークの繰り返しなど、よくあるタイプミスを発見する</li>
 </ul>
 </section>
 </section>
 <section type="division" aria-labelledby="sec31">
-<h3 class="h" id="calibre_link-1660"><span id="calibre_link-221"></span><span class="sans_futura_std_bold_b_">Humre: A Module for Human-Readable Regexes</span></h3>
-<p class="tni">Code is read far more often than it’s written, so it’s important for your code to be readable. But the punctuation-dense syntax of regular expressions can be hard for even experienced programmers to read. To solve this, the third-party Humre Python module takes the good ideas of verbose mode even further by using human-readable, plain-English names to create readable regex code. You can install Humre by following the instructions in <span>Appendix A</span>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-945" aria-label="210"></span>Let’s go back to the <span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span> phone number example from the beginning of this chapter. The functions and constants in Humre can produce the same regex string with plain English:</p>
+<h3 class="h" id="calibre_link-1660"><span id="calibre_link-221"></span><span class="sans_futura_std_bold_b_">Humre：人間に読みやすい正規表現のモジュール</span></h3>
+<p class="tni">コードは書くよりも読むことのほうがずっと多いですから、コードを読みやすくするのは大切なことです。しかし、記号を多用している正規表現は、経験を積んだプログラマにとっても読みにくいです。この問題を解決するために、サードパーティのHumreモジュールが開発されました。冗長モードよりも読みやすく、英語の名前で正規表現を作成できます。Humreは<span>Appendix A</span>の手順に従ってインストールできます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-945" aria-label="210"></span>本章の最初に示した<span class="thesansmonocd_w5regular_">r'\d{3}-\d{3}-\d{4}'</span>の電話番号の例に戻りましょう。Humreの関数と定数により簡単な英語で同じ正規表現を作成できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from humre import *</b>
 &gt;&gt;&gt; <b class="calibre10">phone_regex = exactly(3, DIGIT) + '-' + exactly(3, DIGIT) + '-' + exactly(4, DIGIT)</b>
 &gt;&gt;&gt; <b class="calibre10">phone_regex</b>
 '\\d{3}-\\d{3}-\\d{4}'
 </code></pre>
-<p class="tx">Humre’s constants (like <span class="thesansmonocd_w5regular_">DIGIT</span>) contain strings, and Humre’s functions (like <span class="thesansmonocd_w5regular_">exactly()</span>) return strings. Humre doesn’t replace the <span class="thesansmonocd_w5regular_">re</span> module. Rather, it produces regex strings that can be passed to <span class="thesansmonocd_w5regular_">re.compile()</span>:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">DIGIT</span>のようなHumreの定数には文字列が格納されており、<span class="thesansmonocd_w5regular_">exactly()</span>のようなHumreの関数は文字列を返します。Humreは<span class="thesansmonocd_w5regular_">re</span>モジュールを代替するのではなく、<span class="thesansmonocd_w5regular_">re.compile()</span>に渡す正規表現文字列を生成します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import re</b>
 &gt;&gt;&gt; <b class="calibre10">pattern = re.compile(phone_regex)</b>
 &gt;&gt;&gt; <b class="calibre10">pattern.search('My number is 415-555-4242')</b>
 &lt;re.Match object; span=(13, 25), match='415-555-4242'&gt;
 </code></pre>
-<p class="tx">Humre has constants and functions for each feature of regular expression syntax. You can then concatenate the constants and returned strings like any other string. For example, here are Humre’s constants for the shorthand character classes:</p>
+<p class="tx">Humreには正規表現構文のそれぞれの機能に対応する定数と関数があります。それをほかの文字列と同じように結合できます。例えば、以下のような、短縮文字クラスに対応するHumreの定数があります。</p>
 <ul class="ul">
-<li class="bl"><span class="thesansmonocd_w5regular_">DIGIT</span> and <span class="thesansmonocd_w5regular_">NONDIGIT</span> represent <span class="thesansmonocd_w5regular_">r'\d'</span> and <span class="thesansmonocd_w5regular_">r'\D'</span>, respectively.</li>
-<li class="bl"><span class="thesansmonocd_w5regular_">WORD</span> and <span class="thesansmonocd_w5regular_">NONWORD</span> represent <span class="thesansmonocd_w5regular_">r'\w'</span> and <span class="thesansmonocd_w5regular_">r'\W'</span>, respectively.</li>
-<li class="bl"><span class="thesansmonocd_w5regular_">WHITESPACE</span> and <span class="thesansmonocd_w5regular_">NONWHITESPACE</span> represent <span class="thesansmonocd_w5regular_">r'\s'</span> and <span class="thesansmonocd_w5regular_">r'\S'</span>, respectively.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">DIGIT</span>と<span class="thesansmonocd_w5regular_">NONDIGIT</span>はそれぞれ<span class="thesansmonocd_w5regular_">r'\d'</span>と<span class="thesansmonocd_w5regular_">r'\D'</span>を表します。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">WORD</span>と<span class="thesansmonocd_w5regular_">NONWORD</span>はそれぞれ<span class="thesansmonocd_w5regular_">r'\w'</span>と<span class="thesansmonocd_w5regular_">r'\W'</span>を表します。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">WHITESPACE</span>と<span class="thesansmonocd_w5regular_">NONWHITESPACE</span>はそれぞれ<span class="thesansmonocd_w5regular_">r'\s'</span>と<span class="thesansmonocd_w5regular_">r'\S'</span>を表します。</li>
 </ul>
-<p class="tx">A common source of regex bugs is forgetting which characters need to be escaped. You can use Humre’s constants instead of typing the escaped character yourself. For example, say you want to match a single-digit floating-point number with one digit after the decimal point, like <span class="thesansmonocd_w5regular_">'0.9'</span> or <span class="thesansmonocd_w5regular_">'4.5'</span>. However, if you use the regex string <span class="thesansmonocd_w5regular_">r'\d.\d'</span>, you might not realize that the dot matches a period (as in <span class="thesansmonocd_w5regular_">'4.5'</span>) but also matches any other character (as in <span class="thesansmonocd_w5regular_">'4A5'</span>).</p>
-<p class="tx">Instead, use Humre’s <span class="thesansmonocd_w5regular_">PERIOD</span> constant, which contains the string <span class="thesansmonocd_w5regular_">r'\.'</span>. The expression <span class="thesansmonocd_w5regular_">DIGIT</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">PERIOD</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">DIGIT</span> evaluates to <span class="thesansmonocd_w5regular_">r'\d\.\d'</span> and makes it much more obvious what the regex intends to match.</p>
-<p class="tx">The following Humre constants exist for escaped characters:</p>
+<p class="tx">正規表現のバグの原因は、エスケープ忘れであることが多いです。自分でエスケープ文字を打ち込まずにHumreの定数を使うことができます。例えば<span class="thesansmonocd_w5regular_">'0.9'</span>や<span class="thesansmonocd_w5regular_">'4.5'</span>のような、小数第一位までの浮動小数点数にマッチさせたいとします。<span class="thesansmonocd_w5regular_">r'\d.\d'</span>という正規表現文字列を使うと、ドットは確かに（<span class="thesansmonocd_w5regular_">'4.5'</span>のような）小数点数にマッチしますが、（<span class="thesansmonocd_w5regular_">'4A5'</span>のような）ほかのどのような文字にもマッチしてしまいます。</p>
+<p class="tx">Humreの定数<span class="thesansmonocd_w5regular_">PERIOD</span>には、<span class="thesansmonocd_w5regular_">r'\.'</span>という文字列が格納されています。<span class="thesansmonocd_w5regular_">DIGIT</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">PERIOD</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">DIGIT</span>という表現は<span class="thesansmonocd_w5regular_">r'\d\.\d'</span>に評価されます。正規表現がマッチさせたいものをより明確に示せます。</p>
+<p class="tx">Humreにはエスケープ文字を表す以下の定数が存在します。</p>
 
 <pre class="pre1"><code class="calibre9">PERIOD     OPEN_PAREN  OPEN_BRACKET    PIPE
 DOLLAR_SIGN CLOSE_PAREN CLOSE_BRACKET   CARET
@@ -774,16 +774,16 @@ QUESTION_MARK   ASTERISK    OPEN_BRACE  TILDE
 HASHTAG     PLUS        CLOSE_BRACE 
 AMPERSAND   MINUS       BACKSLASH   
 </code></pre>
-<p class="tx">There are also constants for <span class="thesansmonocd_w5regular_">NEWLINE</span>, <span class="thesansmonocd_w5regular_">TAB</span>, <span class="thesansmonocd_w5regular_">QUOTE</span>, and <span class="thesansmonocd_w5regular_">DOUBLE_QUOTE</span>. Back references from <span class="thesansmonocd_w5regular_">r'\1'</span> to <span class="thesansmonocd_w5regular_">r'\99'</span> are represented as <span class="thesansmonocd_w5regular_">BACK_1</span> to <span class="thesansmonocd_w5regular_">BACK_99</span>.</p>
-<p class="tx">However, you’ll make the largest readability gains by using Humre’s functions. Table 9-2 shows these functions and their equivalent regular expression syntax.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">NEWLINE</span>、<span class="thesansmonocd_w5regular_">TAB</span>、<span class="thesansmonocd_w5regular_">QUOTE</span>、<span class="thesansmonocd_w5regular_">DOUBLE_QUOTE</span>の定数も存在します。<span class="thesansmonocd_w5regular_">r'\1'</span>から<span class="thesansmonocd_w5regular_">r'\99'</span>までの後方参照は<span class="thesansmonocd_w5regular_">BACK_1</span>から<span class="thesansmonocd_w5regular_">BACK_99</span>で表現できます。</p>
+<p class="tx">Humreの関数を活用すると、大いに読みやすくなります。表9-2にHumreの関数とその関数が表す正規表現をまとめています。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-936" aria-label="211"></span>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-726"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 9-2:</span></span> <span class="sans_futura_std_book_">Humre Functions</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-726"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 9-2:</span></span><span class="sans_futura_std_book_">Humreの関数</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Humre function</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Regex string</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Humreの関数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">正規表現文字列</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
@@ -857,15 +857,15 @@ AMPERSAND   MINUS       BACKSLASH
 </tr>
 </tbody>
 </table>
-<p class="tx">Humre also has several convenience functions that combine common pairs of function calls. For example, instead of using <span class="thesansmonocd_w5regular_">optional(group('A'))</span> to create <span class="thesansmonocd_w5regular_">'(A)?'</span>, you can simply call <span class="thesansmonocd_w5regular_">optional_group('A')</span>. Table 9-3 has the full list of Humre convenience functions.</p>
+<p class="tx">Humreは関数呼び出しを組み合わせた便利な関数も提供しています。例えば、<span class="thesansmonocd_w5regular_">optional(group('A'))</span>で<span class="thesansmonocd_w5regular_">'(A)?'</span>を作れますが、<span class="thesansmonocd_w5regular_">optional_group('A')</span>とシンプルに呼び出すこともできます。表9-3はHumreの便利な関数の全一覧です。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-727"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 9-3:</span></span> <span class="sans_futura_std_book_">Humre Convenience Functions</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-727"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 9-3:</span></span><span class="sans_futura_std_book_">Humreの便利関数</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Convenience function</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Function equivalent</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Regex string</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">便利関数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">同等の関数</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">正規表現文字列</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
@@ -921,24 +921,24 @@ AMPERSAND   MINUS       BACKSLASH
 </tr>
 </tbody>
 </table>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-910" aria-label="212"></span>All of Humre’s functions except <span class="thesansmonocd_w5regular_">either()</span> and <span class="thesansmonocd_w5regular_">group_either()</span> allow you to pass multiple strings to automatically join them. This means that calling <span class="thesansmonocd_w5regular_">group(DIGIT, PERIOD, DIGIT)</span> produces the same regex string as <span class="thesansmonocd_w5regular_">group(DIGIT</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">PERIOD</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">DIGIT)</span>. They both return the regex string <span class="thesansmonocd_w5regular_">r'(\d\.\d)'</span>.</p>
-<p class="tx">Finally, Humre has constants for common regex patterns:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">ANY_SINGLE</span> The <span class="thesansmonocd_w5regular_">.</span> pattern that matches any single character (except newlines)</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">ANYTHING_LAZY</span> The lazy <span class="thesansmonocd_w5regular_">.*?</span> zero or more pattern</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">ANYTHING_GREEDY</span> The greedy <span class="thesansmonocd_w5regular_">.*</span> zero or more pattern</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">SOMETHING_LAZY</span> The lazy <span class="thesansmonocd_w5regular_">.+?</span> one or more pattern</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">SOMETHING_GREEDY</span> The greedy <span class="thesansmonocd_w5regular_">.+</span> one or more pattern</p>
-<p class="tx">The readability of regex written with Humre becomes more obvious when you consider large, complicated regular expressions. Let’s rewrite the phone number regex from the previous phone number extractor project using Humre:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-910" aria-label="212"></span><span class="thesansmonocd_w5regular_">either()</span>と<span class="thesansmonocd_w5regular_">group_either()</span>以外のHumreの関数に渡した文字列は、すべて自動的に連結されます。<span class="thesansmonocd_w5regular_">group(DIGIT, PERIOD, DIGIT)</span>を呼び出すと<span class="thesansmonocd_w5regular_">group(DIGIT</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">PERIOD</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">DIGIT)</span>と同じ正規表現文字列を生成します。どちらも<span class="thesansmonocd_w5regular_">r'(\d\.\d)'</span>になります。</p>
+<p class="tx">最後に、Humreにはよく使う正規表現のパターンを表す定数があります。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">ANY_SINGLE</span> 改行を除くすべての1文字にマッチする<span class="thesansmonocd_w5regular_">.</span>パターンです。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">ANYTHING_LAZY</span> 怠惰（非貪欲）な<span class="thesansmonocd_w5regular_">.*?</span>パターンです。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">ANYTHING_GREEDY</span> 貪欲な<span class="thesansmonocd_w5regular_">.*</span>パターンです。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">SOMETHING_LAZY</span> 怠惰（非貪欲）な<span class="thesansmonocd_w5regular_">.+?</span>パターンです。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">SOMETHING_GREEDY</span> 貪欲な<span class="thesansmonocd_w5regular_">.+</span>パターンです。</p>
+<p class="tx">大規模で複雑な正規表現をHumreで書くと、明らかに読みやすくなります。先の電話番号を抽出するプロジェクトの正規表現をHumreで書き直してみましょう。</p>
 <pre class="pre"><code class="calibre9">import re
 from humre import *
 phone_regex = group(
-    optional_group(either(exactly(3, DIGIT),  # Area code
+    optional_group(either(exactly(3, DIGIT),  # 市外局番
                           OPEN_PAREN + exactly(3, DIGIT) + CLOSE_PAREN)),
-    optional(group_either(WHITESPACE, '-', PERIOD)),  # Separator
-    group(exactly(3, DIGIT)),  # First three digits
-    group_either(WHITESPACE, '-', PERIOD),  # Separator
-    group(exactly(4, DIGIT)),  # Last four digits
-    optional_group(  # Extension
+    optional(group_either(WHITESPACE, '-', PERIOD)),  # 区切り
+    group(exactly(3, DIGIT)),  # 最初の3桁の数字
+    group_either(WHITESPACE, '-', PERIOD),  # 区切り
+    group(exactly(4, DIGIT)),  # 最後の4桁の数字
+    optional_group(  # 内線番号
       zero_or_more(WHITESPACE),
       group_either('ext', 'x', r'ext\.'),
       zero_or_more(WHITESPACE),
@@ -950,69 +950,69 @@ pattern = re.compile(phone_regex)
 match = pattern.search('My number is 415-555-1212.')
 print(match.group())
 </code></pre>
-<p class="tx">When you run this program, the output is this:</p>
+<p class="tx">このプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">415-555-1212</code></pre>
-<p class="tx">This code is much more verbose than even the verbose mode regex. It helps to import Humre using the <span class="thesansmonocd_w5regular_">from humre import *</span> syntax so that you don’t need to put <span class="thesansmonocd_w5regular_">humre.</span> before every function and constant. But the length of the code doesn’t matter as much as the readability.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1183" aria-label="213"></span>You can switch your existing regular expressions to Humre code by calling the <span class="thesansmonocd_w5regular_">humre.parse()</span> function, which returns a string of Python source code:</p>
+<p class="tx">このコードは、正規表現の冗長モードよりもずっと冗長です。<span class="thesansmonocd_w5regular_">from humre import *</span>でHumreをインポートしているので、Humreの関数と定数の前に<span class="thesansmonocd_w5regular_">humre.</span>をつける必要はありません。コードの長さと読みやすさは別次元です（Humreを使うとコードが長くなりがちですが、読みやすくなります）。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1183" aria-label="213"></span><span class="thesansmonocd_w5regular_">humre.parse()</span>関数を呼び出すと、Pythonのコードを返してくれるので、既存の正規表現をHumreのコードに切り替えることができます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import humre</b>
 &gt;&gt;&gt; <b class="calibre10">humre.parse(r'\d{3}-\d{3}-\d{4}')</b>
 "exactly(3, DIGIT) + '-' + exactly(3, DIGIT) + '-' + exactly(4, DIGIT)"
 </code></pre>
-<p class="tx">When combined with a modern editor such as PyCharm or Visual Studio Code, Humre offers several further advantages:</p>
+<p class="tx">PyCharmやVisual Studio Codeといった現代的なエディタで利用すると、Humreにはさらなら利点があります。</p>
 <ul class="ul">
-<li class="bl">You can indent your code to make it obvious which parts of the regex contain which other parts.</li>
-<li class="bl">Your editor’s parentheses matching works.</li>
-<li class="bl">Your editor’s syntax highlighting works.</li>
-<li class="bl">Your editor’s linter and type hints tool picks up typos.</li>
-<li class="bl">Your editor’s autocomplete fills in the function and constant names.</li>
-<li class="bl">Humre handles raw strings and escaping for you.</li>
-<li class="bl">You can put Python comments alongside your Humre code.</li>
-<li class="bl">Typos cause more helpful error messages.</li>
+<li class="bl">正規表現の対応関係がわかりやすくなるようにコードをインデントできます。</li>
+<li class="bl">エディタが開きかっこと閉じかっこを対応させてくれます。</li>
+<li class="bl">エディタが強調表示してくれます。</li>
+<li class="bl">エディタのリンターとタイプヒントツールがタイプミスを検出してくれます。</li>
+<li class="bl">エディタの自動補完が関数と定数の名前を補完してくれます。</li>
+<li class="bl">Humreがraw文字列を処理してエスケープしてくれます。</li>
+<li class="bl">HumreのコードにPythonのコメントを入れられます。</li>
+<li class="bl">タイプミスによるエラーがわかりやすくなります。</li>
 </ul>
-<p class="tx">Many experienced programmers will object to using anything other than the standard, complicated, unreadable regular expression syntax. As programmer Peter Bhat Harkins once said, “One of the most irritating things programmers do regularly is feel so good about learning a hard thing that they don’t look for ways to make it easy, or even oppose things that would do so.”</p>
-<p class="tx">However, if a co-worker objects to your use of Humre, you can simply print the underlying regex string that your Humre code generates and put it back into your source code. For example, the contents of the <span class="thesansmonocd_w5regular_">phone_regex</span> variable in the phone number extractor project are as follows:</p>
+<p class="tx">経験の長いプログラマの中には、複雑で読みにくい標準の正規表現構文以外は受け付けないという人がいます。プログラマのPeter Bhat Harkinsはこのように言いました。「プログラマは難しい事柄になじんでいるせいで、簡単に行う方法を探したり、簡単に行う方法に反対したりするのがもどかしいです。」</p>
+<p class="tx">同僚がHumreの利用に反対したとしても、Humreが生成する正規表現を表示して、それをソースコードに貼り付けられます。例えば、電話番号を抽出するプロジェクトの変数<span class="thesansmonocd_w5regular_">phone_regex</span>の内容は、次のようになります。</p>
 <pre class="pre"><code class="calibre9">r'((\d{3}|\(\d{3}\))?(\s|-|\.)?(\d{3})(\s|-|\.)(\d{4})(\s*(ext|x|ext\.)\s*(\d{2,5}))?)'</code></pre>
-<p class="tx">Your co-worker is welcome to use this regular expression string if they feel it is more appropriate.</p>
+<p class="tx">お好みならどうぞこの正規表現を使ってください。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec32">
-<h3 class="h" id="calibre_link-1661"><span id="calibre_link-222"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">While a computer can search for text quickly, it must be told precisely what to look for. Regular expressions allow you to specify the pattern of characters you are looking for, rather than the exact text itself. In fact, some word processing and spreadsheet applications provide find-and-replace features that allow you to search using regular expressions. The punctuation-heavy syntax of regular expressions is composed of qualifiers that detail what to match and quantifiers that detail how many to match.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">re</span> module that comes with Python lets you compile a regex string into a <span class="thesansmonocd_w5regular_">Pattern</span> object. These objects have several methods: <span class="thesansmonocd_w5regular_">search()</span>, to find <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1662" aria-label="214"></span>a single match; <span class="thesansmonocd_w5regular_">findall()</span>, to find all matching instances; and <span class="thesansmonocd_w5regular_">sub()</span>, to do a find-and-replace substitution of text.</p>
-<p class="tx">You can find out more in the official Python documentation at <i class="calibre5"><a href="https://docs.python.org/3/library/re.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/re<wbr></wbr>.html</a></i>. Another useful resource is the tutorial website <i class="calibre5"><a href="https://www.regular-expressions.info" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.regular<wbr></wbr>-expressions<wbr></wbr>.info</a></i>. The Humre page on the Python Package Index is <i class="calibre5"><a href="https://pypi.org/project/Humre/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/Humre<wbr></wbr>/</a></i>.</p>
+<h3 class="h" id="calibre_link-1661"><span id="calibre_link-222"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">コンピュータのテキスト検索は高速ですが、検索対象を正確に指定しなければなりません。正規表現を活用すると、検索対象として、探したいテキストそのものではなく、文字のパターンを指定できます。実はワープロソフトやスプレッドシートアプリケーションの検索と置換機能で正規表現が使える場合があります。記号が多い正規表現は、マッチ対象の質指定子とマッチ回数の量指定子から構成されています。</p>
+<p class="tx">Python本体に付属している<span class="thesansmonocd_w5regular_">re</span>モジュールで正規表現文字列を<span class="thesansmonocd_w5regular_">Pattern</span>オブジェクトにコンパイルできます。このオブジェクトにはいくつかのメソッドがあります。<span class="thesansmonocd_w5regular_">search()</span>は1回のマッチを検索し、<span class="thesansmonocd_w5regular_">findall()</span>はすべてのマッチを検索し、<span class="thesansmonocd_w5regular_">sub()</span>はテキストを置換します。</p>
+<p class="tx"><i class="calibre5"><a href="https://docs.python.org/3/library/re.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/re<wbr></wbr>.html</a></i>のPythonの公式ドキュメントにもっと詳しく書かれていますし、<i class="calibre5"><a href="https://www.regular-expressions.info" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.regular<wbr></wbr>-expressions<wbr></wbr>.info</a></i>のチュートリアルも有益な情報源です。Python Package IndexのHumreのページは<i class="calibre5"><a href="https://pypi.org/project/Humre/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/Humre<wbr></wbr>/</a></i>です。</p>
 </section>
 <section type="division" aria-labelledby="sec33">
-<h3 class="h" id="calibre_link-1663"><span id="calibre_link-223"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What is the function that returns <span class="thesansmonocd_w5regular_">Regex</span> objects?</p>
-<p class="listnumber">  2.  Why are raw strings often used when creating <span class="thesansmonocd_w5regular_">Regex</span> objects?</p>
-<p class="listnumber">  3.  What does the <span class="thesansmonocd_w5regular_">search()</span> method return?</p>
-<p class="listnumber">  4.  How do you get the actual strings that match the pattern from a <span class="thesansmonocd_w5regular_">Match</span> object?</p>
-<p class="listnumber">  5.  In the regex created from <span class="thesansmonocd_w5regular_">r'(\d\d\d)-(\d\d\d-\d\d\d\d)'</span>, what does group <span class="thesansmonocd_w5regular_">0</span> cover? Group <span class="thesansmonocd_w5regular_">1</span>? Group <span class="thesansmonocd_w5regular_">2</span>?</p>
-<p class="listnumber">  6.  Parentheses and periods have specific meanings in regular expression syntax. How would you specify that you want a regex to match actual parentheses and period characters?</p>
-<p class="listnumber">  7.  The <span class="thesansmonocd_w5regular_">findall()</span> method returns a list of strings or a list of tuples of strings. What makes it return one or the other?</p>
-<p class="listnumber">  8.  What does the <span class="thesansmonocd_w5regular_">|</span> character signify in regular expressions?</p>
-<p class="listnumber">  9.  What two things does the <span class="thesansmonocd_w5regular_">?</span> character signify in regular expressions?</p>
-<p class="listnumber">10.  What is the difference between the <span class="thesansmonocd_w5regular_">+</span> and <span class="thesansmonocd_w5regular_">*</span> characters in regular expressions?</p>
-<p class="listnumber">11.  What is the difference between <span class="thesansmonocd_w5regular_">{3}</span> and <span class="thesansmonocd_w5regular_">{3,5}</span> in regular expressions?</p>
-<p class="listnumber">12.  What do the <span class="thesansmonocd_w5regular_">\d</span>, <span class="thesansmonocd_w5regular_">\w</span>, and <span class="thesansmonocd_w5regular_">\s</span> shorthand character classes signify in regular expressions?</p>
-<p class="listnumber">13.  What do the <span class="thesansmonocd_w5regular_">\D</span>, <span class="thesansmonocd_w5regular_">\W</span>, and <span class="thesansmonocd_w5regular_">\S</span> shorthand character classes signify in regular expressions?</p>
-<p class="listnumber">14.  What is the difference between the <span class="thesansmonocd_w5regular_">.*</span> and <span class="thesansmonocd_w5regular_">.*?</span> regular expressions?</p>
-<p class="listnumber">15.  What is the character class syntax to match all numbers and lowercase letters?</p>
-<p class="listnumber">16.  How do you make a regular expression case-insensitive?</p>
-<p class="listnumber">17.  What does the <span class="thesansmonocd_w5regular_">.</span> character normally match? What does it match if <span class="thesansmonocd_w5regular_">re.DOTALL</span> is passed as the second argument to <span class="thesansmonocd_w5regular_">re.compile()</span>?</p>
-<p class="listnumber">18.  If <span class="thesansmonocd_w5regular_">num_re</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">re.compile(r'\d+')</span>, what will <span class="thesansmonocd_w5regular_">num_re.sub('X', '12 drummers, 11 pipers, five rings, 3 hens')</span> return?</p>
-<p class="listnumber">19.  What does passing <span class="thesansmonocd_w5regular_">re.VERBOSE</span> as the second argument to <span class="thesansmonocd_w5regular_">re.compile()</span> allow you to do?</p>
+<h3 class="h" id="calibre_link-1663"><span id="calibre_link-223"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. <span class="thesansmonocd_w5regular_">Regex</span>オブジェクトを返す関数は何ですか？</p>
+<p class="listnumber">  2. <span class="thesansmonocd_w5regular_">Regex</span>オブジェクトを作成するときにraw文字列を使うことが多いのはなぜですか？</p>
+<p class="listnumber">  3. <span class="thesansmonocd_w5regular_">search()</span>メソッドは何を返しますか？</p>
+<p class="listnumber">  4. <span class="thesansmonocd_w5regular_">Match</span>オブジェクトから実際にマッチした文字列をどうやって取り出しますか？</p>
+<p class="listnumber">  5. <span class="thesansmonocd_w5regular_">r'(\d\d\d)-(\d\d\d-\d\d\d\d)'</span>の正規表現で、グループ<span class="thesansmonocd_w5regular_">0</span>、グループ<span class="thesansmonocd_w5regular_">1</span>、グループ<span class="thesansmonocd_w5regular_">2</span>は何になりますか？</p>
+<p class="listnumber">  6. 正規表現でかっことピリオドには特別な意味があります。正規表現でかっこやピリオドの文字にマッチさせたい場合にどうすればよいですか？</p>
+<p class="listnumber">  7. <span class="thesansmonocd_w5regular_">findall()</span>メソッドは文字列のリストまたは文字列のタプルのリストを返します。どういう場合に文字列のリストを返し、どういう場合に文字列のタプルのリストを返しますか？</p>
+<p class="listnumber">  8. 正規表現で<span class="thesansmonocd_w5regular_">|</span>はどういう意味になりますか？</p>
+<p class="listnumber">  9. 正規表現で<span class="thesansmonocd_w5regular_">?</span>はどういう意味になるか、2つ答えてください。</p>
+<p class="listnumber">10. 正規表現で<span class="thesansmonocd_w5regular_">+</span>と<span class="thesansmonocd_w5regular_">*</span>はどう違いますか？</p>
+<p class="listnumber">11. 正規表現で<span class="thesansmonocd_w5regular_">{3}</span>と<span class="thesansmonocd_w5regular_">{3,5}</span>はどう違いますか？</p>
+<p class="listnumber">12. 正規表現で短縮文字クラス<span class="thesansmonocd_w5regular_">\d</span>、<span class="thesansmonocd_w5regular_">\w</span>、<span class="thesansmonocd_w5regular_">\s</span>はどういう意味になりますか？</p>
+<p class="listnumber">13. 正規表現で短縮文字クラス<span class="thesansmonocd_w5regular_">\D</span>、<span class="thesansmonocd_w5regular_">\W</span>、<span class="thesansmonocd_w5regular_">\S</span>はどういう意味になりますか？</p>
+<p class="listnumber">14. 正規表現の<span class="thesansmonocd_w5regular_">.*</span>と<span class="thesansmonocd_w5regular_">.*?</span>はどう違いますか？</p>
+<p class="listnumber">15. すべての数字と小文字のアルファベットにマッチする文字クラスは何ですか？</p>
+<p class="listnumber">16. 正規表現で大文字と小文字を区別しないようにするにはどうすればよいですか？</p>
+<p class="listnumber">17. <span class="thesansmonocd_w5regular_">.</span>は通常何にマッチしますか？　<span class="thesansmonocd_w5regular_">re.compile()</span>の第二引数に<span class="thesansmonocd_w5regular_">re.DOTALL</span>を渡すと何にマッチしますか？</p>
+<p class="listnumber">18. <span class="thesansmonocd_w5regular_">num_re</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">re.compile(r'\d+')</span>である場合に、<span class="thesansmonocd_w5regular_">num_re.sub('X', '12 drummers, 11 pipers, five rings, 3 hens')</span>は何を返しますか？</p>
+<p class="listnumber">19. <span class="thesansmonocd_w5regular_">re.compile()</span>の第二引数に<span class="thesansmonocd_w5regular_">re.VERBOSE</span>を渡すと、何ができるようになりますか？</p>
 </section>
 <section type="division" aria-labelledby="sec34">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1285" aria-label="215"></span>
-<h3 class="h" id="calibre_link-1664"><span id="calibre_link-224"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-1664"><span id="calibre_link-224"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec35">
-<h4 class="h1" id="calibre_link-1665"><span id="calibre_link-225"></span><span class="sans_futura_std_heavy_oblique_bi_">Strong Password Detection</span></h4>
-<p class="tni">Write a function that uses regular expressions to make sure the password string it is passed is strong. A strong password has several rules: it must be at least eight characters long, contain both uppercase and lowercase characters, and have at least one digit. Hint: It’s easier to test the string against multiple regex patterns than to try to come up with a single regex that can validate all the rules.</p>
+<h4 class="h1" id="calibre_link-1665"><span id="calibre_link-225"></span><span class="sans_futura_std_heavy_oblique_bi_">強力なパスワードであることの検証</span></h4>
+<p class="tni">正規表現を使って、渡されたパスワード文字列が強力か確かめる関数を書いてください。ここでの強力なパスワードとは、8文字以上の長さで、大文字と小文字と数字をすべて含むパスワードだとします。ヒント：すべてのルールを検証する一つの正規表現を書くよりも、複数の正規表現を書くほうが簡単です。</p>
 </section>
 <section type="division" aria-labelledby="sec36">
-<h4 class="h1" id="calibre_link-1666"><span id="calibre_link-226"></span><span class="sans_futura_std_heavy_oblique_bi_">Regex Version of the strip() Method</span></h4>
-<p class="tni">Write a function that takes a string and does the same thing as the <span class="thesansmonocd_w5regular_">strip()</span> string method. If no other arguments are passed other than the string to strip, then the function should remove whitespace characters from the beginning and end of the string. Otherwise, the function should remove the characters specified in the second argument to the function.</p>
+<h4 class="h1" id="calibre_link-1666"><span id="calibre_link-226"></span><span class="sans_futura_std_heavy_oblique_bi_">正規表現バージョンのstrip()メソッド</span></h4>
+<p class="tni">文字列を引数に取り、文字列メソッド<span class="thesansmonocd_w5regular_">strip()</span>と同じ動作をする関数を書いてください。対象とする文字列以外の引数が渡されなければ（第一引数しか存在しなければ）、文字列の両端から空白文字を取り除いてください。第二引数が存在すれば、第二引数で指定された文字を取り除いてください。</p>
 </section>
 </section>
 </section>
