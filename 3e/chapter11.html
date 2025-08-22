@@ -11,24 +11,23 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1698" aria-label="243"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1699">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">11</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">ORGANIZING FILES</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">11</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">ファイルの整理</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">In addition to creating and writing to new files, your programs can organize preexisting files on the hard drive. Maybe you’ve had the experience of going through a folder full of dozens, hundreds, or even thousands of files and copying, renaming, moving, or compressing them all by hand. Or consider tasks such as these:</p>
+<p class="introtni">新しいファイルの作成と書き込みだけでなく、ハードドライブ上の既存のファイルの整理も、プログラムで行えます。数十、数百、ひょっとしたら数千ファイルが入っているフォルダで、コピー、リネーム（名前変更）、移動、圧縮を手動で行ったことがあるでしょう。あるいは、以下のような作業を想定してください。</p>
 <ul class="ul">
-<li class="bl">Making copies of all PDF files (and <i class="calibre5">only</i> the PDF files) in every subfolder of a folder</li>
-<li class="bl">Removing the leading zeros in the filenames for every file in a folder of hundreds of files named <i class="calibre5">spam001.txt</i>, <i class="calibre5">spam002.txt</i>, <i class="calibre5">spam003.txt</i>, and so on</li>
-<li class="bl">Compressing the contents of several folders into one ZIP file (which could serve as a simple backup system)</li>
+<li class="bl">すべてのサブフォルダの中に入っているPDFファイル（PDFファイル<i class="calibre5">だけ</i>）をコピーする</li>
+<li class="bl">数百あるファイルすべてのファイル名（<i class="calibre5">spam001.txt</i>、<i class="calibre5">spam002.txt</i>、<i class="calibre5">spam003.txt</i>など）の最初のゼロを削除する</li>
+<li class="bl">数個のフォルダの中身を一つのZIPファイルに圧縮する（シンプルなバックアップ）</li>
 </ul>
-<p class="tx">All this boring stuff is just begging to be automated in Python. By programming your computer to do these tasks, you can transform it into a quick-working file clerk that never makes mistakes.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1062" aria-label="244"></span>While Windows uses backslashes (\) to separate folders in a filepath, the Python code in this chapter will use forward slashes (/) instead, as they work on all operating systems.</p>
+<p class="tx">こうした退屈な作業はPythonで自動化するのにうってつけです。プログラミングにより自分のコンピュータを絶対に間違えない事務員に仕立て上げられます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1062" aria-label="244"></span>Windowsではファイルパスのフォルダの区切りにバックスラッシュ（\）を使いますが、本章のコードではすべてのOSで機能するようにスラッシュ（/）を使います。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1700"><span id="calibre_link-257"></span><span class="sans_futura_std_bold_b_">The shutil Module</span></h3>
-<p class="tni">The <span class="thesansmonocd_w5regular_">shutil</span> module has functions to let you copy, move, rename, and delete files in your Python programs. (The module’s name is short for shell utilities, where <i class="calibre5">shell</i> is another term for a terminal command line.) To use the <span class="thesansmonocd_w5regular_">shutil</span> functions, you’ll first need to run <span class="thesansmonocd_w5regular_">import shutil</span>.</p>
-<p class="tx">To create an example file and folder to work with, run the following code before the interactive shell examples in this chapter:</p>
+<h3 class="h" id="calibre_link-1700"><span id="calibre_link-257"></span><span class="sans_futura_std_bold_b_">shutilモジュール</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">shutil</span>モジュールには、ファイルをコピー、移動、リネーム、削除する関数があります（このモジュールの名前はshell utilitiesを縮めたものです。<i class="calibre5">shell</i>はターミナルコマンドラインの別の呼び方です）。<span class="thesansmonocd_w5regular_">shutil</span>関数を使うには、最初に<span class="thesansmonocd_w5regular_">import shutil</span>を実行します。</p>
+<p class="tx">対話型シェルで次のコードを実行して、本章で例として使用するファイルとフォルダを作成してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">h = Path.home()</b>
 &gt;&gt;&gt; <b class="calibre10">(h / 'spam').mkdir(exist_ok=True)</b>
@@ -36,11 +35,11 @@
 ...     <b class="calibre10">file.write('Hello')</b>
 ...
 </code></pre>
-<p class="tx">This will create a folder named <i class="calibre5">spam</i> with a text file named <i class="calibre5">file1.txt</i>. The examples in this chapter will copy, move, rename, and delete this file and folder. All <span class="thesansmonocd_w5regular_">shutil</span> functions can take filepath arguments that are either strings or <span class="thesansmonocd_w5regular_">Path</span> objects.</p>
+<p class="tx"><i class="calibre5">file1.txt</i>という名前のテキストファイルが入っている<i class="calibre5">spam</i>フォルダを作成しています。本章では、このファイルとフォルダを例にして、コピー、移動、リネーム、削除を行います。<span class="thesansmonocd_w5regular_">shutil</span>関数は、文字列と<span class="thesansmonocd_w5regular_">Path</span>オブジェクトのどちらでも引数に取れます。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-1701"><span id="calibre_link-258"></span><span class="sans_futura_std_heavy_oblique_bi_">Copying Files and Folders</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">shutil</span> module provides functions for copying files, as well as entire folders. Calling <span class="thesansmonocd_w5regular_">shutil.copy(</span><span class="sans_thesansmonocd_w5regular_italic_">source</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">destination</span><span class="thesansmonocd_w5regular_">)</span> will copy the file at the path <span class="sans_thesansmonocd_w5regular_italic_">source</span> to the folder at the path <span class="sans_thesansmonocd_w5regular_italic_">destination</span>. Both <span class="sans_thesansmonocd_w5regular_italic_">source</span> and <span class="sans_thesansmonocd_w5regular_italic_">destination</span> can be strings or <span class="thesansmonocd_w5regular_">Path</span> objects. If <span class="sans_thesansmonocd_w5regular_italic_">destination</span> is a filename, it will be used as the new name of the copied file. If <span class="sans_thesansmonocd_w5regular_italic_">destination</span> is a folder, the file will be copied to that folder with its original name. This function returns the path of the copied file.</p>
-<p class="tx">Enter the following into the interactive shell to see how <span class="thesansmonocd_w5regular_">shutil.copy()</span> works:</p>
+<h4 class="h1" id="calibre_link-1701"><span id="calibre_link-258"></span><span class="sans_futura_std_heavy_oblique_bi_">ファイルとフォルダのコピー</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">shutil</span>モジュールには、ファイルをコピーする関数とフォルダ全体をコピーする関数があります。<span class="thesansmonocd_w5regular_">shutil.copy(</span><span class="sans_thesansmonocd_w5regular_italic_">source</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">destination</span><span class="thesansmonocd_w5regular_">)</span>を呼び出すと、<span class="sans_thesansmonocd_w5regular_italic_">source</span>で指定されたファイルを<span class="sans_thesansmonocd_w5regular_italic_">destination</span>で指定されたフォルダにコピーします。<span class="sans_thesansmonocd_w5regular_italic_">source</span>と<span class="sans_thesansmonocd_w5regular_italic_">destination</span>の両方とも、文字列または<span class="thesansmonocd_w5regular_">Path</span>オブジェクトです。<span class="sans_thesansmonocd_w5regular_italic_">destination</span>がファイル名なら、コピーされたファイルの新しい名前になります。<span class="sans_thesansmonocd_w5regular_italic_">destination</span>がフォルダなら、そのフォルダ内に元の名前のままでコピーされます。この関数は、コピーしたファイルのパスを返します。</p>
+<p class="tx">対話型シェルに次の内容を入力して<span class="thesansmonocd_w5regular_">shutil.copy()</span>の動作を確認してみましょう。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import shutil</b>
 &gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">h = Path.home()</b>
@@ -49,21 +48,21 @@
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">shutil.copy(h / 'spam/file1.txt', h / 'spam/file2.txt')</b>
 WindowsPath('C:/Users/Al/spam/file2.txt')
 </code></pre>
-<p class="tx">The first <span class="thesansmonocd_w5regular_">shutil.copy()</span> call copies the file at <i class="calibre5">C:\Users\Al\spam\file1.txt</i> to the home folder <i class="calibre5">C:\Users\Al</i>. The return value is the path of the newly copied file. Note that since we specified a folder as the destination <span class="codeannotation" aria-label="annotation1">❶</span>, the new, copied file will have the same filename as the original <i class="calibre5">file1.txt</i> file. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1065" aria-label="245"></span>The second <span class="thesansmonocd_w5regular_">shutil.copy()</span> call <span class="codeannotation" aria-label="annotation2">❷</span> copies the file at <i class="calibre5">C:\Users\Al\spam\file1.txt</i> to the <i class="calibre5">C:\Users\Al\spam</i> folder but gives the copied file the name <i class="calibre5">file2.txt</i>.</p>
-<p class="tx">While <span class="thesansmonocd_w5regular_">shutil.copy()</span> will copy a single file, calling <span class="thesansmonocd_w5regular_">shutil.copytree(</span><span class="sans_thesansmonocd_w5regular_italic_">source</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">destination</span><span class="thesansmonocd_w5regular_">)</span> will copy the folder at the path <span class="sans_thesansmonocd_w5regular_italic_">source</span>, along with all of its files and subfolders, to the folder at the path <span class="sans_thesansmonocd_w5regular_italic_">destination</span>. The function returns the path of the copied folder.</p>
-<p class="tx">Enter the following into the interactive shell:</p>
+<p class="tx">最初の<span class="thesansmonocd_w5regular_">shutil.copy()</span>呼び出しでは、<i class="calibre5">C:\Users\Al\spam\file1.txt</i>のファイルをホームフォルダ<i class="calibre5">C:\Users\Al</i>にコピーしています。返り値は新しくコピーしたファイルのパスです。移動先にフォルダを指定したので(<span class="codeannotation" aria-label="annotation1">❶</span>)、新しくコピーしたファイルは元の<i class="calibre5">file1.txt</i>というファイルのファイル名と同じ名前になります。2回目の<span class="thesansmonocd_w5regular_">shutil.copy()</span>呼び出しでは、<i class="calibre5">C:\Users\Al\spam\file1.txt</i>のファイルを<i class="calibre5">file2.txt</i>という名前で<i class="calibre5">C:\Users\Al\spam</i>フォルダにコピーしています(<span class="codeannotation" aria-label="annotation2">❷</span>)。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">shutil.copy()</span>は一つのファイルをコピーしますが、<span class="thesansmonocd_w5regular_">shutil.copytree(</span><span class="sans_thesansmonocd_w5regular_italic_">source</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">destination</span><span class="thesansmonocd_w5regular_">)</span>を呼び出すと<span class="sans_thesansmonocd_w5regular_italic_">source</span>のフォルダをその中に入っているファイルとサブフォルダを全部含めて<span class="sans_thesansmonocd_w5regular_italic_">destination</span>のフォルダにコピーします。この関数は、コピーしたフォルダのパスを返します。</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import shutil</b>
 &gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">h = Path.home()</b>
 &gt;&gt;&gt; <b class="calibre10">shutil.copytree(h / 'spam', h / 'spam_backup')</b>
 WindowsPath('C:/Users/Al/spam_backup')
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">shutil.copytree()</span> call creates a new folder named <i class="calibre5">spam_backup</i> with the same content as the original <i class="calibre5">spam</i> folder. You have now safely backed up your precious, precious spam.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">shutil.copytree()</span>を呼び出して、元の<i class="calibre5">spam</i>フォルダと同じ内容の<i class="calibre5">spam_backup</i>という名前の新しいフォルダを作成しています。大切なspamを安全にバックアップできました。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-1702"><span id="calibre_link-259"></span><span class="sans_futura_std_heavy_oblique_bi_">Moving and Renaming Files and Folders</span></h4>
-<p class="tni">Calling <span class="thesansmonocd_w5regular_">shutil.move(</span><span class="sans_thesansmonocd_w5regular_italic_">source</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">destination</span><span class="thesansmonocd_w5regular_">)</span> will move the file or folder at the path <span class="sans_thesansmonocd_w5regular_italic_">source</span> to the path <span class="sans_thesansmonocd_w5regular_italic_">destination</span> and return a string of the new location’s absolute path.</p>
-<p class="tx">If <span class="sans_thesansmonocd_w5regular_italic_">destination</span> points to a folder, the <span class="sans_thesansmonocd_w5regular_italic_">source</span> file gets moved into <span class="sans_thesansmonocd_w5regular_italic_">destination</span> and keeps its current filename. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1702"><span id="calibre_link-259"></span><span class="sans_futura_std_heavy_oblique_bi_">ファイルとフォルダの移動、リネーム</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">shutil.move(</span><span class="sans_thesansmonocd_w5regular_italic_">source</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">destination</span><span class="thesansmonocd_w5regular_">)</span>を呼び出すと、<span class="sans_thesansmonocd_w5regular_italic_">source</span>で指定したファイルやフォルダを<span class="sans_thesansmonocd_w5regular_italic_">destination</span>で指定したパスに移動できます。移動先の絶対パスの文字列が返されます。</p>
+<p class="tx"><span class="sans_thesansmonocd_w5regular_italic_">destination</span>がフォルダを指していたら、<span class="sans_thesansmonocd_w5regular_italic_">source</span>ファイルが<span class="sans_thesansmonocd_w5regular_italic_">destination</span>に移動され、ファイル名はそのままになります。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import shutil</b>
 &gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">h = Path.home()</b>
@@ -71,59 +70,59 @@ WindowsPath('C:/Users/Al/spam_backup')
 &gt;&gt;&gt; <b class="calibre10">shutil.move(h / 'spam/file1.txt', h / 'spam2')</b>
 'C:\\Users\\Al\\spam2\\file1.txt'
 </code></pre>
-<p class="tx">After creating the <i class="calibre5">spam2</i> folder in the home folder, this <span class="thesansmonocd_w5regular_">shutil.move()</span> call says, “Move <i class="calibre5">C:\Users\Al\spam\file1.txt</i> into the folder <i class="calibre5">C:\Users\Al\spam2</i>.” If there had been a <i class="calibre5">file1.txt</i> file already in <i class="calibre5">C:\Users\Al\spam2</i>, Python would have overwritten it.</p>
-<p class="tx">If the <span class="sans_thesansmonocd_w5regular_italic_">destination</span> path is not an existing folder, <span class="thesansmonocd_w5regular_">shutil.move()</span> will use this path to rename the file. In the following example, the <span class="sans_thesansmonocd_w5regular_italic_">source</span> file is moved <i class="calibre5">and</i> renamed:</p>
+<p class="tx">ホームフォルダに<i class="calibre5">spam2</i>フォルダを作成してから、<span class="thesansmonocd_w5regular_">shutil.move()</span>を呼び出して、<i class="calibre5">C:\Users\Al\spam\file1.txt</i>を<i class="calibre5">C:\Users\Al\spam2</i>に移動させています。<i class="calibre5">C:\Users\Al\spam2</i>内にすでに<i class="calibre5">file1.txt</i>ファイルが存在していたとしたら、上書きします。</p>
+<p class="tx"><span class="sans_thesansmonocd_w5regular_italic_">destination</span>が既存のフォルダでなければ、<span class="thesansmonocd_w5regular_">shutil.move()</span>がその名前にリネームします。以下の例では、<span class="sans_thesansmonocd_w5regular_italic_">source</span>ファイルが移動されてリネームされます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">shutil.move(h / 'spam/file1.txt', h / 'spam2/new_name.txt')</b>
 'C:\\Users\\Al\\spam2\\new_name.txt'
 </code></pre>
-<p class="tx">This line says, “Move <i class="calibre5">C:\Users\Al\spam\file1.txt</i> into the folder <i class="calibre5">C:\Users\Al\spam2</i>, and while you’re at it, rename that <i class="calibre5">file1.txt</i> file to <i class="calibre5">new_name.txt</i>.”</p>
+<p class="tx">この行は、「<i class="calibre5">C:\Users\Al\spam\file1.txt</i>を<i class="calibre5">C:\Users\Al\spam2</i>フォルダに移動して、<i class="calibre5">file1.txt</i>というファイル名を<i class="calibre5">new_name.txt</i>にリネームする」と読めます。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1180" aria-label="246"></span>
-<h4 class="h1" id="calibre_link-1703"><span id="calibre_link-260"></span><span class="sans_futura_std_heavy_oblique_bi_">Permanently Deleting Files and Folders</span></h4>
-<p class="tni">You can delete a single file or a single empty folder with functions in the <span class="thesansmonocd_w5regular_">os</span> module, whereas to delete a folder and all of its contents, you use the <span class="thesansmonocd_w5regular_">shutil</span> module:</p>
+<h4 class="h1" id="calibre_link-1703"><span id="calibre_link-260"></span><span class="sans_futura_std_heavy_oblique_bi_">ファイルとフォルダを完全に削除する</span></h4>
+<p class="tni">一つのファイルまたは空フォルダを<span class="thesansmonocd_w5regular_">os</span>モジュールの関数で削除できます。フォルダとその中身を一括して削除するなら、<span class="thesansmonocd_w5regular_">shutil</span>モジュールを使います。</p>
 <ul class="ul">
-<li class="bl">Calling <span class="thesansmonocd_w5regular_">shutil.rmtree(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span> will delete (that is, remove) the entire folder tree at <span class="sans_thesansmonocd_w5regular_italic_">path</span>, including all the files and subfolders it contains.</li>
-<li class="bl">Calling <span class="thesansmonocd_w5regular_">os.unlink(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span> will delete the single file at <span class="sans_thesansmonocd_w5regular_italic_">path</span>.</li>
-<li class="bl">Calling <span class="thesansmonocd_w5regular_">os.rmdir(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span> will delete the folder at <span class="sans_thesansmonocd_w5regular_italic_">path</span>. This folder must be empty.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">shutil.rmtree(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span>を呼び出すと、ファイルとサブフォルダを一括して<span class="sans_thesansmonocd_w5regular_italic_">path</span>のフォルダ以下全体を削除します。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">os.unlink(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span>を呼び出すと、<span class="sans_thesansmonocd_w5regular_italic_">path</span>の一ファイルを削除します。</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">os.rmdir(</span><span class="sans_thesansmonocd_w5regular_italic_">path</span><span class="thesansmonocd_w5regular_">)</span>を呼び出すと、<span class="sans_thesansmonocd_w5regular_italic_">path</span>の空ディレクトリを削除します。</li>
 </ul>
-<p class="tx">Be careful when using these functions in your programs! It’s often a good idea to first run your program with these calls commented out and <span class="thesansmonocd_w5regular_">print()</span> calls added to show the files that would be deleted. This is called a <i class="calibre5">dry run</i>. Here is a Python program that was intended to delete files with the <i class="calibre5">.txt</i> file extension, but it has a typo (shown in bold) that causes it to delete <i class="calibre5">.rxt</i> files instead:</p>
+<p class="tx">プログラムでこれらの関数を使うときには気をつけてください。最初はこれらの関数をコメントアウトして<span class="thesansmonocd_w5regular_">print()</span>を呼び出し削除予定のファイルを表示することをおすすめします。これは<i class="calibre5">dry run</i>と呼ばれるやり方です。以下は拡張子<i class="calibre5">.txt</i>のファイルを削除することを意図して書いたプログラムですが、タイプミスがあり（太字の部分です）、<i class="calibre5">.rxt</i>ファイルが削除されてしまいます。</p>
 <pre class="pre"><code class="calibre9">import os
 from pathlib import Path
 for filename in Path.home().glob('*.<b class="calibre10">r</b>xt'):
     os.unlink(filename)
 </code></pre>
-<p class="tx">If you had any important files ending with <i class="calibre5">.rxt</i>, they would have been accidentally, permanently deleted. Instead, you should have first run the program like this:</p>
+<p class="tx">ファイル名が<i class="calibre5">.rxt</i>で終わる重要なファイルがあったとしたら、そのファイルが完全に削除されてしまいます。いきなり削除を実行するのではなく、次のように実行してください。</p>
 <pre class="pre"><code class="calibre9">import os
 from pathlib import Path
 for filename in Path.home().glob('*.rxt'):
     #os.unlink(filename)
     print('Deleting', filename)
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">os.unlink()</span> call is now commented, so Python ignores it. Instead, you’ll print the filename of the file that would have been deleted. Running this version of the program first will show you that you’ve accidentally told the program to delete <i class="calibre5">.rxt</i> files instead of <i class="calibre5">.txt</i> files.</p>
-<p class="tx">You should also do dry runs for programs that copy, rename, or move files. Lastly, it may be a good idea to create a backup copy of the entire folder of any files your program touches, just in case you need to completely restore the original files. Once you’re certain the program works as intended, delete the <span class="thesansmonocd_w5regular_">print(filename)</span> line and uncomment the <span class="thesansmonocd_w5regular_">os.unlink(filename)</span> line. Then, run the program again to actually delete the files.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">os.unlink()</span>の呼び出しはコメントアウトされていますから無視されます。その代わりに、削除予定のファイル名を表示しています。まずこのようなプログラムを実行するようにすれば、<i class="calibre5">.txt</i>ファイルではなく<i class="calibre5">.rxt</i>ファイルを削除しようとしていたことに気づけます。</p>
+<p class="tx">ファイルのコピー、リネーム、移動でもdry runを実行したほうがよいでしょう。さらに、プログラムで操作するファイルのバックアップのコピーを作成しておくのも望ましいです。そうすれば万一の際にファイルを復元できます。プログラムが意図通りに動くことが確信できたら、<span class="thesansmonocd_w5regular_">print(filename)</span>の行を削除して<span class="thesansmonocd_w5regular_">os.unlink(filename)</span>の行のコメントアウトを外してください。それからプログラムを実行すれば、意図したファイルを削除します。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1704"><span id="calibre_link-261"></span><span class="sans_futura_std_heavy_oblique_bi_">Deleting to the Recycle Bin</span></h4>
-<p class="tni">Python’s built-in <span class="thesansmonocd_w5regular_">shutil.rmtree()</span> function irreversibly deletes files and folders. This makes the function dangerous to use, because a bug could delete <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1202" aria-label="247"></span>files you didn’t intend. A much better way to delete files and folders is with the third-party <span class="thesansmonocd_w5regular_">send2trash</span> module. (See <span>Appendix A</span> for a more in-depth explanation of how to install third-party packages.)</p>
-<p class="tx">Using the <span class="thesansmonocd_w5regular_">send2trash</span> module’s <span class="thesansmonocd_w5regular_">send2trash()</span> function is much safer than Python’s regular delete functions, because it will send folders and files to your computer’s trash or recycling bin instead of permanently deleting them. If a bug in your program deletes something with <span class="thesansmonocd_w5regular_">send2trash</span> that you didn’t intend to delete, you can later restore it from the recycle bin.</p>
-<p class="tx">After you have installed <span class="thesansmonocd_w5regular_">send2trash</span>, enter the following into the interactive shell to send the file <i class="calibre5">file1.txt</i> to the recycle bin:</p>
+<h4 class="h1" id="calibre_link-1704"><span id="calibre_link-261"></span><span class="sans_futura_std_heavy_oblique_bi_">ごみ箱に移動する</span></h4>
+<p class="tni">Python本体に付属している<span class="thesansmonocd_w5regular_">shutil.rmtree()</span>関数はファイルとフォルダを完全に削除します。バグにより意図しないファイルを削除してしまうかもしれないので、この関数は危険です。サードパーティの<span class="thesansmonocd_w5regular_">send2trash</span>モジュールを使ってファイルとフォルダを削除するほうが安全です（サードパーティのパッケージをインストールする方法は<span>付録A</span>をご参照ください）。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">send2trash</span>モジュールの<span class="thesansmonocd_w5regular_">send2trash()</span>関数は、フォルダやファイルを完全に削除するのではなく、コンピュータのごみ箱に移動させるので、Python標準の削除関数よりもずっと安全です。プログラムのバグにより<span class="thesansmonocd_w5regular_">send2trash</span>で意図しないファイルやフォルダを削除してしまったとしても、あとでごみ箱から復元できます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">send2trash</span>をインストールしたら、対話型シェルで次のコードを実行して、<i class="calibre5">file1.txt</i>をごみ箱に移動させてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import send2trash</b>
 &gt;&gt;&gt; <b class="calibre10">send2trash.send2trash('file1.txt')</b>
 </code></pre>
-<p class="tx">In general, you should use the <span class="thesansmonocd_w5regular_">send2trash.send2trash()</span> function to delete files and folders. But while sending files to the recycle bin lets you recover them later, it will not free up disk space like permanently deleting them does. Note that the <span class="thesansmonocd_w5regular_">send2trash()</span> function can only send files to the recycle bin; it cannot pull files out of it.</p>
+<p class="tx">一般的に、ファイルやフォルダを削除するには、<span class="thesansmonocd_w5regular_">send2trash.send2trash()</span>関数を使ったほうがよいでしょう。しかし、ファイルをごみ箱に移動させると、あとで復元できますが、ディスク容量は解放されません。<span class="thesansmonocd_w5regular_">send2trash()</span>はファイルをごみ箱に移動させられるだけで、ごみ箱からファイルを取り出すことはできません。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h3 class="h" id="calibre_link-1705"><span id="calibre_link-262"></span><span class="sans_futura_std_bold_b_">Walking a Directory Tree</span></h3>
-<p class="tni">If you want to list all the files and subfolders in a folder, call the <span class="thesansmonocd_w5regular_">os.listdir()</span> function and pass it a folder name:</p>
+<h3 class="h" id="calibre_link-1705"><span id="calibre_link-262"></span><span class="sans_futura_std_bold_b_">ディレクトリツリーを走査する</span></h3>
+<p class="tni">あるフォルダ以下のファイルとサブフォルダの一覧を取得したければ、<span class="thesansmonocd_w5regular_">os.listdir()</span>関数にフォルダ名を渡します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import os</b>
 &gt;&gt;&gt; <b class="calibre10">os.listdir(r'C:\Users\Al')</b>
 ['.anaconda', '.android', '.cache', '.dotnet', '.eclipse', '.gitconfig',
 <var class="calibre20">--snip--</var>
 '__pycache__']
 </code></pre>
-<p class="tx">You can also get a list of <span class="thesansmonocd_w5regular_">Path</span> objects in a folder by calling the <span class="thesansmonocd_w5regular_">iterdir()</span> method:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">iterdir()</span>メソッドを呼び出すとフォルダ内の<span class="thesansmonocd_w5regular_">Path</span>オブジェクトの一覧を取得できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">home = Path.home()</b>
 &gt;&gt;&gt; <b class="calibre10">list(home.iterdir())</b>
@@ -132,8 +131,8 @@ WindowsPath('C:/Users/Al/.cache'),
 <var class="calibre20">--snip--</var>
 WindowsPath('C:/Users/Al/__pycache__')]
 </code></pre>
-<p class="tx">Say you want to rename every file in some folder, and also every file in every subfolder of that folder. That is, you want to walk through the directory tree, accessing each file as you go. Writing a program to do this could get tricky; fortunately, Python provides the <span class="thesansmonocd_w5regular_">os.walk()</span> function to handle this process for you.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1144" aria-label="248"></span>Let’s create a series of folders and files by running the following code in the interactive shell:</p>
+<p class="tx">あるフォルダ以下のすべてのファイルをサブフォルダ内のファイルも含めてリネームしたいとします。ディレクトリツリーを走査して、それぞれのファイルにアクセスしたいということです。このプログラムを書くのはややこしいですが、Pythonにはこの状況に対応できる<span class="thesansmonocd_w5regular_">os.walk()</span>関数があります。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1144" aria-label="248"></span>対話型シェルで以下のコードを実行して、一連のフォルダとファイルを作成しましょう。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">h = Path.home()</b>
 &gt;&gt;&gt; <b class="calibre10">(h / 'spam').mkdir(exist_ok=True)</b>
@@ -145,20 +144,20 @@ WindowsPath('C:/Users/Al/__pycache__')]
 ...     <b class="calibre10">with open(h / f, 'w', encoding='utf-8') as file:</b>
 ...         <b class="calibre10">file.write('Hello')</b>
 ...
-&gt;&gt;&gt; # At this point, the folders and files now exist.
+&gt;&gt;&gt; # この時点でフォルダとファイルが存在
 </code></pre>
-<p class="tx">This code will create the following folders and files in your home folder:</p>
+<p class="tx">このコードは、ホームフォルダに以下のフォルダとファイルを作成します。</p>
 <ul class="ul">
-<li class="bl">The <i class="calibre5">spam</i> folder</li>
-<li class="bl">The <i class="calibre5">spam/file1.txt</i> file</li>
-<li class="bl">The <i class="calibre5">spam/eggs</i> folder</li>
-<li class="bl">The <i class="calibre5">spam/eggs/file2.txt</i> file</li>
-<li class="bl">The <i class="calibre5">spam/eggs/file3.txt</i> file</li>
-<li class="bl">The <i class="calibre5">spam/eggs2</i> folder</li>
-<li class="bl">The <i class="calibre5">spam/eggs/bacon</i> folder</li>
-<li class="bl">The <i class="calibre5">spam/eggs/bacon/file4.txt</i> file</li>
+<li class="bl"><i class="calibre5">spam</i>フォルダ</li>
+<li class="bl"><i class="calibre5">spam/file1.txt</i>ファイル</li>
+<li class="bl"><i class="calibre5">spam/eggs</i>フォルダ</li>
+<li class="bl"><i class="calibre5">spam/eggs/file2.txt</i>ファイル</li>
+<li class="bl"><i class="calibre5">spam/eggs/file3.txt</i>ファイル</li>
+<li class="bl"><i class="calibre5">spam/eggs2</i>フォルダ</li>
+<li class="bl"><i class="calibre5">spam/eggs/bacon</i>フォルダ</li>
+<li class="bl"><i class="calibre5">spam/eggs/bacon/file4.txt</i>ファイル</li>
 </ul>
-<p class="tx">Here is an example program that uses the <span class="thesansmonocd_w5regular_">os.walk()</span> function on this tree of folders and renames each file to uppercase letters:</p>
+<p class="tx">以下のプログラムを実行すると、このフォルダツリーで<span class="thesansmonocd_w5regular_">os.walk()</span>関数を使い、各ファイルの名前を大文字にします。</p>
 <pre class="pre"><code class="calibre9">import os, shutil
 from pathlib import Path
 h = Path.home()
@@ -171,20 +170,20 @@ for folder_name, subfolders, filenames in os.walk(h / 'spam'):
 
     for filename in filenames:
         print('FILE INSIDE ' + folder_name + ': '+ filename)
-        # Rename file to uppercase:
+        # ファイル名を大文字にリネーム
         p = Path(folder_name)
         shutil.move(p / filename, p / filename.upper())
    
     print('')
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">os.walk()</span> function gets passed a single string value: the path of a folder. You can use <span class="thesansmonocd_w5regular_">os.walk()</span> in a <span class="thesansmonocd_w5regular_">for</span> loop to walk a directory tree, much like how you can use the <span class="thesansmonocd_w5regular_">range()</span> function to walk over a range of numbers. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-736" aria-label="249"></span>Unlike <span class="thesansmonocd_w5regular_">range()</span>, the <span class="thesansmonocd_w5regular_">os.walk()</span> function will return three values on each iteration through the loop:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">os.walk()</span>関数には、フォルダのパスを示す一つの文字列値を渡します。<span class="thesansmonocd_w5regular_">os.walk()</span>を<span class="thesansmonocd_w5regular_">for</span>ループで使い、ディレクトリツリーを走査します。<span class="thesansmonocd_w5regular_">range()</span>関数で一連の数値を走査するのと似ています。<span class="thesansmonocd_w5regular_">range()</span>とは異なり、<span class="thesansmonocd_w5regular_">os.walk()</span>関数はループの反復ごとに3つの値を返します。</p>
 <ul class="ul">
-<li class="bl">A string of the current folder’s name</li>
-<li class="bl">A list of strings of the subfolders in the current folder</li>
-<li class="bl">A list of strings of the files in the current folder</li>
+<li class="bl">現在のフォルダ名の文字列</li>
+<li class="bl">現在のフォルダ内のサブフォルダの文字列のリスト</li>
+<li class="bl">現在のフォルダ内のファイル名文字列のリスト</li>
 </ul>
-<p class="tx">The <i class="calibre5">current folder</i> here refers to the folder accessed in the current iteration of the <span class="thesansmonocd_w5regular_">for</span> loop. The <span class="thesansmonocd_w5regular_">os.walk()</span> function doesn’t change the current working directory of the program. Just as you can choose the variable name <span class="thesansmonocd_w5regular_">i</span> in the code <span class="thesansmonocd_w5regular_">for i in range(10):</span>, you can also choose the variable names for the three values listed earlier. I always use the descriptive names <span class="thesansmonocd_w5regular_">folder_name</span>, <span class="thesansmonocd_w5regular_">subfolders</span>, and <span class="thesansmonocd_w5regular_">filenames</span>.</p>
-<p class="tx">When I ran this program on my computer, it gave the following output:</p>
+<p class="tx">ここで<i class="calibre5">現在のフォルダ</i>は<span class="thesansmonocd_w5regular_">for</span>ループの現在の反復でアクセスされているフォルダを指します。<span class="thesansmonocd_w5regular_">os.walk()</span>関数はプログラムの現在の作業ディレクトリを変更しません。<span class="thesansmonocd_w5regular_">for i in range(10):</span>の変数名<span class="thesansmonocd_w5regular_">i</span>を自由に変えられるのと同じように、先に示した3つの変数の名前を自由に変えられます。私はいつも<span class="thesansmonocd_w5regular_">folder_name</span>、<span class="thesansmonocd_w5regular_">subfolders</span>、<span class="thesansmonocd_w5regular_">filenames</span>というわかりやすい名前を使うようにしています。</p>
+<p class="tx">このプログラムを私のコンピュータで実行すると、以下の出力になりました。</p>
 <pre class="pre"><code class="calibre9">The current folder is C:\Users\Al\spam
 SUBFOLDER OF C:\Users\Al\spam: eggs
 SUBFOLDER OF C:\Users\Al\spam: eggs2
@@ -200,16 +199,16 @@ FILE INSIDE C:\Users\Al\spam\eggs\bacon: file4.txt
 
 The current folder is C:\Users\Al\spam\eggs2
 </code></pre>
-<p class="tx">Because <span class="thesansmonocd_w5regular_">os.walk()</span> returns lists of strings for the <span class="thesansmonocd_w5regular_">subfolder</span> and <span class="thesansmonocd_w5regular_">filename</span> variables, you can use the return values in their own <span class="thesansmonocd_w5regular_">for</span> loops. For instance, you can pass the folder and filename to functions like <span class="thesansmonocd_w5regular_">shutil.move()</span>, as in the example.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">os.walk()</span>は変数<span class="thesansmonocd_w5regular_">subfolder</span>と<span class="thesansmonocd_w5regular_">filename</span>で文字列のリストを返しますから、その返り値を<span class="thesansmonocd_w5regular_">for</span>ループで使えます。この例でしているように、<span class="thesansmonocd_w5regular_">shutil.move()</span>のような関数にフォルダやファイル名を渡せます。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h3 class="h" id="calibre_link-1706"><span id="calibre_link-263"></span><span class="sans_futura_std_bold_b_">Compressing Files with the zipfile Module</span></h3>
-<p class="tni">You may be familiar with ZIP files (with the <i class="calibre5">.zip</i> file extension), which can hold the compressed contents of many other files. Compressing a file reduces its size, which is useful when transferring it over the internet. And since a ZIP file can also contain multiple files and subfolders, it’s a handy way to package several files into one. This single file, called an <i class="calibre5">archive file</i>, can then be, say, attached to an email.</p>
-<p class="tx">Your Python programs can create or extract from ZIP files using functions in the <span class="thesansmonocd_w5regular_">zipfile</span> module.</p>
+<h3 class="h" id="calibre_link-1706"><span id="calibre_link-263"></span><span class="sans_futura_std_bold_b_">zipfileモジュールでファイルを圧縮する</span></h3>
+<p class="tni">（拡張子<i class="calibre5">.zip</i>の）ZIPファイルはご存知でしょう。たくさんのファイルを圧縮して一つのファイルにできます。ファイルを圧縮するとサイズが減りますから、インターネットで転送する際に便利です。また、複数のファイルとサブフォルダを一つのZIPファイルにできますから、一つのパッケージにまとめるという面でも便利です。<i class="calibre5">アーカイブファイル</i>と呼ばれることもあります。メールにも添付できます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">zipfile</span>モジュールの関数を使うとZIPファイルの作成と展開ができます。</p>
 <section type="division" aria-labelledby="sec8">
-<h4 class="h1" id="calibre_link-1707"><span id="calibre_link-264"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating and Adding to ZIP Files</span></h4>
-<p class="tni">To create your own compressed ZIP files, you must open the <span class="thesansmonocd_w5regular_">ZipFile</span> object in write mode by passing <span class="thesansmonocd_w5regular_">'w'</span> as the second argument. (Note the capital letters <i class="calibre5">Z</i> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1046" aria-label="250"></span>and <i class="calibre5">F</i> in the object name, which differs from the <span class="thesansmonocd_w5regular_">zipfile</span> module name.) This process is similar to opening a text file in write mode by passing <span class="thesansmonocd_w5regular_">'w'</span> to the <span class="thesansmonocd_w5regular_">open()</span> function. For the filename, you can pass either a string or a <span class="thesansmonocd_w5regular_">Path</span> object.</p>
-<p class="tx">When you pass a path to the <span class="thesansmonocd_w5regular_">write()</span> method of a <span class="thesansmonocd_w5regular_">ZipFile</span> object, Python will compress the file at that path and add it into the ZIP file. The <span class="thesansmonocd_w5regular_">write()</span> method’s first argument is a string of the filename to add. The second argument is the <i class="calibre5">compression type</i> parameter, which tells the computer what algorithm it should use to compress the files; you can always set this value to <span class="thesansmonocd_w5regular_">zipfile.ZIP_DEFLATED</span> to specify the <i class="calibre5">deflate</i> compression algorithm, which works well on all types of data. If you don’t pass this value, the <span class="thesansmonocd_w5regular_">write()</span> method adds the file to the ZIP file with its regular, uncompressed size. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1707"><span id="calibre_link-264"></span><span class="sans_futura_std_heavy_oblique_bi_">ZIPファイルの作成と追加</span></h4>
+<p class="tni">圧縮ZIPファイルを作成するには、第二引数に<span class="thesansmonocd_w5regular_">'w'</span>を渡して<span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトを書き込みモードで開きます（<span class="thesansmonocd_w5regular_">zipfile</span>モジュールの名前はすべて小文字ですが、<span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトの名前は<i class="calibre5">Z</i> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1046" aria-label="250"></span>と<i class="calibre5">F</i>が大文字であることに注意してください）。<span class="thesansmonocd_w5regular_">open()</span>関数に<span class="thesansmonocd_w5regular_">'w'</span>を渡して書き込みモードでテキストファイルを開くのと似ています。ファイル名には、文字列と<span class="thesansmonocd_w5regular_">Path</span>オブジェクトのどちらでも渡せます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトの<span class="thesansmonocd_w5regular_">write()</span>メソッドにパスを渡すと、そのパスのファイルを圧縮してZIPファイルに追加します。<span class="thesansmonocd_w5regular_">write()</span>メソッドの第一引数は追加するファイル名の文字列です。第二引数は、ファイルを圧縮する際に用いるアルゴリズムを指定する、<i class="calibre5">圧縮タイプ</i>のパラメータです。あらゆるデータでうまく機能する<i class="calibre5">deflate</i>圧縮アルゴリズムを指定するなら、この値を常に<span class="thesansmonocd_w5regular_">zipfile.ZIP_DEFLATED</span>とします。この第二引数の値を渡さなければ、<span class="thesansmonocd_w5regular_">write()</span>メソッドはZIPファイルに指定したファイルを無圧縮で追加します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import zipfile</b>
 &gt;&gt;&gt; <b class="calibre10">with open('file1.txt', 'w', encoding='utf-8') as file_obj:</b>
 ...     <b class="calibre10">file_obj.write('Hello' * 10000)</b>
@@ -218,14 +217,14 @@ The current folder is C:\Users\Al\spam\eggs2
 ...     <b class="calibre10">example_zip.write('file1.txt', compress_type=zipfile.ZIP_DEFLATED,</b>
 <b class="calibre10">        compresslevel=9)</b>
 </code></pre>
-<p class="tx">This code creates a text file named <i class="calibre5">file1.txt</i> and writes to it the 50,000- character string <span class="thesansmonocd_w5regular_">'Hello' * 10000</span> (about 49KB). Then, it creates a new ZIP file named <i class="calibre5">example.zip</i> that has the compressed contents of <i class="calibre5">file1.txt</i> (about 213 bytes; highly repetitive data is also highly compressible). The <span class="thesansmonocd_w5regular_">compresslevel</span> keyword argument (added in Python 3.7 and later) can be set to any value from <span class="thesansmonocd_w5regular_">0</span> to <span class="thesansmonocd_w5regular_">9</span>, with <span class="thesansmonocd_w5regular_">9</span> being the slowest but most compressed level. If you don’t specify this keyword argument, the default is <span class="thesansmonocd_w5regular_">6</span>.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span> function opens a ZIP file in a <span class="thesansmonocd_w5regular_">with</span> statement, in a manner similar to how the <span class="thesansmonocd_w5regular_">open()</span> function opens files. This ensures that the <span class="thesansmonocd_w5regular_">close()</span> method is automatically called when the execution leaves the <span class="thesansmonocd_w5regular_">with</span> statement’s block.</p>
-<p class="tx">Keep in mind that, just as with writing to files, write mode will erase all existing contents of a ZIP file. If you want to simply add files to an existing ZIP file, pass <span class="thesansmonocd_w5regular_">'a'</span> as the second argument to <span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span> to open the ZIP file in <i class="calibre5">append mode</i>.</p>
+<p class="tx">このコードは、<i class="calibre5">file1.txt</i>という名前のテキストファイルを作成し、<span class="thesansmonocd_w5regular_">'Hello' * 10000</span>で50,000文字を書き込んでいます（約49KBになります）。次に、<i class="calibre5">file1.txt</i>の内容を圧縮した<i class="calibre5">example.zip</i>という名前の新しいZIPファルを作成しています（約213バイト、繰り返しの多いデータは圧縮率が高くなります）。Python3.7以降で利用できるようになった<span class="thesansmonocd_w5regular_">compresslevel</span>キーワード引数（名前付きパラメータ）には、<span class="thesansmonocd_w5regular_">0</span>から<span class="thesansmonocd_w5regular_">9</span>までの値を設定できます。<span class="thesansmonocd_w5regular_">9</span>が最も遅いけれども最も圧縮率が高いです。このキーワード引数を指定しなければ、デフォルトの<span class="thesansmonocd_w5regular_">6</span>になります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">with</span>文の<span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span>関数でZIPファイルを開いています。<span class="thesansmonocd_w5regular_">open()</span>関数でファイルを開くのと似ています。こうすれば、プログラム実行が<span class="thesansmonocd_w5regular_">with</span>文のブロックを抜けるときに<span class="thesansmonocd_w5regular_">close()</span>関数が自動的に呼び出されます。</p>
+<p class="tx">ファイルへの書き込みと同じように、書き込みモードでは既存のZIPファイルの内容が上書きされて消えてしまいます。既存のZIPファイルにファイルを追加したければ、ZIPファイルを開くときに<span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span>の第二引数に<span class="thesansmonocd_w5regular_">'a'</span>を渡して<i class="calibre5">追記モード</i>にします。</p>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-1708"><span id="calibre_link-265"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading ZIP Files</span></h4>
-<p class="tni">To read the contents of a ZIP file, you must first create a <span class="thesansmonocd_w5regular_">ZipFile</span> object by calling the <span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span> function and passing the ZIP file’s filename. Note that <span class="thesansmonocd_w5regular_">zipfile</span> is the name of the Python module, and <span class="thesansmonocd_w5regular_">ZipFile()</span> is the name of the function.</p>
-<p class="tx">For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1708"><span id="calibre_link-265"></span><span class="sans_futura_std_heavy_oblique_bi_">ZIPファイルの読み取り</span></h4>
+<p class="tni">ZIPファイルの内容を読み取るには、ZIPファイルの名前を渡して<span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span>関数を呼び出して<span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトを作成します。<span class="thesansmonocd_w5regular_">zipfile</span>はモジュール名で、<span class="thesansmonocd_w5regular_">ZipFile()</span>は関数名です。</p>
+<p class="tx">対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import zipfile</b>
 
 &gt;&gt;&gt; <b class="calibre10">example_zip = zipfile.ZipFile('example.zip')</b>
@@ -242,45 +241,45 @@ The current folder is C:\Users\Al\spam\eggs2
 'Compressed file is 515.46x smaller!'
 &gt;&gt;&gt; <b class="calibre10">example_zip.close()</b>
 </code></pre>
-<p class="tx">A <span class="thesansmonocd_w5regular_">ZipFile</span> object has a <span class="thesansmonocd_w5regular_">namelist()</span> method that returns a list of strings for all the files and folders contained in the ZIP file. These strings can be passed to the <span class="thesansmonocd_w5regular_">getinfo() ZipFile</span> method to return a <span class="thesansmonocd_w5regular_">ZipInfo</span> object about that particular file. <span class="thesansmonocd_w5regular_">ZipInfo</span> objects have their own attributes, such as <span class="thesansmonocd_w5regular_">file_size</span> and <span class="thesansmonocd_w5regular_">compress_size</span>, which hold integers representing the original file size and compressed file size, respectively, in bytes. While a <span class="thesansmonocd_w5regular_">ZipFile</span> object represents an entire archive file, a <span class="thesansmonocd_w5regular_">ZipInfo</span> object holds useful information about a single file in the archive.</p>
-<p class="tx">The command at <span class="codeannotation" aria-label="annotation1">❶</span> calculates how efficiently <i class="calibre5">example.zip</i> is compressed by dividing the original file size by the compressed file size, then prints this information.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトには、そのZIPファイルに含まれているすべてのファイルとフォルダの名前の文字列のリストを返す<span class="thesansmonocd_w5regular_">namelist()</span>メソッドがあります。これらの文字列を<span class="thesansmonocd_w5regular_">getinfo() ZipFile</span>メソッドに渡すと、そのファイルについての<span class="thesansmonocd_w5regular_">ZipInfo</span>オブジェクトが得られます。<span class="thesansmonocd_w5regular_">ZipInfo</span>オブジェクトには、元のファイルサイズを保持している<span class="thesansmonocd_w5regular_">file_size</span>や圧縮したファイルサイズを保持している<span class="thesansmonocd_w5regular_">compress_size</span>などの固有の属性があります。ファイルサイズはバイト単位の整数値です。<span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトはアーカイブファイル全体を表すのに対し、<span class="thesansmonocd_w5regular_">ZipInfo</span>オブジェクトはアーカイブ内の個々のファイルについての情報を保持します。</p>
+<p class="tx"><span class="codeannotation" aria-label="annotation1">❶</span>のコマンドでどれくらい効率的に<i class="calibre5">example.zip</i>が圧縮されているか、元のファイルサイズを圧縮されたファイルサイズで割って計算し、その結果を表示しています。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1709"><span id="calibre_link-266"></span><span class="sans_futura_std_heavy_oblique_bi_">Extracting from ZIP Files</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">extractall()</span> method for <span class="thesansmonocd_w5regular_">ZipFile</span> objects extracts all the files and folders from a ZIP file into the current working directory. Create a ZIP file named <i class="calibre5">example.zip</i> by following the instructions in <span>“Creating and Adding to ZIP Files” on page 249</span>, and then enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1709"><span id="calibre_link-266"></span><span class="sans_futura_std_heavy_oblique_bi_">ZIPファイルからの抽出</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトの<span class="thesansmonocd_w5regular_">extractall()</span>メソッドはZIPファイルからすべてのファイルとフォルダを抽出し、現在の作業ディレクトリに展開します。<span>「ZIPファイルの作成と追加」</span>の指示に従って<i class="calibre5">example.zip</i>という名前のZIPファイルを作成してから、対話型シェルで以下のコードを実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import zipfile</b>
 &gt;&gt;&gt; <b class="calibre10">example_zip = zipfile.ZipFile('example.zip')</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">example_zip.extractall()</b>
 &gt;&gt;&gt; <b class="calibre10">example_zip.close()</b>
 </code></pre>
-<p class="tx">After running this code, Python will extract the contents of <i class="calibre5">example.zip</i> to the current working directory. Optionally, you can pass a folder name to <span class="thesansmonocd_w5regular_">extractall()</span> to have it extract the files into a folder other than the current working directory. If the folder passed to the <span class="thesansmonocd_w5regular_">extractall()</span> method doesn’t exist, Python will create it. For instance, if you replaced the call at <span class="codeannotation" aria-label="annotation1">❶</span> with <span class="thesansmonocd_w5regular_">example_zip.extractall('C:\\spam)</span>, the code would extract the files from <i class="calibre5">example.zip</i> into a newly created <i class="calibre5">C:\spam</i> folder.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">extract()</span> method for <span class="thesansmonocd_w5regular_">ZipFile</span> objects will extract a single file from the ZIP file. Continue the interactive shell example by entering the following:</p>
+<p class="tx">このコードを実行すると、<i class="calibre5">example.zip</i>の中身が現在の作業ディレクトリに抽出されます。オプションでフォルダ名を<span class="thesansmonocd_w5regular_">extractall()</span>に渡すことができ、そうすると抽出したファイルがそのフォルダに展開されます。<span class="thesansmonocd_w5regular_">extractall()</span>に渡されたフォルダが存在しなければ作成されます。例えば、<span class="codeannotation" aria-label="annotation1">❶</span>の呼び出しを<span class="thesansmonocd_w5regular_">example_zip.extractall('C:\\spam)</span>に書き換えると、<i class="calibre5">example.zip</i>から抽出したファイルを新しく作成された<i class="calibre5">C:\spam</i>フォルダに展開します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトの<span class="thesansmonocd_w5regular_">extract()</span>メソッドはZIPファイルから一つのファイルを抽出します。対話型シェルで続けて以下のように入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">example_zip.extract('file1.txt')</b>
 'C:\\Users\\Al\\Desktop\\file1.txt'
 &gt;&gt;&gt; <b class="calibre10">example_zip.extract('file1.txt', 'C:\\some\\new\\folders')</b>
 'C:\\some\\new\\folders\\file1.txt'
 &gt;&gt;&gt; <b class="calibre10">example_zip.close()</b>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-949" aria-label="252"></span>The string you pass to <span class="thesansmonocd_w5regular_">extract()</span> must match one of the strings in the list returned by <span class="thesansmonocd_w5regular_">namelist()</span>. Optionally, you can pass a second argument to <span class="thesansmonocd_w5regular_">extract()</span> to extract the file into a folder other than the current working directory. If this second argument is a folder that doesn’t yet exist, Python will create the folder.</p>
-<p class="ph"><span id="calibre_link-267"></span><span class="sans_futura_std_heavy_b_">Project 5: Back Up a Folder into a ZIP File</span></p>
-<p class="tni">Say you’re working on a project whose files you keep in a folder named <i class="calibre5">C:\Users\Al\AlsPythonBook</i>. You’re worried about losing your work, so you’d like to create ZIP file “snapshots” of the entire folder. You’d also like to keep different versions of these snapshots, so you want the ZIP file’s filename to increment each time a new version is made; for example, <i class="calibre5">AlsPythonBook_1.zip</i>, <i class="calibre5">AlsPythonBook_2.zip</i>, <i class="calibre5">AlsPythonBook_3.zip</i>, and so on. You could do this by hand, but that would be rather annoying, and you might accidentally misnumber the ZIP files’ names. It would be much simpler to run a program that does this boring task for you.</p>
-<p class="tx">For this project, open a new file editor window and save it as <i class="calibre5">backup_to_zip.py</i>.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-949" aria-label="252"></span><span class="thesansmonocd_w5regular_">extract()</span>に渡した文字列は<span class="thesansmonocd_w5regular_">namelist()</span>で返されるリストの中に入っている文字列のどれかに一致しなければなりません。オプションで<span class="thesansmonocd_w5regular_">extract()</span>の第二引数に抽出したファイルを展開するフォルダを指定できます。この第二引数のフォルダが存在しなければ作成されます。</p>
+<p class="ph"><span id="calibre_link-267"></span><span class="sans_futura_std_heavy_b_">プロジェクト5：フォルダをZIPファイルにバックアップする</span></p>
+<p class="tni"><i class="calibre5">C:\Users\Al\AlsPythonBook</i>という名前のフォルダに作業中のファイルを保存しているとします。これまでの作業を失いたくないので、フォルダ全体のスナップショットをZIPファイルに保存したいです。そのスナップショットをバージョン管理したいので、ZIPファイルの名前を<i class="calibre5">AlsPythonBook_1.zip</i>、<i class="calibre5">AlsPythonBook_2.zip</i>、<i class="calibre5">AlsPythonBook_3.zip</i>のようにしたいです。手動でこれを行うこともできますが、面倒ですし、ZIPファイルの名前を間違うかもしれません。この退屈な作業をしてくれるプログラムを実行するほうがずっと簡単です。</p>
+<p class="tx">このプロジェクト用に、新しいファイルエディタウィンドウを開いて、<i class="calibre5">backup_to_zip.py</i>という名前で保存してください。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-1710"><span id="calibre_link-268"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Figure Out the ZIP File’s Name</span></h4>
-<p class="tni">We’ll place the code for this program into a function named <span class="thesansmonocd_w5regular_">backup_to_zip()</span>. This will make it easy to copy and paste the function into other Python programs that need this functionality. At the end of the program, the function will be called to perform the backup. Make your program look like this:</p>
-<pre class="pre"><code class="calibre9"># backup_to_zip.py - Copies an entire folder and its contents into
-# a ZIP file whose filename increments
+<h4 class="h1" id="calibre_link-1710"><span id="calibre_link-268"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：ZIPファイルの名前を調整する</span></h4>
+<p class="tni">このプログラムのコードを<span class="thesansmonocd_w5regular_">backup_to_zip()</span>という名前の関数に書きます。こうすれば別のPythonプログラムでこの関数をコピーアンドペーストして利用できます。プログラムの最後でこの関数を呼び出してバックアップを実行します。プログラムは次のようになります。</p>
+<pre class="pre"><code class="calibre9"># backup_to_zip.py - フォルダ全体をその中身ごとZIPファイルに
+# コピーし、ZIPファイルの名前の数字を増やしていく
 
 import zipfile, os
 from pathlib import Path
 
 def backup_to_zip(folder):
-    # Back up the entire contents of "folder" into a ZIP file.
-    folder = Path(folder)  # Make sure folder is a Path object, not string.
+    # folder全体を中身ごとZIPファイルにバックアップする
+    folder = Path(folder)  # folderは文字列ではなくPathオブジェクトに統一
 
-    # Figure out the ZIP filename this code should use, based on
-    # what files already exist.
+    # 既存のZIPファイルから、
+    # 作成するZIPファイルのファイル名を決める
   <span class="code_codeannotation" aria-label="annotation1">❶</span> number = 1
   <span class="code_codeannotation" aria-label="annotation2">❷</span> while True:
 
@@ -289,51 +288,51 @@ def backup_to_zip(folder):
             break
         number = number + 1
 
-  <span class="code_codeannotation" aria-label="annotation3">❸</span> # TODO: Create the ZIP file.
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> # TODO：ZIPファイルを作成する
 
-<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1711" aria-label="253"></span>    # TODO: Walk the entire folder tree and compress the files in each folder.
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1711" aria-label="253"></span>    # TODO：フォルダ全体を走査して各フォルダ内のファイルを圧縮する
     print('Done.')
 
 backup_to_zip(Path.home() / 'spam')
 </code></pre>
-<p class="tx">First, import the <span class="thesansmonocd_w5regular_">zipfile</span> and <span class="thesansmonocd_w5regular_">os</span> modules. Next, define a <span class="thesansmonocd_w5regular_">backup_to_zip()</span> function that takes just one parameter, <span class="thesansmonocd_w5regular_">folder</span>. This parameter is a string or <span class="thesansmonocd_w5regular_">Path</span> object to the folder whose contents should be backed up. The function will determine what filename to use for the ZIP file it will create. Then, it will create the file, walk the <span class="thesansmonocd_w5regular_">folder</span> folder, and add each of the subfolders and files to the ZIP file. Write <span class="thesansmonocd_w5regular_">TODO</span> comments for these steps in the source code to remind yourself to do them later <span class="codeannotation" aria-label="annotation3">❸</span>.</p>
-<p class="tx">The first task, naming the ZIP file, uses the base name of the absolute path of <span class="thesansmonocd_w5regular_">folder</span>. If the folder being backed up is <i class="calibre5">C:\Users\Al\spam</i>, the ZIP file’s name should be <i class="calibre5">spam_N.zip</i>, where <i class="calibre5">N</i> is 1 the first time you run the program, <i class="calibre5">N</i> is 2 the second time, and so on.</p>
-<p class="tx">You can determine what <i class="calibre5">N</i> should be by checking whether <i class="calibre5">spam_1.zip</i> already exists, then checking whether <i class="calibre5">spam_2.zip</i> already exists, and so on. Use a variable named <span class="thesansmonocd_w5regular_">number</span> for <i class="calibre5">N</i> <span class="codeannotation" aria-label="annotation1">❶</span>, and keep incrementing it inside the loop that calls <span class="thesansmonocd_w5regular_">exists()</span> to check whether the file exists <span class="codeannotation" aria-label="annotation2">❷</span>. The first nonexistent filename found will cause the loop to <span class="thesansmonocd_w5regular_">break</span>, since it will have found the filename of the new ZIP.</p>
+<p class="tx">まず、<span class="thesansmonocd_w5regular_">zipfile</span> モジュールと<span class="thesansmonocd_w5regular_">os</span>モジュールをインポートします。 次に、<span class="thesansmonocd_w5regular_">folder</span>引数を一つ取る<span class="thesansmonocd_w5regular_">backup_to_zip()</span>関数を定義します。この引数はバックアップしたいフォルダの文字列または<span class="thesansmonocd_w5regular_">Path</span>オブジェクトです。この関数では、作成するZIPファイルのファイル名を決めます。それから、フォルダ<span class="thesansmonocd_w5regular_">folder</span>を走査し、各サブフォルダとファイルを追加して、ZIPファイルを作成します。あとで思い出せるように、これらのステップの<span class="thesansmonocd_w5regular_">TODO</span>コメントを書きます(<span class="codeannotation" aria-label="annotation3">❸</span>)。</p>
+<p class="tx">ZIPファイルの名前を決めるという最初の作業には<span class="thesansmonocd_w5regular_">folder</span>の絶対パスのベースネームを利用します。バックアップするフォルダが<i class="calibre5">C:\Users\Al\spam</i>だとすると、ZIPファイルの名前は<i class="calibre5">spam_N.zip</i>になります。初回のプログラム実行時に<i class="calibre5">N</i>は1で、次の回は2になります。</p>
+<p class="tx"><i class="calibre5">spam_1.zip</i>がすでに存在するかどうか、<i class="calibre5">spam_2.zip</i>がすでに存在するかどうかを順に確認することにより、<i class="calibre5">N</i>を決めます。<span class="thesansmonocd_w5regular_">number</span>という名前の変数に<i class="calibre5">N</i>を格納し(<span class="codeannotation" aria-label="annotation1">❶</span>)、ファイルがすでに存在するかを確認する <span class="thesansmonocd_w5regular_">exists()</span>を呼び出しているループ内で<i class="calibre5">N</i>を増やしていきます(<span class="codeannotation" aria-label="annotation2">❷</span>)。存在しないファイル名を見つけたらループを<span class="thesansmonocd_w5regular_">break</span>します。これが新しく作成するZIPファイルの名前になります。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h4 class="h1" id="calibre_link-1712"><span id="calibre_link-269"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Create the New ZIP File</span></h4>
-<p class="tni">Next, let’s create the ZIP file. Make your program look like the following:</p>
-<pre class="pre"><code class="calibre9"># backup_to_zip.py - Copies an entire folder and its contents into
-# a ZIP file whose filename increments
+<h4 class="h1" id="calibre_link-1712"><span id="calibre_link-269"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：新しいZIPファイルを作成する</span></h4>
+<p class="tni">次はZIPファイルを作成しましょう。以下のようなコードになります。</p>
+<pre class="pre"><code class="calibre9"># backup_to_zip.py - フォルダ全体をその中身ごとZIPファイルに
+# コピーし、ZIPファイルの名前の数字を増やしていく
 
 <var class="calibre20">--snip--</var>
 
-    <b class="calibre10"># Create the ZIP file.</b>
+    <b class="calibre10"># ZIPファイルを作成する</b>
 <b class="calibre10">    print(f'Creating {zip_filename}...')</b>
 <b class="calibre10">    backup_zip = zipfile.ZipFile(zip_filename, 'w')</b>
 
-    # TODO: Walk the entire folder tree and compress the files in each folder.
+    # TODO：フォルダ全体を走査して各フォルダ内のファイルを圧縮する
     print('Done.')
 
 backup_to_zip(Path.home() / 'spam')
 </code></pre>
-<p class="tx">Now that the new ZIP file’s name is stored in the <span class="thesansmonocd_w5regular_">zip_filename</span> variable, you can call <span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span> to actually create the ZIP file. Be sure to pass <span class="thesansmonocd_w5regular_">'w'</span> as the second argument to open the ZIP file in write mode. We’ll also remove the TODO from the comment, as we’ve finished writing the code for this section.</p>
+<p class="tx">変数<span class="thesansmonocd_w5regular_">zip_filename</span>に新しいZIPファイルの名前が格納されていますから、<span class="thesansmonocd_w5regular_">zipfile.ZipFile()</span>を呼び出して実際にZIPファイルを作成できます。第二引数に<span class="thesansmonocd_w5regular_">'w'</span>を渡してZIPファイルを書き込みモードで開きます。コードを書き終えたのでTODOコメントを削除します。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1713" aria-label="254"></span>
-<h4 class="h1" id="calibre_link-1714"><span id="calibre_link-270"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Walk the Directory Tree</span></h4>
-<p class="tni">Now you need to use the <span class="thesansmonocd_w5regular_">os.walk()</span> function to do the work of listing every file in the folder and its subfolders. Make your program look like the following:</p>
-<pre class="pre"><code class="calibre9"># backup_to_zip.py - Copies an entire folder and its contents into
-# a ZIP file whose filename increments
+<h4 class="h1" id="calibre_link-1714"><span id="calibre_link-270"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ3：ディレクトリツリーを走査する</span></h4>
+<p class="tni">対象フォルダ内のすべてのファイルとサブフォルダをリストアップするために<span class="thesansmonocd_w5regular_">os.walk()</span>関数を呼び出す必要があります。以下のようなコードになります。</p>
+<pre class="pre"><code class="calibre9"># backup_to_zip.py - フォルダ全体をその中身ごとZIPファイルに
+# コピーし、ZIPファイルの名前の数字を増やしていく
 
 <var class="calibre20">--snip--</var>
 
-<b class="calibre10">    # Walk the entire folder tree and compress the files in each folder.</b>
+<b class="calibre10">    # フォルダ全体を走査して各フォルダ内のファイルを圧縮する</b>
 <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> for folder_name, subfolders, filenames in os.walk(folder):</b>
 <b class="calibre10">        folder_name = Path(folder_name)</b>
 <b class="calibre10">        print(f'Adding files in folder {folder_name}...')</b>
 
-        <b class="calibre10"># Add all the files in this folder to the ZIP file.</b>
+        <b class="calibre10"># このフォルダ内のすべてのファイルをZIPファイルに追加</b>
 <b class="calibre10">      </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> for filename in filenames:</b>
 <b class="calibre10">            print(f'Adding file {filename}...')</b>
 <b class="calibre10">            backup_zip.write(folder_name / filename)</b>
@@ -341,70 +340,70 @@ backup_to_zip(Path.home() / 'spam')
     print('Done.')
 backup_to_zip(Path.home() / 'spam')
 </code></pre>
-<p class="tx">Use <span class="thesansmonocd_w5regular_">os.walk()</span> in a <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation1">❶</span>. On each iteration, the function will return the iteration’s current folder name, the subfolders in that folder, and the filenames in that folder. The nested <span class="thesansmonocd_w5regular_">for</span> loop can go through each filename in the <span class="thesansmonocd_w5regular_">filenames</span> list <span class="codeannotation" aria-label="annotation2">❷</span>. Each of these is added to the ZIP file.</p>
-<p class="tx">When you run this program, it should produce output that looks something like this:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループで<span class="thesansmonocd_w5regular_">os.walk()</span>を使います(<span class="codeannotation" aria-label="annotation1">❶</span>)。反復ごとに現在のフォルダ名とサブフォルダとファイル名が返されます。入れ子になっている<span class="thesansmonocd_w5regular_">for</span> ループでは<span class="thesansmonocd_w5regular_">filenames</span>リストの各ファイルを処理します(<span class="codeannotation" aria-label="annotation2">❷</span>)。各ファイルをZIPファイルに追加します。</p>
+<p class="tx">このプログラムを実行すると、次のような出力になります。</p>
 <pre class="pre"><code class="calibre9">Creating spam_1.zip...
 Adding files in spam...
 Adding file file1.txt...
 Done.
 </code></pre>
-<p class="tx">The second time you run it, it will put all the files in the <i class="calibre5">spam</i> folder into a ZIP file named <i class="calibre5">spam_2.zip</i>, and so on.</p>
+<p class="tx">2回目のプログラム実行では、フォルダ<i class="calibre5">spam</i>のすべてのファイルを<i class="calibre5">spam_2.zip</i>という名前のZIPファイルにまとめます。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h4 class="h1" id="calibre_link-1715"><span id="calibre_link-271"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Other Programs</span></h4>
-<p class="tni">You can walk a directory tree and add files to compressed ZIP archives in several other programs. For example, you could write programs that do the following:</p>
+<h4 class="h1" id="calibre_link-1715"><span id="calibre_link-271"></span><span class="sans_futura_std_heavy_oblique_bi_">ほかのプログラムのアイデア</span></h4>
+<p class="tni">ディレクトリツリーを走査してファイルを圧縮したZIPアーカイブに追加する、別のプログラムを書けます。例えば、以下の内容が考えられます。</p>
 <ul class="ul">
-<li class="bl">Walk a directory tree and archive just files with certain extensions, such as <i class="calibre5">.txt</i> or <i class="calibre5">.py</i>, and nothing else.</li>
-<li class="bl">Walk a directory tree and archive every file except the <i class="calibre5">.txt</i> and <i class="calibre5">.py</i> ones.</li>
-<li class="bl">Only archive the folders in a directory tree that use the most disk space or have been modified since the previous archive.</li>
+<li class="bl">ディレクトリツリーを走査して<i class="calibre5">.txt</i>や<i class="calibre5">.py</i>など、特定の拡張子のファイルだけをアーカイブする。</li>
+<li class="bl">ディレクトリツリーを走査して、<i class="calibre5">.txt</i>と<i class="calibre5">.py</i>以外のファイルだけをアーカイブする。</li>
+<li class="bl">ディスク容量を一番多く使っているディレクトリや、前回のアーカイブ以降に更新されたディレクトリだけをアーカイブする。</li>
 </ul>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec15">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1102" aria-label="255"></span>
-<h3 class="h" id="calibre_link-1716"><span id="calibre_link-272"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">Even if you’re an experienced computer user, you probably handle files manually with the mouse and keyboard. Modern file explorers make it easy to work with a few files. But sometimes you’ll need to perform a task that would take hours using your computer’s file explorer.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">os</span> and <span class="thesansmonocd_w5regular_">shutil</span> modules offer functions for copying, moving, renaming, and deleting files. When deleting files, you might want to use the <span class="thesansmonocd_w5regular_">send2trash</span> module to move the files to the recycle bin or trash rather than permanently deleting them. And when writing programs that handle files, it’s a good idea to do a dry run; comment out the code that does the actual copy, move, rename, or delete, and replace it with a <span class="thesansmonocd_w5regular_">print()</span> call. This way, you can run the program and verify exactly what it will do.</p>
-<p class="tx">Often, you’ll need to perform these operations not only on files in one folder, but also on every subfolder in that folder, every subfolder in those subfolders, and so on. The <span class="thesansmonocd_w5regular_">os.walk()</span> function handles this trek across the folders for you so that you can concentrate on what your program needs to do with the files in them.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">zipfile</span> module gives you a way to compress and extract files in <i class="calibre5">.zip</i> archives through Python. Combined with the file-handling functions of <span class="thesansmonocd_w5regular_">os</span> and <span class="thesansmonocd_w5regular_">shutil</span>, <span class="thesansmonocd_w5regular_">zipfile</span> makes it easy to package up several files from anywhere on your hard drive. These ZIP files are much easier to upload to websites or send as email attachments than many separate files.</p>
+<h3 class="h" id="calibre_link-1716"><span id="calibre_link-272"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">コンピュータの熟練者であっても、マウスとキーボードでファイルを手動で操作しているでしょう。現代のファイルエクスプローラーでは少数のファイルを操作するのは簡単です。しかしファイルエクスプローラーでは数時間を要するような作業が必要になることも時にはあるでしょう。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">os</span>モジュールと<span class="thesansmonocd_w5regular_">shutil</span>モジュールには、ファイルをコピー、移動、リネーム、削除する関数があります。ファイルを削除する際には、完全に削除するのではなく、ごみ箱に移動するために<span class="thesansmonocd_w5regular_">send2trash</span>モジュールを使いたい場合があるかもしれません。さらに、ファイルを操作するプログラムを書くときには、dry runの実施を検討してください。実際にコピー、移動、リネーム、削除するコードをコメントアウトし、その代わりに<span class="thesansmonocd_w5regular_">print()</span>を呼び出すのです。プログラムを実行すれば、どのファイルが対象になるかを確かめられます。</p>
+<p class="tx">一つのフォルダ内のファイルだけでなく、すべてのサブフォルダ内のファイルやサブフォルダ内のサブフォルダ内のファイルを操作する必要が生じる場合もあるでしょう。<span class="thesansmonocd_w5regular_">os.walk()</span>関数でフォルダを走査できますから、ファイルの操作に集中できます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">zipfile</span>モジュールを使うとPythonで<i class="calibre5">.zip</i>アーカイブの圧縮と展開ができます。<span class="thesansmonocd_w5regular_">os</span>や<span class="thesansmonocd_w5regular_">shutil</span>と組み合わせて使えば、ハードドライブ上の複数のファイルを<span class="thesansmonocd_w5regular_">zipfile</span>で簡単にパッケージ化できます。このようにしてZIPファイルを作成すれば、ウェブサイトにアップロードしたりメールに添付したりしやすくなります。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h3 class="h" id="calibre_link-1717"><span id="calibre_link-273"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What is the difference between <span class="thesansmonocd_w5regular_">shutil.copy()</span> and <span class="thesansmonocd_w5regular_">shutil.copytree()</span>?</p>
-<p class="listnumber">  2.  What function is used to rename files?</p>
-<p class="listnumber">  3.  What is the difference between the delete functions in the <span class="thesansmonocd_w5regular_">send2trash</span> and <span class="thesansmonocd_w5regular_">shutil</span> modules?</p>
-<p class="listnumber">  4.  <span class="thesansmonocd_w5regular_">ZipFile</span> objects have a <span class="thesansmonocd_w5regular_">close()</span> method just like <span class="thesansmonocd_w5regular_">File</span> objects’ <span class="thesansmonocd_w5regular_">close()</span> method. What <span class="thesansmonocd_w5regular_">ZipFile</span> method is equivalent to <span class="thesansmonocd_w5regular_">File</span> objects’ <span class="thesansmonocd_w5regular_">open()</span> method?</p>
+<h3 class="h" id="calibre_link-1717"><span id="calibre_link-273"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. <span class="thesansmonocd_w5regular_">shutil.copy()</span>と<span class="thesansmonocd_w5regular_">shutil.copytree()</span>の違いは何ですか？</p>
+<p class="listnumber">  2. ファイルのリネームにはどの関数を使いますか？</p>
+<p class="listnumber">  3. <span class="thesansmonocd_w5regular_">send2trash</span>モジュールと<span class="thesansmonocd_w5regular_">shutil</span>モジュールの削除にはどのような違いがありますか？</p>
+<p class="listnumber">  4. <span class="thesansmonocd_w5regular_">File</span>オブジェクトの<span class="thesansmonocd_w5regular_">close()</span>メソッドと同じように、<span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトには<span class="thesansmonocd_w5regular_">close()</span>メソッドがあります。<span class="thesansmonocd_w5regular_">File</span>オブジェクトの<span class="thesansmonocd_w5regular_">open()</span>メソッドに相当する<span class="thesansmonocd_w5regular_">ZipFile</span>のメソッドは何ですか？</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h3 class="h" id="calibre_link-1718"><span id="calibre_link-274"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-1718"><span id="calibre_link-274"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec18">
-<h4 class="h1" id="calibre_link-1719"><span id="calibre_link-275"></span><span class="sans_futura_std_heavy_oblique_bi_">Selectively Copying</span></h4>
-<p class="tni">Write a program that walks through a folder tree and searches for files with a certain file extension (such as <i class="calibre5">.pdf</i> or <i class="calibre5">.jpg</i>). Copy these files from their current location to a new folder.</p>
+<h4 class="h1" id="calibre_link-1719"><span id="calibre_link-275"></span><span class="sans_futura_std_heavy_oblique_bi_">選択的なコピー</span></h4>
+<p class="tni">フォルダツリーを走査して特定のファイル拡張子を検索し（<i class="calibre5">.pdf</i>や<i class="calibre5">.jpg</i>など）、見つけたファイルを新しいフォルダへコピーするプログラムを書いてください。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
-<h4 class="h1" id="calibre_link-1720"><span id="calibre_link-276"></span><span class="sans_futura_std_heavy_oblique_bi_">Deleting Unneeded Files</span></h4>
-<p class="tni">It’s not uncommon for a few unneeded but humongous files or folders to take up the bulk of the space on your hard drive. If you’re trying to free up <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1287" aria-label="256"></span>room on your computer, it’s more effective to identify the largest unneeded files first.</p>
-<p class="tx">Write a program that walks through a folder tree and searches for exceptionally large files or folders—say, ones that have a file size of more than 100MB. (Remember that, to get a file’s size, you can use <span class="thesansmonocd_w5regular_">os.path.getsize()</span> from the <span class="thesansmonocd_w5regular_">os</span> module.) Print these files with their absolute path to the screen.</p>
+<h4 class="h1" id="calibre_link-1720"><span id="calibre_link-276"></span><span class="sans_futura_std_heavy_oblique_bi_">不必要なファイルの削除</span></h4>
+<p class="tni">いくつかのファイルやフォルダがハードドライブの容量を圧迫していることは珍しくありません。コンピュータの容量を解放するには、サイズの大きい不必要なファイルを特定すると効果的です。</p>
+<p class="tx">フォルダツリーを走査して、（例えば100MB以上の）サイズの大きなファイルやフォルダを探し出すプログラムを書いてください。（<span class="thesansmonocd_w5regular_">os</span>モジュールの<span class="thesansmonocd_w5regular_">os.path.getsize()</span>を使えばファイルのサイズを取得できることを思い出してください。）発見したファイルの絶対パスを画面に表示してください。</p>
 </section>
 <section type="division" aria-labelledby="sec20">
-<h4 class="h1" id="calibre_link-1721"><span id="calibre_link-277"></span><span class="sans_futura_std_heavy_oblique_bi_">Renumbering Files</span></h4>
-<p class="tni">Write a program that finds all files with a given prefix, such as <i class="calibre5">spam001.txt</i>, <i class="calibre5">spam002.txt</i>, and so on, in a single folder and locates any gaps in the numbering (such as if there is a <i class="calibre5">spam001.txt</i> and a <i class="calibre5">spam003.txt</i> but no <i class="calibre5">spam002.txt</i>). Have the program rename all the later files to close this gap.</p>
-<p class="tx">To create these example files (skipping <i class="calibre5">spam042.txt</i>, <i class="calibre5">spam086.txt</i>, and <i class="calibre5">spam103.txt</i>), run the following code:</p>
+<h4 class="h1" id="calibre_link-1721"><span id="calibre_link-277"></span><span class="sans_futura_std_heavy_oblique_bi_">ファイルの番号再割り当て</span></h4>
+<p class="tni"><i class="calibre5">spam001.txt</i>、<i class="calibre5">spam002.txt</i>のように、指定した名前で始まるファイルをすべて見つけ、飛んでいる番号（<i class="calibre5">spam001.txt</i> と<i class="calibre5">spam003.txt</i>はあるが<i class="calibre5">spam002.txt</i>がないなど）を特定するプログラムを書いてください。飛んでいる番号を詰めるようにリネームしてください。</p>
+<p class="tx">この例で使うファイルを以下のコードで作成します（<i class="calibre5">spam042.txt</i>、<i class="calibre5">spam086.txt</i>、<i class="calibre5">spam103.txt</i>を飛ばします）。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for i in range(1, 121):</b>
 <b class="calibre10">...     if i not in (42, 86, 103):</b>
 <b class="calibre10">...         with open(f'spam{str(i).zfill(3)}.txt', 'w') as file:</b>
 <b class="calibre10">...             pass</b>
 ...
 </code></pre>
-<p class="tx">As an added challenge, write another program that can insert gaps into numbered files (and bump up the numbers in the filenames after the gap) so that a new file can be inserted.</p>
+<p class="tx">さらなる練習として、連番のファイルの途中で番号を繰り上げてあとからその番号に新しいファイルを挿入できるようにする、別のプログラムを書いてください。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
-<h4 class="h1" id="calibre_link-1722"><span id="calibre_link-278"></span><span class="sans_futura_std_heavy_oblique_bi_">Converting Dates from American- to European-Style</span></h4>
-<p class="tni">Say your boss emails you thousands of files with American-style dates (MM-DD-YYYY) in their names and needs them renamed to European-style dates (DD-MM-YYYY). This boring task could take all day to do by hand! Instead, write a program that does the following:</p>
-<p class="listnumber">  1.  Searches all filenames in the current working directory and all subdirectories for American-style dates. Use the <span class="thesansmonocd_w5regular_">os.walk()</span> function to go through the subfolders.</p>
-<p class="listnumber">  2.  Uses regular expressions to identify filenames with the MM-DD-YYYY pattern in them—for example, <i class="calibre5">spam12-31-1900.txt</i>. Assume the months and days always use two digits, and that files with non-date matches don’t exist. (You won’t find files named something like <i class="calibre5">99-99-9999.txt</i>.)</p>
-<p class="listnumber">  3.  When a filename is found, renames the file with the month and day swapped to make it European-style. Use the <span class="thesansmonocd_w5regular_">shutil.move()</span> function to do the renaming.</p>
+<h4 class="h1" id="calibre_link-1722"><span id="calibre_link-278"></span><span class="sans_futura_std_heavy_oblique_bi_">アメリカ式の日付からヨーロッパ式の日付への変換</span></h4>
+<p class="tni">アメリカ式の日付（MM-DD-YYYY）のファイル名をヨーロッパ式の日付（DD-MM-YYYY）のファイル名にリネームするよう、上司からメールで指示されたとします。数千ファイルあります。この退屈な作業を手動で行えば一日かかるでしょう。そこで、次のようなプログラムを作成します。</p>
+<p class="listnumber">  1. 現在の作業ディレクトリ以下のすべてのファイルからアメリカ式の日付のファイル名を探します。サブフォルダを探すのに<span class="thesansmonocd_w5regular_">os.walk()</span>関数を使います。</p>
+<p class="listnumber">  2. 例えば<i class="calibre5">spam12-31-1900.txt</i>など、ファイル名のMM-DD-YYYYパターンを発見するのに正規表現を使います。月と日は必ず2桁の数字で、日付として無効なファイル名（<i class="calibre5">99-99-9999.txt</i>など）はないと想定して構いません。</p>
+<p class="listnumber">  3. ファイルを見つけたら、ヨーロッパ式になるように月と日を入れ替えてリネームします。リネームには<span class="thesansmonocd_w5regular_">shutil.move()</span>関数を使います。</p>
 </section>
 </section>
 </section>
