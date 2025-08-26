@@ -329,8 +329,8 @@ False
 </section>
 <section type="division" aria-labelledby="sec13">
 <h3 class="h" id="calibre_link-1680"><span id="calibre_link-240"></span><span class="sans_futura_std_bold_b_">ファイルの読み書き</span></h3>
-<p class="tni">フォルダと相対パスに慣れると、読み書きするファイルの場所を指定することができます。以下の数節ではプレーンテキストファイルに適用する関数を紹介します。<i class="calibre5">プレーンテキストファイル</i>は基本的なテキスト文字だけを含み、フォント、サイズ、色などの情報は含みません。<i class="calibre5">.txt</i>拡張子のテキストファイルや<i class="calibre5">.py</i>拡張子のPythonスクリプトファイルはプレーンテキストファイルです。れらのファイルはWindowsのメモ帳やmacOSのTextEditアプリケーションで開くことができ、プログラムから開いて内容を読み取って通常の文字列値のように扱うことが簡単にできます。</p>
-<p class="tx">ワープロソフトのファイル、PDF、画像、スプレッドシート、実行ファイルなど、その他のファイルはすべて<i class="calibre5">バイナリファイル</i>です。バイナリファイルをメモ帳やTextEditで開くと、図10-5のようにぐちゃぐちゃで判読できません。</p>
+<p class="tni">フォルダと相対パスに慣れると、読み書きするファイルの場所を指定することができます。以下の数節ではプレーンテキストファイルに適用する関数を紹介します。<i class="calibre5">プレーンテキストファイル</i>は基本的なテキスト文字だけを含み、フォント、サイズ、色などの情報は含みません。<i class="calibre5">.txt</i>拡張子のテキストファイルや<i class="calibre5">.py</i>拡張子のPythonスクリプトファイルはプレーンテキストファイルです。れらのファイルはWindowsのメモ帳やmacOSのテキストエディットアプリケーションで開くことができ、プログラムから開いて内容を読み取って通常の文字列値のように扱うことが簡単にできます。</p>
+<p class="tx">ワープロソフトのファイル、PDF、画像、スプレッドシート、実行ファイルなど、その他のファイルはすべて<i class="calibre5">バイナリファイル</i>です。バイナリファイルをメモ帳やテキストエディットで開くと、図10-5のようにぐちゃぐちゃで判読できません。</p>
 <figure class="img"><img class="img1" id="calibre_link-735" src="images/000009.jpg" alt="" />
 <figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 10-5：Windowsの</span><span class="sans_futura_std_book_">calc.exe</span><span class="sans_futura_std_book_oblique_i_">プログラムをメモ帳で開いた状態</span></p></figcaption>
 </figure>
@@ -353,7 +353,7 @@ False
 <section type="division" aria-labelledby="sec14">
 <h4 class="h1" id="calibre_link-1681"><span id="calibre_link-241"></span><span class="sans_futura_std_heavy_oblique_bi_">ファイルを開く</span></h4>
 <p class="tni"><span class="thesansmonocd_w5regular_">open()</span>関数に開きたいファイルのパスを渡すとそのファイルを開くことができます。絶対パスでも相対パスでも構いません。<span class="thesansmonocd_w5regular_">open()</span>関数は<span class="thesansmonocd_w5regular_">File</span>オブジェクトを返します。</p>
-<p class="tx">メモ帳やTextEditを使って<i class="calibre5">hello.txt</i>という名前のテキストファイルを作ってください。そのテキストファイルに<b class="calibre10">Hello, world!</b>と入力して、ホームフォルダに保存してください。それから以下の対話型シェルの内容を実行してください。</p>
+<p class="tx">メモ帳やテキストエディットを使って<i class="calibre5">hello.txt</i>という名前のテキストファイルを作ってください。そのテキストファイルに<b class="calibre10">Hello, world!</b>と入力して、ホームフォルダに保存してください。それから以下の対話型シェルの内容を実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from pathlib import Path</b>
 &gt;&gt;&gt; <b class="calibre10">hello_file = open(Path.home() / 'hello.txt', encoding='UTF-8')</b>
 </code></pre>
@@ -461,7 +461,7 @@ with open('data.txt', encoding='UTF-8') as file_obj:
 [['Zophie', 'Pooka', 'Simon']]
 &gt;&gt;&gt; <b class="calibre10">shelf_file.close()</b>
 </code></pre>
-<p class="tx">プレーンテキストはメモ帳やTextEditのようなテキストエディタで読めるファイルを作成できますが、Pythonプログラムのデータを保存したい場合には<span class="thesansmonocd_w5regular_">shelve</span>モジュールが使えます。</p>
+<p class="tx">プレーンテキストはメモ帳やテキストエディットのようなテキストエディタで読めるファイルを作成できますが、Pythonプログラムのデータを保存したい場合には<span class="thesansmonocd_w5regular_">shelve</span>モジュールが使えます。</p>
 <p class="ph"><span id="calibre_link-246"></span><span class="sans_futura_std_heavy_b_">プロジェクト4：ランダムな設問ファイルの生成</span></p>
 <p class="tni">35人の生徒がいるクラスの地理の先生が、アメリカ合衆国の州都のテストの設問を作ろうとしているとします。悪い生徒がいてカンニングするかもしれません。設問の順番をランダムにしてそれぞれ違うようにして、カンニングできないようにしたいです。これを手で行うのは大変で退屈な作業です。ここでPythonを活用します。</p>
 <p class="tx">このプログラムには以下の内容が必要です。</p>

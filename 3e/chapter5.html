@@ -175,7 +175,7 @@ logging.basicConfig(<b class="calibre10">filename='myProgramLog.txt'</b>, level=
 format=' %(asctime)s -  %(levelname)s -  %(message)s')
 </code></pre>
 <p class="tx">このコードは、ログメッセージを<i class="calibre5">myProgramLog.txt</i>というファイルに保存します。</p>
-<p class="tx">ログメッセージは便利ですが、画面を散らかしてプログラムの出力が読みにくくなることがあります。ログメッセージをファイルに書き出すと、画面はきれいなままになり、プログラムの実行後でもログメッセージを読めるようになります。メモ帳やTextEditなどのエディタで、ログを記録したこのテキストファイルを開けます。</p>
+<p class="tx">ログメッセージは便利ですが、画面を散らかしてプログラムの出力が読みにくくなることがあります。ログメッセージをファイルに書き出すと、画面はきれいなままになり、プログラムの実行後でもログメッセージを読めるようになります。メモ帳やテキストエディットなどのエディタで、ログを記録したこのテキストファイルを開けます。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
 <h4 class="h1" id="calibre_link-1515"><span id="calibre_link-99"></span><span class="sans_futura_std_heavy_oblique_bi_">print()でのデバッグは避けるべき</span></h4>
@@ -365,12 +365,12 @@ toss = random.randint(0, 1)  # 0は裏（tails）、1は表（heads）
 if toss == guess:
     print('You got it!')
 else:
-    print('Nope!Guess again!')
+    print('Guess again!')
     guess = input()
     if toss == guess:
         print('You got it!')
     else:
-        print('Nope. You are really bad at this game.')
+        print('You are really bad at this game.')
 </code></pre>
 </section>
 </section>
