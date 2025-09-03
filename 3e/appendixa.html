@@ -9,45 +9,44 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1273" aria-label="577"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-2138">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">A</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">INSTALLING THIRD-PARTY PACKAGES</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">A</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">サードパーティのパッケージのインストール</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">Many developers have written their own modules, extending Python’s capabilities beyond those provided by the standard library packaged with Python. The primary way to access third-party packages is to use Python’s pip tool, which securely downloads and installs modules onto your computer from the Python Package Index (PyPI) website, a sort of free app store for Python modules. This appendix provides instructions for installing the packages used throughout the book.</p>
-<p class="tx">For general information about working with the command line, virtual environments, packages, and modules, see <span>Chapter 12</span>.</p>
+<p class="introtni">独自のモジュールを書き、PythonのできることをPythonに付属している標準ライブラリよりも拡張している開発者は多いです。Pythonに付属しているpipツールを使えば、サードパーティーパッケージにアクセスできます。pipは、Pythonモジュールの無料アプリストアであるPython Package Index（PyPI）サイトから、自分が使っているコンピュータに、モジュールを安全にダウンロードしてインストールします。本付録では、本書を通じて用いられているパッケージをインストールする方法を説明します。</p>
+<p class="tx">コマンドライン、仮想環境、パッケージ、モジュールの一般的な説明は、<span>第12章</span>をご覧ください。</p>
 <section type="division" aria-labelledby="sec1">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-923" aria-label="578"></span>
-<h2 class="h" id="calibre_link-2139"><span id="calibre_link-638"></span><span class="sans_futura_std_bold_b_">Installing pip</span></h2>
-<p class="tni">The executable file for the pip tool is named <span class="thesansmonocd_w5regular_">pip</span> on Windows and <span class="thesansmonocd_w5regular_">pip3</span> on macOS and Linux. The pip tool has been included with Python since version 3.4. However, some distributions of Linux may not have it preinstalled.</p>
-<p class="tx">To install pip3 on Ubuntu or Debian Linux, open a new terminal window and enter <b class="calibre10">sudo apt install python3-pip</b>. To install pip3 on Fedora Linux, enter <b class="calibre10">sudo yum install python3-pip</b>. These commands ask you to enter the administrator password for your computer.</p>
+<h2 class="h" id="calibre_link-2139"><span id="calibre_link-638"></span><span class="sans_futura_std_bold_b_">pipをインストールする</span></h2>
+<p class="tni">pipツールの実行ファイルは、Windowsでは<span class="thesansmonocd_w5regular_">pip</span>、macOSとLinuxでは<span class="thesansmonocd_w5regular_">pip3</span>です。Pythonのバージョン3.4以降ではpipツールが同梱されています。しかし、Linuxのディストリビューションによっては、前もってインストールされていないかもしれません。</p>
+<p class="tx">pip3をインストールするには、新しいターミナルウィンドウを開いて、Ubuntuその他のDebian系のLinuxでは<b class="calibre10">sudo apt install python3-pip</b>、Fedoraその他のRed Hat系のLinuxでは<b class="calibre10">sudo yum install python3-pip</b>と入力します。管理者パスワードの入力を求められます。</p>
 </section>
 <section type="division" aria-labelledby="sec2">
-<h2 class="h" id="calibre_link-2140"><span id="calibre_link-639"></span><span class="sans_futura_std_bold_b_">Finding pip</span></h2>
-<p class="tni">If pip’s folder isn’t included in the <span class="thesansmonocd_w5regular_">PATH</span> environment variable, you may have to change directories in the terminal window with the <span class="thesansmonocd_w5regular_">cd</span> command before running pip. First, find your username by running <span class="thesansmonocd_w5regular_">echo %USERNAME%</span> on Windows or <span class="thesansmonocd_w5regular_">whoami</span> on macOS and Linux.</p>
-<p class="tx">Then, on Windows, run the following command, specifying your username and adjusting the folder name for the version of Python you have installed:</p>
+<h2 class="h" id="calibre_link-2140"><span id="calibre_link-639"></span><span class="sans_futura_std_bold_b_">pipを見つける</span></h2>
+<p class="tni">pipのフォルダが<span class="thesansmonocd_w5regular_">PATH</span>環境変数に含まれていなければ、pipを実行する前に<span class="thesansmonocd_w5regular_">cd</span>コマンドでターミナルウィンドウのディレクトリを移動しなければならない可能性があります。Windowsなら<span class="thesansmonocd_w5regular_">echo %USERNAME%</span>、macOSとLinuxなら<span class="thesansmonocd_w5regular_">whoami</span>を実行して、まずユーザー名を調べてください。</p>
+<p class="tx">次に、Windowsなら以下のコマンドを実行します。ユーザー名は自分のユーザー名にして、Pythonのバージョンのフォルダ名はお使いのバージョンに調整してください。</p>
 <pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">cd C:\Users\</b><span class="sans_thesansmonocd_w7bold_italic_bi_">your_username</span><b class="calibre10">\AppData\Local\Programs\Python\Python313\Scripts</b></code></pre>
-<p class="tx">On macOS, run this command instead (making sure to specify the correct folder name):</p>
+<p class="tx">macOSでは、以下のコマンドを実行します（Pythonのバージョンのフォルダ名を調整してください）。</p>
 <pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ %<b class="calibre10">cd /Library/Frameworks/Python.framework/Versions/3.13/bin/</b></code></pre>
-<p class="tx">On Linux, run this command, specifying your username:</p>
+<p class="tx">Linuxでは、ユーザー名を自分のユーザー名にして、以下のコマンドを実行します。</p>
 <pre class="pre"><code class="calibre9">al@al-VirtualBox:~$ <b class="calibre10">cd /home/</b><span class="sans_thesansmonocd_w7bold_italic_bi_">your_username</span><b class="calibre10">/.local/bin/</b></code></pre>
-<p class="tx">You should now be in the right folder to run the pip tool. Alternatively, you can add these folders to the <span class="thesansmonocd_w5regular_">PATH</span> environment variable by following the instructions in <span>“The PATH Environment Variable” on Chapter 12</span>.</p>
+<p class="tx">これでpipツールを実行できるフォルダにいるはずです。移動する代わりに、<span>第12章の「PATH環境変数」</span>の指示に従って、そのフォルダを<span class="thesansmonocd_w5regular_">PATH</span>環境変数に追加することもできます。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h2 class="h" id="calibre_link-2141"><span id="calibre_link-640"></span><span class="sans_futura_std_bold_b_">Running pip from Virtual Environments</span></h2>
-<p class="tni">Some operating systems may not allow you to run pip without first creating and activating a virtual environment using Python’s built-in <span class="thesansmonocd_w5regular_">venv</span> module. For learning Python and experimenting with code, it’s fine to create one virtual environment for all of your programs. See <span>“Virtual Environments” on Chapter 12</span> for more details.</p>
+<h2 class="h" id="calibre_link-2141"><span id="calibre_link-640"></span><span class="sans_futura_std_bold_b_">仮想環境からpipを実行する</span></h2>
+<p class="tni">OSによっては、Python組み込みの<span class="thesansmonocd_w5regular_">venv</span>モジュールを使って仮想環境を作成して有効化してからでないとpipを実行できないかもしれません。Pythonの学習と実験であれば、すべてのプログラムで一つの仮想環境を用いてもよいでしょう。詳しくは<span>第12章の「仮想環境」</span>をご参照ください。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h2 class="h" id="calibre_link-2142"><span id="calibre_link-641"></span><span class="sans_futura_std_bold_b_">Installing the Packages Used in This Book</span></h2>
-<p class="tni">Because future changes to third-party packages may be incompatible with the book’s code examples, I recommend that you install the exact versions <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2143" aria-label="579"></span>used in this book by adding <span class="thesansmonocd_w5regular_">==</span><span class="sans_thesansmonocd_w5regular_italic_">version</span> to the end of the module name. (Note the two equal signs in this command line option.) For example, <span class="thesansmonocd_w5regular_">pip install send2trash==1.8.3</span> installs version 1.8.3 of the send2trash package.</p>
-<p class="tx">The easiest way to install all compatible packages at once is to install the automateboringstuff3 package. I’ll update this package as new versions of the third-party packages become available, so long as they’re compatible with the book’s code examples. If you’d like to install the newest versions, consult their online documentation for updated usage information.</p>
-<p class="tx">On Windows, run the following command:</p>
+<h2 class="h" id="calibre_link-2142"><span id="calibre_link-641"></span><span class="sans_futura_std_bold_b_">本書で用いられているパッケージのインストール</span></h2>
+<p class="tni">サードパーティーパッケージが本書執筆後に変更されて本書のコード例と互換性が保たれないかもしれないので、モジュール名のあとに<span class="thesansmonocd_w5regular_">==</span>をつけて本書と同じ<span class="sans_thesansmonocd_w5regular_italic_">バージョン</span>をインストールすることをおすすめします（コマンドラインオプションはイコール記号2つです）。例えば、<span class="thesansmonocd_w5regular_">pip install send2trash==1.8.3</span>を実行すると、send2trashパッケージのバージョン1.8.3 をインストールします。</p>
+<p class="tx">automateboringstuff3パッケージをインストールすると、互換性のあるパッケージを一度で簡単にまとめてインストールできます。サードパーティーパッケージの新しいバージョンが登場すれば、本書のコード例と互換性がある限り、このパッケージのバージョンを更新します。最新のバージョンのサードパーティーパッケージをインストールしたい場合は、オンラインドキュメントを参照して更新情報を確認してください。</p>
+<p class="tx">Windowsでは、以下のコマンドを実行します。</p>
 <pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">python –m pip install automateboringstuff3</b></code></pre>
-<p class="tx">On macOS and Linux, run this command:</p>
+<p class="tx">macOSとLinuxでは、以下のコマンドを実行します。</p>
 <pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">python3 –m pip install automateboringstuff3</b></code></pre>
-<p class="tx">To install <span>Chapter 23</span>’s PyAutoGUI package on Linux, you must take additional steps. Open a terminal window and run <b class="calibre10">sudo apt install python3-tk</b> and <b class="calibre10">sudo apt install python3-dev</b>. To get <span>Chapter 8</span>’s <span class="thesansmonocd_w5regular_">pyperclip</span> module working on Linux, you must run <b class="calibre10">sudo apt install xclip</b>. You’ll need the computer’s administrator password.</p>
-<p class="tx">As of publication, these commands install the following versions of packages:</p>
+<p class="tx">Linuxで<span>第23章</span>のPyAutoGUIパッケージをインストールするためには、追加のステップが必要になります。ターミナルウィンドウを開いて<b class="calibre10">sudo apt install python3-tk</b>と<b class="calibre10">sudo apt install python3-dev</b>を実行してください。<span>第8章</span>の<span class="thesansmonocd_w5regular_">pyperclip</span>モジュールをLinuxで動作させるためには、<b class="calibre10">sudo apt install xclip</b>を実行してください。管理者パスワードの入力を求められます。</p>
+<p class="tx">本書の出版時点では、以下のバージョンを使用しています。</p>
 <pre class="pre"><code class="calibre9">beautifulsoup4 == 4.12.3
 matplotlib==3.92
 openpyxl==3.1.5
@@ -63,7 +62,7 @@ selenium==4.25.0
 send2trash==1.8.3
 xmltodict==0.13.0
 </code></pre>
-<p class="tx">In addition, the automateboringstuff3 package always installs the latest version of the these packages:</p>
+<p class="tx">automateboringstuff3パッケージでは、これに加えて、以下のパッケージの最新版をインストールします。</p>
 <pre class="pre"><code class="calibre9">bext
 ezgmail
 ezsheets
@@ -74,25 +73,26 @@ pyperclip
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2144" aria-label="580"></span>pyperclipimg
 yt-dlp
 </code></pre>
-<p class="tx">The Playwright package requires one more step to install separate browsers the module uses. After installing the automateboringstuff3 package, run <b class="calibre10">playwright install</b> to install the browsers that Playwright uses.</p>
-<p class="tx">The pytesseract package covered in <span>Chapter 22</span> and the openai-whisper package covered in <span>Chapter 24</span> are fairly large, and some readers may not want to install them, so I’ve left them out of the automateboringstuff3 package. You can install them by running the following on Windows:</p>
+<p class="tx">Playwrightパッケージでは、モジュール用のブラウザをインストールするというステップも必要になります。automateboringstuff3パッケージをインストールしてから、<b class="calibre10">playwright install</b>を実行してPlaywrightが使うブラウザをインストールしてください。</p>
+<p class="tx"><span>第22章</span>で取り上げたpytesseractパッケージと<span>第24章</span>で取り上げたopenai-whisperパッケージは、サイズが大きく、インストールしたくない人がいるかもしれませんから、automateboringstuff3パッケージには含めませんでした。Windowsなら以下のコマンドを実行してインストールできます。</p>
 <pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">pip install pytesseract==0.3.10</b>
 C:\Users\al&gt;<b class="calibre10">pip install openai-whisper==20231117</b>
 </code></pre>
-<p class="tx">On macOS and Linux, run the following:</p>
+<p class="tx">macOSとLinuxなら以下のコマンドを実行してインストールできます。</p>
 <pre class="pre"><code class="calibre9">al@Als-MacBook-Pro ~ % <b class="calibre10">pip3 install pytesseract==0.3.10</b>
 al@Als-MacBook-Pro ~ % <b class="calibre10">pip3 install openai-whisper==20231117</b>
 </code></pre>
-<p class="tx">If you’re on Windows, you might see an error like this one when installing Whisper:</p>
+<p class="tx">Windowsをお使いでしたら、Whisperをインストールする際に次のようなエラーが表示されるかもしれません。
+</p>
 <pre class="pre"><code class="calibre9">A module that was compiled using NumPy 1.x cannot be run in
 NumPy 2.0.1 as it may crash
 </code></pre>
-<p class="tx">You can fix this issue by running <span class="thesansmonocd_w5regular_">pip install "numpy&lt;2"</span> to downgrade NumPy to a compatible version. Be sure to include the double quotation marks.</p>
-<p class="tx">Additionally, the Whisper package can make use of your computer’s NVIDIA graphics card (GPU) to perform speech recognition faster if you run this command:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pip install "numpy&lt;2"</span>を実行してNumPyをダウングレードすればこの互換性問題を解決できます。ダブルクォートを忘れないようにしてください。</p>
+<p class="tx">以下のコマンドを実行すると、Whisperパッケージが、お使いのコンピュータのNVIDIAのグラフィックカード（GPU）を利用して音声認識を高速で実行できるようになります。</p>
 <pre class="pre"><code class="calibre9">C:\Users\al&gt;<b class="calibre10">pip install torch torchvision torchaudio --index-url </b>
 <b class="calibre10">https://download.pytorch.org/whl/cu118</b>
 </code></pre>
-<p class="tx">Computers with non-NVIDIA brand GPUs, including all MacBooks, don’t support this feature.</p>
+<p class="tx">お使いのコンピュータにNVIDIAのGPUがなければ（MacBookにはありません）この機能は使えません。</p>
 </section>
 </section>
 </div>
