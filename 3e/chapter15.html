@@ -12,71 +12,78 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-913" aria-label="359"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1861">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">15</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">GOOGLE SHEETS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">15</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">Googleスプレッドシート</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">Google Sheets, the free, web-based spreadsheet application available to anyone with a Google account or Gmail address, has become a useful, feature-rich competitor to Excel. Google Sheets has its own API, but this API can be confusing to learn and use. This chapter covers the EZSheets third-party library, which presents you with a simpler way to perform common actions, handling the details of the Google Sheets API so that you don’t have to learn them.</p>
+<p class="introtni">Googleスプレッドシートは、GoogleアカウントかGmailアドレスを持っていたら誰でも無料で使える、ウェブベースのスプレッドシートアプリケーションです。機能が豊富で便利であり、Excelのライバルと言えます。Googleスプレッドシートには独自のAPIがありますが、このAPIはややこしくて使いにくいです。本章では、EZSheetsというサードパーティのライブラリを紹介します。このライブラリでは、一般的な操作が簡単にできるようにGoogleスプレッドシートAPIの細かい部分を処理しれくれるので、自分でそのAPIの使い方を調べなくてもすみます。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1862"><span id="calibre_link-403"></span><span class="sans_futura_std_bold_b_">Installing and Setting Up EZSheets</span></h3>
-<p class="tni">You can install EZSheets with the pip command line tool by following the instructions in <span>Appendix A</span>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-914" aria-label="360"></span>Before your Python scripts can use EZSheets to access and edit your Google Sheets spreadsheets, you need a credentials JSON file and two token JSON files. There are five parts to creating credentials:</p>
-<p class="listnumberf">  1.  Create a new Google Cloud project.</p>
-<p class="listnumber">  2.  Enable the Google Sheets API and Google Drive API for your project.</p>
-<p class="listnumber">  3.  Configure the OAuth consent screen.</p>
-<p class="listnumber">  4.  Create credentials.</p>
-<p class="listnumberl">  5.  Log in with the credentials file.</p>
-<p class="tx">This may seem like a lot of work, but you have to perform this setup only once, and doing it is free. You’ll need a Google/Gmail account; I strongly recommend creating a new Google account instead of using your existing one, to prevent a bug in your Python script from affecting the spreadsheets in your personal Google account. Throughout this chapter, I’ll say <i class="calibre5">your Google account</i> and <i class="calibre5">your Gmail email address</i> to refer to the Google account that owns the spreadsheets your Python program accesses.</p>
-<p class="tx">Google may slightly change the layout or wording on its Google Cloud Console website. However, the basic steps I’ve outlined should remain the same.</p>
+<h3 class="h" id="calibre_link-1862"><span id="calibre_link-403"></span><span class="sans_futura_std_bold_b_">EZSheetsのインストールと設定</span></h3>
+<p class="tni">EZSheetsは、<span>付録A</span>の指示に沿ってpipコマンドラインツールでインストールできます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-914" aria-label="360"></span>PythonスクリプトからEZSheetsでGoogleスプレッドシートにアクセスして編集するには、事前に認証情報JSONファイルと2つのトークンJSONファイルを用意する必要があります。認証情報を作成するには以下の5つの手順を進めます。</p>
+<p class="listnumberf">  1. 新しいGoogle Cloudプロジェクトを作成する</p>
+<p class="listnumber">  2. プロジェクトでGoogle Sheets APIとGoogle Drive APIを有効化する</p>
+<p class="listnumber">  3. OAuth同意画面を設定する</p>
+<p class="listnumber">  4. 認証情報を作成する</p>
+<p class="listnumberl">  5. 認証情報ファイルでログインする</p>
+<p class="tx">これは大変そうに見えるかもしれませんが、一度このセットアップをすると、あとは自由に使えます。Google/Gmailのアカウントが必要になります。Pythonスクリプトのバグがお持ちのスプレッドシートに悪影響を及ぼさないように、既存のアカウントを使うのではなく、新しいGoogleアカウントを作成することを強くおすすめします。本章を通して、<i class="calibre5">「自分のGoogleアカウント」</i>や<i class="calibre5">「自分のGmailアドレス」</i>で、Pythonスクリプトによりアクセスするスプレッドシートを所有しているGoogleアカウントを指します。</p>
+<p class="tx">GoogleはGoogle Cloudコンソールのレイアウトや言い回しを変更する可能性がありますが、ここで説明する基本的な手順は変わらないはずです。（訳注：以下の説明では、訳出時の日本語版の画面に従って原文を訳し変えています。）</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-1863"><span id="calibre_link-404"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating a New Google Cloud Project</span></h4>
-<p class="tni">First, you need to set up a Google Cloud project. In your browser, go to <i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i> and sign in to your Google account with your username and password. You will be taken to a Getting Started page. At the top of the page, click <b class="calibre10">Select a project</b>. In the pop-up window that appears, click <b class="calibre10">New Project</b>. This should take you to a new project page.</p>
-<p class="tx">Google Cloud will generate a project name like “My Project 23135” for you, along with a random project ID, like “macro-nuance-362516.” These values won’t be visible to users of your Python scripts, and you can change the project name to whatever name you want, but you cannot change the project ID. I just use the default name that the website generates for me. You can leave the location set to “No organization.” Free Google accounts can have up to 12 projects, but you need only one project for all the Python scripts you want to create. Click the blue <b class="calibre10">Create</b> button to create the project.</p>
+<h4 class="h1" id="calibre_link-1863"><span id="calibre_link-404"></span><span class="sans_futura_std_heavy_oblique_bi_">新しいGoogle Cloudプロジェクトを作成する</span></h4>
+<p class="tni">まず、Google Cloudプロジェクトを作成する必要があります。ブラウザで<i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i>に移動し、ユーザ名とパスワードを入力して自分のGoogleアカウントにサインインしてください。ようこそページに移動するはずです。そのページの画面上部の<b class="calibre10">「プロジェクトの選択」</b>をクリックしてください。ポップアップウィンドウが表示されますから、<b class="calibre10">「新しいプロジェクト」</b>をクリックします。新しいプロジェクトのページに移動するはずです。</p>
+<p class="tx">Google Cloudでは、“My Project 23135”のようなプロジェクト名と“macro-nuance-362516”のようなプロジェクトIDが作成されます。これらの名前はPythonスクリプトを使うときに見えませんが、プロジェクト名は好きなように変更できます（プロジェクトIDは変更できません）。私はウェブサイトが作成したデフォルトの名前をそのまま使います。場所は「組織なし」のままで構いません。無料のGoogleアカウントが作成できるプロジェクトは12個までですが、本書のすべてのPythonスクリプトに1つのプロジェクトで対応できます。青色の<b class="calibre10">「作成」</b>ボタンをクリックしてプロジェクトを作成してください。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-1864"><span id="calibre_link-405"></span><span class="sans_futura_std_heavy_oblique_bi_">Enabling the Sheets and Drive APIs</span></h4>
-<p class="tni">On the <i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i> page, click the <b class="calibre10">Navigation</b> button in the upper left. (The icon has three horizontal stripes and is often called the <i class="calibre5">hamburger</i> icon.) Go to <b class="calibre10">APIs &amp; Services</b> <span class="listbullet_menuarrow"></span> <b class="calibre10">Library</b> to visit the API Library page. You’ll see many Google APIs for Gmail, Google Maps, Google Cloud Storage, and other Google services. We need to allow our project to use the Google Sheets and Google Drive APIs. EZSheets uses the Google Drive API to upload and download spreadsheet files.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1075" aria-label="361"></span>Scroll down, locate the Google Sheets API, and click it, or enter “Google Sheets API” into the search bar to find it. This should take you to the Google Sheets API page. Click the blue <b class="calibre10">Enable</b> button to enable your Google Cloud project to use the Google Sheets API. You’ll be redirected to the <b class="calibre10">APIs &amp; Services</b><span class="listbullet_menuarrow"></span><b class="calibre10">Enabled APIs &amp; Services</b> page, where you can find information about how often your Python scripts are using this API. Repeat this process for the Google Drive API to enable it as well.</p>
-<p class="tx">Next, you need to configure your project’s OAuth consent screen.</p>
+<h4 class="h1" id="calibre_link-1864"><span id="calibre_link-405"></span><span class="sans_futura_std_heavy_oblique_bi_">Google Sheets APIとGoogle Drive APIを有効化する</span></h4>
+<p class="tni"><i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i>で、左上のナビゲーションメニューボタンをクリックします（水平の三本線のアイコンで、しばしば<i class="calibre5">ハンバーガー</i>アイコンと呼ばれるものです）。 <b class="calibre10">APIとサービス</b> <span class="listbullet_menuarrow"></span> <b class="calibre10">ライブラリ</b>と進み、APIのライブラリページに移動します。Gmail、Google Maps、Google Cloud Storage、その他のGoogleのサービスのGoogle APIが多数表示されます。このプロジェクトでGoogle Sheets APIとGoogle Drive APIを使えるようにする必要があります。EZSheetsはスプレッドシートファイルのアップロードとダウンロードにGoogle Drive APIを使います。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1075" aria-label="361"></span>下にスクロールしてGoogle Sheets APIを探してクリックするか、検索バーにGoogle Sheets APIと入力して見つけます。Google Sheets APIのページに移動するので、青色の<b class="calibre10">「有効にする」</b>ボタンをクリックしてGoogle CloudプロジェクトでGoogle Sheets APIを使えるようにします。<b class="calibre10">APIとサービス</b><span class="listbullet_menuarrow"></span><b class="calibre10">API / サービスの詳細</b>ページにリダイレクトされ、そこでこのAPIの使用頻度の情報を確かめられます。Google Drive APIについても同じ手順で有効にしてください。</p>
+<p class="tx">次に、このプロジェクトのOAuth同意画面を設定します。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-1865"><span id="calibre_link-406"></span><span class="sans_futura_std_heavy_oblique_bi_">Configuring the OAuth Consent Screen</span></h4>
-<p class="tni">The OAuth consent screen will appear to the user when they first run <span class="thesansmonocd_w5regular_">import ezsheets</span>. On the <i class="calibre5">Step 1 OAuth consent screen</i> page, select <b class="calibre10">External</b> and click the blue <b class="calibre10">Create</b> button. The next page should show what the OAuth consent screen looks like. Pick a name for the App Name field (I use something generic, like “Python Google API Script”), and enter your email address for the User Support Email and Developer Contact Information field. Then click the <b class="calibre10">Save and Continue</b> button.</p>
-<p class="tx">On the <i class="calibre5">Step 2 Scopes</i> page, define your project’s scopes, or the permissions for the resources the project is allowed to access. Click the <b class="calibre10">Add or Remove Scopes</b> button, and in the new panel that appears, go through the table and check the checkboxes for the scopes <i class="calibre5">.../auth/drive</i> (the Google Drive API) and <i class="calibre5">.../auth/spreadsheets</i> (the Google Sheets API). Then, click the blue <b class="calibre10">Update</b> button and then click <b class="calibre10">Save and Continue</b>.</p>
-<p class="tx">The <i class="calibre5">Step 3 Test users</i> page requires you to add the Gmail email addresses of the Google accounts that own the spreadsheets your Python script will interact with. Unless you go through Google’s app approval process, your scripts are limited to interacting with the email addresses you provide in this step. Click the <b class="calibre10">+ Add Users</b> button. In the new panel that appears, enter the Gmail address of your Google account and click the blue <b class="calibre10">Add</b> button. Then click <b class="calibre10">Save and Continue</b>.</p>
-<p class="tx">The <i class="calibre5">Step 4 Summary</i> page provides a summary of the previous steps. If all the information looks right, click the <b class="calibre10">BACK TO DASHBOARD</b> button. The next step is to create credentials for your project.</p>
+<h4 class="h1" id="calibre_link-1865"><span id="calibre_link-406"></span><span class="sans_futura_std_heavy_oblique_bi_">OAuth同意画面を設定する</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">import ezsheets</span>の初回実行時にOAuth同意画面が表示されます。左上のナビゲーションメニューボタンから<b class="calibre10">「OAuth同意画」</b>をクリックして、青色の<b class="calibre10">「開始」</b>ボタンを押してください。OAuth同意画面の第一段階のアプリ情報では、アプリ名（私は“Python Google API Script”のような一般的な名前にしています）と、ユーザーサポートメールにメールアドレスを入力し、<b class="calibre10">「次へ」</b>ボタンを押します。
+
+第二段階の対象では、外部を選んで<b class="calibre10">「次へ」</b>ボタンを押します。
+
+第三段階の連絡先情報では、自分のメールアドレスを入力して、<b class="calibre10">「次へ」</b>ボタンを押します。
+
+第四段階の終了では、Google API サービス: ユーザーデータに関するポリシーに同意しますというチェックボックスにチェックを入れて、<b class="calibre10">「続行」</b>ボタンを押します。
+
+最後に青色の<b class="calibre10">「作成」</b>ボタンをクリックします。</p>
+<p class="tx"> 次に、このプロジェクトのスコープ、すなわちプロジェクトがどのリソースを使えるかの権限を定義します。左サイドバーの<b class="calibre10">「データアクセス」</b>をクリックして、<b class="calibre10">「スコープを追加または削除」</b>ボタンを押します。新しいパネルが表示されるので、<i class="calibre5">.../auth/drive</i> (the Google Drive API)と<i class="calibre5">.../auth/spreadsheets</i> (the Google Sheets API)のチェックボックスにチェックを入れます。それから青色の<b class="calibre10">「更新」</b>ボタンをクリックして、<b class="calibre10">「Save」</b>ボタンをクリックします。</p>
+<p class="tx">最後に、対象ページで、Pythonのスクリプトから操作するスプレッドシートを所有しているGoogleアカウントのGmailアドレスを追加します。Googleのアプリ承認プロセスを通過しなければ、スクリプトが操作できるのはここでメールアドレスを追加したものに限られます。左サイドバーの対象をクリックして、<b class="calibre10">「Add users」</b>ボタンを押します。新しく表示されるパネルで自分のGoogleアカウントのGmailアドレスを入力し、青色の<b class="calibre10">「保存」</b>ボタンをクリックします。</p>
+<p class="tx"> </p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1866"><span id="calibre_link-407"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating Credentials</span></h4>
-<p class="tni">First, you’ll need to create a credentials file. EZSheets needs this to use the Google API, even for spreadsheets that are publicly shared. From the Navigation sidebar menu, click <b class="calibre10">APIs &amp; Services</b> and then <b class="calibre10">Credentials</b> to go to the Credentials page. Then click the <b class="calibre10">+ Create Credentials</b> link at the top of the page. A submenu should open asking what kind of credentials you want to create: API Key, OAuth Client ID, or Service Account. Click <b class="calibre10">OAuth Client ID</b>.</p>
-<p class="tx">On the next page, select <b class="calibre10">Desktop App</b> for the Application Type and leave Name as the default “Desktop client 1.” You can change it to a different name if you want; it doesn’t appear to the users of your Python script. Click the blue <b class="calibre10">Create</b> button.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1076" aria-label="362"></span>A pop-up window should appear. Click <b class="calibre10">Download JSON</b> to download the credentials file, which should have a name like <i class="calibre5">client_secret_282792235794-p2o9gfcub4htibfg2u207gcomco9nqm7.apps.googleusercontent.com.json</i>. Place it in the same folder as your Python script. For simplicity, you can also rename the JSON file to <i class="calibre5">credentials-sheets.json</i>. EZSheets searches for <i class="calibre5">credentials-sheets.json</i> or any file that matches the <i class="calibre5">client_secret_*.json</i> format.</p>
+<h4 class="h1" id="calibre_link-1866"><span id="calibre_link-407"></span><span class="sans_futura_std_heavy_oblique_bi_">認証情報を作成する</span></h4>
+<p class="tni">認証情報ファイルを作成する必要があります。EZSheetsがGoogleのAPIを利用するにはこの認証情報ファイルが必要です。誰でも見られる公開状態で共有されているスプレッドシートであってもそうです。左上のナビゲーションメニューボタンから<b class="calibre10">APIとサービス</b>、<b class="calibre10">認証情報</b>とたどると、認証情報のページに移動します。画面上部の<b class="calibre10">「認証情報を作成」</b>リンクをクリックします。APIキー、OAuthクライアントID、サービスアカウントのうちどの種類の認証情報を作成するかを尋ねるサブメニューが表示されるので、<b class="calibre10">OAuthクライアントID</b>をクリックします。 </p>
+<p class="tx">次のページでは、アプリケーションの種類で<b class="calibre10">デスクトップアプリ</b>を選び、名前はデフォルトのデスクトップ クライアント: 1のままにします。お望みなら別の名前に変更できます。この名前はPythonスクリプトで表示されません。青色の<b class="calibre10">「作成」</b>ボタンをクリックします。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1076" aria-label="362"></span>ポップアップウィンドウが表示されます。<b class="calibre10">JSONをダウンロード</b>をクリックして認証情報ファイルをダウンロードします。<i class="calibre5">client_secret_282792235794-p2o9gfcub4htibfg2u207gcomco9nqm7.apps.googleusercontent.com.json</i>のような名前のファイルです。このファイルをPythonスクリプトと同じフォルダ内に置きます。<i class="calibre5">credentials-sheets.json</i>といったシンプルな名前に変更してもよいです。EZSheetsは、<i class="calibre5">credentials-sheets.json</i>という名前のファイルか、<i class="calibre5">client_secret_*.json</i>という形の名前のファイルを探します。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-1867"><span id="calibre_link-408"></span><span class="sans_futura_std_heavy_oblique_bi_">Logging In with the Credentials File</span></h4>
-<p class="tni">Run the Python interactive shell from the same folder that the credentials JSON file is in and then run <span class="sans_thesansmonocd_w7bold_b_">import ezsheets</span>. EZSheets automatically checks the current working directory for the credentials JSON file by calling the <span class="thesansmonocd_w5regular_">ezsheets.init()</span> function. If the file is found, EZSheets launches your web browser to the OAuth consent screen to generate token files. EZSheets also requires these token files, named <i class="calibre5">token-drive.pickle</i> and <i class="calibre5">token-sheets .pickle</i>, along with the credentials file to access spreadsheets. Generating token files is a one-time setup step that won’t happen the next time you run <span class="thesansmonocd_w5regular_">import ezsheets</span>.</p>
-<p class="tx">Sign in with your Google account. This must be the same email address you provided for the “Test User” when configuring the Google Cloud project’s OAuth consent screen. You should get a warning message that reads, “Google hasn’t verified this app,” which is fine, because you are the app creator. Click the <b class="calibre10">Continue</b> link. You should arrive at another page that says something like “Python Google API Script wants access to your Google Account” (or whichever name you gave in the OAuth consent screen setup). Click <b class="calibre10">Continue</b>. You’ll come to a plain web page that says, “The authentication flow has completed.” You can now close the browser window.</p>
-<p class="tx">Once you’ve completed the authentication flow for the Sheets API, you must repeat this process for the Drive API in the window that opens next. After closing the second window, you should now see <i class="calibre5">token-drive.pickle</i> and <i class="calibre5">token-sheets.pickle</i> files in the same folder as your credentials JSON file. Treat these files like passwords and do not share them: they can be used to log in and access your Google Sheets spreadsheets.</p>
+<h4 class="h1" id="calibre_link-1867"><span id="calibre_link-408"></span><span class="sans_futura_std_heavy_oblique_bi_">認証情報ファイルでログインする</span></h4>
+<p class="tni">認証情報JSONファイルと同じフォルダでPythonの対話型シェルを実行し、<span class="sans_thesansmonocd_w7bold_b_">import ezsheets</span>を実行してください。EZSheetsは自動的に<span class="thesansmonocd_w5regular_">ezsheets.init()</span> 関数を呼び出し、現在の作業フォルダを確認して、認証情報JSONファイルを探します。ファイルが見つかれば、EZSheetsはウェブブラウザを立ち上げてOAuth同意画面を表示し、トークンファイルを作成します。EZSheetsは、スプレッドシートにアクセスするのに、認証情報JSONファイルに加えて、<i class="calibre5">token-drive.pickle</i>と<i class="calibre5">token-sheets.pickle</i>という名前のこれらのトークンファイルも必要とします。トークンファイルの作成は一度だけで、次に<span class="thesansmonocd_w5regular_">import ezsheets</span>を実行したときには新しくトークンファイルが作成されることはありません。</p>
+<p class="tx">（ブラウザでOAuth同意画面が表示されたら）自分のGoogleアカウントでサインインします。Google CloudプロジェクトのOAuth同意画面でテストユーザーに追加したのと同じメールアドレスでサインインしてください。「このアプリは Googleで確認されていません」という警告メッセージが表示されますが、自分が作成したアプリですから、気にしないでください。<b class="calibre10">「続行」</b>をクリックします。「Python Google API Script が Google アカウントへのアクセスを求めています」のように書かれている別のページに移動するはずですから（OAuth同意画面で入力したアプリ名が表示されます）、<b class="calibre10">「続行」</b>をクリックします。「The authentication flow has completed. You may close this window.」とだけ書かれたページが表示されます。もうブラウザウィンドウを閉じても構いません。</p>
+<p class="tx">Sheets APIの認証フローが完了したら、次に開くウィンドウでDrive APIの同じ認証フローを繰り返します。2回目のウィンドウを閉じると、<i class="calibre5">token-drive.pickle</i>と<i class="calibre5">token-sheets.pickle</i>ファイルが同じフォルダにあるはずです。これらのファイルはパスワードと同じように扱い、共有しないでください。これらのファイルを使ってログインしてGoogleスプレッドシートにアクセスできてしまいます。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h4 class="h1" id="calibre_link-1868"><span id="calibre_link-409"></span><span class="sans_futura_std_heavy_oblique_bi_">Revoking the Credentials File</span></h4>
-<p class="tni">If you accidentally share the credential or token files with someone, they won’t be able to change your Google account password, but they will have access to your spreadsheets. You can revoke these files by logging in to <i class="calibre5"><a href="https://console.developers.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.developers<wbr></wbr>.google<wbr></wbr>.com</a></i>. Click the <b class="calibre10">Credentials</b> link on the sidebar. Then, in the OAuth 2.0 Client IDs table, click the trash can icon next to the credentials file you’ve accidentally shared. Once revoked, the credentials and token files are useless, and you can delete them. You’ll then have to generate a new credentials JSON file and token files.</p>
+<h4 class="h1" id="calibre_link-1868"><span id="calibre_link-409"></span><span class="sans_futura_std_heavy_oblique_bi_">認証情報ファイルを失効させる</span></h4>
+<p class="tni">認証情報ファイルまたはトークンファイルを共有してしまったら、そのファイルを入手した人が、Googleアカウント本体のパスワードの変更はできないとしても、スプレッドシートにアクセスできてしまいます。<i class="calibre5"><a href="https://console.developers.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.developers<wbr></wbr>.google<wbr></wbr>.com</a></i>にログインすればそのファイルを失効させられます。サイドバーの<b class="calibre10">認証情報</b>のリンクをクリックします。OAuth 2.0 クライアント IDの表の中にある、共有した認証情報ファイルの横のゴミ箱のアイコンをクリックします。一度失効させると、その認証情報ファイルとトークンファイルは使えなくなります。新しい認証JSONファイルとトークンファイルをもう一度作成します。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec8">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1001" aria-label="363"></span>
-<h3 class="h" id="calibre_link-1869"><span id="calibre_link-410"></span><span class="sans_futura_std_bold_b_">Spreadsheet Objects</span></h3>
-<p class="tni">In Google Sheets, a <i class="calibre5">spreadsheet</i> can contain multiple <i class="calibre5">sheets</i> (also called <i class="calibre5">worksheets</i>), and each sheet contains columns and rows of cells. Cells contain data such as numbers, dates, or bits of text. Cells also have properties such as fonts, widths and heights, and background colors. Figure 15-1 shows a spreadsheet titled <i class="calibre5">Sweigart Books</i> containing two sheets, titled <i class="calibre5">Books</i> and <i class="calibre5">Websites</i>. You can view this spreadsheet in your browser by going to <i class="calibre5"><a href="https://autbor.com/examplegs" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/examplegs</a></i>. The first column of each sheet is labeled <i class="calibre5">A</i>, and the first row is labeled <i class="calibre5">1</i>. (This differs from Python lists, whose first item appears at index 0.)</p>
+<h3 class="h" id="calibre_link-1869"><span id="calibre_link-410"></span><span class="sans_futura_std_bold_b_">スプレッドシートオブジェクト</span></h3>
+<p class="tni">Googleスプレッドシートでは、<i class="calibre5">スプレッドシート</i>は複数の<i class="calibre5">シート</i>（<i class="calibre5">ワークシート</i>）を含み、それぞれのシートにはセルの行と列があります。セルには数値、日付、テキストなどのデータを入れます。セルには、フォント、幅、高さ、背景色などのプロパティもあります。図15-1は、<i class="calibre5">Books</i>と<i class="calibre5">Websites</i>の2つのシートがある<i class="calibre5">Sweigart Books</i>という名前のスプレッドシートを示しています。<i class="calibre5"><a href="https://autbor.com/examplegs" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/examplegs</a></i>でこのスプレッドシートをブラウザで閲覧できます。各シートの最初の列は<i class="calibre5">A</i>で最初の行は<i class="calibre5">1</i>です（インデックスが0から始まるPythonのリストとは異なります）。</p>
 <figure class="img"><img class="img1" id="calibre_link-771" src="images/000028.jpg" alt="A Google Sheets spreadsheet with two tabs, Books and Websites. The Books tab is highlighted, showing a spreadsheet containing the columns TITLE, AUTHOR, YEAR PUBLISHED, and URL. The rows each contain information describing a book." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 15-1: A spreadsheet titled</span> <span class="sans_futura_std_book_">Sweigart Books</span> <span class="sans_futura_std_book_oblique_i_">with two sheets,</span> <span class="sans_futura_std_book_">Books</span> <span class="sans_futura_std_book_oblique_i_">and</span> <span class="sans_futura_std_book_">Websites</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 15-1：</span><span class="sans_futura_std_book_">Books</span><span class="sans_futura_std_book_oblique_i_">と</span><span class="sans_futura_std_book_">Websites</span><span class="sans_futura_std_book_oblique_i_">の2つのシートがある</span><span class="sans_futura_std_book_">Sweigart Books</span>という名前のスプレッドシート</p></figcaption>
 </figure>
-<p class="tx">While most of your work will involve modifying the <span class="thesansmonocd_w5regular_">Sheet</span> objects, you can also modify <span class="thesansmonocd_w5regular_">Spreadsheet</span> objects, as you’ll see in the next section.</p>
+<p class="tx">大部分の作業は<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトを変更することになるでしょうが、次の節で見るように<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトを変更することもできます。</p>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-1870"><span id="calibre_link-411"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating, Uploading, and Listing Spreadsheets</span></h4>
-<p class="tni">You can make a new <span class="thesansmonocd_w5regular_">Spreadsheet</span> object from an existing Google Sheets spreadsheet, a new blank spreadsheet, or an uploaded Excel spreadsheet. All Google Sheets spreadsheets have a unique ID that can be found in their URL, after the <i class="calibre5">spreadsheets/d/</i> part and before the <i class="calibre5">/edit</i> part. For example, in the URL <i class="calibre5"><a href="https://docs.google.com/spreadsheets/d/1TzOJxhNKr15tzdZxTqtQ3EmDP6em_elnbtmZIcyu8vI/edit#gid=0/" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/spreadsheets<wbr></wbr>/d<wbr></wbr>/1TzOJxhNKr15tzdZxTqtQ3EmDP6em<wbr></wbr>_elnbtmZIcyu8vI<wbr></wbr>/edit#gid<wbr></wbr>=0<wbr></wbr>/</a></i>, the ID would be <i class="calibre5">1TzOJxhNKr15tzdZxTqtQ3EmDP6em_elnbtmZIcyu8vI</i>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1148" aria-label="364"></span>A Google Sheets spreadsheet is represented as an <span class="thesansmonocd_w5regular_">ezsheets.Spreadsheet</span> object, which has <span class="thesansmonocd_w5regular_">id</span>, <span class="thesansmonocd_w5regular_">url</span>, and <span class="thesansmonocd_w5regular_">title</span> attributes. You can create a new, blank spreadsheet with the <span class="thesansmonocd_w5regular_">Spreadsheet()</span> function:</p>
+<h4 class="h1" id="calibre_link-1870"><span id="calibre_link-411"></span><span class="sans_futura_std_heavy_oblique_bi_">スプレッドシートの作成、更新、一覧表示</span></h4>
+<p class="tni">既存のGoogleスプレッドシートからでも、新しい空白のスプレッドシートからでも、アップロードしたExcelファイルからでも、新しい<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトを作成できます。すべてのGoogleスプレッドシートには固有のIDがあり、URL中の<i class="calibre5">spreadsheets/d/</i>の後で<i class="calibre5">/edit</i>の前の部分に含まれています。例えば、<i class="calibre5"><a href="https://docs.google.com/spreadsheets/d/1TzOJxhNKr15tzdZxTqtQ3EmDP6em_elnbtmZIcyu8vI/edit#gid=0/" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/spreadsheets<wbr></wbr>/d<wbr></wbr>/1TzOJxhNKr15tzdZxTqtQ3EmDP6em<wbr></wbr>_elnbtmZIcyu8vI<wbr></wbr>/edit#gid<wbr></wbr>=0<wbr></wbr>/</a></i>というURLなら、IDは<i class="calibre5">1TzOJxhNKr15tzdZxTqtQ3EmDP6em_elnbtmZIcyu8vI</i>です。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1148" aria-label="364"></span>Googleスプレッドシートは<span class="thesansmonocd_w5regular_">ezsheets.Spreadsheet</span>オブジェクトで表されます。<span class="thesansmonocd_w5regular_">id</span>、<span class="thesansmonocd_w5regular_">url</span>、<span class="thesansmonocd_w5regular_">title</span>の属性があります。<span class="thesansmonocd_w5regular_">Spreadsheet()</span>関数で新しい空白のスプレッドシートを作成できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>
 &gt;&gt;&gt; <b class="calibre10">ss.title = 'Title of My New Spreadsheet'</b>
@@ -87,164 +94,164 @@
 &gt;&gt;&gt; <b class="calibre10">ss.id</b>
 '1gxz-Qr2-RNtqi_d7wWlsDlbtPLRQigcEXvCtdVwmH40'
 </code></pre>
-<p class="tx">You can also load an existing spreadsheet by passing its ID or URL, or a URL that redirects to its URL:</p>
+<p class="tx">IDまたはURL（スプレッドシートのURLにリダイレクトするURLも可）を渡すことで、既存のスプレッドシートをロードすることもできます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss1 = ezsheets.Spreadsheet('https://autbor.com/examplegs')</b>
 &gt;&gt;&gt; <b class="calibre10">ss2 = ezsheets.Spreadsheet('https://docs.google.com/spreadsheets/d/1TzOJxh</b>
 <b class="calibre10">NKr15tzdZxTqtQ3EmDP6em_elnbtmZIcyu8vI/')</b>
 &gt;&gt;&gt; <b class="calibre10">ss3 = ezsheets.Spreadsheet('1TzOJxhNKr15tzdZxTqtQ3EmDP6em_elnbtmZIcyu8vI')</b>
-&gt;&gt;&gt; <b class="calibre10">ss1 == ss2 == ss3</b>  # These are the same spreadsheet.
+&gt;&gt;&gt; <b class="calibre10">ss1 == ss2 == ss3</b>  # これらは同じスプレッドシート
 True
 </code></pre>
-<p class="tx">To upload an existing Excel, OpenOffice, CSV, or TSV spreadsheet to Google Sheets, pass the spreadsheet’s filename to <span class="thesansmonocd_w5regular_">ezsheets.upload()</span>. Enter the following into the interactive shell, replacing <i class="calibre5">my_spreadsheet.xlsx</i> with a spreadsheet file of your own:</p>
+<p class="tx">既存のExcel、OpenOffice、CSV、TSVファイルをスプレッドシートにアップロードするには、ファイル名を<span class="thesansmonocd_w5regular_">ezsheets.upload()</span>に渡します。対話型シェルに以下の内容を入力してください。<i class="calibre5">my_spreadsheet.xlsx</i>の部分はご自身のExcelファイルに置き換えてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.upload('</b><b class="calibre10"><var class="calibre20">my_spreadsheet.xlsx</var></b><b class="calibre10">')</b>
 &gt;&gt;&gt; <b class="calibre10">ss.title</b>
 '<var class="calibre20">my_spreadsheet</var>'
 </code></pre>
-<p class="tx">You can list the spreadsheets in your Google account by calling the <span class="thesansmonocd_w5regular_">listSpreadsheets()</span> function. This function returns a dictionary whose keys are spreadsheet IDs and whose values are the titles of each spreadsheet. It includes deleted spreadsheets in your account’s <i class="calibre5">Trash</i> folder. Try entering the following into the interactive shell after uploading a spreadsheet:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">listSpreadsheets()</span>関数を呼び出せば、自分のGoogleアカウントのスプレッドシートを一覧表示できます。この関数は、キーがスプレッドシートID、値がスプレッドシート名の辞書を返します。<i class="calibre5">ゴミ箱</i>フォルダにある削除されたスプレッドシートも含まれます。スプレッドシートをアップロードしてから、対話型シェルで以下の内容を実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ezsheets.listSpreadsheets()</b>
 {'<var class="calibre20">1J-Jx6Ne2K_vqI9J2SO-TAXOFbxx_9tUjwnkPC22LjeU</var>': 'Education Data'}
 </code></pre>
-<p class="tx">Once you’ve obtained a <span class="thesansmonocd_w5regular_">Spreadsheet</span> object, you can use its attributes and methods to manipulate the online spreadsheet hosted on Google Sheets.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトを取得できたら、その属性やメソッドを通じて、Googleがホストしているオンラインのスプレッドシートを操作できます。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1871"><span id="calibre_link-412"></span><span class="sans_futura_std_heavy_oblique_bi_">Accessing Spreadsheet Attributes</span></h4>
-<p class="tni">While the actual data lives in a spreadsheet’s individual sheets, the <span class="thesansmonocd_w5regular_">Spreadsheet</span> object has the following attributes for manipulating the spreadsheet <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1063" aria-label="365"></span>itself: <span class="thesansmonocd_w5regular_">title</span>, <span class="thesansmonocd_w5regular_">id</span>, <span class="thesansmonocd_w5regular_">url</span>, <span class="thesansmonocd_w5regular_">sheetTitles</span>, and <span class="thesansmonocd_w5regular_">sheets</span>. Let’s examine the spreadsheet at <i class="calibre5"><a href="https://autbor.com/examplegs" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/examplegs</a></i>. Your Google account has permissions to view but not modify it, but you can copy the sheet to a newly created spreadsheet in your own account:</p>
+<h4 class="h1" id="calibre_link-1871"><span id="calibre_link-412"></span><span class="sans_futura_std_heavy_oblique_bi_">スプレッドシートの属性にアクセスする</span></h4>
+<p class="tni">実際のデータはスプレッドシートの各シートに存在しますが、<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトにはスプレッドシート自体を操作できる、<span class="thesansmonocd_w5regular_">title</span>、<span class="thesansmonocd_w5regular_">id</span>、<span class="thesansmonocd_w5regular_">url</span>、<span class="thesansmonocd_w5regular_">sheetTitles</span>、<span class="thesansmonocd_w5regular_">sheets</span>という属性があります。<i class="calibre5"><a href="https://autbor.com/examplegs" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/examplegs</a></i>のスプレッドシートで確かめてみましょう。このスプレッドシートを閲覧する権限はあっても編集する権限はありませんが、自分のアカウントのスプレッドシートにコピーして新しいスプレッドシートを作成することはできます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">example_ss = ezsheets.Spreadsheet('https://autbor.com/examplegs')</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>
 &gt;&gt;&gt; <b class="calibre10">example_ss.sheets[0].copyTo(ss)</b>
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].delete()</b>  # Delete the Sheet1 sheet.
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].delete()</b>  # Sheet1シートを削除
 &gt;&gt;&gt; <b class="calibre10">ss.url</b>
 'https://docs.google.com/spreadsheets/d/15gjrbgTmUzItRt9KUcL4JajLaQU70xanstB1dXKoSlM/'
 </code></pre>
-<p class="tx">The newly copied sheet will have the title <i class="calibre5">Copy of Books</i>, as <i class="calibre5">Books</i> was the name of the original sheet. Continue the interactive shell example with the following code:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.title</b>  # The title of the spreadsheet
+<p class="tx">新しくコピーされたシートは、<i class="calibre5">Books</i>という元のシート名から、<i class="calibre5">Copy of Books</i>というシート名になります。対話型シェルで以下のコードを続けて実行してください。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.title</b>  # スプレッドシート名
 'Untitled spreadsheet'
-&gt;&gt;&gt; <b class="calibre10">ss.title = 'Sweigart Books'</b>  # Change the title.
-&gt;&gt;&gt; <b class="calibre10">ss.id</b>  # The unique ID (a read-only attribute)
+&gt;&gt;&gt; <b class="calibre10">ss.title = 'Sweigart Books'</b>  # スプレッドシート名の変更
+&gt;&gt;&gt; <b class="calibre10">ss.id</b>  # 一意のID（読み取り専用属性）
 '15gjrbgTmUzItRt9KUcL4JajLaQU70xanstB1dXKoSlM'
-&gt;&gt;&gt; <b class="calibre10">ss.url</b>  # The original URL (a read-only attribute)
+&gt;&gt;&gt; <b class="calibre10">ss.url</b>  # 元URL（読み取り専用属性）
 'https://docs.google.com/spreadsheets/d/15gjrbgTmUzItRt9KUcL4JajLaQU70xanstB1dXKoSlM/'
-&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>  # The titles of all the Sheet objects
+&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>  # すべてのシート名
 ('Copy of Books',)
-&gt;&gt;&gt; <b class="calibre10">ss.sheets</b>  # The Sheet objects in this Spreadsheet, in order
+&gt;&gt;&gt; <b class="calibre10">ss.sheets</b>  # このスプレッドシートのSheetオブジェクト（順序あり）
 (&lt;Sheet sheetId=1464919459, title='Copy of Books', rowCount=1000, columnCount=26&gt;,)
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[0]</b>  # The first Sheet object in this Spreadsheet
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[0]</b>  # このスプレッドシートの最初のSheetオブジェクト
 &lt;Sheet sheetId=1464919459, title='Copy of Books', rowCount=1000, columnCount=26&gt;
-&gt;&gt;&gt; <b class="calibre10">ss['Copy of Books']</b>  # Sheets can also be accessed by title.
+&gt;&gt;&gt; <b class="calibre10">ss['Copy of Books']</b>  # シート名でもアクセス可能
 &lt;Sheet sheetId=1464919459, title='Copy of Books', rowCount=1000, columnCount=26&gt;
-&gt;&gt;&gt; <b class="calibre10">ss.Sheet('New blank sheet')</b>  # Create a new sheet.
+&gt;&gt;&gt; <b class="calibre10">ss.Sheet('New blank sheet')</b>  # 新しいシートの作成
 &lt;Sheet sheetId=1759616008, title='New blank sheet', rowCount=1000, columnCount=26&gt;
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[1].delete()</b>  # Delete the second Sheet object in this Spreadsheet.
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[1].delete()</b>  # このスプレッドシートの2番目のシートを削除
 </code></pre>
-<p class="tx">If someone changes the spreadsheet in their browser, your script can update the <span class="thesansmonocd_w5regular_">Spreadsheet</span> object to match the online data by calling the <span class="thesansmonocd_w5regular_">refresh()</span> method:</p>
+<p class="tx">誰かがブラウザでスプレッドシートを変更した場合、<span class="thesansmonocd_w5regular_">refresh()</span>メソッドを呼び出すと、オンラインのデータに合うように、<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトをスクリプトから更新できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.refresh()</b></code></pre>
-<p class="tx">This will refresh not only the <span class="thesansmonocd_w5regular_">Spreadsheet</span> object’s attributes but also the data in the <span class="thesansmonocd_w5regular_">Sheet</span> objects it contains. You’ll see the changes you make to the <span class="thesansmonocd_w5regular_">Spreadsheet</span> object applied to the online spreadsheet in real time.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトの属性だけでなく、<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトのデータも更新されます。<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトに適用した変更はリアルタイムでオンラインのスプレッドシートに反映されます。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-1872"><span id="calibre_link-413"></span><span class="sans_futura_std_heavy_oblique_bi_">Downloading and Uploading Spreadsheets</span></h4>
-<p class="tni">You can download a Google Sheets spreadsheet in a number of formats: Excel, OpenOffice, CSV, TSV, and PDF. You can also download it as a ZIP <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1119" aria-label="366"></span>file containing HTML files of the spreadsheet’s data. EZSheets contains functions for each of these options:</p>
+<h4 class="h1" id="calibre_link-1872"><span id="calibre_link-413"></span><span class="sans_futura_std_heavy_oblique_bi_">スプレッドシートのダウンロードとアップロード</span></h4>
+<p class="tni">Googleスプレッドシートは、Excel、OpenOffice、CSV、TSV、PDFと様々な形式でダウンロードできます。スプレッドシートのデータのHTMLを含むZIPファイルとしてダウンロードすることもできます。EZSheetsはこれらの形式でのダウンロードに対応する関数があります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet('https://autbor.com/examplegs')</b>
 &gt;&gt;&gt; <b class="calibre10">ss.title</b>
 'Sweigart Books (DO NOT DELETE)'
-&gt;&gt;&gt; <b class="calibre10">ss.downloadAsExcel()</b>  # Downloads the spreadsheet as an Excel file
+&gt;&gt;&gt; <b class="calibre10">ss.downloadAsExcel()</b>  # スプレッドシートをExcelファイルとしてダウンロード
 'Sweigart_Books.xlsx'
-&gt;&gt;&gt; <b class="calibre10">ss.downloadAsODS()</b>  # Downloads the spreadsheet as an OpenOffice file
+&gt;&gt;&gt; <b class="calibre10">ss.downloadAsODS()</b>  # スプレッドシートをOpenOfficelファイルとしてダウンロード
 'Sweigart_Books.ods'
-&gt;&gt;&gt; <b class="calibre10">ss.downloadAsCSV()</b>  # Downloads only the first sheet as a CSV file
+&gt;&gt;&gt; <b class="calibre10">ss.downloadAsCSV()</b>  # スプレッドシートをCSVファイルとしてダウンロード
 'Sweigart_Books.csv'
-&gt;&gt;&gt; <b class="calibre10">ss.downloadAsTSV()</b>  # Downloads only the first sheet as a TSV file
+&gt;&gt;&gt; <b class="calibre10">ss.downloadAsTSV()</b>  # スプレッドシートをTSVファイルとしてダウンロード
 'Sweigart_Books.tsv'
-&gt;&gt;&gt; <b class="calibre10">ss.downloadAsPDF()</b>  # Downloads the spreadsheet as a PDF
+&gt;&gt;&gt; <b class="calibre10">ss.downloadAsPDF()</b>  # スプレッドシートをPDFファイルとしてダウンロード
 'Sweigart_Books.pdf'
-&gt;&gt;&gt; <b class="calibre10">ss.downloadAsHTML()</b>  # Downloads the spreadsheet as a ZIP of HTML files
+&gt;&gt;&gt; <b class="calibre10">ss.downloadAsHTML()</b>  # スプレッドシートをHTMLを含むZIPファイルとしてダウンロード
 'Sweigart_Books.zip'
 </code></pre>
-<p class="tx">Note that files in the CSV or TSV format can contain only one sheet; therefore, if you download a Google Sheets spreadsheet in either of these formats, you will get the first sheet only. To download other sheets, you’ll need to reorder the <span class="thesansmonocd_w5regular_">Sheet</span> objects before downloading.</p>
-<p class="tx">The download functions all return a string of the downloaded file’s filename. You can also specify your own filename for the spreadsheet by passing the new filename to the download function:</p>
+<p class="tx">CSVとTSV形式のファイルには一つのシートしか含まれません。よって、このどちらかの形式でGoogleスプレッドシートをダウンロードする場合は、最初のシートしか取得できません。別のシートをダウンロードするには、ダウンロードする前に<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトの順番を変える必要があります。</p>
+<p class="tx">ダウンロード関数はすべてダウンロードしたファイル名の文字列を返します。ダウンロード関数に新しいファイル名を渡してファイル名を指定することもできます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.downloadAsExcel('</b><var class="calibre20">a_different_filename</var>.xlsx<b class="calibre10">')</b>
 '<var class="calibre20">a_different_filename</var>.xlsx'
 </code></pre>
-<p class="tx">The function returns the local filename.</p>
+<p class="tx">この関数はローカルに保存されたファイル名を返します。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h4 class="h1" id="calibre_link-1873"><span id="calibre_link-414"></span><span class="sans_futura_std_heavy_oblique_bi_">Deleting Spreadsheets</span></h4>
-<p class="tni">To delete a spreadsheet, call the <span class="thesansmonocd_w5regular_">delete()</span> method:</p>
+<h4 class="h1" id="calibre_link-1873"><span id="calibre_link-414"></span><span class="sans_futura_std_heavy_oblique_bi_">スプレッドシートの削除</span></h4>
+<p class="tni">スプレッドシートを削除するには、<span class="thesansmonocd_w5regular_">delete()</span>メソッドを呼び出します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
-&gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>  # Create the spreadsheet.
-&gt;&gt;&gt; <b class="calibre10">ezsheets.listSpreadsheets()</b>  # Confirm that we've created a spreadsheet.
+&gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>  # スプレッドシートの作成
+&gt;&gt;&gt; <b class="calibre10">ezsheets.listSpreadsheets()</b>  # スプレッドシートの作成確認
 {'1aCw2NNJSZblDbhygVv77kPsL3djmgV5zJZllSOZ_mRk': 'Delete me'}
-&gt;&gt;&gt; <b class="calibre10">ss.delete()</b>  # Delete the spreadsheet.
-&gt;&gt;&gt; <b class="calibre10">ezsheets.listSpreadsheets()</b>  # Spreadsheets in the Trash folder are still listed.
+&gt;&gt;&gt; <b class="calibre10">ss.delete()</b>  # スプレッドシートの削除
+&gt;&gt;&gt; <b class="calibre10">ezsheets.listSpreadsheets()</b>  # ゴミ箱フォルダにあるスプレッドシートも一覧表示される
 {'1aCw2NNJSZblDbhygVv77kPsL3djmgV5zJZllSOZ_mRk': 'Delete me'}
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">delete()</span> method will move your spreadsheet to the <i class="calibre5">Trash</i> folder on your Google Drive. You can view the contents of your <i class="calibre5">Trash</i> folder at <i class="calibre5"><a href="https://drive.google.com/drive/trash" class="calibre1">https://<wbr></wbr>drive<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/drive<wbr></wbr>/trash</a></i>. Notice that spreadsheets in the <i class="calibre5">Trash</i> folder will still appear in the dictionary returned by <span class="thesansmonocd_w5regular_">listSpreadsheets()</span>. To permanently delete your spreadsheet, pass <span class="thesansmonocd_w5regular_">True</span> for the <span class="thesansmonocd_w5regular_">permanent</span> keyword argument:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">delete()</span>メソッドは、スプレッドシートをGoogleドライブの<i class="calibre5">ゴミ箱</i>フォルダに移動させます。 <i class="calibre5"><a href="https://drive.google.com/drive/trash" class="calibre1">https://<wbr></wbr>drive<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/drive<wbr></wbr>/trash</a></i>で自分の<i class="calibre5">ゴミ箱</i>フォルダの中身を見ることができます。<i class="calibre5">ゴミ箱</i>フォルダ内のスプレッドシートも<span class="thesansmonocd_w5regular_">listSpreadsheets()</span>が返す辞書に含まれます。スプレッドシートを完全に削除するには、<span class="thesansmonocd_w5regular_">permanent</span>キーワード引数に<span class="thesansmonocd_w5regular_">True</span>を渡します。</p>
 <pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1149" aria-label="367"></span>&gt;&gt;&gt; <b class="calibre10">ss.delete(permanent=True)</b>
 &gt;&gt;&gt; <b class="calibre10">ezsheets.listSpreadsheets()</b>
 {}
 </code></pre>
-<p class="tx">In general, permanently deleting your spreadsheets with automated scripts is not a good idea, because it’s impossible to recover a spreadsheet that a bug in your script accidentally deleted. Even free Google Drive accounts have gigabytes of storage available, so you most likely don’t need to worry about freeing up space.</p>
+<p class="tx">一般的に、自動化スクリプトでスプレッドシートを完全に削除するのはいい考えではありません。スクリプトにバグがあってもスプレッドシートを回復する術がないからです。無料のGoogleアカウントでもドライブはギガバイト単位の容量が利用できますから、容量を心配する必要はあまりないでしょう。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h3 class="h" id="calibre_link-1874"><span id="calibre_link-415"></span><span class="sans_futura_std_bold_b_">Sheet Objects</span></h3>
-<p class="tni">A <span class="thesansmonocd_w5regular_">Spreadsheet</span> object will have one or more <span class="thesansmonocd_w5regular_">Sheet</span> objects. The <span class="thesansmonocd_w5regular_">Sheet</span> objects represent the rows and columns of data in each sheet. You can access these sheets using the square brackets operator and an integer index.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">Spreadsheet</span> object’s <span class="thesansmonocd_w5regular_">sheets</span> attribute holds a tuple of <span class="thesansmonocd_w5regular_">Sheet</span> objects in the order in which they appear in the spreadsheet. To access the <span class="thesansmonocd_w5regular_">Sheet</span> objects in a spreadsheet, enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-1874"><span id="calibre_link-415"></span><span class="sans_futura_std_bold_b_">シートオブジェクト</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトは<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトを持っています。<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトは各シートの行と列のデータを表します。角かっこと整数のインデックスでシートにアクセスできます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトの<span class="thesansmonocd_w5regular_">sheets</span>属性は、スプレッドシートで表示される順番で<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトのタプルを保持しています。対話型シェルに以下の内容を入力して、スプレッドシートの<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトにアクセスしてみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
-&gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>  # Starts with a sheet named Sheet1
+&gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>  # Sheet1という名前のシートが最初からある
 &gt;&gt;&gt; <b class="calibre10">sheet2 = ss.Sheet('Spam')</b>
 &gt;&gt;&gt; <b class="calibre10">sheet3 = ss.Sheet('Eggs')</b>
-&gt;&gt;&gt; <b class="calibre10">ss.sheets</b>  # The Sheet objects in this Spreadsheet, in order
+&gt;&gt;&gt; <b class="calibre10">ss.sheets</b>  # このスプレッドシートのSheetオブジェクト（順序あり）
 (&lt;Sheet sheetId=0, title='Sheet1', rowCount=1000, columnCount=26&gt;, &lt;Sheet sheetId=284204004,
 title='Spam', rowCount=1000, columnCount=26&gt;, &lt;Sheet sheetId=1920032872, title='Eggs',
 rowCount=1000, columnCount=26&gt;)
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[0]</b>  # Gets the first Sheet object in this Spreadsheet
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[0]</b>  # このスプレッドシートの最初のSheetオブジェクト
 &lt;Sheet sheetId=0, title='Sheet1', rowCount=1000, columnCount=26&gt;
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">Spreadsheet</span> object’s <span class="thesansmonocd_w5regular_">sheetTitles</span> attribute holds a tuple of all the sheet titles. For example, enter the following into the interactive shell:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>  # The titles of all the Sheet objects in this Spreadsheet
+<p class="tx"><span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトの<span class="thesansmonocd_w5regular_">sheetTitles</span>属性はすべてのシート名を保持しています。対話型シェルで次のように入力してみてください。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>  # このスプレッドシートのすべてのシート名
 ('Sheet1', 'Spam', 'Eggs')
 </code></pre>
-<p class="tx">Once you have a <span class="thesansmonocd_w5regular_">Sheet</span> object, you can read data from it and write data to it using the <span class="thesansmonocd_w5regular_">Sheet</span> object’s methods, as explained in the next section.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトを取得できたら、次の節で説明するように、<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトのメソッドでデータの読み書きができます。</p>
 <section type="division" aria-labelledby="sec14">
-<h4 class="h1" id="calibre_link-1875"><span id="calibre_link-416"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading and Writing Data</span></h4>
-<p class="tni">Just as in Excel, Google Sheets worksheets have columns and rows of cells containing data. You can use the square brackets operator <span class="thesansmonocd_w5regular_">[]</span> to read and write data from and to these cells. For example, to create a new spreadsheet and add data to it, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1875"><span id="calibre_link-416"></span><span class="sans_futura_std_heavy_oblique_bi_">データの読み書き</span></h4>
+<p class="tni">Excelと同じように、Googleスプレッドシートのワークシートには、データを含むセルの行と列があります。角かっこ演算子<span class="thesansmonocd_w5regular_">[]</span> でセルの読み書きができます。例えば、対話型シェルに以下の内容を入力すると、新しいスプレッドシートを作成してデータを追加します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>
 &gt;&gt;&gt; <b class="calibre10">ss.title = 'My Spreadsheet'</b>
-<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1056" aria-label="368"></span>&gt;&gt;&gt; <b class="calibre10">sheet = ss.sheets[0]</b>  # Get the first sheet in this spreadsheet.
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1056" aria-label="368"></span>&gt;&gt;&gt; <b class="calibre10">sheet = ss.sheets[0]</b>  # このスプレッドシートの最初のシートを取得
 &gt;&gt;&gt; <b class="calibre10">sheet.title</b>
 'Sheet1'
-&gt;&gt;&gt; <b class="calibre10">sheet['A1'] = 'Name'</b>  # Set the value in cell A1.
+&gt;&gt;&gt; <b class="calibre10">sheet['A1'] = 'Name'</b>  # A1セルの値を設定
 &gt;&gt;&gt; <b class="calibre10">sheet['B1'] = 'Age'</b>
 &gt;&gt;&gt; <b class="calibre10">sheet['C1'] = 'Favorite Movie'</b>
-&gt;&gt;&gt; <b class="calibre10">sheet['A1']</b>  # Read the value in cell A1.
+&gt;&gt;&gt; <b class="calibre10">sheet['A1']</b>  # A1セルの値を読み取り
 'Name'
-&gt;&gt;&gt; <b class="calibre10">sheet['A2']</b>  # Empty cells return a blank string.
+&gt;&gt;&gt; <b class="calibre10">sheet['A2']</b>  # 空白セルは空文字列を返す
 ''
-&gt;&gt;&gt; <b class="calibre10">sheet[2, 1]</b>  # Column 2, Row 1 is the same address as B1.
+&gt;&gt;&gt; <b class="calibre10">sheet[2, 1]</b>  # 2列目1行目はB1と同じ
 'Age'
 &gt;&gt;&gt; <b class="calibre10">sheet['A2'] = 'Alice'</b>
 &gt;&gt;&gt; <b class="calibre10">sheet['B2'] = 30</b>
 &gt;&gt;&gt; <b class="calibre10">sheet['C2'] = 'RoboCop'</b>
-&gt;&gt;&gt; <b class="calibre10">sheet['B2']</b>  # Note that all data is returned as strings.
+&gt;&gt;&gt; <b class="calibre10">sheet['B2']</b>  # データはすべて文字列として返される
 '30'
 </code></pre>
-<p class="tx">These instructions should produce a Google Sheets spreadsheet that looks like Figure 15-2.</p>
+<p class="tx">これらの指示によりGoogleスプレッドシートは図15-2のようになります。</p>
 <figure class="img"><img class="img2" id="calibre_link-772" src="images/000029.jpg" alt="A Google Sheets spreadsheet containing “Name” in cell AI, “Age” in cell A2”, “Favorite Movie” in cell C2, “Alice” in cell A2, “30” in age B2, and “RoboCop” in cell C2." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 15-2 The spreadsheet created with the example instructions</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 15-2：上記の例の指示により作成されたスプレッドシート</span></p></figcaption>
 </figure>
-<p class="tx">All of the data in the <span class="thesansmonocd_w5regular_">Sheet</span> object is loaded when the <span class="thesansmonocd_w5regular_">Spreadsheet</span> object is first loaded, so the data is read instantly. However, writing values to the online spreadsheet requires a network connection and can take about a second. If you have thousands of cells to update, updating them one at a time might be quite slow. Instead, the next couple of sections will show you how to update entire rows and columns at once.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトのすべてのデータは<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトが最初にロードされたときにロードされます。そのため、データの読み取りは一瞬でできます。しかし、値をオンラインのスプレッドシートに書き込むには、ネットワーク接続が必要で、1秒程度かかります。数千セルを一つずつ更新すると非常に時間がかかります。一つずつ更新するのではなく、行全体や列全体を一度に更新する方法を次の節で示します。</p>
 <section type="division" aria-labelledby="sec15">
-<h5 class="h2" id="calibre_link-1876"><span class="sans_futura_std_bold_b_">Addressing Columns and Rows</span></h5>
-<p class="tni">Cell addressing works in Google Sheets just like in Excel. The only difference is that, unlike Python’s 0-based list indexes, Google Sheets have 1-based columns and rows: the first column or row is at index 1, not 0. You can convert from the <span class="thesansmonocd_w5regular_">'A2'</span> string-style address to the <span class="thesansmonocd_w5regular_">(column, row)</span> tuple-style address (and vice versa) with the <span class="thesansmonocd_w5regular_">convertAddress()</span> function. The <span class="thesansmonocd_w5regular_">getColumnLetterOf()</span> and <span class="thesansmonocd_w5regular_">getColumnNumberOf()</span> functions will also convert a column <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1147" aria-label="369"></span>address between letters and numbers. For example, enter the following into the interactive shell:</p>
+<h5 class="h2" id="calibre_link-1876"><span class="sans_futura_std_bold_b_">列と行を操作する</span></h5>
+<p class="tni">GoogleスプレッドシートのセルはExcelと同じように操作できます。Pythonの0始まりのリストインデックスとは異なり、Googleスプレッドシートの行と列は1始まりです。最初の行や列のインデックスは1であり、0ではありません。<span class="thesansmonocd_w5regular_">convertAddress()</span>関数を使えば、<span class="thesansmonocd_w5regular_">'A2'</span>のような文字スタイルの座標を<span class="thesansmonocd_w5regular_">(column, row)</span>のようなタプルスタイルの座標に変換できます（逆の変換もできます）。<span class="thesansmonocd_w5regular_">getColumnLetterOf()</span>関数と<span class="thesansmonocd_w5regular_">getColumnNumberOf()</span>関数は、列のアルファベットと数値を変換します。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
-&gt;&gt;&gt; <b class="calibre10">ezsheets.convertAddress('A2')</b>  # Converts addresses...
+&gt;&gt;&gt; <b class="calibre10">ezsheets.convertAddress('A2')</b>  # 文字スタイルの座標を変換
 (1, 2)
-&gt;&gt;&gt; <b class="calibre10">ezsheets.convertAddress(1, 2)</b>  # ...and converts them back, too.
+&gt;&gt;&gt; <b class="calibre10">ezsheets.convertAddress(1, 2)</b>  # タプルスタイルの座標を変換
 'A2'
 &gt;&gt;&gt; <b class="calibre10">ezsheets.getColumnLetterOf(2)</b>
 'B'
@@ -255,13 +262,13 @@ rowCount=1000, columnCount=26&gt;)
 &gt;&gt;&gt; <b class="calibre10">ezsheets.getColumnNumberOf('ZZZ')</b>
 18278
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">'A2'</span> string-style addresses are convenient if you’re typing addresses into your source code. But the <span class="thesansmonocd_w5regular_">(column, row)</span> tuple-style addresses are convenient if you’re looping over a range of addresses and need a numeric identifier for the column. The <span class="thesansmonocd_w5regular_">convertAddress()</span>, <span class="thesansmonocd_w5regular_">getColumnLetterOf()</span>, and <span class="thesansmonocd_w5regular_">getColumnNumberOf()</span> functions are helpful when you need to convert between the two formats.</p>
+<p class="tx">ソースコードに座標を入力するなら<span class="thesansmonocd_w5regular_">'A2'</span>文字スタイルの座標が便利です。しかし座標をループさせて列番号が必要になるなら<span class="thesansmonocd_w5regular_">(column, row)</span>タプルスタイルの座標が便利です。2つのスタイルを変換するのに、<span class="thesansmonocd_w5regular_">convertAddress()</span>関数、<span class="thesansmonocd_w5regular_">getColumnLetterOf()</span>関数、<span class="thesansmonocd_w5regular_">getColumnNumberOf()</span>関数が役立ちます。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h5 class="h2" id="calibre_link-1877"><span class="sans_futura_std_bold_b_">Reading and Writing Entire Columns and Rows</span></h5>
-<p class="tni">As mentioned, writing data one cell at a time can often take too long. Fortunately, EZSheets has <span class="thesansmonocd_w5regular_">Sheet</span> methods for reading and writing entire columns and rows at the same time. The <span class="thesansmonocd_w5regular_">getColumn()</span>, <span class="thesansmonocd_w5regular_">getRow()</span>, <span class="thesansmonocd_w5regular_">updateColumn()</span>, and <span class="thesansmonocd_w5regular_">updateRow()</span> methods will, respectively, read and write columns and rows. These methods make requests to the Google Sheets servers to update the spreadsheet, so they require that you be connected to the internet. In this section’s example, we’ll upload <i class="calibre5">produceSales3.xlsx</i> from <span>Chapter 14</span> to Google Sheets. You can download it from this book’s online resources. The first eight rows look like Table 15-1.</p>
+<h5 class="h2" id="calibre_link-1877"><span class="sans_futura_std_bold_b_">列全体または行全体を読み書きする</span></h5>
+<p class="tni">先ほど述べたように、一度に一つのセルに書き込むと時間がかかりすぎます。EZSheetsには、列全体または行全体を読み書きする<span class="thesansmonocd_w5regular_">Sheet</span>メソッドがあります。<span class="thesansmonocd_w5regular_">getColumn()</span>、<span class="thesansmonocd_w5regular_">getRow()</span>、<span class="thesansmonocd_w5regular_">updateColumn()</span>、<span class="thesansmonocd_w5regular_">updateRow()</span>のメソッドが、それぞれ列全体または行全体を読み書きします。これらのメソッドはGoogleスプレッドシートのサーバーにリクエストを送り、スプレッドシートを更新します。よってインターネット接続が必要になります。この節の例では、<span>第14章</span>の<i class="calibre5">produceSales3.xlsx</i>をGoogleスプレッドシートにアップロードして使います。このファイルは本書のオンライン素材からダウンロードできます。最初の8行を表15-1に示します。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-773"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 15-1:</span></span> <span class="sans_futura_std_book_">The First Eight Rows of the</span> <span class="sans_futura_std_book_oblique_i_">produceSales3.xlsx</span> <span class="sans_futura_std_book_">Spreadsheet</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-773"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 15-1：</span></span><span class="sans_futura_std_book_oblique_i_">produceSales3.xlsx</span><span class="sans_futura_std_book_">ファイルの最初の8行</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
@@ -331,18 +338,18 @@ rowCount=1000, columnCount=26&gt;)
 </tr>
 </tbody>
 </table>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1134" aria-label="370"></span>To upload this spreadsheet, put the <i class="calibre5">produceSales3.xlsx</i> file in the current working directory and enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1134" aria-label="370"></span><i class="calibre5">produceSales3.xlsx</i>ファイルを現在の作業ディレクトリに置いて、対話型シェルで以下の内容を実行してこのExcelファイルをアップロードしてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.upload('produceSales3.xlsx')</b>
 &gt;&gt;&gt; <b class="calibre10">sheet = ss.sheets[0]</b>
-&gt;&gt;&gt; <b class="calibre10">sheet.getRow(1)</b>  # The first row is row 1, not row 0.
+&gt;&gt;&gt; <b class="calibre10">sheet.getRow(1)</b>  # 最初の行は0ではなく1
 ['PRODUCE', 'COST PER POUND', 'POUNDS SOLD', 'TOTAL', '', '']
 &gt;&gt;&gt; <b class="calibre10">sheet.getRow(2)</b>
 ['Potatoes', '0.86', '21.6', '18.58', '', '']
 &gt;&gt;&gt; <b class="calibre10">sheet.getColumn(1)</b>
 ['PRODUCE', 'Potatoes', 'Okra', 'Fava beans', 'Watermelon', 'Garlic',
 <var class="calibre20">--snip--</var>
-&gt;&gt;&gt; <b class="calibre10">sheet.getColumn('A')</b>  # The same result as getColumn(1)
+&gt;&gt;&gt; <b class="calibre10">sheet.getColumn('A')</b>  # getColumn(1)と同じ
 ['PRODUCE', 'Potatoes', 'Okra', 'Fava beans', 'Watermelon', 'Garlic',
 <var class="calibre20">--snip--</var>
 &gt;&gt;&gt; <b class="calibre10">sheet.getRow(3)</b>
@@ -352,173 +359,173 @@ rowCount=1000, columnCount=26&gt;)
 ['Pumpkin', '11.50', '20', '230', '', '']
 &gt;&gt;&gt; <b class="calibre10">columnOne = sheet.getColumn(1)</b>
 &gt;&gt;&gt; <b class="calibre10">for i, value in enumerate(columnOne):</b>
-...     # Make the Python list contain uppercase strings:
+...     # Pythonのリスト内の文字列を大文字に
 ...     <b class="calibre10">columnOne[i] = value.upper()</b>
 ...
-&gt;&gt;&gt; <b class="calibre10">sheet.updateColumn(1, columnOne)</b>  # Update the entire column in one request.
+&gt;&gt;&gt; <b class="calibre10">sheet.updateColumn(1, columnOne)</b>  # 列全体を1回のリクエストで更新
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">getRow()</span> and <span class="thesansmonocd_w5regular_">getColumn()</span> functions retrieve the data from every cell in a specific row or column as a list of values. Note that empty cells become blank string values in the list. You can pass <span class="thesansmonocd_w5regular_">getColumn()</span> either a column number or a letter to tell it to retrieve a specific column’s data. The previous example shows that <span class="thesansmonocd_w5regular_">getColumn(1)</span> and <span class="thesansmonocd_w5regular_">getColumn('A')</span> return the same list.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">updateRow()</span> and <span class="thesansmonocd_w5regular_">updateColumn()</span> functions will overwrite the data in the row or column, respectively, with the list of values passed to the function. In this example, the third row initially contains information about okra, but the <span class="thesansmonocd_w5regular_">updateRow()</span> call replaces it with data about pumpkins. Call <span class="thesansmonocd_w5regular_">sheet.getRow(3)</span> again to view the new values in the third row.</p>
-<p class="tx">Updating cells one at a time is slow if you have many cells to update. Getting a column or row as a list, updating the list, and then updating the entire column or row with the list is much faster, because you can make all changes in one request to Google’s cloud services.</p>
-<p class="tx">To get all of the rows at once, call the <span class="thesansmonocd_w5regular_">getRows()</span> method to return a list of lists. The inner lists inside the outer list each represent a single row of the sheet. You can modify the values in this data structure to change the produce name, pounds sold, and total cost of some of the rows. Then, you can pass it to the <span class="thesansmonocd_w5regular_">updateRows()</span> method by entering the following into the interactive shell:</p>
-<pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1033" aria-label="371"></span>&gt;&gt;&gt; <b class="calibre10">rows = sheet.getRows()</b>  # Get every row in the spreadsheet.
-&gt;&gt;&gt; <b class="calibre10">rows[0]</b>  # Examine the values in the first row.
+<p class="tx"><span class="thesansmonocd_w5regular_">getRow()</span>関数と<span class="thesansmonocd_w5regular_">getColumn()</span>関数は指定した行または列のすべてのセルのデータをリストとして取得します。空白セルはリスト内で空白文字列値になります。<span class="thesansmonocd_w5regular_">getColumn()</span>に列番号とアルファベット文字のどちらを渡しても、指定した列のデータを取得します。先の例では<span class="thesansmonocd_w5regular_">getColumn(1)</span>と<span class="thesansmonocd_w5regular_">getColumn('A')</span>が同じリストを返すことを示しています。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">updateRow()</span>関数と<span class="thesansmonocd_w5regular_">updateColumn()</span>関数は、渡した値のリストで、行または列のデータを上書きします。この例では、3行目は最初okra（オクラ）の情報を含んでいましたが、<span class="thesansmonocd_w5regular_">updateRow()</span>呼び出しによりpumpkins（かぼちゃ）のデータに置き換えました。<span class="thesansmonocd_w5regular_">sheet.getRow(3)</span>をもう一度呼び出すと、3行目の新しい値を確認できます。</p>
+<p class="tx">たくさんのセルを更新するときに、セルを一つずつ更新するのは遅いです。列または行をリストとして取得し、リストを更新して、そのリストで列全体または行全体を更新すれば、ずっと速いです。すべての変更をGoogle Cloudのサービスへの一度のリクエストでできるからです。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">getRows()</span>メソッドを呼び出すと、リストのリストが返され、すべての行を一度で取得できます。外側のリストの中に入っている内側のリストはシートの一つの行を表します。このデータ構造中の、農産物の種類、販売ポンド数、総売上の一部の値を変更します。そして、それを<span class="thesansmonocd_w5regular_">updateRows()</span>メソッドに渡します。以下の対話型シェルの内容を実行してください。</p>
+<pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1033" aria-label="371"></span>&gt;&gt;&gt; <b class="calibre10">rows = sheet.getRows()</b>  # スプレッドシートのすべての行を取得
+&gt;&gt;&gt; <b class="calibre10">rows[0]</b>  # 最初の行の値
 ['PRODUCE', 'COST PER POUND', 'POUNDS SOLD', 'TOTAL', '', '']
 &gt;&gt;&gt; <b class="calibre10">rows[1]</b>
 ['POTATOES', '0.86', '21.6', '18.58', '', '']
-&gt;&gt;&gt; <b class="calibre10">rows[1][0] = 'PUMPKIN'</b>  # Change the produce name.
+&gt;&gt;&gt; <b class="calibre10">rows[1][0] = 'PUMPKIN'</b>  # 農産物の種類を変更
 &gt;&gt;&gt; <b class="calibre10">rows[1]</b>
 ['PUMPKIN', '0.86', '21.6', '18.58', '', '']
 &gt;&gt;&gt; <b class="calibre10">rows[10]</b>
 ['OKRA', '2.26', '40', '90.4', '', '']
-&gt;&gt;&gt; <b class="calibre10">rows[10][2] = '400'</b>  # Change the pounds sold.
-&gt;&gt;&gt; <b class="calibre10">rows[10][3] = '904'</b>  # Change the total.
+&gt;&gt;&gt; <b class="calibre10">rows[10][2] = '400'</b>  # 販売ポンド数を変更
+&gt;&gt;&gt; <b class="calibre10">rows[10][3] = '904'</b>  # 総売上を変更
 &gt;&gt;&gt; <b class="calibre10">rows[10]</b>
 ['OKRA', '2.26', '400', '904', '', '']
-&gt;&gt;&gt; <b class="calibre10">sheet.updateRows(rows)</b>  # Update the online spreadsheet with the changes.
+&gt;&gt;&gt; <b class="calibre10">sheet.updateRows(rows)</b>  # 変更点についてオンラインのスプレッドシートを更新
 </code></pre>
-<p class="tx">You can update the entire sheet in a single request by passing <span class="thesansmonocd_w5regular_">updateRows()</span> the list of lists returned from <span class="thesansmonocd_w5regular_">getRows()</span>, amended with the changes made to rows 1 and 10.</p>
-<p class="tx">Note that the rows in the Google Sheets spreadsheet have empty strings at the end. This is because the uploaded sheet has a column count of <span class="thesansmonocd_w5regular_">6</span>, but we have only four columns of data. You can read the number of rows and columns in a sheet with the <span class="thesansmonocd_w5regular_">rowCount</span> and <span class="thesansmonocd_w5regular_">columnCount</span> attributes. Then, by setting these values, you can change the size of the sheet:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">sheet.rowCount</b>  # The number of rows in the sheet
+<p class="tx"><span class="thesansmonocd_w5regular_">getRows()</span>から返されたリストのリストの1行目と10行目を修正して、<span class="thesansmonocd_w5regular_">updateRows()</span>にそのリストのリストを渡すことで、シート全体を一回のリクエストで更新しています。</p>
+<p class="tx">このGoogleスプレッドシートには最後に空白の列があることに注意してください。アップロードしたシートには6列ありますが、データは4列しかありません。<span class="thesansmonocd_w5regular_">rowCount</span>属性と<span class="thesansmonocd_w5regular_">columnCount</span>属性でシートの行数と列数を読み取れます。これらの属性に値を設定すると、シートのサイズを変えられます。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">sheet.rowCount</b>  # シートの行数
 23758
-&gt;&gt;&gt; <b class="calibre10">sheet.columnCount</b>  # The number of columns in the sheet
+&gt;&gt;&gt; <b class="calibre10">sheet.columnCount</b>  # シートの列数
 6
-&gt;&gt;&gt; <b class="calibre10">sheet.columnCount = 4</b>  # Change the number of columns to 4.
-&gt;&gt;&gt; <b class="calibre10">sheet.columnCount</b>  # Now the number of columns in the sheet is 4.
+&gt;&gt;&gt; <b class="calibre10">sheet.columnCount = 4</b>  # 列数を4に変更
+&gt;&gt;&gt; <b class="calibre10">sheet.columnCount</b>  # シートの列数は4
 4
 </code></pre>
-<p class="tx">These instructions should delete the fifth and sixth columns of the <i class="calibre5">produceSales3.xlsx</i> spreadsheet, as shown in Figure 15-3.</p>
+<p class="tx">この指示により<i class="calibre5">produceSales3.xlsx</i>の5列目と6列目を削除します。図15-3にその様子を示しました。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1294" aria-label="372"></span>
 <figure class="img"><img class="img3" id="calibre_link-774" src="images/000030.jpg" alt="Two versions of a spreadsheet showing produce information. In the first, the last two columns, E and F, are empty. In the second, the E and F columns have been removed." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 15-3: The sheet before (top) and after (bottom) changing the column count to four</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 15-3：列数を4に変更する前（上）と後（下）</span></p></figcaption>
 </figure>
-<p class="tx">According to Google’s documentation, Google Sheets spreadsheets can have up to 10 million cells in them. However, it’s a good idea to make sheets only as big as you need to minimize the time it takes to update and refresh the data.</p>
+<p class="tx">Googleのドキュメントによると、Googleスプレッドシートは1000万セルまで収納できます。しかし、データの更新にかかる時間を短くするためにシートを必要なだけの大きさにするのがよいでしょう。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h4 class="h1" id="calibre_link-1878"><span id="calibre_link-417"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating, Moving, and Deleting Sheets</span></h4>
-<p class="tni">All Google Sheets spreadsheets start with a single sheet named <i class="calibre5">Sheet1</i>. You can add additional sheets to the end of the list of sheets with the <span class="thesansmonocd_w5regular_">Sheet()</span> method, which accepts an optional string to use as the new sheet’s title. An optional second argument can specify the integer index of the new sheet. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1295" aria-label="373"></span>To create a spreadsheet and then add new sheets to it, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1878"><span id="calibre_link-417"></span><span class="sans_futura_std_heavy_oblique_bi_">シートの作成、移動、削除</span></h4>
+<p class="tni">Googleスプレッドシートは、<i class="calibre5">Sheet1</i>という名前の一つのシートだけがある状態で始まります。<span class="thesansmonocd_w5regular_">Sheet()</span>メソッドでシートのリストの末尾にシートを追加できます。文字列を渡して新しいシート名を指定することもできます。オプションの第二引数には、新しいシートを作成するインデックスを整数で指定します。対話型シェルで以下の内容を実行して、スプレッドシートを作成して新しいシートを追加してみだくさい。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet()</b>
 &gt;&gt;&gt; <b class="calibre10">ss.title = 'Multiple Sheets'</b>
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Sheet1',)
-&gt;&gt;&gt; <b class="calibre10">ss.Sheet('Spam')</b>  # Create a new sheet at the end of the list of sheets.
+&gt;&gt;&gt; <b class="calibre10">ss.Sheet('Spam')</b>  # シートのリストの末尾に新しいシートを作成
 &lt;Sheet sheetId=2032744541, title='Spam', rowCount=1000, columnCount=26&gt;
-&gt;&gt;&gt; <b class="calibre10">ss.Sheet('Eggs')</b>  # Create another new sheet.
+&gt;&gt;&gt; <b class="calibre10">ss.Sheet('Eggs')</b>  # さらに新しいシートを作成
 &lt;Sheet sheetId=417452987, title='Eggs', rowCount=1000, columnCount=26&gt;
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Sheet1', 'Spam', 'Eggs')
-&gt;&gt;&gt; <b class="calibre10">ss.Sheet('Bacon', 0)</b>  # Create a sheet at index 0 in the list of sheets.
+&gt;&gt;&gt; <b class="calibre10">ss.Sheet('Bacon', 0)</b>  # シートのリストのインデックス0に新しいシートを作成
 &lt;Sheet sheetId=814694991, title='Bacon', rowCount=1000, columnCount=26&gt;
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Bacon', 'Sheet1', 'Spam', 'Eggs')
 </code></pre>
-<p class="tx">These instructions add three new sheets to the spreadsheet: <i class="calibre5">Bacon</i>, <i class="calibre5">Spam</i>, and <i class="calibre5">Eggs</i> (in addition to the default <i class="calibre5">Sheet1</i>). The sheets in a spreadsheet are ordered, and new sheets go to the end of the list unless you pass a second argument to <span class="thesansmonocd_w5regular_">Sheet()</span> specifying the sheet’s index. Here, you create the sheet titled <i class="calibre5">Bacon</i> at index <span class="thesansmonocd_w5regular_">0</span>, making <i class="calibre5">Bacon</i> the first sheet in the spreadsheet and displacing the other three sheets by one position. This is similar to the behavior of the <span class="thesansmonocd_w5regular_">insert()</span> list method.</p>
-<p class="tx">You can see the new sheets on the tabs at the bottom of the screen, as shown in Figure 15-4.</p>
+<p class="tx">この指示では、デフォルトの<i class="calibre5">Sheet1</i>に加えて、<i class="calibre5">Bacon</i>、<i class="calibre5">Spam</i>、<i class="calibre5">Eggs</i>という3つの新しいシートをスプレッドシートに追加しています。スプレッドシートのシートには順序があり、<span class="thesansmonocd_w5regular_">Sheet()</span>の第二引数で追加するシートのインデックスを指定しない限り新しいシートはリストの末尾に追加されます。<i class="calibre5">Bacon</i>という名前のシートをインデックス<span class="thesansmonocd_w5regular_">0</span>に追加したので、<i class="calibre5">Bacon</i>はこのスプレッドシートの最初に来ています。他の3つのシートは一つずつ位置がずれます。この挙動は<span class="thesansmonocd_w5regular_">insert()</span>リストメソッドに似ています。</p>
+<p class="tx">図15-4に示すように、新しいシートが画面下部のタブで確認できます。</p>
 <figure class="img"><img class="img1" id="calibre_link-775" src="images/000031.jpg" alt="A Google Sheets file called Multiple Sheets with four tabs, Bacon, Sheet1, Spam, and Eggs. Bacon is highlighted, and the spreadsheet is blank." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 15-4: The</span> <span class="sans_futura_std_book_">Multiple Sheets</span> <span class="sans_futura_std_book_oblique_i_">spreadsheet after adding sheets</span> <span class="sans_futura_std_book_">Spam</span><span class="sans_futura_std_book_oblique_i_">,</span> <span class="sans_futura_std_book_">Eggs</span><span class="sans_futura_std_book_oblique_i_">, and</span> <span class="sans_futura_std_book_">Bacon</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図  15-4：</span><span class="sans_futura_std_book_">スプレッドシートに</span><span class="sans_futura_std_book_">Spam</span><span class="sans_futura_std_book_oblique_i_">、</span><span class="sans_futura_std_book_">Eggs</span><span class="sans_futura_std_book_oblique_i_">、</span><span class="sans_futura_std_book_">Bacon</span>シートを追加して複数のシートがあるスプレッドシート</p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1064" aria-label="374"></span>You can get the order of a sheet from its index attribute and then assign a new index to this attribute to reorder the sheet:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1064" aria-label="374"></span>シートの順序はindex属性からわかり、index属性に新しい値を代入するとシートの順序を変えられます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Bacon', 'Sheet1', 'Spam', 'Eggs')
 &gt;&gt;&gt; <b class="calibre10">ss.sheets[0].index</b>
 0
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].index = 2</b>  # Move the sheet at index 0 to index 2.
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].index = 2</b>  # シートのインデックスを0から2に移動
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Sheet1', 'Spam', 'Bacon', 'Eggs')
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[2].index = 0</b>  # Move the sheet at index 2 to index 0.
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[2].index = 0</b>  # シートのインデックスを2から0に移動
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Bacon', 'Sheet1', 'Spam', 'Eggs')
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">Sheet</span> object’s <span class="thesansmonocd_w5regular_">delete()</span> method will delete the sheet from the spreadsheet. If you want to keep the sheet but delete the data it contains, call the <span class="thesansmonocd_w5regular_">clear()</span> method to clear all the cells and make it a blank sheet. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトの<span class="thesansmonocd_w5regular_">delete()</span>メソッドは、スプレッドシートからシートを削除します。シートを残してそのシートのデータを削除したければ、<span class="thesansmonocd_w5regular_">clear()</span>メソッドを呼び出してすべてのセルをクリアして空白のシートにします。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Bacon', 'Sheet1', 'Spam', 'Eggs')
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].delete()</b>  # Delete the sheet at index 0: the "Bacon" sheet.
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].delete()</b>  # インデックス0の"Bacon"シートを削除
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Sheet1', 'Spam', 'Eggs')
-&gt;&gt;&gt; <b class="calibre10">ss['Spam'].delete()</b>  # Delete the "Spam" sheet.
+&gt;&gt;&gt; <b class="calibre10">ss['Spam'].delete()</b>  # "Spam"シートを削除
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Sheet1', 'Eggs')
-&gt;&gt;&gt; <b class="calibre10">sheet = ss['Eggs']</b>  # Assign a variable to the "Eggs" sheet.
-&gt;&gt;&gt; <b class="calibre10">sheet.delete()</b>  # Delete the "Eggs" sheet.
+&gt;&gt;&gt; <b class="calibre10">sheet = ss['Eggs']</b>  # "Eggs"シートを変数に代入
+&gt;&gt;&gt; <b class="calibre10">sheet.delete()</b>  # "Eggs"シートを削除
 &gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>
 ('Sheet1',)
-&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].clear()</b>  # Clear all the cells on the "Sheet1" sheet.
-&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>  # The "Sheet1" sheet is empty but still exists.
+&gt;&gt;&gt; <b class="calibre10">ss.sheets[0].clear()</b>  # "Sheet1"シートのセルをすべてクリア
+&gt;&gt;&gt; <b class="calibre10">ss.sheetTitles</b>  # "Sheet1"シートは空白だが存在
 ('Sheet1',)
 </code></pre>
-<p class="tx">Deleting sheets is permanent; there’s no way to recover the data. However, you can back up sheets by copying them to another spreadsheet with the <span class="thesansmonocd_w5regular_">copyTo()</span> method, as explained in the next section.</p>
+<p class="tx">シートは完全に削除されます。データを回復する方法はありません。<span class="thesansmonocd_w5regular_">copyTo()</span>メソッドで別のスプレッドシートにコピーすれば、バックアップできます。次の節ではコピーについて説明します。</p>
 </section>
 <section type="division" aria-labelledby="sec18">
-<h4 class="h1" id="calibre_link-1879"><span id="calibre_link-418"></span><span class="sans_futura_std_heavy_oblique_bi_">Copying Sheets</span></h4>
-<p class="tni">Every <span class="thesansmonocd_w5regular_">Spreadsheet</span> object has an ordered list of the <span class="thesansmonocd_w5regular_">Sheet</span> objects it contains, and you can use this list to reorder the sheets (as shown in the previous section) or copy them to other spreadsheets. To copy a <span class="thesansmonocd_w5regular_">Sheet</span> object to another <span class="thesansmonocd_w5regular_">Spreadsheet</span> object, call the <span class="thesansmonocd_w5regular_">copyTo()</span> method. Pass it the destination <span class="thesansmonocd_w5regular_">Spreadsheet</span> object as an argument. To create two spreadsheets and copy the first spreadsheet’s data to the other sheet, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1879"><span id="calibre_link-418"></span><span class="sans_futura_std_heavy_oblique_bi_">シートのコピー</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトには<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトのリストがあります。（前の節で説明したように）このリストの順序を変えればシートの順序を変えられます。このリストを別のスプレッドシートにコピーすることもできます。<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトを別の<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトにコピーするには、<span class="thesansmonocd_w5regular_">copyTo()</span>メソッドを呼び出します。コピー先のスプレッドシートの<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトを引数として渡します。スプレッドシートを2つ作成し、1つ目のスプレッドシートのデータを2つ目のスプレッドシートにコピーします。対話型シェルに以下の内容を入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss1 = ezsheets.Spreadsheet()</b>
 &gt;&gt;&gt; <b class="calibre10">ss1.title = 'First Spreadsheet'</b>
-&gt;&gt;&gt; <b class="calibre10">ss1.sheets[0].title = 'Spam'</b>  # ss1 will have a sheet named Spam.
+&gt;&gt;&gt; <b class="calibre10">ss1.sheets[0].title = 'Spam'</b>  # ss1にSpamという名前のシートを持たせる
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1152" aria-label="375"></span>&gt;&gt;&gt; <b class="calibre10">ss2 = ezsheets.Spreadsheet()</b>
 &gt;&gt;&gt; <b class="calibre10">ss2.title = 'Second Spreadsheet'</b>
-&gt;&gt;&gt; <b class="calibre10">ss2.sheets[0].title = 'Eggs'</b>  # ss2 will have a sheet named Eggs.
+&gt;&gt;&gt; <b class="calibre10">ss2.sheets[0].title = 'Eggs'</b>  # ss2にEggsという名前のシートを持たせる
 &gt;&gt;&gt; <b class="calibre10">ss1[0]</b>
 &lt;Sheet sheetId=0, title='Spam', rowCount=1000, columnCount=26&gt;
 &gt;&gt;&gt; <b class="calibre10">ss1[0].updateRow(1, ['Some', 'data', 'in', 'the', 'first', 'row'])</b>
-&gt;&gt;&gt; <b class="calibre10">ss1[0].copyTo(ss2)</b>  # Copy the ss1's Sheet1 to the ss2 spreadsheet.
-&gt;&gt;&gt; <b class="calibre10">ss2.sheetTitles</b>  # ss2 now contains a copy of ss1's Sheet1.
+&gt;&gt;&gt; <b class="calibre10">ss1[0].copyTo(ss2)</b>  # ss1の1番目のシートをss2スプレッドシートにコピー
+&gt;&gt;&gt; <b class="calibre10">ss2.sheetTitles</b>  # ss2にはss1の1番目のシートのコピーがある
 ('Eggs', 'Copy of Spam')
 </code></pre>
-<p class="tx">Copied sheets appear with a prefix of <span class="thesansmonocd_w5regular_">Copy of</span> at the end of the list of the destination spreadsheet’s sheets. If you wish, you can change their <span class="thesansmonocd_w5regular_">index</span> attribute to reorder them in the new spreadsheet.</p>
+<p class="tx">コピーしたシートは、コピー先のスプレッドシートのシートのリストの末尾に<span class="thesansmonocd_w5regular_">Copy of</span>という接頭辞つきで現れます。新しいスプレッドシートの<span class="thesansmonocd_w5regular_">index</span>属性を変更すればシートの順序を変えられます。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec19">
-<h3 class="h" id="calibre_link-1880"><span id="calibre_link-419"></span><span class="sans_futura_std_bold_b_">Google Forms</span></h3>
-<p class="tni">Your Google account also gives you access to Google Forms at <i class="calibre5"><a href="https://forms.google.com/" class="calibre1">https://<wbr></wbr>forms<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/</a></i>. You can create surveys, event registrations, or feedback forms with Google Forms, then receive the answers that users submit in a Google Sheets spreadsheet. Using EZSheets, your Python programs can access this data from the spreadsheet.</p>
-<p class="tx">In <span>Chapter 19</span>, you’ll learn to schedule your Python programs to run at regular, specified times. You could write a program that regularly checks a Google Forms spreadsheet for responses and detect any new entries it hasn’t seen before. Then, using the information in <span>Chapter 20</span>, you can have the program send you a text so that you can get real-time notifications when a form is filled out.</p>
-<p class="tx">As you’ve seen, Python is well-known as a “glue” language for tying together multiple existing software systems, letting you create an automated process more powerful than the sum of its parts.</p>
-<p class="ph"><span id="calibre_link-420"></span><span class="sans_futura_std_heavy_b_">Project 11: Fake Blockchain Cryptocurrency Scam</span></p>
-<p class="tni">In this project, we’ll use Google Sheets as a fake blockchain to track the transactions of Boringcoin, a cryptocurrency scam I’m promoting. (It turns out that investors and customers don’t care if your blockchain product uses a real blockchain data structure; they will give you money anyway.)</p>
-<p class="tx">The URL <i class="calibre5"><a href="https://autbor.com/boringcoin" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/boringcoin</a></i> redirects to the Google Sheets URL for Boringcoin’s blockchain. The spreadsheet has three columns: the sender of the transaction, the recipient of the transaction, and the amount of the transaction. The amount is deducted from the sender and added to the recipient. If the sender is <span class="thesansmonocd_w5regular_">'PRE-MINE'</span>, this money is created out of thin air and added to the recipient account. Figure 15-5 shows this Google Sheet.</p>
+<h3 class="h" id="calibre_link-1880"><span id="calibre_link-419"></span><span class="sans_futura_std_bold_b_">Googleフォーム</span></h3>
+<p class="tni">Googleアカウントがあれば、<i class="calibre5"><a href="https://forms.google.com/" class="calibre1">https://<wbr></wbr>forms<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/</a></i>からGoogleフォームを利用できます。Googleフォームでは、調査、イベント登録、フィードバック収集ができ、ユーザーが送信した回答をGoogleスプレッドシートで受け取ります。EZSheetsを使えば、Pythonプログラムでそのスプレッドシートのデータにアクセスできます。</p>
+<p class="tx"><span>第19章</span>でPythonプログラムを指定した時間に定期実行するスケジュール方法を説明します。定期的にGoogleフォームの回答スプレッドシートをチェックして、新しい回答がないかを確認するプログラムを書けます。<span>第20章</span>で説明する内容を活用すれば、プログラムに通知をさせて、フォーム提出のリアルタイム通知を受けることができます。</p>
+<p class="tx">ここまで見てきたように、Pythonは複数の既存のソフトウェアシステムをつなげて、全体が部分の総和よりも強力になるような自動化プロセスを作成できるので、グルー（糊）言語としてよく知られています。</p>
+<p class="ph"><span id="calibre_link-420"></span><span class="sans_futura_std_heavy_b_">プロジェクト11：うそのブロックチェーン暗号資産詐欺</span></p>
+<p class="tni">このプロジェクトでは、Googleスプレッドシートをうそのブロックチェーンとして用いて、ボーリングコインの取引を追跡します。ボーリングコインは筆者が考え出した暗号資産詐欺です。（投資家も利用者も、ブロックチェーンが本物のブロックチェーンのデータ構造であるかどうかなんて気にしないでお金を出しているとわかりました。）</p>
+<p class="tx"><i class="calibre5"><a href="https://autbor.com/boringcoin" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/boringcoin</a></i>はボーリングコインブロックチェーンのGoogleスプレッドシートにリダイレクトします。このスプレッドシートには、取引の送信者、取引の受信者、取引量の3列あります。取引量だけ送信者から差し引き受信者に加えます。送信者が<span class="thesansmonocd_w5regular_">'PRE-MINE'</span>であれば、これは何もないところからお金が作り出されたものであり、受信者のアカウントに加えられます。図15-5はこのGoogleスプレッドシートを示しています。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-942" aria-label="376"></span>
 <figure class="img"><img class="img1" id="calibre_link-776" src="images/000032.jpg" alt="A Google Sheets spreadsheet called Boringcoin containing a list of names in columns A and B and a list of values in column C. The first cell in column A has the value PRE-MINE." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 15-5: The fake blockchain for Boringcoin, stored on a Google Sheet</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 15-5：Googleスプレッドシートに格納されたボーリングコインのうそのブロックチェーン</span></p></figcaption>
 </figure>
-<p class="tx">The first transaction has the sender <span class="thesansmonocd_w5regular_">'PRE-MINE'</span> and the recipient <span class="thesansmonocd_w5regular_">'Al Sweigart'</span>, and the amount is a humble <span class="thesansmonocd_w5regular_">1000000000</span>. The <span class="thesansmonocd_w5regular_">'Al Sweigart'</span> account then transfers <span class="thesansmonocd_w5regular_">19116</span> Boringcoins to <span class="thesansmonocd_w5regular_">'Miles Bron'</span>, who then transfers <span class="thesansmonocd_w5regular_">118</span> Boringcoins to <span class="thesansmonocd_w5regular_">'not_a_scammer'</span>. The fourth transaction transfers <span class="thesansmonocd_w5regular_">16273</span> Boringcoins from <span class="thesansmonocd_w5regular_">'Al Sweigart'</span> to <span class="thesansmonocd_w5regular_">'some hacker'</span>. (I did not authorize this transaction and have since stopped using <i class="calibre5">python12345</i> as my Google account password.)</p>
-<p class="tx">Let’s write two programs. First, the <i class="calibre5">auditBoringcoin.py</i> program examines all the transactions and generates a dictionary of all accounts and their current balance. Second, the <i class="calibre5">addBoringcoinTransaction.py</i> program adds a row to the end of the Google Sheets for a new transaction. These blockchain programs are just for fun and not real (though “real” blockchain projects such as NFTs and “web3” are just as much a fantasy).</p>
+<p class="tx">最初の取引は送信者が<span class="thesansmonocd_w5regular_">'PRE-MINE'</span>で受信者が<span class="thesansmonocd_w5regular_">'Al Sweigart'</span>です。取引量はたったの<span class="thesansmonocd_w5regular_">1000000000</span>です。<span class="thesansmonocd_w5regular_">'Al Sweigart'</span>アカウントは<span class="thesansmonocd_w5regular_">19116</span>ボーリングコインを<span class="thesansmonocd_w5regular_">'Miles Bron'</span>に送信し、<span class="thesansmonocd_w5regular_">'Miles Bron'</span>は<span class="thesansmonocd_w5regular_">118</span>ボーリングコインを<span class="thesansmonocd_w5regular_">'not_a_scammer'</span>に送信しました。4番目の取引では<span class="thesansmonocd_w5regular_">16273</span>ボーリングコインを<span class="thesansmonocd_w5regular_">'Al Sweigart'</span>から<span class="thesansmonocd_w5regular_">'some hacker'</span>に送信しました。（私はこの取引を承認しておらず、それ以来<i class="calibre5">python12345</i>を自分のGoogleアカウントのパスワードに使うのをやめました。）</p>
+<p class="tx">2つのプログラムを書きます。1つは、すべての取引を精査し、すべてのアカウントとその現在残高の辞書を作成する<i class="calibre5">auditBoringcoin.py</i>プログラムです。もう1つは、Googleスプレッドシートの末尾に新しい取引の行を追加する<i class="calibre5">addBoringcoinTransaction.py</i>プログラムです。このブロックチェーンプログラムはただのお遊びで現実のものではありません（NFTやweb3といった「現実の」ブロックチェーンも空想的なものではありますが）。</p>
 <section type="division" aria-labelledby="sec20">
-<h4 class="h1" id="calibre_link-1881"><span id="calibre_link-421"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Audit the Fake Blockchain</span></h4>
-<p class="tni">We need to write a program to examine the entire “blockchain” and determine the current balance of all accounts. We’ll use a dictionary to hold this data, where the keys are strings of the account name and the values are integers of how many Boringcoins are in them. We also want the program to display how many total Boringcoins are in the cryptocurrency network. We can start by importing EZSheets and setting up the dictionary:</p>
+<h4 class="h1" id="calibre_link-1881"><span id="calibre_link-421"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：うそのブロックチェーン監査</span></h4>
+<p class="tni">「ブロックチェーン」全体を精査し、すべてのアカウントの現在残高を判定するプログラムを書きます。このデータを保持するのに辞書を使います。キーはアカウント名で値はボーリングコインの保有量です。このプログラムでは暗号資産ネットワークに存在するボーリングコインの総量も表示します。EZSheetsをインポートして辞書を設定するところから始めます。</p>
 <pre class="pre"><code class="calibre9">import ezsheets
 ss = ezsheets.Spreadsheet('https://autbor.com/boringcoin')
-accounts = {}  # Keys are names, and values are amounts.
+accounts = {}  # キーはアカウント名、値は保有量
 </code></pre>
-<p class="tx">Next, we’ll loop through every row in the spreadsheet, identifying the sender, recipient, and amount. Keep in mind that Google Sheets always <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1110" aria-label="377"></span>returns data as a string, so we need to convert it to an integer to do math with the <span class="thesansmonocd_w5regular_">amount</span> value:</p>
-<pre class="pre"><code class="calibre9"># Each row is a transaction. Loop over each one:
+<p class="tx">次に、スプレッドシートの各行を反復処理します。送信者と受信者と取引量を把握します。Googleスプレッドシートはデータを常に文字列として返しますから、<span class="thesansmonocd_w5regular_">amount</span>の値で計算を行うために整数値に変換する必要があります。</p>
+<pre class="pre"><code class="calibre9"># 各行は取引であり、一行ずつ反復処理する
 for row in ss.sheets[0].getRows():
     sender, recipient, amount = row[0], row[1], int(row[2])
 </code></pre>
-<p class="tx">If the sender is the special account <span class="thesansmonocd_w5regular_">'PRE-MINE'</span>, then it is simply a source of infinite money into other accounts. All of the best cryptocurrency scams use pre-mined coins, and ours is no exception. Add the amount to the recipient account in the <span class="thesansmonocd_w5regular_">accounts</span> dictionary. The <span class="thesansmonocd_w5regular_">setdefault()</span> method sets the value of the account to <span class="thesansmonocd_w5regular_">0</span> if it doesn’t already exist in the dictionary:</p>
+<p class="tx">送信者が<span class="thesansmonocd_w5regular_">'PRE-MINE'</span>という特別なアカウントであれば、これは無限のお金の源です。暗号資産詐欺のいいところは事前に採掘されたコインを使えることで、ボーリングコインも例に漏れません。取引量を<span class="thesansmonocd_w5regular_">accounts</span>の受信者のアカウントに追加します。辞書に受信者が存在しなければ、<span class="thesansmonocd_w5regular_">setdefault()</span>メソッドでそのアカウントの保有量として<span class="thesansmonocd_w5regular_">0</span>という値を設定します。</p>
 <pre class="pre"><code class="calibre9">    if sender == 'PRE-MINE':
-        # The 'PRE-MINE' sender invents money out of thin air.
+        # 送信者'PRE-MINE'は何もないところからお金を作り出す
         accounts.setdefault(recipient, 0)
         accounts[recipient] += amount
 </code></pre>
-<p class="tx">Otherwise, we should deduct the amount from the sender and add it to the recipient:</p>
+<p class="tx">それ以外の場合は、その取引量を、送信者のアカウントから差し引き、受信者のアカウントに追加します。</p>
 <pre class="pre"><code class="calibre9">    else:
-        # Move funds from the sender to the recipient.
+        # 送信者から受信者に資金移動
         accounts.setdefault(sender, 0)
         accounts.setdefault(recipient, 0)
         accounts[sender] -= amount
         accounts[recipient] += amount
 </code></pre>
-<p class="tx">After the loop finishes, we can see the current balances by printing the accounts dictionary.</p>
+<p class="tx">ループが終われば、辞書accountsを表示すれば現在残高がわかります。</p>
 <pre class="pre"><code class="calibre9">print(accounts)</code></pre>
-<p class="tx">As part of our audit, let’s also go through this dictionary and add up the totals of everyone’s balance to find out how many Boringcoins are in the entire network. Start a <span class="thesansmonocd_w5regular_">total</span> variable at <span class="thesansmonocd_w5regular_">0</span>, and then have a <span class="thesansmonocd_w5regular_">for</span> loop go through each value in the key-value pairs of the <span class="thesansmonocd_w5regular_">accounts</span> dictionary. After adding each value to <span class="thesansmonocd_w5regular_">total</span>, we can print the total amount of Boringcoins:</p>
+<p class="tx">この監査の一部として、この辞書の全員の残高を足し合わせてネットワーク全体におけるボーリングコインの総量を計算します。変数<span class="thesansmonocd_w5regular_">total</span>を<span class="thesansmonocd_w5regular_">0</span>で始めて、<span class="thesansmonocd_w5regular_">for</span>ループで辞書<span class="thesansmonocd_w5regular_">accounts</span>のキーと値のペアを反復処理します。すべての値を<span class="thesansmonocd_w5regular_">total</span>に足し合わせてから、ボーリングコインの総量を表示します。</p>
 <pre class="pre"><code class="calibre9">total = 0
 for amount in accounts.values():
     total += amount
 print('Total Boringcoins:', total)
 </code></pre>
-<p class="tx">When we run this program, the output looks like this:</p>
+<p class="tx">このプログラムを実行すると、出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">{'Al Sweigart': 999058553, 'Miles Bron': 38283, 'not_a_scammer': 48441,
 'some hacker': 44429, 'Tech Bro': 53424, 'Claire Debella': 54443,
 'Credulous Journalist': 50408, 'Birdie Jay': 36832, 'Carol': 82867, 'Mark Z.':
@@ -527,88 +534,88 @@ print('Total Boringcoins:', total)
 54650, 'some scammer': 2694, 'Alice': 44503, 'David': 41828}
 Total Boringcoins: 1000000000
 </code></pre>
-<p class="tx">The total is <span class="thesansmonocd_w5regular_">1000000000</span>, which makes sense, because that’s how many Boringcoins were pre-mined.</p>
+<p class="tx">総量は<span class="thesansmonocd_w5regular_">1000000000</span>で、事前採掘されたボーリングコインと一致します。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
-<h4 class="h1" id="calibre_link-1882"><span id="calibre_link-422"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Make Transactions</span></h4>
-<p class="tni">The next program, <i class="calibre5">addBoringcoinTransaction.py</i>, adds additional rows to the “blockchain” Google Sheet to add new transactions. It reads three command line arguments from the list in <span class="thesansmonocd_w5regular_">sys.argv</span>: the sender, the recipient, and the amount. For example, you could run the following from the terminal:</p>
+<h4 class="h1" id="calibre_link-1882"><span id="calibre_link-422"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：取引の実行</span></h4>
+<p class="tni">次のプログラムは、新たな取引を追加するためにブロックチェーンGoogleスプレッドシートに行を追加する、<i class="calibre5">addBoringcoinTransaction.py</i>です。<span class="thesansmonocd_w5regular_">sys.argv</span>から、送信者、受信者、取引量という、コマンドライン引数を3つ読み取ります。例えば、ターミナルで次のように実行します。</p>
 <pre class="pre"><code class="calibre9">python addBoringcoinTransaction.py "Al Sweigart" Eve 2000</code></pre>
-<p class="tx">The program would access the Google Sheet, add a blank row to the bottom, and then fill it in with the values <span class="thesansmonocd_w5regular_">'Al Sweigart'</span>, <span class="thesansmonocd_w5regular_">'Eve'</span>, and <span class="thesansmonocd_w5regular_">'2000'</span>. Note that in the terminal, you’ll need to enclose any command line argument that contains a space in double quotes, like <span class="thesansmonocd_w5regular_">"Al Sweigart"</span>; otherwise, the terminal will think they are two separate arguments.</p>
-<p class="tx">The start of <i class="calibre5">addBoringcoinTransactions.py</i> checks the command line arguments and assigns the sender, recipient, and amount variables based on them:</p>
+<p class="tx">このプログラムはGoogleスプレッドシートにアクセスして、最終行に空行を追加してから、<span class="thesansmonocd_w5regular_">'Al Sweigart'</span>、<span class="thesansmonocd_w5regular_">'Eve'</span>、<span class="thesansmonocd_w5regular_">'2000'</span>という値を埋めます。ターミナルではスペースを含むコマンドライン引数は、<span class="thesansmonocd_w5regular_">"Al Sweigart"</span>のようにダブルクォートで囲まなければなりません。そうしないと、ターミナルはこれらを2つの別の引数であると解釈してしまいます。</p>
+<p class="tx"><i class="calibre5">addBoringcoinTransactions.py</i>はまずコマンドライン引数をチェックし、コマンドライン引数に基づいて送信者、受信者、取引量の変数を代入します。</p>
 <pre class="pre"><code class="calibre9">import sys, ezsheets
 
 if len(sys.argv) &lt; 4:
     print('Usage: python addBoringcoinTransaction.py sender recipient amount')
     sys.exit()
 
-# Get the transaction info from the command line arguments:
+# コマンドライン引数から取引情報を取得
 sender, recipient, amount = sys.argv[1:]
 </code></pre>
-<p class="tx">You won’t need to convert <span class="thesansmonocd_w5regular_">amount</span> from a string to an integer, because we’ll be writing it as a string to the spreadsheet.</p>
-<p class="tx">Next, EZSheets connects to the Google Sheets containing the fake blockchain and selects the first sheet in the spreadsheet (at index <span class="thesansmonocd_w5regular_">0</span>). Note that you don’t have permission to edit the Boringcoin Google Sheets, so open that URL in a web browser while logged in to your Google account and then select <b class="calibre10">File</b><span class="listbullet_menuarrow"></span><b class="calibre10">Make a Copy</b> to copy it to your Google Account. Then, replace the <span class="thesansmonocd_w5regular_">'https://autbor.com/boringcoin'</span> string with a string of your Google Sheet’s URL from the browser address bar:</p>
-<pre class="pre"><code class="calibre9"># Change this URL to your copy of the Google Sheet, or else you'll
-# get a "The caller does not have permission" error.
+<p class="tx">スプレッドシートには文字列として書き込みますから、<span class="thesansmonocd_w5regular_">amount</span>を文字列から整数に変換する必要はありません。</p>
+<p class="tx">次に、EZSheetsが、うそのブロックチェーンを記録したGoogleスプレッドシートに接続して、インデックス<span class="thesansmonocd_w5regular_">0</span>の最初のシートを選択します。読者のみなさんはボーリングコインGoogleスプレッドシートの編集権限がありませんから、Googleアカウントにログインした状態でウェブブラウザでURLを開いて、<b class="calibre10">ファイル</b><span class="listbullet_menuarrow"></span><b class="calibre10">コピーを作成</b>で自分のGoogleアカウントにコピーしてください。それから、<span class="thesansmonocd_w5regular_">'https://autbor.com/boringcoin'</span>を、ブラウザのアドレスバーに表示されている自分のGoogleスプレッドシートのURLに置き換えてください。</p>
+<pre class="pre"><code class="calibre9"># URLを自分のGoogleスプレッドシートのURLに変更
+# そうしないと"The caller does not have permission"エラーが発生
 ss = ezsheets.Spreadsheet('<var class="calibre20">https://autbor.com/boringcoin</var>')
 sheet = ss.sheets[0]
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1277" aria-label="379"></span>Finally, you should get the number of rows in the sheet, increase it by one, and then fill in the columns of this row with the sender, recipient, and amount data:</p>
-<pre class="pre"><code class="calibre9"># Add one more row to the sheet for a new transaction:
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1277" aria-label="379"></span>最後に、シートの行数を取得して、それを1増やし、その行を送信者、受信者、取引量のデータで埋めます。</p>
+<pre class="pre"><code class="calibre9"># シートに新しい取引の1行追加
 sheet.rowCount += 1
 
 sheet[1, sheet.rowCount] = sender
 sheet[2, sheet.rowCount] = recipient
 sheet[3, sheet.rowCount] = amount
 </code></pre>
-<p class="tx">Now when you run <span class="thesansmonocd_w5regular_">python addBoringcoinTransaction.py "Al Sweigart" Eve 2000</span> from the terminal, the Google Sheets will have a new row with <i class="calibre5">Al Sweigart</i>, <i class="calibre5">Eve</i>, and <i class="calibre5">2000</i> added at the bottom. You can rerun the <i class="calibre5">auditBoringcoin.py</i> program to see the updated account balances of everyone in the cryptocurrency network.</p>
-<p class="tx">The use of Google Sheets for our blockchain data structure is irresponsible, error prone, and a security catastrophe waiting to happen. This makes it on par with most marketed blockchain products. Don’t miss out! Contact me to get in on this limited offer to buy Boringcoin before the pyramid scheme collapses!</p>
+<p class="tx">ターミナルから<span class="thesansmonocd_w5regular_">python addBoringcoinTransaction.py "Al Sweigart" Eve 2000</span>を実行すると、Googleスプレッドシートの最終行に<i class="calibre5">Al Sweigart</i>、<i class="calibre5">Eve</i>、<i class="calibre5">2000</i>の新しい行が追加されます。<i class="calibre5">auditBoringcoin.py</i>プログラムをもう一度実行すると、暗号資産ネットワーク内の最新の全員のアカウントの残高がわかります。</p>
+<p class="tx">このGoogleスプレッドシートでのブロックチェーンデータ構造は無責任なものです。エラー処理をしていませんから、大惨事が起こるでしょう。これは大部分の市場化されているブロックチェーン製品も同じようなものです。ネズミ講が破綻する前にボーリングコインを購入するこの機会を見逃さずご連絡ください。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec22">
-<h3 class="h" id="calibre_link-1883"><span id="calibre_link-423"></span><span class="sans_futura_std_bold_b_">Working with Google Sheets Quotas</span></h3>
-<p class="tni">Because Google Sheets is online, you can easily share sheets among multiple users who can all access the sheets simultaneously. However, this also means that reading and updating the sheets will be slower than reading and updating Excel files stored locally on your hard drive. In addition, Google Sheets limits how many read and write operations you can perform.</p>
-<p class="tx">According to Google’s developer guidelines, users are restricted to creating 250 new spreadsheets a day, and free Google accounts can perform a few hundred requests per minute. You can find Google’s usage limits at <i class="calibre5"><a href="https://developers.google.com/sheets/api/limits" class="calibre1">https://<wbr></wbr>developers<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/sheets<wbr></wbr>/api<wbr></wbr>/limits</a></i>. Attempting to exceed this quota will raise the <span class="thesansmonocd_w5regular_">googleapiclient.errors.HttpError</span> “Quota exceeded for quota group” exception. EZSheets will automatically catch this exception and retry the request. When this happens, the function calls to read or write data will take several seconds (or even a full minute or two) before they return. If the request continues to fail (which is possible if another script using the same credentials is also making requests), EZSheets will re-raise this exception.</p>
-<p class="tx">This means that, on occasion, your EZSheets method calls may take several seconds before they return. If you want to view your API usage or increase your quota, go to the IAM &amp; Admin Quotas page at <i class="calibre5"><a href="https://console.developers.google.com/iam-admin/quotas" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.developers<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/iam<wbr></wbr>-admin<wbr></wbr>/quotas</a></i> to learn about paying for increased usage. If you’d rather just deal with the <span class="thesansmonocd_w5regular_">HttpError</span> exceptions yourself, you can set <span class="thesansmonocd_w5regular_">ezsheets.IGNORE_QUOTA</span> to <span class="thesansmonocd_w5regular_">True</span>, and EZSheets’ methods will raise these exceptions when it encounters them.</p>
+<h3 class="h" id="calibre_link-1883"><span id="calibre_link-423"></span><span class="sans_futura_std_bold_b_">Googleスプレッドシートのサービス割り当て</span></h3>
+<p class="tni">Googleスプレッドシートはオンライン上にありますから、簡単にシートを複数人で共有し、同時にアクセスできます。しかし、シートの読み取りと更新が、ハードドライブに保存したExcelファイルと比べると遅いです。さらに、Googleスプレッドシートには、実行できる読み書き操作の回数に制限があります。</p>
+<p class="tx">Googleの開発者ガイドラインによると、1日に新しく作成できるスプレッドシートは250までで、無料のGoogleアカウントでは1分あたり数百リクエストまでしかできません。Googleの使用制限は<i class="calibre5"><a href="https://developers.google.com/sheets/api/limits" class="calibre1">https://<wbr></wbr>developers<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/sheets<wbr></wbr>/api<wbr></wbr>/limits</a></i>で確認できます。このサービス割り当てを超過すると<span class="thesansmonocd_w5regular_">googleapiclient.errors.HttpError</span> “Quota exceeded for quota group”が送出されます。EZSheetsは自動的にこの例外を捕捉して、リクエストを再送します。こうなると、データを読み書きする関数呼び出しは数秒（あるいは数分）かかります。リクエストが失敗し続けたら（別のスクリプトが同じ認証情報を使ってリクエストしている場合に起こり得ます）、EZSheetsはこの例外を再送出します。</p>
+<p class="tx">つまり、EZSheetsのメソッド呼び出しは数秒かかる可能性があるということです。API使用量を確認してサービス割り当てを増やしたければ、<i class="calibre5"><a href="https://console.developers.google.com/iam-admin/quotas" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.developers<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/iam<wbr></wbr>-admin<wbr></wbr>/quotas</a></i>のIAM と管理/割り当てページで使用量を増やす課金について調べてください。自分で<span class="thesansmonocd_w5regular_">HttpError</span>例外を処理したいということでしたら、<span class="thesansmonocd_w5regular_">ezsheets.IGNORE_QUOTA</span>を<span class="thesansmonocd_w5regular_">True</span>に設定してください。そうするとEZSheetsのメソッドは、これらの例外を送出します。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec23">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1123" aria-label="380"></span>
-<h3 class="h" id="calibre_link-1884"><span id="calibre_link-424"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">Google Sheets is a popular online spreadsheet application that runs in your browser. Using the EZSheets third-party package, you can download, create, read, and modify spreadsheets. EZSheets represents spreadsheets as <span class="thesansmonocd_w5regular_">Spreadsheet</span> objects, each of which contains an ordered list of <span class="thesansmonocd_w5regular_">Sheet</span> objects. Each sheet has columns and rows of data that you can read and update in several ways.</p>
-<p class="tx">While Google Sheets makes sharing data and cooperative editing easy, its main disadvantage is speed: you must update spreadsheets with web requests, which can take a few seconds to execute. But for most purposes, this speed restriction won’t affect Python scripts using EZSheets. Google Sheets also limits how often you can make changes.</p>
-<p class="tx">For complete documentation of EZSheets’ features, visit <i class="calibre5"><a href="https://ezsheets.readthedocs.io/" class="calibre1">https://<wbr></wbr>ezsheets<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/</a></i>.</p>
+<h3 class="h" id="calibre_link-1884"><span id="calibre_link-424"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">Googleスプレッドシートは、ブラウザで実行する人気のあるオンラインのスプレッドシートアプリケーションです。EZSheetsサードパーティパッケージを使うと、スプレッドシートのダウンロード、作成、読み取り、変更ができます。EZSheetsはスプレッドシートを<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトとして表し、そこには<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトのリストが含まれます。各シートにはデータの列と行があり、いくつかの方法で読み取りと更新ができます。</p>
+<p class="tx">Googleスプレッドシートはデータの共有と共同編集が簡単にできますが、遅いという欠点があります。ウェブリクエストを通じてスプレッドシートの更新をしなければならず、実行に数秒かかります。とはいえ、たいていの場合、この遅さはPythonスクリプトでEZSheetsを使う際に問題とはならないでしょう。Googleスプレッドシートには変更を行う頻度の制限もあります。</p>
+<p class="tx">EZSheetsの機能の完全なドキュメントは、<i class="calibre5"><a href="https://ezsheets.readthedocs.io/" class="calibre1">https://<wbr></wbr>ezsheets<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/</a></i>にあります。</p>
 </section>
 <section type="division" aria-labelledby="sec24">
-<h3 class="h" id="calibre_link-1885"><span id="calibre_link-425"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What three files do you need for EZSheets to access Google Sheets?</p>
-<p class="listnumber">  2.  What two types of objects does EZSheets have?</p>
-<p class="listnumber">  3.  How can you create an Excel file from a Google Sheets spreadsheet?</p>
-<p class="listnumber">  4.  How can you create a Google Sheets spreadsheet from an Excel file?</p>
-<p class="listnumber">  5.  The <span class="thesansmonocd_w5regular_">ss</span> variable contains a <span class="thesansmonocd_w5regular_">Spreadsheet</span> object. What code will read data from the cell B2 in a sheet titled <i class="calibre5">Students</i>?</p>
-<p class="listnumber">  6.  How can you find the column letters for column 999?</p>
-<p class="listnumber">  7.  How can you find out how many rows and columns a sheet has?</p>
-<p class="listnumber">  8.  How do you delete a spreadsheet? Is this deletion permanent?</p>
-<p class="listnumber">  9.  What functions will create a new <span class="thesansmonocd_w5regular_">Spreadsheet</span> object and a new <span class="thesansmonocd_w5regular_">Sheet</span> object, respectively?</p>
-<p class="listnumber">10.  What would happen if, by making frequent read and write requests with EZSheets, you exceed your Google account’s quota?</p>
+<h3 class="h" id="calibre_link-1885"><span id="calibre_link-425"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. EZSheetsがGoogleスプレッドシートにアクセスするのに必要な3つのファイルは何ですか？</p>
+<p class="listnumber">  2. EZSheetsにある2種類のオブジェクトは何ですか？</p>
+<p class="listnumber">  3. GoogleスプレッドシートからExcelファイルを作成するにはどのようにしますか？</p>
+<p class="listnumber">  4. ExcelファイルからGoogleスプレッドシートを作成するにはどのようにしますか？</p>
+<p class="listnumber">  5. 変数<span class="thesansmonocd_w5regular_">ss</span>に<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトが格納されているとします。<i class="calibre5">Students</i>という名前のシートのB2セルからデータを読み取るコードを書いてください。</p>
+<p class="listnumber">  6. 列番号999を表すアルファベットの文字はどのようにすればわかりますか？</p>
+<p class="listnumber">  7. シートの行数と列数はどのようにすればわかりますか？</p>
+<p class="listnumber">  8. スプレッドシートはどのように削除しますか？　完全に削除されますか？</p>
+<p class="listnumber">  9. 新しい<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトを作成する関数と、新しい<span class="thesansmonocd_w5regular_">Sheet</span>オブジェクトを作成する関数を、それぞれ挙げてください。</p>
+<p class="listnumber">10. EZSheetsで頻繁に読み書きのリクエストを行いGoogleアカウントのサービス割り当てを超過すると、どうなりますか？</p>
 </section>
 <section type="division" aria-labelledby="sec25">
-<h3 class="h" id="calibre_link-1886"><span id="calibre_link-426"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-1886"><span id="calibre_link-426"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec26">
-<h4 class="h1" id="calibre_link-1887"><span id="calibre_link-427"></span><span class="sans_futura_std_heavy_oblique_bi_">Downloading Google Forms Data</span></h4>
-<p class="tni">I mentioned earlier that Google Forms allows you to create simple online forms that make it easy to collect information from people. The information entered into a form is stored in a Google Sheets spreadsheet. For this project, write a program that can automatically download the form information that users have submitted. Go to <i class="calibre5"><a href="https://docs.google.com/forms/" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/forms<wbr></wbr>/</a></i> and start a new blank form. Add fields to the form that ask the user for a name <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1057" aria-label="381"></span>and email address. Then, click the <b class="calibre10">Send</b> button in the upper right to get a link to your new form. Try to enter a few example responses into this form.</p>
-<p class="tx">On the <i class="calibre5">Responses</i> tab of your form, click the green <b class="calibre10">Create Spreadsheet</b> button to create a Google Sheets spreadsheet that will hold the responses that users submit. You should see your example responses in the first rows of this spreadsheet. Then, write a Python script using EZSheets to collect a list of the email addresses on this spreadsheet.</p>
+<h4 class="h1" id="calibre_link-1887"><span id="calibre_link-427"></span><span class="sans_futura_std_heavy_oblique_bi_">Googleフォームのデータダウンロード</span></h4>
+<p class="tni">先に触れたように、Googleフォームを使うと、人々から情報を簡単に集められるシンプルなオンラインフォームを作成できます。フォームに入力された情報はGoogleスプレッドシートに蓄積されます。このプロジェクトでは、ユーザーが入力したフォームの情報を自動的にダウンロードするプログラムを書きます。<i class="calibre5"><a href="https://docs.google.com/forms/" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/forms<wbr></wbr>/</a></i>で新しい空白のフォームを開始して、ユーザーに名前とメールアドレスの入力を求めるフィールドを追加してから、新しいフォームの右上にある<b class="calibre10">「公開」</b>ボタンをクリックします。このフォームで回答例をいくつか入力して準備します。</p>
+<p class="tx">フォームの<i class="calibre5">回答</i>タブで、<b class="calibre10">「スプレッドシートにリンク」</b>ボタンをクリックして、ユーザーが送信した回答を蓄積するGoogleスプレッドシートを作成します。回答例がスプレッドシートの最初の行に表示されているはずです。EZSheetsを使ってこのスプレッドシートのメールアドレスのリストを収集するPythonのスクリプトを書いてください。</p>
 </section>
 <section type="division" aria-labelledby="sec27">
-<h4 class="h1" id="calibre_link-1888"><span id="calibre_link-428"></span><span class="sans_futura_std_heavy_oblique_bi_">Converting Spreadsheets to Other Formats</span></h4>
-<p class="tni">You can use Google Sheets to convert a spreadsheet file to other formats. Write a script that passes a submitted file to <span class="thesansmonocd_w5regular_">upload()</span>. Once the spreadsheet has uploaded to Google Sheets, download it using <span class="thesansmonocd_w5regular_">downloadAsExcel()</span>, <span class="thesansmonocd_w5regular_">downloadAsODS()</span>, and other such functions to create a copy of the spreadsheet in these other formats.</p>
+<h4 class="h1" id="calibre_link-1888"><span id="calibre_link-428"></span><span class="sans_futura_std_heavy_oblique_bi_">スプレッドシートを別の形式に変換する</span></h4>
+<p class="tni">Googleスプレッドシートでは、スプレッドシートを別の形式に変換できます。アップロードするファイルを<span class="thesansmonocd_w5regular_">upload()</span>に渡すスクリプトを書いてください。Googleスプレッドシートにアップロードされたら、<span class="thesansmonocd_w5regular_">downloadAsExcel()</span>や<span class="thesansmonocd_w5regular_">downloadAsODS()</span>などの関数を使って別の形式でそのスプレッドシートのコピーをダウンロードしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec28">
-<h4 class="h1" id="calibre_link-1889"><span id="calibre_link-429"></span><span class="sans_futura_std_heavy_oblique_bi_">Finding Mistakes in a Spreadsheet</span></h4>
-<p class="tni">After a long day at the bean-counting office, I’ve finished a spreadsheet with all the bean totals and uploaded them to Google Sheets. The spreadsheet is publicly viewable (but not editable). You can get this spreadsheet with the following code:</p>
+<h4 class="h1" id="calibre_link-1889"><span id="calibre_link-429"></span><span class="sans_futura_std_heavy_oblique_bi_">スプレッドシートの誤りを発見する</span></h4>
+<p class="tni">丸一日かけて豆を数える仕事をして、豆の合計をスプレッドシートにまとめてGoogleスプレッドシートにアップロードしました。このスプレッドシートは誰でも閲覧可能です（編集はできません）。このスプレッドシートは以下のコードで取得できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezsheets</b>
 &gt;&gt;&gt; <b class="calibre10">ss = ezsheets.Spreadsheet('1jDZEdvSIh4TmZxccyy0ZXrH-ELlrwq8_YYiZrEOB4jg')</b>
 </code></pre>
-<p class="tx">View the spreadsheet in your browser by going to <i class="calibre5"><a href="https://docs.google.com/spreadsheets/d/1jDZEdvSIh4TmZxccyy0ZXrH-ELlrwq8_YYiZrEOB4jg" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/spreadsheets<wbr></wbr>/d<wbr></wbr>/1jDZEdvSIh4TmZxccyy0ZXrH<wbr></wbr>-ELlrwq8<wbr></wbr>_YYiZrEOB4jg</a></i>. The columns of the first sheet in this spreadsheet are <i class="calibre5">BEANS PER JAR</i>, <i class="calibre5">JARS</i>, and <i class="calibre5">TOTAL BEANS</i>. The <i class="calibre5">TOTAL BEANS</i> column is the product of the numbers in the <i class="calibre5">BEANS PER JAR</i> and <i class="calibre5">JARS</i> columns. However, there is a mistake in one of the 15,000 rows in this sheet. That’s too many rows to check by hand. Luckily, you can write a script that checks the totals.</p>
-<p class="tx">As a hint, you can access the individual cells in a row with <span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(</span><span class="sans_thesansmonocd_w5regular_italic_">rowNum</span><span class="thesansmonocd_w5regular_">)</span>, where <span class="sans_thesansmonocd_w5regular_italic_">ss</span> is the <span class="thesansmonocd_w5regular_">Spreadsheet</span> object and <span class="sans_thesansmonocd_w5regular_italic_">rowNum</span> is the row number. Remember that row numbers in Google Sheets begin at 1, not 0. The cell values will be strings, so you’ll need to convert them to integers before your program can work with them. The expression <span class="thesansmonocd_w5regular_">int(</span><span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(2)[0]) * int(</span><span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(2)[1])</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">int(</span><span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(2)[2])</span> evaluates to <span class="thesansmonocd_w5regular_">True</span> if row 2 has the correct total. Put this code in a loop to identify which row in the sheet has the incorrect total.</p>
+<p class="tx"><i class="calibre5"><a href="https://docs.google.com/spreadsheets/d/1jDZEdvSIh4TmZxccyy0ZXrH-ELlrwq8_YYiZrEOB4jg" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/spreadsheets<wbr></wbr>/d<wbr></wbr>/1jDZEdvSIh4TmZxccyy0ZXrH<wbr></wbr>-ELlrwq8<wbr></wbr>_YYiZrEOB4jg</a></i>でこのスプレッドシートをブラウザでご覧ください。シートの列は、<i class="calibre5">BEANS PER JAR</i>、<i class="calibre5">JARS</i>、<i class="calibre5">TOTAL BEANS</i>です。<i class="calibre5">TOTAL BEANS</i>列は、<i class="calibre5">BEANS PER JAR</i>と<i class="calibre5">JARS</i>の数値の積です。しかし、このシートの15,000行の中に一つだけ誤りがあります。手動で確認するには行数が多すぎます。合計の誤りをチェックするスクリプトを書いてください。</p>
+<p class="tx">ヒントとして、<span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(</span><span class="sans_thesansmonocd_w5regular_italic_">rowNum</span><span class="thesansmonocd_w5regular_">)</span>で行内の各セルにアクセスします。<span class="sans_thesansmonocd_w5regular_italic_">ss</span>は<span class="thesansmonocd_w5regular_">Spreadsheet</span>オブジェクトで、<span class="sans_thesansmonocd_w5regular_italic_">rowNum</span>は行番号です。Googleスプレッドシートの行番号は0ではなく1から始まることに注意してください。セルの値は文字列ですから、計算をする前に整数に変換する必要があります。<span class="thesansmonocd_w5regular_">int(</span><span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(2)[0]) * int(</span><span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(2)[1])</span> <span class="thesansmonocd_w5regular_">==</span> <span class="thesansmonocd_w5regular_">int(</span><span class="sans_thesansmonocd_w5regular_italic_">ss</span><span class="thesansmonocd_w5regular_">.sheets[0].getRow(2)[2])</span>という式は2行目の合計が正しければ<span class="thesansmonocd_w5regular_">True</span>を返します。このコードをループ内で用いて合計が誤っている行を特定してください。</p>
 </section>
 </section>
 </section>
