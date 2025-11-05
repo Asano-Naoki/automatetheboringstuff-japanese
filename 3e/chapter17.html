@@ -12,33 +12,32 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-966" aria-label="411"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1923">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">17</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">PDF AND WORD DOCUMENTS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">17</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">PDFとWord文書</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">While you might think of PDF and Word as formats for storing text, these documents are binary files also containing font, color, and layout information, making them much more complex than simple plaintext files. If you want your programs to read or write PDFs or Word documents, you’ll need to do more than simply pass their filenames to <span class="sans_thesansmonocd_w5regular_">open()</span>. Fortunately, several Python packages make these interactions easy. This chapter will cover two of them: PyPDF and Python-Docx.</p>
+<p class="introtni">PDFとWordはテキストを保存する形式だと思われるかもしれませんが、フォントや色やレイアウトの情報を含むバイナリファイルです。そのため、単純なプレーンテキストファイルよりもずっと複雑です。ファイル名を<span class="sans_thesansmonocd_w5regular_">open()</span>に渡すだけでは、プログラムからPDFやWordの読み書きはできません。幸い、PDFやWordの読み書きを簡単にしてくれるPythonのパッケージが存在します。本章では、そのようなパッケージのうち、PyPDFとPython-Docxを紹介します。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1924"><span id="calibre_link-456"></span><span class="sans_futura_std_bold_b_">PDF Documents</span></h3>
-<p class="tni"><i class="calibre5">PDF</i> stands for <i class="calibre5">Portable Document Format</i> and uses the <i class="calibre5">.pdf</i> file extension. Although PDFs support many features, this section will focus on three <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1258" aria-label="412"></span>common tasks: extracting a document’s text content, extracting its images, and crafting new PDFs from existing documents.</p>
-<p class="tx">PyPDF is a Python package for creating and modifying PDF files. Install the package by following the instructions in <span>Appendix A</span>. If the package was installed correctly, running <span class="thesansmonocd_w5regular_">import pypdf</span> in the interactive shell shouldn’t display any errors.</p>
-<p class="tx">While PDF files are great for laying out text in a way that is easy for people to print and read, they’re not easy to parse into plaintext. As a result, PyPDF might make mistakes when extracting text from a PDF and may even fail to open some PDFs. There isn’t much you can do about this, unfortunately. PyPDF may simply be unable to work with some of your particular files. That said, I haven’t personally encountered a PDF file that PyPDF couldn’t open.</p>
+<h3 class="h" id="calibre_link-1924"><span id="calibre_link-456"></span><span class="sans_futura_std_bold_b_">PDF文書</span></h3>
+<p class="tni"><i class="calibre5">PDF</i>は<i class="calibre5">Portable Document Format（持ち運び可能な文書フォーマット）</i>を表しファイル拡張子は<i class="calibre5">.pdf</i>です。PDFにはたくさんの機能がありますが、この節では、テキストの抽出、画像の抽出、既存のPDFファイルから新しいPDFファイル作成の、3つのよくある作業に絞ります。</p>
+<p class="tx">PyPDFはPDFファイルの作成と変更を行うためのPythonパッケージです。<span>付録A</span>の指示に従ってインストールしてください。パッケージが正しくインストールされたら、対話型シェルで<span class="thesansmonocd_w5regular_">import pypdf</span>を実行したときにエラーは表示されません。</p>
+<p class="tx">PDFファイルは印刷用や閲覧用にテキストをレイアウトするのに適していますが、プレーンテキストへと解析するのは簡単ではありません。そのため、PyPDFはPDFからテキストを抽出する際に間違えることがありますし、PDFを開くことさえできない場合もあります。こうなるとどうしようもありません。PyPDFは一部のファイルについては機能しません。とは言うものの、個人的にはPyPDFが開けないPDFファイルに遭遇したことはないです。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-1925"><span id="calibre_link-457"></span><span class="sans_futura_std_heavy_oblique_bi_">Extracting Text</span></h4>
-<p class="tni">To begin working with PyPDF, let’s use the PDF of a sample chapter from my book on recursive algorithms, <i class="calibre5">The Recursive Book of Recursion</i> (No Starch Press, 2022), shown in Figure 17-1.</p>
+<h4 class="h1" id="calibre_link-1925"><span id="calibre_link-457"></span><span class="sans_futura_std_heavy_oblique_bi_">テキストの抽出</span></h4>
+<p class="tni">PyPDFで作業を行うのに、再帰的アルゴリズムについての私の本<i class="calibre5">The Recursive Book of Recursion</i> (No Starch Press, 2022)から抜粋したサンプルのPDF（図17-1）を使ってください。</p>
 <figure class="img"><img class="img2" id="calibre_link-782" src="images/000036.jpg" alt="A PDF showing the beginning of a book chapter called “What Is Recursion?”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-1: The PDF file from which we will be extracting text</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-1：テキストを抽出するサンプルのPDFファイル</span></p></figcaption>
 </figure>
-<p class="tx">Download this <i class="calibre5">Recursion_Chapter1.pdf</i> file from the online resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>, then enter the following into the interactive shell:</p>
+<p class="tx">この<i class="calibre5">Recursion_Chapter1.pdf</i>ファイルを<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>のオンライン素材からダウンロードし、対話型シェルに以下の内容を入力してください。</p>
 <pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-894" aria-label="413"></span>&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">reader = pypdf.PdfReader('Recursion_Chapter1.pdf')</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">len(reader.pages)</b>
 18
 </code></pre>
-<p class="tx">Import the <span class="thesansmonocd_w5regular_">pypdf</span> module, then call <span class="thesansmonocd_w5regular_">pypdf.PdfReader()</span> with the filename of the PDF to get a <span class="thesansmonocd_w5regular_">PdfReader</span> object that represents the PDF <span class="codeannotation" aria-label="annotation1">❶</span>. Store this object in a variable named <span class="thesansmonocd_w5regular_">reader</span>.</p>
-<p class="tx">The pages attribute of the <span class="thesansmonocd_w5regular_">PdfReader</span> object is a list-like data structure of <span class="thesansmonocd_w5regular_">Page</span> objects that represent individual pages in the PDF. Like actual Python lists, you can pass this data structure to the <span class="thesansmonocd_w5regular_">len()</span> function <span class="codeannotation" aria-label="annotation2">❷</span>. This example PDF has 18 pages.</p>
-<p class="tx">To extract the text from this PDF and output it to a text file, open a new file editor tab and save the following code to <i class="calibre5">extractpdftext.py</i>:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pypdf</span>モジュールをインポートしてから、PDFのファイル名を渡して<span class="thesansmonocd_w5regular_">pypdf.PdfReader()</span>を呼び出し、PDFを表す<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトを取得します(<span class="codeannotation" aria-label="annotation1">❶</span>)。このオブジェクトを<span class="thesansmonocd_w5regular_">reader</span>という名前の変数に保存します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトのpages属性は、PDFの個々のページを表す<span class="thesansmonocd_w5regular_">Page</span>オブジェクトのリストのようなデータ構造をしています。Pythonのリストと同じように、このデータ構造を<span class="thesansmonocd_w5regular_">len()</span>関数に渡せます(<span class="codeannotation" aria-label="annotation2">❷</span>)。このサンプルのPDFは18ページです。</p>
+<p class="tx">このPDFからテキストを抽出してテキストファイルに出力するには、新しいファイルエディタタブを開いて以下のコードを<i class="calibre5">extractpdftext.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import pypdf
 import pdfminer.high_level
 
@@ -55,13 +54,13 @@ except Exception:
 with open(TEXT_FILENAME, 'w', encoding='utf-8') as file_obj:
   <span class="code_codeannotation" aria-label="annotation4">❹</span> file_obj.write(text)
 </code></pre>
-<p class="tx">We use the <span class="thesansmonocd_w5regular_">pypdf</span> module to extract the text, but if it fails for a particular PDF file and raises an exception, we fall back on the <span class="thesansmonocd_w5regular_">pdfminer</span> module. Inside a <span class="thesansmonocd_w5regular_">try</span> block, we use a <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation1">❶</span> to iterate over each <span class="thesansmonocd_w5regular_">Page</span> object in the PDF file’s <span class="thesansmonocd_w5regular_">PdfReader</span> object. Calling the <span class="thesansmonocd_w5regular_">Page</span> object’s <span class="thesansmonocd_w5regular_">extract_text()</span> method <span class="codeannotation" aria-label="annotation2">❷</span> returns a string that we can concatenate to the <span class="thesansmonocd_w5regular_">text</span> variable. When the loop finishes, <span class="thesansmonocd_w5regular_">text</span> will contain a single string of the entire text of the PDF.</p>
-<p class="tx">If the PDF file has an unconventional format that PyPDF can’t understand, we can try using <span class="thesansmonocd_w5regular_">pdfminer.high_level</span>, an older module included in this book’s third-party packages. The module’s <span class="thesansmonocd_w5regular_">extract_text()</span> function obtains the PDF’s contents as a single string, rather than operating one page at a time <span class="codeannotation" aria-label="annotation3">❸</span>.</p>
-<p class="tx">Finally, we can use the <span class="thesansmonocd_w5regular_">open()</span> function and the <span class="thesansmonocd_w5regular_">write()</span> method covered in <span>Chapter 10</span> to write the string to a text file <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
+<p class="tx">テキストの抽出に<span class="thesansmonocd_w5regular_">pypdf</span>モジュールを使いますが、そのモジュールでうまくいかないPDFファイルについては例外を送出し、<span class="thesansmonocd_w5regular_">pdfminer</span>モジュールに委ねます。<span class="thesansmonocd_w5regular_">try</span>ブロック内では、<span class="thesansmonocd_w5regular_">for</span>ループ(<span class="codeannotation" aria-label="annotation1">❶</span>)でPDFファイルの<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトの<span class="thesansmonocd_w5regular_">Page</span>オブジェクトを反復処理します。<span class="thesansmonocd_w5regular_">Page</span>オブジェクトの<span class="thesansmonocd_w5regular_">extract_text()</span>メソッドを呼び出すと文字列が返されるので、それを変数<span class="thesansmonocd_w5regular_">text</span>に結合します(<span class="codeannotation" aria-label="annotation2">❷</span>)。ループが終われば、<span class="thesansmonocd_w5regular_">text</span>にはPDFの全テキストが一つの文字列として含まれます。</p>
+<p class="tx">PDFファイルが一般的なフォーマットではなくPyPDFで読み取れなければ、<span class="thesansmonocd_w5regular_">pdfminer.high_level</span>という、本書のサードパーティーパッケージに含まれている古いモジュールを使います。このモジュールの<span class="thesansmonocd_w5regular_">extract_text()</span>関数は、ページごとに処理するのではなく、PDFの内容を一つの文字列として取得します(<span class="codeannotation" aria-label="annotation3">❸</span>)。</p>
+<p class="tx">最後に、<span>第10章</span>で紹介した<span class="thesansmonocd_w5regular_">open()</span>関数と<span class="thesansmonocd_w5regular_">write()</span>メソッドでその文字列をテキストファイルに書き込みます(<span class="codeannotation" aria-label="annotation4">❹</span>)。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-1926"><span id="calibre_link-458"></span><span class="sans_futura_std_heavy_oblique_bi_">Post-Processing with AI</span></h4>
-<p class="tni">The text extraction we just performed isn’t perfect. The PDF file format is infamously convoluted and was originally designed for printing documents, not for making them machine readable. Even if there are no problems with the extraction, the text layout is fixed: the string will contain newline <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1007" aria-label="414"></span>characters after each row of text and hyphenated words at the ends of rows. For instance, the extracted text from our example PDF looks like this:</p>
+<h4 class="h1" id="calibre_link-1926"><span id="calibre_link-458"></span><span class="sans_futura_std_heavy_oblique_bi_">AIによる後処理</span></h4>
+<p class="tni">先ほど行ったテキスト抽出は完璧ではありません。PDFファイルのフォーマットは複雑であり、印刷のために設計されたものであって、機械が読めるようには設計されていません。抽出に問題がなかったとしても、テキストのレイアウトが固定されています。テキストの各行末には改行記号が含まれますし、単語が行をまたぐときのハイフンが残ります。例えば、先ほどのサンプルのPDFから抽出したテキストは、以下のとおりです。</p>
 <pre class="pre"><code class="calibre9">1
 WHAT IS RECURSION?
 Recursion has an intimidating reputation.
@@ -72,16 +71,16 @@ Most new programmers trace through what a program does by follow -
 ing the execution. It's an easy way to read code: you just put your finger
 <var class="calibre20">--snip--</var>
 </code></pre>
-<p class="tx">As you can see, there are many subjective decisions to make:</p>
+<p class="tx">ご覧のとおり、主観的に判断して処理しなければならない箇所がたくさんあります。</p>
 <ul class="ul">
-<li class="bl">Where should paragraphs in the PDF end and begin?</li>
-<li class="bl">Should page numbers, headers, and footers be included in the extracted text?</li>
-<li class="bl">How should tables of data in the PDF be converted to plaintext?</li>
-<li class="bl">How much whitespace should be included in the extract text?</li>
+<li class="bl">PDFの段落はどこで始まりどこで終わるか</li>
+<li class="bl">ページ番号、ヘッダー、フッターを抽出したテキストに含めるかどうか</li>
+<li class="bl">PDFのデータ表をどのようにテキスト化するか</li>
+<li class="bl">抽出したテキストにスペースをどれだけ入れるか</li>
 </ul>
-<p class="tx">Cleaning up this text is boring and cannot easily be automated with code. However, a large language model (LLM) AI such as ChatGPT can understand the context of the text well enough to produce a cleaned-up version automatically. Use a prompt such as the following before copying and pasting the extracted text:</p>
-<p class="blockquote">The following is text extracted from several pages of a PDF of a book on recursive algorithms. Clean up this text. By this, I mean put paragraphs on a single, separate line. Also remove the footer and header text from each page. Also get rid of the hyphens at the end of each line for words split up across the line. Do not make any spelling, grammar corrections, or rewording. Here is the text ...</p>
-<p class="tx">In a trial, this prompt produced the following text:</p>
+<p class="tx">このテキストを整形するのは退屈な作業ですが、コードで簡単に自動化することはできません。しかし、ChatGPTなどの大規模言語モデル（LLM）のAIは、テキストの文脈を理解し、自動的に整形してくれます。抽出したテキストについて以下のプロンプトを使ってください。</p>
+<p class="blockquote">以下のテキストは、再帰的アルゴリズムについての本のPDFを数ページ抽出したものです。このテキストを整形してください。段落を一行でまとめ、各ページのヘッダーとフッターを除去してください。また、単語が行をまたぐときにつけられたハイフンを取り除いてください。スペルや文法の修正はせず、言い換えをしないでください。テキストは以下です。</p>
+<p class="tx">このプロンプトを試してみると、整形されて以下のテキストになりました。</p>
 <pre class="pre"><code class="calibre9">WHAT IS RECURSION?
 
 Recursion has an intimidating reputation. It's considered hard
@@ -90,12 +89,12 @@ function calls and stack data structures. Most new programmers
 trace through what a program does by following the execution.
 It's an easy way to read code: you just put your finger...
 </code></pre>
-<p class="tx">A human must always review the output of any AI system. For example, the LLM removed the chapter number <span class="thesansmonocd_w5regular_">1</span> from the start of the text, which wasn’t my intention. You may have to refine the prompt to correct any misunderstandings.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1135" aria-label="415"></span>If you don’t have access to an LLM, the PyPDF documentation has a list of post-processing tips with code snippets at <i class="calibre5"><a href="https://pypdf.readthedocs.io/en/latest/user/post-processing-in-text-extraction.html" class="calibre1">https://<wbr></wbr>pypdf<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/en<wbr></wbr>/latest<wbr></wbr>/user<wbr></wbr>/post<wbr></wbr>-processing<wbr></wbr>-in<wbr></wbr>-text<wbr></wbr>-extraction<wbr></wbr>.html</a></i>.</p>
+<p class="tx">AIを使うときは必ず人間が出力をレビューしてください。例えば、LLMはテキストの冒頭の章番号の<span class="thesansmonocd_w5regular_">1</span>を消してしまいました。これは私の意図に反しています。意図が誤解されないようにプロンプトを洗練させる余地があると思います。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1135" aria-label="415"></span>LLMを利用できなければ、コード例つきで後処理のコツを示したPyPDFのドキュメント（<i class="calibre5"><a href="https://pypdf.readthedocs.io/en/latest/user/post-processing-in-text-extraction.html" class="calibre1">https://<wbr></wbr>pypdf<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/en<wbr></wbr>/latest<wbr></wbr>/user<wbr></wbr>/post<wbr></wbr>-processing<wbr></wbr>-in<wbr></wbr>-text<wbr></wbr>-extraction<wbr></wbr>.html</a></i>）を参照してください。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-1927"><span id="calibre_link-459"></span><span class="sans_futura_std_heavy_oblique_bi_">Extracting Images</span></h4>
-<p class="tni">PyPDF can also extract the images from a PDF document. Each <span class="thesansmonocd_w5regular_">Page</span> object has an <span class="thesansmonocd_w5regular_">images</span> attribute containing a list-like data structure of <span class="thesansmonocd_w5regular_">Image</span> objects. We can write the bytes of these <span class="thesansmonocd_w5regular_">Image</span> objects to an image file opened in <span class="thesansmonocd_w5regular_">'wb'</span> (write-binary) mode. An <span class="thesansmonocd_w5regular_">Image</span> object also has a <span class="thesansmonocd_w5regular_">name</span> attribute that contains a string of the image’s name. Here is code that extracts images from all pages of the sample chapter PDF. Open a new file editor tab and save the following code as <i class="calibre5">extractpdfimages.py</i>:</p>
+<h4 class="h1" id="calibre_link-1927"><span id="calibre_link-459"></span><span class="sans_futura_std_heavy_oblique_bi_">画像の抽出</span></h4>
+<p class="tni">PyPDFではPDF文書から画像を抽出することもできます。各<span class="thesansmonocd_w5regular_">Page</span>オブジェクトには<span class="thesansmonocd_w5regular_">images</span>属性があり、そこに<span class="thesansmonocd_w5regular_">Image</span>オブジェクトがリストのようなデータ構造で含まれています。その<span class="thesansmonocd_w5regular_">Image</span>オブジェクトのバイトを<span class="thesansmonocd_w5regular_">'wb'</span>（バイナリ書き込み）モードで開いた画像ファイルに書き込めます。<span class="thesansmonocd_w5regular_">Image</span>オブジェクトには<span class="thesansmonocd_w5regular_">name</span>属性があり、画像の名前の文字列が入っています。以下はサンプルのPDFのすべてのページから画像を抽出するコードです。新しいファイルエディタタブを開いて<i class="calibre5">extractpdfimages.py</i>という名前でコードを保存してください。</p>
 <pre class="pre"><code class="calibre9">import pypdf
 PDF_FILENAME = 'Recursion_Chapter1.pdf'
 
@@ -112,7 +111,7 @@ reader = pypdf.PdfReader(PDF_FILENAME)
     except Exception as exc:
       <span class="code_codeannotation" aria-label="annotation7">❼</span> print(f'Skipped page {i+1} due to error: {exc}')
 </code></pre>
-<p class="tx">The output of this program will look like this:</p>
+<p class="tx">このプログラムの出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">Reading page 1 - 7 images found...
 Wrote 0_page1_Im0.jpg...
 Wrote 1_page1_Im1.png...
@@ -123,14 +122,14 @@ Skipped page 7 due to error: not enough image data
 Reading page 17 - 0 images found...
 Reading page 18 - 0 images found...
 </code></pre>
-<p class="tx">The images in a PDF document often have generic names, like <i class="calibre5">Im0.jpg</i> or <i class="calibre5">Im1.png</i>, so we use a variable counter named <span class="thesansmonocd_w5regular_">image_num</span> <span class="codeannotation" aria-label="annotation1">❶</span> along with the page number to assign them unique names. First, we loop over each <span class="thesansmonocd_w5regular_">Page</span> object in the <span class="thesansmonocd_w5regular_">pages</span> attribute of the <span class="thesansmonocd_w5regular_">PdfReader</span> object. Recall that Python’s <span class="thesansmonocd_w5regular_">enumerate()</span> function <span class="codeannotation" aria-label="annotation2">❷</span> returns integer indexes and the list item of the list-like object we pass it. Each <span class="thesansmonocd_w5regular_">Page</span> object has an <span class="thesansmonocd_w5regular_">images</span> attribute that we’ll iterate over as well <span class="codeannotation" aria-label="annotation3">❸</span>.</p>
-<p class="tx">Inside that second, nested <span class="thesansmonocd_w5regular_">for</span> loop that iterates over the <span class="thesansmonocd_w5regular_">Image</span> objects in the <span class="thesansmonocd_w5regular_">images</span> attribute, we call <span class="thesansmonocd_w5regular_">open()</span> and use an f-string to provide the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-918" aria-label="416"></span>filename <span class="codeannotation" aria-label="annotation4">❹</span>. This filename is made up of the integer in the <span class="thesansmonocd_w5regular_">image_num</span> counter, the page number, and the string in the <span class="thesansmonocd_w5regular_">name</span> attribute of the <span class="thesansmonocd_w5regular_">Image</span> object. Because <span class="thesansmonocd_w5regular_">i</span> starts at <span class="thesansmonocd_w5regular_">0</span> while PDF page numbers start at 1, we use <span class="thesansmonocd_w5regular_">i+1</span> to store the page number. This name will include the file extension, such as <i class="calibre5">.png</i> or <i class="calibre5">.jpg</i>. We must also pass <span class="thesansmonocd_w5regular_">'wb'</span> to the <span class="thesansmonocd_w5regular_">open()</span> function call so that the file is opened in write-binary mode. The bytes of the image file are stored in the <span class="thesansmonocd_w5regular_">Image</span> object’s <span class="thesansmonocd_w5regular_">data</span> attribute, which we pass to the <span class="thesansmonocd_w5regular_">write()</span> method <span class="codeannotation" aria-label="annotation5">❺</span>. After writing an image, the code increments <span class="thesansmonocd_w5regular_">image_num</span> by <span class="thesansmonocd_w5regular_">1</span> <span class="codeannotation" aria-label="annotation6">❻</span>.</p>
-<p class="tx">If some incompatibility between the PDF file and PyPDF causes a <span class="thesansmonocd_w5regular_">Page</span> object’s <span class="thesansmonocd_w5regular_">images</span> attribute to raise an exception, our <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements can catch it and print a short error message <span class="codeannotation" aria-label="annotation7">❼</span>. This way, a problem on one page won’t cause the entire program to crash.</p>
-<p class="tx">Like text extraction, image extraction may be imperfect. For example, PyPDF failed to detect many of the images from the sample chapter PDF, and showed an error message instead. Meanwhile, you may be surprised that PyPDF extracts small, blank images used as background or spacers. When working with PDFs, you’ll often require human review to ensure that the output is acceptable.</p>
+<p class="tx">PDF文書の画像には、<i class="calibre5">Im0.jpg</i>、<i class="calibre5">Im1.png</i>といった一般的な名前がつけられます。<span class="thesansmonocd_w5regular_">image_num</span>という名前のカウンター変数(<span class="codeannotation" aria-label="annotation1">❶</span>)とページ番号を名前に付加して一意の名前にします。まず、<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトの<span class="thesansmonocd_w5regular_">pages</span>属性の<span class="thesansmonocd_w5regular_">Page</span>オブジェクトを反復処理します。Pythonの<span class="thesansmonocd_w5regular_">enumerate()</span>関数(<span class="codeannotation" aria-label="annotation2">❷</span>)は整数のインデックスとリスト的なオブジェクトの要素を返すことを思い出してください。各<span class="thesansmonocd_w5regular_">Page</span>オブジェクトには<span class="thesansmonocd_w5regular_">images</span>オブジェクトがあり、これも反復処理します(<span class="codeannotation" aria-label="annotation3">❸</span>)。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">images</span>属性の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを反復処理する、入れ子の内側の<span class="thesansmonocd_w5regular_">for</span>ループでは、<span class="thesansmonocd_w5regular_">open()</span>を呼び出してf文字列でファイル名を指定しています(<span class="codeannotation" aria-label="annotation4">❹</span>)。このファイル名は、<span class="thesansmonocd_w5regular_">image_num</span>カウンターの整数、ページ番号、<span class="thesansmonocd_w5regular_">Image</span>オブジェクトの<span class="thesansmonocd_w5regular_">name</span>属性の文字列の3つから構成されています。PDFのページ番号は1から始まりますが<span class="thesansmonocd_w5regular_">i</span>は<span class="thesansmonocd_w5regular_">0</span>から始まるので、<span class="thesansmonocd_w5regular_">i+1</span>でページ番号にしています。この名前は<i class="calibre5">.png</i>や<i class="calibre5">.jpg</i>のファイル拡張子を含んでいます。<span class="thesansmonocd_w5regular_">open()</span>関数に<span class="thesansmonocd_w5regular_">'wb'</span>を渡してバイナリ書き込みモードで開きます。画像ファイルのバイトは<span class="thesansmonocd_w5regular_">Image</span>オブジェクトの<span class="thesansmonocd_w5regular_">data</span>属性に格納されているので、これを<span class="thesansmonocd_w5regular_">write()</span>メソッドに渡します(<span class="codeannotation" aria-label="annotation5">❺</span>)。画像の書き込み後は<span class="thesansmonocd_w5regular_">image_num</span>を<span class="thesansmonocd_w5regular_">1</span>増やします(<span class="codeannotation" aria-label="annotation6">❻</span>)。</p>
+<p class="tx">PDFファイルとPyPDFとの間に互換性がなければ、<span class="thesansmonocd_w5regular_">Page</span>オブジェクトの<span class="thesansmonocd_w5regular_">images</span>属性は例外を送出します。<span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文でその例外を捕捉し、短いエラーメッセージを表示します(<span class="codeannotation" aria-label="annotation7">❼</span>)。このようにして、あるページで問題が発生してもプログラム全体がクラッシュしないようにしています。</p>
+<p class="tx">テキスト抽出と同様に、画像抽出も不完全です。例えば、PyPDFはサンプルのPDFファイルの画像をすべて検知できておらず、エラーメッセージが表示されます。他方で、意外なことに、PyPDFが背景やスペースの小さな空白の画像を抽出しています。PDFに関する作業を行う際は、出力が正しいかどうか人間が確認しなければなりません。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1928"><span id="calibre_link-460"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating PDFs from Other Pages</span></h4>
-<p class="tni">PyPDF’s counterpart to <span class="thesansmonocd_w5regular_">PdfReader</span> is <span class="thesansmonocd_w5regular_">PdfWriter</span>, which can create new PDF files. But PyPDF cannot write arbitrary text to a PDF like Python can with plaintext files. Instead, PyPDF’s PDF-writing capabilities are limited to copying, merging, cropping, and transforming pages from other PDFs into new ones. The code in this interactive shell example creates a copy of the sample chapter PDF with just the first five pages:</p>
+<h4 class="h1" id="calibre_link-1928"><span id="calibre_link-460"></span><span class="sans_futura_std_heavy_oblique_bi_">他のページからのPDFの作成</span></h4>
+<p class="tni">PyPDFには<span class="thesansmonocd_w5regular_">PdfReader</span>と対になる<span class="thesansmonocd_w5regular_">PdfWriter</span>があり、これを使って新しいPDFファイルを作成できます。しかし、PyPDFでは、Pythonが任意のテキストをプレーンテキストに書き込めるようにテキストを自由にPDFに書き込むことはできません。PyPDFのPDF書き込み機能は、他のPDFファイルを利用した、コピー、挿入、除去、変形に限られています。以下の対話型シェルのコードを実行すると、サンプルのPDFの最初の5ページだけがコピーされた新しいPDFファイルが作成されます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">writer = pypdf.PdfWriter()</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">writer.append('Recursion_Chapter1.pdf', (0, 5))</b>
@@ -139,25 +138,25 @@ Reading page 18 - 0 images found...
 ...
 (False, &lt;_io.BufferedWriter name='first_five_pages.pdf'&gt;)
 </code></pre>
-<p class="tx">First, we create a <span class="thesansmonocd_w5regular_">PdfWriter</span> object by calling <span class="thesansmonocd_w5regular_">pypdf.PdfWriter()</span> <span class="codeannotation" aria-label="annotation1">❶</span>. The <span class="thesansmonocd_w5regular_">PdfWriter</span> object in the <span class="thesansmonocd_w5regular_">writer</span> variable represents a blank PDF document with zero pages. Then, the <span class="thesansmonocd_w5regular_">PdfWriter</span> object’s <span class="thesansmonocd_w5regular_">append()</span> method copies the first five pages from the sample chapter PDF, which we identify by the <span class="thesansmonocd_w5regular_">'Recursion_Chapter1.pdf'</span> filename <span class="codeannotation" aria-label="annotation2">❷</span>. (Despite the identical name, the <span class="thesansmonocd_w5regular_">PdfWriter</span> object’s <span class="thesansmonocd_w5regular_">append()</span> method differs from the <span class="thesansmonocd_w5regular_">append()</span> list method.)</p>
-<p class="tx">The second argument to this method is the tuple <span class="thesansmonocd_w5regular_">(0, 5)</span>, which tells the <span class="thesansmonocd_w5regular_">PdfWriter</span> object to copy pages starting at page index <span class="thesansmonocd_w5regular_">0</span> (the first page in the <span class="thesansmonocd_w5regular_">PdfWriter</span> object), up to but not including page index <span class="thesansmonocd_w5regular_">5</span>. PyPDF considers index <span class="thesansmonocd_w5regular_">0</span> to be the first page, even though PDF applications call it page 1.</p>
-<p class="tx">Finally, to write the contents of the <span class="thesansmonocd_w5regular_">PdfWriter</span> object to a PDF file, call <span class="thesansmonocd_w5regular_">open()</span> with the filename and <span class="thesansmonocd_w5regular_">'wb'</span> mode, and then pass the <span class="thesansmonocd_w5regular_">File</span> object to the <span class="thesansmonocd_w5regular_">write()</span> method of the <span class="thesansmonocd_w5regular_">PdfWriter</span> object <span class="codeannotation" aria-label="annotation3">❸</span>. This should generate a new PDF file.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1234" aria-label="417"></span>The tuple provided to <span class="thesansmonocd_w5regular_">append()</span> can contain either two or three integers. If a third integer is provided, the method skips that number of pages. Because this behavior matches the <span class="thesansmonocd_w5regular_">range()</span> function, you could pass the two or three integers to <span class="thesansmonocd_w5regular_">list(range())</span> to see which pages the code would copy:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">list(range(0, 5))</b>  # Passing (0, 5) makes append() copy these pages:
+<p class="tx">まず、<span class="thesansmonocd_w5regular_">pypdf.PdfWriter()</span>を呼び出して<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトを作成します(<span class="codeannotation" aria-label="annotation1">❶</span>)。<span class="thesansmonocd_w5regular_">writer</span>変数に格納された<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトは0ページの空白のPDFを表します。次に、<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの<span class="thesansmonocd_w5regular_">append()</span>メソッドで<span class="thesansmonocd_w5regular_">'Recursion_Chapter1.pdf'</span>というファイル名を指定し、サンプルのPDFの最初の5ページをコピーします(<span class="codeannotation" aria-label="annotation2">❷</span>)。（同名ではありますが<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの<span class="thesansmonocd_w5regular_">append()</span>メソッドはリストメソッドの<span class="thesansmonocd_w5regular_">append()</span>とは異なります。）</p>
+<p class="tx">このメソッドの第二引数はタプル<span class="thesansmonocd_w5regular_">(0, 5)</span>です。<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトにインデックス<span class="thesansmonocd_w5regular_">0</span>のページ（<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの最初のページ）からインデックス<span class="thesansmonocd_w5regular_">5</span>のページまで（インデックス<span class="thesansmonocd_w5regular_">5</span>のページは含まない）をコピーすることを伝えます。PDFアプリケーションでは最初のページを1ページと表示しますが、PyPDFは<span class="thesansmonocd_w5regular_">0</span>で最初のページを表します。</p>
+<p class="tx">最後に、ファイル名と<span class="thesansmonocd_w5regular_">'wb'</span>モードを指定して<span class="thesansmonocd_w5regular_">open()</span>を呼び出し、<span class="thesansmonocd_w5regular_">File</span>オブジェクトの<span class="thesansmonocd_w5regular_">write()</span>メソッドにその<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトを渡して、<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの内容をPDFに書き込みます(<span class="codeannotation" aria-label="annotation3">❸</span>)。これで新しいPDFファイルが作成されます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1234" aria-label="417"></span><span class="thesansmonocd_w5regular_">append()</span>に渡すタプルには2つまたは3つの整数が含まれます。3つの整数が含まれる場合は、3番目の数値がステップ数を表します。これは<span class="thesansmonocd_w5regular_">range()</span>関数と同じですから、<span class="thesansmonocd_w5regular_">list(range())</span>に2つまたは3つの整数を渡すことで、どのページがコピーされるかわかります。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">list(range(0, 5))</b>  # (0, 5)を渡すとappend()はこのページをコピーする
 [0, 1, 2, 3, 4]
-&gt;&gt;&gt; <b class="calibre10">list(range(0, 5, 2))</b>  # Passing (0, 5, 2) makes append() copy these pages:
+&gt;&gt;&gt; <b class="calibre10">list(range(0, 5, 2))</b>  # (0, 5, 2)を渡すとappend()はこのページをコピーする
 [0, 2, 4]
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">append()</span> method can also accept a list argument with page number integers for each page to append. For example, say we replace the code in the previous interactive shell example with this:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">append()</span>メソッドはコピーするページ番号の整数のリストを取ることもできます。例えば、先ほどの対話型シェルの例を、次のように書くことができます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">writer.append('Recursion_Chapter1.pdf', [0, 1, 2, 3, 4])</b></code></pre>
-<p class="tx">This code would also copy the first five pages of the PDF document to the <span class="thesansmonocd_w5regular_">PdfWriter</span> object. Note that <span class="thesansmonocd_w5regular_">append()</span> interprets tuples and list arguments differently; the tuple <span class="thesansmonocd_w5regular_">(0, 5)</span> tells <span class="thesansmonocd_w5regular_">append()</span> to copy pages at index <span class="thesansmonocd_w5regular_">0</span> up to but not including page index <span class="thesansmonocd_w5regular_">5</span>, but the list <span class="thesansmonocd_w5regular_">[0, 5]</span> would tell <span class="thesansmonocd_w5regular_">append()</span> to individually copy page index <span class="thesansmonocd_w5regular_">0</span> and then copy page index <span class="thesansmonocd_w5regular_">5</span>. This difference in meaning between tuples and lists is unconventional, and you won’t see it in other Python libraries, but it’s part of PyPDF’s design.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">append()</span> method adds the copied pages to the end of the <span class="thesansmonocd_w5regular_">PdfWriter</span> object. To insert copied pages before the end, call the <span class="thesansmonocd_w5regular_">merge()</span> method instead. The <span class="thesansmonocd_w5regular_">merge()</span> method has an additional integer argument that specifies where to insert the pages. For example, look at this code:</p>
+<p class="tx">このコードもPDF文書の最初の5ページを<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトにコピーします。<span class="thesansmonocd_w5regular_">append()</span>は引数のタプルとリストを異なるように解釈することに注意してください。タプル<span class="thesansmonocd_w5regular_">(0, 5)</span>はインデックス<span class="thesansmonocd_w5regular_">0</span>からインデックス<span class="thesansmonocd_w5regular_">5</span>まで（インデックス<span class="thesansmonocd_w5regular_">5</span>は含まない）をコピーするのに対し、リスト<span class="thesansmonocd_w5regular_">[0, 5]</span>はインデックス<span class="thesansmonocd_w5regular_">0</span>とインデックス<span class="thesansmonocd_w5regular_">5</span>のページをコピーします。タプルとリストでこのような意味の違いを持たせるのは慣習的ではなく、他のPythonのライブラリで目にすることはないでしょうが、PyPDFではそのように設計されています。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">append()</span>メソッドはコピーしたページを<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの末尾に追加します。コピーしたページを末尾以外に挿入したい場合は、<span class="thesansmonocd_w5regular_">merge()</span>メソッドを呼び出します。<span class="thesansmonocd_w5regular_">merge()</span>メソッドは、挿入するページを指定するもう一つ引数を取ります。例えば、次のようにします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">writer.merge(2, 'Recursion_Chapter1.pdf', (0, 5))</b></code></pre>
-<p class="tx">This code copies the pages at index <span class="thesansmonocd_w5regular_">0</span> up to but not including index <span class="thesansmonocd_w5regular_">5</span> and inserts them where page index <span class="thesansmonocd_w5regular_">2</span> (the third page) is in the <span class="thesansmonocd_w5regular_">PdfWriter</span> object in <span class="thesansmonocd_w5regular_">writer</span>. The original page at index <span class="thesansmonocd_w5regular_">2</span>, and all other pages, get shifted back after the inserted set of pages.</p>
+<p class="tx">このコードはインデックス<span class="thesansmonocd_w5regular_">0</span>からインデックス<span class="thesansmonocd_w5regular_">5</span>（インデックス<span class="thesansmonocd_w5regular_">5</span>は含まない）をコピーし、<span class="thesansmonocd_w5regular_">writer</span>変数に格納された<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトのインデックス<span class="thesansmonocd_w5regular_">2</span>のページ（3ページ目）に挿入します。元のインデックス<span class="thesansmonocd_w5regular_">2</span>のページ以降は、コピーされたページのあとに繰り下がります。</p>
 <section type="division" aria-labelledby="sec6">
-<h5 class="h2" id="calibre_link-1929"><span class="sans_futura_std_bold_b_">Rotating Pages</span></h5>
-<p class="tni">We can also rotate the pages of a PDF in 90-degree increments with the <span class="thesansmonocd_w5regular_">rotate()</span> method of <span class="thesansmonocd_w5regular_">Page</span> objects. Pass either <span class="thesansmonocd_w5regular_">90</span>, <span class="thesansmonocd_w5regular_">180</span>, or <span class="thesansmonocd_w5regular_">270</span> as an argument to this method to rotate the page clockwise, and either <span class="thesansmonocd_w5regular_">-90</span>, <span class="thesansmonocd_w5regular_">-180</span>, or <span class="thesansmonocd_w5regular_">-270</span> to rotate the page counterclockwise. Rotating pages is useful if you have many PDFs that are, for whatever reason, already incorrectly rotated and you need to rotate them back, or else need to rotate only a few select pages in a PDF document. PDF apps often have rotation features that you can use to manually correct PDFs, but Python allows you to quickly apply rotations to many PDFs to automate this boring task.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1291" aria-label="418"></span>For example, enter the following into the interactive shell to rotate the pages of the sample chapter PDF:</p>
+<h5 class="h2" id="calibre_link-1929"><span class="sans_futura_std_bold_b_">ページの回転</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">Page</span>オブジェクトの<span class="thesansmonocd_w5regular_">rotate()</span>メソッドで、PDFのページを90度ずつ回転させることもできます。時計回りに回転させるなら<span class="thesansmonocd_w5regular_">90</span>、<span class="thesansmonocd_w5regular_">180</span>、<span class="thesansmonocd_w5regular_">270</span>を、反時計回りに回転させるなら<span class="thesansmonocd_w5regular_">-90</span>、<span class="thesansmonocd_w5regular_">-180</span>、<span class="thesansmonocd_w5regular_">-270</span>を、このメソッドの引数に渡します。たくさんのPDFがあり、理由はともかく向きが正しくないので回転させたいとしたら、このページの回転が役に立ちます。PDF文書の一部のページだけを回転させることもできます。PDFアプリにも回転機能があり、手動でPDFの向きを正しくすることができますが、PythonだとたくさんのPDFを回転させて面倒な作業を自動化できます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1291" aria-label="418"></span>例えば、対話型シェルに以下の内容を入力して、サンプルのPDFを回転させてみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 &gt;&gt;&gt; <b class="calibre10">writer = pypdf.PdfWriter()</b>
 &gt;&gt;&gt; <b class="calibre10">writer.append('Recursion_Chapter1.pdf')</b>
@@ -172,17 +171,17 @@ Reading page 18 - 0 images found...
 ...
 (False, &lt;_io.BufferedWriter name='rotated.pdf'&gt;)
 </code></pre>
-<p class="tx">We create a new <span class="thesansmonocd_w5regular_">PdfWriter</span> object and copy the pages of the sample chapter PDF to it. Then, we use a <span class="thesansmonocd_w5regular_">for</span> loop to loop over each page number. The call to <span class="thesansmonocd_w5regular_">len(writer.pages)</span> returns the number of pages <span class="codeannotation" aria-label="annotation1">❶</span> as an integer. The expression <span class="thesansmonocd_w5regular_">writer.pages[i]</span> accesses each <span class="thesansmonocd_w5regular_">Page</span> object on an iteration of the <span class="thesansmonocd_w5regular_">for</span> loop, and the <span class="thesansmonocd_w5regular_">rotate(90)</span> method call <span class="codeannotation" aria-label="annotation2">❷</span> rotates this page in the <span class="thesansmonocd_w5regular_">PdfWriter</span> object.</p>
-<p class="tx">The resulting PDF should consist of all pages rotated 90 degrees clockwise, as shown in Figure 17-2.</p>
+<p class="tx">新しい<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトを作成して、サンプルのPDFのページをコピーします。それから、<span class="thesansmonocd_w5regular_">for</span>ループで各ページを反復処理します。<span class="thesansmonocd_w5regular_">len(writer.pages)</span>を呼び出すとページ数が整数で返されます(<span class="codeannotation" aria-label="annotation1">❶</span>)。式<span class="thesansmonocd_w5regular_">writer.pages[i]</span>で<span class="thesansmonocd_w5regular_">for</span>ループの反復ごとに<span class="thesansmonocd_w5regular_">Page</span>オブジェクトにアクセスし、<span class="thesansmonocd_w5regular_">rotate(90)</span>メソッド呼び出しにより<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの当該ページを回転させます(<span class="codeannotation" aria-label="annotation2">❷</span>)。</p>
+<p class="tx">結果として出力されるPDFは、図17-2に示すように、すべてのページが時計回りに90度回転しています。</p>
 <figure class="img"><img class="img1" id="calibre_link-787" src="images/000038.jpg" alt="The “What Is Recursion?” PDF oriented horizontally, so the text is sideways." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-2: The</span> <span class="sans_futura_std_book_">rotated.pdf</span> <span class="sans_futura_std_book_oblique_i_">file with the page rotated 90 degrees clockwise</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-2：ページを時計回りに90度回転させた</span><span class="sans_futura_std_book_">rotated.pdf</span><span class="sans_futura_std_book_oblique_i_">ファイル</span></p></figcaption>
 </figure>
-<p class="tx">PyPDF can’t rotate documents in increments other than 90 degrees.</p>
+<p class="tx">PyPDFは90度の整数倍でしか回転させられません。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-884" aria-label="419"></span>
-<h5 class="h2" id="calibre_link-1930"><span class="sans_futura_std_bold_b_">Inserting Blank Pages</span></h5>
-<p class="tni">You can insert or append a blank page to a <span class="thesansmonocd_w5regular_">PdfWriter</span> object with the <span class="thesansmonocd_w5regular_">insert _blank_page()</span> and <span class="thesansmonocd_w5regular_">add_blank_page()</span> methods. The size of the new page will be the same as that of the preceding page. For example, let’s create a copy of the sample chapter PDF with blank pages at the end and on page 3:</p>
+<h5 class="h2" id="calibre_link-1930"><span class="sans_futura_std_bold_b_">空白ページの挿入</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">insert _blank_page()</span>メソッドと<span class="thesansmonocd_w5regular_">add_blank_page()</span>メソッドで、<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトに空白ページを挿入したり追加したりできます。新しいページの大きさは前のページの大きさと同じになります。例えば、サンプルのPDFのコピーを作成して、末尾と3ページのあとに空白ページを挿入してみましょう。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 &gt;&gt;&gt; <b class="calibre10">writer = pypdf.PdfWriter()</b>
 &gt;&gt;&gt; <b class="calibre10">writer.append('Recursion_Chapter1.pdf')</b>
@@ -193,17 +192,17 @@ Reading page 18 - 0 images found...
 {'/Type': '/Page', '/Parent': NullObject, '/Resources': {},
 '/MediaBox': RectangleObject([0.0, 0.0, 546, 708])}
 &gt;&gt;&gt; <b class="calibre10">with open('with_blanks.pdf', 'wb') as file:</b>
-...     <b class="calibre10">writer.write(file)</b>  # Save the writer object to a PDF file.
+...     <b class="calibre10">writer.write(file)</b>  # writerオブジェクトをPDFファイルに保存
 ...
 (False, &lt;_io.BufferedWriter name='with_blanks.pdf'&gt;)
 </code></pre>
-<p class="tx">After copying all the pages from the sample chapter PDF to the <span class="thesansmonocd_w5regular_">PdfWriter</span> object, the <span class="thesansmonocd_w5regular_">add_blank_page()</span> method adds a blank page to the end of the document. The <span class="thesansmonocd_w5regular_">insert_blank_page()</span> method inserts a blank page at page index <span class="thesansmonocd_w5regular_">2</span> (which is the third page, as page index <span class="thesansmonocd_w5regular_">0</span> is the first page). This method requires that you specify the <span class="thesansmonocd_w5regular_">index</span> parameter name.</p>
-<p class="tx">You can either leave these pages blank or add content to them later, such as overlays and watermarks, as the next section explains.</p>
+<p class="tx">サンプルのPDFからすべてのページを<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトにコピーしてから、<span class="thesansmonocd_w5regular_">add_blank_page()</span>メソッドで空白ページを末尾に追加します。<span class="thesansmonocd_w5regular_">insert_blank_page()</span>メソッドでインデックス<span class="thesansmonocd_w5regular_">2</span>のページのあと（インデックスは<span class="thesansmonocd_w5regular_">0</span>から始まるので3ページ目のあと）に空白ページを挿入します。このメソッドでは<span class="thesansmonocd_w5regular_">index</span>名前付きパラメータを指定します。</p>
+<p class="tx">このページを空白のままにしておくこともできれば、次の節で説明するように、あとで重ね合わせたり透かしを入れたりすることもできます。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h5 class="h2" id="calibre_link-1931"><span class="sans_futura_std_bold_b_">Adding Watermarks and Overlays</span></h5>
-<p class="tni">PyPDF can also overlay the contents of one page on top of another, which is useful for adding a logo, timestamp, or watermark to a page. In PyPDF, a <i class="calibre5">stamp</i> or <i class="calibre5">overlay</i> is content placed on top of the page’s existing content, while a <i class="calibre5">watermark</i> or <i class="calibre5">underlay</i> is content placed underneath the page’s existing content.</p>
-<p class="tx">Download <i class="calibre5">watermark.pdf</i> from the book’s online resources and place the PDF in the current working directory along with the sample chapter PDF. Then, enter the following into the interactive shell:</p>
+<h5 class="h2" id="calibre_link-1931"><span class="sans_futura_std_bold_b_">透かしと重ね合わせ</span></h5>
+<p class="tni">PyPDFでは、あるページを別のページに重ね合わせることができます。ページにロゴやタイムスタンプや透かしを入れたりするのに便利です。<i class="calibre5">スタンプ</i>や<i class="calibre5">オーバーレイ</i>はページの既存の内容の上に重ね、<i class="calibre5">透かし</i>や<i class="calibre5">アンダーレイ</i>はページの既存の内容の下に重ねます。</p>
+<p class="tx">本書のオンライン素材から<i class="calibre5">watermark.pdf</i>をダウンロードして、サンプルのPDFと同じ現在の作業ディレクトリの中に入れてください。そして、対話型シェルに次のように入力します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 &gt;&gt;&gt; <b class="calibre10">writer = pypdf.PdfWriter()</b>
 &gt;&gt;&gt; <b class="calibre10">writer.append('Recursion_Chapter1.pdf')</b>
@@ -216,18 +215,18 @@ Reading page 18 - 0 images found...
 ...
 (False, &lt;_io.BufferedWriter name='with_watermark.pdf'&gt;)
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-892" aria-label="420"></span>This example creates a copy of the sample chapter PDF in a new <span class="thesansmonocd_w5regular_">PdfWriter</span> object, saved in the <span class="thesansmonocd_w5regular_">writer</span> variable. We also obtain the <span class="thesansmonocd_w5regular_">Page</span> object for the first page of the watermark PDF and store it in the <span class="thesansmonocd_w5regular_">watermark_page</span> variable. The <span class="thesansmonocd_w5regular_">for</span> loop then loops over all the <span class="thesansmonocd_w5regular_">Page</span> objects in the <span class="thesansmonocd_w5regular_">PdfWriter</span> object and applies the watermark by passing it to <span class="thesansmonocd_w5regular_">merge_page()</span>. (Don’t confuse the <span class="thesansmonocd_w5regular_">merge_page()</span> method of <span class="thesansmonocd_w5regular_">Page</span> objects with the <span class="thesansmonocd_w5regular_">merge()</span> method of <span class="thesansmonocd_w5regular_">PdfWriter</span> objects discussed earlier in this chapter.)</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">merge_page()</span> method also has an <span class="thesansmonocd_w5regular_">over</span> keyword argument. Pass <span class="thesansmonocd_w5regular_">True</span> for this argument to create a stamp or overlay, or pass <span class="thesansmonocd_w5regular_">False</span> to create a watermark or underlay.</p>
-<p class="tx">After modifying the <span class="thesansmonocd_w5regular_">PdfWriter</span> object’s pages in the loop, the code then saves it as <i class="calibre5">with_watermark.pdf</i>. Figure 17-3 shows the original watermark PDF and two pages from the sample chapter PDF with the watermark applied.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-892" aria-label="420"></span>この例では、新しい<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトにサンプルのPDFのコピーを作成し、変数<span class="thesansmonocd_w5regular_">writer</span>に格納します。透かしのPDFの最初のページの<span class="thesansmonocd_w5regular_">Page</span>オブジェクトも取得し、変数<span class="thesansmonocd_w5regular_">watermark_page</span>に格納します。<span class="thesansmonocd_w5regular_">for</span>ループで<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの<span class="thesansmonocd_w5regular_">Page</span>オブジェクトを反復処理し、<span class="thesansmonocd_w5regular_">merge_page()</span>で透かしを入れます。（<span class="thesansmonocd_w5regular_">Page</span>オブジェクトの<span class="thesansmonocd_w5regular_">merge_page()</span>メソッドを、本章の最初のほうで紹介した<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの<span class="thesansmonocd_w5regular_">merge()</span>メソッドと混同しないようにしてください。）</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">merge_page()</span>メソッドには<span class="thesansmonocd_w5regular_">over</span>キーワード引数があります。この引数に<span class="thesansmonocd_w5regular_">True</span>を渡すとスタンプ（オーバーレイ）になり、<span class="thesansmonocd_w5regular_">False</span>を渡すと透かし（アンダーレイ）になります。</p>
+<p class="tx">ループで<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトのページを処理してから、<i class="calibre5">with_watermark.pdf</i>という名前で保存しています。図17-3は元の透かしのPDFと、透かしを入れたサンプルのPDFから2ページを示しています。</p>
 <figure class="img"><img class="img1" id="calibre_link-789" src="images/000039.jpg" alt="Three PDFs. The first contains a diagonal gray box with the text “Top Secret”, the second shows the “Top Secret” box overlayed on the “What Is Recursion?” chapter page, and the third shows the “Top Secret” boxed overlayed on another page of text." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-3: The watermark PDF (left) and pages with the added watermark (center, right)</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-3：透かしのPDF（左側）と透かしを入れたページ（中央と右側）</span></p></figcaption>
 </figure>
-<p class="tx">The <span class="thesansmonocd_w5regular_">merge_page()</span> method is useful for making broad changes to PDF documents, such as merging the contents of two pages.</p>
+<p class="tx">2つのページを重ね合わせるなど、PDFに大きな変更を加えたいときに<span class="thesansmonocd_w5regular_">merge_page()</span>メソッドが役立ちます。</p>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h5 class="h2" id="calibre_link-1932"><span class="sans_futura_std_bold_b_">Encrypting and Decrypting PDFs</span></h5>
-<p class="tni">PDFs allow you to encrypt their contents, making them unreadable. The encryption is only as strong as the password you choose, so create a password that uses different character types, isn’t a word in the dictionary, and has around 14 to 16 characters. Keep in mind that PDFs have no password reset mechanism; if you forget the password, the PDF will be forever unreadable unless you can guess it.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">encrypt()</span> method of <span class="thesansmonocd_w5regular_">PdfWriter</span> objects accepts a password string and a string that selects the encryption algorithm. The <span class="thesansmonocd_w5regular_">'AES-256'</span> argument implements a recommended modern encryption algorithm, so we’ll always use that. Enter the following into the interactive shell to create an encrypted copy of the sample chapter PDF:</p>
+<h5 class="h2" id="calibre_link-1932"><span class="sans_futura_std_bold_b_">PDFの暗号化と復号</span></h5>
+<p class="tni">PDFは内容を暗号化して読めなくできます。暗号化はパスワードにより強度が変わりますから、いろいろな記号を使って辞書に載っていない14から16文字くらいのパスワードを設定します。PDFにはパスワードリセット機能がありませんから、パスワードを失念するとパスワードを当てられない限り永久に読めなくなることに注意してください。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトの<span class="thesansmonocd_w5regular_">encrypt()</span>メソッドは、パスワード文字列と暗号化アルゴリズムの2つを引数に取ります。<span class="thesansmonocd_w5regular_">'AES-256'</span>が推奨される新しい暗号化アルゴリズムなので、ここではそれを使います。対話型シェルに以下の内容を入力し、サンプルのPDFの暗号化されたコピーを作成してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 &gt;&gt;&gt; <b class="calibre10">writer = pypdf.PdfWriter()</b>
 &gt;&gt;&gt; <b class="calibre10">writer.append('Recursion_Chapter1.pdf')</b>
@@ -237,8 +236,8 @@ Reading page 18 - 0 images found...
 ...
 (False, &lt;_io.BufferedWriter name='encrypted.pdf'&gt;)
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">encrypt('swordfish', algorithm='AES-256')</span> method call on the <span class="thesansmonocd_w5regular_">PdfWriter</span> object encrypts the content of the PDF. After we write this encrypted PDF to the <i class="calibre5">encrypted.pdf</i> file, no PDF app, including PyPDF, should be able to open it without entering the password <i class="calibre5">swordfish</i>. (This is a poor password, as it’s a word that occurs in the dictionary and is therefore easy to guess.) Encrypted data looks random unless you apply the correct decryption key or password, and decrypting the document with the wrong password results in garbage data. PDF apps will detect this, then prompt you to try the password again.</p>
-<p class="tx">PyPDF can apply a password to an encrypted PDF to decrypt it. Enter the following into the interactive shell to detect encrypted PDFs with the <span class="thesansmonocd_w5regular_">is_encrypted</span> attribute and decrypt them with <span class="thesansmonocd_w5regular_">decrypt()</span>:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトについて<span class="thesansmonocd_w5regular_">encrypt('swordfish', algorithm='AES-256')</span>メソッドを呼び出すことで、そのPDFの内容を暗号化しています。この暗号化されたPDFを<i class="calibre5">encrypted.pdf</i>ファイルに書き出したら、PyPDFを含めてどのようなPDFアプリでもパスワードの<i class="calibre5">swordfish</i>を入力しない限りそのファイルを開くことができません。（これは辞書に載っている語なのでまずいパスワードで、簡単に推測できます。）暗号化されたデータは、正しいパスワードで復号しなければランダムに見えます。正しくないパスワードで復号してもデータは使い物にならず、PDFアプリはパスワードをもう一度入力するように要求します。</p>
+<p class="tx">PyPDFは暗号化されたPDFをパスワードで復号できます。対話型シェルに以下の内容を入力して、<span class="thesansmonocd_w5regular_">is_encrypted</span>属性でそのPDFが暗号化されているかどうかを判定し、<span class="thesansmonocd_w5regular_">decrypt()</span>で復号します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pypdf</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">reader = pypdf.PdfReader('encrypted.pdf')</b>
 &gt;&gt;&gt; <b class="calibre10">writer = pypdf.PdfWriter()</b>
@@ -258,39 +257,39 @@ pypdf.errors.FileNotDecryptedError: File has not been decrypted
 ...
 (False, &lt;_io.BufferedWriter name='decrypted.pdf'&gt;)
 </code></pre>
-<p class="tx">We load the encrypted PDF into a <span class="thesansmonocd_w5regular_">PdfReader</span> object just like any other PDF <span class="codeannotation" aria-label="annotation1">❶</span>. The <span class="thesansmonocd_w5regular_">PdfReader</span> object has an <span class="thesansmonocd_w5regular_">is_encrypted</span> attribute <span class="codeannotation" aria-label="annotation2">❷</span> that is set to either <span class="thesansmonocd_w5regular_">True</span> or <span class="thesansmonocd_w5regular_">False</span>. If you try to read the PDF content by, for example, accessing the <span class="thesansmonocd_w5regular_">pages</span> attribute <span class="codeannotation" aria-label="annotation3">❸</span>, PyPDF raises a <span class="thesansmonocd_w5regular_">FileNotDecryptedError</span> because it’s unable to read it.</p>
-<p class="tx">PDFs can have a <i class="calibre5">user password</i> that allows you to view the PDF and an <i class="calibre5">owner password</i> that allows you to set permissions for printing, commenting, extracting text, and other features. The user password and owner password are the first and second arguments to <span class="thesansmonocd_w5regular_">encrypt()</span>, respectively. If only one string argument is passed to <span class="thesansmonocd_w5regular_">encrypt()</span>, PyPDF will use it for both passwords.</p>
-<p class="tx">To decrypt the <span class="thesansmonocd_w5regular_">PdfReader</span> object, call the <span class="thesansmonocd_w5regular_">decrypt()</span> method and pass it the string of the password. This method call returns a <span class="thesansmonocd_w5regular_">PasswordType</span> object; <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1037" aria-label="422"></span>we’re interested only in the <span class="thesansmonocd_w5regular_">name</span> attribute of this object. If <span class="thesansmonocd_w5regular_">name</span> is set to <span class="thesansmonocd_w5regular_">'NOT_DECRYPTED'</span> <span class="codeannotation" aria-label="annotation4">❹</span>, we provided the wrong password. If <span class="thesansmonocd_w5regular_">name</span> is set to <span class="thesansmonocd_w5regular_">'OWNER_PASSWORD'</span> or <span class="thesansmonocd_w5regular_">'USER_PASSWORD'</span> <span class="codeannotation" aria-label="annotation5">❺</span>, we’ve entered the correct owner or user password.</p>
-<p class="tx">We can now append the pages from the <span class="thesansmonocd_w5regular_">PdfReader</span> object to a <span class="thesansmonocd_w5regular_">PdfWriter</span> object <span class="codeannotation" aria-label="annotation6">❻</span> and save the decrypted PDF to a file.</p>
-<p class="ph"><span id="calibre_link-461"></span><span class="sans_futura_std_heavy_b_">Project 12: Combine Select Pages from Many PDFs</span></p>
-<p class="tni">Say you have the boring job of merging several dozen PDF documents into a single PDF file. The first page of each document is a cover sheet, but you don’t want the cover sheets repeated in the final result. Even though there are lots of free programs for combining PDFs, many of them simply merge entire files together. Let’s write a Python program to customize the pages to include in the combined PDF.</p>
-<p class="tx">At a high level, here is what the program will do:</p>
+<p class="tx">これまでのPDFと同じように、暗号化されたPDFを<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトにロードしています(<span class="codeannotation" aria-label="annotation1">❶</span>)。<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトには<span class="thesansmonocd_w5regular_">is_encrypted</span>属性があり、<span class="thesansmonocd_w5regular_">True</span>または<span class="thesansmonocd_w5regular_">False</span>が設定されています(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">pages</span>属性にアクセスするなどしてPDFの内容を読み取ろうとすると(<span class="codeannotation" aria-label="annotation3">❸</span>)、PyPDFは読み取ることができないので<span class="thesansmonocd_w5regular_">FileNotDecryptedError</span>を送出します。</p>
+<p class="tx">PDFには、閲覧専用の<i class="calibre5">ユーザーパスワード</i>と、印刷やコメントやテキスト抽出やその他の機能を使える<i class="calibre5">オーナーパスワード</i>があります。<span class="thesansmonocd_w5regular_">encrypt()</span>の第一引数がユーザーパスワードに、第二引数がオーナーパスワードに対応します。<span class="thesansmonocd_w5regular_">encrypt()</span>に一つしか引数を渡さなければ、PyPDFはユーザーパスワードとオーナーパスワードに同じそのパスワードを設定します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトを復号するには、<span class="thesansmonocd_w5regular_">decrypt()</span>メソッドを呼び出してパスワード文字列を渡します。<span class="thesansmonocd_w5regular_">PasswordType</span>メソッドを呼び出してパスワード文字列を渡します。そのオブジェクトの<span class="thesansmonocd_w5regular_">name</span>属性が<span class="thesansmonocd_w5regular_">'NOT_DECRYPTED'</span>であれば(<span class="codeannotation" aria-label="annotation4">❹</span>)、パスワードが間違っています。<span class="thesansmonocd_w5regular_">name</span>属性が<span class="thesansmonocd_w5regular_">'OWNER_PASSWORD'</span>または<span class="thesansmonocd_w5regular_">'USER_PASSWORD'</span>であれば、(<span class="codeannotation" aria-label="annotation5">❺</span>)、正しいユーザーパスワードまたはオーナーパスワードです。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトに<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトのページを追加できるようになりました(<span class="codeannotation" aria-label="annotation6">❻</span>)。復号したPDFをファイルに保存します。</p>
+<p class="ph"><span id="calibre_link-461"></span><span class="sans_futura_std_heavy_b_">プロジェクト12：たくさんのPDFから選択したページを結合する</span></p>
+<p class="tni">数十のPDFファイルを一つのPDFファイルに結合する退屈な作業をしているとしましょう。各PDFの最初のページは表紙であり、最終成果物では表紙が不要です。PDFを結合する無料のプログラムはたくさんありますが、ファイル全体を結合することしかできないプログラムが多いです。結合したPDFに含めるページを調節できるPythonプログラムを書きましょう。</p>
+<p class="tx">このプログラムには以下の内容が必要です。</p>
 <ul class="ul">
-<li class="bl">Find all PDF files in the current working directory and sort them alphabetically.</li>
-<li class="bl">For each PDF, copy all the pages after the first page to an output PDF.</li>
-<li class="bl">Save the output PDF to a file.</li>
+<li class="bl">現在の作業ディレクトリにあるPDFファイルをすべて見つけてアルファベット順に並べ替える</li>
+<li class="bl">各PDFファイルについて、2ページ目以降を出力PDFにコピーする</li>
+<li class="bl">出力PDFをファイルに保存する</li>
 </ul>
-<p class="tx">In terms of implementation, your code will need to do the following:</p>
+<p class="tx">コードには以下の内容が必要になります。</p>
 <ul class="ul">
-<li class="bl">Call <span class="thesansmonocd_w5regular_">os.listdir()</span> to find all the files in the working directory and remove any non-PDF files. (We covered this function in <span>Chapter 11</span>.)</li>
-<li class="bl">Call Python’s <span class="thesansmonocd_w5regular_">sort()</span> list method to alphabetize the filenames.</li>
-<li class="bl">Create a <span class="thesansmonocd_w5regular_">PdfWriter</span> object for the output PDF.</li>
-<li class="bl">Loop over each PDF file, creating a <span class="thesansmonocd_w5regular_">PdfReader</span> object for it.</li>
-<li class="bl">From the <span class="thesansmonocd_w5regular_">PdfReader</span> object, copy to the output PDF all the pages after the first page.</li>
-<li class="bl">Write the output PDF to a file.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">os.listdir()</span>を呼び出して現在の作業ディレクトリのすべてのファイルを見つけ、PDF以外のファイルを除去する（<span>第11章</span>でこの関数を扱いました）</li>
+<li class="bl">Pythonの<span class="thesansmonocd_w5regular_">sort()</span>リストメソッドを呼び出してファイル名のアルファベット順に並べ替える</li>
+<li class="bl">出力PDF用の<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトを作成する</li>
+<li class="bl">各PDFファイルを反復処理して<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトを作成する</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトから2ページ目以降を出力PDFにコピーする</li>
+<li class="bl">出力PDFをファイルに書き出す</li>
 </ul>
-<p class="tx">Open a new file editor tab for this project and save it as <i class="calibre5">combine_pdfs.py</i>.</p>
+<p class="tx">このプロジェクト用に新しいファイルエディタタブを開いて<i class="calibre5">combine_pdfs.py</i>という名前で保存してください。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1933"><span id="calibre_link-462"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Find All PDF Files</span></h4>
-<p class="tni">First, your program needs to get a list of all files with the <i class="calibre5">.pdf</i> extension in the current working directory and sort them. Make your code look like the following:</p>
-<pre class="pre"><code class="calibre9"># combine_pdfs.py - Combines all the PDFs in the current working directory
-# into a single PDF
+<h4 class="h1" id="calibre_link-1933"><span id="calibre_link-462"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：すべてのPDFファイルを見つける</span></h4>
+<p class="tni">まず、現在の作業ディレクトリで<i class="calibre5">.pdf</i>拡張子のファイルをすべて見つけて並べ替えます。コードは次のようになります。</p>
+<pre class="pre"><code class="calibre9"># combine_pdfs.py - 現在の作業ディレクトリにあるすべてのPDFファイルを
+# 一つのPDFファイルに結合する
 
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> import pypdf, os
 
-# Get all the PDF filenames.
+# すべてのPDFファイル名を取得
 pdf_filenames = []
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1215" aria-label="423"></span>for filename in os.listdir('.'):
     if filename.endswith('.pdf'):
@@ -299,79 +298,79 @@ pdf_filenames = []
 
 <span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> writer = pypdf.PdfWriter()
 
-# TODO: Loop through all the PDF files.
+# TODO：すべてのPDFファイルを反復処理
 
-# TODO: Copy all pages after the first page.
+# TODO: 2ページ目以降のすべてのページをコピー
 
-# TODO: Save the resulting PDF to a file.
+# TODO：出力PDFをファイルに保存
 </code></pre>
-<p class="tx">This code imports the <span class="thesansmonocd_w5regular_">pypdf</span> and <span class="thesansmonocd_w5regular_">os</span> modules <span class="codeannotation" aria-label="annotation1">❶</span>. The <span class="thesansmonocd_w5regular_">os.listdir('.')</span> call will return a list of every file in the current working directory. The code then loops over this list, adding files with the <i class="calibre5">.pdf</i> extension to a list in the <span class="thesansmonocd_w5regular_">pdf_filenames</span> variable <span class="codeannotation" aria-label="annotation2">❷</span>. Next, we sort this list in alphabetical order with the <span class="thesansmonocd_w5regular_">key=str.lower</span> keyword argument to <span class="thesansmonocd_w5regular_">sort()</span> <span class="codeannotation" aria-label="annotation3">❸</span>. For technical reasons, the <span class="thesansmonocd_w5regular_">sort()</span> method puts uppercase characters like <i class="calibre5">Z</i> before lowercase characters like <i class="calibre5">a</i>; the keyword argument we provide prevents this by comparing the lowercase form of the strings. We create a <span class="thesansmonocd_w5regular_">PdfWriter</span> object to hold the combined PDF pages <span class="codeannotation" aria-label="annotation4">❹</span>. Finally, a few comments outline the rest of the program.</p>
+<p class="tx">このコードでは、<span class="thesansmonocd_w5regular_">pypdf</span>モジュールと<span class="thesansmonocd_w5regular_">os</span>モジュールをインポートしています(<span class="codeannotation" aria-label="annotation1">❶</span>)。<span class="thesansmonocd_w5regular_">os.listdir('.')</span>を呼び出すと現在の作業ディレクトリにあるすべてのファイルのリストが返されます。そのリストを反復処理して、<i class="calibre5">.pdf</i>拡張子のファイルを<span class="thesansmonocd_w5regular_">pdf_filenames</span>変数のリストに追加します(<span class="codeannotation" aria-label="annotation2">❷</span>)。次に、このリストを、<span class="thesansmonocd_w5regular_">sort()</span>に<span class="thesansmonocd_w5regular_">key=str.lower</span>キーワード引数を渡してアルファベット順に並べ替えます(<span class="codeannotation" aria-label="annotation3">❸</span>)。技術的な理由により、<span class="thesansmonocd_w5regular_">sort()</span>メソッドは<i class="calibre5">Z</i>のような大文字を<i class="calibre5">a</i>のような小文字よりも前に並べ替えます。先ほど示したような引数を渡すと文字列を小文字で比較するのでそうした事態を防げます。結合したPDFのページを保持する<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトを作成します(<span class="codeannotation" aria-label="annotation4">❹</span>)。最後に、プログラムの残りの概要をコメントで書いています。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-1934"><span id="calibre_link-463"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Open Each PDF</span></h4>
-<p class="tni">Now the program must read each PDF file in <span class="thesansmonocd_w5regular_">pdf_filenames</span>. Add the following to your program:</p>
-<pre class="pre"><code class="calibre9"># combine_pdfs.py - Combines all the PDFs in the current working directory
-# into a single PDF
+<h4 class="h1" id="calibre_link-1934"><span id="calibre_link-463"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：各PDFを開く</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">pdf_filenames</span>の各PDFファイルを開きます。以下のコードです。</p>
+<pre class="pre"><code class="calibre9"># combine_pdfs.py - 現在の作業ディレクトリにあるすべてのPDFファイルを
+# 一つのPDFファイルに結合する
 
 import pypdf, os
 
 <var class="calibre20">--snip--</var>
 
-<b class="calibre10"># Loop through all the PDF files:</b>
+<b class="calibre10"># すべてのPDFファイルを反復処理</b>
 <b class="calibre10">for pdf_filename in pdf_filenames:</b>
 <b class="calibre10">    reader = pypdf.PdfReader(pdf_filename)</b>
-<b class="calibre10">    # Copy all pages after the first page:</b>
+<b class="calibre10">    # 2ページ目以降のすべてのページをコピー</b>
 <b class="calibre10">    writer.append(pdf_filename, (1, len(reader.pages)))</b>
 
-# TODO: Save the resulting PDF to a file.
+# TODO：出力PDFをファイルに保存
 </code></pre>
-<p class="tx">For each PDF filename, the loop creates a <span class="thesansmonocd_w5regular_">PdfReader</span> object and stores it in a variable named <span class="thesansmonocd_w5regular_">reader</span>. Now the code inside the loop can call <span class="thesansmonocd_w5regular_">len(reader.pages)</span> to find out how many pages the PDF has. It uses this information in the <span class="thesansmonocd_w5regular_">append()</span> method call to copy pages starting at <span class="thesansmonocd_w5regular_">1</span> (the second page, because PyPDF uses <span class="thesansmonocd_w5regular_">0</span> as the first page index) up to the end of the PDF. Then, it appends the content to the same <span class="thesansmonocd_w5regular_">PdfWriter</span> object in <span class="thesansmonocd_w5regular_">writer</span>.</p>
+<p class="tx">それぞれのPDFファイル名につき、ループで<span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトを作成し、<span class="thesansmonocd_w5regular_">reader</span>という名前の変数に格納します。ループ内のコードで<span class="thesansmonocd_w5regular_">len(reader.pages)</span>を呼び出すとそのPDFのページ数がわかります。この情報を<span class="thesansmonocd_w5regular_">append()</span>メソッド呼び出しで使い、2ページ目から最後のページまでコピーします（PyPDFでは最初のページのインデックスが<span class="thesansmonocd_w5regular_">0</span>です）。その内容を<span class="thesansmonocd_w5regular_">writer</span>に格納されている同じ<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトに追加します。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1116" aria-label="424"></span>
-<h4 class="h1" id="calibre_link-1935"><span id="calibre_link-464"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Save the Results</span></h4>
-<p class="tni">Once these <span class="thesansmonocd_w5regular_">for</span> loops have finished looping, the <span class="thesansmonocd_w5regular_">writer</span> variable should contain a <span class="thesansmonocd_w5regular_">PdfWriter</span> object with the pages of all the PDFs combined. The last step is to write this content to a file on the hard drive. Add this code to your program:</p>
-<pre class="pre"><code class="calibre9"># combine_pdfs.py - Combines all the PDFs in the current working directory
-# into a single PDF
+<h4 class="h1" id="calibre_link-1935"><span id="calibre_link-464"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ3：結果を保存する</span></h4>
+<p class="tni">この<span class="thesansmonocd_w5regular_">for</span>ループが終われば、変数<span class="thesansmonocd_w5regular_">writer</span>にはすべてのPDFのページを結合した<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトが格納されているはずです。最後にこの内容をハードドライブのファイルに書き込みます。このようなコードです。</p>
+<pre class="pre"><code class="calibre9"># combine_pdfs.py - 現在の作業ディレクトリにあるすべてのPDFファイルを
+# 一つのPDFファイルに結合する
 
 import pypdf, os
 
 <var class="calibre20">--snip--</var>
 
-<b class="calibre10"># Save the resulting PDF to a file:</b>
+<b class="calibre10"># 出力PDFをファイルに保存</b>
 <b class="calibre10">with open('combined.pdf', 'wb') as file:</b>
 <b class="calibre10">    writer.write(file)</b>
 </code></pre>
-<p class="tx">Passing <span class="thesansmonocd_w5regular_">'wb'</span> to <span class="thesansmonocd_w5regular_">open()</span> opens the output PDF file, <i class="calibre5">combined.pdf</i>, in write-binary mode. Then, passing the resulting <span class="thesansmonocd_w5regular_">File</span> object to the <span class="thesansmonocd_w5regular_">write()</span> method creates the actual PDF file. (Be aware of the identically named <span class="thesansmonocd_w5regular_">write()</span> methods of <span class="thesansmonocd_w5regular_">File</span> objects and <span class="thesansmonocd_w5regular_">PdfWriter</span> objects.) At the end of the program, a single PDF contains all the pages (except the first) of every PDF in a folder, sorted alphabetically by filename.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">open()</span>に<span class="thesansmonocd_w5regular_">'wb'</span>を渡して出力PDFファイルの<i class="calibre5">combined.pdf</i>をバイナリ書き込みモードで開きます。それから、<span class="thesansmonocd_w5regular_">File</span>オブジェクトを<span class="thesansmonocd_w5regular_">write()</span>メソッドに渡して実際のPDFファイルを作成します。（同じ名前の<span class="thesansmonocd_w5regular_">write()</span>メソッドが<span class="thesansmonocd_w5regular_">File</span>オブジェクトにも<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトにもあることに注意してください。）プログラムの最後の部分では、一つのPDFに、フォルダ内のすべてのPDFをファイル名のアルファベット順に並べ替えて最初のページ以外のすべてのページが集約されています。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h4 class="h1" id="calibre_link-1936"><span id="calibre_link-465"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
-<p class="tni">Being able to create PDFs from the pages of other PDFs will let you make programs that can do the following:</p>
+<h4 class="h1" id="calibre_link-1936"><span id="calibre_link-465"></span><span class="sans_futura_std_heavy_oblique_bi_">似たようなプログラムのアイデア</span></h4>
+<p class="tni">別のPDFからページを取り出してPDFを作成できると、以下のようなプログラムを作れます。</p>
 <ul class="ul">
-<li class="bl">Cut out specific pages from PDFs.</li>
-<li class="bl">Reverse or reorder pages in a PDF.</li>
-<li class="bl">Create a PDF from only those pages of other PDFs that have some specific text, identified by the <span class="thesansmonocd_w5regular_">extract_text()</span> method of <span class="thesansmonocd_w5regular_">Page</span> objects.</li>
+<li class="bl">PDFから特定のページを切り取る</li>
+<li class="bl">PDFのページを並べ替える</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">Page</span>オブジェクトの<span class="thesansmonocd_w5regular_">extract_text()</span>メソッドを活用して、特定のテキストがあるPDFのページだけを集めたPDFを作成する</li>
 </ul>
 </section>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h3 class="h" id="calibre_link-1937"><span id="calibre_link-466"></span><span class="sans_futura_std_bold_b_">Word Documents</span></h3>
-<p class="tni">Python can create and modify Microsoft Word documents, which have the <i class="calibre5">.docx</i> file extension, with the Python-Docx package, which you can install by following the instructions in <span>Appendix A</span>.</p>
+<h3 class="h" id="calibre_link-1937"><span id="calibre_link-466"></span><span class="sans_futura_std_bold_b_">Word文書</span></h3>
+<p class="tni">Pythonでは、Python-Docxパッケージを使って、<i class="calibre5">.docx</i>拡張子のMicrosfot Word文書の作成や変更ができます。<span>付録A</span>の指示に従ってこのパッケージをインストールしてください。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">WARNING</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">警告</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">Be sure to install Python-Docx, not Docx, which belongs to a different package that this book doesn’t cover. When importing the module from the Python-Docx package, however, you’ll need to run</i> <span class="sans_thesansmonocd_w5regular_italic_">import docx</span><i class="calibre5">, not</i> <span class="sans_thesansmonocd_w5regular_italic_">import python-docx.</span></p>
-<p class="tx">If you don’t have Word, you can use the free LibreOffice Writer application for Windows, macOS, and Linux to open <i class="calibre5">.docx</i> files. Download it from <i class="calibre5"><a href="https://www.libreoffice.org." class="calibre1">https://<wbr></wbr>www<wbr></wbr>.libreoffice<wbr></wbr>.org</a>.</i> Although Word can run on macOS, this chapter will focus on Word for Windows. Also note that while the browser-based <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1104" aria-label="425"></span>Office 365 and Google Docs web apps are popular word processors, they too import and export <i class="calibre5">.docx</i> files.</p>
-<p class="tx">Compared to plaintext files, <i class="calibre5">.docx</i> files have many structural elements, which Python-Docx represents using three different data types. At the highest level, a <span class="thesansmonocd_w5regular_">Document</span> object represents the entire document. The <span class="thesansmonocd_w5regular_">Document</span> object contains a list of <span class="thesansmonocd_w5regular_">Paragraph</span> objects for the paragraphs in the document. (A new paragraph begins whenever the user presses <small class="calibre4">ENTER</small> or <small class="calibre4">RETURN</small> while typing in a Word document.) Each of these <span class="thesansmonocd_w5regular_">Paragraph</span> objects contains a list of one or more <span class="thesansmonocd_w5regular_">Run</span> objects. The single-sentence paragraph in Figure 17-4 has four runs.</p>
+<p class="note-txt"><i class="calibre5">DocxではなくPython-Docxをインストールするように気をつけてください。Docxは本書で取り上げていない別のパッケージです。ただし、Python-Docxパッケージからモジュールをインポートする際は、</i><span class="sans_thesansmonocd_w5regular_italic_">import python-docx</span>ではなく<span class="sans_thesansmonocd_w5regular_italic_">import docx</span><i class="calibre5">を実行します。</i></p>
+<p class="tx">Wordを持っていなくても、Windows、macOS、Linuxで<i class="calibre5">.docx</i>ファイルを開くのに、フリーのLibreOffice Writerアプリケーションを利用できます。<i class="calibre5"><a href="https://www.libreoffice.org." class="calibre1">https://<wbr></wbr>www<wbr></wbr>.libreoffice<wbr></wbr>.org</a></i>からダウンロードできます。WordはmacOSでも実行できますが、本章ではWindowsのWordを利用しています。また、Office 365やGoogle Docsのようなブラウザベースのウェブアプリでも<i class="calibre5">.docx</i>ファイルのインポート／エクスポートができます。</p>
+<p class="tx">プレーンテキストファイルと違って、<i class="calibre5">.docx</i>ファイルには多くの構造的な要素があります。Python-Docxでは3つのデータ型でその要素を表現します。最上位レベルでは、<span class="thesansmonocd_w5regular_">Document</span>オブジェクトが文書全体を表します。<span class="thesansmonocd_w5regular_">Document</span>オブジェクトには、文書中の段落を表す<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトのリストがあります。（Word文書で入力中に<small class="calibre4">ENTER</small>（<small class="calibre4">RETURN</small>）キーを押すと新しい段落が始まります。）これらの<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトは、それぞれ、1つ以上の<span class="thesansmonocd_w5regular_">Run</span>オブジェクトのリストを含みます。図17-4は4つのrun（連続部分）がある一文の段落を示しています。</p>
 
 
 <figure class="img"><img class="img3" id="calibre_link-790" src="images/000040.jpg" alt="The sentence “A plain paragraph with some bold and some italic.” The  word “bold” is bolded and the word “italic” is italicized. Each chunk of  identically formatted text is labeled “Run.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-4: The</span> <span class="sans_thesansmonocd_w5regular_italic_">Run</span> <span class="sans_futura_std_book_oblique_i_">objects identified in a</span> <span class="sans_thesansmonocd_w5regular_italic_">Paragraph</span> <span class="sans_futura_std_book_oblique_i_">object</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-4：</span><span class="sans_thesansmonocd_w5regular_italic_">Paragraph</span><span class="sans_futura_std_book_oblique_i_">オブジェクト内の</span><span class="sans_thesansmonocd_w5regular_italic_">Run</span><span class="sans_futura_std_book_oblique_i_">オブジェクト</span> </p></figcaption>
 </figure>
-<p class="tx">The text in a Word document is more than just a string. It has font, size, color, and other styling information associated with it. A <i class="calibre5">style</i> in Word is a collection of these attributes. A <span class="thesansmonocd_w5regular_">Run</span> object is a contiguous run of text with the same style. You’ll need a new <span class="thesansmonocd_w5regular_">Run</span> object whenever the text style changes.</p>
+<p class="tx">Word文書中のテキストは単なる文字列ではありません。フォント、サイズ、色その他のスタイル情報があります。Wordの<i class="calibre5">スタイル</i>はこれらの属性の集まりです。<span class="thesansmonocd_w5regular_">Run</span>オブジェクトは同じスタイルのテキストの連続部分です。スタイルを変更するたびに新しい<span class="thesansmonocd_w5regular_">Run</span>オブジェクトが必要になります。</p>
 <section type="division" aria-labelledby="sec15">
-<h4 class="h1" id="calibre_link-1938"><span id="calibre_link-467"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading Word Documents</span></h4>
-<p class="tni">Let’s experiment with the <span class="thesansmonocd_w5regular_">docx</span> module. Download <i class="calibre5">demo.docx</i> from the book’s online resources and save the document to the working directory. Then, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1938"><span id="calibre_link-467"></span><span class="sans_futura_std_heavy_oblique_bi_">Word文書の読み取り</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">docx</span>モジュールを試してみましょう。本書のオンライン素材から<i class="calibre5">demo.docx</i>をダウンロードして、現在の作業ディレクトリに保存してください。そして、対話型シェルに次のように入力します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import docx</b>
 &gt;&gt;&gt; <b class="calibre10">doc = docx.Document('demo.docx')</b>
 &gt;&gt;&gt; <b class="calibre10">len(doc.paragraphs)</b>
@@ -391,13 +390,13 @@ import pypdf, os
 &gt;&gt;&gt; <b class="calibre10">doc.paragraphs[1].runs[3].text</b>
 'italic'
 </code></pre>
-<p class="tx">We open a <i class="calibre5">.docx</i> file in Python, call <span class="thesansmonocd_w5regular_">docx.Document()</span>, and pass it the filename <i class="calibre5">demo.docx</i>. This will return a <span class="thesansmonocd_w5regular_">Document</span> object, which has a <span class="thesansmonocd_w5regular_">paragraphs</span> attribute that is a list of <span class="thesansmonocd_w5regular_">Paragraph</span> objects. When we call <span class="thesansmonocd_w5regular_">len()</span> on this attribute, it returns <span class="thesansmonocd_w5regular_">7</span>, which tells us that there are seven <span class="thesansmonocd_w5regular_">Paragraph</span> objects in this <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1105" aria-label="426"></span>document. Each of these <span class="thesansmonocd_w5regular_">Paragraph</span> objects has a <span class="thesansmonocd_w5regular_">text</span> attribute that contains a string of the text in that paragraph (without the style information). Here, the first <span class="thesansmonocd_w5regular_">text</span> attribute contains <span class="thesansmonocd_w5regular_">'DocumentTitle'</span>, and the second contains <span class="thesansmonocd_w5regular_">'A plain paragraph with some bold text and some italic'</span>.</p>
-<p class="tx">Each <span class="thesansmonocd_w5regular_">Paragraph</span> object also has a <span class="thesansmonocd_w5regular_">runs</span> attribute that is a list of <span class="thesansmonocd_w5regular_">Run</span> objects. <span class="thesansmonocd_w5regular_">Run</span> objects also have a <span class="thesansmonocd_w5regular_">text</span> attribute, containing just the text in that particular run. Let’s look at the <span class="thesansmonocd_w5regular_">text</span> attributes in the second <span class="thesansmonocd_w5regular_">Paragraph</span> object. Calling <span class="thesansmonocd_w5regular_">len()</span> on this object tells us that there are four <span class="thesansmonocd_w5regular_">Run</span> objects. The first <span class="thesansmonocd_w5regular_">Run</span> object contains <span class="thesansmonocd_w5regular_">'A plain paragraph with some '</span>. Then, the text changes to a bold style, so <span class="thesansmonocd_w5regular_">'bold'</span> starts a new <span class="thesansmonocd_w5regular_">Run</span> object. The text returns to an unbolded style after that, which results in a third <span class="thesansmonocd_w5regular_">Run</span> object, <span class="thesansmonocd_w5regular_">' text and some '</span>. Finally, the fourth and last <span class="thesansmonocd_w5regular_">Run</span> object contains <span class="thesansmonocd_w5regular_">'italic'</span> in an italic style.</p>
-<p class="tx">Using Python-Docx, your Python programs can now read the text from a <i class="calibre5">.docx</i> file and use it just like any other string value.</p>
+<p class="tx">Pythonで<i class="calibre5">.docx</i>ファイルを開きます。<span class="thesansmonocd_w5regular_">docx.Document()</span>を呼び出してファイル名の<i class="calibre5">demo.docx</i>を渡します。これにより<span class="thesansmonocd_w5regular_">Document</span>オブジェクトが返されます。<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトのリストである<span class="thesansmonocd_w5regular_">paragraphs</span>属性があります。この属性について<span class="thesansmonocd_w5regular_">len()</span>を呼び出すと、<span class="thesansmonocd_w5regular_">7</span>が返され、この文書には7つの<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトがあるとわかります。これらの<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトにはそれぞれ<span class="thesansmonocd_w5regular_">text</span>属性があり、その段落の（スタイル情報なしの）テキストの文字列が入っています。最初の<span class="thesansmonocd_w5regular_">text</span>属性には<span class="thesansmonocd_w5regular_">'DocumentTitle'</span>が入っており、2つ目には<span class="thesansmonocd_w5regular_">'A plain paragraph with some bold text and some italic'</span>が入っています。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトにはそれぞれ、<span class="thesansmonocd_w5regular_">Run</span>オブジェクトのリストである<span class="thesansmonocd_w5regular_">runs</span>属性があります。<span class="thesansmonocd_w5regular_">Run</span>オブジェクトにも<span class="thesansmonocd_w5regular_">text</span>属性があり、そのrun（連続部分）のテキストが入っています。2つ目の<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトの<span class="thesansmonocd_w5regular_">text</span>属性を見てみましょう。このオブジェクトについて<span class="thesansmonocd_w5regular_">len()</span>を呼び出すと4つの<span class="thesansmonocd_w5regular_">Run</span>オブジェクトがあることがわかります。最初の<span class="thesansmonocd_w5regular_">Run</span>オブジェクトには<span class="thesansmonocd_w5regular_">'A plain paragraph with some '</span>が入っています。次に、テキストは太字になりますから、新しい<span class="thesansmonocd_w5regular_">'bold'</span> という<span class="thesansmonocd_w5regular_">Run</span>オブジェクトが始まります。次は太字ではなくなるので3つ目の<span class="thesansmonocd_w5regular_">' text and some '</span>という<span class="thesansmonocd_w5regular_">Run</span>オブジェクトになります。最後の4つ目の<span class="thesansmonocd_w5regular_">Run</span>オブジェクトは斜体のスタイルの<span class="thesansmonocd_w5regular_">'italic'</span>です。</p>
+<p class="tx">Python-Docxを使うと、Pythonプログラムで<i class="calibre5">.docx</i>ファイルからテキストを読み取り、通常の文字列値と同じように扱えます。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h4 class="h1" id="calibre_link-1939"><span id="calibre_link-468"></span><span class="sans_futura_std_heavy_oblique_bi_">Getting the Full Text from a .docx File</span></h4>
-<p class="tni">If you care only about a Word document’s text and not about its styling information, you can use this <span class="thesansmonocd_w5regular_">get_text()</span> function here. It accepts a filename of a <i class="calibre5">.docx</i> file and returns a single string value of its text. Open a new file editor tab and enter the following code, saving it as <i class="calibre5">readDocx.py</i>:</p>
+<h4 class="h1" id="calibre_link-1939"><span id="calibre_link-468"></span><span class="sans_futura_std_heavy_oblique_bi_">.docxファイルからテキスト全文を取得する</span></h4>
+<p class="tni">Word文書のテキストしか必要なくスタイル情報が不要なら、ここで作成する<span class="thesansmonocd_w5regular_">get_text()</span>関数を使えます。<i class="calibre5">.docx</i>ファイルのファイル名を取り、そのテキストを一つの文字列値で返します。新しいファイルエディタタブを開き、以下のコードを<i class="calibre5">readDocx.py</i>という名前で保存してください。</p>
 <pre class="pre"><code class="calibre9">import docx
 
 def get_text(filename):
@@ -407,8 +406,8 @@ def get_text(filename):
         full_text.append(para.text)
     return '\n'.join(full_text)
 </code></pre>
-<p class="tx">This <span class="thesansmonocd_w5regular_">get_text()</span> function opens the Word document, loops over all the <span class="thesansmonocd_w5regular_">Paragraph</span> objects in the <span class="thesansmonocd_w5regular_">paragraphs</span> list, and then appends their text to the list in <span class="thesansmonocd_w5regular_">full_text</span>. After the loop, the code joins the strings in <span class="thesansmonocd_w5regular_">full_text</span> with newline characters.</p>
-<p class="tx">You can import the <i class="calibre5">readDocx.py</i> program like any other module. Now, if you need just the text of a Word document, you can enter the following:</p>
+<p class="tx">この<span class="thesansmonocd_w5regular_">get_text()</span>関数はWord文書を開き、<span class="thesansmonocd_w5regular_">paragraphs</span>リストのすべての<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトを反復処理し、そのテキストを<span class="thesansmonocd_w5regular_">full_text</span>のリストに追加します。ループが終了したら、<span class="thesansmonocd_w5regular_">full_text</span>の文字列を改行文字で連結します。</p>
+<p class="tx"><i class="calibre5">readDocx.py</i>プログラムを他のモジュールと同じようにインポートできます。Word文書のテキストだけが必要なら、以下のように実行します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import readDocx</b>
 &gt;&gt;&gt; <b class="calibre10">print(readDocx.get_text('demo.docx'))</b>
 Document Title
@@ -418,20 +417,20 @@ Intense quote
 first item in unordered list
 first item in ordered list
 </code></pre>
-<p class="tx">You can also adjust <span class="thesansmonocd_w5regular_">get_text()</span> to modify the string before returning it. For example, to indent each paragraph, replace the <span class="thesansmonocd_w5regular_">append()</span> call in <i class="calibre5">readDocx.py</i> with this:</p>
+<p class="tx">文字列を返す前に調整することもできます。例えば、各段落を字下げするなら、 <i class="calibre5">readDocx.py</i>の<span class="thesansmonocd_w5regular_">append()</span>呼び出しを次のように変更します。</p>
 <pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1005" aria-label="427"></span>full_text.append(<b class="calibre10">'  ' + </b>para.text)</code></pre>
-<p class="tx">To add a double space between paragraphs, change the <span class="thesansmonocd_w5regular_">join()</span> call code to this:</p>
+<p class="tx">段落間の改行を2つにするなら、<span class="thesansmonocd_w5regular_">join()</span>呼び出しを次のように変更します。</p>
 <pre class="pre"><code class="calibre9">return '\n<b class="calibre10">\n</b>'.join(full_text)</code></pre>
-<p class="tx">As you can see, it takes only a few lines of code to write functions that will read a <i class="calibre5">.docx</i> file and return a string of its content to your liking.</p>
+<p class="tx">ご覧のように、<i class="calibre5">.docx</i>ファイルを読み取って好みの形でその内容を文字列で返す関数を数行のコードで書くことができます。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h4 class="h1" id="calibre_link-1940"><span id="calibre_link-469"></span><span class="sans_futura_std_heavy_oblique_bi_">Styling Paragraph and Run Objects</span></h4>
-<p class="tni">Word and other word processors use styles to keep the visual presentation of text consistent and easy to change. For example, perhaps you want all body paragraphs to be 11-point, Times New Roman, left-justified, ragged-right text. You can create a style with these settings and assign it to all body paragraphs. If you later want to change the presentation of all body paragraphs in the document, you can change the style to automatically update those paragraphs.</p>
-<p class="tx">To view styles in the browser-based Office 365 Word application, click the <b class="calibre10">Home</b> menu item, then the <b class="calibre10">Headings and Other Styles</b> drop-down menu, which will likely display “Normal” or another style name. Click <b class="calibre10">See More Styles</b> to bring up the More Styles window. In the Microsoft Word desktop application for Windows, you can see the styles by pressing <small class="calibre4">CTRL</small>-<small class="calibre4">ALT</small>-<small class="calibre4">SHIFT</small>-S to display the Styles pane, which looks like Figure 17-5. In LibreOffice Writer, you can view the Styles pane by clicking the <b class="calibre10">View</b><span class="listbullet_menuarrow"></span><b class="calibre10">Styles</b> menu item.</p>
+<h4 class="h1" id="calibre_link-1940"><span id="calibre_link-469"></span><span class="sans_futura_std_heavy_oblique_bi_">ParagraphオブジェクトとRunオブジェクトのスタイル</span></h4>
+<p class="tni">Wordその他のワープロでは、スタイルを使ってテキストの見た目の一貫性を保ち、変更をしやすくしています。例えば、本文の段落をすべて11ポイントのTimes New Romanで左寄せにすることができます。このような設定のスタイルを本文の段落全体に適用できます。あとで文書中の本文の段落全体の見た目を変えたくなったとしたら、スタイルを変更して段落全体の見た目を自動的に変更できます。</p>
+<p class="tx">ブラウザベースのOffice 365 Wordでスタイルを確認するには、<b class="calibre10">ホーム</b>メニューをクリックして、<b class="calibre10">見出しとその他のスタイル</b>ドロップダウンメニューをクリックすると、おそらくノーマルその他のスタイルの名前が表示されます。<b class="calibre10">スタイルのオプション</b>をクリックすると、その他のスタイルウィンドウが表示されます。WindowsのMicrosoft Wordデスクトップアプリケーションでは、<small class="calibre4">CTRL</small>-<small class="calibre4">ALT</small>-<small class="calibre4">SHIFT</small>-Sを押すと、図17-5のようにスタイル枠にスタイルが表示されます。LibreOffice Writerでは、<b class="calibre10">表示</b><span class="listbullet_menuarrow"></span><b class="calibre10">スタイル</b>メニュー項目をクリックすればスタイル枠が表示されます。</p>
 <figure class="img"><img class="img1" id="calibre_link-791" src="images/000041.jpg" alt="On the left, a screenshot of the Word Styles pane containing a list of styles, with the option “See More Styles” highlighted. On the right, the “More styles” pane open, showing a “style name” search bar and a list of styles." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-5: The Styles pane</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-5：スタイル枠</span></p></figcaption>
 </figure>
-<p class="tx">Word documents contain three types of styles: paragraph styles apply to <span class="thesansmonocd_w5regular_">Paragraph</span> objects, character styles apply to <span class="thesansmonocd_w5regular_">Run</span> objects, and linked styles apply to both kinds of objects. To style <span class="thesansmonocd_w5regular_">Paragraph</span> and <span class="thesansmonocd_w5regular_">Run</span> objects, set their <span class="thesansmonocd_w5regular_">style</span> attribute to a string of the style’s name. If <span class="thesansmonocd_w5regular_">style</span> is set to <span class="thesansmonocd_w5regular_">None</span>, no style <span role="doc-pagebreak" type="pagebreak" id="calibre_link-896" aria-label="428"></span>will be associated with the <span class="thesansmonocd_w5regular_">Paragraph</span> or <span class="thesansmonocd_w5regular_">Run</span> object. The default Word styles have the following string values:</p>
+<p class="tx">Word文書には3つの種類のスタイルがあります。<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトに適用される段落スタイルと、<span class="thesansmonocd_w5regular_">Run</span>オブジェクトに適用される文字スタイルと、両方のオブジェクトに適用されるリンクスタイルです。<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクト及び<span class="thesansmonocd_w5regular_">Run</span>オブジェクトについては、<span class="thesansmonocd_w5regular_">style</span>属性にスタイル名の文字列を設定します。<span class="thesansmonocd_w5regular_">style</span>が<span class="thesansmonocd_w5regular_">None</span>に設定されると、<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトないし<span class="thesansmonocd_w5regular_">Run</span>オブジェクトにスタイルは関連づけられません。Wordのデフォルトでは、以下のスタイルがあります。</p>
 <pre class="pre1"><code class="calibre9">'Normal'   'Heading 5' 'List Bullet'       'List Paragraph'
 'Body Text' 'Heading 6' 'List Bullet 2'     'MacroText'
 'Body Text 2'   'Heading 7' 'List Bullet 3'     'No Spacing'
@@ -442,78 +441,78 @@ first item in ordered list
 'Heading 3' 'List 2'    'List Number 2' 
 'Heading 4' 'List 3'    'List Number 3' 
 </code></pre>
-<p class="tx">When using a linked style for a <span class="thesansmonocd_w5regular_">Run</span> object, you’ll need to add <span class="thesansmonocd_w5regular_">' Char'</span> to the end of its name. For example, to set the Quote linked style for a <span class="thesansmonocd_w5regular_">Paragraph</span> object, you would use <span class="thesansmonocd_w5regular_">paragraphObj.style</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Quote'</span>, but for a <span class="thesansmonocd_w5regular_">Run</span> object, you would use <span class="thesansmonocd_w5regular_">runObj.style</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Quote Char'</span>.</p>
-<p class="tx">To create custom styles, use the Word application to define them, then read them from the <span class="thesansmonocd_w5regular_">style</span> attribute of a <span class="thesansmonocd_w5regular_">Paragraph</span> or <span class="thesansmonocd_w5regular_">Run</span> object.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Run</span>オブジェクトにリンクスタイルを適用する際は、名前の末尾に<span class="thesansmonocd_w5regular_">' Char'</span>をつけます。例えば、<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトに<span class="thesansmonocd_w5regular_">'Quote'</span>リンクスタイルを設定するには、<span class="thesansmonocd_w5regular_">paragraphObj.style</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Quote'</span>としますが、<span class="thesansmonocd_w5regular_">Run</span>オブジェクトに設定するには、<span class="thesansmonocd_w5regular_">runObj.style</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">'Quote Char'</span>とします。</p>
+<p class="tx">カスタムスタイルを作成するには、Wordアプリケーションで定義して、それを<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトまたは<span class="thesansmonocd_w5regular_">Run</span>オブジェクトの<span class="thesansmonocd_w5regular_">style</span>属性から読み取ります。</p>
 </section>
 <section type="division" aria-labelledby="sec18">
-<h4 class="h1" id="calibre_link-1941"><span id="calibre_link-470"></span><span class="sans_futura_std_heavy_oblique_bi_">Applying Run Attributes</span></h4>
-<p class="tni">We can further style runs using <span class="thesansmonocd_w5regular_">text</span> attributes. Each attribute can be set to one of three values: <span class="thesansmonocd_w5regular_">True</span> (meaning the attribute is always enabled, no matter what other styles are applied to the run), <span class="thesansmonocd_w5regular_">False</span> (meaning the attribute is always disabled), or <span class="thesansmonocd_w5regular_">None</span> (which defaults to whatever the run’s style is set to). Table 17-1 lists the <span class="thesansmonocd_w5regular_">text</span> attributes that can be set on <span class="thesansmonocd_w5regular_">Run</span> objects.</p>
+<h4 class="h1" id="calibre_link-1941"><span id="calibre_link-470"></span><span class="sans_futura_std_heavy_oblique_bi_">Run属性の適用</span></h4>
+<p class="tni">Run属性でrunのスタイルを設定できます。各属性は<span class="thesansmonocd_w5regular_">True</span>（他のスタイルが適用されていても常にその属性が有効化される）、<span class="thesansmonocd_w5regular_">False</span>（常にその属性が無効化される）、<span class="thesansmonocd_w5regular_">None</span>（runのスタイルのデフォルトにする）のいずれかに設定されます。表17-1は<span class="thesansmonocd_w5regular_">Run</span>オブジェクトに設定できる属性の一覧です。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-792"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 17-1:</span></span> <span class="thesansmonocd_w5regular_">Run</span> <span class="sans_futura_std_book_">Object</span> <span class="thesansmonocd_w5regular_">text</span> <span class="sans_futura_std_book_">Attributes</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-792"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 17-1：</span></span> <span class="thesansmonocd_w5regular_">Run</span><span class="sans_futura_std_book_">オブジェクトの</span><span class="sans_futura_std_book_">属性</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
 <th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Attribute</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Description</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_"></span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">bold</span></p></td>
-<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">The text appears in bold.</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">テキストを太字にする</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">italic</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears in italic.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストを斜体にする</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">underline</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text is underlined.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストに下線を引く</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">strike</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears with a strikethrough.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストに取り消し線を引く</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">double_strike</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears with a double strikethrough.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストに二重取り消し線を引く</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">all_caps</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears in capital letters.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストを大文字で表示する</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">small_caps</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears in capital letters, with lowercase letters two points smaller.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキスト少し小さい大文字で表示する</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">shadow</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears with a shadow.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストを影付きにする</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">outline</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears outlined rather than solid.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストを実線ではなく枠線で表示する</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">rtl</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text is written right-to-left.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストを右から左に書くようにする</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">imprint</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The text appears pressed into the page.</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">テキストを刻印表示にする</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">emboss</span></p></td>
-<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">The text appears raised off the page in relief.</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">テキストを浮き彫り表示にする</span></p></td>
 </tr>
 </tbody>
 </table>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1106" aria-label="429"></span>For example, to change the styles of <i class="calibre5">demo.docx</i>, enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1106" aria-label="429"></span>例えば、対話型シェルに次の内容を入力して、<i class="calibre5">demo.docx</i>のスタイルを変更してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import docx</b>
 &gt;&gt;&gt; <b class="calibre10">doc = docx.Document('demo.docx')</b>
 &gt;&gt;&gt; <b class="calibre10">doc.paragraphs[0].text</b>
 'Document Title'
-&gt;&gt;&gt; <b class="calibre10">doc.paragraphs[0].style</b>  # The exact id may be different.
+&gt;&gt;&gt; <b class="calibre10">doc.paragraphs[0].style</b>  # idは異なるかもしれない
 _ParagraphStyle('Title') id: 3095631007984
 &gt;&gt;&gt; <b class="calibre10">doc.paragraphs[0].style = 'Normal'</b>
 &gt;&gt;&gt; <b class="calibre10">doc.paragraphs[1].text</b>
@@ -526,29 +525,29 @@ _ParagraphStyle('Title') id: 3095631007984
 &gt;&gt;&gt; <b class="calibre10">doc.paragraphs[1].runs[3].underline = True</b>
 &gt;&gt;&gt; <b class="calibre10">doc.save('restyled.docx')</b>
 </code></pre>
-<p class="tx">We use the <span class="thesansmonocd_w5regular_">text</span> and <span class="thesansmonocd_w5regular_">style</span> attributes to easily view the paragraphs in the document. As you can see, it’s easy to divide a paragraph into runs and access each run individually. We get the first, second, and fourth runs in the second paragraph, style each run, and save the results to a new document.</p>
-<p class="tx">Now the words <i class="calibre5">Document Title</i> at the top of <i class="calibre5">restyled.docx</i> should have the Normal style instead of the Title style, the <span class="thesansmonocd_w5regular_">Run</span> object for the text <i class="calibre5">A plain paragraph with some</i> should have the <span class="thesansmonocd_w5regular_">Quote Char</span> style, and the two <span class="thesansmonocd_w5regular_">Run</span> objects for the words <i class="calibre5">bold</i> and <i class="calibre5">italic</i> should have their <span class="thesansmonocd_w5regular_">underline</span> attributes set to <span class="thesansmonocd_w5regular_">True</span>. Figure 17-6 shows how the styles of paragraphs and runs look in <i class="calibre5">restyled.docx</i>.</p>
+<p class="tx">文書中の段落を見やすくするために属性を使っています。段落をrunに分割してそれぞれのrunに個別にアクセスするのは簡単です。2つ目の段落の1つ目と2つ目と4つ目のrunを取得し、スタイルを調整して、新しい文書に保存します。</p>
+<p class="tx"><i class="calibre5">restyled.docx</i>の冒頭の<i class="calibre5">Document Title</i>という文言がTitleスタイルではなくNormalスタイルになりました。<i class="calibre5">A plain paragraph with some</i>というテキストの<span class="thesansmonocd_w5regular_">Run</span>オブジェクトを<span class="thesansmonocd_w5regular_">Quote Char</span>スタイルにして、<i class="calibre5">bold</i>と<i class="calibre5">italic</i>の2つの<span class="thesansmonocd_w5regular_">Run</span>オブジェクトの<span class="thesansmonocd_w5regular_">underline</span>属性を<span class="thesansmonocd_w5regular_">True</span>に設定しました。図17-6は<i class="calibre5">restyled.docx</i>の段落とrunがどのようなスタイルになっているかを示しています。</p>
 <figure class="img"><img class="img1" id="calibre_link-793" src="images/000042.jpg" alt="A Word document containing the text “A plain paragraph with some bold and some italic.” An arrow points to the Style bar containing the style “Quote.” Another arrow points to the text that has this style applied." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-6: The</span> <span class="sans_futura_std_book_">restyled.docx</span> <span class="sans_futura_std_book_oblique_i_">file</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-6：</span><span class="sans_futura_std_book_">restyled.docx</span><span class="sans_futura_std_book_oblique_i_">ファイル</span></p></figcaption>
 </figure>
-<p class="tx">You can find complete documentation on Python-Docx’s use of styles at <i class="calibre5"><a href="https://python-docx.readthedocs.io" class="calibre1">https://<wbr></wbr>python<wbr></wbr>-docx<wbr></wbr>.readthedocs<wbr></wbr>.io</a></i>.</p>
+<p class="tx">Python-Docxのスタイルの使い方は<i class="calibre5"><a href="https://python-docx.readthedocs.io" class="calibre1">https://<wbr></wbr>python<wbr></wbr>-docx<wbr></wbr>.readthedocs<wbr></wbr>.io</a></i>で詳細に説明されています。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-890" aria-label="430"></span>
-<h4 class="h1" id="calibre_link-1942"><span id="calibre_link-471"></span><span class="sans_futura_std_heavy_oblique_bi_">Writing Word Documents</span></h4>
-<p class="tni">To create your own <i class="calibre5">.docx</i> file, call <span class="thesansmonocd_w5regular_">docx.Document()</span> to return a new, blank Word <span class="thesansmonocd_w5regular_">Document</span> object. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1942"><span id="calibre_link-471"></span><span class="sans_futura_std_heavy_oblique_bi_">Word文書の作成</span></h4>
+<p class="tni"><i class="calibre5">.docx</i> ファイルを作成するには、<span class="thesansmonocd_w5regular_">docx.Document()</span>を呼び出して新しい空白の<span class="thesansmonocd_w5regular_">Document</span>オブジェクトを取得します。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import docx</b>
 &gt;&gt;&gt; <b class="calibre10">doc = docx.Document()</b>
 &gt;&gt;&gt; <b class="calibre10">doc.add_paragraph('Hello, world!')</b>
 &lt;docx.text.paragraph.Paragraph object at 0x0000000003B56F60&gt;
 &gt;&gt;&gt; <b class="calibre10">doc.save('helloworld.docx')</b>
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">add_paragraph()</span> document method adds a new paragraph of text to the document and returns a reference to the <span class="thesansmonocd_w5regular_">Paragraph</span> object that was added. When you’re done adding text, pass a filename string to the <span class="thesansmonocd_w5regular_">save()</span> document method to save the <span class="thesansmonocd_w5regular_">Document</span> object to a file.</p>
-<p class="tx">This code will create a file named <i class="calibre5">helloworld.docx</i> in the current working directory. When opened, it should look like Figure 17-7. You can upload this <i class="calibre5">.docx</i> file into Office 365 or Google Docs or open it in Word or LibreOffice.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">add_paragraph()</span>ドキュメントメソッドは、文書に新しい段落のテキストを追加し、追加された<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトへの参照を返します。テキストを追加したら、ファイル名の文字列を<span class="thesansmonocd_w5regular_">save()</span>ドキュメントメソッドに渡して<span class="thesansmonocd_w5regular_">Document</span>オブジェクトをファイルに保存します。</p>
+<p class="tx">このコードは、<i class="calibre5">helloworld.docx</i>という名前のファイルを現在の作業ディレクトリに作成します。そのファイルを開くと、図17-7のようになっているはずです。この<i class="calibre5">.docx</i>ファイルをOffice 365やGoogle Docsにアップロードすることができますし、WordやLibreOfficeで開くこともできます。</p>
 <figure class="img"><img class="img1" id="calibre_link-794" src="images/000043.jpg" alt="A Word document with the text “Hello, world!”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-7: The Word document created using</span> <span class="sans_thesansmonocd_w5regular_italic_">add_paragraph('Hello, world!')</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-7：</span><span class="sans_thesansmonocd_w5regular_italic_">add_paragraph('Hello, world!')</span>を使って作成したWord文書</p></figcaption>
 </figure>
-<p class="tx">You can add paragraphs to the document by calling the <span class="thesansmonocd_w5regular_">add_paragraph()</span> method again with the new paragraph’s text. To add text to the end of an existing paragraph, call the paragraph’s <span class="thesansmonocd_w5regular_">add_run()</span> method and pass it a string. Enter the following into the interactive shell:</p>
+<p class="tx">テキストを渡して<span class="thesansmonocd_w5regular_">add_paragraph()</span>メソッドを繰り返し呼び出すことで、文書に段落を追加できます。既存の段落の末尾にテキストを追加するには、文字列を渡してその段落の<span class="thesansmonocd_w5regular_">add_run()</span>メソッドを呼び出します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import docx</b>
 &gt;&gt;&gt; <b class="calibre10">doc = docx.Document()</b>
 &gt;&gt;&gt; <b class="calibre10">doc.add_paragraph('Hello world!')</b>
@@ -559,20 +558,20 @@ _ParagraphStyle('Title') id: 3095631007984
 &lt;docx.text.run.Run object at 0x0000000003A2C860&gt;
 &gt;&gt;&gt; <b class="calibre10">doc.save('multipleParagraphs.docx')</b>
 </code></pre>
-<p class="tx">The resulting document should look like Figure 17-8. Note that the text <i class="calibre5">This text is being added to the second paragraph.</i> was added to the <span class="thesansmonocd_w5regular_">Paragraph</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-887" aria-label="431"></span>object in <span class="thesansmonocd_w5regular_">para_obj_1</span>, which was the second paragraph added to <span class="thesansmonocd_w5regular_">doc</span>. The <span class="thesansmonocd_w5regular_">add_paragraph()</span> and <span class="thesansmonocd_w5regular_">add_run()</span> functions return <span class="thesansmonocd_w5regular_">Paragraph</span> and <span class="thesansmonocd_w5regular_">Run</span> objects, respectively, to save you the trouble of extracting them as a separate step.</p>
-<p class="tx">Call the <span class="thesansmonocd_w5regular_">save()</span> method again to save the additional changes you’ve made.</p>
+<p class="tx">図17-8のような文書が作成されるはずです。<i class="calibre5">This text is being added to the second paragraph.</i>というテキストが、<span class="thesansmonocd_w5regular_">doc</span>に追加された2つ目の段落である<span class="thesansmonocd_w5regular_">para_obj_1</span>の<span class="thesansmonocd_w5regular_">Paragraph</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-887" aria-label="431"></span>オブジェクトに追加されています。<span class="thesansmonocd_w5regular_">add_paragraph()</span>と<span class="thesansmonocd_w5regular_">add_run()</span>は、それぞれ<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトと<span class="thesansmonocd_w5regular_">Run</span>オブジェクトを返すので、オブジェクトの作成と取得を別々に行う必要はありません。</p>
+<p class="tx">もう一度<span class="thesansmonocd_w5regular_">save()</span>メソッドを呼び出して変更点を保存してください。</p>
 <figure class="img"><img class="img1" id="calibre_link-795" src="images/000044.jpg" alt="A Word document with three lines of text. The first says “Hello world!” The second says “This is a second paragraph. This text is being added to the second paragraph.” The third says “This is yet another paragraph.”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-8: The document with multiple</span> <span class="sans_thesansmonocd_w5regular_italic_">Paragraph</span> <span class="sans_futura_std_book_oblique_i_">and</span> <span class="sans_thesansmonocd_w5regular_italic_">Run</span> <span class="sans_futura_std_book_oblique_i_">objects added</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-8：複数の</span><span class="sans_thesansmonocd_w5regular_italic_">Paragraph</span><span class="sans_futura_std_book_oblique_i_">オブジェクトと</span> <span class="sans_thesansmonocd_w5regular_italic_">Run</span><span class="sans_futura_std_book_oblique_i_">オブジェクトを追加した文書</span></p></figcaption>
 </figure>
-<p class="tx">Both <span class="thesansmonocd_w5regular_">add_paragraph()</span> and <span class="thesansmonocd_w5regular_">add_run()</span> accept an optional second argument that is a string of the <span class="thesansmonocd_w5regular_">Paragraph</span> or <span class="thesansmonocd_w5regular_">Run</span> object’s style. Here is an example:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">add_paragraph()</span>と<span class="thesansmonocd_w5regular_">add_run()</span>には、<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトないし<span class="thesansmonocd_w5regular_">Run</span>オブジェクトのスタイルの文字列を取るオプションの第二引数があります。例を示します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">doc.add_paragraph('Hello, world!', 'Title')</b>
 &lt;docx.text.paragraph.Paragraph object at 0x00000213E6FA9190&gt;
 </code></pre>
-<p class="tx">This line adds a paragraph with the text <i class="calibre5">Hello, world!</i> in the Title style.</p>
+<p class="tx">このコードはTitleスタイルの<i class="calibre5">Hello, world!</i>テキストの段落を追加します。</p>
 </section>
 <section type="division" aria-labelledby="sec20">
-<h4 class="h1" id="calibre_link-1943"><span id="calibre_link-472"></span><span class="sans_futura_std_heavy_oblique_bi_">Adding Headings</span></h4>
-<p class="tni">Calling <span class="thesansmonocd_w5regular_">add_heading()</span> adds a paragraph with one of the heading styles. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1943"><span id="calibre_link-472"></span><span class="sans_futura_std_heavy_oblique_bi_">見出しの追加</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">add_heading()</span>を呼び出すと見出しスタイルの段落を追加します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import docx</b>
 &gt;&gt;&gt; <b class="calibre10">doc = docx.Document()</b>
 &gt;&gt;&gt; <b class="calibre10">doc.add_heading('Header 0', 0)</b>
@@ -587,16 +586,16 @@ _ParagraphStyle('Title') id: 3095631007984
 &lt;docx.text.paragraph.Paragraph object at 0x00000000036CB3C8&gt;
 &gt;&gt;&gt; <b class="calibre10">doc.save('headings.docx')</b>
 </code></pre>
-<p class="tx">The resulting <i class="calibre5">headings.docx</i> file should look like Figure 17-9.</p>
+<p class="tx">作成される<i class="calibre5">headings.docx</i>ファイルは図17-9のように見えるはずです。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-885" aria-label="432"></span>
 <figure class="img"><img class="img3" id="calibre_link-796" src="images/000045.jpg" alt="A Word document containing the text “Header 0,” “Header 1”, “Header 2”, “Header 3”, and “Header 4” in progressively smaller font sizes." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-9: The</span> <span class="sans_futura_std_book_">headings.docx</span> <span class="sans_futura_std_book_oblique_i_">document with headings 0 to 4</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-9：見出し0から見出し4がある</span><span class="sans_futura_std_book_">headings.docx</span><span class="sans_futura_std_book_oblique_i_">文書</span></p></figcaption>
 </figure>
-<p class="tx">The arguments to <span class="thesansmonocd_w5regular_">add_heading()</span> are a string containing the heading text and an integer ranging from <span class="thesansmonocd_w5regular_">0</span> to <span class="thesansmonocd_w5regular_">4</span>. The integer <span class="thesansmonocd_w5regular_">0</span> makes the heading the Title style, which we use for the top of the document. Integers <span class="thesansmonocd_w5regular_">1</span> to <span class="thesansmonocd_w5regular_">9</span> are for various heading levels, with <span class="thesansmonocd_w5regular_">1</span> being the main heading and <span class="thesansmonocd_w5regular_">9</span> being the lowest subheading. The <span class="thesansmonocd_w5regular_">add_heading()</span> function returns a <span class="thesansmonocd_w5regular_">Paragraph</span> object to save you the step of extracting it from the <span class="thesansmonocd_w5regular_">Document</span> object as a separate step.</p>
+<p class="tx">上記のコードにおける<span class="thesansmonocd_w5regular_">add_heading()</span>の引数はテキストと<span class="thesansmonocd_w5regular_">0</span>から<span class="thesansmonocd_w5regular_">4</span>までの整数です。整数<span class="thesansmonocd_w5regular_">0</span>は見出しをTitleスタイルにします。これを文書の冒頭で使っています。整数の<span class="thesansmonocd_w5regular_">1</span>から<span class="thesansmonocd_w5regular_">9</span>は見出しのレベルです。<span class="thesansmonocd_w5regular_">1</span>が大きな見出しで<span class="thesansmonocd_w5regular_">9</span>が一番小さな見出しです。<span class="thesansmonocd_w5regular_">add_heading()</span>関数は<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトを返すので、別途<span class="thesansmonocd_w5regular_">Document</span>オブジェクトから<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトを取得する必要はありません。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
-<h4 class="h1" id="calibre_link-1944"><span id="calibre_link-473"></span><span class="sans_futura_std_heavy_oblique_bi_">Adding Line and Page Breaks</span></h4>
-<p class="tni">To add a line break (rather than starting a whole new paragraph), you can call the <span class="thesansmonocd_w5regular_">add_break()</span> method on the <span class="thesansmonocd_w5regular_">Run</span> object you want to have the break appear after. If you want to add a page break instead, you need to pass the value <span class="thesansmonocd_w5regular_">docx.enum.text.WD_BREAK.PAGE</span> as a lone argument to <span class="thesansmonocd_w5regular_">add_break()</span>, as is done in the middle of the following example:</p>
+<h4 class="h1" id="calibre_link-1944"><span id="calibre_link-473"></span><span class="sans_futura_std_heavy_oblique_bi_">改行と改ページの追加</span></h4>
+<p class="tni">（新しい段落を開始するのではなく）改行を追加するには、改行したい<span class="thesansmonocd_w5regular_">Run</span>オブジェクトについて<span class="thesansmonocd_w5regular_">add_break()</span>メソッドを呼び出します。改ページを追加したければ、<span class="thesansmonocd_w5regular_">add_break()</span>の引数に<span class="thesansmonocd_w5regular_">docx.enum.text.WD_BREAK.PAGE</span>の値を単独で渡します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">doc = docx.Document()</b>
 &gt;&gt;&gt; <b class="calibre10">doc.add_paragraph('This is on the first page!')</b>
 &lt;docx.text.paragraph.Paragraph object at 0x0000000003785518&gt;
@@ -605,69 +604,69 @@ _ParagraphStyle('Title') id: 3095631007984
 &lt;docx.text.paragraph.Paragraph object at 0x00000000037855F8&gt;
 &gt;&gt;&gt; <b class="calibre10">doc.save('twoPage.docx')</b>
 </code></pre>
-<p class="tx">This code creates a two-page Word document with <i class="calibre5">This is on the first page!</i> on the first page and <i class="calibre5">This is on the second page!</i> on the second. Even though there was still plenty of space on the first page after the text <i class="calibre5">This is</i> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-891" aria-label="433"></span><i class="calibre5">on the first page!</i>, we forced the next paragraph to begin on a new page by inserting a page break after the first run of the first paragraph <span class="codeannotation" aria-label="annotation1">❶</span>.</p>
+<p class="tx">このコードでは、1ページ目に<i class="calibre5">This is on the first page!</i>が、2ページ目には<i class="calibre5">This is on the second page!</i>がある2ページのWord文書を作成しています。1ページ目の<i class="calibre5">This is</i> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-891" aria-label="433"></span><i class="calibre5">on the first page!</i>のあとにはまだかなり空白がありますが、最初の段落の最初のrunのあとに改ページを挿入して次の段落が強制的に新しいページで始まるようにしました(<span class="codeannotation" aria-label="annotation1">❶</span>)。</p>
 </section>
 <section type="division" aria-labelledby="sec22">
-<h4 class="h1" id="calibre_link-1945"><span id="calibre_link-474"></span><span class="sans_futura_std_heavy_oblique_bi_">Adding Pictures</span></h4>
-<p class="tni">You can use the <span class="thesansmonocd_w5regular_">add_picture()</span> method of <span class="thesansmonocd_w5regular_">Document</span> objects to add an image to the end of the document. Say you have a file <i class="calibre5">zophie.png</i> in the current working directory. You can add <i class="calibre5">zophie.png</i> to the end of your document with a width of 1 inch and height of 4 centimeters (Word can use both imperial and metric units) by entering the following:</p>
+<h4 class="h1" id="calibre_link-1945"><span id="calibre_link-474"></span><span class="sans_futura_std_heavy_oblique_bi_">画像の追加</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">Document</span>オブジェクトの<span class="thesansmonocd_w5regular_">add_picture()</span>メソッドを使うと文書の末尾に画像を追加できます。現在の作業ディレクトリに<i class="calibre5">zophie.png</i>というファイルがあるとします。以下のコードで幅が1インチで高さが4センチメートル（帝国単位とメートル単位のどちらでも可）の<i class="calibre5">zophie.png</i>を文書の末尾に追加できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">doc.add_picture('zophie.png', width=docx.shared.Inches(1), height=docx.shared.Cm(4))</b>
 &lt;docx.shape.InlineShape object at 0x00000000036C7D30&gt;
 </code></pre>
-<p class="tx">The first argument is a string of the image’s filename. The optional <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> keyword arguments will set the width and height of the image in the document. If left out, the width and height will default to the normal size of the image.</p>
-<p class="tx">You’ll probably prefer to specify an image’s height and width in familiar units such as inches and centimeters, so you can use the <span class="thesansmonocd_w5regular_">docx.shared.Inches()</span> and <span class="thesansmonocd_w5regular_">docx.shared.Cm()</span> functions when you’re specifying the <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> keyword arguments.</p>
+<p class="tx">第一引数は画像のファイル名の文字列です。オプションの<span class="thesansmonocd_w5regular_">width</span>と<span class="thesansmonocd_w5regular_">height</span>のキーワード引数では文書中の画像の幅と高さを設定します。省略すれば、幅と高さは元の画像の通常サイズになります。</p>
+<p class="tx">画像の高さと幅をインチやセンチメートルなどの馴染みのある単位で指定する場合は、<span class="thesansmonocd_w5regular_">width</span>と<span class="thesansmonocd_w5regular_">height</span>のキーワード引数を指定する際に<span class="thesansmonocd_w5regular_">docx.shared.Inches()</span>や<span class="thesansmonocd_w5regular_">docx.shared.Cm()</span>という関数を使えます。</p>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec23">
-<h3 class="h" id="calibre_link-1946"><span id="calibre_link-475"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">Text information isn’t just for plaintext files; in fact, it’s pretty likely that you deal with PDFs and Word documents much more often. You can use the PyPDF package to read and write PDF documents, but many other Python libraries can read and write PDF files. If you want to go beyond those discussed in this chapter, I recommend searching for pdfplumber, ReportLab, pdfrw, PyMuPDF, pdfkit, and borb on the PyPI website.</p>
-<p class="tx">Unfortunately, reading text from PDF documents might not always result in a perfect translation to a string, because the file format is complicated and some PDFs might not be readable at all. The pdfminer.six package is a fork of a no-longer-maintained pdfminer package that focuses on extracting text from PDFs. This chapter used pdfminer.six as a fallback mechanism if you’re unable to extract text from a particular PDF file.</p>
-<p class="tx">Word documents are more reliable, and you can read them with the python-docx package’s <span class="thesansmonocd_w5regular_">docx</span> module. You can manipulate text in Word documents via <span class="thesansmonocd_w5regular_">Paragraph</span> and <span class="thesansmonocd_w5regular_">Run</span> objects. These objects can also be given styles, though they must be from the default set of styles or from styles already in the document. You can add new paragraphs, headings, breaks, and pictures to the ends of documents.</p>
-<p class="tx">Many of the limitations that come with working with PDFs and Word documents occur because these formats are meant to display nicely for human readers, rather than be easy to parse by software. The next chapter takes a look at some other common formats for storing information: CSV, JSON, and <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1259" aria-label="434"></span>XML files. These formats were designed for use by computers, and you’ll see that Python can work with them much more easily.</p>
+<h3 class="h" id="calibre_link-1946"><span id="calibre_link-475"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">テキスト情報はプレーンテキストファイルに限られません。PDFやWord文書を扱うことはよくあるでしょう。PyPDFパッケージを使えばPDF文書を読み書きできます。PDFファイルを読み書きできるPythonのライブラリはほかにもたくさんあります。本章で取り上げたもの以外では、PyPIのウェブサイトで、pdfplumber、ReportLab、pdfrw、PyMuPDF、pdfkit、borb を検索することをおすすめします。</p>
+<p class="tx">残念ながら、PDF文書からテキストを読み取る精度は完全ではありません。ファイルフォーマットが複雑で、全く読み取れないPDFもあるかもしれません。pdfminer.sixパッケージは保守されていないpdfminerパッケージのフォークで、PDFからのテキスト抽出に注力しています。本章ではPDFファイルからテキストを抽出できなかった場合にpdfminer.sixを使う仕組みを導入しました。</p>
+<p class="tx">Word文書はPDFよりも信頼性が高く、python-docxパッケージの<span class="thesansmonocd_w5regular_">docx</span>モジュールを使うと読み取れます。<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトと<span class="thesansmonocd_w5regular_">Run</span>オブジェクトを通じてWord文書中のテキストを操作できます。これらのオブジェクトはスタイルを適用することもできます。ただし、スタイルはデフォルトのものかすでに文書中にあるものしか使えません。新しい段落、見出し、改行、改ページ、画像を文書の末尾に追加できます。</p>
+<p class="tx">PDFやWord文書は、ソフトウェアで解析しやすくすることではなく人間にとって見やすく表示することを意図したフォーマットなので、これらのファイルでの作業には多くの制約があります。次章では、CSV、JSON、XMLファイルという情報を保存するのに一般的に用いられる別のフォーマットを紹介します。これらのフォーマットはコンピュータによる利用が想定されており、PDFやWordと比べてPythonでの作業がずっと簡単にできます。</p>
 </section>
 <section type="division" aria-labelledby="sec24">
-<h3 class="h" id="calibre_link-1947"><span id="calibre_link-476"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What modes does the <span class="thesansmonocd_w5regular_">File</span> object for <span class="thesansmonocd_w5regular_">PdfWriter</span> objects need to be opened in to save the PDF file?</p>
-<p class="listnumber">  2.  How do you acquire a <span class="thesansmonocd_w5regular_">Page</span> object for page 5 from a <span class="thesansmonocd_w5regular_">PdfReader</span> or <span class="thesansmonocd_w5regular_">PdfWriter</span> object?</p>
-<p class="listnumber">  3.  If a <span class="thesansmonocd_w5regular_">PdfReader</span> object’s PDF is encrypted with the password <span class="thesansmonocd_w5regular_">swordfish</span>, what must you do before you can obtain <span class="thesansmonocd_w5regular_">Page</span> objects from it?</p>
-<p class="listnumber">  4.  If the <span class="thesansmonocd_w5regular_">rotate()</span> method rotates pages clockwise, how do you rotate a page counterclockwise?</p>
-<p class="listnumber">  5.  What method returns a <span class="thesansmonocd_w5regular_">Document</span> object for a file named <i class="calibre5">demo.docx</i>?</p>
-<p class="listnumber">  6.  What is the difference between a <span class="thesansmonocd_w5regular_">Paragraph</span> object and a <span class="thesansmonocd_w5regular_">Run</span> object?</p>
-<p class="listnumber">  7.  How do you obtain a list of <span class="thesansmonocd_w5regular_">Paragraph</span> objects for a <span class="thesansmonocd_w5regular_">Document</span> object that’s stored in a variable named <span class="thesansmonocd_w5regular_">doc</span>?</p>
-<p class="listnumber">  8.  What type of object has <span class="thesansmonocd_w5regular_">bold</span>, <span class="thesansmonocd_w5regular_">underline</span>, <span class="thesansmonocd_w5regular_">italic</span>, <span class="thesansmonocd_w5regular_">strike</span>, and <span class="thesansmonocd_w5regular_">outline</span> variables?</p>
-<p class="listnumber">  9.  What is the difference between setting the <span class="thesansmonocd_w5regular_">bold</span> variable to <span class="thesansmonocd_w5regular_">True</span>, <span class="thesansmonocd_w5regular_">False</span>, or <span class="thesansmonocd_w5regular_">None</span>?</p>
-<p class="listnumber">10.  How do you create a <span class="thesansmonocd_w5regular_">Document</span> object for a new Word document?</p>
-<p class="listnumber">11.  How do you add a paragraph with the text <span class="thesansmonocd_w5regular_">'Hello, there!'</span> to a <span class="thesansmonocd_w5regular_">Document</span> object stored in a variable named <span class="thesansmonocd_w5regular_">doc</span>?</p>
-<p class="listnumber">12.  What integers represent the levels of headings available in Word documents?</p>
+<h3 class="h" id="calibre_link-1947"><span id="calibre_link-476"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. PDFファイルを保存するには、どのモードで<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクト用の<span class="thesansmonocd_w5regular_">File</span>オブジェクトを開く必要がありますか？</p>
+<p class="listnumber">  2. <span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトまたは<span class="thesansmonocd_w5regular_">PdfWriter</span>オブジェクトから、5ページ目の<span class="thesansmonocd_w5regular_">Page</span>オブジェクトを取得するにはどうしますか？</p>
+<p class="listnumber">  3. <span class="thesansmonocd_w5regular_">PdfReader</span>オブジェクトのPDFがパスワード<span class="thesansmonocd_w5regular_">swordfish</span>で暗号化されていたら、<span class="thesansmonocd_w5regular_">Page</span>オブジェクトを取得する前に何をしなければならないですか？</p>
+<p class="listnumber">  4. <span class="thesansmonocd_w5regular_">rotate()</span>メソッドは時計回りにページを回転させますが、反時計回りに回転させるにはどうしますか？</p>
+<p class="listnumber">  5. <i class="calibre5">demo.docx</i>という名前のファイルの<span class="thesansmonocd_w5regular_">Document</span>オブジェクトを返すメソッドは何ですか？</p>
+<p class="listnumber">  6. <span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトと<span class="thesansmonocd_w5regular_">Run</span>オブジェクトの違いは何ですか？</p>
+<p class="listnumber">  7. <span class="thesansmonocd_w5regular_">doc</span>という名前の変数に格納されている<span class="thesansmonocd_w5regular_">Document</span>オブジェクトの<span class="thesansmonocd_w5regular_">Paragraph</span>オブジェクトのリストを取得するにはどうしますか？</p>
+<p class="listnumber">  8. <span class="thesansmonocd_w5regular_">bold</span>、<span class="thesansmonocd_w5regular_">underline</span>、<span class="thesansmonocd_w5regular_">italic</span>、<span class="thesansmonocd_w5regular_">strike</span>、<span class="thesansmonocd_w5regular_">outline</span>という属性を持っているのはどの型のオブジェクトですか？</p>
+<p class="listnumber">  9. <span class="thesansmonocd_w5regular_">bold</span>属性を<span class="thesansmonocd_w5regular_">True</span>、<span class="thesansmonocd_w5regular_">False</span>、<span class="thesansmonocd_w5regular_">None</span>に設定するとそれぞれどうなりますか？</p>
+<p class="listnumber">10. 新しいWord文書の<span class="thesansmonocd_w5regular_">Document</span>オブジェクトはどのように作成しますか？</p>
+<p class="listnumber">11. <span class="thesansmonocd_w5regular_">doc</span>という名前の変数に格納されている<span class="thesansmonocd_w5regular_">Document</span>オブジェクトに<span class="thesansmonocd_w5regular_">'Hello, there!'</span>というテキストの段落を追加するにはどうしますか？</p>
+<p class="listnumber">12. Word文書の利用できる見出しのレベルを表す整数は何から何までですか？</p>
 </section>
 <section type="division" aria-labelledby="sec25">
-<h3 class="h" id="calibre_link-1948"><span id="calibre_link-477"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-1948"><span id="calibre_link-477"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec26">
-<h4 class="h1" id="calibre_link-1949"><span id="calibre_link-478"></span><span class="sans_futura_std_heavy_oblique_bi_">PDF Paranoia</span></h4>
-<p class="tni">Using the <span class="thesansmonocd_w5regular_">os.walk()</span> function from <span>Chapter 11</span>, write a script that will go through every PDF in a folder (and its subfolders) and encrypt the PDFs using a password provided on the command line. Save each encrypted PDF with an <i class="calibre5">_encrypted.pdf</i> suffix added to the original filename. Before deleting the original file, have the program attempt to read and decrypt the new file to ensure that it was encrypted correctly.</p>
-<p class="tx">Then, write a program that finds all encrypted PDFs in a folder (and its subfolders) and creates a decrypted copy of the PDF using a provided password. If the password is incorrect, the program should print a message to the user and continue to the next PDF.</p>
+<h4 class="h1" id="calibre_link-1949"><span id="calibre_link-478"></span><span class="sans_futura_std_heavy_oblique_bi_">PDF偏執狂</span></h4>
+<p class="tni"><span>第11章</span>で紹介した<span class="thesansmonocd_w5regular_">os.walk()</span>関数を使って、フォルダ（とそのサブフォルダ）の中にあるすべてのPDFを、コマンドラインから受け取ったパスワードで暗号化するスクリプトを書いてください。暗号化したPDFファイルは元のファイル名に<i class="calibre5">_encrypted.pdf</i>という接尾辞を加えた名前で保存してください。元のファイルを削除する前に、新しいファイルを読み取って復号して正しく暗号化されていることを確認してください。</p>
+<p class="tx">それから、すべての暗号化されたPDFをフォルダ（とそのサブフォルダ）から探してパスワードで復号したPDFのコピーを作成するプログラムを書いてください。パスワードが間違っていたら、ユーザーにメッセージを表示して次のPDFに進みます。</p>
 </section>
 <section type="division" aria-labelledby="sec27">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-987" aria-label="435"></span>
-<h4 class="h1" id="calibre_link-1950"><span id="calibre_link-479"></span><span class="sans_futura_std_heavy_oblique_bi_">Custom Invitations</span></h4>
-<p class="tni">Say you have a text file of guest names. This <i class="calibre5">guests.txt</i> file has one name per line, as follows:</p>
+<h4 class="h1" id="calibre_link-1950"><span id="calibre_link-479"></span><span class="sans_futura_std_heavy_oblique_bi_">カスタム招待状</span></h4>
+<p class="tni">招待客の名前を書いたテキストファイルがあります。この<i class="calibre5">guests.txt</i>ファイルには、以下のように名前が一行で書かれています。</p>
 <pre class="pre"><code class="calibre9">Prof. Plum
 Miss Scarlet
 Col. Mustard
 Al Sweigart
 RoboCop
 </code></pre>
-<p class="tx">Write a program that generates a Word document with custom invitations that look like Figure 17-10.</p>
-<p class="tx">Because Python-Docx can only use styles that already exist in a Word document, you’ll have to first add these styles to a blank Word file and then open that file with Python-Docx. There should be one invitation per page in the resulting Word document, so call <span class="thesansmonocd_w5regular_">add_break()</span> to add a page break after the last paragraph of each invitation. This way, you will need to open only one Word document to print all of the invitations at once.</p>
+<p class="tx">図17-10のように招待客の名前を入れたWord文書を生成するプログラムを書いてください。</p>
+<p class="tx">Python-DocxはWord文書にすでに存在するスタイルしか使えませんので、まず空白のWordファイルにスタイルを追加してから、Python-Docxでそのファイルを開きます。Word文書で1人分の招待状はページごとに作成します。各招待状の最後の段落のあとに改ページを<span class="thesansmonocd_w5regular_">add_break()</span>で追加してください。こうすることで、1つのWord文書を開けば全員分の招待状を一気に印刷できます。</p>
 <figure class="img"><img class="img1" id="calibre_link-798" src="images/000037.jpg" alt="An Excel spreadsheet with values in rows 1, 3, and 5 only." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 17-10: The Word document generated by your custom invite script</span> Description</p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 17-10：招待状スクリプトで生成されたWord文書</span></p></figcaption>
 </figure>
-<p class="tx">You can download a sample <i class="calibre5">guests.txt</i> file from the book’s online resources.</p>
+<p class="tx">本書のオンライン素材からサンプルの<i class="calibre5">guests.txt</i>ファイルをダウンロードできます。</p>
 </section>
 <section type="division" aria-labelledby="sec28">
-<h4 class="h1" id="calibre_link-1951"><span id="calibre_link-480"></span><span class="sans_futura_std_heavy_oblique_bi_">PDF Password Breaker</span></h4>
-<p class="tni">Say you have an encrypted PDF that you’ve forgotten the password to, but you remember it was a single English word. Trying to guess your forgotten password is quite a boring task. Instead, you can write a program that will decrypt the PDF by trying every possible English word until it finds one that works. This is called a <i class="calibre5">brute-force password attack.</i> Download the text file <i class="calibre5">dictionary.txt</i> from the book’s online resources. This dictionary file contains over 44,000 English words, with one word per line.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1099" aria-label="436"></span>Using the file-reading skills you learned in <span>Chapter 10</span>, create a list of word strings by reading this file. Then, loop over each word in this list, passing it to the <span class="thesansmonocd_w5regular_">decrypt()</span> method. You should try both the uppercase and lowercase forms of each word. (On my laptop, going through all 88,000 uppercase and lowercase words from the dictionary file takes a couple of minutes. This is why you shouldn’t use a simple English word for your passwords.)</p>
+<h4 class="h1" id="calibre_link-1951"><span id="calibre_link-480"></span><span class="sans_futura_std_heavy_oblique_bi_">PDFパスワード解除装置</span></h4>
+<p class="tni">暗号化したPDFファイルのパスワードを忘れてしまいました。ただ、パスワードは英語の1単語だったことは覚えています。忘れたパスワードを当て推量するのは非常に単調な作業です。英単語を一つずつ試して復号するプログラムを書くことができます。これは<i class="calibre5">ブルートフォースアタック</i>と呼ばれる手法です。本書のオンライン素材から<i class="calibre5">dictionary.txt</i>というテキストファイルをダウンロードしてください。この辞書には1行に1単語で44,000の英単語が含まれています。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1099" aria-label="436"></span><span>第10章</span>で学んだファイルの読み取りスキルを活用して、このファイルを読み取り単語の文字列リストを作成します。次に、このリストの単語を反復処理し、<span class="thesansmonocd_w5regular_">decrypt()</span>メソッドに渡します。単語ごとに大文字と小文字の両方を試してください。（私のノートパソコンでは、数分でこのファイルの大文字と小文字で合計88,000単語を処理できました。パスワードに単純な英単語を使ってはならないことがよくわかります。）</p>
 </section>
 </section>
 </section>
