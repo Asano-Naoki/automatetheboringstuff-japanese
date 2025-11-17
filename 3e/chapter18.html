@@ -11,21 +11,20 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1092" aria-label="437"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1952">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">18</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">CSV, JSON, AND XML FILES</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">18</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">CSV、JSON、XML</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">CSV, JSON, and XML are <i class="calibre18">data serialization formats</i> used to store data as plaintext files. Serialization converts data into a string to save your program’s work to a text file, transfer it over an internet connection, or even just copy and paste it into an email. Python comes with the <span class="sans_thesansmonocd_w5regular_">csv</span>, <span class="sans_thesansmonocd_w5regular_">json</span>, and <span class="sans_thesansmonocd_w5regular_">xml</span> modules to help you work with these file formats.</p>
-<p class="tx">While files in these formats are essentially text files that you could read and write with Python’s <span class="thesansmonocd_w5regular_">open()</span> function or the other file I/O functions from <span>Chapter 10</span>, it’s easier to use Python’s modules to handle them, just as we used the Beautiful Soup module in <span>Chapter 13</span> to handle HTML-formatted text. Each format has its own use case:</p>
-<p class="listplain"><b class="calibre10">Comma-separated values</b> (CSV, pronounced “see-ess-vee”) is a simplified spreadsheet format, and works best for storing a variable number of rows of data that share the same columns.</p>
-<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1082" aria-label="438"></span><b class="calibre10">JavaScript Object Notation</b> (JSON, pronounced “JAY-sawn” or “Jason”) uses the same syntax as objects, arrays, and data types in the JavaScript programming language, though it doesn’t require you to know how to program in JavaScript. It was created as a simpler alternative to XML.</p>
-<p class="listplain"><b class="calibre10">Extensible Markup Language</b> (XML, pronounced “ex-em-el”) is an older, more established data serialization format widely used in enterprise software, but is overly complicated to work with if you don’t need its advanced features.</p>
-<p class="tx">This chapter covers the basics of these formats’ syntax and the Python code to work with them.</p>
+<p class="introtni">CSV、JSON、XMLは、データをプレーンテキストで保存するために用いる<i class="calibre18">直列化フォーマット</i>です。データを直列化して文字列に変換して保存します。プログラムでの作業をテキストファイルに保存して、インターネットで転送したり、メールに貼り付けたりできるようになります。Pythonには、これらのファイルフォーマットを扱いやすくしてくれる<span class="sans_thesansmonocd_w5regular_">csv</span>と<span class="sans_thesansmonocd_w5regular_">json</span>と<span class="sans_thesansmonocd_w5regular_">xml</span>のモジュールが同梱されています。</p>
+<p class="tx">これらのフォーマットのファイルは、本質的に、Pythonの<span class="thesansmonocd_w5regular_">open()</span>関数その他の<span>第10章</span>で紹介した入出力関数で読み書きできるテキストファイルです。しかし、<span>第13章</span>でHTML形式のテキストを扱うのにBeautiful Soupを使ったように、Pythonの専用モジュールを利用するほうが簡便です。この3つのフォーマットには以下のような特徴があります。</p>
+<p class="listplain"><b class="calibre10">CSV</b> （Comma Separated Valuesの略でシーエスブイと発音します）は、スプレッドシートを単純化したフォーマットで、同じカラムを持つ複数の行のデータを保存するのに最適です。</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1082" aria-label="438"></span><b class="calibre10">JSON</b> （JavaScript Object Notationの略でジェイソンと発音します）は、JavaScriptプログラミング言語のオブジェクトや配列というデータ型と同じ構文を使いますが、JavaScriptでのプログラミングを知らなくても大丈夫です。XMLよりシンプルになるように作られました。</p>
+<p class="listplain"><b class="calibre10">XML</b> （Extensible Markup Languageの略でエックスエムエルと発音します）は、比較的古く、構造がはっきりとしたデータ直列化フォーマットで、企業向けソフトウェアで広く用いられています。高度な機能が必要でなければ複雑すぎます。</p>
+<p class="tx">本章では、これらのフォーマットの基本とPythonのコードを紹介します。</p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-1953"><span id="calibre_link-482"></span><span class="sans_futura_std_bold_b_">The CSV Format</span></h3>
-<p class="tni">Each line in a CSV file (which uses the <i class="calibre5">.csv</i> file extension) represents a row in a spreadsheet, and commas separate the cells in the row. For example, the spreadsheet <i class="calibre5">example3.xlsx</i> included in the online resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i> would look like this in a CSV file:</p>
+<h3 class="h" id="calibre_link-1953"><span id="calibre_link-482"></span><span class="sans_futura_std_bold_b_">CSV</span></h3>
+<p class="tni">（<i class="calibre5">.csv</i>ファイル拡張子の）CSVファイルの各行は、スプレッドシートの行と同じようなものであり、行内のセルはカンマで区切られています。例えば、<a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>の本書のオンライン素材にある<i class="calibre5">example3.xlsx</i>のスプレッドシートは、CSVファイルでは以下のようになります。</p>
 <pre class="pre"><code class="calibre9">4/5/2035 13:34,Apples,73
 4/5/2035 3:41,Cherries,85
 4/6/2035 12:46,Pears,14
@@ -34,21 +33,21 @@
 4/10/2035 18:10,Bananas,23
 4/10/2035 2:40,Strawberries,98
 </code></pre>
-<p class="tx">I’ll use this file in this chapter’s CSV interactive shell examples. Download it or enter the text into a text editor and save it as <i class="calibre5">example3.csv</i>.</p>
-<p class="tx">You can think of CSV files as a list of lists of values. Python code could represent the <i class="calibre5">example3.csv</i> content as the value <span class="thesansmonocd_w5regular_">[['4/5/2035 13:34', 'Apples', '73'], ['4/5/2035 3:41', 'Cherries', '85'],</span> <span class="sans_thesansmonocd_w5regular_italic_">...</span> <span class="thesansmonocd_w5regular_">['4/10/2035 2:40', 'Strawberries', '98']]</span>. CSV files are simple, lacking many of the features of an Excel spreadsheet. For example, they:</p>
+<p class="tx">本章のCSVの対話型シェルの例ではこのファイルを使用します。ダウンロードするか上記のテキストを<i class="calibre5">example3.csv</i>という名前で保存してください。</p>
+<p class="tx">CSVファイルは値のリストのリスト（二次元リスト）だと考えることができます。Pythonのコードは<span class="thesansmonocd_w5regular_">[['4/5/2035 13:34', 'Apples', '73'], ['4/5/2035 3:41', 'Cherries', '85'],</span> <span class="sans_thesansmonocd_w5regular_italic_">...</span> <span class="thesansmonocd_w5regular_">['4/10/2035 2:40', 'Strawberries', '98']]</span>のような値として<i class="calibre5">example3.csv</i>の内容を表現できます。CSVファイルはシンプルであり、以下に例示するようにExcelファイルに存在する機能の多くが欠けています。</p>
 <ul class="ul">
-<li class="bl">Don’t have multiple data types; every value is a string</li>
-<li class="bl">Don’t have settings for font size or color</li>
-<li class="bl">Don’t have multiple worksheets</li>
-<li class="bl">Can’t specify cell widths or cell heights</li>
-<li class="bl">Can’t merge cells</li>
-<li class="bl">Can’t have embedded images or charts</li>
+<li class="bl">複数のデータ型は存在せず、値はすべて文字列</li>
+<li class="bl">フォントサイズや色の設定はない</li>
+<li class="bl">複数のワークシートは存在しない</li>
+<li class="bl">セルの幅や高さを設定できない</li>
+<li class="bl">セル結合はできない</li>
+<li class="bl">図表を埋め込めない</li>
 </ul>
-<p class="tx">The advantage of CSV files is simplicity. Many apps and programming languages support them, you can view them in text editors (including Mu), and they’re a straightforward way to represent spreadsheet data.</p>
-<p class="tx">Because CSV files are just text files, you might be tempted to read them as a string and then process that string using the techniques you learned in <span>Chapter 8</span>. For example, because each cell in a CSV file is separated by <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1083" aria-label="439"></span>a comma, you might try to call <span class="thesansmonocd_w5regular_">split(',')</span> on each line of text to get the comma-separated values as a list of strings. But not every comma in a CSV file represents the boundary between two cells. CSV files have a set of escape characters that allow you to include commas and other characters as part of the values. The <span class="thesansmonocd_w5regular_">split()</span> method doesn’t handle these escape characters. Because of these potential pitfalls, the <span class="thesansmonocd_w5regular_">csv</span> module provides a more reliable way to read and write CSV files.</p>
+<p class="tx">CSVファイルにはシンプルであるという優位性があります。多くのアプリやプログラミング言語でサポートされていますし、（Muなどの）テキストエディタで中身を確認できますし、スプレッドシートのデータを直接表現できます。</p>
+<p class="tx">CSVファイルはテキストファイルですから、文字列として読み取ってその文字列を<span>第8章</span>で学んだテクニックで処理しようと思われるかもしれません。例えば、CSVファイルの各セルはカンマで区切られていますから、各行について<span class="thesansmonocd_w5regular_">split(',')</span>を呼び出してカンマ区切りの値を文字列のリストとして取得しようと考えるかもしれません。しかし、CSVファイルのカンマがすべてセルの区切りを表しているとは限りません。CSVファイルには、カンマその他の記号を値の中に含められるエスケープ記号があります。<span class="thesansmonocd_w5regular_">split()</span>メソッドはこうしたエスケープ記号を考慮しません。こうした潜在的な落とし穴があるため、<span class="thesansmonocd_w5regular_">csv</span>モジュールを使ったほうがCSVファイルの読み書きを信頼して行えます。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-1954"><span id="calibre_link-483"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading CSV Files</span></h4>
-<p class="tni">To read a CSV file, you must create a <span class="thesansmonocd_w5regular_">csv.reader</span> object, which lets you iterate over lines in the CSV file. The <span class="thesansmonocd_w5regular_">csv</span> module comes with Python, so you can import it without having to first install it. Place <i class="calibre5">example3.csv</i> in the current working directory, then enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1954"><span id="calibre_link-483"></span><span class="sans_futura_std_heavy_oblique_bi_">CSVファイルの読み取り</span></h4>
+<p class="tni">CSVファイルを読み取るには、CSVファイルの行を反復処理できる<span class="thesansmonocd_w5regular_">csv.reader</span>オブジェクトを作成します。<span class="thesansmonocd_w5regular_">csv</span>モジュールはPythonに同梱されていますから、改めてインストールしなくてもインポートできます。<i class="calibre5">example3.csv</i>を現在の作業ディレクトリに置いてから、対話型シェルで以下の内容を実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 &gt;&gt;&gt; <b class="calibre10">example_file = open('example3.csv')</b>
 &gt;&gt;&gt; <b class="calibre10">example_reader = csv.reader(example_file)</b>
@@ -60,25 +59,25 @@
 ['4/10/2035 2:40', 'Strawberries', '98']]
 &gt;&gt;&gt; <b class="calibre10">example_file.close()</b>
 </code></pre>
-<p class="tx">To read a CSV file with the <span class="thesansmonocd_w5regular_">csv</span> module, open it using the <span class="thesansmonocd_w5regular_">open()</span> function, just as you would any other text file, but instead of calling the <span class="thesansmonocd_w5regular_">read()</span> or <span class="thesansmonocd_w5regular_">readlines()</span> method on the <span class="thesansmonocd_w5regular_">File</span> object that <span class="thesansmonocd_w5regular_">open()</span> returns, pass it to the <span class="thesansmonocd_w5regular_">csv .reader()</span> function. This function should return a <span class="thesansmonocd_w5regular_">reader</span> object. Note that you can’t pass a filename string directly to the <span class="thesansmonocd_w5regular_">csv.reader()</span> function.</p>
-<p class="tx">The easiest way to access the values in the <span class="thesansmonocd_w5regular_">reader</span> object is to convert it to a plain Python list by passing it to <span class="thesansmonocd_w5regular_">list()</span>. Using <span class="thesansmonocd_w5regular_">list()</span> on this <span class="thesansmonocd_w5regular_">reader</span> object returns a list of lists, which you can store in a variable, like <span class="thesansmonocd_w5regular_">example_data</span>. Entering <span class="thesansmonocd_w5regular_">example_data</span> in the shell displays the list of lists.</p>
-<p class="tx">Now that you have the CSV file as a list of lists, you can access the value at a particular row and column with the expression <span class="thesansmonocd_w5regular_">example_data[row][col]</span>, where <span class="thesansmonocd_w5regular_">row</span> is the index of one of the lists in <span class="thesansmonocd_w5regular_">example_data</span> and <span class="thesansmonocd_w5regular_">col</span> is the index of the item you want from that list. Enter the following into the interactive shell:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">example_data[0][0]</b>  # First row, first column
+<p class="tx"><span class="thesansmonocd_w5regular_">csv</span>モジュールでCSVファイルを読み取るには、他のテキストファイルと同じように、<span class="thesansmonocd_w5regular_">open()</span>関数でファイルを開きます。次に、<span class="thesansmonocd_w5regular_">open()</span>が返す<span class="thesansmonocd_w5regular_">File</span>オブジェクトについて<span class="thesansmonocd_w5regular_">read()</span>メソッドや<span class="thesansmonocd_w5regular_">readlines()</span>メソッドを呼び出すのではなく、<span class="thesansmonocd_w5regular_">File</span>オブジェクトを<span class="thesansmonocd_w5regular_">csv.reader()</span>関数に渡します。この関数は<span class="thesansmonocd_w5regular_">reader</span>オブジェクトを返します。<span class="thesansmonocd_w5regular_">csv.reader()</span>関数にファイル名の文字列を直接渡すことはできません。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">reader</span>オブジェクト内の値にアクセスする最も簡単な方法は、<span class="thesansmonocd_w5regular_">list()</span>に渡してPythonのリストに変換することです。<span class="thesansmonocd_w5regular_">reader</span>オブジェクトについて<span class="thesansmonocd_w5regular_">list()</span>を使うとリストのリストが返され、これを<span class="thesansmonocd_w5regular_">example_data</span>のような変数に格納できます。シェルで<span class="thesansmonocd_w5regular_">example_data</span>と入力するとリストのリストが表示されます。</p>
+<p class="tx">これでCSVファイルをリストのリストにできましたから、<span class="thesansmonocd_w5regular_">example_data[row][col]</span>という式で行と列を指定して値にアクセスできます。<span class="thesansmonocd_w5regular_">row</span>は<span class="thesansmonocd_w5regular_">example_data</span>リストのインデックスで、<span class="thesansmonocd_w5regular_">col</span>はそのリストから取得する要素のインデックスです。以下の式を対話型シェルに入力してみてください。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">example_data[0][0]</b>  # 1行目の1列目
 '4/5/2035 13:34'
-&gt;&gt;&gt; <b class="calibre10">example_data[0][1]</b>  # First row, second column
+&gt;&gt;&gt; <b class="calibre10">example_data[0][1]</b>  # 1行目の2列目
 'Apples'
-&gt;&gt;&gt; <b class="calibre10">example_data[0][2]</b>  # First row, third column
+&gt;&gt;&gt; <b class="calibre10">example_data[0][2]</b>  # 1行目の3列目
 '73'
-&gt;&gt;&gt; <b class="calibre10">example_data[1][1]</b>  # Second row, second column
+&gt;&gt;&gt; <b class="calibre10">example_data[1][1]</b>  # 2行目の2列目
 'Cherries'
-&gt;&gt;&gt; <b class="calibre10">example_data[6][1]</b>  # Seventh row, second column
+&gt;&gt;&gt; <b class="calibre10">example_data[6][1]</b>  # 7行目の2列目
 'Strawberries'
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1084" aria-label="440"></span>As evident from the output, <span class="thesansmonocd_w5regular_">example_data[0][0]</span> goes into the first list and gives us the first string, <span class="thesansmonocd_w5regular_">example_data[0][2]</span> goes into the first list and gives us the third string, and so on.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1084" aria-label="440"></span>この出力からわかるように、<span class="thesansmonocd_w5regular_">example_data[0][0]</span>は最初のリストの最初の文字列で、<span class="thesansmonocd_w5regular_">example_data[0][2]</span>は最初のリストの3つ目の文字列です。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-1955"><span id="calibre_link-484"></span><span class="sans_futura_std_heavy_oblique_bi_">Accessing Data in a for Loop</span></h4>
-<p class="tni">For large CSV files, you may want to use the <span class="thesansmonocd_w5regular_">reader</span> object in a <span class="thesansmonocd_w5regular_">for</span> loop. This approach saves you from having to load the entire file into memory at once. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1955"><span id="calibre_link-484"></span><span class="sans_futura_std_heavy_oblique_bi_">forループでデータにアクセスする</span></h4>
+<p class="tni">大きなCSVファイルでは、（リストのリストに変換せずに）<span class="thesansmonocd_w5regular_">reader</span>オブジェクトを<span class="thesansmonocd_w5regular_">for</span>ループで使います。そうするとファイル全体を一度にメモリにロードしなくてすみます。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 &gt;&gt;&gt; <b class="calibre10">example_file = open('example3.csv')</b>
 &gt;&gt;&gt; <b class="calibre10">example_reader = csv.reader(example_file)</b>
@@ -93,13 +92,13 @@ Row #5 ['4/10/2035 2:07', 'Apples', '152']
 Row #6 ['4/10/2035 18:10', 'Bananas', '23']
 Row #7 ['4/10/2035 2:40', 'Strawberries', '98']
 </code></pre>
-<p class="tx">After you import the <span class="thesansmonocd_w5regular_">csv</span> module and make a <span class="thesansmonocd_w5regular_">reader</span> object from the CSV file, you can loop through the rows in the <span class="thesansmonocd_w5regular_">reader</span> object <span class="codeannotation" aria-label="annotation1">❶</span>. Each row is a list of values stored in the row variable, with each value in the list representing a cell.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">print()</span> function call <span class="codeannotation" aria-label="annotation2">❷</span> prints the number of the current row and the contents of the row. To get the row number, use the <span class="thesansmonocd_w5regular_">reader</span> object’s <span class="thesansmonocd_w5regular_">line_num</span> attribute, which stores an integer. If your CSV file contains column headers in the first row, you could use <span class="thesansmonocd_w5regular_">line_num</span> to check whether you’re on row 1 and run a <span class="thesansmonocd_w5regular_">continue</span> instruction to skip the headers. Unlike Python list indexes, line numbers in <span class="thesansmonocd_w5regular_">line_num</span> begin at 1, not 0.</p>
-<p class="tx">You can loop over the <span class="thesansmonocd_w5regular_">reader</span> object only once. To reread the CSV file, you must call <span class="thesansmonocd_w5regular_">open()</span> and <span class="thesansmonocd_w5regular_">csv.reader()</span> again to create another <span class="thesansmonocd_w5regular_">reader</span> object.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">csv</span>モジュールをインポートしてCSVファイルから<span class="thesansmonocd_w5regular_">reader</span>オブジェクトを作成すると、<span class="thesansmonocd_w5regular_">reader</span>オブジェクトの行をループで回せます(<span class="codeannotation" aria-label="annotation1">❶</span>)。各行は変数rowに格納される値のリストで、そのリスト内の各値がセルに相当します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">print()</span>関数を呼び出して現在の行番号とその行の内容を表示しています(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">reader</span>オブジェクトの<span class="thesansmonocd_w5regular_">line_num</span>属性で整数の行番号を取得できます。CSVファイルの最初の行が見出し行なら、<span class="thesansmonocd_w5regular_">line_num</span>で最初の行かどうかを判定し、<span class="thesansmonocd_w5regular_">continue</span>でヘッダー行を飛ばすことができます。Pythonのリストのインデックスとは異なり、<span class="thesansmonocd_w5regular_">line_num</span>の行番号は0ではなく1から始まります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">reader</span>オブジェクトは1回に限りループできます。CSVファイルをもう一度読み込みたければ、<span class="thesansmonocd_w5regular_">open()</span>と<span class="thesansmonocd_w5regular_">csv.reader()</span>をもう一度呼び出して別の<span class="thesansmonocd_w5regular_">reader</span>オブジェクトを作成します。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-1956"><span id="calibre_link-485"></span><span class="sans_futura_std_heavy_oblique_bi_">Writing CSV Files</span></h4>
-<p class="tni">A <span class="thesansmonocd_w5regular_">csv.writer</span> object lets you write data to a CSV file. To create a <span class="thesansmonocd_w5regular_">writer</span> object, use the <span class="thesansmonocd_w5regular_">csv.writer()</span> function. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1956"><span id="calibre_link-485"></span><span class="sans_futura_std_heavy_oblique_bi_">CSVファイルの書き込み</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">csv.writer</span>オブジェクトではCSVファイルへの書き込みができます。<span class="thesansmonocd_w5regular_">writer</span>オブジェクトを作成するには、<span class="thesansmonocd_w5regular_">csv.writer()</span>関数を使います。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">output_file = open('output.csv', 'w', newline='')</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">output_writer = csv.writer(output_file)</b>
@@ -111,21 +110,21 @@ Row #7 ['4/10/2035 2:40', 'Strawberries', '98']
 16
 &gt;&gt;&gt; <b class="calibre10">output_file.close()</b>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1219" aria-label="441"></span>Call <span class="thesansmonocd_w5regular_">open()</span> and pass it <span class="thesansmonocd_w5regular_">'w'</span> to open a file in write mode <span class="codeannotation" aria-label="annotation1">❶</span>. This code should create an object you can then pass to <span class="thesansmonocd_w5regular_">csv.writer()</span> <span class="codeannotation" aria-label="annotation2">❷</span> to generate a <span class="thesansmonocd_w5regular_">writer</span> object.</p>
-<p class="tx">On Windows, you’ll also need to pass a blank string for the <span class="thesansmonocd_w5regular_">open()</span> function’s <span class="thesansmonocd_w5regular_">newline</span> keyword argument. For technical reasons that are beyond the scope of this book, if you forget to set the <span class="thesansmonocd_w5regular_">newline</span> argument, the rows in <i class="calibre5">output.csv</i> will be double-spaced, as shown in Figure 18-1.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1219" aria-label="441"></span><span class="thesansmonocd_w5regular_">'w'</span>を渡して<span class="thesansmonocd_w5regular_">open()</span>を呼び出し書き込みモードでファイルを開きます(<span class="codeannotation" aria-label="annotation1">❶</span>)。それを<span class="thesansmonocd_w5regular_">csv.writer()</span>に渡して<span class="thesansmonocd_w5regular_">writer</span>オブジェクトを作成します(<span class="codeannotation" aria-label="annotation2">❷</span>)。</p>
+<p class="tx">Windowsでは、<span class="thesansmonocd_w5regular_">open()</span>関数の<span class="thesansmonocd_w5regular_">newline</span>キーワード引数に空文字列を渡す必要があります。技術的な理由により（本書では扱いません）、<span class="thesansmonocd_w5regular_">newline</span>引数を指定しないと、<i class="calibre5">output.csv</i>の行が図18-1のように1行おきになってしまいます。</p>
 <figure class="img"><img class="img2" id="calibre_link-800" src="images/000046.jpg" alt="Screenshot of a Windows computer desktop showing six overlapping calculator programs" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 18-1: A double-spaced CSV file</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 18-1：1行おきのCSVファイル</span></p></figcaption>
 </figure>
-<p class="tx">The <span class="thesansmonocd_w5regular_">writerow()</span> method of <span class="thesansmonocd_w5regular_">writer</span> objects takes a list argument. Each value in the list will appear in its own cell in the output CSV file. The method’s return value is the number of characters written to the file for that row (including newline characters). For example, this code in our example produces an <i class="calibre5">output.csv</i> file that looks like this:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">writer</span>オブジェクトの<span class="thesansmonocd_w5regular_">writerow()</span>メソッドはリストを引数に取ります。リストの各値が出力CSVファイルの各セルに入ります。このメソッドの返り値は、ファイルに書き込んだその行の文字数（改行文字を含む）です。例えば、先ほどの例のコードを実行すると、以下のような<i class="calibre5">output.csv</i>ファイルが作成されます。</p>
 <pre class="pre"><code class="calibre9">spam,eggs,bacon,ham
 "Hello, world!",eggs,bacon,ham
 1,2,3.141592,4
 </code></pre>
-<p class="tx">Notice how the <span class="thesansmonocd_w5regular_">writer</span> object automatically escapes the comma in the value <span class="thesansmonocd_w5regular_">'Hello, world!'</span> with double quotes in the CSV file. The <span class="thesansmonocd_w5regular_">csv</span> module saves you from having to handle these special cases yourself.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">writer</span>オブジェクトは自動的に値<span class="thesansmonocd_w5regular_">'Hello, world!'</span>中のカンマをダブルクォートでエスケープすることに注目してください。<span class="thesansmonocd_w5regular_">csv</span>モジュールを使うと、こうした特殊例を自分で処理しなくてすみます。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1957"><span id="calibre_link-486"></span><span class="sans_futura_std_heavy_oblique_bi_">Using Tabs Instead of Commas</span></h4>
-<p class="tni"><i class="calibre5">Tab-separated value (TSV)</i> files are similar to CSV files but, unsurprisingly, use tabs instead of commas. Their files have the <i class="calibre5">.tsv</i> file extension. Say you want to separate cells with a tab character instead of a comma and want the rows to be double-spaced. You could enter something like the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1957"><span id="calibre_link-486"></span><span class="sans_futura_std_heavy_oblique_bi_">カンマではなくタブで区切る</span></h4>
+<p class="tni"><i class="calibre5">TSV（Tab-separated value）</i>ファイルは、CSVファイルと似ていますが、カンマではなくタブで区切られており、<i class="calibre5">.tsv</i>というファイル拡張子です。カンマではなくタブでセルを区切り、1行おきにしたいとすると、対話型シェルで以下のような内容を実行します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 &gt;&gt;&gt; <b class="calibre10">output_file = open('output.tsv', 'w', newline='')</b>
 &gt;&gt;&gt; <b class="calibre10">output_writer = csv.writer(output_file, delimiter='\t', lineterminator='\n\n')</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
@@ -137,20 +136,20 @@ Row #7 ['4/10/2035 2:40', 'Strawberries', '98']
 16
 &gt;&gt;&gt; <b class="calibre10">output_file.close()</b>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1080" aria-label="442"></span>This code changes the delimiter and line terminator characters in your file. The <i class="calibre5">delimiter</i> is the character that appears between cells on a row. By default, the delimiter for a CSV file is a comma. The <i class="calibre5">line terminator</i> is the character that comes at the end of a row. By default, the line terminator is a newline. You can change characters to different values by using the <span class="thesansmonocd_w5regular_">delimiter</span> and <span class="thesansmonocd_w5regular_">lineterminator</span> keyword arguments with <span class="thesansmonocd_w5regular_">csv.writer()</span>.</p>
-<p class="tx">Passing <span class="thesansmonocd_w5regular_">delimiter='\t'</span> and <span class="thesansmonocd_w5regular_">lineterminator='\n\n'</span> <span class="codeannotation" aria-label="annotation1">❶</span> changes the delimiter to a tab and the line terminator to two newlines. The code then calls <span class="thesansmonocd_w5regular_">writerow()</span> three times to create three row, producing a file named <i class="calibre5">output.tsv</i> with the following contents:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1080" aria-label="442"></span>このコードでは、区切りと行末記号を変更しています。<i class="calibre5">delimiter</i>（区切り）は行の中のセルとセルの間を区切る記号です。デフォルトでは、CSVファイルの区切りはカンマです。<i class="calibre5">line terminator</i>（行末記号）は行の最後に来る記号です。デフォルトでは改行記号です。<span class="thesansmonocd_w5regular_">csv.writer()</span>の<span class="thesansmonocd_w5regular_">delimiter</span>と<span class="thesansmonocd_w5regular_">lineterminator</span>のキーワード引数を使えばその記号を変更できます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">delimiter='\t'</span>と<span class="thesansmonocd_w5regular_">lineterminator='\n\n'</span>を渡すと(<span class="codeannotation" aria-label="annotation1">❶</span>)、区切りをタブに、行末記号を2つの改行記号に変更します。<span class="thesansmonocd_w5regular_">writerow()</span>を3回呼び出して3行作成し、以下の内容の<i class="calibre5">output.tsv</i>という名前のファイルを作成します。</p>
 <pre class="pre"><code class="calibre9">spam    eggs    bacon   ham
 
 Hello, world!   eggs    bacon   ham
 
 1   2   3.141592    4   
 </code></pre>
-<p class="tx">Tabs now separate the cells in the spreadsheet.</p>
+<p class="tx">タブがセルを区切っています。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-1958"><span id="calibre_link-487"></span><span class="sans_futura_std_heavy_oblique_bi_">Handling Header Rows</span></h4>
-<p class="tni">For CSV files that contain header rows, it’s often more convenient to work with the <span class="thesansmonocd_w5regular_">DictReader</span> and <span class="thesansmonocd_w5regular_">DictWriter</span> objects rather than the <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> objects. While <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> read and write to CSV file rows by using lists, <span class="thesansmonocd_w5regular_">DictReader</span> and <span class="thesansmonocd_w5regular_">DictWriter</span> perform the same functions using dictionaries, treating the values in the first row as the keys.</p>
-<p class="tx">Download <i class="calibre5">exampleWithHeader3.csv</i> from the book’s online resources for the next example. This file is the same as <i class="calibre5">example3.csv</i> except it includes <i class="calibre5">Timestamp</i>, <i class="calibre5">Fruit</i>, and <i class="calibre5">Quantity</i> as column headers in the first row. To read the file, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1958"><span id="calibre_link-487"></span><span class="sans_futura_std_heavy_oblique_bi_">見出し行の処理</span></h4>
+<p class="tni">見出し行を含むCSVファイルでは、<span class="thesansmonocd_w5regular_">reader</span>オブジェクトと<span class="thesansmonocd_w5regular_">writer</span>オブジェクトよりも、<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトと<span class="thesansmonocd_w5regular_">DictWriter</span>オブジェクトを使うほうが便利です。<span class="thesansmonocd_w5regular_">reader</span>と<span class="thesansmonocd_w5regular_">writer</span>はリストでCSVファイルを読み書きするのに対し、<span class="thesansmonocd_w5regular_">DictReader</span>と<span class="thesansmonocd_w5regular_">DictWriter</span>は最初の行をキーとする辞書で読み書きします。</p>
+<p class="tx">次の例のために、本書のオンライン素材から<i class="calibre5">exampleWithHeader3.csv</i>をダウンロードしてください。このファイルは最初の行に<i class="calibre5">Timestamp</i>、<i class="calibre5">Fruit</i>、<i class="calibre5">Quantity</i>という見出し行がある以外は<i class="calibre5">example3.csv</i>と同じです。対話型シェルに次の内容を入力してこのファイルを読み取ってください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 &gt;&gt;&gt; <b class="calibre10">example_file = open('exampleWithHeader3.csv')</b>
 &gt;&gt;&gt; <b class="calibre10">example_dict_reader = csv.DictReader(example_file)</b>
@@ -175,8 +174,8 @@ Hello, world!   eggs    bacon   ham
 4/10/2035 18:10 Bananas 23
 4/10/2035 2:40 Strawberries 98
 </code></pre>
-<p class="tx">By passing the <span class="thesansmonocd_w5regular_">DictReader</span> object to <span class="thesansmonocd_w5regular_">list()</span> <span class="codeannotation" aria-label="annotation1">❶</span>, you can get the CSV data as a list of dictionaries. Each row corresponds to one dictionary in the list. Alternatively, you can use the <span class="thesansmonocd_w5regular_">DictReader</span> object inside a <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation2">❷</span>. The <span class="thesansmonocd_w5regular_">DictReader</span> object sets <span class="thesansmonocd_w5regular_">row</span> to a dictionary object with keys derived from the headers in the first row. Using a <span class="thesansmonocd_w5regular_">DictReader</span> object means you don’t need additional code to skip the first row’s header information, as the <span class="thesansmonocd_w5regular_">DictReader</span> object does this for you.</p>
-<p class="tx">If you tried to use a <span class="thesansmonocd_w5regular_">DictReader</span> object with <i class="calibre5">example3.csv</i>, which doesn’t have column headers in the first row, the <span class="thesansmonocd_w5regular_">DictReader</span> object would use <span class="thesansmonocd_w5regular_">'4/5/2035 13:34'</span>, <span class="thesansmonocd_w5regular_">'Apples'</span>, and <span class="thesansmonocd_w5regular_">'73'</span> as the dictionary keys. To avoid this, you can supply the <span class="thesansmonocd_w5regular_">DictReader()</span> function with a second argument containing made-up header names:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトを<span class="thesansmonocd_w5regular_">list()</span>に渡すことにより、CSVのデータを辞書のリストとして取得します(<span class="codeannotation" aria-label="annotation1">❶</span>)。各行がリスト中の一つの辞書に対応します。あるいは、<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトを<span class="thesansmonocd_w5regular_">for</span>ループ内で使うこともできます(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトの<span class="thesansmonocd_w5regular_">row</span>は、最初の行の見出しから取ってきたキーを持つ辞書オブジェクトです。<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトを使えば、最初の行の見出し情報を飛ばすコードを書かずにすみます。<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトがその処理をしてくれます。</p>
+<p class="tx">最初の行が見出しではない<i class="calibre5">example3.csv</i>で<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトを使おうとすると、<span class="thesansmonocd_w5regular_">DictReader</span>オブジェクトは<span class="thesansmonocd_w5regular_">'4/5/2035 13:34'</span>、<span class="thesansmonocd_w5regular_">'Apples'</span>、<span class="thesansmonocd_w5regular_">'73'</span>を辞書のキーに使います。これを避けるためには、<span class="thesansmonocd_w5regular_">DictReader()</span>に見出しの名前を含む第二引数を渡します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 &gt;&gt;&gt; <b class="calibre10">example_file = open('example3.csv')</b>
 &gt;&gt;&gt; <b class="calibre10">example_dict_reader = csv.DictReader(example_file, ['time', 'name', 'amount'])</b>
@@ -191,7 +190,7 @@ Hello, world!   eggs    bacon   ham
 4/10/2035 18:10 Bananas 23
 4/10/2035 2:40 Strawberries 98
 </code></pre>
-<p class="tx">Because <i class="calibre5">example3.csv</i>’s first row doesn’t contain column headings, we created our own: <span class="thesansmonocd_w5regular_">'time'</span>, <span class="thesansmonocd_w5regular_">'name'</span>, and <span class="thesansmonocd_w5regular_">'amount'</span>. The <span class="thesansmonocd_w5regular_">DictWriter</span> objects use dictionaries to create CSV files:</p>
+<p class="tx"><i class="calibre5">example3.csv</i>の最初の行は見出しではありませんので、自分で<span class="thesansmonocd_w5regular_">'time'</span>、<span class="thesansmonocd_w5regular_">'name'</span>、<span class="thesansmonocd_w5regular_">'amount'</span>という見出しを作りました。<span class="thesansmonocd_w5regular_">DictWriter</span>オブジェクトはCSVファイルの作成に辞書を使います。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import csv</b>
 &gt;&gt;&gt; <b class="calibre10">output_file = open('output.csv', 'w', newline='')</b>
 &gt;&gt;&gt; <b class="calibre10">output_dict_writer = csv.DictWriter(output_file, ['Name', 'Pet', 'Phone'])</b>
@@ -205,99 +204,99 @@ Hello, world!   eggs    bacon   ham
 20
 &gt;&gt;&gt; <b class="calibre10">output_file.close()</b>
 </code></pre>
-<p class="tx">If you want your file to contain a header row, write that row by calling <span class="thesansmonocd_w5regular_">writeheader()</span>. Otherwise, skip calling <span class="thesansmonocd_w5regular_">writeheader()</span> to omit a header row from the file. You can then write each row of the CSV file with a <span class="thesansmonocd_w5regular_">writerow()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1286" aria-label="444"></span>method call, passing a dictionary that uses the headers as keys and contains the data to write to the file.</p>
-<p class="tx">The <i class="calibre5">output.csv</i> file that this code creates looks like this:</p>
+<p class="tx">作成するファイルに見出し行を含めたければ、<span class="thesansmonocd_w5regular_">writeheader()</span>を呼び出します。<span class="thesansmonocd_w5regular_">writeheader()</span>を呼び出さなければ、ファイルに見出し行は含まれません。<span class="thesansmonocd_w5regular_">writerow()</span>メソッドを呼び出すとCSVファイルの各行を書き込めます。見出しをキーとする辞書のデータを渡して書き込みます。</p>
+<p class="tx">このコードは次のような<i class="calibre5">output.csv</i>ファイルを作成します。</p>
 <pre class="pre"><code class="calibre9">Name,Pet,Phone
 Alice,cat,555-1234
 Bob,,555-9999
 Carol,dog,555-5555
 </code></pre>
-<p class="tx">The double commas indicate that Bob has a blank value for a pet. Notice that the order of the key-value pairs in the dictionaries you passed to <span class="thesansmonocd_w5regular_">writerow()</span> doesn’t matter; they’re written in the order of the keys given to <span class="thesansmonocd_w5regular_">DictWriter()</span>. For example, even though you passed the <span class="thesansmonocd_w5regular_">Phone</span> key and value before the <span class="thesansmonocd_w5regular_">Name</span> and <span class="thesansmonocd_w5regular_">Pet</span> keys and values in the fourth row, the phone number still appears last in the output.</p>
-<p class="tx">Notice also that any missing keys, such as <span class="thesansmonocd_w5regular_">'Pet'</span> in <span class="thesansmonocd_w5regular_">{'Name': 'Bob', 'Phone': '555-9999'}</span>, will become empty cells in the CSV file.</p>
-<p class="ph"><span id="calibre_link-488"></span><span class="sans_futura_std_heavy_b_">Project 13: Remove the Header from CSV Files</span></p>
-<p class="tni">Say you have the boring job of removing the first line from several hundred CSV files. Maybe you’ll be feeding them into an automated process that requires just the data, without the headers at the top of the columns. You <i class="calibre5">could</i> open each file in Excel, delete the first row, and resave the file—but that would take hours. Let’s write a program to do it instead.</p>
-<p class="tx">The program will need to open every file with the <i class="calibre5">.csv</i> extension in the current working directory, read the contents of the CSV file, and rewrite the contents without the first row to a file of the same name. This will replace the old contents of the CSV file with the new, headless contents.</p>
+<p class="tx">カンマが2つ続いているのは、Bobのpetの値が空白であることを示しています。<span class="thesansmonocd_w5regular_">writerow()</span>に渡した辞書のキーと値のペアの順番は関係ありません。<span class="thesansmonocd_w5regular_">DictWriter()</span>に渡したキーの順序で書き込まれます。例えば、Carolの行の<span class="thesansmonocd_w5regular_">Phone</span>のキーと値は、<span class="thesansmonocd_w5regular_">Name</span>と<span class="thesansmonocd_w5regular_">Pet</span>のキーと値よりも前に渡していますが、それでも電話番号は出力の最後に来ています。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">{'Name': 'Bob', 'Phone': '555-9999'}</span>の<span class="thesansmonocd_w5regular_">'Pet'</span>のようにキーがなければ、CSVファイルでは空のセルになります。</p>
+<p class="ph"><span id="calibre_link-488"></span><span class="sans_futura_std_heavy_b_">プロジェクト13：CSVファイルから見出しを取り除く</span></p>
+<p class="tni">数百のCSVファイルから最初の行を取り除くという退屈な作業があるとします。すでに自動化された別の工程で見出し行ではなくデータだけを読み取らせるためにその作業が必要になるのでしょう。Excelでファイルを一つずつ開き、最初の行を削除して、上書き保存することはできます。しかし数時間かかります。その作業をしてくれるプログラムを書きましょう。</p>
+<p class="tx">現在の作業ディレクトリにある<i class="calibre5">.csv</i>拡張子のファイルをすべて開き、そのCSVファイルの内容を読み取って、最初の行以外を同じ名前のファイルに書き出します。これで元ファイルの内容から見出し行のない新しいファイルを作成できます。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">WARNING</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">警告</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">As always, whenever you write a program that modifies files, be sure to back up the files first, in case your program doesn’t work the way you expect it to. You don’t want to accidentally erase your original files.</i></p>
-<p class="tx">At a high level, the program must do the following:</p>
+<p class="note-txt"><i class="calibre5">ファイルを変更するプログラムを書く際は、プログラムが期待通りに動かない場合に備えて、必ず先にファイルのバックアップをしてください。元ファイルを誤って消してしまいたくはないはずです。</i></p>
+<p class="tx">このプログラムには以下の内容が必要です。</p>
 <ul class="ul">
-<li class="bl">Find all the CSV files in the current working directory.</li>
-<li class="bl">Read the full contents of each file.</li>
-<li class="bl">Write the contents, skipping the first line, to a new CSV file.</li>
+<li class="bl">現在の作業ディレクトリにあるCSVファイルをすべて見つける</li>
+<li class="bl">各ファイルの内容を全部読み取る</li>
+<li class="bl">最初の行を飛ばして内容を新しいCSVファイルに書き込む</li>
 </ul>
-<p class="tx">At the code level, this means the program will need to do the following:</p>
+<p class="tx">コードには以下の内容が必要になります。</p>
 <ul class="ul">
-<li class="bl">Loop over a list of files from <span class="thesansmonocd_w5regular_">os.listdir()</span>, skipping the non-CSV files.</li>
-<li class="bl">Create a CSV <span class="thesansmonocd_w5regular_">reader</span> object and read the contents of the file, using the <span class="thesansmonocd_w5regular_">line_num</span> attribute to figure out which line to skip.</li>
-<li class="bl">Create a CSV <span class="thesansmonocd_w5regular_">writer</span> object and write the read-in data to the new file.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">os.listdir()</span>のファイルリストを反復処理し、CSVファイル以外は飛ばす</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">reader</span>オブジェクトを作成して、ファイルの内容を読み取り、<span class="thesansmonocd_w5regular_">line_num</span>属性で飛ばす行を判定する</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">writer</span>オブジェクトを作成して、読み取ったデータを新しいファイルに書き込む</li>
 </ul>
-<p class="tx">For this project, open a new file editor window and save it as <i class="calibre5">removeCsvHeader.py</i>.</p>
+<p class="tx">このプロジェクト用に、新しいファイルエディタウィンドウを開いて<i class="calibre5">removeCsvHeader.py</i>という名前で保存してください。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1959" aria-label="445"></span>
-<h4 class="h1" id="calibre_link-1960"><span id="calibre_link-489"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Loop Through Each File</span></h4>
-<p class="tni">The first thing your program needs to do is loop over a list of all CSV filenames for the current working directory. Make <i class="calibre5">removeCsvHeader.py</i> look like this:</p>
-<pre class="pre"><code class="calibre9"># Removes the header line from csv files
+<h4 class="h1" id="calibre_link-1960"><span id="calibre_link-489"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：各ファイルを反復処理する</span></h4>
+<p class="tni">このプログラムでは、最初に現在の作業ディレクトリにあるすべてのCSVファイル名のリストを反復処理します。<i class="calibre5">removeCsvHeader.py</i>はこのようになります。</p>
+<pre class="pre"><code class="calibre9"># CSVファイルから見出しを取り除く
 import csv, os
 
 os.makedirs('headerRemoved', exist_ok=True)
 
-# Loop through every file in the current working directory.
+# 現在の作業ディレクトリのすべてのファイルを反復処理する
 for csv_filename in os.listdir('.'):
     if not csv_filename.endswith('.csv'):
-      <span class="code_codeannotation" aria-label="annotation1">❶</span> continue  # Skip non-CSV files.
+      <span class="code_codeannotation" aria-label="annotation1">❶</span> continue  # 非CSVファイルは飛ばす
 
     print('Removing header from ' + csv_filename + '...')
 
-    # TODO: Read the CSV file (skipping the first row).
+    # TODO：CSVファイルの読み取り（見出し行は飛ばす）
 
-    # TODO: Write the CSV file.
+    # TODO：CSVファイルの書き込み
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">os.makedirs()</span> call create a <i class="calibre5">headerRemoved</i> folder in which to save the headless CSV files. A <span class="thesansmonocd_w5regular_">for</span> loop on <span class="thesansmonocd_w5regular_">os.listdir('.')</span> gets you partway there, but it will loop over <i class="calibre5">all</i> files in the working directory, so you’ll need to add some code at the start of the loop that skips filenames that don’t end with <i class="calibre5">.csv</i>. The <span class="thesansmonocd_w5regular_">continue</span> statement <span class="codeannotation" aria-label="annotation1">❶</span> makes the <span class="thesansmonocd_w5regular_">for</span> loop move on to the next filename when it comes across a non-CSV file.</p>
-<p class="tx">To see output as the program runs, print a message indicating which CSV file the program is working on. Then, add some <span class="thesansmonocd_w5regular_">TODO</span> comments indicating what the rest of the program should do.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">os.makedirs()</span>呼び出しにより、見出し行のないCSVファイルを保存する<i class="calibre5">headerRemoved</i>フォルダを作成します。<span class="thesansmonocd_w5regular_">os.listdir('.')</span>について<span class="thesansmonocd_w5regular_">for</span>ループを実行すればよさそうですが、これでは現在の作業ディレクトリの<i class="calibre5">すべての</i>ファイルを反復処理してしまうので、<i class="calibre5">.csv</i>で終わらないファイル名を飛ばすコードをループの冒頭に書く必要があります。非CSVファイルの場合は<span class="thesansmonocd_w5regular_">continue</span>文(<span class="codeannotation" aria-label="annotation1">❶</span>)で<span class="thesansmonocd_w5regular_">for</span>ループを次のファイル名に進めます。</p>
+<p class="tx">プログラムを実行したときに出力を確認できるように、処理しているCSVファイルを示すメッセージを表示します。それから、プログラムの残りの部分の<span class="thesansmonocd_w5regular_">TODO</span>コメントを書き加えます。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h4 class="h1" id="calibre_link-1961"><span id="calibre_link-490"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Read the File</span></h4>
-<p class="tni">The program doesn’t remove the first line from the CSV file. Rather, it creates a new copy of the CSV file without the first line. That way, we can use the original file in case a bug incorrectly modifies the new file.</p>
-<p class="tx">The program will need a way to track whether it’s currently looping on the first row. Add the following to <i class="calibre5">removeCsvHeader.py</i>.</p>
-<pre class="pre"><code class="calibre9"># Removes the header line from csv files
+<h4 class="h1" id="calibre_link-1961"><span id="calibre_link-490"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：ファイルを読み取る</span></h4>
+<p class="tni">このプログラムでは、CSVファイルの最初の行を削除するのではありません。そうではなく、最初の行を除くCSVファイルの新しいコピーを作成します。このようにすれば、バグにより新しいファイルを誤って作成しても、元ファイルが残ります。</p>
+<p class="tx">このプログラムでは最初の行を処理しているのかどうかを判定しなければなりません。<i class="calibre5">removeCsvHeader.py</i>に次の内容を追加します。</p>
+<pre class="pre"><code class="calibre9"># CSVファイルから見出しを取り除く
 import csv, os
 
 <var class="calibre20">--snip--</var>
 
-<b class="calibre10">    # Read the CSV file (skipping the first row).</b>
+<b class="calibre10">    # CSVファイルの読み取り（見出し行は飛ばす）</b>
     <b class="calibre10">csv_rows = []</b>
     <b class="calibre10">csv_file_obj = open(csv_filename)</b>
 <b class="calibre10">    reader_obj = csv.reader(csv_file_obj)</b>
     <b class="calibre10">for row in reader_obj:</b>
         <b class="calibre10">if reader_obj.line_num == 1:</b>
-            <b class="calibre10">continue  </b># Skip the first row.
+            <b class="calibre10">continue  </b># 見出し行は飛ばす
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1962" aria-label="446"></span>        <b class="calibre10">csv_rows.append(row)</b>
     <b class="calibre10">csv_file_obj.close()</b>
 
-    # TODO: Write the CSV file.
+    # TODO：CSVファイルの書き込み
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">reader</span> object’s <span class="thesansmonocd_w5regular_">line_num</span> attribute can be used to determine which line in the CSV file it’s currently reading. Another <span class="thesansmonocd_w5regular_">for</span> loop will loop over the rows returned from the CSV <span class="thesansmonocd_w5regular_">reader</span> object, and all rows but the first will be appended to <span class="thesansmonocd_w5regular_">csv_rows</span>.</p>
-<p class="tx">As the <span class="thesansmonocd_w5regular_">for</span> loop iterates over each row, the code checks whether <span class="thesansmonocd_w5regular_">reader _obj.line_num</span> is set to <span class="thesansmonocd_w5regular_">1</span>. If so, it executes a <span class="thesansmonocd_w5regular_">continue</span> to move on to the next row without appending it to <span class="thesansmonocd_w5regular_">csv_rows</span>. For every subsequent row, the condition will be always be <span class="thesansmonocd_w5regular_">False</span>, and the code will append the row to <span class="thesansmonocd_w5regular_">csv_rows</span>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">reader</span>オブジェクトの<span class="thesansmonocd_w5regular_">line_num</span>属性を使えば、現在読み取っているのがCSVファイルの何行目かを判定できます。内側の<span class="thesansmonocd_w5regular_">for</span>ループは<span class="thesansmonocd_w5regular_">reader</span>オブジェクトが返す行を反復処理し、最初の行以外のすべての行が<span class="thesansmonocd_w5regular_">csv_rows</span>に追加されます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループは各行を反復処理しますから、このコードでは<span class="thesansmonocd_w5regular_">reader_obj.line_num</span>が<span class="thesansmonocd_w5regular_">1</span>かどうかをチェックしています。条件を満たせば<span class="thesansmonocd_w5regular_">continue</span>を実行して<span class="thesansmonocd_w5regular_">csv_rows</span>に追加せずに次の行に進みます。以降の行はすべて条件が<span class="thesansmonocd_w5regular_">False</span>になるので、その行を<span class="thesansmonocd_w5regular_">csv_rows</span>に追加します。</p>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-1963"><span id="calibre_link-491"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Write the New CSV File</span></h4>
-<p class="tni">Now that <span class="thesansmonocd_w5regular_">csv_rows</span> contains all rows but the first row, we need to write the list to a CSV file in the <i class="calibre5">headerRemoved</i> folder. Add the following to <i class="calibre5">removeCsvHeader.py</i>:</p>
-<pre class="pre"><code class="calibre9"># Removes the header line from csv files
+<h4 class="h1" id="calibre_link-1963"><span id="calibre_link-491"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ3：新しいCSVファイルに書き込む</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">csv_rows</span>には最初の行以外のすべての行が入っていますから、このリストを<i class="calibre5">headerRemoved</i>フォルダ内のCSVファイルに書き込みます。<i class="calibre5">removeCsvHeader.py</i>に以下の内容を加えてください。</p>
+<pre class="pre"><code class="calibre9"># CSVファイルから見出しを取り除く
 import csv, os
 
 <var class="calibre20">--snip--</var>
 
-# Loop through every file in the current working directory.
+# 現在の作業ディレクトリのすべてのファイルを反復処理する
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> for csv_filename in os.listdir('.'):
     if not csv_filename.endswith('.csv'):
-        continue    # Skip non-CSV files.
+        continue    # 非CSVファイルは飛ばす
 
     <var class="calibre20">--snip--</var>
 
-<b class="calibre10">    # Write the CSV file.</b>
+<b class="calibre10">    # CSVファイルの書き込み</b>
     <b class="calibre10">csv_file_obj = open(os.path.join('headerRemoved', csv_filename), 'w', </b>
 <b class="calibre10">                 newline='')</b>
     <b class="calibre10">csv_writer = csv.writer(csv_file_obj)</b>
@@ -305,35 +304,35 @@ import csv, os
         <b class="calibre10">csv_writer.writerow(row)</b>
     <b class="calibre10">csv_file_obj.close()</b>
 </code></pre>
-<p class="tx">The CSV <span class="thesansmonocd_w5regular_">writer</span> object will write the list to a CSV file in <span class="thesansmonocd_w5regular_">headerRemoved</span> using <span class="thesansmonocd_w5regular_">csv_filename</span> (which we also used in the CSV reader). After creating the <span class="thesansmonocd_w5regular_">writer</span> object, we loop over the sublists stored in <span class="thesansmonocd_w5regular_">csv_rows</span> and write each sublist to the file.</p>
-<p class="tx">The outer <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation1">❶</span> will then loop to the next filename returned by <span class="thesansmonocd_w5regular_">os.listdir('.')</span>. When that loop is finished, the program will be complete.</p>
-<p class="tx">To test your program, download <i class="calibre5">removeCsvHeader.zip</i> from the book’s online resources and unzip it to a folder. Then, run the <i class="calibre5">removeCsvHeader.py</i> program in that folder. The output will look like this:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">writer</span>オブジェクトは、リストを<span class="thesansmonocd_w5regular_">headerRemoved</span>フォルダ内に<span class="thesansmonocd_w5regular_">csv_filename</span>という名前（CSVを読み取るときに使った名前）でCSVファイルに書き込みます。<span class="thesansmonocd_w5regular_">writer</span>オブジェクトを作成してから、<span class="thesansmonocd_w5regular_">csv_rows</span>に格納されたリストを反復処理してファイルに書き込みます。</p>
+<p class="tx">外側の<span class="thesansmonocd_w5regular_">for</span>ループ(<span class="codeannotation" aria-label="annotation1">❶</span>)は、<span class="thesansmonocd_w5regular_">os.listdir('.')</span>が返した次のファイル名に進みます。このループが終了すれば、プログラムは完了です。</p>
+<p class="tx">本書のオンライン素材から<i class="calibre5">removeCsvHeader.zip</i>をダウンロードしてから展開してこのプログラムをテストしてください。展開したフォルダ内で<i class="calibre5">removeCsvHeader.py</i>を実行すると、出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">Removing header from NAICS_data_1048.csv...
 Removing header from NAICS_data_1218.csv...
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-927" aria-label="447"></span><var class="calibre20">--snip--</var>
 Removing header from NAICS_data_9834.csv...
 Removing header from NAICS_data_9986.csv...
 </code></pre>
-<p class="tx">This program should print a filename each time it strips the first line from a CSV file.</p>
+<p class="tx">このプログラムは、CSVファイルから最初の行を取り除くたびにファイル名を表示します。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1964"><span id="calibre_link-492"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
-<p class="tni">Programs that work with CSV files are similar to those that work with Excel files, as CSV and Excel are both spreadsheet files. For example, you could write programs to do the following:</p>
+<h4 class="h1" id="calibre_link-1964"><span id="calibre_link-492"></span><span class="sans_futura_std_heavy_oblique_bi_">似たようなプログラムのアイデア</span></h4>
+<p class="tni">CSVファイルを操作するプログラムはExcelファイルを操作するプログラムと似ています。CSVもExcelもスプレッドシートファイルだからです。例えば、以下のようなプログラムを書くことができます。</p>
 <ul class="ul">
-<li class="bl">Compare data between different rows in a CSV file, or between multiple CSV files.</li>
-<li class="bl">Copy specific data from a CSV file to an Excel file, or vice versa.</li>
-<li class="bl">Check for invalid data or formatting mistakes in CSV files and alert the user about these errors.</li>
-<li class="bl">Read data from a CSV file as input for your Python programs.</li>
+<li class="bl">CSVファイルの行の差異や複数のCSVファイルの差異を調べる</li>
+<li class="bl">CSVファイルから指定したデータをExcelファイルにコピーする、あるいは逆にExcelファイルからCSVファイルにコピーする</li>
+<li class="bl">CSVファイルの不適切なデータやフォーマットの誤りを調べ、ユーザーに警告を発する</li>
+<li class="bl">CSVファイルからデータを読み取りPythonプログラムの入力とする</li>
 </ul>
 </section>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h3 class="h" id="calibre_link-1965"><span id="calibre_link-493"></span><span class="sans_futura_std_bold_b_">Versatile Plaintext Formats</span></h3>
-<p class="tni">While CSV files are useful for storing rows of data that have the exact same columns, the JSON and XML formats can store a variety of data structures. (This book skips the less popular but still useful YAML and TOML formats.) These formats aren’t specific to Python; many programming languages have functions for reading and writing data in these formats.</p>
-<p class="tx">Each of these formats organizes data using the equivalent of nested Python dictionaries and lists. In other programming languages, you’ll see dictionaries referred to as <i class="calibre5">mappings</i>, <i class="calibre5">hash maps</i>, <i class="calibre5">hash tables</i>, or <i class="calibre5">associative arrays</i> (because they map, or associate, one piece of data, the key, to another, the value). Likewise, you may see Python’s lists called <i class="calibre5">arrays</i> in other languages. But the concepts are the same: they organize data into key-value pairs and lists.</p>
-<p class="tx">You can nest dictionaries and lists within other dictionaries and lists to form elaborate data structures. But if you want to save these data structures to a text file, you’ll need to choose a data serialization format such as JSON or XML. The Python modules in this chapter can <i class="calibre5">parse</i> (that is, read and understand) text written in these formats to create Python data structures from their text.</p>
-<p class="tx">These human-readable plaintext formats don’t make the most efficient use of disk space or memory, but they have the advantage of being easy to view and edit in a text editor and are language neutral, as programs written in any language can read or write text files. By contrast, the <span class="thesansmonocd_w5regular_">shelve</span> module, covered in <span>Chapter 10</span>, can store all Python data types in binary shelf files, but other languages don’t have modules to load this data into their programs.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1206" aria-label="448"></span>In the remainder of this chapter, I’ll represent the following Python data structure, which stores personal details about someone named Alice, in each of these formats, so you can compare and contrast them:</p>
+<h3 class="h" id="calibre_link-1965"><span id="calibre_link-493"></span><span class="sans_futura_std_bold_b_">多用途のプレーンテキストフォーマット</span></h3>
+<p class="tni">CSVファイルはカラムが共通しているデータの行を保存するのに便利ですが、JSONやXMLフォーマットではさまざまなデータ構造を保存できます（本書ではJSONやXMLほど一般的に使われないYAMLとTOMLフォーマットは扱いません）。これらはPythonに固有のフォーマットではなく、多くのプログラミング言語の関数で読み書きできます。</p>
+<p class="tx">これらのフォーマットでは、Pythonの辞書とリストを入れ子にしたものに相当する構造でデータを整理します。他のプログラミング言語では、Pythonで言うところの辞書を、<i class="calibre5">マッピング</i>、<i class="calibre5">ハッシュマップ</i>、<i class="calibre5">ハッシュテーブル</i>、<i class="calibre5">連想配列</i>と呼ぶことがあります（キーと値をマッピングしたり連想させたりするのでこのように呼ばれます）。同様に、他のプログラミング言語では、Pythonで言うところのリストを<i class="calibre5">配列</i>と呼ぶことがあります。呼び方は違っていても考え方は同じです。データをキーと値のペアやリストに整理します。</p>
+<p class="tx">辞書とリストは、別の辞書やリストの内部に入れ子にして複雑なデータ構造を形成できます。しかし、そのデータ構造をテキストファイルに保存したいなら、JSONやXMLのようなデータ直列化フォーマットを選択しなければなりません。本章で紹介するPythonのモジュールは、これらのフォーマットで記述されたテキストを<i class="calibre5">解析</i>（読み取って理解）して、Pythonのデータ構造を作成できます。</p>
+<p class="tx">これらの人間に読めるプレーンテキストのフォーマットは、ディスク容量やメモリを効率的に利用していませんが、テキストエディタで簡単に見て編集でき、プログラミング言語に中立だという利点があります。どのプログラミング言語で書かれたプログラムでもテキストファイルを読み書きはできます。対照的に、<span>第10章</span>で紹介した<span class="thesansmonocd_w5regular_">shelve</span>モジュールは、あらゆるPythonのデータ型をバイナリshelfファイルで保存できますが、他のプログラミング言語にはこのデータをプログラムにロードできるモジュールがありません。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1206" aria-label="448"></span>本章の以降の部分では、Aliceという人物についての個人情報を保存した以下のPythonのデータ構造を例に取り、JSONとXMLのフォーマットを比較対照します。</p>
 <pre class="pre"><code class="calibre9">{
     "name": "Alice Doe",
     "age": 30,
@@ -356,10 +355,10 @@ Removing header from NAICS_data_9986.csv...
     ]
 }
 </code></pre>
-<p class="tx">These text formats have their own histories and occupy specific niches in the computing ecosystem. If you have to choose a data serialization format for storing your data, keep in mind that JSON is simpler than XML and more widely adopted than YAML, and that TOML is chiefly used as a format for configuration files. Lastly, coming up with your own data serialization format might be tempting, but it’s also reinventing the wheel, and you would have to write your own parser for your custom format. It’s better to simply choose an existing format.</p>
+<p class="tx">これらのテキストフォーマットには固有の歴史があり、コンピュータ関係の生態系の中で独自の地位を占めています。データを保存する直列化フォーマットを選ぶ必要があるなら、JSONがXMLよりもシンプルでYAMLよりも広く採用されており、TOMLは主に設定ファイル用のフォーマットとして用いられているということを踏まえるとよいでしょう。独自のデータ直列化フォーマットを編み出そうと考えることがあるかもしれませんが、それは車輪の再発明であり、その独自フォーマット用のパーサーを書かなければならなくなるので、おすすめしません。既存のフォーマットから選ぶのがベターです。</p>
 <section type="division" aria-labelledby="sec12">
 <h4 class="h1" id="calibre_link-1966"><span id="calibre_link-494"></span><span class="sans_futura_std_heavy_oblique_bi_">JSON</span></h4>
-<p class="tni">JSON stores information as JavaScript source code, though many non-JavaScript applications use it. In particular, websites often make their data available to programmers in the JSON format through APIs like the OpenWeather API covered in <span>Chapter 13</span>. We save JSON-formatted text in plaintext files with the <i class="calibre5">.json</i> file extension. Here is the example data structure formatted as JSON text:</p>
+<p class="tni">JSONは情報をJavaScriptのソースコードとして保存します。JavaScript以外の多くのアプリケーションでも利用されています。特に、ウェブサイトは、<span>第13章</span>で紹介したOpenWeather APIのようなAPIを通じて、JSON形式でプログラマーにデータを提供している場合が多いです。ここではJSON形式のプレーンテキストのファイルを<i class="calibre5">.json</i>というファイル拡張子で保存します。JSONテキストでフォーマットしたデータ構造の例を示します。</p>
 <pre class="pre"><code class="calibre9">{
   "name": "Alice Doe",
   "age": 30,
@@ -382,14 +381,14 @@ Removing header from NAICS_data_9986.csv...
   ]
 }
 </code></pre>
-<p class="tx">The first thing you’ll notice is that JSON is similar to Python syntax. Python’s dictionaries and JSON’s objects both use curly brackets and contain key-value pairs separated by commas, with each key and value separated by a colon. Python’s lists and JSON’s arrays both use square brackets and contain values separated by commas. In JSON, whitespace is insignificant outside of double-quoted strings, meaning you can space values however you like. However, it’s best to format nested objects and arrays with increased indentation, like blocks of indented Python code. In our example data, the list of phone numbers is indented by two spaces, with each phone number dictionary in the list indented by four spaces.</p>
-<p class="tx">But there are also differences between JSON and Python. Instead of Python’s <span class="thesansmonocd_w5regular_">None</span> value, JSON uses the JavaScript keyword <span class="thesansmonocd_w5regular_">null</span>. The Boolean values are JavaScript’s lowercase <span class="thesansmonocd_w5regular_">true</span> and <span class="thesansmonocd_w5regular_">false</span> keywords. JSON doesn’t allow JavaScript comments or multiline strings; all strings in JSON must use double quotes. Unlike Python lists, JSON arrays can’t have trailing commas, so while <span class="thesansmonocd_w5regular_">["spam", "eggs"]</span> is valid JSON, <span class="thesansmonocd_w5regular_">["spam", "eggs",]</span> is not.</p>
-<p class="tx">Facebook, Twitter, Yahoo!, Google, Tumblr, Wikipedia, Flickr, Data.gov, Reddit, IMDb, Rotten Tomatoes, LinkedIn, and many other popular sites offer APIs that work with JSON data. Some of these sites require registration, which is almost always free. You’ll have to find documentation to learn what URLs your program needs to request in order to get the data you want, as well as the general format of the JSON data structures returned. If the site offering the API has a Developers page, look for the documentation there.</p>
-<p class="tx">Python’s <span class="thesansmonocd_w5regular_">json</span> module handles the details of translating between a string formatted as JSON data and corresponding Python values with the <span class="thesansmonocd_w5regular_">json.loads()</span> and <span class="thesansmonocd_w5regular_">json.dumps()</span> functions. JSON can’t store every kind of Python value, only those of the following basic data types: strings, integers, floats, Booleans, lists, dictionaries, and <span class="thesansmonocd_w5regular_">NoneType</span>. JSON can’t represent Python-specific objects, such as <span class="thesansmonocd_w5regular_">File</span> objects, CSV <span class="thesansmonocd_w5regular_">reader</span> or <span class="thesansmonocd_w5regular_">writer</span> objects, or Selenium <span class="thesansmonocd_w5regular_">WebElement</span> objects. The full documentation for the <span class="thesansmonocd_w5regular_">json</span> module is at <i class="calibre5"><a href="https://docs.python.org/3/library/json.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/json<wbr></wbr>.html</a></i>.</p>
+<p class="tx">JSONはPythonの構文に似ていることにすぐ気づくでしょう。Pythonの辞書とJSONのオブジェクトは、どちらも、波かっこを使い、キーと値のペアをコロンで区切ります。PythonのリストとJSONの配列は、どちらも、角かっこを使い、カンマ区切りの値を含みます。JSONでは、ダブルクォートで囲まれた文字列以外でスペースは意味を持ちません。どのようにでもスペースを入れられます。とはいえ、Pythonのコードのようにブロックをインデントして入れ子のオブジェクトや配列を見やすくしたほうがよいです。先ほどの例では、電話番号のリストを2文字分インデントしています。リスト中のそれぞれの電話番号の辞書は4文字分インデントしています。</p>
+<p class="tx">スペースの使い方以外にもJSONとPythonの違いがあります。Pythonの<span class="thesansmonocd_w5regular_">None</span>値の代わりに、JSONではJavaScriptのキーワード<span class="thesansmonocd_w5regular_">null</span>を使います。ブール値はJavaScriptで小文字のキーワード<span class="thesansmonocd_w5regular_">true</span>と<span class="thesansmonocd_w5regular_">false</span>で表します。JSONではJavaScriptのコメントや複数行文字列を記入することができません。JSON中での文字列はすべてダブルクォートで囲まなければなりません。Pythonのリストとは異なり、JSONの配列は末尾にカンマを入れられません。<span class="thesansmonocd_w5regular_">["spam", "eggs"]</span>は正しいJSONですが、<span class="thesansmonocd_w5regular_">["spam", "eggs",]</span>は正しくありません。</p>
+<p class="tx">Facebook、Twitter、Yahoo!、Google、Tumblr、Wikipedia、Flickr、Data.gov、Reddit、IMDb、Rotten Tomatoes、LinkedInその他の人気サイトではJSONデータでAPIを提供しています。これらのサイトの中には登録が要求されるものがありますが、たいてい無料です。ほしいデータを取得するためにプログラムからリクエストを送信するURLや、返されるJSONデータの構造の一般的なフォーマットなどを説明したドキュメントがあるはずです。APIを提供しているサイトに開発者ページがあれば、そこでドキュメントを探してください。</p>
+<p class="tx">Pythonの<span class="thesansmonocd_w5regular_">json</span>モジュールは、<span class="thesansmonocd_w5regular_">json.loads()</span>関数と<span class="thesansmonocd_w5regular_">json.dumps()</span>関数で、JSON形式の文字列とそれに対応するPythonの値との間の変換の細かい処理をしてくれます。JSONにすべての種類のPythonの値を保存できるわけではなく、文字列型、整数型、浮動小数点数型、ブール型、リスト型、辞書型、<span class="thesansmonocd_w5regular_">None型</span>の基本的な型しか保存できません。JSONでは、<span class="thesansmonocd_w5regular_">File</span>オブジェクトやCSVの<span class="thesansmonocd_w5regular_">reader</span>オブジェクトと<span class="thesansmonocd_w5regular_">writer</span>オブジェクトや、Seleniumの<span class="thesansmonocd_w5regular_">WebElement</span>オブジェクトのような、Python固有のオブジェクトを表すことはできません。<span class="thesansmonocd_w5regular_">json</span>モジュールのドキュメントは<i class="calibre5"><a href="https://docs.python.org/3/library/json.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/json<wbr></wbr>.html</a></i>にあります。</p>
 <section type="division" aria-labelledby="sec13">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1126" aria-label="450"></span>
-<h5 class="h2" id="calibre_link-1967"><span class="sans_futura_std_bold_b_">Reading JSON Data</span></h5>
-<p class="tni">To translate a string containing JSON data into a Python value, pass it to the <span class="thesansmonocd_w5regular_">json.loads()</span> function. (The name means “load string,” not “loads.”) Enter the following into the interactive shell:</p>
+<h5 class="h2" id="calibre_link-1967"><span class="sans_futura_std_bold_b_">JSONデータの読み取り</span></h5>
+<p class="tni">JSONデータを含む文字列をPythonの値に変換するには、<span class="thesansmonocd_w5regular_">json.loads()</span>関数にその文字列を渡します（“loads”ではなく“load string”という意味です）。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">import json</b>
 &gt;&gt;&gt; <b class="calibre10">json_string = '{"name": "Alice Doe", "age": 30, "car": null, "programmer":</b>
 <b class="calibre10"> true, "address": {"street": "100 Larkin St.", "city": "San Francisco", "zip":</b>
@@ -402,11 +401,11 @@ Removing header from NAICS_data_9986.csv...
 'phone': [{'type': 'mobile', 'number': '415-555-7890'}, {'type': 'work',
 'number': '415-555-1234'}]}
 </code></pre>
-<p class="tx">After you import the <span class="thesansmonocd_w5regular_">json</span> module <span class="codeannotation" aria-label="annotation1">❶</span>, you can call <span class="thesansmonocd_w5regular_">loads()</span> <span class="codeannotation" aria-label="annotation2">❷</span> and pass it a string of JSON data. Note that JSON strings always use double quotes. It should return the data as a Python dictionary.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">json</span>モジュールをインポートして(<span class="codeannotation" aria-label="annotation1">❶</span>)、JSONデータの文字列を渡して<span class="thesansmonocd_w5regular_">loads()</span>を呼び出します(<span class="codeannotation" aria-label="annotation2">❷</span>)。JSON文字列はダブルクォートを使うことに注意してください。この関数は、Pythonの辞書としてデータを返すはずです。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h5 class="h2" id="calibre_link-1968"><span class="sans_futura_std_bold_b_">Writing JSON Data</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">json.dumps()</span> function (which means “dump string,” not “dumps”) will translate Python data into a string of JSON-formatted data. Enter the following into the interactive shell:</p>
+<h5 class="h2" id="calibre_link-1968"><span class="sans_futura_std_bold_b_">JSONデータの書き込み</span></h5>
+<p class="tni">Pythonの値をJSON形式の文字列に変換するには、<span class="thesansmonocd_w5regular_">json.dumps()</span>関数を使います（“dumps”ではなく“dump string”という意味です）。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import json</b>
 &gt;&gt;&gt; <b class="calibre10">python_data = {'name': 'Alice Doe', 'age': 30, 'car': None, 'programmer': True, 'address':</b>
 <b class="calibre10">{'street': '100 Larkin St.', 'city': 'San Francisco', 'zip': '94102'}, 'phone': [{'type': </b>
@@ -429,15 +428,15 @@ Removing header from NAICS_data_9986.csv...
 <var class="calibre20">--snip--</var>
 }
 </code></pre>
-<p class="tx">The value passed to <span class="thesansmonocd_w5regular_">json.dumps()</span> <span class="codeannotation" aria-label="annotation1">❶</span> can consist only of the following basic Python data types: strings, integers, floats, Booleans, lists, dictionaries, and <span class="thesansmonocd_w5regular_">NoneType</span>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-909" aria-label="451"></span>By default, the entire JSON text is written on a single line <span class="codeannotation" aria-label="annotation2">❷</span>. This compressed format is fine for reading and writing JSON text between programs, but a multiline, indented form would be nicer for humans to read. The <span class="thesansmonocd_w5regular_">indent=2</span> keyword argument <span class="codeannotation" aria-label="annotation3">❸</span> formats the JSON text into separate lines, with two spaces of indentation for each nested dictionary or list. Unless your JSON is megabytes in size, increasing the size by adding the space and newline characters is worth it for the readability.</p>
-<p class="tx">Once you have the JSON text as a Python string value, you can write it to a <i class="calibre5">.json</i> file, pass it to a function, use it in a web request, or perform any other operation you can do with a string.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">json.dumps()</span>に渡す値(<span class="codeannotation" aria-label="annotation1">❶</span>)には、文字列型、整数型、浮動小数点数型、ブール型、リスト型、辞書型、<span class="thesansmonocd_w5regular_">None型</span>の基本的な型しか含められません。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-909" aria-label="451"></span>デフォルトでは、JSONテキスト全体が1行で書き込まれます(<span class="codeannotation" aria-label="annotation2">❷</span>)。このように詰め込まれた形でもプログラムがJSONを読み書きするには問題ありませんが、複数行でインデントされた形式のほうが人間にとっては読みやすいです。<span class="thesansmonocd_w5regular_">indent=2</span>キーワード引数(<span class="codeannotation" aria-label="annotation3">❸</span>)を指定すると、JSONテキストが複数行になり、辞書やリストの入れ子ではスペース2文字分インデントされます。JSONがメガバイトを超えるような大きさでなければ、スペースや改行を追加してサイズが増えても読みやすくする価値があります。</p>
+<p class="tx">JSONテキストをPythonの文字列値に変換すれば、<i class="calibre5">.json</i>ファイルに書き込んだり、関数に渡したり、ウェブのリクエストに使ったり、その他文字列でできることは何でもできます。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec15">
 <h4 class="h1" id="calibre_link-1969"><span id="calibre_link-495"></span><span class="sans_futura_std_heavy_oblique_bi_">XML</span></h4>
-<p class="tni">The XML file format is older than JSON but still widely used. Its syntax is similar to HTML, which we covered in <span>Chapter 18</span>, and involves nesting opening and closing tags inside angle brackets that contain other content. These tags are called <i class="calibre5">elements</i>. SVG image files are made up of text written in XML. The RSS and Atom web feed formats are also written in XML, and Microsoft Word documents are just ZIP files that have the <i class="calibre5">.docx</i> file extension and contain XML files.</p>
-<p class="tx">We store XML-formatted text in plaintext files with the <i class="calibre5">.xml</i> file extension. Here’s the example data structure formatted as XML:</p>
+<p class="tni">XMLはJSONよりも古いフォーマットですが、今でも広く用いられています。構文は、<span>第13章</span>で紹介したHTMLと似ており、山かっこの開始タグと終了タグの間に内容を入れます。こうしたタグのことを<i class="calibre5">要素</i>と呼びます。SVG画像ファイルはXMLで書かれたテキストで成り立っていますし、RSSとAtomのウェブフィードのフォーマットもXMLですし、Microsoft Word文書は<i class="calibre5">.docx</i>ファイル拡張子のXMLファイルを含むZIPファイルです。</p>
+<p class="tx">ここではXML形式のテキストファイルを<i class="calibre5">.xml</i>というファイル拡張子で保存します。以下はXML形式のデータ構造の例です。</p>
 <pre class="pre"><code class="calibre9">&lt;person&gt;
     &lt;name&gt;Alice Doe&lt;/name&gt;
     &lt;age&gt;30&lt;/age&gt;
@@ -460,30 +459,31 @@ Removing header from NAICS_data_9986.csv...
     &lt;/phone&gt;
 &lt;/person&gt;
 </code></pre>
-<p class="tx">In this example, the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element has subelements <span class="thesansmonocd_w5regular_">&lt;name&gt;</span>, <span class="thesansmonocd_w5regular_">&lt;age&gt;</span>, and so on. The <span class="thesansmonocd_w5regular_">&lt;name&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;age&gt;</span> subelements are <i class="calibre5">child elements</i>, and <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> is their <i class="calibre5">parent element</i>. Valid XML documents must have a single <i class="calibre5">root element</i> that contains all the other elements, such as the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element in this <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1055" aria-label="452"></span>example. A document with multiple root elements like the following is not valid:</p>
+<p class="tx">この例では、<span class="thesansmonocd_w5regular_">&lt;person&gt;</span>要素には<span class="thesansmonocd_w5regular_">&lt;name&gt;</span>、<span class="thesansmonocd_w5regular_">&lt;age&gt;</span>その他の要素が含まれています。<span class="thesansmonocd_w5regular_">&lt;name&gt;</span>や<span class="thesansmonocd_w5regular_">&lt;age&gt;</span>の要素は<i class="calibre5">子要素</i>で、<span class="thesansmonocd_w5regular_">&lt;person&gt;</span>はその<i class="calibre5">親要素</i>です。正しいXML文書には<i class="calibre5">ルート要素</i>が一つだけあり、他の要素はすべてそのルート要素に含まれます。この例では<span class="thesansmonocd_w5regular_">&lt;person&gt;</span>要素がルート要素です。以下のように複数のルート要素がある文書は正しいXMLではありません。</p>
 <pre class="pre"><code class="calibre9">&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;/person&gt;
 &lt;person&gt;&lt;name&gt;Bob Smith&lt;/name&gt;&lt;/person&gt;
 &lt;person&gt;&lt;name&gt;Carol Watanabe&lt;/name&gt;&lt;/person&gt;
 </code></pre>
-<p class="tx">XML is quite verbose compared to more modern serialization formats like JSON. Each element has an opening and closing tag, such as <span class="thesansmonocd_w5regular_">&lt;age&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;/age&gt;</span>. An XML element is a key-value pair, with the key being the element’s tag (in this case, <span class="thesansmonocd_w5regular_">&lt;age&gt;</span>) and the value being the text in between the opening and closing tags. XML text has no data type; everything in between the opening and closing tags is considered a string, including the <span class="thesansmonocd_w5regular_">94102</span> and <span class="thesansmonocd_w5regular_">true</span> text in our example data. Lists of data, such as the <span class="thesansmonocd_w5regular_">&lt;phone&gt;</span> element, have to name their individual items with their own elements, such as <span class="thesansmonocd_w5regular_">&lt;phoneEntry&gt;</span>. The “Entry” suffix for these subelements is just a naming convention.</p>
-<p class="tx">XML’s comments are identical to HTML’s comments: anything in between <span class="thesansmonocd_w5regular_">&lt;!--</span> and <span class="thesansmonocd_w5regular_">--&gt;</span> is meant to be ignored.</p>
-<p class="tx">Whitespace outside the opening and closing tags is insignificant, and you can format it however you like. There is no “null” value in XML, but you can approximate it by adding the <span class="thesansmonocd_w5regular_">xsi:nil="true"</span> and <span class="thesansmonocd_w5regular_">xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</span> attributes to a tag. XML attributes are key-value pairs written in a <span class="sans_thesansmonocd_w5regular_italic_">key="value"</span> format within the opening tag. The tag is written as a <i class="calibre5">self-closing tag</i>; instead of using a closing tag, the opening tag ends with <span class="thesansmonocd_w5regular_">/&gt;</span>, as in <span class="thesansmonocd_w5regular_">&lt;car xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/&gt;</span>.</p>
-<p class="tx">Tag and attribute names can be written in any case, but are lowercase by convention. Attribute values can be enclosed in single or double quotes, but double quotes are standard.</p>
-<p class="tx">Whether to use subelements or attributes is often ambiguous. Our example data uses these elements for the address data:</p>
+<p class="tx">XMLはJSONのようなより新しい直列化フォーマットと比較するとかなり冗長です。各要素には、<span class="thesansmonocd_w5regular_">&lt;age&gt;</span>と<span class="thesansmonocd_w5regular_">&lt;/age&gt;</span>のように、開始タグと終了タグがあります。XML要素はキーと値のペアです。キーは要素のタグで（この例なら<span class="thesansmonocd_w5regular_">&lt;age&gt;</span>）値は開始タグと終了タグの間のテキストです。XMLのテキストにはデータ型がありません。開始タグと終了タグの間にあるものは、この例での<span class="thesansmonocd_w5regular_">94102</span>や<span class="thesansmonocd_w5regular_">true</span>も含めて、すべて文字列だと解釈されます。<span class="thesansmonocd_w5regular_">&lt;phone&gt;</span>要素のようなデータのリストの個々の要素にも<span class="thesansmonocd_w5regular_">&lt;phoneEntry&gt;</span>のような名前をつけなければなりません。慣習的に“Entry”という接尾辞をつけることが多いです。</p>
+<p class="tx">XMLのコメントはHTMLのコメントと同じで、<span class="thesansmonocd_w5regular_">&lt;!--</span>と<span class="thesansmonocd_w5regular_">--&gt;</span>の間にあるものはコメントとして無視されます。</p>
+<p class="tx">開始タグと終了タグの外側のスペースは意味を持たないので、好きなようにスペースを入れられます。XMLには“null”値はありませんが、タグに<span class="thesansmonocd_w5regular_">xsi:nil="true"</span>と<span class="thesansmonocd_w5regular_">xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</span>という属性を入れると“null”値に近くなります。XMLの属性は、開始タグ内に<span class="sans_thesansmonocd_w5regular_italic_">key="value"</span>という形式で書かれたキーと値のペアです。タグは終了タグを用いずに<span class="thesansmonocd_w5regular_">/&gt;</span>で終わる<i class="calibre5">自己終了タグ</i>で書きます。例えば、<span class="thesansmonocd_w5regular_">&lt;car xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/&gt;</span>のように書きます。</p>
+<p class="tx">タグと属性の名前は大文字でも小文字でも構いませんが、慣習的には小文字を使います。属性値はシングルクォートでもダブルクォートでも囲めますが、ダブルクォートで囲むほうが一般的です。</p>
+<p class="tx">子要素にするか属性にするかはしばしば曖昧になります。先ほどの例では住所データを以下の要素で表していました。</p>
 <pre class="pre"><code class="calibre9">&lt;address&gt;
     &lt;street&gt;100 Larkin St.&lt;/street&gt;
     &lt;city&gt;San Francisco&lt;/city&gt;
     &lt;zip&gt;94102&lt;/zip&gt;
 &lt;/address&gt;
 </code></pre>
-<p class="tx">However, it could have easily formatted the subelement data as attributes in a self-closing <span class="thesansmonocd_w5regular_">&lt;address&gt;</span> element:</p>
+<p class="tx">しかし、子要素を<span class="thesansmonocd_w5regular_">&lt;address&gt;</span>要素の自己終了タグの属性で表すこともできます。</p>
 <pre class="pre"><code class="calibre9">&lt;address street="100 Larkin St." city="San Francisco" zip="94102" /&gt;</code></pre>
-<p class="tx">These sorts of ambiguities, as well as the verbose nature of tags, have made XML less popular than it once was. XML was widely deployed throughout the 1990s and 2000s, and much of that software is still used today. But unless you have a specific reason to use XML, you’re better served by using JSON.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1115" aria-label="453"></span>In general, XML software libraries have two ways of reading XML documents. The <i class="calibre5">Document Object Model (DOM)</i> approach reads the entire XML document into memory at once. This makes it easy to access data anywhere in the XML document, but generally only works for small or moderately sized XML documents. The <i class="calibre5">Simple API for XML (SAX)</i> approach reads the XML document as a stream of elements, so it doesn’t have to load the entire document into memory at once. This approach is ideal for XML documents that are gigabytes in size but is less convenient, as you can’t work with elements until you’ve iterated over them in the document.</p>
-<p class="tx">Python’s standard library has the <span class="thesansmonocd_w5regular_">xml.dom</span>, <span class="thesansmonocd_w5regular_">xml.sax</span>, and <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> modules for handling XML text. For our simple examples, we’ll use Python’s <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module to read the entire XML document at once.</p>
+<p class="tx">このような曖昧さがあり、タグは冗長なことも相まって、XMLはかつてほど使われなくなってきました。XMLは1990年代から2000年代にかけて広く用いられ、現役で使用されているソフトウェアもたくさんあります。しかし、今では、XMLを使う特別な理由がなければ、JSONを使ったほうがよいでしょう。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1115" aria-label="453"></span>大まかに言うと、XMLソフトウェアライブラリには、XML文書を読み取る2つの方法があります。<i class="calibre5">Document Object Model（DOM）</i>アプローチでは、一気にXML文書全体をメモリに読み取ります。このアプローチではXML文書内のどこにあるデータでもすぐにアクセスできますが、一般にサイズが中程度くらいのXML文書でないとうまく動きません。<i class="calibre5">Simple API for XML（SAX）</i>アプローチでは、XML文書を要素のストリームとして読み取るので、一気に文書全体をメモリに読み取る必要はありません。このアプローチはギガバイト単位のXML文書に適していますが、文書中で反復処理しなければならないので、あまり便利ではありません。</p>
+<p class="tx">Pythonの標準ライブラリには、XMLテキスト処理用の<span class="thesansmonocd_w5regular_">xml.dom</span>モジュール、<span class="thesansmonocd_w5regular_">xml.sax</span>モジュール、<span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールがあります。ここでのシンプルな例には、一気にXML文書全体を読み取るPythonの<span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールを使用します。
+</p>
 <section type="division" aria-labelledby="sec16">
-<h5 class="h2" id="calibre_link-1970"><span class="sans_futura_std_bold_b_">Reading XML Files</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">xml.etree</span> module uses <span class="thesansmonocd_w5regular_">Element</span> objects to represent an XML element and its child elements. Enter the following into the interactive shell:</p>
+<h5 class="h2" id="calibre_link-1970"><span class="sans_futura_std_bold_b_">XMLファイルの読み取り</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールは<span class="thesansmonocd_w5regular_">Element</span>オブジェクトでXML要素と子要素を表します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">import xml.etree.ElementTree as ET</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">xml_string = """&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;</b>
 <b class="calibre10">&lt;programmer&gt;true&lt;/programmer&gt;&lt;car xsi:nil="true" xmlns:xsi=</b>
@@ -496,13 +496,13 @@ Removing header from NAICS_data_9986.csv...
 &gt;&gt;&gt; <b class="calibre10">root</b>
 &lt;Element 'person' at 0x000001942999BBA0&gt;
 </code></pre>
-<p class="tx">We import the <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module <span class="codeannotation" aria-label="annotation1">❶</span> with the <span class="thesansmonocd_w5regular_">as ET</span> syntax so that we can enter <span class="thesansmonocd_w5regular_">ET</span> instead of the long <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module name. The <span class="thesansmonocd_w5regular_">xml_string</span> variable <span class="codeannotation" aria-label="annotation2">❷</span> contains the text of the XML we wish to parse, though this text could have just as easily been read from a text file with the <i class="calibre5">.xml</i> file extension. Finally, we pass this text to the <span class="thesansmonocd_w5regular_">ET.fromstring()</span> function <span class="codeannotation" aria-label="annotation3">❸</span>, which returns an <span class="thesansmonocd_w5regular_">Element</span> object containing the data we want to access. We’ll store this <span class="thesansmonocd_w5regular_">Element</span> object in a variable named <span class="thesansmonocd_w5regular_">root</span>.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> module also has a <span class="thesansmonocd_w5regular_">parse()</span> function. You can pass it the name of a file from which to load XML, and it returns an <span class="thesansmonocd_w5regular_">Element</span> object:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールを<span class="thesansmonocd_w5regular_">as ET</span>構文でインポートしています(<span class="codeannotation" aria-label="annotation1">❶</span>)。これにより、長い<span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>というモジュール名の代わりに<span class="thesansmonocd_w5regular_">ET</span>と書けるようになります。変数<span class="thesansmonocd_w5regular_">xml_string</span>には解析対象のXMLのテキストが入っています(<span class="codeannotation" aria-label="annotation2">❷</span>)。XMLのテキストは<i class="calibre5">.xml</i>拡張子のテキストファイルから読み取ることも簡単にできます。最後に、そのテキストを<span class="thesansmonocd_w5regular_">ET.fromstring()</span>関数に渡すと(<span class="codeannotation" aria-label="annotation3">❸</span>)、アクセスしたいデータを含む<span class="thesansmonocd_w5regular_">Element</span>オブジェクトが返されます。この<span class="thesansmonocd_w5regular_">Element</span>オブジェクトを<span class="thesansmonocd_w5regular_">root</span>という名前の変数に格納します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールには<span class="thesansmonocd_w5regular_">parse()</span>という関数もあります。XMLをロードするファイル名を渡せば、<span class="thesansmonocd_w5regular_">Element</span>オブジェクトが返されます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import xml.etree.ElementTree as ET</b>
 &gt;&gt;&gt; <b class="calibre10">tree = ET.parse('my_data.xml')</b>
 &gt;&gt;&gt; <b class="calibre10">root = tree.getroot()</b>
 </code></pre>
-<p class="tx">Once you have an <span class="thesansmonocd_w5regular_">Element</span> object, you can access its <span class="thesansmonocd_w5regular_">tag</span> and <span class="thesansmonocd_w5regular_">text</span> Python attributes to see the name of the tag, as well as the text enclosed within its opening and closing tags. If you pass the <span class="thesansmonocd_w5regular_">Element</span> object to the <span class="thesansmonocd_w5regular_">list()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1203" aria-label="454"></span>function, it should return a list of its immediate child elements. Continue the interactive shell by entering the following:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Element</span>オブジェクトを取得したら、<span class="thesansmonocd_w5regular_">tag</span>属性でタグ名を、<span class="thesansmonocd_w5regular_">text</span>属性で開始タグと終了タグで囲まれたテキストを確認できます。<span class="thesansmonocd_w5regular_">list()</span>関数に<span class="thesansmonocd_w5regular_">Element</span>オブジェクトを渡すと、その直接の子要素のリストが返されます。対話型シェルで続けて以下のように入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">root.tag</b>
 'person'
 &gt;&gt;&gt; <b class="calibre10">list(root)</b>
@@ -511,14 +511,14 @@ Removing header from NAICS_data_9986.csv...
 &lt;Element 'car' at 0x00000150BA4ADD00&gt;, &lt;Element 'address' at
 0x00000150BA4ADCB0&gt;, &lt;Element 'phone' at 0x00000150BA4ADA30&gt;]
 </code></pre>
-<p class="tx">The child <span class="thesansmonocd_w5regular_">Element</span> objects of a parent <span class="thesansmonocd_w5regular_">Element</span> object are accessible through an integer index, just like Python lists. So, if <span class="thesansmonocd_w5regular_">root</span> contains the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element, then <span class="thesansmonocd_w5regular_">root[0]</span> and <span class="thesansmonocd_w5regular_">root[1]</span> contain the <span class="thesansmonocd_w5regular_">&lt;name&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;age&gt;</span> elements, respectively. You can access the <span class="thesansmonocd_w5regular_">tag</span> and <span class="thesansmonocd_w5regular_">text</span> attributes of all of these <span class="thesansmonocd_w5regular_">Element</span> objects. However, any self-closing tags, like <span class="thesansmonocd_w5regular_">&lt;car/&gt;</span>, will use <span class="thesansmonocd_w5regular_">None</span> for their <span class="thesansmonocd_w5regular_">text</span> attribute. For example, enter the following into the interactive shell:</p>
+<p class="tx">親要素の<span class="thesansmonocd_w5regular_">Element</span>オブジェクトについての子要素の<span class="thesansmonocd_w5regular_">Element</span>オブジェクトには、Pythonのリストと同じように整数のインデックスでアクセスできます。<span class="thesansmonocd_w5regular_">root</span>に<span class="thesansmonocd_w5regular_">&lt;person&gt;</span>要素が入っているとしたら、<span class="thesansmonocd_w5regular_">root[0]</span>は<span class="thesansmonocd_w5regular_">&lt;name&gt;</span>要素で<span class="thesansmonocd_w5regular_">root[1]</span>は<span class="thesansmonocd_w5regular_">&lt;age&gt;</span>要素です。これらの<span class="thesansmonocd_w5regular_">Element</span>オブジェクトではすべて<span class="thesansmonocd_w5regular_">tag</span>属性と<span class="thesansmonocd_w5regular_">text</span>属性にアクセスできます。しかし、<span class="thesansmonocd_w5regular_">&lt;car/&gt;</span>のような自己終了タグについては、<span class="thesansmonocd_w5regular_">text</span>属性が<span class="thesansmonocd_w5regular_">None</span>になります。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">root[0].tag</b>
 'name'
 &gt;&gt;&gt; <b class="calibre10">root[0].text</b>
 'Alice Doe'
 &gt;&gt;&gt; <b class="calibre10">root[3].tag</b>
 'car'
-&gt;&gt;&gt; <b class="calibre10">root[3].text == None</b>  # &lt;car/&gt; has no text.<b class="calibre10"> </b>
+&gt;&gt;&gt; <b class="calibre10">root[3].text == None</b>  # &lt;car/&gt;にはtextがない<b class="calibre10"> </b>
 True
 &gt;&gt;&gt; <b class="calibre10">root[4].tag</b>
 'address'
@@ -527,7 +527,7 @@ True
 &gt;&gt;&gt; <b class="calibre10">root[4][0].text</b>
 '100 Larkin St.'
 </code></pre>
-<p class="tx">From the <span class="thesansmonocd_w5regular_">root</span> element, you can explore the data in the entire XML document. You can also iterate over the immediate child elements by putting an <span class="thesansmonocd_w5regular_">Element</span> object in a <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ルート</span>要素からXML文書全体のデータを探ることができます。<span class="thesansmonocd_w5regular_">Element</span>オブジェクトを<span class="thesansmonocd_w5regular_">for</span>ループで回すと直接の子要素を反復処理できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for elem in root:</b>
 ...     <b class="calibre10">print(elem.tag, '--', elem.text)</b>
 ...
@@ -538,7 +538,7 @@ car -- None
 address -- None
 phone -- None
 </code></pre>
-<p class="tx">If you want to iterate over all children underneath the <span class="thesansmonocd_w5regular_">Element</span>, you can call the <span class="thesansmonocd_w5regular_">iter()</span> method in a <span class="thesansmonocd_w5regular_">for</span> loop:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Element</span>の配下の子要素をすべて反復処理したければ、<span class="thesansmonocd_w5regular_">for</span>ループで<span class="thesansmonocd_w5regular_">iter()</span>メソッドを呼び出します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for elem in root.iter():</b>
 ...     <b class="calibre10">print(elem.tag, '--', elem.text)</b>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1204" aria-label="455"></span>...
@@ -559,15 +559,15 @@ phoneEntry -- None
 type -- work
 number -- 415-555-1234
 </code></pre>
-<p class="tx">Optionally, you can pass a string to the <span class="thesansmonocd_w5regular_">iter()</span> method to filter for XML elements with a matching tag. This example calls <span class="thesansmonocd_w5regular_">iter('number')</span> to iterate over only the <span class="thesansmonocd_w5regular_">&lt;number&gt;</span> child elements of the root element:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">iter()</span>メソッドに文字列を渡してXML要素でマッチするタグを抽出することもできます。この例では、<span class="thesansmonocd_w5regular_">iter('number')</span>を呼び出し、ルート要素の<span class="thesansmonocd_w5regular_">&lt;number&gt;</span>子要素だけを反復処理します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">for elem in root.iter('number'):</b>
 ...     <b class="calibre10">print(elem.tag, '--', elem.text)</b>
 ...
 number -- 415-555-7890
 number -- 415-555-1234
 </code></pre>
-<p class="tx">There’s much more to browsing the data in an XML document than the attributes and methods covered in this section. For example, just as the CSS selectors covered in <span>Chapter 13</span> can find elements in a web page’s HTML, a language called <i class="calibre5">XPath</i> can locate elements in an XML document. These concepts are beyond the scope of this chapter, but you can learn about them in the Python documentation at <i class="calibre5"><a href="https://docs.python.org/3/library/xml.etree.elementtree.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/xml<wbr></wbr>.etree<wbr></wbr>.elementtree<wbr></wbr>.html</a></i>.</p>
-<p class="tx">Python’s XML modules have no way to convert XML text to a Python data structure. However, the third-party <span class="thesansmonocd_w5regular_">xmltodict</span> module at <i class="calibre5"><a href="https://pypi.org/project/xmltodict/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/xmltodict<wbr></wbr>/</a></i> can do this. The full installation instructions are in <span>Appendix A</span>. Here is an example of its use:</p>
+<p class="tx">この節で紹介した属性やメソッド以外にも、XML文書でデータを確認する方法はいろいろあります。例えば、<span>第13章</span>で紹介したウェブページのHTMLで要素を見つけるCSSセレクタのように、<i class="calibre5">XPath</i>と呼ばれる言語でXML文書中の要素を特定できます。これは本章の範囲外ですが、<i class="calibre5"><a href="https://docs.python.org/3/library/xml.etree.elementtree.html" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.python<wbr></wbr>.org<wbr></wbr>/3<wbr></wbr>/library<wbr></wbr>/xml<wbr></wbr>.etree<wbr></wbr>.elementtree<wbr></wbr>.html</a></i>のPythonのドキュメントで説明されています。</p>
+<p class="tx">PythonのXMLモジュールではXMLテキストをPythonのデータ構造に変換できません。しかし、サードパーティの<span class="thesansmonocd_w5regular_">xmltodict</span>モジュール（<i class="calibre5"><a href="https://pypi.org/project/xmltodict/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/xmltodict<wbr></wbr>/</a></i>）を使えば変換できます。<span>付録A</span>の指示に従ってインストールしてください。例を示します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import xmltodict</b>
 &gt;&gt;&gt; <b class="calibre10">xml_string = """&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;</b>
 <b class="calibre10">&lt;programmer&gt;true&lt;/programmer&gt;&lt;car xsi:nil="true" xmlns:xsi=</b>
@@ -585,17 +585,17 @@ number -- 415-555-1234
 'mobile', 'number': '415-555-7890'}, {'type': 'work', 'number':
 '415-555-1234'}]}}}
 </code></pre>
-<p class="tx">One reason the XML standard has fallen to the wayside compared to formats like JSON is that representing data types in XML is more complicated. For example, the <span class="thesansmonocd_w5regular_">&lt;programmer&gt;</span> element was parsed as the string value <span class="thesansmonocd_w5regular_">'true'</span> instead of the Boolean value <span class="thesansmonocd_w5regular_">True</span>. And the <span class="thesansmonocd_w5regular_">&lt;car&gt;</span> element was parsed into the awkward <span class="thesansmonocd_w5regular_">'car': {'@xsi:nil': 'true', '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance'}</span> key-value pair instead of the value <span class="thesansmonocd_w5regular_">None</span>. You must double-check the input and output of any XML module to verify that it is representing your data as you intend.</p>
+<p class="tx">JSONと比べてXMLが脇に押しやられた一つの理由は、XMLでデータ型を表現するのが難しいことです。例えば、<span class="thesansmonocd_w5regular_">&lt;programmer&gt;</span>要素はブール値の<span class="thesansmonocd_w5regular_">True</span>ではなく文字列値の<span class="thesansmonocd_w5regular_">'true'</span>と解釈されます。<span class="thesansmonocd_w5regular_">&lt;car&gt;</span>要素は、<span class="thesansmonocd_w5regular_">None</span>値ではなく、<span class="thesansmonocd_w5regular_">'car': {'@xsi:nil': 'true', '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance'}</span>という見苦しいキーと値のペアに解釈されます。XMLモジュールを使う際は、意図したとおりにデータを表現できているか、入出力をダブルチェックしなければなりません。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h5 class="h2" id="calibre_link-1971"><span class="sans_futura_std_bold_b_">Writing XML Files</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">xml.etree</span> module is a bit unwieldy, so for small projects, you may be better off calling the <span class="thesansmonocd_w5regular_">open()</span> function and <span class="thesansmonocd_w5regular_">write()</span> method to create XML text yourself. But to create an XML document from scratch with the <span class="thesansmonocd_w5regular_">xml.etree</span> module, you’ll need to create a root <span class="thesansmonocd_w5regular_">Element</span> object (such as the <span class="thesansmonocd_w5regular_">&lt;person&gt;</span> element in our example) and then call the <span class="thesansmonocd_w5regular_">SubElement()</span> function to create child elements for it. You can set any XML attributes in the element with the <span class="thesansmonocd_w5regular_">set()</span> method. For example, enter the following:</p>
+<h5 class="h2" id="calibre_link-1971"><span class="sans_futura_std_bold_b_">XMLファイルの書き込み</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールは少し扱いづらいですから、小さなプロジェクトでは<span class="thesansmonocd_w5regular_">open()</span>関数と<span class="thesansmonocd_w5regular_">write()</span>メソッドでXMLテキストを自分で書き出すほうがよいでしょう。<span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールでXML文書を作成するなら、ルート<span class="thesansmonocd_w5regular_">Element</span>オブジェクト（先ほどの例で言うなら<span class="thesansmonocd_w5regular_">&lt;person&gt;</span>要素）を作成してから、<span class="thesansmonocd_w5regular_">SubElement()</span>関数を呼び出して子要素を作成します。<span class="thesansmonocd_w5regular_">set()</span>メソッドで要素に任意のXML属性を設定できます。例えば、次のようにします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import xml.etree.ElementTree as ET</b>
-&gt;&gt;&gt; <b class="calibre10">person = ET.Element('person')</b>  # Create the root XML element.
-&gt;&gt;&gt; <b class="calibre10">name = ET.SubElement(person, 'name')</b>  # Create &lt;name&gt; and put it under &lt;person&gt;.
-&gt;&gt;&gt; <b class="calibre10">name.text = 'Alice Doe'</b>  # Set the text between &lt;name&gt; and &lt;/name&gt;.
+&gt;&gt;&gt; <b class="calibre10">person = ET.Element('person')</b>  # ルートXML要素の作成
+&gt;&gt;&gt; <b class="calibre10">name = ET.SubElement(person, 'name')</b>  # &lt;name&gt;を作成して&lt;person&gt;の下に入れる
+&gt;&gt;&gt; <b class="calibre10">name.text = 'Alice Doe'</b>  # &lt;name&gt;と&lt;/name&gt;の間にテキストを入れる
 &gt;&gt;&gt; <b class="calibre10">age = ET.SubElement(person, 'age')</b>
-&gt;&gt;&gt; <b class="calibre10">age.text = '30'</b>  # XML content is always a string.
+&gt;&gt;&gt; <b class="calibre10">age.text = '30'</b>  # XMLの内容はすべて文字列
 &gt;&gt;&gt; <b class="calibre10">programmer = ET.SubElement(person, 'programmer')</b>
 &gt;&gt;&gt; <b class="calibre10">programmer.text = 'true'</b>
 &gt;&gt;&gt; <b class="calibre10">car = ET.SubElement(person, 'car')</b>
@@ -605,59 +605,59 @@ number -- 415-555-1234
 &gt;&gt;&gt; <b class="calibre10">street = ET.SubElement(address, 'street')</b>
 &gt;&gt;&gt; <b class="calibre10">street.text = '100 Larkin St.'</b>
 </code></pre>
-<p class="tx">For brevity, we’ll leave out the rest of the <span class="thesansmonocd_w5regular_">&lt;address&gt;</span> and <span class="thesansmonocd_w5regular_">&lt;phone&gt;</span> elements. Call the <span class="thesansmonocd_w5regular_">ET.tostring()</span> and <span class="thesansmonocd_w5regular_">decode()</span> functions with the root <span class="thesansmonocd_w5regular_">Element</span> object to get a Python string of the XML text:</p>
+<p class="tx">長くなるので<span class="thesansmonocd_w5regular_">&lt;address&gt;</span>要素と<span class="thesansmonocd_w5regular_">&lt;phone&gt;</span>要素の残りの部分は省略しました。ルート<span class="thesansmonocd_w5regular_">Element</span>オブジェクトについて<span class="thesansmonocd_w5regular_">ET.tostring()</span>関数と<span class="thesansmonocd_w5regular_">decode()</span>関数を呼び出せば、XMLテキストのPythonの文字列を取得できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ET.tostring(person, encoding='utf-8').decode('utf-8')</b>
 '&lt;person&gt;&lt;name&gt;Alice Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;programmer&gt;true&lt;/programmer&gt;
 &lt;car xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/&gt;
 &lt;address&gt;&lt;street&gt;100 Larkin St.&lt;/street&gt;&lt;/address&gt;&lt;/person&gt;'
 </code></pre>
-<p class="tx">It’s rather unfortunate that the <span class="thesansmonocd_w5regular_">tostring()</span> function returns a <span class="thesansmonocd_w5regular_">bytes</span> object instead of a string, necessitating a <span class="thesansmonocd_w5regular_">decode()</span> method call to obtain an actual string. But once you have the XML text as a Python string value, you can <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1143" aria-label="457"></span>write it to a <i class="calibre5">.xml</i> file, pass it to a function, use it in a web request, or do anything else you can do with a string.</p>
+<p class="tx">あいにく、<span class="thesansmonocd_w5regular_">tostring()</span>関数は、文字列ではなく<span class="thesansmonocd_w5regular_">bytes</span>オブジェクトを返すので、<span class="thesansmonocd_w5regular_">decode()</span>メソッドを呼び出して実際の文字列を取得しなければなりません。しかし、一度XMLテキストをPythonの文字列値として取得すれば、<i class="calibre5">.xml</i>ファイルに書き込んだり、関数に渡したり、ウェブリクエストに用いたり、その他文字列でできることなら何でもできます。</p>
 </section>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec18">
-<h3 class="h" id="calibre_link-1972"><span id="calibre_link-496"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">CSV, JSON, and XML are common plaintext formats for storing data. They’re easy for programs to parse while still being human readable, so they are often used for simple spreadsheets or web app data. The <span class="thesansmonocd_w5regular_">csv</span>, <span class="thesansmonocd_w5regular_">json</span>, and <span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span> modules in the Python standard library greatly simplify the process of reading and writing these files, so you don’t need to do so with the <span class="thesansmonocd_w5regular_">open()</span> function.</p>
-<p class="tx">These formats are not specific to Python; many other programming languages and software applications use these file types. This chapter can help you write Python programs that can also interact with any apps that use them.</p>
+<h3 class="h" id="calibre_link-1972"><span id="calibre_link-496"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">CSV、JSON、XMLはデータを保存するための一般的なプレーンテキストフォーマットです。人間にとって読みやすいと同時に、プログラムにとっても解析しやすいです。そのため、単純なスプレッドシートやウェブアプリのデータを扱うのによく使われます。Pythonの標準ライブラリにある<span class="thesansmonocd_w5regular_">csv</span>モジュール、<span class="thesansmonocd_w5regular_">json</span>モジュール、<span class="thesansmonocd_w5regular_">xml.etree.ElementTree</span>モジュールにより、これらのファイルの読み書きは非常に単純化されています。<span class="thesansmonocd_w5regular_">open()</span>関数でファイルを開いて自分で解析する必要はありません。</p>
+<p class="tx">これらのフォーマットはPythonに固有のものではなく、他の多くのプログラミング言語やアプリケーションでも用いられます。これらのフォーマットを使用するアプリケーションとやり取りするPythonプログラムを書くのに、本章で学んだことが役立つことでしょう。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
-<h3 class="h" id="calibre_link-1973"><span id="calibre_link-497"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What are some features that Excel spreadsheets have but CSV spreadsheets don’t?</p>
-<p class="listnumber">  2.  What do you pass to <span class="thesansmonocd_w5regular_">csv.reader()</span> and <span class="thesansmonocd_w5regular_">csv.writer()</span> to create <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> objects?</p>
-<p class="listnumber">  3.  What modes do <span class="thesansmonocd_w5regular_">File</span> objects for <span class="thesansmonocd_w5regular_">reader</span> and <span class="thesansmonocd_w5regular_">writer</span> objects need to be opened in?</p>
-<p class="listnumber">  4.  What method takes a list argument and writes it to a CSV file?</p>
-<p class="listnumber">  5.  What do the <span class="thesansmonocd_w5regular_">delimiter</span> and <span class="thesansmonocd_w5regular_">lineterminator</span> keyword arguments do?</p>
-<p class="listnumber">  6.  Of CSV, JSON, and XML, which formats can be easily edited with a text editor application?</p>
-<p class="listnumber">  7.  What function takes a string of JSON data and returns a Python data structure?</p>
-<p class="listnumber">  8.  What function takes a Python data structure and returns a string of JSON data?</p>
-<p class="listnumber">  9.  Which data serialization format resembles HTML, with tags enclosed in angle brackets?</p>
-<p class="listnumber">10.  How does JSON write <span class="thesansmonocd_w5regular_">None</span> values?</p>
-<p class="listnumber">11.  How do you write Boolean values in JSON?</p>
+<h3 class="h" id="calibre_link-1973"><span id="calibre_link-497"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. ExcelにはあってCSVにはない機能は何ですか？</p>
+<p class="listnumber">  2. <span class="thesansmonocd_w5regular_">reader</span>オブジェクトや<span class="thesansmonocd_w5regular_">writer</span>オブジェクトを作成するために<span class="thesansmonocd_w5regular_">csv.reader()</span>や<span class="thesansmonocd_w5regular_">csv.writer()</span>に渡すものは何ですか？</p>
+<p class="listnumber">  3. <span class="thesansmonocd_w5regular_">reader</span>オブジェクトや<span class="thesansmonocd_w5regular_">writer</span>オブジェクトを使用するためには<span class="thesansmonocd_w5regular_">File</span>オブジェクトをどのモードで開く必要がありますか？</p>
+<p class="listnumber">  4. リストを引数に取り、CSVファイルに書き込むメソッドは何ですか？</p>
+<p class="listnumber">  5. キーワード引数の<span class="thesansmonocd_w5regular_">delimiter</span>と<span class="thesansmonocd_w5regular_">lineterminator</span>はそれぞれどのような働きをしますか？</p>
+<p class="listnumber">  6. CSV、JSON、XMLのうち、テキストエディタで編集しやすいのはどれですか？</p>
+<p class="listnumber">  7. JSONデータの文字列を取りPythonのデータ構造を返す関数は何ですか？</p>
+<p class="listnumber">  8. Pythonのデータ構造を取りJSONデータの文字列を返す関数は何ですか？</p>
+<p class="listnumber">  9. 山かっこで囲まれたタグがあるHTMLと似ているデータ直列化フォーマットは何ですか？</p>
+<p class="listnumber">10. JSONで<span class="thesansmonocd_w5regular_">None</span>値はどのように書きますか？</p>
+<p class="listnumber">11. JSONでブール値はどのように書きますか？</p>
 </section>
 <section type="division" aria-labelledby="sec20">
-<h3 class="h" id="calibre_link-1974"><span id="calibre_link-498"></span><span class="sans_futura_std_bold_b_">Practice Program: Excel-to-CSV Converter</span></h3>
-<p class="tni">Excel can save a spreadsheet to a CSV file with a few mouse clicks, but if you had to convert hundreds of Excel files to CSVs, it would take hours of clicking. Using the <span class="thesansmonocd_w5regular_">openpyxl</span> module from <span>Chapter 14</span>, write a program that reads all the Excel files in the current working directory and outputs them as CSV files.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1975" aria-label="458"></span>A single Excel file might contain multiple sheets; you’ll have to create one CSV file per sheet. The filenames of the CSV files should be <i class="calibre5">&lt;excel filename&gt;_&lt;sheet title&gt;.csv</i>, where <i class="calibre5">&lt;excel filename&gt;</i> is the filename of the Excel file without the file extension (for example, <i class="calibre5">spam_data</i>, not <i class="calibre5">spam_data.xlsx</i>) and <i class="calibre5">&lt;sheet title&gt;</i> is the string from the <span class="thesansmonocd_w5regular_">Worksheet</span> object’s <span class="thesansmonocd_w5regular_">title</span> variable.</p>
-<p class="tx">This program will involve many nested <span class="thesansmonocd_w5regular_">for</span> loops. The skeleton of the program should look something like this:</p>
+<h3 class="h" id="calibre_link-1974"><span id="calibre_link-498"></span><span class="sans_futura_std_bold_b_">練習プログラム：Excel-CSV変換器</span></h3>
+<p class="tni">Excelで数クリックすればスプレッドシートをCSVファイルとして保存できます。しかし、数百ものExcelファイルをCSVファイルに変換しなければならないとしたら、クリックするのに何時間もかかってしまいます。<span>第14章</span>で紹介した<span class="thesansmonocd_w5regular_">openpyxl</span>モジュールを使用して、現在の作業ディレクトリのExcelファイルをすべて読み取ってCSVファイルとして出力するプログラムを書いてください。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1975" aria-label="458"></span>一つのExcelファイルに複数のシートが存在する可能性がありますから、CSVファイルはシートごとに作成しなければなりません。CSVファイルの名前は<i class="calibre5">&lt;excel filename&gt;_&lt;sheet title&gt;.csv</i>としてください。<i class="calibre5">&lt;excel filename&gt;</i>は拡張子なしのExcelファイルの名前で（例えば、<i class="calibre5">spam_data.xlsx</i>ではなく<i class="calibre5">spam_data</i>）、<i class="calibre5">&lt;sheet title&gt;</i>は<span class="thesansmonocd_w5regular_">Worksheet</span>オブジェクトの<span class="thesansmonocd_w5regular_">title</span>属性に入っている文字列です。</p>
+<p class="tx">このプログラムでは<span class="thesansmonocd_w5regular_">for</span>ループが多重の入れ子になります。プログラムの骨組みは以下のようになります。</p>
 <pre class="pre"><code class="calibre9">for excel_file in os.listdir('.'):
-    # Skip non-xlsx files, load the workbook object.
+    # 非xlsxファイルは飛ばし、workbookオブジェクトをロード
     for sheet_name in wb.sheetnames:
-        # Loop through every sheet in the workbook.
-        # Create the CSV filename from the Excel filename and sheet title.
-        # Create the csv.writer object for this CSV file.
+        # ワークブックのすべてのシートを反復処理
+        # Excelのファイル名とシート名からCSVファイル名を作成
+        # CSVファイル用のcsv.writerオブジェクトの作成
 
-        # Loop through every row in the sheet.
+        # シートのすべての行を反復処理
         for row_num in range(1, sheet.max_row + 1):
-            row_data = []    # Append each cell to this list.
-            # Loop through each cell in the row.
+            row_data = []    # 各セルとこのリストに追加
+            # 行内の各セルを反復処理
             for col_num in range(1, sheet.max_column + 1):
-                # Append each cell's data to row_data
+                # row_dataに各セルのデータを追加
            
-            # Write the row_data list to the CSV file.
+            # CSVファイルにrow_dataリストを書き込み
 
         csv_file.close()
 </code></pre>
-<p class="tx">Download the ZIP file <i class="calibre5">excelSpreadsheets.zip</i> from the book’s online resources and unzip the spreadsheets into the same directory as your program. You can use these as the files to test the program on.</p>
+<p class="tx">本書のオンライン素材からZIPファイルの<i class="calibre5">excelSpreadsheets.zip</i>をダウンロードして、スプレッドシートをプログラムと同じディレクトリに展開してください。このファイルを使ってプログラムをテストできます。</p>
 </section>
 </section>
 </div>
