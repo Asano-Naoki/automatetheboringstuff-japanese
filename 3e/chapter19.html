@@ -11,27 +11,26 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1976" aria-label="459"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-1977">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">19</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">KEEPING TIME, SCHEDULING TASKS, AND LAUNCHING PROGRAMS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">19</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">日時、スケジュール、プログラムの起動</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">Running programs while you’re sitting at your computer is fine, but it’s also useful to have programs run without your direct supervision. Your computer’s clock can schedule programs to run code at some specified time and date or at regular intervals. For example, your program could scrape a website every hour to check for changes or do a CPU-intensive task at 4 <small class="calibre19">AM</small> while you sleep. Python’s <span class="sans_thesansmonocd_w5regular_">time</span> and <span class="sans_thesansmonocd_w5regular_">datetime</span> modules provide these functions.</p>
-<p class="tx">You can also write programs that launch other programs on a schedule by using the <span class="thesansmonocd_w5regular_">subprocess</span> module. Often, the fastest way to program is to take advantage of applications that other people have already written.</p>
+<p class="introtni">自分がコンピュータの前に座っていればプログラムを実行するのは簡単ですが、直接監督せずにプログラムを実行できると便利な場合があります。コンピュータの時計でプログラム実行をスケジューリングでき、指定した日時や一定の間隔でコードを実行できます。例えば、変更がないか毎時ウェブサイトをスクレイピングしたり、CPU負荷の高い作業を就寝中の午前4時に行ったりすることができます。Pythonの<span class="sans_thesansmonocd_w5regular_">time</span>モジュールと<span class="sans_thesansmonocd_w5regular_">datetime</span>モジュールを活用します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">subprocess</span>モジュールを使うと、他のプログラムを起動することもできます。すでに誰かが作ってくれたアプリケーションを活用するのが目的を達成する近道であることが多いです。</p>
 <section type="division" aria-labelledby="sec1">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-992" aria-label="460"></span>
-<h3 class="h" id="calibre_link-1978"><span id="calibre_link-500"></span><span class="sans_futura_std_bold_b_">The time Module</span></h3>
-<p class="tni">Your computer’s system clock is set to a specific date, time, and time zone. The built-in <span class="thesansmonocd_w5regular_">time</span> module allows your Python programs to read the system clock for the current time. The most useful of its functions are <span class="thesansmonocd_w5regular_">time.time()</span>, which returns a value called the epoch timestamp, and <span class="thesansmonocd_w5regular_">time.sleep()</span>, which pauses a program.</p>
+<h3 class="h" id="calibre_link-1978"><span id="calibre_link-500"></span><span class="sans_futura_std_bold_b_">timeモジュール</span></h3>
+<p class="tni">コンピュータのシステムクロックは特定のタイムゾーンの時刻を指し示しています。Pythonに同梱されている<span class="thesansmonocd_w5regular_">time</span>モジュールを使うと、Pythonプログラムからシステムクロックの現在時刻を読み取れます。このモジュールでよく使う関数は、エポック秒と呼ばれる値を返す<span class="thesansmonocd_w5regular_">time.time()</span>と、プログラムを停止させる<span class="thesansmonocd_w5regular_">time.sleep()</span>です。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-1979"><span id="calibre_link-501"></span><span class="sans_futura_std_heavy_oblique_bi_">Returning the Epoch Timestamp</span></h4>
-<p class="tni">The <i class="calibre5">Unix epoch</i> is a time reference commonly used in programming: midnight on January 1, 1970, Coordinated Universal Time (UTC). The <span class="thesansmonocd_w5regular_">time.time()</span> function returns the number of seconds since that moment as a float value. (Recall that a float is just a number with a decimal point.) This number is called an <i class="calibre5">epoch timestamp</i>. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1979"><span id="calibre_link-501"></span><span class="sans_futura_std_heavy_oblique_bi_">エポック秒</span></h4>
+<p class="tni">プログラミングでは、<i class="calibre5">Unixエポック</i>がよく用いられます。Unixエポックとは、UTC（協定世界時）での1970年1月1日午前0時0分0秒のことです。<span class="thesansmonocd_w5regular_">time.time()</span>関数はUnixエポックからの経過秒数を浮動小数点数値で返します。この数値は<i class="calibre5">エポック秒</i>と呼ばれます。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import time</b>
 &gt;&gt;&gt; <b class="calibre10">time.time()</b>
 1773813875.3518236
 </code></pre>
-<p class="tx">Here, I’m calling <span class="thesansmonocd_w5regular_">time.time()</span> on March 17, 2026, at 11:04 <small class="calibre4">PM</small> Pacific Standard Time. The return value is how many seconds have passed between the Unix epoch and the moment <span class="thesansmonocd_w5regular_">time.time()</span> was called.</p>
-<p class="tx">The return value from <span class="thesansmonocd_w5regular_">time.time()</span> is useful, but is not human readable. The <span class="thesansmonocd_w5regular_">time.ctime()</span> function returns a string description of the current time. You can also optionally pass the number of seconds since the Unix epoch, as returned by <span class="thesansmonocd_w5regular_">time.time()</span>, to get a string value of that time. Enter the following into the interactive shell:</p>
+<p class="tx">2026年3月17日午後11時04分に太平洋標準時で<span class="thesansmonocd_w5regular_">time.time()</span>を呼び出しました。返り値はUnixエポックから<span class="thesansmonocd_w5regular_">time.time()</span>が呼び出された瞬間までに経過した秒数です。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">time.time()</span>の返り値は役に立ちますが、人間にはわかりづらいです。<span class="thesansmonocd_w5regular_">time.ctime()</span>関数は現在時刻を表す文字列を返します。<span class="thesansmonocd_w5regular_">time.time()</span>の返り値など、Unixエポックからの経過秒数を渡してその時刻の文字列を取得することもできます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import time</b>
 &gt;&gt;&gt; <b class="calibre10">time.ctime()</b>
 'Tue Mar 17 11:05:38 2026'
@@ -39,11 +38,11 @@
 &gt;&gt;&gt; <b class="calibre10">time.ctime(this_moment)</b>
 'Tue Mar 17 11:05:45 2026'
 </code></pre>
-<p class="tx">Epoch timestamps can be used to <i class="calibre5">profile</i> code: that is, measure how long a piece of code takes to run. If you call <span class="thesansmonocd_w5regular_">time.time()</span> at the beginning of the code block you want to measure and again at the end, you can subtract the first timestamp from the second to find the elapsed time between those two calls. For example, open a new file editor tab and enter the following program:</p>
-<pre class="pre"><code class="calibre9"># Measure how long it takes to multiply 100,000 numbers.
+<p class="tx">エポック秒はコードの<i class="calibre5">プロファイリング</i>に使えます。一連のコードの実行にどれくらいの時間がかかるかを測定できます。測定したいコードブロックの最初と最後で<span class="thesansmonocd_w5regular_">time.time()</span>を呼び出して引き算をすれば、そのコードブロックに要した時間がわかります。例えば、新しいファイルエディタのタブを開いて、次のプログラムを入力してください。</p>
+<pre class="pre"><code class="calibre9"># 100,000個の数値をかけ算するのにかかる時間を測定する
 import time
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> def calculate_product():
-    # Calculate the product of the first 100,000 numbers.
+    # 最初の100,000個の数値をかけ算する
     product = 1
     for i in range(1, 100001):
         product = product * i
@@ -54,14 +53,14 @@ result = calculate_product()
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> end_time = time.time()
 <span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> print(f'It took {end_time – start_time} seconds to calculate.')
 </code></pre>
-<p class="tx">At <span class="codeannotation" aria-label="annotation1">❶</span>, we define a function <span class="thesansmonocd_w5regular_">calculate_product()</span> to loop through the integers from 1 to 100,000 and return their product. At <span class="codeannotation" aria-label="annotation2">❷</span>, we call <span class="thesansmonocd_w5regular_">time.time()</span> and store it in <span class="thesansmonocd_w5regular_">start_time</span>. Right after calling <span class="thesansmonocd_w5regular_">calculate_product()</span>, we call <span class="thesansmonocd_w5regular_">time.time()</span> again and store it in <span class="thesansmonocd_w5regular_">end_time</span> <span class="codeannotation" aria-label="annotation3">❸</span>. We end by printing how long it took to run <span class="thesansmonocd_w5regular_">calculate_product()</span> <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
-<p class="tx">Save this program as <i class="calibre5">calcProd.py</i> and run it. The output will look something like this:</p>
+<p class="tx"><span class="codeannotation" aria-label="annotation1">❶</span>で1から100,000までの整数のかけ算をする<span class="thesansmonocd_w5regular_">calculate_product()</span>という関数を定義しています。<span class="codeannotation" aria-label="annotation2">❷</span>で<span class="thesansmonocd_w5regular_">time.time()</span>を呼び出し、返り値を<span class="thesansmonocd_w5regular_">start_time</span>に格納します。その直後で<span class="thesansmonocd_w5regular_">calculate_product()</span>を呼び出してから、もう一度<span class="thesansmonocd_w5regular_">time.time()</span>を呼び出して返り値を<span class="thesansmonocd_w5regular_">end_time</span>に格納します(<span class="codeannotation" aria-label="annotation3">❸</span>)。<span class="thesansmonocd_w5regular_">calculate_product()</span>を実行するのに要した時間を表示して終了します(<span class="codeannotation" aria-label="annotation4">❹</span>)。</p>
+<p class="tx">このプログラムを<i class="calibre5">calcProd.py</i>という名前で保存して実行してみてください。出力は次のようになります。</p>
 <pre class="pre"><code class="calibre9">It took 2.844162940979004 seconds to calculate.</code></pre>
-<p class="tx">Another way to profile your code is to use the <span class="thesansmonocd_w5regular_">cProfile.run()</span> function, which provides a much more informative level of detail than the simple <span class="thesansmonocd_w5regular_">time.time()</span> technique. You can read about <span class="thesansmonocd_w5regular_">cProfile.run()</span> function in Chapter 13 of my other book, <i class="calibre5">Beyond the Basic Stuff with Python</i> (No Starch Press, 2020).</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">cProfile.run()</span>を使ってコードプロファイリングをすることもでき、単純な<span class="thesansmonocd_w5regular_">time.time()</span>よりも詳細な情報が得られます。私の別の本である<i class="calibre5">Beyond the Basic Stuff with Python</i> (No Starch Press, 2020)の第13章で<span class="thesansmonocd_w5regular_">cProfile.run()</span>関数について説明しています。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-1980"><span id="calibre_link-502"></span><span class="sans_futura_std_heavy_oblique_bi_">Pausing Programs</span></h4>
-<p class="tni">If you need to pause your program for a while, call the <span class="thesansmonocd_w5regular_">time.sleep()</span> function and pass it the number of seconds you want your program to stay paused. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1980"><span id="calibre_link-502"></span><span class="sans_futura_std_heavy_oblique_bi_">プログラムの停止</span></h4>
+<p class="tni">プログラムをしばらく停止させる必要があれば、<span class="thesansmonocd_w5regular_">time.sleep()</span>を呼び出して停止させたい秒数を渡します。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import time</b>
 &gt;&gt;&gt; <b class="calibre10">for i in range(3):</b>
 ...   <span class="code_codeannotation" aria-label="annotation1">❶</span> <b class="calibre10">print('Tick')</b>
@@ -78,47 +77,47 @@ Tock
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">time.sleep(5)</b>
 &gt;&gt;&gt;
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">for</span> loop will print <span class="thesansmonocd_w5regular_">Tick</span> <span class="codeannotation" aria-label="annotation1">❶</span>, pause for one second <span class="codeannotation" aria-label="annotation2">❷</span>, print <span class="thesansmonocd_w5regular_">Tock</span> <span class="codeannotation" aria-label="annotation3">❸</span>, pause for one second <span class="codeannotation" aria-label="annotation4">❹</span>, print <span class="thesansmonocd_w5regular_">Tick</span>, pause, and so on, until <span class="thesansmonocd_w5regular_">Tick</span> and <span class="thesansmonocd_w5regular_">Tock</span> have each been printed three times.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">time.sleep()</span> function will <i class="calibre5">block</i> (that is, it won’t return or release your program to execute other code) until after the number of seconds you passed to <span class="thesansmonocd_w5regular_">time.sleep()</span> has elapsed. For example, if you enter <span class="thesansmonocd_w5regular_">time.sleep(5)</span> <span class="codeannotation" aria-label="annotation5">❺</span>, you’ll see that the next prompt (<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>) doesn’t appear until five seconds have passed.</p>
-<p class="ph"><span id="calibre_link-503"></span><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1211" aria-label="462"></span><span class="sans_futura_std_heavy_b_">Project 14: Super Stopwatch</span></p>
-<p class="tni">Say you want to track how much time you spend on boring tasks you haven’t automated yet. You don’t have a physical stopwatch, and it’s surprisingly difficult to find a free stopwatch app for your laptop or smartphone that isn’t covered in ads and doesn’t send a copy of your browser history to marketers. (It says it can do this in the license agreement you agreed to. You did read the license agreement, didn’t you?) You can write a simple stopwatch program yourself in Python.</p>
-<p class="tx">At a high level, here’s what your program will do:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループでは、<span class="thesansmonocd_w5regular_">Tick</span>を表示して(<span class="codeannotation" aria-label="annotation1">❶</span>)、1秒停止し(<span class="codeannotation" aria-label="annotation2">❷</span>)、<span class="thesansmonocd_w5regular_">Tock</span>を表示して(<span class="codeannotation" aria-label="annotation3">❸</span>)、1秒停止して(<span class="codeannotation" aria-label="annotation4">❹</span>)、<span class="thesansmonocd_w5regular_">Tick</span>を表示して…と、<span class="thesansmonocd_w5regular_">Tick</span>と<span class="thesansmonocd_w5regular_">Tock</span>が3回ずつ表示されるまで続きます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">time.sleep()</span>関数は渡した秒数が経過するまでブロックします（プログラムのその次のコードは実行されません）。例えば、<span class="thesansmonocd_w5regular_">time.sleep(5)</span>と入力したら(<span class="codeannotation" aria-label="annotation5">❺</span>)、次のプロンプト（<span class="thesansmonocd_w5regular_">&gt;&gt;&gt;</span>）は5秒経過するまで表示されません。</p>
+<p class="ph"><span id="calibre_link-503"></span><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1211" aria-label="462"></span><span class="sans_futura_std_heavy_b_">プロジェクト14：スーパーストップウォッチ</span></p>
+<p class="tni">まだ自動化していない退屈な作業にどれくらい時間がかかっているかを測定したいとしましょう。物理的なストップウォッチは持っておらず、広告が表示されずブラウザの閲覧履歴を送信しない無料のストップウォッチアプリを見つけるのは難しいです（アプリの利用時に同意すればブラウザの閲覧履歴が送信されます）。Pythonで単純なストップウォッチプログラムを書くことができます。</p>
+<p class="tx">このプログラムには以下の内容が必要です。</p>
 <ul class="ul">
-<li class="bl">Find the current time by calling <span class="thesansmonocd_w5regular_">time.time()</span> and store it as a timestamp at the start of the program, as well as at the start of each lap.</li>
-<li class="bl">Keep a lap counter and increment it every time the user presses <small class="calibre4">ENTER</small>.</li>
-<li class="bl">Calculate the elapsed time by subtracting timestamps.</li>
-<li class="bl">Handle the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception so that the user can press <small class="calibre4">CTRL</small>-C to quit.</li>
+<li class="bl">プログラムの開始時とラップの開始時に、<span class="thesansmonocd_w5regular_">time.time()</span>を呼び出して現在時刻を取得して保存する</li>
+<li class="bl"><small class="calibre4">ENTER</small>が押されたらラップカウンターを1増やす</li>
+<li class="bl">エポック秒の引き算をして経過時間を計算する</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>例外を処理して<small class="calibre4">CTRL</small>-Cが押されたら終了するようにする</li>
 </ul>
-<p class="tx">Open a new file editor tab and save it as <i class="calibre5">stopwatch.py</i>.</p>
+<p class="tx">新しいファイルエディタタブを開き、<i class="calibre5">stopwatch.py</i>という名前で保存してください。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-1981"><span id="calibre_link-504"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Set Up the Program to Track Times</span></h4>
-<p class="tni">The stopwatch program will need to use the current time, so you’ll want to import the <span class="thesansmonocd_w5regular_">time</span> module. Your program should also print some brief instructions to the user before calling <span class="thesansmonocd_w5regular_">input()</span> so that the timer can begin after the user presses <small class="calibre4">ENTER</small>. Then, the code will start tracking lap times each time the user presses <small class="calibre4">ENTER</small> until they press <small class="calibre4">CTRL</small>-C to quit.</p>
-<p class="tx">Enter the following code into the file editor, writing a <span class="thesansmonocd_w5regular_">TODO</span> comment as a placeholder for the rest of the code:</p>
-<pre class="pre"><code class="calibre9"># A simple stopwatch program
+<h4 class="h1" id="calibre_link-1981"><span id="calibre_link-504"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：プログラムのセットアップ</span></h4>
+<p class="tni">ストップウォッチプログラムは現在時刻を利用するので、<span class="thesansmonocd_w5regular_">time</span>モジュールをインポートします。簡単な説明を表示してから、ユーザーが<small class="calibre4">ENTER</small>を押したときにタイマーが開始するように<span class="thesansmonocd_w5regular_">input()</span>を呼び出します。コードはユーザーが<small class="calibre4">ENTER</small>を押すたびにラップタイムを計算し、<small class="calibre4">CTRL</small>-Cを押すと終了します。</p>
+<p class="tx">以下のコードをファイルエディタに書いて、コードの残りの部分については<span class="thesansmonocd_w5regular_">TODO</span>コメントを書きます。</p>
+<pre class="pre"><code class="calibre9"># 単純なストップウォッチプログラム
 import time
 
-# Display the program's instructions.
+# プログラムの説明を表示
 print('Press ENTER to begin and to mark laps. Ctrl-C quits.')
-input()  # Press Enter to begin.
+input()  # Enterを押して開始
 print('Started.')
-start_time = time.time()  # Get the first lap's start time.
+start_time = time.time()  # 最初のラップの開始時刻を取得
 last_time = start_time
 lap_number = 1
 
-# TODO: Start tracking the lap times.
+# TODO：ラップタイムの測定開始
 </code></pre>
-<p class="tx">Now that you’ve written the code to display the instructions, start the first lap, note the time, and set the <span class="thesansmonocd_w5regular_">lap_number</span> to 1.</p>
+<p class="tx">説明を表示して、最初のラップを開始して時刻を保存し、<span class="thesansmonocd_w5regular_">lap_number</span>を1に設定するコードを書きました。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-1982"><span id="calibre_link-505"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Track and Print Lap Times</span></h4>
-<p class="tni">Now let’s write the code to start each new lap, calculate how long the previous lap took, and calculate the total time elapsed since starting the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1212" aria-label="463"></span>stopwatch. We’ll display the lap time and total time and increase the lap count for each new lap. Add the following code to your program:</p>
-<pre class="pre"><code class="calibre9"># A simple stopwatch program
+<h4 class="h1" id="calibre_link-1982"><span id="calibre_link-505"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：ラップタイムの測定と表示</span></h4>
+<p class="tni">新しいラップを開始して、前のラップの時間を計算し、ストップウォッチを開始してからの総経過時間を計算するコードを書きましょう。新しいラップを開始するごとに、ラップタイムとトータルタイムを表示して、ラップカウントを1増やします。以下のコードを追記してください。</p>
+<pre class="pre"><code class="calibre9"># 単純なストップウォッチプログラム
 import time
 
 <var class="calibre20">--snip--</var>
 
-<b class="calibre10"># Start tracking the lap times.</b>
+<b class="calibre10"># ラップタイムの測定開始</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> <b class="calibre10">try:</b>
   <span class="code_codeannotation" aria-label="annotation2">❷</span> <b class="calibre10">while True:</b>
         <b class="calibre10">input()</b>
@@ -126,29 +125,29 @@ import time
       <span class="code_codeannotation" aria-label="annotation4">❹</span><b class="calibre10"> total_time = round(time.time() – start_time, 2)</b>
     <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation5">❺</span><b class="calibre10"> print('Lap #{lap_number}: {total_time}({lap_time})', end='')</b>
 <b class="calibre10">        lap_number += 1</b>
-<b class="calibre10">        last_time = time.time() </b># Reset the last lap time.
+<b class="calibre10">        last_time = time.time() </b># 直近のラップタイムをリセット
 <span class="codeannotated_codeannotation" aria-label="annotation6">❻</span> <b class="calibre10">except KeyboardInterrupt:</b>
-<b class="calibre10">    # Handle the Ctrl-C exception to keep its error message from displaying.</b>
+<b class="calibre10">    # Ctrl-C例外を処理してエラーメッセージを表示させない</b>
 <b class="calibre10">    print('\nDone.')</b>
 </code></pre>
-<p class="tx">If the user presses <small class="calibre4">CTRL</small>-C to stop the stopwatch, the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exception will be raised, and the program will crash. To prevent crashing, we wrap this part of the program in a <span class="thesansmonocd_w5regular_">try</span> statement <span class="codeannotation" aria-label="annotation1">❶</span>. We’ll handle the exception in the <span class="thesansmonocd_w5regular_">except</span> clause <span class="codeannotation" aria-label="annotation6">❻</span>, which prints <span class="thesansmonocd_w5regular_">Done</span> when the exception is raised instead of showing the <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> error message. Until this happens, the execution occurs inside an infinite loop <span class="codeannotation" aria-label="annotation2">❷</span> that calls <span class="thesansmonocd_w5regular_">input()</span> and waits until the user presses <small class="calibre4">ENTER</small> to end a lap. When a lap ends, we calculate how long the lap took by subtracting the start time of the lap, <span class="thesansmonocd_w5regular_">last_time</span>, from the current time, <span class="thesansmonocd_w5regular_">time.time()</span> <span class="codeannotation" aria-label="annotation3">❸</span>. We calculate the total time elapsed by subtracting the overall start time of the stopwatch, <span class="thesansmonocd_w5regular_">start_time</span>, from the current time <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
-<p class="tx">Because the results of these time calculations will have many digits after the decimal point (such as <span class="thesansmonocd_w5regular_">4.766272783279419</span>), we use the <span class="thesansmonocd_w5regular_">round()</span> function to round the float value to two digits at <span class="codeannotation" aria-label="annotation3">❸</span> and <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
-<p class="tx">At <span class="codeannotation" aria-label="annotation5">❺</span>, we print the lap number, total time elapsed, and lap time. As the user pressing <small class="calibre4">ENTER</small> for the <span class="thesansmonocd_w5regular_">input()</span> call will print a newline to the screen, pass <span class="thesansmonocd_w5regular_">end=''</span> to the <span class="thesansmonocd_w5regular_">print()</span> function to avoid double-spacing the output. After printing the lap information, we get ready for the next lap by adding 1 to the count <span class="thesansmonocd_w5regular_">lap_number</span> and setting <span class="thesansmonocd_w5regular_">last_time</span> to the current time, which is the start time of the next lap.</p>
+<p class="tx">ストップウォッチを止めるためにユーザーが<small class="calibre4">CTRL</small>-Cを押すと、<span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>例外が送出されてプログラムはクラッシュします。クラッシュしないように、プログラムを<span class="thesansmonocd_w5regular_">try</span>文で囲みます(<span class="codeannotation" aria-label="annotation1">❶</span>)。<span class="thesansmonocd_w5regular_">except</span>節で例外を処理します(<span class="codeannotation" aria-label="annotation6">❻</span>)。例外が送出されたときに、<span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>エラーメッセージではなく<span class="thesansmonocd_w5regular_">Done</span>と表示します。それまでは無限ループ内での実行が続きます(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">input()</span>を呼び出してユーザーがラップを終わらせるために<small class="calibre4">ENTER</small>を押すまで待ちます。ラップが終われば、<span class="thesansmonocd_w5regular_">time.time()</span>の現在時刻から<span class="thesansmonocd_w5regular_">last_time</span>のラップ開始時刻を引いて、そのラップの時間を計算します(<span class="codeannotation" aria-label="annotation3">❸</span>)。現在時刻から<span class="thesansmonocd_w5regular_">start_time</span>のストップウォッチ開始時刻を引いて、総経過時間を計算します(<span class="codeannotation" aria-label="annotation4">❹</span>)。</p>
+<p class="tx">この計算結果には、<span class="thesansmonocd_w5regular_">4.766272783279419</span>のように小数点以下の数字がたくさんあるので、<span class="thesansmonocd_w5regular_">round()</span>関数で小数第二位に丸めます(<span class="codeannotation" aria-label="annotation3">❸</span><span class="codeannotation" aria-label="annotation4">❹</span>)。</p>
+<p class="tx"><span class="codeannotation" aria-label="annotation5">❺</span>では、ラップ番号とトータルタイム（総経過時間）とラップタイムを表示します。<span class="thesansmonocd_w5regular_">input()</span>呼び出しに対してユーザーが<small class="calibre4">ENTER</small>を押すと画面が改行されるので、<span class="thesansmonocd_w5regular_">print()</span>関数に<span class="thesansmonocd_w5regular_">end=''</span>を渡して出力が二重に改行されてしまわないようにしています。ラップ情報を表示し、<span class="thesansmonocd_w5regular_">lap_number</span>に1を加え、<span class="thesansmonocd_w5regular_">last_time</span>に現在時刻をセットして、次のラップの準備を行います。これが次のラップの開始時刻です。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-1983"><span id="calibre_link-506"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
-<p class="tni">Time tracking opens up several possibilities for your programs. Although you can download apps to do some of these things, the benefit of writing programs yourself is that they will be free and not bloated with ads and useless features. You could write similar programs to do the following:</p>
+<h4 class="h1" id="calibre_link-1983"><span id="calibre_link-506"></span><span class="sans_futura_std_heavy_oblique_bi_">似たようなプログラムのアイデア</span></h4>
+<p class="tni">時間を測定できるようになれば、プログラムはさまざまな可能性に開かれます。時間を測定するアプリをダウンロードできますが、自分でプログラムを書けばフリー（自由／無料）ですし、広告や不必要な機能に悩まされることもありません。以下のようなプログラムを作成できます。</p>
 <ul class="ul">
-<li class="bl">Create a simple timesheet app that records when you type a person’s name and uses the current time to clock them in or out.</li>
-<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1094" aria-label="464"></span>Add a feature to your program to display the elapsed time since a process started, such as a download that uses the <span class="thesansmonocd_w5regular_">requests</span> module. (See <span>Chapter 13</span>.)</li>
-<li class="bl">Intermittently check how long a program has been running and offer the user a chance to cancel tasks that are taking too long.</li>
+<li class="bl">従業員の名前を入力すると出退勤時刻が入力される単純な勤怠管理アプリ</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1094" aria-label="464"></span>第13章で紹介した<span class="thesansmonocd_w5regular_">requests</span>モジュールを使ってダウンロードするアプリへの経過時間の表示の追加</li>
+<li class="bl">プログラムの実行時間をチェックして、あまりにも長く時間がかかっている作業をキャンセルできるようにする機能</li>
 </ul>
 </section>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h3 class="h" id="calibre_link-1984"><span id="calibre_link-507"></span><span class="sans_futura_std_bold_b_">The datetime Module</span></h3>
-<p class="tni">The <span class="thesansmonocd_w5regular_">time</span> module is useful for getting a Unix epoch timestamp to work with. But if you want to display a date in a more convenient format, or do arithmetic with dates (for example, figuring out what date was 205 days ago or what date is 123 days from now), you should use the <span class="thesansmonocd_w5regular_">datetime</span> module.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">datetime</span> module has its own <span class="thesansmonocd_w5regular_">datetime</span> data type. The <span class="thesansmonocd_w5regular_">datetime</span> values represent a specific moment in time. Enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-1984"><span id="calibre_link-507"></span><span class="sans_futura_std_bold_b_">datetimeモジュール</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">time</span>モジュールを使えばエポック秒を取得できます。しかし、日付をもっと見やすく表示したかったり、日付の計算をしたかったりしたら（例えば今日から205日前や123日後を知りたい場合など）、<span class="thesansmonocd_w5regular_">datetime</span>モジュールを使ったほうがよいです。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">datetime</span>モジュールには<span class="thesansmonocd_w5regular_">datetime</span>データ型があります。<span class="thesansmonocd_w5regular_">datetime</span>値は特定の時点を表しています。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">datetime.datetime.now()</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> datetime.datetime(2026, 2, 27, 11, 10, 49, 727297)
@@ -158,16 +157,16 @@ import time
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">dt.hour, dt.minute, dt.second</b>
 (16, 29, 0)
 </code></pre>
-<p class="tx">Calling <span class="thesansmonocd_w5regular_">datetime.datetime.now()</span> <span class="codeannotation" aria-label="annotation1">❶</span> returns a <span class="thesansmonocd_w5regular_">datetime</span> object <span class="codeannotation" aria-label="annotation2">❷</span> for the current date and time, according to your computer’s clock. This object includes the year, month, day, hour, minute, second, and microsecond of the current moment. You can also retrieve a <span class="thesansmonocd_w5regular_">datetime</span> object for a specific moment by using the <span class="thesansmonocd_w5regular_">datetime.datetime()</span> function <span class="codeannotation" aria-label="annotation3">❸</span>, passing it integers representing the year, month, day, hour, and second of the moment you want. These integers will be stored in the <span class="thesansmonocd_w5regular_">datetime</span> object’s <span class="thesansmonocd_w5regular_">year</span>, <span class="thesansmonocd_w5regular_">month</span>, <span class="thesansmonocd_w5regular_">day</span> <span class="codeannotation" aria-label="annotation4">❹</span>, <span class="thesansmonocd_w5regular_">hour</span>, <span class="thesansmonocd_w5regular_">minute</span>, and <span class="thesansmonocd_w5regular_">second</span> <span class="codeannotation" aria-label="annotation5">❺</span> attributes.</p>
-<p class="tx">A Unix epoch timestamp can be converted to a <span class="thesansmonocd_w5regular_">datetime</span> object with the <span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp()</span> function. The date and time of the <span class="thesansmonocd_w5regular_">datetime</span> object will be converted for the local time zone. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">datetime.datetime.now()</span>を呼び出すと(<span class="codeannotation" aria-label="annotation1">❶</span>)、コンピュータの時計に基づいた現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます(<span class="codeannotation" aria-label="annotation2">❷</span>)。このオブジェクトには、年、月、日、時、分、秒、マイクロ秒が含まれています。<span class="thesansmonocd_w5regular_">datetime.datetime()</span>関数を使えば(<span class="codeannotation" aria-label="annotation3">❸</span>)、指定した時点の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得できます。年、月、日、時、分、秒を整数で渡します。この整数は、<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトの属性<span class="thesansmonocd_w5regular_">year</span>、<span class="thesansmonocd_w5regular_">month</span>、<span class="thesansmonocd_w5regular_">day</span>(<span class="codeannotation" aria-label="annotation4">❹</span>)、<span class="thesansmonocd_w5regular_">hour</span>、<span class="thesansmonocd_w5regular_">minute</span>、<span class="thesansmonocd_w5regular_">second</span>(<span class="codeannotation" aria-label="annotation5">❺</span>)に格納されます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp()</span>関数でエポック秒を<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトに変換できます。<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトの日時はローカルタイムゾーンに変換されます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime, time</b>
 &gt;&gt;&gt; <b class="calibre10">datetime.datetime.fromtimestamp(1000000)</b>
 datetime.datetime(1970, 1, 12, 5, 46, 40)
 &gt;&gt;&gt; <b class="calibre10">datetime.datetime.fromtimestamp(time.time())</b>
 datetime.datetime(2026, 10, 21, 16, 30, 0, 604980)
 </code></pre>
-<p class="tx">Calling <span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp()</span> and passing it <span class="thesansmonocd_w5regular_">1000000</span> returns a <span class="thesansmonocd_w5regular_">datetime</span> object for the moment 1,000,000 seconds after the Unix epoch. Passing <span class="thesansmonocd_w5regular_">time.time()</span>, the Unix epoch timestamp for the current moment, returns a <span class="thesansmonocd_w5regular_">datetime</span> object for the current moment. So, the expressions <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1096" aria-label="465"></span><span class="thesansmonocd_w5regular_">datetime.datetime.now()</span> and <span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp(time.time())</span> do the same thing; they both give you a <span class="thesansmonocd_w5regular_">datetime</span> object for the present moment.</p>
-<p class="tx">You can compare <span class="thesansmonocd_w5regular_">datetime</span> objects with each other using comparison operators to find out which one precedes the other. The later <span class="thesansmonocd_w5regular_">datetime</span> object is the “greater” value. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">1000000</span>を渡して<span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp()</span>を呼び出すと、Unix時間から1,000,000秒経過した瞬間の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます。<span class="thesansmonocd_w5regular_">time.time()</span>は、現在時刻のエポック秒を返しますから、これを渡すと現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます。つまり、<span class="thesansmonocd_w5regular_">datetime.datetime.now()</span>と<span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp(time.time())</span>は同じことをしています。どちらでも現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得できます。</p>
+<p class="tx">比較演算子で<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを比較して、日時の先後を判定できます。遅い<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが「大きい」値です。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">halloween_2026 = datetime.datetime(2026, 10, 31, 0, 0, 0)</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">new_years_2027 = datetime.datetime(2027, 1, 1, 0, 0, 0)</b>
@@ -181,10 +180,10 @@ True
 &gt;&gt;&gt; <b class="calibre10">new_years_2027 != oct_31_2026</b>
 True
 </code></pre>
-<p class="tx">This code makes a <span class="thesansmonocd_w5regular_">datetime</span> object for the first moment (midnight) of October 31, 2026, and stores it in <span class="thesansmonocd_w5regular_">halloween_2026</span> <span class="codeannotation" aria-label="annotation1">❶</span>. Then, it makes a <span class="thesansmonocd_w5regular_">datetime</span> object for the first moment of January 1, 2027, and stores it in <span class="thesansmonocd_w5regular_">new_years_2027</span> <span class="codeannotation" aria-label="annotation2">❷</span>. It creates another object for midnight on October 31, 2026, and stores it in <span class="thesansmonocd_w5regular_">oct_31_2026</span>. Comparing <span class="thesansmonocd_w5regular_">halloween_2026</span> and <span class="thesansmonocd_w5regular_">oct_31_2026</span> shows that they’re equal <span class="codeannotation" aria-label="annotation3">❸</span>. Comparing <span class="thesansmonocd_w5regular_">new_years_2027</span> and <span class="thesansmonocd_w5regular_">halloween_2026</span> shows that <span class="thesansmonocd_w5regular_">new_years_2027</span> is greater (later) than <span class="thesansmonocd_w5regular_">halloween_2026</span> <span class="codeannotation" aria-label="annotation4">❹</span> <span class="codeannotation" aria-label="annotation5">❺</span>.</p>
+<p class="tx">このコードでは、2026年10月31日午前0時0分0秒の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを作成して<span class="thesansmonocd_w5regular_">halloween_2026</span>に格納しています(<span class="codeannotation" aria-label="annotation1">❶</span>)。次に、2027年1月1日午前0時0分0秒の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを作成して<span class="thesansmonocd_w5regular_">new_years_2027</span>に格納しています(<span class="codeannotation" aria-label="annotation2">❷</span>)。さらに、2026年10月31日午前0時0分0秒の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトをもう一つ作成して<span class="thesansmonocd_w5regular_">oct_31_2026</span>に格納しています。<span class="thesansmonocd_w5regular_">halloween_2026</span>と<span class="thesansmonocd_w5regular_">oct_31_2026</span>を比較すると、等しいと判定されます(<span class="codeannotation" aria-label="annotation3">❸</span>)。<span class="thesansmonocd_w5regular_">new_years_2027</span>と<span class="thesansmonocd_w5regular_">halloween_2026</span>を比較すると、<span class="thesansmonocd_w5regular_">new_years_2027</span>のほうが<span class="thesansmonocd_w5regular_">halloween_2026</span>よりも大きい（遅い）と判定されます(<span class="codeannotation" aria-label="annotation4">❹</span><span class="codeannotation" aria-label="annotation5">❺</span>)。</p>
 <section type="division" aria-labelledby="sec8">
-<h4 class="h1" id="calibre_link-1985"><span id="calibre_link-508"></span><span class="sans_futura_std_heavy_oblique_bi_">Representing Duration</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">datetime</span> module also provides a <span class="thesansmonocd_w5regular_">timedelta</span> data type, which represents a <i class="calibre5">duration</i> of time rather than a <i class="calibre5">moment</i> in time. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1985"><span id="calibre_link-508"></span><span class="sans_futura_std_heavy_oblique_bi_">期間</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">datetime</span>モジュールには<span class="thesansmonocd_w5regular_">timedelta</span>というデータ型もあります。これは瞬間的な時刻ではなく、幅のある期間を表します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">delta = datetime.timedelta(days=11, hours=10, minutes=9, seconds=8)</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">delta.days, delta.seconds, delta.microseconds</b>
@@ -194,9 +193,9 @@ True
 &gt;&gt;&gt; <b class="calibre10">str(delta)</b>
 '11 days, 10:09:08'
 </code></pre>
-<p class="tx">To create a <span class="thesansmonocd_w5regular_">timedelta</span> object, use the <span class="thesansmonocd_w5regular_">datetime.timedelta()</span> function. The <span class="thesansmonocd_w5regular_">datetime.timedelta()</span> function takes the keyword arguments <span class="thesansmonocd_w5regular_">weeks</span>, <span class="thesansmonocd_w5regular_">days</span>, <span class="thesansmonocd_w5regular_">hours</span>, <span class="thesansmonocd_w5regular_">minutes</span>, <span class="thesansmonocd_w5regular_">seconds</span>, <span class="thesansmonocd_w5regular_">milliseconds</span>, and <span class="thesansmonocd_w5regular_">microseconds</span>. There is no <span class="thesansmonocd_w5regular_">month</span> or <span class="thesansmonocd_w5regular_">year</span> keyword argument, because “a month” or “a year” is a variable amount of time depending on the particular month or year. A <span class="thesansmonocd_w5regular_">timedelta</span> object has the total duration represented in days, seconds, and microseconds. These numbers are stored in the <span class="thesansmonocd_w5regular_">days</span>, <span class="thesansmonocd_w5regular_">seconds</span>, and <span class="thesansmonocd_w5regular_">microseconds</span> attributes, respectively. The <span class="thesansmonocd_w5regular_">total_seconds()</span> method will return the duration in number of seconds <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1093" aria-label="466"></span>alone. Passing a <span class="thesansmonocd_w5regular_">timedelta</span> object to <span class="thesansmonocd_w5regular_">str()</span> will return a nicely formatted, human-readable string representation of the object.</p>
-<p class="tx">In this example, we pass keyword arguments to <span class="thesansmonocd_w5regular_">datetime.delta()</span> to specify a duration of 11 days, 10 hours, 9 minutes, and 8 seconds and store the returned <span class="thesansmonocd_w5regular_">timedelta</span> object in <span class="thesansmonocd_w5regular_">delta</span> <span class="codeannotation" aria-label="annotation1">❶</span>. This <span class="thesansmonocd_w5regular_">timedelta</span> object’s <span class="thesansmonocd_w5regular_">days</span> attribute stores <span class="thesansmonocd_w5regular_">11</span>, and its <span class="thesansmonocd_w5regular_">seconds</span> attribute stores <span class="thesansmonocd_w5regular_">36548</span> (10 hours, 9 minutes, and 8 seconds, expressed in seconds) <span class="codeannotation" aria-label="annotation2">❷</span>. Calling <span class="thesansmonocd_w5regular_">total_seconds()</span> tells us that 11 days, 10 hours, 9 minutes, and 8 seconds is 986,948 seconds. Finally, passing the <span class="thesansmonocd_w5regular_">timedelta</span> object to <span class="thesansmonocd_w5regular_">str()</span> returns a string that plainly describes the duration.</p>
-<p class="tx">The arithmetic operators can be used to perform <i class="calibre5">date arithmetic</i> on <span class="thesansmonocd_w5regular_">datetime</span> values. For example, to calculate the date 1,000 days from now, enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">datetime.timedelta()</span>関数で<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを作成します。<span class="thesansmonocd_w5regular_">datetime.timedelta()</span>関数は、<span class="thesansmonocd_w5regular_">weeks</span>、<span class="thesansmonocd_w5regular_">days</span>、<span class="thesansmonocd_w5regular_">hours</span>、<span class="thesansmonocd_w5regular_">minutes</span>、<span class="thesansmonocd_w5regular_">seconds</span>、<span class="thesansmonocd_w5regular_">milliseconds</span>、<span class="thesansmonocd_w5regular_">microseconds</span>のキーワード引数を取ります。<span class="thesansmonocd_w5regular_">month</span>と<span class="thesansmonocd_w5regular_">year</span>のキーワード引数はありません。なぜなら月や年の期間は一定ではないからです。<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトは、日、秒、マイクロ秒の合計で期間を表します。それぞれ、<span class="thesansmonocd_w5regular_">days</span>、<span class="thesansmonocd_w5regular_">seconds</span>、<span class="thesansmonocd_w5regular_">microseconds</span>属性に格納されています。<span class="thesansmonocd_w5regular_">total_seconds()</span>メソッドは秒単位での期間を返します。<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを<span class="thesansmonocd_w5regular_">str()</span>に渡すと、人間にとって読みやすい形式で表された文字列が返されます。</p>
+<p class="tx">この例では、<span class="thesansmonocd_w5regular_">datetime.delta()</span>に11日10時間9分8秒間の期間を指定するキーワード引数を渡し、返り値の<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを<span class="thesansmonocd_w5regular_">delta</span>に格納しています(<span class="codeannotation" aria-label="annotation1">❶</span>)。この<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトの<span class="thesansmonocd_w5regular_">days</span>属性には<span class="thesansmonocd_w5regular_">11</span>が格納され、<span class="thesansmonocd_w5regular_">seconds</span>属性には<span class="thesansmonocd_w5regular_">36548</span>（10時間9分8秒を秒で表したもの）が格納されます(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">total_seconds()</span>を呼び出すと、11日10時間9分8秒間は986,948秒間であることがわかります。最後に、<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを<span class="thesansmonocd_w5regular_">str()</span>に渡して、その期間をわかりやすい文字列にしています。</p>
+<p class="tx">算術演算子を使って<span class="thesansmonocd_w5regular_">datetime</span>値について<i class="calibre5">日付計算</i>を行うことができます。例えば、今から1,000日後を計算するには、対話型シェルに以下のように入力します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime</b>
 &gt;&gt;&gt; <b class="calibre10">now = datetime.datetime.now()</b>
 &gt;&gt;&gt; <b class="calibre10">now</b>
@@ -205,8 +204,8 @@ datetime.datetime(2026, 12, 2, 18, 38, 50, 636181)
 &gt;&gt;&gt; <b class="calibre10">now + thousand_days</b>
 datetime.datetime(2029, 8, 28, 18, 38, 50, 636181)
 </code></pre>
-<p class="tx">First, make a <span class="thesansmonocd_w5regular_">datetime</span> object for the current moment and store it in <span class="thesansmonocd_w5regular_">now</span>. Then, make a <span class="thesansmonocd_w5regular_">timedelta</span> object for a duration of 1,000 days and store it in <span class="thesansmonocd_w5regular_">thousand_days</span>. Add <span class="thesansmonocd_w5regular_">now</span> and <span class="thesansmonocd_w5regular_">thousand_days</span> together to get a <span class="thesansmonocd_w5regular_">datetime</span> object for the date 1,000 days from the date and time in <span class="thesansmonocd_w5regular_">now</span>. Python will do the date arithmetic to figure out that 1,000 days after December 2, 2026, will be August 28, 2029. When calculating 1,000 days from a given date, you have to remember how many days are in each month and factor in leap years and other tricky details. The <span class="thesansmonocd_w5regular_">datetime</span> module handles all of this for you.</p>
-<p class="tx">You can add or subtract <span class="thesansmonocd_w5regular_">timedelta</span> objects with <span class="thesansmonocd_w5regular_">datetime</span> objects or other <span class="thesansmonocd_w5regular_">timedelta</span> objects using the <span class="thesansmonocd_w5regular_">+</span> and <span class="thesansmonocd_w5regular_">-</span> operators. A <span class="thesansmonocd_w5regular_">timedelta</span> object can be multiplied or divided by integer or float values with the <span class="thesansmonocd_w5regular_">*</span> and <span class="thesansmonocd_w5regular_">/</span> operators. Enter the following into the interactive shell:</p>
+<p class="tx">まず、現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを作成して<span class="thesansmonocd_w5regular_">now</span>に格納します。次に、1,000日間を表す<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを作成して<span class="thesansmonocd_w5regular_">thousand_days</span>に格納します。<span class="thesansmonocd_w5regular_">now</span>と<span class="thesansmonocd_w5regular_">thousand_days</span>を足し合わせ、<span class="thesansmonocd_w5regular_">now</span>の現在時刻から1,000日後の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得します。Pythonが計算をしてくれて、2026年12月2日の1,000日後は2029年8月28日だとわかります。1,000日後を計算するには、各月の日数に基づきうるう年を考慮するなどしなければなりませんが、<span class="thesansmonocd_w5regular_">datetime</span>モジュールはうまく処理してくれます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを使えば、<span class="thesansmonocd_w5regular_">+</span>と<span class="thesansmonocd_w5regular_">-</span>の演算子で、<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトや別の<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトと足し引きできます。<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトは<span class="thesansmonocd_w5regular_">*</span>と<span class="thesansmonocd_w5regular_">/</span>の演算子で整数や小数のかけ算や割り算ができます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">oct_21st = datetime.datetime(2026, 10, 21, 16, 29, 0)</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">about_thirty_years = datetime.timedelta(days=365 * 30)</b>
@@ -217,101 +216,101 @@ datetime.datetime(1996, 10, 28, 16, 29)
 &gt;&gt;&gt; <b class="calibre10">oct_21st - (2 * about_thirty_years)</b>
 datetime.datetime(1966, 11, 5, 16, 29)
 </code></pre>
-<p class="tx">Here, we make a <span class="thesansmonocd_w5regular_">datetime</span> object for October 21, 2026, <span class="codeannotation" aria-label="annotation1">❶</span> and a <span class="thesansmonocd_w5regular_">timedelta</span> object for a duration of about 30 years <span class="codeannotation" aria-label="annotation2">❷</span>. (We’re using 365 days for each of those years and ignoring leap years.) Subtracting <span class="thesansmonocd_w5regular_">about_thirty_years</span> from <span class="thesansmonocd_w5regular_">oct_21st</span> gives us a <span class="thesansmonocd_w5regular_">datetime</span> object for the date 30 years before October 21, 2026. Subtracting <span class="thesansmonocd_w5regular_">2 * about_thirty_years</span> from <span class="thesansmonocd_w5regular_">oct_21st</span> returns <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1070" aria-label="467"></span>a <span class="thesansmonocd_w5regular_">datetime</span> object for the date about 60 years before: the late afternoon of November 5, 1966.</p>
+<p class="tx">2026年10月21日を表す<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを作成し(<span class="codeannotation" aria-label="annotation1">❶</span>)、約30年間の期間を表す<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを作成しています(<span class="codeannotation" aria-label="annotation2">❷</span>)。（毎年365日と考えてうるう年は考慮に入れていません。）<span class="thesansmonocd_w5regular_">oct_21st</span>から<span class="thesansmonocd_w5regular_">about_thirty_years</span>を引くと、2026年10月21日から約30年前の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得できます。<span class="thesansmonocd_w5regular_">oct_21st</span>から<span class="thesansmonocd_w5regular_">2 * about_thirty_years</span>を引くと、1966年11月5日の夕方という、約60年前の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得できます。</p>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-1986"><span id="calibre_link-509"></span><span class="sans_futura_std_heavy_oblique_bi_">Pausing Until a Specific Date</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">time.sleep()</span> method lets you pause a program for a certain number of seconds. By using a <span class="thesansmonocd_w5regular_">while</span> loop, you can pause your programs until a specific date. For example, the following code will continue to loop until Halloween 2039:</p>
+<h4 class="h1" id="calibre_link-1986"><span id="calibre_link-509"></span><span class="sans_futura_std_heavy_oblique_bi_">指定した日時まで停止させる</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">time.sleep()</span>メソッドは指定した秒数だけプログラムを停止させます。<span class="thesansmonocd_w5regular_">while</span>ループを活用すると、プログラムを指定した日時まで停止させられます。例えば、以下のコードは、2039年のハロウィンまでループし続けます。</p>
 <pre class="pre"><code class="calibre9">import datetime
 import time
 halloween_2039 = datetime.datetime(2039, 10, 31, 0, 0, 0)
 while datetime.datetime.now() &lt; halloween_2039:
-    time.sleep(1)  # Wait 1 second before looping to check again.
+    time.sleep(1)  # ループしてもう一度判定するまでに1秒待つ
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">time.sleep(1)</span> call will pause your Python program so that the computer doesn’t waste CPU processing cycles by checking the time over and over as fast as possible. Rather, the <span class="thesansmonocd_w5regular_">while</span> loop will just check the condition once per second and continue with the rest of the program after Halloween 2039 (or whenever you program it to stop).</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">time.sleep(1)</span>を呼び出すとPythonプログラムを停止するので、最速でループしてコンピュータがCPUの処理サイクルを無駄にするということはありません。<span class="thesansmonocd_w5regular_">while</span>ループは1秒に1回だけ条件を判定して、2039年のハロウィンになればプログラムの残りの部分に進みます（ここでは2039年のハロウィンにしましたが、プログラムをいつまで停止させるかは自由に決められます）。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-1987"><span id="calibre_link-510"></span><span class="sans_futura_std_heavy_oblique_bi_">Converting datetime Objects into Strings</span></h4>
-<p class="tni">Epoch timestamps and <span class="thesansmonocd_w5regular_">datetime</span> objects aren’t very friendly to the human eye. Use the <span class="thesansmonocd_w5regular_">strftime()</span> method to display a <span class="thesansmonocd_w5regular_">datetime</span> object as a string. (The <i class="calibre5">f</i> in the name of the <span class="thesansmonocd_w5regular_">strftime()</span> function stands for <i class="calibre5">format</i>.)</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">strftime()</span> method uses directives similar to Python’s string formatting. Table 19-1 has a full list of <span class="thesansmonocd_w5regular_">strftime()</span> directives. You can also consult the helpful <i class="calibre5"><a href="https://strftime.org" class="calibre1">https://<wbr></wbr>strftime<wbr></wbr>.org</a></i> website for this information.</p>
+<h4 class="h1" id="calibre_link-1987"><span id="calibre_link-510"></span><span class="sans_futura_std_heavy_oblique_bi_">datetimeオブジェクトから文字列への変換</span></h4>
+<p class="tni">エポック秒と<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトは人間の目に優しくありません。<span class="thesansmonocd_w5regular_">strftime()</span>メソッドを使えば<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを文字列として表示できます（<span class="thesansmonocd_w5regular_">strftime()</span>関数の名前の中にある<i class="calibre5">f</i>は<i class="calibre5">format</i>の<i class="calibre5">f</i>です。）</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">strftime()</span>メソッドはPythonの文字列補間と似た指示子を使います。表19-1は<span class="thesansmonocd_w5regular_">strftime()</span>指示子の全一覧です。この情報は<i class="calibre5"><a href="https://strftime.org" class="calibre1">https://<wbr></wbr>strftime<wbr></wbr>.org</a></i>にも載っています。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-855" aria-label="468"></span>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-801"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 19-1:</span></span> <span class="thesansmonocd_w5regular_">strftime()</span> <span class="sans_futura_std_book_">Directives</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-801"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 19-1：</span></span><span class="thesansmonocd_w5regular_">strftime()</span><span class="sans_futura_std_book_">の指示子</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_thesansmonocd_w7bold_b_">strftime() directive</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_thesansmonocd_w7bold_b_">Meaning</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_thesansmonocd_w7bold_b_">strftime()の指示子</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_thesansmonocd_w7bold_b_">意味</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
 <td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">%Y</span></p></td>
-<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">Year with century, as in</span> <span class="thesansmonocd_w5regular_">'2026'</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">'2026'</span><span class="sans_futura_std_book_">のような4桁の年</span> </p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%y</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Year without century,</span> <span class="thesansmonocd_w5regular_">'00'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'99'</span> <span class="sans_futura_std_book_">(1970 to 2069)</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'00'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'99'</span><span class="sans_futura_std_book_">までの2桁の年（1970から2069）</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%m</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Month as a decimal number,</span> <span class="thesansmonocd_w5regular_">'01'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'12'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'01'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'12'</span><span class="sans_futura_std_book_">までの月</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%B</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Full month name, as in</span> <span class="thesansmonocd_w5regular_">'November'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'November'</span><span class="sans_futura_std_book_">のような月名</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%b</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Abbreviated month name, as in</span> <span class="thesansmonocd_w5regular_">'Nov'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'Nov'</span><span class="sans_futura_std_book_">のような省略形の月名</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%d</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Day of the month,</span> <span class="thesansmonocd_w5regular_">'01'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'31'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'01'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'31'</span><span class="sans_futura_std_book_">までの日付</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%j</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Day of the year,</span> <span class="thesansmonocd_w5regular_">'001'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'366'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'001'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'366'</span><span class="sans_futura_std_book_">までの一年のうちの日</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%w</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Day of the week,</span> <span class="thesansmonocd_w5regular_">'0'</span> <span class="sans_futura_std_book_">(Sunday) to</span> <span class="thesansmonocd_w5regular_">'6'</span> <span class="sans_futura_std_book_">(Saturday)</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'0'</span><span class="sans_futura_std_book_">（日曜日）から</span><span class="thesansmonocd_w5regular_">'6'</span><span class="sans_futura_std_book_">（土曜日）までの曜日</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%A</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Full weekday name, as in</span> <span class="thesansmonocd_w5regular_">'Monday'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'Monday'</span><span class="sans_futura_std_book_">のような曜日名</span> </p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%a</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Abbreviated weekday name, as in</span> <span class="thesansmonocd_w5regular_">'Mon'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'Mon'</span><span class="sans_futura_std_book_">のよう省略形の曜日名</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%H</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Hour (24-hour clock),</span> <span class="thesansmonocd_w5regular_">'00'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'23'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'00'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'23'</span><span class="sans_futura_std_book_">までの24時間表記の時間</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%I</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Hour (12-hour clock),</span> <span class="thesansmonocd_w5regular_">'01'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'12'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'01'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'12'</span><span class="sans_futura_std_book_">までの12時間表記の時間</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%M</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Minute,</span> <span class="thesansmonocd_w5regular_">'00'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'59'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'00'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'59'</span><span class="sans_futura_std_book_">までの分</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%S</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">Second,</span> <span class="thesansmonocd_w5regular_">'00'</span> <span class="sans_futura_std_book_">to</span> <span class="thesansmonocd_w5regular_">'59'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'00'</span><span class="sans_futura_std_book_">から</span><span class="thesansmonocd_w5regular_">'59'</span><span class="sans_futura_std_book_">までの秒</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">%p</span></p></td>
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'AM'</span> <span class="sans_futura_std_book_">or</span> <span class="thesansmonocd_w5regular_">'PM'</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'AM'（午前）</span><span class="sans_futura_std_book_">または</span><span class="thesansmonocd_w5regular_">'PM'（午後）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">%%</span></p></td>
-<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">Literal</span> <span class="thesansmonocd_w5regular_">'%'</span> <span class="sans_futura_std_book_">character</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">リテラルな</span><span class="thesansmonocd_w5regular_">'%'</span><span class="sans_futura_std_book_">記号（%文字そのものを表したいときに使う）</span></p></td>
 </tr>
 </tbody>
 </table>
-<p class="tx">Pass <span class="thesansmonocd_w5regular_">strftime()</span> a custom format string containing formatting directives (along with any desired slashes, colons, and so on), and <span class="thesansmonocd_w5regular_">strftime()</span> will return the <span class="thesansmonocd_w5regular_">datetime</span> object’s information as a formatted string. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">strftime()</span>にフォーマット指示子を含めてスラッシュやコロンなどでカスタムしたフォーマット文字列を渡します。そうすると<span class="thesansmonocd_w5regular_">strftime()</span>は指定したフォーマットの文字列で<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトの情報を返します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">oct_21st = datetime.datetime(2026, 10, 21, 16, 29, 0)</b>
 &gt;&gt;&gt; <b class="calibre10">oct_21st.strftime('%Y/%m/%d %H:%M:%S')</b>
 '2026/10/21 16:29:00'
@@ -320,12 +319,12 @@ while datetime.datetime.now() &lt; halloween_2039:
 &gt;&gt;&gt; <b class="calibre10">oct_21st.strftime("%B of '%y")</b>
 "October of '26"
 </code></pre>
-<p class="tx">Here, we have a <span class="thesansmonocd_w5regular_">datetime</span> object for October 21, 2026, at 4:29 <small class="calibre4">PM</small>, stored in <span class="thesansmonocd_w5regular_">oct_21st</span>. Passing the custom format string <span class="thesansmonocd_w5regular_">'%Y/%m/%d %H:%M:%S'</span> to <span class="thesansmonocd_w5regular_">strftime()</span> returns a string containing 2026, 10, and 21 separated by slashes and 16, 29, and 00 separated by colons. Passing <span class="thesansmonocd_w5regular_">'%I:%M %p'</span> returns <span class="thesansmonocd_w5regular_">'04:29 PM'</span>, and passing <span class="thesansmonocd_w5regular_">"%B of '%y"</span> returns <span class="thesansmonocd_w5regular_">"October of '26"</span>.</p>
+<p class="tx">2026年10月21日午後4時29分を表す<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトがあり、<span class="thesansmonocd_w5regular_">oct_21st</span>に格納されています。カスタムしたフォーマット文字列<span class="thesansmonocd_w5regular_">'%Y/%m/%d %H:%M:%S'</span>を<span class="thesansmonocd_w5regular_">strftime()</span>に渡すと、2026と10と21がスラッシュで区切られ、16と29と00がコロンで区切られた文字列が返されます。<span class="thesansmonocd_w5regular_">'%I:%M %p'</span>を渡すと<span class="thesansmonocd_w5regular_">'04:29 PM'</span>が、<span class="thesansmonocd_w5regular_">"%B of '%y"</span>を渡すと<span class="thesansmonocd_w5regular_">"October of '26"</span>が返されます。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-1988"><span id="calibre_link-511"></span><span class="sans_futura_std_heavy_oblique_bi_">Converting Strings into datetime Objects</span></h4>
-<p class="tni">If you have a string of date information, such as <span class="thesansmonocd_w5regular_">'2026/10/21 16:29:00'</span> or <span class="thesansmonocd_w5regular_">'October 21, 2026'</span>, and you need to convert it to a <span class="thesansmonocd_w5regular_">datetime</span> object, use the <span class="thesansmonocd_w5regular_">datetime.datetime.strptime()</span> function. The <span class="thesansmonocd_w5regular_">strptime()</span> function is the inverse of the <span class="thesansmonocd_w5regular_">strftime()</span> method, and you must pass it a custom format string using the same directives as <span class="thesansmonocd_w5regular_">strftime()</span> so that the function knows how to parse and understand the string. (The <i class="calibre5">p</i> in the name of the <span class="thesansmonocd_w5regular_">strptime()</span> function stands for <i class="calibre5">parse</i>.)</p>
-<p class="tx">Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1988"><span id="calibre_link-511"></span><span class="sans_futura_std_heavy_oblique_bi_">文字列からdatetimeオブジェクトへの変換</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">'2026/10/21 16:29:00'</span>や<span class="thesansmonocd_w5regular_">'October 21, 2026'</span>のような日時情報の文字列があり、その文字列を<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトに変換したければ、<span class="thesansmonocd_w5regular_">datetime.datetime.strptime()</span>関数が使えます。<span class="thesansmonocd_w5regular_">strptime()</span>関数は<span class="thesansmonocd_w5regular_">strftime()</span>メソッドの逆です。<span class="thesansmonocd_w5regular_">strftime()</span>と同じ指示子でカスタムしたフォーマット文字列を渡すと、文字列を解析してくれます（<span class="thesansmonocd_w5regular_">strptime()</span>関数の名前の中にある<i class="calibre5">p</i>は<i class="calibre5">parse</i>の<i class="calibre5">p</i>です）。</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">datetime.datetime.strptime('October 21, 2026', '%B %d, %Y')</b>
 datetime.datetime(2026, 10, 21, 0, 0)
 &gt;&gt;&gt; <b class="calibre10">datetime.datetime.strptime('2026/10/21 16:29:00', '%Y/%m/%d %H:%M:%S')</b>
@@ -337,90 +336,90 @@ datetime.datetime(2026, 10, 1, 0, 0)
 &gt;&gt;&gt; <b class="calibre10">datetime.datetime.strptime("November of '73", "%B of '%y")</b>
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> datetime.datetime(1973, 11, 1, 0, 0)
 </code></pre>
-<p class="tx">To get a <span class="thesansmonocd_w5regular_">datetime</span> object from the string <span class="thesansmonocd_w5regular_">'October 21, 2026'</span>, pass that string as the first argument to <span class="thesansmonocd_w5regular_">strptime()</span> and the custom format string that corresponds to <span class="thesansmonocd_w5regular_">'October 21, 2026'</span> as the second argument <span class="codeannotation" aria-label="annotation1">❶</span>. The string <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1236" aria-label="469"></span>with the date information must match the custom format string exactly, or Python will raise a <span class="thesansmonocd_w5regular_">ValueError</span> exception. Notice that <span class="thesansmonocd_w5regular_">"November of '63"</span> is interpreted as 2063 <span class="codeannotation" aria-label="annotation2">❷</span> while <span class="thesansmonocd_w5regular_">"November of '73"</span> is interpreted as 1973 <span class="codeannotation">3</span> because the <span class="thesansmonocd_w5regular_">%y</span> directive spans from 1970 to 2069.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">'October 21, 2026'</span>という文字列から<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得するために、文字列を<span class="thesansmonocd_w5regular_">strptime()</span>の第一引数に渡し、<span class="thesansmonocd_w5regular_">'October 21, 2026'</span>に対応するカスタムしたフォーマット文字列を第二引数に渡しています(<span class="codeannotation" aria-label="annotation1">❶</span>)。日時情報の文字列はカスタムしたフォーマット文字列と正確にマッチしなければなりません。そうでないとPythonは<span class="thesansmonocd_w5regular_">ValueError</span>例外を送出します。<span class="thesansmonocd_w5regular_">%y</span>指示子は1970から2069の間であるため、<span class="thesansmonocd_w5regular_">"November of '63"</span>は2063と解釈されるのに対し(<span class="codeannotation" aria-label="annotation2">❷</span>)、<span class="thesansmonocd_w5regular_">"November of '73"</span>は1973と解釈される(<span class="codeannotation">❸</span>)ことに注意してください。</p>
 <aside class="box" aria-label="box-18">
-<p class="bt" id="calibre_link-1989"><span class="sans_futura_std_bold_b_">A REVIEW OF PYTHON’S TIME FUNCTIONS</span></p>
-<p class="btni"><span class="sans_futura_std_book_">Dates and times in Python can involve quite a few different data types and functions. Here’s a review of the three different types of values used to represent time:</span></p>
+<p class="bt" id="calibre_link-1989"><span class="sans_futura_std_bold_b_">Pythonの時間関数のおさらい</span></p>
+<p class="btni"><span class="sans_futura_std_book_">Pythonの日付と時間にはさまざまなデータ型と関数があります。時間を表す3種類の型の値をおさらいします。</span></p>
 <ul class="ul">
-<li class="boxlistbullet"><span class="sans_futura_std_book_">A Unix epoch timestamp (used by the</span> <span class="thesansmonocd_w5regular_">time</span> <span class="sans_futura_std_book_">module) is a float or integer value representing the number of seconds since midnight on January 1, 1970, UTC.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">A</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">object (of the</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">module) has integers stored in the attributes</span> <span class="thesansmonocd_w5regular_">year</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">month</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">day</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">hour</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">minute</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">second</span><span class="sans_futura_std_book_">, and</span> <span class="thesansmonocd_w5regular_">microsecond</span><span class="sans_futura_std_book_">.</span></li>
-<li class="boxlistbullet"><span class="sans_futura_std_book_">A</span> <span class="thesansmonocd_w5regular_">timedelta</span> <span class="sans_futura_std_book_">object (of the</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">module) represents a time duration, rather than a specific moment.</span></li>
+<li class="boxlistbullet">（<span class="thesansmonocd_w5regular_">time</span><span class="sans_futura_std_book_">モジュールで使用される）エポック秒は、UTCでの1970年1月1日午前0時0分0秒からの経過秒数を表す浮動小数点数値または整数値です。</span></li>
+<li class="boxlistbullet"><span class="sans_futura_std_book_">（</span><span class="thesansmonocd_w5regular_">datetime</span>モジュールの）<span class="thesansmonocd_w5regular_">datetime</span><span class="sans_futura_std_book_">オブジェクトは、属性</span><span class="thesansmonocd_w5regular_">year</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">month</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">day</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">hour</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">minute</span><span class="sans_futura_std_book_">、</span><span class="thesansmonocd_w5regular_">second</span><span class="sans_futura_std_book_">、</span> <span class="thesansmonocd_w5regular_">microsecond</span><span class="sans_futura_std_book_">に整数が格納されています。</span></li>
+<li class="boxlistbullet"><span class="sans_futura_std_book_">（</span><span class="thesansmonocd_w5regular_">datetime</span>モジュールの）<span class="thesansmonocd_w5regular_">timedelta</span><span class="sans_futura_std_book_">オブジェクトは時刻ではなく期間を表します。</span></li>
 </ul>
-<p class="boxb-last"><span class="sans_futura_std_book_">Here’s a review of time functions, their parameters, and their return values:</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">time.time()</span><span class="sans_futura_std_book_"> This function returns an epoch timestamp of the current moment as a float value.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">time.sleep(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">seconds</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">This function stops the program for the number of seconds specified by the</span> <span class="sans_thesansmonocd_w5regular_italic_">seconds</span> <span class="sans_futura_std_book_">argument.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">year, month, day, hour, minute, second</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">This function returns a</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">object of the moment specified by the arguments. If</span> <span class="sans_thesansmonocd_w5regular_italic_">hour</span><span class="sans_futura_std_book_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">minute</span><span class="sans_futura_std_book_">, or</span> <span class="sans_thesansmonocd_w5regular_italic_">second</span> <span class="sans_futura_std_book_">arguments are not provided, they default to</span> <span class="thesansmonocd_w5regular_">0</span><span class="sans_futura_std_book_">.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime.now()</span> <span class="sans_futura_std_book_">This function returns a</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">object of the current moment.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime.fromtimestamp(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">epoch</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">This function returns a</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">object of the moment represented by the</span> <span class="sans_thesansmonocd_w5regular_italic_">epoch</span> <span class="sans_futura_std_book_">timestamp argument.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.timedelta(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">weeks, days, hours, minutes, seconds, milliseconds, microseconds</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">This function returns a</span> <span class="thesansmonocd_w5regular_">timedelta</span> <span class="sans_futura_std_book_">object representing a duration of time. The function’s keyword arguments are all optional and do not include</span> <span class="sans_thesansmonocd_w5regular_italic_">month</span> <span class="sans_futura_std_book_">or</span> <span class="sans_thesansmonocd_w5regular_italic_">year</span><span class="sans_futura_std_book_">.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">total_seconds()</span> <span class="sans_futura_std_book_">This</span> <span class="thesansmonocd_w5regular_">timedelta</span> <span class="sans_futura_std_book_">method returns the number of seconds the</span> <span class="thesansmonocd_w5regular_">timedelta</span> <span class="sans_futura_std_book_">object represents.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">strftime(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">format</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">This</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">method returns a string of the time in a custom format based on the</span> <span class="sans_thesansmonocd_w5regular_italic_">format</span> <span class="sans_futura_std_book_">string. See Table 19-1 for the format details.</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime.strptime(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">time_string, format</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">This function returns a</span> <span class="thesansmonocd_w5regular_">datetime</span> <span class="sans_futura_std_book_">object representing the moment specified by</span> <span class="sans_thesansmonocd_w5regular_italic_">time_string</span><span class="sans_futura_std_book_">, parsed using the</span> <span class="sans_thesansmonocd_w5regular_italic_">format</span> <span class="sans_futura_std_book_">string argument. See Table 19-1 for the format details.</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">時間関数とそのパラメータおよび返り値についておさらいします。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">time.time()</span><span class="sans_futura_std_book_"> この関数は、現在のエポック秒を浮動小数点数値で返します。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">time.sleep(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">seconds</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">この関数は、プログラムを</span> <span class="sans_thesansmonocd_w5regular_italic_">seconds</span><span class="sans_futura_std_book_">引数で指定した秒数だけ停止させます。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">year, month, day, hour, minute, second</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">この関数は、引数で指定した時刻の</span> <span class="thesansmonocd_w5regular_">datetime</span><span class="sans_futura_std_book_">オブジェクトを返します。</span><span class="sans_thesansmonocd_w5regular_italic_">hour</span><span class="sans_futura_std_book_">、</span><span class="sans_thesansmonocd_w5regular_italic_">minute</span><span class="sans_futura_std_book_">、</span><span class="sans_thesansmonocd_w5regular_italic_">second</span> <span class="sans_futura_std_book_">の引数は、指定されなければデフォルトで</span><span class="thesansmonocd_w5regular_">0</span><span class="sans_futura_std_book_">になります。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime.now()</span> <span class="sans_futura_std_book_">この関数は、現在時刻の</span><span class="thesansmonocd_w5regular_">datetime</span><span class="sans_futura_std_book_">オブジェクトを返します。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime.fromtimestamp(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">epoch</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">この関数は、</span><span class="sans_thesansmonocd_w5regular_italic_">epoch</span><span class="sans_futura_std_book_">引数で指定したエポック秒の</span><span class="thesansmonocd_w5regular_">datetime</span><span class="sans_futura_std_book_">オブジェクトを返します。</span> </p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.timedelta(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">weeks, days, hours, minutes, seconds, milliseconds, microseconds</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">この関数は、期間を表す</span><span class="thesansmonocd_w5regular_">timedelta</span><span class="sans_futura_std_book_">オブジェクトを返します。この関数のキーワード引数はすべてオプションで、</span><span class="sans_thesansmonocd_w5regular_italic_">month</span><span class="sans_futura_std_book_">と</span><span class="sans_thesansmonocd_w5regular_italic_">year</span><span class="sans_futura_std_book_">はありません。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">total_seconds()</span> <span class="sans_futura_std_book_">この</span><span class="thesansmonocd_w5regular_">timedelta</span><span class="sans_futura_std_book_">メソッドは、その</span><span class="thesansmonocd_w5regular_">timedelta</span><span class="sans_futura_std_book_">オブジェクトが表す秒数を返します。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">strftime(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">format</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">この</span><span class="thesansmonocd_w5regular_">datetime</span><span class="sans_futura_std_book_">メソッドは、</span><span class="sans_thesansmonocd_w5regular_italic_">format</span><span class="sans_futura_std_book_">に基づきカスタムしたフォーマットの時刻の文字列を返します。フォーマットの詳細については表19-1を参照してください。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">datetime.datetime.strptime(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">time_string, format</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">この関数は、</span><span class="sans_thesansmonocd_w5regular_italic_">time_string</span><span class="sans_futura_std_book_">で指定した時刻を表す</span><span class="thesansmonocd_w5regular_">datetime</span><span class="sans_futura_std_book_">オブジェクトを返します。</span> <span class="sans_thesansmonocd_w5regular_italic_">format</span><span class="sans_futura_std_book_">文字列引数に基づいて解釈します。フォーマットの詳細については表19-1を参照してください。</span></p>
 </aside>
 </section>
 </section>
 <section type="division" aria-labelledby="sec12">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1303" aria-label="470"></span>
-<h3 class="h" id="calibre_link-1990"><span id="calibre_link-512"></span><span class="sans_futura_std_bold_b_">Launching Other Programs from Python</span></h3>
-<p class="tni">Your Python program can start other programs on your computer with the <span class="thesansmonocd_w5regular_">run()</span> function in the built-in <span class="thesansmonocd_w5regular_">subprocess</span> module. If you have multiple instances of an application open, each of those instances is a separate process of the same program. For example, each open window of the calculator app shown in Figure 19-1 is a different process.</p>
+<h3 class="h" id="calibre_link-1990"><span id="calibre_link-512"></span><span class="sans_futura_std_bold_b_">Pythonから別のプログラムを起動する</span></h3>
+<p class="tni">組み込みの<span class="thesansmonocd_w5regular_">subprocess</span>モジュールの<span class="thesansmonocd_w5regular_">run()</span>関数を使えば、Pythonのプログラムからそのコンピュータ上の別のプログラムを開始できます。同じアプリケーションを複数開くと、それぞれ別のプロセスになります。例えば、図19-1は、別々のプロセスで電卓アプリを開いたウィンドウを示しています。</p>
 <figure class="img"><img class="img1" id="calibre_link-802" src="images/000047.jpg" alt="Screenshot of a Windows computer desktop showing six overlapping calculator programs" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 19-1: Six running processes of the same calculator program</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 19-1：同じ電卓プログラムの6つの実行プロセス</span></p></figcaption>
 </figure>
-<p class="tx">If you want to start an external program from your Python script, pass the program’s filename to <span class="thesansmonocd_w5regular_">subprocess.run()</span>. (On Windows, right-click the application’s <b class="calibre10">Start</b> menu item and select <b class="calibre10">Properties</b> to view the application’s filename. On macOS, <small class="calibre4">CTRL</small>-click the application and select <b class="calibre10">Show Package Contents</b> to find the path to the executable file.) The <span class="thesansmonocd_w5regular_">run()</span> function will block until the launched program closes. Pass the program to launch as a string of the executable program’s filepath inside a list, keeping in mind that the launched program will be run in a separate process, not in the same process as your Python program.</p>
-<p class="tx">On a Windows computer, enter the following into the interactive shell:</p>
+<p class="tx">Pythonスクリプトから外部のプログラムを開始するには、<span class="thesansmonocd_w5regular_">subprocess.run()</span>に起動したいプログラムのファイル名を渡します。（Windowsでは、アプリケーションの<b class="calibre10">スタート</b>メニューを右クリックして<b class="calibre10">プロパティ</b>を選べばそのアプリケーションのファイル名を確認できます。macOSでは、アプリケーションを<small class="calibre4">CTRL</small>-クリックして、<b class="calibre10">パッケージの内容を表示</b>を選べば実行ファイルのパスを確認できます。）<span class="thesansmonocd_w5regular_">run()</span>関数は起動したプログラムが閉じられるまでコードの実行をブロックします。起動するプログラムの実行ファイルのパスをリスト内に文字列で書いて渡します。起動したプログラムは、Pythonプログラムと同じプロセスではなく、別々のプロセスで実行されます。</p>
+<p class="tx">Windowsでは、以下の対話型シェルの内容を実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">subprocess.run(['C:\\Windows\\System32\\calc.exe'])</b>
 CompletedProcess(args=['C:\\Windows\\System32\\calc.exe'], returncode=0)
 </code></pre>
-<p class="tx">On Ubuntu Linux, enter the following:</p>
+<p class="tx">Ubuntu Linuxでは、以下を実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">subprocess.run(['/usr/bin/gnome-calculator'])</b>
 CompletedProcess(args=['/usr/bin/gnome-calculator'], returncode=0)
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1045" aria-label="471"></span>On macOS, enter the following:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1045" aria-label="471"></span>macOSでは、以下を実行してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">subprocess.run(['open', '/System/Applications/Calculator.app'])</b>
 CompletedProcess(args=['open', '/System/Applications/Calculator.app'], returncode=0)
 </code></pre>
-<p class="tx">Notice that macOS requires you to run the <span class="thesansmonocd_w5regular_">open</span> program and pass it a command line argument of the program you want to launch.</p>
-<p class="tx">In these examples, our Python code launched the program, waited for the program to close, and then continued. If you want your Python code to launch a program and then immediately continue without waiting for the program to close, call the <span class="thesansmonocd_w5regular_">subprocess.Popen()</span> (“process open”) function instead:</p>
+<p class="tx">macOSでは<span class="thesansmonocd_w5regular_">open</span>プログラムに起動したいプログラムをコマンドライン引数で渡さなければなりません。</p>
+<p class="tx">これらの例では、Pythonのコードが指定したプログラムを起動し、そのプログラムが閉じられるまで待ってから、コードの残りの部分を実行します。プログラムを起動してそのプログラムが閉じられるのを待たずにすぐコードの実行を続けたければ、<span class="thesansmonocd_w5regular_">subprocess.Popen()</span> 関数（Popenはprocess openの略）を呼び出します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">calc_proc = subprocess.Popen(['C:\\Windows\\System32\\calc.exe'])</b>
 </code></pre>
-<p class="tx">The return value is a <span class="thesansmonocd_w5regular_">Popen</span> object, which has two useful methods: <span class="thesansmonocd_w5regular_">poll()</span> and <span class="thesansmonocd_w5regular_">wait()</span>.</p>
-<p class="tx">You can think of the <span class="thesansmonocd_w5regular_">poll()</span> method as asking your driver “Are we there yet?” over and over until you arrive. The <span class="thesansmonocd_w5regular_">poll()</span> method will return <span class="thesansmonocd_w5regular_">None</span> if the process is still running at the time <span class="thesansmonocd_w5regular_">poll()</span> is called. If the program has terminated, it will return the process’s integer <i class="calibre5">exit code</i>. An exit code indicates whether the process terminated without errors (represented by an exit code of <span class="thesansmonocd_w5regular_">0</span>) or whether an error caused the process to terminate (represented by a nonzero exit code—generally <span class="thesansmonocd_w5regular_">1</span>, but it may vary depending on the program).</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">wait()</span> method is like waiting until the driver has arrived at your destination. The method will block until the launched process has terminated. This is helpful if you want your program to pause until the user finishes interacting with the other program. The return value of <span class="thesansmonocd_w5regular_">wait()</span> is the process’s integer exit code.</p>
-<p class="tx">On Windows, enter the following into the interactive shell. Note that the <span class="thesansmonocd_w5regular_">wait()</span> call may block until you quit the launched Calculator program:</p>
+<p class="tx">返り値は<span class="thesansmonocd_w5regular_">Popen</span>オブジェクトで、<span class="thesansmonocd_w5regular_">poll()</span>と<span class="thesansmonocd_w5regular_">wait()</span>という2つの便利なメソッドがあります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">poll()</span>メソッドは運転手に「目的地にもう着きましたか？」と到着するまで何度も聞くようなものです。<span class="thesansmonocd_w5regular_">poll()</span>が呼び出されたときにプロセスがまだ実行中であれば、<span class="thesansmonocd_w5regular_">poll()</span>メソッドは<span class="thesansmonocd_w5regular_">None</span>を返します。プログラムが終了していたら、そのプロセスの<i class="calibre5">終了コード</i>を整数で返します。終了コードはプロセスが正常に終了したかどうかを示します。正常終了であれば終了コードは<span class="thesansmonocd_w5regular_">0</span>で、エラーによりプロセスが終了すれば0以外です（<span class="thesansmonocd_w5regular_">1</span>のことが多いですがプログラムによって異なります）。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">wait()</span>メソッドは、運転手が目的地に到着するのを待つようなものです。起動したプロセスが終了するまでブロックします。ユーザーが別のプログラムでの処理を終えるまでプログラムを停止させたいときに便利です。<span class="thesansmonocd_w5regular_">wait()</span>の返り値は起動したプロセスの終了コードの整数です。</p>
+<p class="tx">Windowsでは、対話型シェルで以下の内容を入力してください。<span class="thesansmonocd_w5regular_">wait()</span>を呼び出すと起動した電卓プログラムが終了するまでコード実行をブロックします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">calc_proc = subprocess.Popen(['c:\\Windows\\System32\\calc.exe'])</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">calc_proc.poll() == None</b>
 True
-<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">calc_proc.wait() </b># Doesn't return until Calculator closes
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">calc_proc.wait() </b># 電卓が閉じられるまで返ってこない
 0
 &gt;&gt;&gt; <b class="calibre10">calc_proc.poll()</b>
 0
 </code></pre>
-<p class="tx">Here, we open a Calculator process <span class="codeannotation" aria-label="annotation1">❶</span>. On older versions of Windows, <span class="thesansmonocd_w5regular_">poll()</span> returns <span class="thesansmonocd_w5regular_">None</span> <span class="codeannotation" aria-label="annotation2">❷</span> if the process is still running. Then, we close the Calculator application’s window, and back in the interactive shell, we call <span class="thesansmonocd_w5regular_">wait()</span> on the terminated process <span class="codeannotation" aria-label="annotation3">❸</span>. Now <span class="thesansmonocd_w5regular_">wait()</span> and <span class="thesansmonocd_w5regular_">poll()</span> return <span class="thesansmonocd_w5regular_">0</span>, indicating that the process terminated without errors.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1041" aria-label="472"></span>If you run <i class="calibre5">calc.exe</i> on Windows 10 and later using <span class="thesansmonocd_w5regular_">subprocess.Popen()</span>, you’ll notice that <span class="thesansmonocd_w5regular_">wait()</span> instantly returns even though the calculator app is still running. This is because <i class="calibre5">calc.exe</i> launches the calculator app and then instantly closes itself. The calculator program in Windows is a “Trusted Microsoft Store app,” and its specifics are beyond the scope of this book. Suffice it to say that programs can run in many application-specific and operating system–specific ways.</p>
-<p class="tx">If you want to close a process you’ve launched with <span class="thesansmonocd_w5regular_">subprocess.Popen()</span>, call the <span class="thesansmonocd_w5regular_">kill()</span> method of the <span class="thesansmonocd_w5regular_">Popen</span> object the function returned. If you have MS Paint on Windows, enter the following into the interactive shell:</p>
+<p class="tx">電卓プロセスを開始します(<span class="codeannotation" aria-label="annotation1">❶</span>)。Windowsの古いバージョンでは、起動したプロセスが実行中であれば<span class="thesansmonocd_w5regular_">poll()</span>が<span class="thesansmonocd_w5regular_">None</span>を返します(<span class="codeannotation" aria-label="annotation2">❷</span>)。電卓アプリケーションのウィンドウを閉じてから対話型シェルに戻り、終了したプロセスについて<span class="thesansmonocd_w5regular_">wait()</span>を呼び出します(<span class="codeannotation" aria-label="annotation3">❸</span>)。<span class="thesansmonocd_w5regular_">wait()</span>と<span class="thesansmonocd_w5regular_">poll()</span>は、プロセスが正常に終了したことを示す<span class="thesansmonocd_w5regular_">0</span>を返します。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1041" aria-label="472"></span>Windows10以降で<span class="thesansmonocd_w5regular_">subprocess.Popen()</span>により<i class="calibre5">calc.exe</i>を実行すると、電卓アプリが実行中であっても<span class="thesansmonocd_w5regular_">wait()</span>がすぐに返ってきます。<i class="calibre5">calc.exe</i>が電卓アプリを起動してすぐに終了するからです。Windowsの電卓プログラムは「信頼済みMicrosoft Storeアプリ」で、その詳細は本書の範囲外です。プログラムはアプリケーションやOSによって特有の実行のされ方をすることを覚えておいてください。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">subprocess.Popen()</span>で起動したプロセスを閉じたければ、その関数が返す<span class="thesansmonocd_w5regular_">Popen</span>オブジェクトの<span class="thesansmonocd_w5regular_">kill()</span>メソッドを呼び出します。WindowsのMS Paintをお持ちでしたら、対話型シェルで以下の内容を入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">paint_proc = subprocess.Popen('c:\\Windows\\System32\\mspaint.exe')</b>
 &gt;&gt;&gt; <b class="calibre10">paint_proc.kill()</b>
 </code></pre>
-<p class="tx">Note that the <span class="thesansmonocd_w5regular_">kill()</span> method immediately terminates a program and bypasses any “Are you sure you want to quit?” confirmation window. Any unsaved work in the program will be lost.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">kill()</span>メソッドは、「本当にプログラムを終了しますか？」のような確認を経ずに即座にプログラムを終了させることに注意してください。そのプログラムでの保存していない作業はすべて失われます。</p>
 <section type="division" aria-labelledby="sec13">
-<h4 class="h1" id="calibre_link-1991"><span id="calibre_link-513"></span><span class="sans_futura_std_heavy_oblique_bi_">Passing Command Line Arguments to Processes</span></h4>
-<p class="tni">You can pass command line arguments to processes you create with <span class="thesansmonocd_w5regular_">run()</span>. To do so, pass a list as the sole argument to <span class="thesansmonocd_w5regular_">run()</span>. The first string in this list will be the executable filename of the program you want to launch; all the subsequent strings will be the command line arguments to pass to the program when it starts. In effect, this list will be the value of <span class="thesansmonocd_w5regular_">sys.argv</span> for the launched program.</p>
-<p class="tx">Most applications with a graphical user interface (GUI) don’t use command line arguments as extensively as command line–based or terminal- based programs do. But most GUI applications will accept a single argument for a file that the applications will immediately open when they start. For example, if you’re using Windows, create a text file named <i class="calibre5">C:\Users\Al\hello.txt</i> and then enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-1991"><span id="calibre_link-513"></span><span class="sans_futura_std_heavy_oblique_bi_">プロセスにコマンドライン引数を渡す</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">run()</span>で作成したプロセスにコマンドライン引数を渡すことができます。<span class="thesansmonocd_w5regular_">run()</span>の唯一の引数であるリストでコマンドライン引数を渡します。このリストの最初の文字列は起動するプログラムの実行ファイルの名前で、それ以降の文字列は起動するプログラムのコマンドライン引数になります。起動したプログラムの<span class="thesansmonocd_w5regular_">sys.argv</span>の値になります。</p>
+<p class="tx">GUIを持つアプリケーションはターミナルベースのプログラムほどコマンドライン引数を使いませんが、そのアプリケーションが起動したときに開くファイル名を引数に取るGUIアプリケーションは多くあります。例えば、Windowsで、<i class="calibre5">C:\Users\Al\hello.txt</i>という名前のテキストファイルを作成し、対話型シェルで以下の内容を入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">subprocess.run(['C:\\Windows\\notepad.exe', 'C:\\Users\Al\\hello.txt'])</b>
 CompletedProcess(args=['C:\\Windows\\notepad.exe', 'C:\\Users\\Al\\hello.txt'], returncode=0)
 </code></pre>
-<p class="tx">This will not only launch the Notepad application but also have it immediately open the <i class="calibre5">C:\Users\Al\hello.txt</i> file. Every program has its own set of command line arguments, and some programs (especially GUI applications) don’t use command line arguments at all.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">subprocess.Popen()</span> function handles command line arguments in a similar way, and you should add them to the end of the list you pass the function.</p>
+<p class="tx">メモ帳アプリケーションが<i class="calibre5">C:\Users\Al\hello.txt</i>ファイルを開きます。プログラムごとにコマンドライン引数が定められており、特にGUIアプリケーションではコマンドライン引数を一切取らないことも珍しくありません。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">subprocess.Popen()</span>関数もコマンドライン引数を同じように扱います。関数に渡すリストの末尾にコマンドライン引数を入れます。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h4 class="h1" id="calibre_link-1992"><span id="calibre_link-514"></span><span class="sans_futura_std_heavy_oblique_bi_">Receiving Output Text from Launched Commands</span></h4>
-<p class="tni">You can also launch terminal commands using <span class="thesansmonocd_w5regular_">subprocess.run()</span> and <span class="thesansmonocd_w5regular_">subprocess.Popen()</span>. You may want your Python code to receive the text <span role="doc-pagebreak" type="pagebreak" id="calibre_link-995" aria-label="473"></span>output of these commands or simulate keyboard input to them. For example, let’s launch the <span class="thesansmonocd_w5regular_">ping</span> command from Python and receive the text it produces. (The details of the <span class="thesansmonocd_w5regular_">ping</span> command are beyond the scope of this book.) On Windows, you’ll use the <span class="thesansmonocd_w5regular_">-n 4</span> arguments to send four network “ping” requests that check whether the Nostarch.com server is online. If you’re on macOS and Linux, replace <span class="thesansmonocd_w5regular_">-n</span> with <span class="thesansmonocd_w5regular_">-c</span>. This command takes a few seconds to run:</p>
+<h4 class="h1" id="calibre_link-1992"><span id="calibre_link-514"></span><span class="sans_futura_std_heavy_oblique_bi_">起動したコマンドから出力テキストを受け取る</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">subprocess.run()</span>と<span class="thesansmonocd_w5regular_">subprocess.Popen()</span>ではターミナルコマンドを起動することもできます。Pythonのコードで、起動したターミナルコマンドについて、出力テキストを受け取ったりキーボード入力を送信したりしたいことがあるかもしれません。例えば、Pythonから<span class="thesansmonocd_w5regular_">ping</span>コマンドを起動して、その出力テキストを受け取ってみましょう（<span class="thesansmonocd_w5regular_">ping</span>コマンドの詳細については本書の範囲外です）。Windowsでは、<span class="thesansmonocd_w5regular_">-n 4</span>引数をつけて、Nostarch.comのサーバーがオンラインであるかを確認するためにpingリクエストを4回送信します。macOSとLinuxでは、<span class="thesansmonocd_w5regular_">-n</span>ではなく<span class="thesansmonocd_w5regular_">-c</span>としてください。このコマンドは実行に数秒を要します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">proc = subprocess.run(['ping', '-n', '4', 'nostarch.com'], capture_output=True, text=True)</b>
 &gt;&gt;&gt; <b class="calibre10">print(proc.stdout)</b>
@@ -435,37 +434,37 @@ Ping statistics for 104.20.120.46:
 Approximate round trip times in milli-seconds:
     Minimum = 17ms, Maximum = 217ms, Average = 87ms
 </code></pre>
-<p class="tx">When you pass the <span class="thesansmonocd_w5regular_">capture_output=True</span> and <span class="thesansmonocd_w5regular_">text=True</span> arguments to <span class="thesansmonocd_w5regular_">subprocess.run()</span>, the text output of the launched program is stored as a string in the returned <span class="thesansmonocd_w5regular_">CompletedProcess</span> object’s <span class="thesansmonocd_w5regular_">stdout</span> (“standard output”) attribute. Your Python script can use the features of other programs and then parse the text output as a string.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">subprocess.run()</span>に<span class="thesansmonocd_w5regular_">capture_output=True</span>と<span class="thesansmonocd_w5regular_">text=True</span>の引数を渡すと、起動したプログラムの出力テキストが<span class="thesansmonocd_w5regular_">CompletedProcess</span>オブジェクトの<span class="thesansmonocd_w5regular_">stdout</span>（標準出力）属性に文字列として格納されます。Pythonスクリプトで他のプログラムの機能を活用してその出力テキストを文字列として利用できます。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h4 class="h1" id="calibre_link-1993"><span id="calibre_link-515"></span><span class="sans_futura_std_heavy_oblique_bi_">Running Task Scheduler, launchd, and cron</span></h4>
-<p class="tni">If you’re computer savvy, you may know about Task Scheduler on Windows, launchd on macOS, or the cron scheduler on Linux. These well-documented and reliable tools all allow you to schedule applications to launch at specific times.</p>
-<p class="tx">Using your operating system’s built-in scheduler saves you from writing your own clock-checking code to schedule your programs. If you just need your program to pause only briefly, however, it’s best to instead loop until a certain date and time, calling <span class="thesansmonocd_w5regular_">time.sleep(1)</span> on each iteration through the loop.</p>
+<h4 class="h1" id="calibre_link-1993"><span id="calibre_link-515"></span><span class="sans_futura_std_heavy_oblique_bi_">タスクスケジューラ、launchd、cronの実行</span></h4>
+<p class="tni">コンピュータに詳しい人なら、Windowsのタスクスケジューラ、macOSのlaunchd、Linuxのcronスケジューラのことをご存知かもしれません。資料が豊富で信頼できるこれらのツールを用いれば、指定した時間にアプリケーションが起動するようにスケジューリングできます。</p>
+<p class="tx">OSに内蔵されているスケジューラを使えば、自分で時計を確認してスケジューリングするコードを書かなくてもすみます。ただし、プログラムを少し停止させたいだけなら、ループで<span class="thesansmonocd_w5regular_">time.sleep(1)</span>を呼び出して待機させたほうが簡単です。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h4 class="h1" id="calibre_link-1994"><span id="calibre_link-516"></span><span class="sans_futura_std_heavy_oblique_bi_">Opening Files with Default Applications</span></h4>
-<p class="tni">Double-clicking a <i class="calibre5">.txt</i> file on your computer will automatically launch the application associated with the <i class="calibre5">.txt</i> file extension. Each operating system has a program that performs the equivalent of this double-clicking action. On Windows, this is the <span class="thesansmonocd_w5regular_">start</span> command. On macOS and Linux, this is the <span class="thesansmonocd_w5regular_">open</span> command. Enter the following into the interactive shell, passing either <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1252" aria-label="474"></span><span class="thesansmonocd_w5regular_">'start'</span> or <span class="thesansmonocd_w5regular_">'open'</span> to <span class="thesansmonocd_w5regular_">run()</span>, depending on your system. Also, on Windows, you should pass the <span class="thesansmonocd_w5regular_">shell=True</span> keyword argument, as shown here:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">file_obj = open('hello.txt', 'w')  </b># Create a hello.txt file.
+<h4 class="h1" id="calibre_link-1994"><span id="calibre_link-516"></span><span class="sans_futura_std_heavy_oblique_bi_">デフォルトアプリケーションでファイルを開く</span></h4>
+<p class="tni">お使いのコンピュータで<i class="calibre5">.txt</i>ファイルをダブルクリックすると、<i class="calibre5">.txt</i>ファイル拡張子と関連付けられたアプリケーションが自動的に起動します。各OSにはダブルクリックするのと同等のプログラムがあります。Windowsでは<span class="thesansmonocd_w5regular_">start</span>コマンドで、macOSとLinuxでは<span class="thesansmonocd_w5regular_">open</span>コマンドです。対話型シェルに以下の内容を入力し、お使いのOSに応じて<span class="thesansmonocd_w5regular_">run()</span>に<span role="doc-pagebreak" type="pagebreak" id="calibre_link-1252" aria-label="474"></span><span class="thesansmonocd_w5regular_">'start'</span>または<span class="thesansmonocd_w5regular_">'open'</span>を渡してください。また、Windowsでは、以下のように<span class="thesansmonocd_w5regular_">shell=True</span>キーワード引数を渡します。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">file_obj = open('hello.txt', 'w')  </b># hello.txtファイルの作成
 &gt;&gt;&gt; <b class="calibre10">file_obj.write('Hello, world!')</b>
 13
 &gt;&gt;&gt; <b class="calibre10">file_obj.close()</b>
 &gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">subprocess.run(['</b><b class="calibre10"><var class="calibre20">start</var></b><b class="calibre10">', 'hello.txt'], shell=True)</b>
 </code></pre>
-<p class="tx">Here, we write <span class="thesansmonocd_w5regular_">Hello, world!</span> to a new <i class="calibre5">hello.txt</i> file. Then, we call <span class="thesansmonocd_w5regular_">run()</span>, passing it a list containing the program or command name (in this example, <span class="thesansmonocd_w5regular_">'start'</span> for Windows) and the filename. The operating system knows all of the file associations and can figure out that it should launch, say, <i class="calibre5">Notepad.exe</i> to handle the <i class="calibre5">hello.txt</i> file on Windows.</p>
-<p class="ph"><span id="calibre_link-517"></span><span class="sans_futura_std_heavy_b_">Project 15: Simple Countdown</span></p>
-<p class="tni">Just as it’s hard to find a simple stopwatch application, it can be hard to find a simple countdown application. Let’s write a countdown program that plays an alarm at the end of the countdown.</p>
-<p class="tx">At a high level, here’s what your program will do:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Hello, world!</span>を新しい<i class="calibre5">hello.txt</i>ファイルに書き込んでいます。それから、<span class="thesansmonocd_w5regular_">run()</span>を呼び出し、プログラム名（上の例ではWindowsの<span class="thesansmonocd_w5regular_">'start'</span>）とファイル名を含むリストを渡します。OSはそのファイルとの関連付けがわかるので、例えば、Windowsでは、<i class="calibre5">hello.txt</i>ファイルを扱う<i class="calibre5">Notepad.exe</i>を起動します。</p>
+<p class="ph"><span id="calibre_link-517"></span><span class="sans_futura_std_heavy_b_">プロジェクト15：単純なカウントダウン</span></p>
+<p class="tni">単純なストップウォッチアプリケーションを見つけるのが難しいのと同じように、単純なカウントダウンアプリケーションを見つけるのも難しいです。カウントダウンが終了したらアラームを鳴らすプログラムを書いてみましょう。</p>
+<p class="tx">このプログラムには以下の内容が必要です。</p>
 <ul class="ul">
-<li class="bl">Pause for one second in between displaying each number in the countdown by calling <span class="thesansmonocd_w5regular_">time.sleep()</span>.</li>
-<li class="bl">Call <span class="thesansmonocd_w5regular_">subprocess.run()</span> to open an <i class="calibre5">alarm.wav</i> sound file with the default application.</li>
+<li class="bl">カウントダウンの数字を表示する間に<span class="thesansmonocd_w5regular_">time.sleep()</span>で1秒間停止する</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">subprocess.run()</span>で<i class="calibre5">alarm.wav</i>の音声ファイルをデフォルトアプリケーションで開く</li>
 </ul>
-<p class="tx">Open a new file editor tab and save it as <i class="calibre5">simplecountdown.py</i>.</p>
+<p class="tx">新しいファイルエディタタブを開いて<i class="calibre5">simplecountdown.py</i>という名前で保存してください。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h4 class="h1" id="calibre_link-1995"><span id="calibre_link-518"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Count Down</span></h4>
-<p class="tni">This program will require the <span class="thesansmonocd_w5regular_">time</span> module for the <span class="thesansmonocd_w5regular_">time.sleep()</span> function and the <span class="thesansmonocd_w5regular_">subprocess</span> module for the <span class="thesansmonocd_w5regular_">subprocess.run()</span> function. Enter the following code and save the file as <i class="calibre5">simplecountdown.py</i>:</p>
-<pre class="pre"><code class="calibre9"># https://autbor.com/simplecountdown.py - A simple countdown script
+<h4 class="h1" id="calibre_link-1995"><span id="calibre_link-518"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：カウントダウン</span></h4>
+<p class="tni">このプログラムには、<span class="thesansmonocd_w5regular_">time.sleep()</span>関数のための<span class="thesansmonocd_w5regular_">time</span>モジュールと、<span class="thesansmonocd_w5regular_">subprocess.run()</span>関数のための<span class="thesansmonocd_w5regular_">subprocess</span>モジュールが必要です。以下のコードを<i class="calibre5">simplecountdown.py</i>ファイルに保存してください。</p>
+<pre class="pre"><code class="calibre9"># https://autbor.com/simplecountdown.py - 単純なカウントダウンスクリプト
 
 import time, subprocess
 
@@ -475,75 +474,75 @@ while time_left &gt; 0:
   <span class="code_codeannotation" aria-label="annotation3">❸</span> time.sleep(1)
   <span class="code_codeannotation" aria-label="annotation4">❹</span> time_left = time_left - 1
 
-# TODO: At the end of the countdown, play a sound file.
+# TODO：カウントダウンが終了したら音声ファイルを再生する
 </code></pre>
-<p class="tx">After importing <span class="thesansmonocd_w5regular_">time</span> and <span class="thesansmonocd_w5regular_">subprocess</span>, make a variable called <span class="thesansmonocd_w5regular_">time_left</span> to hold the number of seconds left in the countdown <span class="codeannotation" aria-label="annotation1">❶</span>. We set it to <span class="thesansmonocd_w5regular_">60</span> here, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1996" aria-label="475"></span>but you can change the value to whatever you’d like, or even set it based on a command line argument.</p>
-<p class="tx">In a <span class="thesansmonocd_w5regular_">while</span> loop, display the remaining count <span class="codeannotation" aria-label="annotation2">❷</span>, pause for one second <span class="codeannotation" aria-label="annotation3">❸</span>, and then decrement the <span class="thesansmonocd_w5regular_">time_left</span> variable <span class="codeannotation" aria-label="annotation4">❹</span> before the loop starts over again. The loop will keep looping as long as <span class="thesansmonocd_w5regular_">time_left</span> is greater than <span class="thesansmonocd_w5regular_">0</span>. After that, the countdown will be over. Next, let’s fill in the <span class="thesansmonocd_w5regular_">TODO</span> comment with code that plays the sound file.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">time</span>と<span class="thesansmonocd_w5regular_">subprocess</span>をインポートしてから、カウントダウンで残り秒数を保持する<span class="thesansmonocd_w5regular_">time_left</span>という名前の変数を作成します(<span class="codeannotation" aria-label="annotation1">❶</span>)。ここでは<span class="thesansmonocd_w5regular_">60</span>を設定していますが、好きな値に変更してください。コマンドライン引数から設定することもできます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">while</span>ループでは、残り秒数を表示し(<span class="codeannotation" aria-label="annotation2">❷</span>)、1秒間停止して(<span class="codeannotation" aria-label="annotation3">❸</span>)、<span class="thesansmonocd_w5regular_">time_left</span>変数を1減らし(<span class="codeannotation" aria-label="annotation4">❹</span>)、ループを続けます。<span class="thesansmonocd_w5regular_">time_left</span>が<span class="thesansmonocd_w5regular_">0</span>より大きい間はループし続けます。<span class="thesansmonocd_w5regular_">0</span>になればカウントダウンが終わります。次に、音声ファイルを再生する<span class="thesansmonocd_w5regular_">TODO</span>コメントの部分のコードを書きます。</p>
 </section>
 <section type="division" aria-labelledby="sec18">
-<h4 class="h1" id="calibre_link-1997"><span id="calibre_link-519"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Play the Sound File</span></h4>
-<p class="tni">While <span>Chapter 12</span> covers the <span class="thesansmonocd_w5regular_">playsound3</span> module to play sound files of various formats, the quick and easy way to do this is to launch whatever application the user already uses to play sound files. The operating system will figure out from the <i class="calibre5">.wav</i> file extension which application it should launch to play the file. This <i class="calibre5">.wav</i> file could easily be some other sound file format, such as <i class="calibre5">.mp3</i> or <i class="calibre5">.ogg</i>. You can use any sound file on your computer to play at the end of the countdown, or download <i class="calibre5">alarm.wav</i> from <i class="calibre5"><a href="https://autbor.com/alarm.wav" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/alarm<wbr></wbr>.wav</a></i>.</p>
-<p class="tx">Add the following to your code:</p>
-<pre class="pre"><code class="calibre9"># https://autbor.com/simplecountdown.py - A simple countdown script
+<h4 class="h1" id="calibre_link-1997"><span id="calibre_link-519"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：音声ファイルを再生する</span></h4>
+<p class="tni"><span>第12章</span>でさまざまなフォーマットの音声を再生する<span class="thesansmonocd_w5regular_">playsound3</span>モジュールを紹介しましたが、ユーザーが音声を再生するのにすでに使っているアプリケーションを起動するのが一番簡単です。<i class="calibre5">.wav</i>ファイル拡張子からどのアプリケーションを起動して再生するかをOSに委ねます。<i class="calibre5">.wav</i>ファイルを<i class="calibre5">.mp3</i>や<i class="calibre5">.ogg</i>ファイル形式に差し替えることも簡単にできます。カウントダウンが終わったときに再生する音声ファイルは何でも構いません。<i class="calibre5"><a href="https://autbor.com/alarm.wav" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/alarm<wbr></wbr>.wav</a></i>から<i class="calibre5">alarm.wav</i>をダウンロードしてもよいです。</p>
+<p class="tx">以下のコードを追加します。</p>
+<pre class="pre"><code class="calibre9"># https://autbor.com/simplecountdown.py - 単純なカウントダウンスクリプト
 
 <var class="calibre20">--snip--</var>
 
-<b class="calibre10"># At the end of the countdown, play a sound file.</b>
+<b class="calibre10"># カウントダウンが終了したら音声ファイルを再生する</b>
 <b class="calibre10">#subprocess.run(['start', 'alarm.wav'], shell=True)  # Windows</b>
-<b class="calibre10">#subprocess.run(['open', 'alarm.wav'])  # macOS and Linux</b>
+<b class="calibre10">#subprocess.run(['open', 'alarm.wav'])  # macOSとLinux</b>
 </code></pre>
-<p class="tx">After the <span class="thesansmonocd_w5regular_">while</span> loop finishes, <i class="calibre5">alarm.wav</i> (or the sound file you choose) will play to notify the user that the countdown is over. Uncomment the <span class="thesansmonocd_w5regular_">subprocess.run()</span> call for your operating system. On Windows, be sure to include <span class="thesansmonocd_w5regular_">'start'</span> in the list you pass to <span class="thesansmonocd_w5regular_">run()</span>. On macOS and Linux, pass <span class="thesansmonocd_w5regular_">'open'</span> instead of <span class="thesansmonocd_w5regular_">'start'</span> and remove <span class="thesansmonocd_w5regular_">shell=True</span>.</p>
-<p class="tx">Instead of playing a sound file, you could save a text file somewhere with a message like <i class="calibre5">Break time!</i> and use <span class="thesansmonocd_w5regular_">subprocess.run()</span> to open it at the end of the countdown. This will effectively create a pop-up window with a message. Or you could use the <span class="thesansmonocd_w5regular_">webbrowser.open()</span> function to open a specific website at the end of the countdown. Unlike some free countdown application you’d find online, your own countdown program’s alarm can be anything you want!</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">while</span>ループが終われば、<i class="calibre5">alarm.wav</i>（あるいはお選びの音声ファイル）が再生され、ユーザーにカウントダウンが終了したことを伝えます。お使いのOSに応じて<span class="thesansmonocd_w5regular_">subprocess.run()</span>の呼び出しのコメントを外してください。Windowsでは、<span class="thesansmonocd_w5regular_">run()</span>に渡すリストに<span class="thesansmonocd_w5regular_">'start'</span>を含めてください。macOSとLinuxでは、<span class="thesansmonocd_w5regular_">'start'</span>ではなく<span class="thesansmonocd_w5regular_">'open'</span>を渡し、<span class="thesansmonocd_w5regular_">shell=True</span>を取り除いてください。</p>
+<p class="tx">音声ファイルを再生する代わりに<i class="calibre5">Break time!</i>のようなメッセージが書かれたテキストファイルをどこかに保存してカウントダウンが終了したときに<span class="thesansmonocd_w5regular_">subprocess.run()</span>で開くこともできます。これによりポップアップウィンドウでメッセージが表示されます。あるいは、カウントダウンが終了したときに、<span class="thesansmonocd_w5regular_">webbrowser.open()</span>関数で指定したウェブサイトを開くこともできます。オンラインで入手できる無料のカウントダウンアプリケーションとは異なり、自作のカウントダウンプログラムでは好きなようにカスタマイズできます。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
-<h4 class="h1"><span id="calibre_link-1998"></span><span id="calibre_link-520"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
-<p class="tni">A countdown essentially produces a simple delay before continuing the program’s execution. You could use the same approach for other applications and features, such as the following:</p>
+<h4 class="h1"><span id="calibre_link-1998"></span><span id="calibre_link-520"></span><span class="sans_futura_std_heavy_oblique_bi_">似たようなプログラムのアイデア</span></h4>
+<p class="tni">カウントダウンとは、プログラム実行を継続する前に遅延を生じさせることです。以下のようなアプリケーションや機能を同じアプローチで作成できます。</p>
 <ul class="ul">
-<li class="bl">Use <span class="thesansmonocd_w5regular_">time.sleep()</span> to give the user a chance to press <small class="calibre4">CTRL</small>-C to cancel an action, such as deleting files. Your program can print a “Press <small class="calibre4">CTRL</small>-C to cancel” message and then handle any <span class="thesansmonocd_w5regular_">KeyboardInterrupt</span> exceptions with <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements.</li>
-<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1268" aria-label="476"></span>For a long-term countdown, you can use <span class="thesansmonocd_w5regular_">timedelta</span> objects to measure the number of days, hours, minutes, and seconds until some point (a birthday? an anniversary?) in the future.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">time.sleep()</span>を使用した、ユーザーが<small class="calibre4">CTRL</small>-Cを押してファイル削除などの実行をキャンセルできる機能。“Press <small class="calibre4">CTRL</small>-C to cancel”のようなメッセージを表示して、<span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文で<span class="thesansmonocd_w5regular_">KeyboardInterrupt</span>例外を処理します。</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1268" aria-label="476"></span>長い時間のカウントダウンには、<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを利用できます。将来のある時点（誕生日や記念日）までの日数、時間数、分数、秒数を設定できます。</li>
 </ul>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec20">
-<h3 class="h" id="calibre_link-1999"><span id="calibre_link-521"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">The Unix epoch (January 1, 1970, at midnight, UTC) is a standard reference time for many programming languages, including Python. While the <span class="thesansmonocd_w5regular_">time.time()</span> function returns an epoch timestamp (that is, a float value of the number of seconds since the Unix epoch), the <span class="thesansmonocd_w5regular_">datetime</span> module is better for performing date arithmetic and formatting or parsing strings with date information.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">time.sleep()</span> function will block (that is, not return) for a certain number of seconds. It can be used to add pauses to your program. But if you want to schedule your programs to start at a certain time, the instructions at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i> can tell you how to use the scheduler already provided by your operating system.</p>
-<p class="tx">Finally, your Python programs can launch other applications with the <span class="thesansmonocd_w5regular_">subprocess.run()</span> function. Command line arguments can be passed to the <span class="thesansmonocd_w5regular_">run()</span> call to open specific documents with the application. Alternatively, you can use the <span class="thesansmonocd_w5regular_">start</span> or <span class="thesansmonocd_w5regular_">open</span> program with <span class="thesansmonocd_w5regular_">run()</span> and use your computer’s file associations to automatically figure out which application to use to open a document. By using the other applications on your computer, your Python programs can leverage their capabilities for your automation needs.</p>
+<h3 class="h" id="calibre_link-1999"><span id="calibre_link-521"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">Unix時間（UTCでの1970年1月1日午前0時0分0秒）はPythonを含む多くのプログラミング言語で参照する標準時間です。<span class="thesansmonocd_w5regular_">time.time()</span>関数はエポック秒（Unix時間からの経過秒数を表す浮動小数点数値）を返します。日時の計算や表示の調整や文字列の解析には、<span class="thesansmonocd_w5regular_">datetime</span>モジュールを使ったほうが便利です。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">time.sleep()</span>関数は指定秒数だけコード実行をブロックします。プログラムを停止させるのに使えます。ただし、プログラムを指定日時に実行させるなら、<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>の説明を読み、お使いのOSに内蔵されているスケジューラを使ってください。</p>
+<p class="tx">自分が書いたPythonプログラムから<span class="thesansmonocd_w5regular_">subprocess.run()</span>関数で別のアプリケーションを起動できます。コマンドライン引数を<span class="thesansmonocd_w5regular_">run()</span>呼び出しに渡してそのアプリケーションで開くファイルを指定できます。あるいは、<span class="thesansmonocd_w5regular_">run()</span>で<span class="thesansmonocd_w5regular_">start</span>または<span class="thesansmonocd_w5regular_">open</span>プログラムを使って、ファイルの関連付けによりファイルを開くアプリケーションを自動的に起動することもできます。コンピュータ上の別のアプリケーションを利用することで、Pythonプログラムは自動化に必要な機能を拡張することができます。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
-<h3 class="h" id="calibre_link-2000"><span id="calibre_link-522"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What is the Unix epoch?</p>
-<p class="listnumber">  2.  What function returns the number of seconds since the Unix epoch?</p>
-<p class="listnumber">  3.  What <span class="thesansmonocd_w5regular_">time</span> module function returns a human-readable string of the current time, like <span class="thesansmonocd_w5regular_">'Mon Jun 15 14:00:38 2026'</span>?</p>
-<p class="listnumber">  4.  How can you pause your program for exactly five seconds?</p>
-<p class="listnumber">  5.  What does the <span class="thesansmonocd_w5regular_">round()</span> function return?</p>
-<p class="listnumber">  6.  What is the difference between a <span class="thesansmonocd_w5regular_">datetime</span> object and a <span class="thesansmonocd_w5regular_">timedelta</span> object?</p>
-<p class="listnumber">  7.  Using the <span class="thesansmonocd_w5regular_">datetime</span> module, what day of the week was January 7, 2019?</p>
+<h3 class="h" id="calibre_link-2000"><span id="calibre_link-522"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. Unix時間とは何ですか？</p>
+<p class="listnumber">  2. Unix時間からの経過秒数を返す関数は何ですか？</p>
+<p class="listnumber">  3. 現在時刻について、<span class="thesansmonocd_w5regular_">'Mon Jun 15 14:00:38 2026'</span>のような人間が読みやすい文字列を返す<span class="thesansmonocd_w5regular_">time</span>モジュールの関数は何ですか？</p>
+<p class="listnumber">  4. 5秒間プログラムを停止させるにはどうしますか？</p>
+<p class="listnumber">  5. <span class="thesansmonocd_w5regular_">round()</span>関数は何を返しますか？</p>
+<p class="listnumber">  6. <span class="thesansmonocd_w5regular_">datetime</span>オブジェクトと<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトの違いは何ですか？</p>
+<p class="listnumber">  7. <span class="thesansmonocd_w5regular_">datetime</span>モジュールを使って、2019年1月7日の曜日を調べてください。</p>
 </section>
 <section type="division" aria-labelledby="sec22">
-<h3 class="h" id="calibre_link-2001"><span id="calibre_link-523"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-2001"><span id="calibre_link-523"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec23">
-<h4 class="h1" id="calibre_link-2002"><span id="calibre_link-524"></span><span class="sans_futura_std_heavy_oblique_bi_">Prettified Stopwatch</span></h4>
-<p class="tni">Expand the stopwatch project from this chapter so that it uses the <span class="thesansmonocd_w5regular_">rjust()</span> and <span class="thesansmonocd_w5regular_">ljust()</span> string methods to “prettify” the output. (These methods were covered in <span>Chapter 8</span>.) Instead of output such as this</p>
+<h4 class="h1" id="calibre_link-2002"><span id="calibre_link-524"></span><span class="sans_futura_std_heavy_oblique_bi_">ストップウォッチの表示調整</span></h4>
+<p class="tni">本章のストップウォッチプロジェクトの拡張で、<span class="thesansmonocd_w5regular_">rjust()</span>メソッドと<span class="thesansmonocd_w5regular_">ljust()</span>メソッドを使って出力をきれいにしてください（これらのメソッドは<span>第8章</span>で紹介しました）。以下のような出力から</p>
 <pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1169" aria-label="477"></span>Lap #1: 3.56 (3.56)
 Lap #2: 8.63 (5.07)
 Lap #3: 17.68 (9.05)
 Lap #4: 19.11 (1.43)
 </code></pre>
-<p class="tni">the output should look like this:</p>
+<p class="tni">以下のような出力へと調整します。</p>
 <pre class="pre"><code class="calibre9">Lap # 1:   3.56 (  3.56)
 Lap # 2:   8.63 (  5.07)
 Lap # 3:  17.68 (  9.05)
 Lap # 4:  19.11 (  1.43)
 </code></pre>
-<p class="tx">Next, use the <span class="thesansmonocd_w5regular_">pyperclip</span> module introduced in <span>Chapter 8</span> to copy the text output to the clipboard so that the user can quickly paste the output to a text file or email.</p>
+<p class="tx">次に、<span>第8章</span>で紹介した<span class="thesansmonocd_w5regular_">pyperclip</span>モジュールを使い、出力テキストをクリップボードにコピーして、テキストファイルやメールに素早く貼り付けられるようにしてください。</p>
 </section>
 <section type="division" aria-labelledby="sec24">
-<h4 class="h1" id="calibre_link-2003"><span id="calibre_link-525"></span><span class="sans_futura_std_heavy_oblique_bi_">Friday the 13th Finder</span></h4>
-<p class="tni">Friday the 13th is considered an unlucky day by those with triskaidekaphobia (though personally I celebrate it as a lucky day). With leap years and months of varying lengths, it can be hard to figure out when the next Friday the 13th is coming.</p>
-<p class="tx">Write two programs. The first program should create a <span class="thesansmonocd_w5regular_">datetime</span> object for the current day and a <span class="thesansmonocd_w5regular_">timedelta</span> object of one day. If the current day is a Friday the 13th, it should print the month and year. Then, it should add the <span class="thesansmonocd_w5regular_">timedelta</span> object to the <span class="thesansmonocd_w5regular_">datetime</span> object to set it to the next day, and repeat the check. Have it repeat until it has found the next ten Friday the 13th dates.</p>
-<p class="tx">The second program should do the same thing except subtract the <span class="thesansmonocd_w5regular_">timedelta</span> object. This program will find all of the past months and years with a Friday the 13th, and stop when it reaches the year 1.</p>
+<h4 class="h1" id="calibre_link-2003"><span id="calibre_link-525"></span><span class="sans_futura_std_heavy_oblique_bi_">13日の金曜日発見器</span></h4>
+<p class="tni">13日の金曜日は不吉だと考えられています（私は個人的に吉兆だと考えています）。うるう年や月の日数の変動から、次の13日の金曜日がいつになるかを判断するのは難しいです。</p>
+<p class="tx">2つのプログラムを書きます。1つ目のプログラムでは、現在の日付の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトと、1日間の<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを作成します。現在の日付が13日の金曜日なら、その月と年を表示します。次に、<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトに<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを足して次の日を設定し、13日の金曜日かどうかまたチェックします。次の13日の金曜日を見つけるまでこれを繰り返します。</p>
+<p class="tx">2つ目のプログラムは、<span class="thesansmonocd_w5regular_">timedelta</span>オブジェクトを足すのではなく引くという点を除き、1つ目のプログラムと同じです。このプログラムは、西暦1年まで遡り、過去の13日の金曜日をすべて発見します。</p>
 </section>
 </section>
 </section>
