@@ -10,67 +10,66 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2004" aria-label="479"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-2005">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">20</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">SENDING EMAIL, TEXTS, AND PUSH NOTIFICATIONS</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">20</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">メール送信、ショートメール送信、プッシュ通知</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">Checking and replying to email is a huge time sink, and you can’t just write a program to handle all your email for you, as each message requires its own response. But you can still automate plenty of email-related tasks once you know how to write programs that can send and receive email.</p>
-<p class="tx">For example, maybe you have a spreadsheet full of customer records and want to send each customer a different form letter depending on their age and location details. Commercial software might not be able to do this for you. Fortunately, you can write your own program to send these emails, saving yourself a lot of time spent copying and pasting.</p>
-<p class="tx">You can also write programs to send SMS text messages and push notifications to notify you of things even while you’re away from your computer. If you’re automating a task that takes a couple of hours to do, you probably don’t want to go back to your computer every few minutes to check on the program’s status. Instead, the program can just text your phone when it’s <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1131" aria-label="480"></span>done, freeing you to focus on more important things while you’re away from your computer.</p>
-<p class="tx">This chapter features the EZGmail module, a simple way to send and read emails from Gmail accounts, as well as the free <i class="calibre5">ntfy</i> service that provides push notifications between devices.</p>
+<p class="introtni">メールをチェックして返信するのは時間のかかる作業ですが、メッセージごとに対応が異なるので、すべてのメールを処理してくれるプログラムを書くことはできません。それでも、メールの送受信ができるプログラムの書き方を知れば、メールに関連する作業の一部を自動化することはできます。</p>
+<p class="tx">例えば、スプレッドシートに保存された顧客の年齢と住所に応じて異なる文面のメールを送りたいとしましょう。商用ソフトウェアではそのようなことができないかもしれません。自分でプログラムを書けば、そのようなメールの送信も可能で、コピーアンドペーストで浪費していた時間を大幅に節約できます。</p>
+<p class="tx">コンピュータから離れている間に通知を行うショートメール（SMS）やプッシュ通知のプログラムを書くこともできます。実行に数時間を要する作業を自動化したとしたら、そのプログラムの実行状況を確認するのにたびたびコンピュータのところに行かなければならないのは煩わしいでしょう。実行が終了したときにショートメールを送れば、コンピュータから離れている間に別の作業に集中できます。</p>
+<p class="tx">この章では、Gmailアカウントから簡単にメールの送受信ができるEZGmailモジュールと、無料でプッシュ通知を送ることができる<i class="calibre5">ntfy</i>サービスを取り上げます。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">WARNING</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">警告</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">I highly recommend that you set up a separate email account for any scripts that send or receive emails. This will prevent bugs in your programs from affecting your personal email account (by deleting emails or accidentally spamming your contacts, for example). It’s a good idea to first do a dry run by commenting out the code that actually sends or deletes emails and replacing it with a temporary</i> <span class="sans_thesansmonocd_w5regular_italic_">print()</span> <i class="calibre5">call. This way, you can test your program before running it for real.</i></p>
+<p class="note-txt"><i class="calibre5">スクリプトでメールを送受信するアカウントを別に開設することを強くおすすめします。そうすればバグにより個人で使っているアカウントに悪影響（メールの削除や登録されている連絡先へのスパムメールの送信など）を及ぼすことはありません。最初は実際にメールを送ったり削除したりするコードをコメントアウトしてその代わりに一時的に</i> <span class="sans_thesansmonocd_w5regular_italic_">print()</span><i class="calibre5">を呼び出すdry runを実施することもおすすめします。こうすれば実際に実行する前にプログラムをテストできます。</i></p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-2006"><span id="calibre_link-527"></span><span class="sans_futura_std_bold_b_">The Gmail API</span></h3>
-<p class="tni">Gmail owns close to one-third of the email client market share, and most likely you have at least one Gmail email address. Because of Gmail’s additional security and anti-spam measures, controlling a Gmail account is better done through the EZGmail module than through the <span class="thesansmonocd_w5regular_">smtplib</span> and <span class="thesansmonocd_w5regular_">imaplib</span> modules in Python’s standard library. I wrote EZGmail to work on top of the official Gmail API and provide functions that make it easy to use Gmail from Python. For full instructions on installing EZGmail, see <span>Appendix A</span>.</p>
+<h3 class="h" id="calibre_link-2006"><span id="calibre_link-527"></span><span class="sans_futura_std_bold_b_">Gmail API</span></h3>
+<p class="tni">Gmailはメールクライアント市場シェアの約3分の1を占めており、少なくとも1つはGmailアドレスを持っている人が多いでしょう。Gmailのセキュリティとアンチスパム対策のため、Gmailアカウントを操作するのに、Pythonの標準ライブラリの<span class="thesansmonocd_w5regular_">smtplib</span>モジュールと<span class="thesansmonocd_w5regular_">imaplib</span>モジュールではなく、EZGmailモジュールを使うことをおすすめします。私は公式Gmail APIを利用してPythonからGmailを使いやすくしたEZGmailモジュールを書きました。EZGmailをインストールする方法は<span>付録A</span>をご参照ください。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-2007"><span id="calibre_link-528"></span><span class="sans_futura_std_heavy_oblique_bi_">Enabling the API</span></h4>
-<p class="tni">Before you write code, you must first sign up for a Gmail email account at <i class="calibre5"><a href="https://gmail.com" class="calibre1">https://<wbr></wbr>gmail<wbr></wbr>.com</a></i>. Then, you must set up the Gmail API for your account through the Google Cloud console at <i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i>. These steps are identical to the steps for setting up EZSheets detailed in <span>Chapter 15</span>, so I won’t repeat them in this chapter. Create a new project and make sure to enable the Gmail API instead of the Google Sheets API. On step 2 of the OAuth consent screen configuration, add the <i class="calibre5"><a href="https://mail.google.com" class="calibre1">https://<wbr></wbr>mail<wbr></wbr>.google<wbr></wbr>.com</a></i> scope to let your Python scripts read and send email. When you’re done, you should have a credentials file and a token file.</p>
-<p class="tx">Then, in the interactive shell, enter the following code:</p>
+<h4 class="h1" id="calibre_link-2007"><span id="calibre_link-528"></span><span class="sans_futura_std_heavy_oblique_bi_">APIの有効化</span></h4>
+<p class="tni">コードを書く前に<i class="calibre5"><a href="https://gmail.com" class="calibre1">https://<wbr></wbr>gmail<wbr></wbr>.com</a></i>でGmailアカウントのサインアップが必要です。そして、<i class="calibre5"><a href="https://console.cloud.google.com" class="calibre1">https://<wbr></wbr>console<wbr></wbr>.cloud<wbr></wbr>.google<wbr></wbr>.com</a></i>のGoogle Cloudコンソールから、そのアカウントでGmail APIを設定します。これらの手順は<span>第15章</span>で詳しく説明したEZSheetsの設定と同じですので、この章では繰り返しません。新しいプロジェクトを作成し、今回はGoogle Sheets APIではなくGmail APIを有効化します。OAuth同意画面の設定では、<i class="calibre5"><a href="https://mail.google.com" class="calibre1">https://<wbr></wbr>mail<wbr></wbr>.google<wbr></wbr>.com</a></i>をスコープに追加して、Pythonスクリプトからメールの送受信ができるようにします。手順を終えると認証情報ファイルとトークンファイルがあるはずです。</p>
+<p class="tx">対話型シェルで以下のコードを入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
 &gt;&gt;&gt; <b class="calibre10">ezgmail.init()</b>
 </code></pre>
-<p class="tx">If no error appears, EZGmail has been correctly installed.</p>
+<p class="tx">エラーが発生しなければ、EZGmailが正常にインストールされています。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-2008"><span id="calibre_link-529"></span><span class="sans_futura_std_heavy_oblique_bi_">Sending Mail</span></h4>
-<p class="tni">Once EZGmail is configured, you should be able to send email with a single function call:</p>
+<h4 class="h1" id="calibre_link-2008"><span id="calibre_link-529"></span><span class="sans_futura_std_heavy_oblique_bi_">メールの送信</span></h4>
+<p class="tni">EZGmailの設定ができたら、関数を1回呼び出すだけでメールの送信ができるはずです。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
 &gt;&gt;&gt; <b class="calibre10">ezgmail.send('recipient@example.com', 'Subject line', 'Body of the email')</b>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1130" aria-label="481"></span>If you want to attach files to your email, you can provide an extra list argument to the <span class="thesansmonocd_w5regular_">send()</span> function:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1130" aria-label="481"></span>添付ファイルは<span class="thesansmonocd_w5regular_">send()</span>関数にリスト引数で指定します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">ezgmail.send('recipient@example.com', 'Subject line', 'Body of the email',</b>
 <b class="calibre10">['attachment1.jpg', 'attachment2.mp3'])</b>
 </code></pre>
-<p class="tx">Note that as part of its security and anti-spam features, Gmail might not send repeated emails with the exact same text (as these are likely spam) or emails that contain <i class="calibre5">.exe</i> or <i class="calibre5">.zip</i> file attachments (as they are potentially viruses).</p>
-<p class="tx">You can also supply the optional keyword arguments <span class="thesansmonocd_w5regular_">cc</span> and <span class="thesansmonocd_w5regular_">bcc</span> to send carbon copies and blind carbon copies:</p>
+<p class="tx">セキュリティのアンチスパム機能により、Gmailは同じ本文のメールを繰り返し送れないかもしれませんし（スパムのように見えるからです）、<i class="calibre5">.exe</i>ファイルや <i class="calibre5">.zip</i>ファイルを添付したメールを送れないかもしれません（ウィルスの可能性があるからです）。</p>
+<p class="tx">CCやBCCを送信するために<span class="thesansmonocd_w5regular_">cc</span>と<span class="thesansmonocd_w5regular_">bcc</span>のオプションのキーワード引数を設定することもできます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
 &gt;&gt;&gt; <b class="calibre10">ezgmail.send('recipient@example.com', 'Subject line', 'Body of the </b>
 <b class="calibre10">email', cc='friend@example.com', bcc='otherfriend@example.com,</b>
 <b class="calibre10">someoneelse@example.com')</b>
 </code></pre>
-<p class="tx">If you need to remember which Gmail address the <i class="calibre5">token.json</i> file is configured for, you can examine <span class="thesansmonocd_w5regular_">ezgmail.EMAIL_ADDRESS</span>:</p>
+<p class="tx"><i class="calibre5">token.json</i>ファイルがどのGmailアドレスについて設定したものかを忘れた場合は、<span class="thesansmonocd_w5regular_">ezgmail.EMAIL_ADDRESS</span>で確認できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
 &gt;&gt;&gt; <b class="calibre10">ezgmail.EMAIL_ADDRESS</b>
 'example@gmail.com'
 </code></pre>
-<p class="tx">Be sure to treat the <i class="calibre5">token.json</i> file in the same way as your password. If someone else obtains this file, they can access your Gmail account (though they won’t be able to change your Gmail password). To revoke previously issued <i class="calibre5">token.json</i> files, return to the Google Cloud console and delete the credential for the compromised token. You will need to repeat the setup steps to generate a new credential and token file before you can resume using EZGmail.</p>
+<p class="tx"><i class="calibre5">token.json</i>ファイルはパスワードと同じように取り扱ってください。誰かがこのファイルを入手すると、（Gmailパスワードの変更はできませんが）Gmailアカウントにアクセスできてしまいます。Google Cloudコンソールに戻ってトークンの認証情報を削除すると、<i class="calibre5">token.json</i> ファイルを失効させられます。EZGmailの利用を再開するには、新しい認証情報とトークンファイルの設定をもう一度しなければなりません。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-2009"><span id="calibre_link-530"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading Mail</span></h4>
-<p class="tni">Gmail organizes email messages that are replies to each other into conversation threads. When you log in to Gmail in your web browser or through an app, you’re really looking at email threads rather than individual emails (even if the thread has only one email in it).</p>
-<p class="tx">EZGmail has <span class="thesansmonocd_w5regular_">GmailThread</span> and <span class="thesansmonocd_w5regular_">GmailMessage</span> objects to represent conversation threads and individual emails, respectively. A <span class="thesansmonocd_w5regular_">GmailThread</span> object has a <span class="thesansmonocd_w5regular_">messages</span> attribute that holds a list of <span class="thesansmonocd_w5regular_">GmailMessage</span> objects. The <span class="thesansmonocd_w5regular_">unread()</span> function returns a list of <span class="thesansmonocd_w5regular_">GmailThread</span> objects for the 25 most recent unread emails, which can then be passed to <span class="thesansmonocd_w5regular_">ezgmail.summary()</span> to print a summary of the conversation threads in that list:</p>
+<h4 class="h1" id="calibre_link-2009"><span id="calibre_link-530"></span><span class="sans_futura_std_heavy_oblique_bi_">メールの読み取り</span></h4>
+<p class="tni">Gmailは返信メールのメッセージを会話スレッドにまとめます。ブラウザやアプリでGmailにログインすると、（スレッドに1つのメールしかないとしても）個々のメールではなくメールスレッドが表示されます。</p>
+<p class="tx">EZGmailには、会話スレッドを表す<span class="thesansmonocd_w5regular_">GmailThread</span>オブジェクトと、個々のメールを表す<span class="thesansmonocd_w5regular_">GmailMessage</span>オブジェクトがあります。<span class="thesansmonocd_w5regular_">GmailThread</span>オブジェクトには、<span class="thesansmonocd_w5regular_">GmailMessage</span>オブジェクトのリストを保持している<span class="thesansmonocd_w5regular_">messages</span>属性があります。<span class="thesansmonocd_w5regular_">unread()</span>関数は、直近の未読メールの<span class="thesansmonocd_w5regular_">GmailThread</span>オブジェクトのリストを返します（最大25件）。これを<span class="thesansmonocd_w5regular_">ezgmail.summary()</span>に渡せば、そのリストに含まれる会話スレッドの概要を表示します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
-&gt;&gt;&gt; <b class="calibre10">unread_threads = ezgmail.unread()  </b># List of GmailThread objects
+&gt;&gt;&gt; <b class="calibre10">unread_threads = ezgmail.unread()  </b># GmailThreadオブジェクトのリスト
 &gt;&gt;&gt; <b class="calibre10">ezgmail.summary(unread_threads)</b>
-Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
+Al, Jon - Do you want to watch RoboCop this weekend?- Dec 09
 Jon - Thanks for stopping me from buying Bitcoin. - Dec 09
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-972" aria-label="482"></span>The <span class="thesansmonocd_w5regular_">summary()</span> function is handy for displaying a quick summary of the email threads, but to access specific messages (and parts of messages), you’ll want to examine the <span class="thesansmonocd_w5regular_">messages</span> attribute of the <span class="thesansmonocd_w5regular_">GmailThread</span> object. The <span class="thesansmonocd_w5regular_">messages</span> attribute contains a list of the <span class="thesansmonocd_w5regular_">GmailMessage</span> objects that make up the thread, and these have <span class="thesansmonocd_w5regular_">subject</span>, <span class="thesansmonocd_w5regular_">body</span>, <span class="thesansmonocd_w5regular_">timestamp</span>, <span class="thesansmonocd_w5regular_">sender</span>, and <span class="thesansmonocd_w5regular_">recipient</span> attributes that describe the email:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-972" aria-label="482"></span><span class="thesansmonocd_w5regular_">summary()</span>関数はスレッドの要約を手早く表示するのに使えますが、個々のメッセージ（やメッセージの一部）にアクセスするには、<span class="thesansmonocd_w5regular_">GmailThread</span>オブジェクトの<span class="thesansmonocd_w5regular_">messages</span>属性を調べます。<span class="thesansmonocd_w5regular_">messages</span>属性には、スレッドを構成する<span class="thesansmonocd_w5regular_">GmailMessage</span>オブジェクトのリストが格納されています。<span class="thesansmonocd_w5regular_">GmailMessage</span>オブジェクトには、そのメールについての詳細を示す<span class="thesansmonocd_w5regular_">subject</span>、<span class="thesansmonocd_w5regular_">body</span>、<span class="thesansmonocd_w5regular_">timestamp</span>、<span class="thesansmonocd_w5regular_">sender</span>、<span class="thesansmonocd_w5regular_">recipient</span>属性があります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">len(unread_threads)</b>
 2
 &gt;&gt;&gt; <b class="calibre10">str(unread_threads[0])</b>
@@ -92,8 +91,8 @@ datetime.datetime(2026, 12, 9, 13, 28, 48)
 &gt;&gt;&gt; <b class="calibre10">unread_threads[0].messages[0].recipient</b>
 'Jon Doe &lt;example@gmail.com&gt;'
 </code></pre>
-<p class="tx">To retrieve more than the 25 most recent unread emails, pass an integer for the <span class="thesansmonocd_w5regular_">maxResults</span> keyword argument. For example, <span class="thesansmonocd_w5regular_">ezgmail.unread(maxResults=50)</span> will return the 50 most recent unread emails.</p>
-<p class="tx">Like the <span class="thesansmonocd_w5regular_">ezgmail.unread()</span> function, the <span class="thesansmonocd_w5regular_">ezgmail.recent()</span> function will return the 25 most recent threads in your Gmail account:</p>
+<p class="tx">直近25件より多くの未読メールを取得したければ、<span class="thesansmonocd_w5regular_">maxResults</span>キーワード引数に整数を渡します。例えば、<span class="thesansmonocd_w5regular_">ezgmail.unread(maxResults=50)</span>は直近50件の未読メールを返します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ezgmail.unread()</span>関数と同様に、<span class="thesansmonocd_w5regular_">ezgmail.recent()</span>関数も直近25件のスレッドを返します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">recent_threads = ezgmail.recent()</b>
 &gt;&gt;&gt; <b class="calibre10">len(recent_threads)</b>
 25
@@ -101,31 +100,31 @@ datetime.datetime(2026, 12, 9, 13, 28, 48)
 &gt;&gt;&gt; <b class="calibre10">len(recent_threads)</b>
 46
 </code></pre>
-<p class="tx">You can pass an optional <span class="thesansmonocd_w5regular_">maxResults</span> keyword argument to change this limit.</p>
+<p class="tx">オプションの<span class="thesansmonocd_w5regular_">maxResults</span>キーワード引数で件数の上限を変更できます。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h4 class="h1" id="calibre_link-2010"><span id="calibre_link-531"></span><span class="sans_futura_std_heavy_oblique_bi_">Searching for Mail</span></h4>
-<p class="tni">In addition to using <span class="thesansmonocd_w5regular_">ezgmail.unread()</span> and <span class="thesansmonocd_w5regular_">ezgmail.recent()</span>, you can search for specific emails, the same way you would if you entered queries into the Gmail search box, by calling <span class="thesansmonocd_w5regular_">ezgmail.search()</span>:</p>
+<h4 class="h1" id="calibre_link-2010"><span id="calibre_link-531"></span><span class="sans_futura_std_heavy_oblique_bi_">メールの検索</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">ezgmail.unread()</span>と<span class="thesansmonocd_w5regular_">ezgmail.recent()</span>を使ってメールを取得するだけでなく、<span class="thesansmonocd_w5regular_">ezgmail.search()</span>を使ってメールを検索して取得できます。Gmailの検索ボックスにクエリを入力するのと同じ要領です。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">result_threads = ezgmail.search('RoboCop')</b>
 &gt;&gt;&gt; <b class="calibre10">len(result_threads)</b>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1118" aria-label="483"></span>1
 &gt;&gt;&gt; <b class="calibre10">ezgmail.summary(result_threads)</b>
 Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
 </code></pre>
-<p class="tx">The previous <span class="thesansmonocd_w5regular_">search()</span> call should yield the same results as if you had entered <i class="calibre5">RoboCop</i> into the search box, as in Figure 20-1.</p>
+<p class="tx">この<span class="thesansmonocd_w5regular_">search()</span>呼び出しは、図20-1に示すように、検索ボックスに<i class="calibre5">RoboCop</i>と入力したのと同じ結果になります。</p>
 <figure class="img"><img class="img1" id="calibre_link-803" src="images/000056.jpg" alt="Screenshot of the search term “RoboCop” in the Gmail search bar." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 20-1: Searching for</span> <span class="sans_futura_std_book_">RoboCop</span> <span class="sans_futura_std_book_oblique_i_">email at the Gmail website</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 20-1：Gmailウェブサイトで</span><span class="sans_futura_std_book_">RoboCop</span><span class="sans_futura_std_book_oblique_i_">メールを検索した結果</span></p></figcaption>
 </figure>
-<p class="tx">Like <span class="thesansmonocd_w5regular_">unread()</span> and <span class="thesansmonocd_w5regular_">recent()</span>, the <span class="thesansmonocd_w5regular_">search()</span> function returns a list of <span class="thesansmonocd_w5regular_">GmailThread</span> objects. You can also pass to the <span class="thesansmonocd_w5regular_">search()</span> function any of the special search operators that you can enter into the search box, such as the following:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'label:UNREAD'</span> For unread email</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'from:al@inventwithpython.com'</span> For email from <i class="calibre5">al@inventwithpython.com</i></p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'subject:hello'</span> For email with “hello” in the subject</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'has:attachment'</span> For email with file attachments</p>
-<p class="tx">You can view a full list of search operators at <i class="calibre5"><a href="https://support.google.com/mail/answer/7190" class="calibre1">https://<wbr></wbr>support<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/mail<wbr></wbr>/answer<wbr></wbr>/7190</a></i>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">unread()</span>や<span class="thesansmonocd_w5regular_">recent()</span>と同様に、<span class="thesansmonocd_w5regular_">search()</span>関数は<span class="thesansmonocd_w5regular_">GmailThread</span>オブジェクトを返します。<span class="thesansmonocd_w5regular_">search()</span>関数には、以下のような検索ボックスに入力できる特別な検索演算子を渡すことができます。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'label:UNREAD'</span> 未読メール</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'from:al@inventwithpython.com'</span> 差出人が<i class="calibre5">al@inventwithpython.com</i>のメール</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'subject:hello'</span> 件名に“hello”が含まれるメール</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'has:attachment'</span> 添付ファイルのあるメール</p>
+<p class="tx"><i class="calibre5"><a href="https://support.google.com/mail/answer/7190" class="calibre1">https://<wbr></wbr>support<wbr></wbr>.google<wbr></wbr>.com<wbr></wbr>/mail<wbr></wbr>/answer<wbr></wbr>/7190</a></i>で検索演算子の一覧を確認できます。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-2011"><span id="calibre_link-532"></span><span class="sans_futura_std_heavy_oblique_bi_">Downloading Attachments</span></h4>
-<p class="tni">A <span class="thesansmonocd_w5regular_">GmailMessage</span> object has an <span class="thesansmonocd_w5regular_">attachments</span> attribute that is a list of filenames for the message’s attached files. You can pass any of these names to a <span class="thesansmonocd_w5regular_">GmailMessage</span> object’s <span class="thesansmonocd_w5regular_">downloadAttachment()</span> method to download the files. You can also download all of them at once with <span class="thesansmonocd_w5regular_">downloadAllAttachments()</span>. By default, EZGmail saves attachments to the current working directory, but you can pass an additional <span class="thesansmonocd_w5regular_">downloadFolder</span> keyword argument to <span class="thesansmonocd_w5regular_">downloadAttachment()</span> and <span class="thesansmonocd_w5regular_">downloadAllAttachments()</span> as well. Here is an example:</p>
+<h4 class="h1" id="calibre_link-2011"><span id="calibre_link-532"></span><span class="sans_futura_std_heavy_oblique_bi_">添付ファイルのダウンロード</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">GmailMessage</span>オブジェクトには、そのメッセージに添付されたファイルの名前のリストである<span class="thesansmonocd_w5regular_">attachments</span>属性があります。<span class="thesansmonocd_w5regular_">GmailMessage</span>オブジェクトの<span class="thesansmonocd_w5regular_">downloadAttachment()</span>メソッドにその名前を渡せばファイルをダウンロードできます。<span class="thesansmonocd_w5regular_">downloadAllAttachments()</span>ですべてのファイルを一気にダウンロードすることもできます。デフォルトでは、EZGmailは添付ファイルを現在の作業ディレクトリに保存しますが、<span class="thesansmonocd_w5regular_">downloadAttachment()</span>と<span class="thesansmonocd_w5regular_">downloadAllAttachments()</span>の<span class="thesansmonocd_w5regular_">downloadFolder</span>キーワード引数に指定すればそのフォルダに保存します。例を示します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import ezgmail</b>
 &gt;&gt;&gt; <b class="calibre10">threads = ezgmail.search('vacation photos')</b>
 &gt;&gt;&gt; <b class="calibre10">threads[0].messages[0].attachments</b>
@@ -134,25 +133,26 @@ Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
 &gt;&gt;&gt; <b class="calibre10">threads[0].messages[0].downloadAllAttachments(downloadFolder='vacation2026')</b>
 ['tulips.jpg', 'canal.jpg', 'bicycles.jpg']
 </code></pre>
-<p class="tx">If a file already exists with the attachment’s filename, the downloaded attachment will automatically overwrite it.</p>
-<p class="tx">EZGmail contains additional features, and you can find the full documentation at <i class="calibre5"><a href="https://github.com/asweigart/ezgmail" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/ezgmail</a></i>.</p>
+<p class="tx">添付ファイルと同じ名前のファイルがすでに存在すれば、自動的に上書きします。</p>
+<p class="tx">EZGmailにはここで紹介した以外にもいろいろな機能があります。<i class="calibre5"><a href="https://github.com/asweigart/ezgmail" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/ezgmail</a></i>でドキュメントを読めます。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec7">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-937" aria-label="484"></span>
-<h3 class="h" id="calibre_link-2012"><span id="calibre_link-533"></span><span class="sans_futura_std_bold_b_">SMS Email Gateways</span></h3>
-<p class="tni">People are more likely to be near their smartphones than their computers, so text messages are often a more reliable way of sending immediate notifications than email. Also, text messages are usually shorter, making it more likely that a person will get around to reading them. The easiest, though not most reliable, way to send text messages is by using a <i class="calibre5">short message service (SMS) email gateway</i>, an email server that a cell phone provider has set up to receive texts via email and then forward them to the recipient as text messages.</p>
-<p class="tx">You can write a program to send these emails using EZGmail or the <span class="thesansmonocd_w5regular_">smtplib</span> module. The phone number and phone company’s email server make up the recipient email address. For example, to send a text to a Verizon customer with the phone number 212-555-1234, you would send an email to <i class="calibre5">2125551234@vtext.com</i>. The subject and body of the email would appear in the body of the text message.</p>
-<p class="tx">You can find the SMS email gateway for a cell phone provider by doing a web search for “sms email gateway <i class="calibre5">provider name</i>.” Table 20-1 lists the gateways for several popular providers. Many providers have separate email servers for SMS, which limits messages to 160 characters, and Multimedia Messaging Service (MMS), which has no character limit. If you wanted to send a photo, you would have to use the MMS gateway and attach the file to the email.</p>
-<p class="tx">If you don’t know the recipient’s cell phone provider, you can try searching for it using a carrier lookup site. The best way to find these sites is by searching the web for “find cell phone provider for number.” Many of these sites will let you look up numbers for free (though they will charge you to look up hundreds or thousands of phone numbers through their API).</p>
+<h3 class="h" id="calibre_link-2012"><span id="calibre_link-533"></span><span class="sans_futura_std_bold_b_">ショートメール</span></h3>
+<p class="tni">（訳注：訳者が調べた限り、最初に紹介されるSMSメールゲートウェイを利用する方法では、日本の事業者と契約している携帯電話へのショートメールの送信をすることはできず、何らかの有料サービスを利用しなければショートメールを送信できないようでした。）</p>
+<p class="tni">コンピュータよりもスマートフォンのほうが身近にあることが多いですから、ショートメールのほうがメールよりもすぐに気づくメッセージを送れます。また、ショートメールは短い文章なので、読んでもらえる可能性が高いです。信頼性はそこまで高くありませんが、最も簡単にショートメールを送るには、<i class="calibre5">SMSメールゲートウェイ</i>を利用します。SMSメールゲートウェイとは、携帯電話プロバイダーが設置したメールサーバーで、メールからテキストを受け取ってショートメールとして送ります。</p>
+<p class="tx">EZGmailモジュールか<span class="thesansmonocd_w5regular_">smtplib</span>モジュールを使ってメールを送信するプログラムを書けます。メールの送信先アドレスは、携帯電話の番号と携帯電話会社のメールサーバーから構成されます。例えば、Verizonと契約している212-555-1234の電話番号にショートメールを送るなら、<i class="calibre5">2125551234@vtext.com</i>にメールを送信します。メールの件名と本文がショートメールの本文に表示されます。</p>
+<p class="tx">“sms email gateway <i class="calibre5">provider name</i>”とウェブで検索すれば、携帯電話プロバイダのSMSメールゲートウェイがわかります。表20-1でいくつかのプロバイダを一覧にまとめました。多くのプロバイダでは、最大160文字にメッセージを制限しているSMSのメールサーバーと、文字数制限のないMMS（Multimedia Messaging Service）メールサーバーを別々に構築しています。写真を送りたければ、MMSメールゲートウェイを利用して、メールにファイルを添付して送信します。</p>
+<p class="tx">受信者の携帯電話プロバイダーがわからなければ、キャリア調査サイトで調べてみることができます。ウェブで“find cell phone provider for number”と検索すればキャリア調査サイトが見つかります。これらのサイトの多くは無料で調べられます（API経由で多数の電話番号を調べる場合は有料になるでしょう）。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-804"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 20-1:</span></span> <span class="sans_futura_std_book_">SMS Email Gateways for Cell Phone Providers</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-804"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 20-1：</span></span><span class="sans_futura_std_book_">プロバイダ別のSMSメールゲートウェイ</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Cell phone provider</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">SMS gateway</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">MMS gateway</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">携帯電話プロバイダ</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">SMSメールゲートウェイ</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">MMSメールゲートウェイ</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
@@ -218,51 +218,51 @@ Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
 </tr>
 </tbody>
 </table>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-997" aria-label="485"></span>While SMS email gateways are free and simple to use, there are several major disadvantages to them:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-997" aria-label="485"></span>SMSメールゲートウェイは無料でシンプルに使えますが、大きな欠点があります。</p>
 <ul class="ul">
-<li class="bl">You have no guarantee that the text will arrive promptly, or at all.</li>
-<li class="bl">You have no way of knowing if the text failed to arrive.</li>
-<li class="bl">The text recipient has no way of replying.</li>
-<li class="bl">SMS gateways may block you if you send too many emails, and there’s no way to find out how many is “too many.”</li>
-<li class="bl">The fact that the SMS gateway delivers a text message today doesn’t mean it will work tomorrow.</li>
+<li class="bl">ショートメールがすぐに確実に届くとは限らない</li>
+<li class="bl">ショートメールが届いたか届かなかったかがわからない</li>
+<li class="bl">受信者がショートメールに返信できない</li>
+<li class="bl">メールを送りすぎるとSMSメールゲートウェイからブロックされることがあり、何通送ればブロックされるかわからない</li>
+<li class="bl">SMSメールゲートウェイでショートメールをいつ送れなくなるかわからない</li>
 </ul>
-<p class="tx">Sending texts via an SMS gateway is ideal when you need to transmit the occasional nonurgent message. If you want a more reliable way to send SMS text messages, especially in bulk, you can use the API of a telecom service provider such as Twilio. These services often require a subscription or usage fees, and you may need to submit an application to use them. Regulations may differ for each country and change over time.</p>
-<p class="tx">An alternative to sending SMS texts is to use a free push notification service, as the next section will explain.</p>
+<p class="tx">SMSメールゲートウェイ経由でショートメールを送る方法は、緊急ではないメッセージを時々送る必要がある場合に適しています。特に大量のショートメールを、より確実に送りたければ、TwilioなどのサービスプロバイダーのAPIを使うほうがよいでしょう。これらのサービスは一般に定期課金や従量課金であり、申し込まなければ利用できません。国ごとに規制が異なり、料金も変わります。</p>
+<p class="tx">無料で使えるプッシュ通知がショートメールの代替になります。プッシュ通知については次の節で説明します。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h3 class="h" id="calibre_link-2013"><span id="calibre_link-534"></span><span class="sans_futura_std_bold_b_">Push Notifications</span></h3>
-<p class="tni">HTTP <i class="calibre5">pub-sub notification services</i> allow you to send and receive short, disposable messages over the internet via HTTP web requests. <span>Chapter 13</span> covers the use of the Requests library to make HTTP requests, and we’ll use it here to interact with the free online service ntfy (pronounced “notify” and always written in lowercase) at <i class="calibre5"><a href="https://ntfy.sh" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh</a></i>. The ntfy service is free and doesn’t require any sign-up or registration.</p>
-<p class="tx">Before we get started, install the ntfy app on your mobile phone so that you can receive notifications. This app is free and can be found in the app stores for Android and iPhone. You can also receive notifications in your web browser by going to <i class="calibre5"><a href="https://ntfy.sh/app" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/app</a></i>.</p>
-<p class="tx">These apps check with the ntfy service for any messages sent to a topic. You can think of a topic as a chat room or group chat name. Anyone in the world can send messages to a topic, and anyone in the world can subscribe to a topic to read these messages. If you want to send messages to just yourself, use a secret topic with random letters. Treat this topic name as a password and share it only with those you intend to read the messages. This chapter will use the topic <span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span> in the example code, though I recommend you use your own secret topic that contains a suffix of random letters and numbers. Topics are case-sensitive, and even if you keep the topic a secret, do not use ntfy to send sensitive information such as passwords or credit card numbers.</p>
+<h3 class="h" id="calibre_link-2013"><span id="calibre_link-534"></span><span class="sans_futura_std_bold_b_">プッシュ通知</span></h3>
+<p class="tni">HTTPの<i class="calibre5">pub-sub通知サービス</i>を使えば、HTTPウェブリクエスト経由でインターネットから短いその場限りのメッセージを送受信できます。<span>第13章</span>でHTTPリクエストを行うライブラリを紹介しました。ここではそれを使って<i class="calibre5"><a href="https://ntfy.sh" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh</a></i>のntfy（すべて小文字でnotifyと同じように発音します）という無料のオンラインサービスでやり取りしてみます。ntfyサービスは無料で登録不要です。</p>
+<p class="tx">まず、通知を受け取るために、お使いの携帯電話にntfyアプリをインストールしてください。このアプリは無料でAndroidとiPhoneのアプリストアからインストールできます。ブラウザで<i class="calibre5"><a href="https://ntfy.sh/app" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/app</a></i>に移動することでも通知を受け取ることができます。</p>
+<p class="tx">このアプリはntfyサービスのトピックに送られたメッセージを確認します。トピックはチャットルームやグループチャットのようなものだと考えてください。世界中の誰でも、トピックにメッセージを送ることができ、トピックをサブスクライブしてメッセージを受け取ることができます。自分たちだけにメッセージを送る予定なら、ランダムな文字の秘密のトピックを使ってください。そのトピック名をパスワードのように扱い、メッセージを読む人にだけ共有します。この章ではコード例で<span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span>というトピックを使いますが、ランダムな文字や数字を含む自分用の秘密のトピックを使うことをおすすめします。トピックは大文字と小文字を区別します。トピックを秘密にしておくとしても、ntfyでパスワードやクレジットカード番号のような機密情報を送らないようにしてください。</p>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-2014"><span id="calibre_link-535"></span><span class="sans_futura_std_heavy_oblique_bi_">Sending Notifications</span></h4>
-<p class="tni">Sending a push notification to everyone who is subscribed to a topic requires nothing more than making an HTTP request to the ntfy web server. This <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1266" aria-label="486"></span>means it can be done entirely with the Requests library. You don’t need to install a ntfy-specific package.</p>
-<p class="tx">To send the request, enter the following into the interactive shell. Replace the <span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span> example topic used throughout this chapter with your own random, secret topic:</p>
+<h4 class="h1" id="calibre_link-2014"><span id="calibre_link-535"></span><span class="sans_futura_std_heavy_oblique_bi_">プッシュ通知の送信</span></h4>
+<p class="tni">ntfyウェブサーバーに対してHTTPリクエストを行うだけで、トピックをサブスクライブしている人全員にプッシュ通知を送信できます。これはrequestsライブラリだけで可能です。ntfy固有のパッケージをインストールする必要はありません。</p>
+<p class="tx">対話型シェルで以下の内容を入力してリクエストを送ってみてください。本章を通じて例に示す<span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span>というトピックはご自身のランダムな秘密のトピックに置き換えてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import requests</b>
 &gt;&gt;&gt; <b class="calibre10">requests.post('https://ntfy.sh/AlSweigartZPgxBQ42', 'Hello, world!')</b>
 &lt;Response [200]&gt;
 </code></pre>
-<p class="tx">Note that we call <span class="thesansmonocd_w5regular_">requests.post()</span> to make a POST HTTP request to send a notification. This is different from the <span class="thesansmonocd_w5regular_">requests.get()</span> function covered in <span>Chapter 13</span> to download web pages.</p>
-<p class="tx">Anyone subscribed to the topic <span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span> will receive the message “Hello, world!” within a few seconds (though sometimes messages may be delayed by a few minutes). You can also view these yourself at <i class="calibre5"><a href="https://ntfy.sh/AlSweigartZPgxBQ42" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/AlSweigartZPgxBQ42</a></i>.</p>
-<p class="tx">The ntfy service has some limitations. Free users are limited to 250 messages per day, and messages can be 4,096 bytes in size at most. Flooding messages to various topics may result in your IP address becoming temporarily blocked. You can obtain a paid account to increase these limits on the ntfy website. Paid ntfy accounts can set reserved topics and limit who posts to them. If you don’t have permission to post to a reserved topic, you’ll get a <span class="thesansmonocd_w5regular_">&lt;Response [403]&gt;</span> response to your <span class="thesansmonocd_w5regular_">requests.post()</span> function call.</p>
-<p class="tx">Within the 4,096-byte limit, your messages can take on any format. Note that there is no way to determine who posted a message to a topic, so you may want to include “To” and “From” labels within the text of your message. Better yet, you could do so using JSON or some other data serialization format covered in <span>Chapter 18</span>.</p>
-<p class="tx">If you want your Python programs to send you a notification, these are the only two lines of code you need once you have the ntfy app installed on your phone and have subscribed to the topic. You’re free to run your Python program and step away for coffee, knowing that you’ll receive a notification on your phone when your program has finished its boring task.</p>
+<p class="tx">プッシュ通知を送信するために、<span class="thesansmonocd_w5regular_">requests.post()</span>を呼び出してPOSTのHTTPリクエストを行っています。<span>第13章</span>で紹介したウェブページをダウンロードする<span class="thesansmonocd_w5regular_">requests.get()</span>関数とは異なります。</p>
+<p class="tx">トピック<span class="thesansmonocd_w5regular_">AlSweigartZPgxBQ42</span>をサブスクライブしている人は、数秒内に（数分かかることもあります）“Hello, world!”というメッセージを受け取ります。<a href="https://ntfy.sh/AlSweigartZPgxBQ42" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/AlSweigartZPgxBQ42</a></i>で確認することもできます。<i class="calibre5"></p>
+<p class="tx">ntfyサービスにはいくつか制限があります。無料ユーザーは1日あたり250通のメッセージしか送れず、メッセージサイズは最大4,096バイトです。たくさんのトピックにメッセージを大量に送るとIPアドレスが一時的にブロックされる可能性があります。有料アカウントを取得すれば、ntfyウェブサイトについてのこうした制限を緩和できます。有料アカウントではトピックの予約ができ、投稿できる人を制限できます。予約されたトピックに投稿する権限がなければ、<span class="thesansmonocd_w5regular_">requests.post()</span>関数呼び出しで<span class="thesansmonocd_w5regular_">&lt;Response [403]&gt;</span>レスポンスになります。</p>
+<p class="tx">4,096バイトの制限内であれば、メッセージをどのようなフォーマットにしても構いません。誰がトピックにメッセージを送ったのかを判定する方法はありませんから、“To”と“From”のラベルをメッセージのテキスト内に含めたい場合があるでしょう。<span>第18章</span>で紹介したJSONその他のデータ直列化フォーマットを利用することもできます。</p>
+<p class="tx">ntfyアプリをスマホにインストールしてトピックをサブスクライブすれば、たった2行のコードでPythonのプログラムから通知を送れます。（時間のかかる）Pythonプログラムを実行してコーヒーを飲みに行き、プログラムの処理が終わればスマホで通知を受け取れます。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-2015"><span id="calibre_link-536"></span><span class="sans_futura_std_heavy_oblique_bi_">Transmitting Metadata</span></h4>
-<p class="tni">While the message you send is a freeform text string value, ntfy can optionally attach metadata values, such as a title, a priority level, and tags, to each message.</p>
-<p class="tx">A <i class="calibre5">title</i> is similar to an email subject line, and most apps display it above the message text in a larger font. A <i class="calibre5">priority level</i> ranges from 1 (the lowest priority) to 5 (the highest), with 3 being the default. A higher priority doesn’t deliver messages any faster; it just allows subscribers to configure their notification apps to display only messages of a certain priority or higher. <i class="calibre5">Tags</i> are keywords that subscribers can use to filter messages. Tags can also be the name of an emoji to display next to the message title. You can find a list of these emojis at <i class="calibre5"><a href="https://docs.ntfy.sh/publish/#tags-emojis" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.ntfy<wbr></wbr>.sh<wbr></wbr>/publish<wbr></wbr>/#tags<wbr></wbr>-emojis</a></i>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1269" aria-label="487"></span>This metadata is included in the HTTP request as headers, so you’ll need to pass a dictionary of them to the <span class="thesansmonocd_w5regular_">headers</span> keyword argument. Enter the following into the interactive shell to post a message with metadata:</p>
+<h4 class="h1" id="calibre_link-2015"><span id="calibre_link-536"></span><span class="sans_futura_std_heavy_oblique_bi_">メタデータの伝送</span></h4>
+<p class="tni">メッセージは自由形式のテキストですが、ntfyではオプションでタイトル、優先度、タグなどのメタデータを付加できます。</p>
+<p class="tx"><i class="calibre5">タイトル</i>はメールの件名と似ており、多くのアプリでメッセージの上に大きなフォントで表示されます。<i class="calibre5">優先度</i>は1（優先度最低）から5（優先度最高）まであり、デフォルトでは3です。優先度を高くしてもメッセージが速く届くわけではありません。受信者の側で指定した優先度以上のメッセージだけを表示するように設定できます。<i class="calibre5">タグ</i>はメッセージをフィルタリングするために使えるキーワードです。メッセージのタイトルの横に表示する絵文字の名前を指定することもできます。<i class="calibre5"><a href="https://docs.ntfy.sh/publish/#tags-emojis" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.ntfy<wbr></wbr>.sh<wbr></wbr>/publish<wbr></wbr>/#tags<wbr></wbr>-emojis</a></i>で利用できる絵文字の一覧を確認できます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1269" aria-label="487"></span>このメタデータはHTTPリクエストのヘッダーに含めますから、<span class="thesansmonocd_w5regular_">headers</span>キーワード引数にメタデータの辞書を渡します。対話型シェルに以下の内容を入力してメタデータ付きのメッセージを投稿してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import requests</b>
 &gt;&gt;&gt; <b class="calibre10">requests.post('https://ntfy.sh/AlSweigartZPgxBQ42', 'The rent is too high!', </b>
 <b class="calibre10">headers={'Title':'Important: Read this!', 'Tags': 'warning,neutral_face', 'Priority':'5'})</b>
 &lt;Response [200]&gt;
 </code></pre>
-<p class="tx">These features are useful for human users reading the notifications on their phone app. However, you can also write code so that Python scripts can receive push notifications, as we’ll discuss in the next section.</p>
+<p class="tx">この機能はスマホで通知を見る人間にとって便利です。次の節で説明するように、プッシュ通知を受け取るPythonスクリプトを書くこともできます。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-2016"><span id="calibre_link-537"></span><span class="sans_futura_std_heavy_oblique_bi_">Receiving Notifications</span></h4>
-<p class="tni">Your Python programs can also read the messages posted to a particular topic by making HTTP requests with the Requests library. Send a notification message using the code in the previous sections, and then enter the following into the interactive shell using the same topic as the notifications:</p>
+<h4 class="h1" id="calibre_link-2016"><span id="calibre_link-537"></span><span class="sans_futura_std_heavy_oblique_bi_">プッシュ通知の受信</span></h4>
+<p class="tni">requestsライブラリでHTTPリクエストを送信することによりトピックに投稿したメッセージを、Pythonプログラムで読み取ることができます。前節で紹介したコードでプッシュ通知を送ってから、対話型シェルで以下の内容を入力してください（トピックはメッセージを送信したトピックと同じにしてください）。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import requests</b>
 &gt;&gt;&gt; <b class="calibre10">resp = requests.get('https://ntfy.sh/AlSweigartZPgxBQ42/json?poll=1')</b>
 &gt;&gt;&gt; <b class="calibre10">resp.text</b>
@@ -273,13 +273,13 @@ Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
 "message":"The rent is too high!","priority":5,"tags":["warning",
 "neutral_face"]}\n'
 </code></pre>
-<p class="tx">Note that we call the <span class="thesansmonocd_w5regular_">requests.get()</span> function to receive notifications, unlike the <span class="thesansmonocd_w5regular_">requests.post()</span> function used when sending notifications. Also, the URL ends in <span class="thesansmonocd_w5regular_">/json?poll=1</span>.</p>
-<p class="tx">This is retrieving messages through polling, which returns all the messages for a topic that the server has. There are also streaming methods for retrieving ntfy messages, but polling has the simplest code. You can also add a <i class="calibre5">since</i> URL parameter after <i class="calibre5">poll=1</i> to get the messages by one of the following criteria:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=10m </span>Retrieves all messages for the topic in the last 10 minutes. You can also use <i class="calibre5">s</i> for seconds and <i class="calibre5">h</i> for hours, such as <i class="calibre5">since=2h30m</i> for all messages in the last two and a half hours.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=1737866912 </span>Retrieves all messages since the Unix epoch timestamp of <span class="thesansmonocd_w5regular_">1737866912</span>. This kind of timestamp is returned by <span class="thesansmonocd_w5regular_">time.time()</span> and represents the number of seconds since January 1, 1970. <span>Chapter 19</span> covers time-related functions.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=wZ22cjyKXw1F </span>Retrieves all messages after the message that had the ID of <span class="thesansmonocd_w5regular_">'wZ22cjyKXw1F'</span>.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1207" aria-label="488"></span>Separate additional URL parameters by an ampersand (&amp;). For example, passing the URL <i class="calibre5"><a href="https://ntfy.sh/AlSweigartZPgxBQ42/json?poll=1&amp;since=10m" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/AlSweigartZPgxBQ42<wbr></wbr>/json<wbr></wbr>?poll<wbr></wbr>=1&amp;since<wbr></wbr>=10m</a></i> retrieves all messages for the <i class="calibre5">AlSweigartZPgxBQ42</i> topic in the last 10 minutes. To reduce the load on the ntfy server, you should poll only once a minute or once every few minutes rather than as fast as possible in an infinite loop. If you need to receive notifications immediately, consult the online documentation to read about subscribing to notification streams.</p>
-<p class="tx">The text of this HTTP response is not valid JSON, since it contains a JSON object on each line of text, rather than one JSON object, so we use the <span class="thesansmonocd_w5regular_">splitlines()</span> string method before parsing them individually with the <span class="thesansmonocd_w5regular_">json</span> module (as covered in <span>Chapter 18</span>). Continue the previous interactive shell example:</p>
+<p class="tx">通知を送るときには<span class="thesansmonocd_w5regular_">requests.post()</span>関数を使いましたが、通知を受け取るときには<span class="thesansmonocd_w5regular_">requests.get()</span>関数を呼び出していることに注意してください。また、URLの末尾が<span class="thesansmonocd_w5regular_">/json?poll=1</span>となっていることにも注意してください。</p>
+<p class="tx">これはポーリングによるメッセージの取得で、サーバーに存在する、トピックのメッセージがすべて返ってきます。ntfyメッセージをストリーミングで取得する方法もありますが、ポーリングのほうがシンプルです。<i class="calibre5">poll=1</i>の後に<i class="calibre5">since</i>URLパラメータを追加して、以下のような基準でメッセージを取得することもできます。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=10m </span>トピックの過去10分のメッセージをすべて取得します。<i class="calibre5">s</i>で秒を、<i class="calibre5">h</i>で時間を指定することもできます。例えば<i class="calibre5">since=2h30m</i>と指定すると、過去2時間半のすべてのメッセージを取得します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=1737866912 </span>エポック秒<span class="thesansmonocd_w5regular_">1737866912</span>以降のメッセージをすべて取得します。エポック秒は<span class="thesansmonocd_w5regular_">time.time()</span>で返される値で、1970年1月1日からの経過秒数を表します。<span>第19章</span>で時間関数を紹介しました。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_1">since=wZ22cjyKXw1F </span><span class="thesansmonocd_w5regular_">'wZ22cjyKXw1F'</span>というIDのメッセージ以降のメッセージをすべて取得します。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1207" aria-label="488"></span>URLパラメータを追加するときは、アンド記号（&amp;）で区切ってください。例えば、<i class="calibre5"><a href="https://ntfy.sh/AlSweigartZPgxBQ42/json?poll=1&amp;since=10m" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh<wbr></wbr>/AlSweigartZPgxBQ42<wbr></wbr>/json<wbr></wbr>?poll<wbr></wbr>=1&amp;since<wbr></wbr>=10m</a></i>というURLでは、<i class="calibre5">AlSweigartZPgxBQ42</i>トピックの過去10分のメッセージをすべて取得します。ntfyサーバーに負荷をかけすぎないように、ポーリングを無限ループでできるだけ速く行わず1分に1回程度にしてください。通知をすぐに受け取りたければ、オンラインドキュメントを参照して、通知ストリームについて調べてください。</p>
+<p class="tx">このHTTPレスポンスのテキストは、各行にJSONオブジェクトが含まれており、一つの正しいJSONオブジェクトではありません。<span class="thesansmonocd_w5regular_">splitlines()</span>文字列メソッドを使って分割してから<span class="thesansmonocd_w5regular_">json</span>モジュール（<span>第18章</span>で紹介しました）で解析します。対話型シェルで続けて以下のように入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import json</b>
 &gt;&gt;&gt; <b class="calibre10">notifications = []</b>
 &gt;&gt;&gt; <b class="calibre10">for json_text in resp.text.splitlines():</b>
@@ -290,57 +290,57 @@ Al, Jon - Do you want to watch RoboCop this weekend? - Dec 09
 &gt;&gt;&gt; <b class="calibre10">notifications[1]['message']</b>
 'The rent is too high!'
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">json.loads()</span> function converts the JSON text from ntfy into a Python dictionary. Let’s look at each of the key value pairs:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"id":"wZ22cjyKXw1F" </span>The <span class="thesansmonocd_w5regular_">'id'</span> key’s value is a unique identification string that can help differentiate multiple notifications even if they have the same text.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"time":1797823712 </span>The <span class="thesansmonocd_w5regular_">'time'</span> key’s value is a Unix epoch timestamp of when the notification was created. Calling <span class="thesansmonocd_w5regular_">str(datetime.datetime .fromtimestamp(1797823712))</span> returns the human-readable string <span class="thesansmonocd_w5regular_">'2026 -12-20 21:28:32'</span>.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"expires":1797866912 </span>The <span class="thesansmonocd_w5regular_">'expires'</span> key’s value is a Unix epoch timestamp of when the notification will be deleted from the ntfy server.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"event":"message" </span>The <span class="thesansmonocd_w5regular_">'event'</span> key’s value can be either <span class="thesansmonocd_w5regular_">'message'</span>, <span class="thesansmonocd_w5regular_">'open'</span>, <span class="thesansmonocd_w5regular_">'keepalive'</span>, or <span class="thesansmonocd_w5regular_">'poll_request'</span>. These event types are explained in the online documentation, but for now, you’re probably only interested in <span class="thesansmonocd_w5regular_">'message'</span> events.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"topic":"AlSweigartZPgxBQ42" </span>The topic part of the URL is repeated in the <span class="thesansmonocd_w5regular_">'topic'</span> key’s value.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"title":"Important: Read this!" </span>If the notification has a title, there will be a <span class="thesansmonocd_w5regular_">'title'</span> key with it as a string value.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"message":"The rent is too high!" </span>The <span class="thesansmonocd_w5regular_">'message'</span> key’s value is a string of the notification’s text.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"priority":5 </span>If the notification has a priority, there will be a <span class="thesansmonocd_w5regular_">'priority'</span> key with an integer value from 1 to 5.</p>
-<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2017" aria-label="489"></span><span class="sans_thesansmonocd_w7bold_b_">"tags":["warning","neutral_face"] </span>If the notification has tags, there will be a <span class="thesansmonocd_w5regular_">'tags'</span> key with it as a list of string values. These string values may be the names of emoji characters to display.</p>
-<p class="tx">By reading the values in this dictionary, your Python programs can use the Requests library to receive notifications made by users or other Python scripts. The ntfy service is one of the easiest ways to make programs that can communicate with each other over the internet (though keep in mind the limit of 250 messages per day for free users).</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">json.loads()</span>関数がntfyから取得したJSONテキストをPythonの辞書に変換します。キーと値のペアを一つずつ見ていきましょう。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"id":"wZ22cjyKXw1F" </span><span class="thesansmonocd_w5regular_">'id'</span>キーの値は固有の識別文字列です。同じメッセージであっても通知を識別できます。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"time":1797823712 </span><span class="thesansmonocd_w5regular_">'time'</span>キーの値は通知が作成された時点のエポック秒です。<span class="thesansmonocd_w5regular_">str(datetime.datetime .fromtimestamp(1797823712))</span>を呼び出すと、<span class="thesansmonocd_w5regular_">'2026-12-20 21:28:32'</span>のような人間に読みやすい文字列が返されます。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"expires":1797866912 </span><span class="thesansmonocd_w5regular_">'expires'</span>キーの値は通知がntfyサーバーから削除される時点のエポック秒です。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"event":"message" </span><span class="thesansmonocd_w5regular_">'event'</span>キーの値は<span class="thesansmonocd_w5regular_">'message'</span>、<span class="thesansmonocd_w5regular_">'open'</span>、<span class="thesansmonocd_w5regular_">'keepalive'</span>、<span class="thesansmonocd_w5regular_">'poll_request'</span>のいずれかです。これらのイベントタイプについてはオンラインドキュメントで説明されています。当面の関心は<span class="thesansmonocd_w5regular_">'message'</span>イベントです。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"topic":"AlSweigartZPgxBQ42" </span><span class="thesansmonocd_w5regular_">'topic'</span>キーの値は、URLのトピックを表す部分の繰り返しです。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"title":"Important: Read this!" </span>通知にタイトルがあれば、<span class="thesansmonocd_w5regular_">'title'</span>キーがあり、値は文字列です。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"message":"The rent is too high!" </span><span class="thesansmonocd_w5regular_">'message'</span>キーの値は通知のテキストの文字列です。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">"priority":5 </span>通知に優先度があれば、<span class="thesansmonocd_w5regular_">'priority'</span>キーがあり、値は1から5の整数値です。</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2017" aria-label="489"></span><span class="sans_thesansmonocd_w7bold_b_">"tags":["warning","neutral_face"] </span>通知にタグがあれば、<span class="thesansmonocd_w5regular_">'tags'</span>キーがあり、値は文字列のリストです。これらの文字列値は表示される絵文字の名前の場合もあります。</p>
+<p class="tx">この辞書の値を読み取ることにより、Pythonプログラムでrequestsライブラリを使って通知を受け取れます。ntfyサービスを利用すれば、インターネットを通じて相互にやり取りするプログラムを簡単に作れます（ただし、無料ユーザーは1日250通のメッセージに制限されることを忘れないでください）。</p>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec12">
-<h3 class="h" id="calibre_link-2018"><span id="calibre_link-538"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">We communicate with each other over the internet and cell phone networks in dozens of different ways, but email and texting predominate. Your programs can communicate through these channels, which gives them powerful new notification features.</p>
-<p class="tx">As a security and spam precaution, some popular email services like Gmail don’t allow you to use the standard SMTP and IMAP protocols to access their services. The EZGmail package acts as a convenient wrapper for the Gmail API, letting your Python scripts access your Gmail account. I highly recommend that you set up a separate Gmail account for your scripts to use so that potential bugs in your program don’t cause problems for your personal Gmail account.</p>
-<p class="tx">Texting is a bit different from email, since, unlike with email, you’ll need more than just an internet connection to send SMS texts. You can use SMS email gateways to send texts from an email account, though this requires you to know the phone user’s telecom carrier and is not a reliable way to send messages. If you’re only sending short messages to yourself, you can use the push notification system at <i class="calibre5"><a href="https://ntfy.sh" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh</a></i>, then install the ntfy app on your phone to have your Python scripts send messages to topic subscribers.</p>
-<p class="tx">With these modules in your skill set, you’ll be able to program the specific conditions under which your programs should send notifications or reminders. Now your programs will have a reach that’s far beyond the computer they’re running on!</p>
+<h3 class="h" id="calibre_link-2018"><span id="calibre_link-538"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">私たちはインターネットや携帯電話のネットワークを利用して、さまざまな方法でお互いにやり取りしています。メールとショートメールがよく使われます。これらを通じてプログラムからやり取りでき、通知機能を実装できます。</p>
+<p class="tx">セキュリティとスパム対策として、Gmailのような人気のあるメールサービスでは、標準のSMTPやIMAPプロトコルでサービスにアクセスできないことがあります。EZGmailパッケージはGmail APIのラッパーとして機能しますから、これを使えばPythonスクリプトからGmailアカウントにアクセスできます。プログラムにバグがあっても個人で使っているアカウントに問題を生じさせないように、スクリプトから利用するGmailアカウントを別に開設することを強くおすすめします。</p>
+<p class="tx">ショートメールは、インターネット接続だけでは送信できない点で、メールとは少し異なります。SMSメールゲートウェイにメールを送ってショートメールを送ることができますが、送信先のキャリアを知らなければならず、またメッセージを確実に送れるとも限りません。自分宛にちょっとしたメッセージを送りたいのであれば、<i class="calibre5"><a href="https://ntfy.sh" class="calibre1">https://<wbr></wbr>ntfy<wbr></wbr>.sh</a></i>のシステムでプッシュ通知が利用できます。ntfyアプリをスマホにインストールして、Pythonスクリプトからトピックにメッセージを送ります。</p>
+<p class="tx">これらのモジュールを使いこなせるようになれば、特定の条件を満たしたときにプログラムから通知やリマインダーを送ることができます。プログラムを実行しているコンピュータから離れたところにメッセージを送れるようになります。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h3 class="h" id="calibre_link-2019"><span id="calibre_link-539"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  When using the Gmail API, what are the credentials and token files?</p>
-<p class="listnumber">  2.  In the Gmail API, what’s the difference between “thread” and “message” objects?</p>
-<p class="listnumber">  3.  Using <span class="thesansmonocd_w5regular_">ezgmail.search()</span>, how can you find emails that have file attachments?</p>
-<p class="listnumber">  4.  What are some of the disadvantages of using an SMS email gateway to send text messages?</p>
-<p class="listnumber">  5.  What Python library can send and receive notifications to ntfy?</p>
+<h3 class="h" id="calibre_link-2019"><span id="calibre_link-539"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. Gmail APIを利用する際の、認証情報ファイルとトークンファイルとは何ですか？</p>
+<p class="listnumber">  2. Gmail APIにおいて、GmailThreadオブジェクトとGmailMessageオブジェクトはどう違いますか？</p>
+<p class="listnumber">  3. <span class="thesansmonocd_w5regular_">ezgmail.search()</span>でどのようにすれば添付ファイルを見つけられますか？</p>
+<p class="listnumber">  4. ショートメールを送るのにSMSメールゲートウェイを利用する欠点は何ですか？</p>
+<p class="listnumber">  5. ntfyでプッシュ通知を送受信するのに使うPythonのライブラリは何ですか？</p>
 </section>
 <section type="division" aria-labelledby="sec14">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-944" aria-label="490"></span>
-<h3 class="h" id="calibre_link-2020"><span id="calibre_link-540"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-2020"><span id="calibre_link-540"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec15">
-<h4 class="h1" id="calibre_link-2021"><span id="calibre_link-541"></span><span class="sans_futura_std_heavy_oblique_bi_">Umbrella Reminder</span></h4>
-<p class="tni"><span>Chapter 13</span> showed you how to use the <span class="thesansmonocd_w5regular_">requests</span> module to scrape data from <i class="calibre5"><a href="https://weather.gov" class="calibre1">https://<wbr></wbr>weather<wbr></wbr>.gov</a></i>. Write a program that runs just before you wake up in the morning and checks whether rain is in the forecast for that day. If so, have the program text you a reminder to pack an umbrella before leaving the house.</p>
+<h4 class="h1" id="calibre_link-2021"><span id="calibre_link-541"></span><span class="sans_futura_std_heavy_oblique_bi_">傘のリマインダー</span></h4>
+<p class="tni"><span>第13章</span>では、<span class="thesansmonocd_w5regular_">requests</span>モジュールで<i class="calibre5"><a href="https://weather.gov" class="calibre1">https://<wbr></wbr>weather<wbr></wbr>.gov</a></i>からデータをスクレイピングする方法を説明しました。自分が朝起きる前に天気を確認してその日の予報が雨かどうかを調べるプログラムを作成します。雨予報なら家を出る前に傘を忘れないように自分に通知するプログラムを書いてください。</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h4 class="h1" id="calibre_link-2022"><span id="calibre_link-542"></span><span class="sans_futura_std_heavy_oblique_bi_">Auto Unsubscriber</span></h4>
-<p class="tni">Write a program that scans your email account, finds all the unsubscribe links in all your emails, and automatically opens them in a browser. This program will have to log in to your Gmail account. You can use Beautiful Soup (covered in <span>Chapter 13</span>) to check for any instance where the word <i class="calibre5">unsubscribe</i> occurs within an HTML link tag. Once you have a list of these URLs, you can use <span class="thesansmonocd_w5regular_">webbrowser.open()</span> to automatically open all of these links in a browser.</p>
-<p class="tx">You’ll still have to manually go through and complete any additional steps to unsubscribe yourself from these lists. In most cases, this involves clicking a link to confirm. But this script saves you from having to go through all of your emails looking for unsubscribe links.</p>
+<h4 class="h1" id="calibre_link-2022"><span id="calibre_link-542"></span><span class="sans_futura_std_heavy_oblique_bi_">自動登録解除</span></h4>
+<p class="tni">メールアカウントを走査して、本文中に登録解除のリンクがあるメールをすべて探し、自動的にそのリンクをブラウザで開くプログラムを作成します。このプログラムはお使いのGmailアカウントにログインする必要があります。<span>第13章</span>で紹介したBeautiful Soupを使って、<i class="calibre5">unsubscribe（登録解除）</i>という言葉がHTMLのリンクタグ内にあるかどうかを確認します。そのURLのリストを作成したら、<span class="thesansmonocd_w5regular_">webbrowser.open()</span>を使って自動的にそのリンクをブラウザで開きます。</p>
+<p class="tx">このリストから登録解除するには手動での操作が求められることがあるでしょう。多くの場合で確認リンクのクリックが必要です。それでもこのスクリプトは登録解除リンクが含まれるすべてのメールを探すという手間を省いてくれます。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h4 class="h1" id="calibre_link-2023"><span id="calibre_link-543"></span><span class="sans_futura_std_heavy_oblique_bi_">Email-Based Computer Control</span></h4>
-<p class="tni">Write a program that checks an email or ntfy account every 15 minutes for any instructions you send it and executes those instructions automatically. For example, BitTorrent is a peer-to-peer downloading system. Using free BitTorrent software such as qBittorrent, you can download large media files on your home computer. If you send the program a (completely legal, not at all piratical) BitTorrent link, the program will eventually check its email or look for ntfy notifications, find this message, extract the link, and then launch qBittorrent to start downloading the file. This way, you can have your home computer begin downloads while you’re away, and finish the (completely legal, not at all piratical) download by the time you return home.</p>
-<p class="tx"><span>Chapter 19</span> covered how to launch programs on your computer using the <span class="thesansmonocd_w5regular_">subprocess.Popen()</span> function. For example, the following call would launch the qBittorrent program, along with a torrent file:</p>
+<h4 class="h1" id="calibre_link-2023"><span id="calibre_link-543"></span><span class="sans_futura_std_heavy_oblique_bi_">メールやプッシュ通知によるコンピュータ制御</span></h4>
+<p class="tni">メールまたはntfyを15分ごとにチェックして、自分が送った指示があればその指示を自動的に実行するプログラムを作成します。例えば、BitTorrentはピアツーピアのダウンロードシステムです。qBittorrentのような無料のBitTorrentソフトウェアを使えば、サイズの大きなメディアファイルをコンピュータにダウンロードできます。BitTorrentのリンク（合法なもの）を送ると、プログラムがそのメールまたはntfyの通知をチェックし、そのメッセージに基づいてリンクを抽出して、qBittorrentを起動しファイルのダウンロードを開始します。この仕組みにより、外出中に自宅のコンピュータにダウンロードを開始させることができ、家に帰る頃にはダウンロードが終わっているという寸法です。</p>
+<p class="tx"><span>第19章</span>で<span class="thesansmonocd_w5regular_">subprocess.Popen()</span>関数によりコンピュータ上のプログラムを起動する方法を説明しました。例えば、以下のコードは、torrentファイルを指定してqBittorrentを起動します。</p>
 <pre class="pre"><code class="calibre9">qbProcess = subprocess.Popen(['C:\\Program Files (x86)\\qBittorrent\\
 qbittorrent.exe', 'shakespeare_complete_works.torrent'])
 </code></pre>
-<p class="tx">Of course, you’ll want the program to make sure the emails come from you. In particular, you might want to require that the emails contain a password, since it is fairly trivial for hackers to fake a “from” address in emails. The program should delete the emails it finds so that it doesn’t repeat instructions every time it checks the email account. As an extra feature, <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2024" aria-label="491"></span>have the program email or text you a confirmation every time it executes a command. Since you won’t be sitting in front of the computer that is running the program, it’s a good idea to use the logging functions (see <span>Chapter 5</span>) to write a text file log that you can check if errors come up.</p>
-<p class="tx">The qBittorrent program (as well as other BitTorrent applications) has a feature that enables it to quit automatically after the download completes. <span>Chapter 19</span> explained how you can determine when a launched application has quit with the <span class="thesansmonocd_w5regular_">wait()</span> method for <span class="thesansmonocd_w5regular_">Popen</span> objects. The <span class="thesansmonocd_w5regular_">wait()</span> method call will block until qBittorrent has stopped, and then your program can email or text you a notification that the download has completed.</p>
-<p class="tx">There are plenty of possible features you could add to this project. If you get stuck, you can download an example implementation of this program from <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>.</p>
+<p class="tx">もちろん、確かに自分が送ったメッセージによりプログラムを実行したいはずです。そのためにメッセージにパスワードを含めるのがよいでしょう。というのも、メールの差出人（from）を偽装するのは簡単だからです。プログラムはメッセージをチェックして指示を見つけたらそのメッセージを削除します。そうしないと何度も指示を実行してしまいます。コマンドを実行するごとに確認メッセージを送る機能を追加するのもよいでしょう。プログラムを実行するコンピュータの前に座っていないので、ログを残すと望ましいです（<span>第5章</span>を参照）。</p>
+<p class="tx">qBittorrentプログラムには、ダウンロードが完了したら自動的に終了する機能があります（他のBitTorrentプログラムにもあります）。<span>第19章</span>で<span class="thesansmonocd_w5regular_">Popen</span>オブジェクトの<span class="thesansmonocd_w5regular_">wait()</span>メソッドにより起動したアプリケーションが終了したときを判定できると説明しました。<span class="thesansmonocd_w5regular_">wait()</span>メソッドを呼び出すと、qBittorrentの実行中はプログラム実行をブロックしますから、qBittorrentが終了してからダウンロードが完了した旨のメッセージを自分に送れます。</p>
+<p class="tx">このプロジェクトの追加機能はいろいろ考えられます。行き詰まったら、<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>からこのプログラムの実装例をダウンロードしてください。</p>
 </section>
 </section>
 </section>
