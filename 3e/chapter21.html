@@ -10,35 +10,34 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1237" aria-label="493"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-2025">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">21</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">MAKING GRAPHS AND MANIPULATING IMAGES</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">21</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">グラフ作成と画像処理</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">If you own a digital camera or upload photos from your phone to a social media site, you probably cross paths with digital image files all the time. You may know how to use basic graphics software such as Microsoft Paint or Paintbrush, or even more advanced applications such as Adobe Photoshop. But if you need to edit a massive number of images, altering them by hand can be a lengthy, boring job.</p>
-<p class="tx">Enter Pillow, a third-party Python package for interacting with image files. This package has several functions that make cropping, resizing, and editing the content of an image easy. This chapter covers the use of Pillow to enable Python to automatically edit hundreds or thousands of images with ease.</p>
-<p class="tx">This chapter also covers Matplotlib, a popular library for making professional-looking graphs. Matplotlib is rich in features and customizable options, and there are many books entirely dedicated to it. Here, we’ll cover the basics of generating graph images with Matplotlib.</p>
+<p class="introtni">デジタルカメラをお持ちだったりスマホからソーシャルメディアサイトに写真をアップロードしたりしているなら、デジタル画像ファイルをしょっちゅう触っていることでしょう。Microsoft PaintやPaintbrushのような基本的なグラフィックソフトウェアや、Adobe Photoshopのようなさらに高機能なソフトウェアの使い方をご存知かもしれません。しかし、大量の画像を編集する必要があるとしたら、手動で行うのは時間がかかる退屈な作業です。</p>
+<p class="tx">PillowというサードパーティのPythonパッケージで画像ファイルを処理できます。このパッケージには、クロップ、リサイズ、内容編集などの作業が簡単にできる関数があります。この章では、Pillowを使ってPythonで簡単に何千枚の画像でも自動的に編集できる方法を紹介します。</p>
+<p class="tx">本章では、人気のある美しいグラフ作成ライブラリのMatplotlibも紹介します。Matplotlibは機能が豊富でカスタマイズできるオプションもたくさんあり、Matplotlibの解説に特化した本が多数出版されています。ここではMatplotlibによるグラフ作成の基礎を紹介します。</p>
 <section type="division" aria-labelledby="sec1">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-899" aria-label="494"></span>
-<h3 class="h" id="calibre_link-2026"><span id="calibre_link-545"></span><span class="sans_futura_std_bold_b_">Computer Image Fundamentals</span></h3>
-<p class="tni">To manipulate an image, you must understand how to work with colors and coordinates in Pillow. You can install the latest version of Pillow by following the instructions in <span>Appendix A</span>.</p>
+<h3 class="h" id="calibre_link-2026"><span id="calibre_link-545"></span><span class="sans_futura_std_bold_b_">コンピュータ画像の基礎</span></h3>
+<p class="tni">画像を操作するには、Pillowで色と座標をどのように扱うかを理解する必要があります。<span>付録A</span>の指示に従ってPillowの最新版をインストールしてください。</p>
 <section type="division" aria-labelledby="sec2">
-<h4 class="h1" id="calibre_link-2027"><span id="calibre_link-546"></span><span class="sans_futura_std_heavy_oblique_bi_">Colors and RGBA Values</span></h4>
-<p class="tni">Computer programs often represent a color in an image as an <i class="calibre5">RGBA value</i>, a group of numbers that specify the amount of red, green, blue, and <i class="calibre5">alpha</i> (or transparency) to include. Each of these component values is an integer ranging from 0 (none at all) to 255 (the maximum). These RGBA values belong to individual <i class="calibre5">pixels</i>, the smallest dot of a single color the computer screen can show. A pixel’s RGB setting tells it precisely what shade of color it should display. If an image on the screen is superimposed over a background image or desktop wallpaper, the alpha value determines how much of the background you can “see through” the image’s pixel.</p>
-<p class="tx">Pillow represents RGBA values using a tuple of four integer values. For example, it represents the color red with <span class="thesansmonocd_w5regular_">(255, 0, 0, 255)</span>. This color has the maximum amount of red, no green or blue, and the maximum alpha value, meaning it’s fully opaque. Pillow represents green with <span class="thesansmonocd_w5regular_">(0, 255, 0, 255)</span> and blue with <span class="thesansmonocd_w5regular_">(0, 0, 255, 255)</span>. White, the combination of all colors, is <span class="thesansmonocd_w5regular_">(255, 255, 255, 255)</span>, while black, which has no color at all, is <span class="thesansmonocd_w5regular_">(0, 0, 0, 255)</span>.</p>
-<p class="tx">If a color has an alpha value of <span class="thesansmonocd_w5regular_">0</span>, it is invisible, and it doesn’t really matter what the RGB values are. After all, invisible red looks the same as invisible black.</p>
-<p class="tx">Pillow uses the same standard color names as HTML. Table 21-1 lists a selection of standard color names and their values.</p>
+<h4 class="h1" id="calibre_link-2027"><span id="calibre_link-546"></span><span class="sans_futura_std_heavy_oblique_bi_">色とRGBA値</span></h4>
+<p class="tni">コンピュータプログラムでは、色を<i class="calibre5">RGBA値</i>で表現することが多いです。RGBA値とは、赤、緑、青、<i class="calibre5">アルファ</i>（透明度）を指定する数値の集まりです。数値はそれぞれ0（最小）から255（最大）の間の整数です。RGBA値は、コンピュータの画面で色を表示できる最小の点である個々の<i class="calibre5">ピクセル</i>について表されます。ピクセルのRGBにより表示する色調が正確に決まります。画面上の画像が背景画像や壁紙と重ね合わされていたら、そのピクセルでどの程度背景を見通せるかはアルファ値により決まります。</p>
+<p class="tx">Pillowは4つの整数値のタプルでRGBA値を表します。例えば、赤色を<span class="thesansmonocd_w5regular_">(255, 0, 0, 255)</span>で表します。この色は赤が最大量あり、緑と青はなく、アルファ値は最大値で完全に不透明です。Pillowでは緑を<span class="thesansmonocd_w5regular_">(0, 255, 0, 255)</span>で表し、青を<span class="thesansmonocd_w5regular_">(0, 0, 255, 255)</span>で表します。白はすべての色を混ぜ合わせた<span class="thesansmonocd_w5regular_">(255, 255, 255, 255)</span>で、黒は色が全くない<span class="thesansmonocd_w5regular_">(0, 0, 0, 255)</span>です。</p>
+<p class="tx">アルファ値が<span class="thesansmonocd_w5regular_">0</span>なら、透明で見えないので、RGB値が何であっても同じです。透明の赤は透明の黒と同じです。</p>
+<p class="tx">PillowはHTMLと同じ標準色名を使います。表21-1では標準色名とその値をいくつか示しています。</p>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-805"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 21-1:</span></span> <span class="sans_futura_std_book_">Standard Color Names and Their RGBA Values</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-805"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 21-1：</span></span><span class="sans_futura_std_book_">標準色名とRGBA値</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Name</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">RGBA value</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">名前</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">RGBA値</span></p></th>
 <td class="tch2"></td>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Name</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">RGBA value</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">名前</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">RGBA値</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
@@ -72,7 +71,7 @@
 </tr>
 </tbody>
 </table>
-<p class="tx">Pillow offers the <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> function so that you don’t have to memorize RGBA values for the colors you want to use. This function takes a color name string as its first argument and the string <span class="thesansmonocd_w5regular_">'RGBA'</span> as its second argument, and it returns an RGBA tuple. To see how this function works, enter the following into the interactive shell:</p>
+<p class="tx">Pillowには<span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span>関数があるので、使いたい色のRGBA値を暗記する必要はありません。この関数は色名の文字列を第一引数に取り、<span class="thesansmonocd_w5regular_">'RGBA'</span>という文字列を第二引数に取ります。RGBAのタプルが返されます。対話型シェルに以下の内容を入力してこの関数を試してみてください。</p>
 <pre class="pre"><code class="calibre9"><span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">from PIL import ImageColor</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('red', 'RGBA')</b>
 (255, 0, 0, 255)
@@ -85,53 +84,53 @@
 &gt;&gt;&gt; <b class="calibre10">ImageColor.getcolor('CornflowerBlue', 'RGBA')</b>
 (100, 149, 237, 255)
 </code></pre>
-<p class="tx">First, import the <span class="thesansmonocd_w5regular_">ImageColor</span> module from <span class="thesansmonocd_w5regular_">PIL</span> (not from Pillow, due to naming history beyond the scope of this book) <span class="codeannotation" aria-label="annotation1">❶</span>. The color name string you pass to <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> is case-insensitive, so <span class="thesansmonocd_w5regular_">'red'</span> <span class="codeannotation" aria-label="annotation2">❷</span> and <span class="thesansmonocd_w5regular_">'RED'</span> <span class="codeannotation" aria-label="annotation3">❸</span> give you the same RGBA tuple. You can also pass more unusual color names, like <span class="thesansmonocd_w5regular_">'chocolate'</span> and <span class="thesansmonocd_w5regular_">'CornflowerBlue'</span>.</p>
-<p class="tx">Pillow supports a huge number of color names, from <span class="thesansmonocd_w5regular_">'aliceblue'</span> to <span class="thesansmonocd_w5regular_">'yellowgreen'</span>. Enter the following into the interactive shell to view the color names:</p>
+<p class="tx">まず、<span class="thesansmonocd_w5regular_">PIL</span>（本書でこれ以上説明しませんが、歴史的な理由によりPillowという名前ではありません）から<span class="thesansmonocd_w5regular_">ImageColor</span>モジュールをインポートしてください(<span class="codeannotation" aria-label="annotation1">❶</span>)。<span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span>に渡す色名は大文字と小文字を区別しませんから、<span class="thesansmonocd_w5regular_">'red'</span>(<span class="codeannotation" aria-label="annotation2">❷</span>)も<span class="thesansmonocd_w5regular_">'RED'</span>(<span class="codeannotation" aria-label="annotation3">❸</span>)も同じRGBAタプルを返します。<span class="thesansmonocd_w5regular_">'chocolate'</span>や<span class="thesansmonocd_w5regular_">'CornflowerBlue'</span>のような聞き慣れない名前を渡すこともできます。</p>
+<p class="tx">Pillowは<span class="thesansmonocd_w5regular_">'aliceblue'</span>から<span class="thesansmonocd_w5regular_">'yellowgreen'</span>まで非常に多くの色名をサポートしています。対話型シェルに以下を入力して色名を確認してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import ImageColor</b>
 &gt;&gt;&gt; <b class="calibre10">list(ImageColor.colormap)</b>
 ['aliceblue', 'antiquewhite', 'aqua', ... 'yellow', 'yellowgreen']
 </code></pre>
-<p class="tx">You can find the full list of more than 100 standard color names in the keys of the <span class="thesansmonocd_w5regular_">ImageColor.colormap</span> dictionary.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ImageColor.colormap</span>辞書のキーにある100以上の色名をすべて見ることができます。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-2028"><span id="calibre_link-547"></span><span class="sans_futura_std_heavy_oblique_bi_">Coordinates and Box Tuples</span></h4>
-<p class="tni">Image pixels are addressed with x- and y-coordinates, which respectively specify a pixel’s horizontal and vertical locations in an image. The <i class="calibre5">origin</i> is the pixel at the top-left corner of the image and is specified with the notation (0, 0). The first zero represents the x-coordinate, which starts at zero at the origin and increases from left to right. The second zero represents the y-coordinate, which starts at zero at the origin and increases down the image. This bears repeating: y-coordinates increase going downward, which is the opposite of how you may remember y-coordinates being used in math class. Figure 21-1 demonstrates how this coordinate system works.</p>
+<h4 class="h1" id="calibre_link-2028"><span id="calibre_link-547"></span><span class="sans_futura_std_heavy_oblique_bi_">座標とボックスタプル</span></h4>
+<p class="tni">画像のピクセルは、水平方向の位置を指定するx座標と垂直方向の位置を指定するy座標で指し示されます。<i class="calibre5">原点</i>は画像の左上隅の(0, 0)です。1つ目のゼロはx座標を表し、原点のゼロから右方向へ増えていきます。2つ目のゼロはy座標を表し、原点のゼロから下方向へ増えていきます。ここで一つ注意を促します。y座標は下方向に増えていきます。数学の授業で習ったy座標と反対の方向です。図21-1でこの座標系を示しています。</p>
 <figure class="img"><img class="img4" id="calibre_link-806" src="images/000057.jpg" alt="Icon of a computer window with the top-left corner labeled (0,0) and the bottom-right corner labeled (27,26). Horizontally, arrow points right and reads “x increases”. Vertically, an arrow points down and reads “y increases”." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-1: The x- and y-coordinates of a 28×27 image of some sort of ancient data storage device</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-1：大昔のデータストレージデバイスの28×27画像のx座標とy座標</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-976" aria-label="496"></span>Many of Pillow’s functions and methods take a <i class="calibre5">box tuple</i> argument. This means Pillow is expecting a tuple of four integer coordinates that represent a rectangular region in an image. The four integers are, in order, as follows:</p>
-<p class="listplain"><b class="calibre10">Left</b> The x-coordinate of the leftmost edge of the box.</p>
-<p class="listplain"><b class="calibre10">Top</b> The y-coordinate of the top edge of the box.</p>
-<p class="listplain"><b class="calibre10">Right</b> The x-coordinate of one pixel to the right of the rightmost edge of the box. This integer must be greater than the left integer.</p>
-<p class="listplain"><b class="calibre10">Bottom</b> The y-coordinate of one pixel lower than the bottom edge of the box. This integer must be greater than the top integer.</p>
-<p class="tx">Note that the box includes the left and top coordinates and goes up to but does not include the right and bottom coordinates. For example, the box tuple <span class="thesansmonocd_w5regular_">(3, 1, 9, 6)</span> represents all the pixels in the black box in Figure 21-2.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-976" aria-label="496"></span>Pillowの関数やメソッドは、<i class="calibre5">ボックスタプル</i>を引数に取ることが多いです。ボックスタプルとは、画像の長方形の領域を表す4つの整数の座標のタプルです。4つの整数は次の順番です。</p>
+<p class="listplain"><b class="calibre10">左</b> 長方形の左端を表すx座標</p>
+<p class="listplain"><b class="calibre10">上</b> 長方形の上端を表すy座標</p>
+<p class="listplain"><b class="calibre10">右</b> 長方形の右端の右隣のx座標（長方形の左端のx座標より大きくなければならない）</p>
+<p class="listplain"><b class="calibre10">下</b> 長方形の下端の下隣のy座標（長方形の上端のy座標より大きくなければならない）</p>
+<p class="tx">長方形は左と上の座標は含みますが、右と下の座標は含まないことに注意してください。例えば、ボックスタプルの<span class="thesansmonocd_w5regular_">(3, 1, 9, 6)</span>は、図21-2の黒い長方形のピクセルを表します。</p>
 <figure class="img"><img class="img4" id="calibre_link-807" src="images/000068.jpg" alt="A grid with columns and rows labeled 0 through 9. The cells beginning at row 1, column 3 in top-left corner and going to row 5, column 8 in the bottom-right corner are shaded." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-2: The area represented by the box tuple</span> <span class="sans_thesansmonocd_w5regular_italic_">(3, 1, 9, 6)</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-2：ボックスタプル</span><span class="sans_thesansmonocd_w5regular_italic_">(3, 1, 9, 6)</span>によって表される領域</p></figcaption>
 </figure>
-<p class="tx">Now that you know how colors and coordinates work in Pillow, let’s use Pillow to manipulate an image.</p>
+<p class="tx">Pillowの色と座標について理解したので、Pillowを使って画像を操作してみましょう。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h3 class="h" id="calibre_link-2029"><span id="calibre_link-548"></span><span class="sans_futura_std_bold_b_">Manipulating Images with Pillow</span></h3>
-<p class="tni">To practice working with Pillow, we’ll use the <i class="calibre5">zophie.png</i> image file shown in Figure 21-3. You can download it from the book’s online resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>. Save the file in your current working directory, and then load the image into Python, like so:</p>
+<h3 class="h" id="calibre_link-2029"><span id="calibre_link-548"></span><span class="sans_futura_std_bold_b_">Pillowを使った画像の操作</span></h3>
+<p class="tni">Pillowの練習に図21-3で示した<i class="calibre5">zophie.png</i>画像を使います。<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>の本書のオンライン素材からダウンロードできます。このファイルを現在の作業ディレクトリに保存して、次のように画像をロードしてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
 &gt;&gt;&gt;<b class="calibre10"> cat_im.show()</b>
 </code></pre>
-<p class="tx">Import the <span class="thesansmonocd_w5regular_">Image</span> module from Pillow and call <span class="thesansmonocd_w5regular_">Image.open()</span>, passing it the image’s filename. You can then store the loaded image in a variable like <span class="thesansmonocd_w5regular_">cat_im</span>. Pillow <span class="thesansmonocd_w5regular_">Image</span> objects have a <span class="thesansmonocd_w5regular_">show()</span> method that opens the image in a <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2030" aria-label="497"></span>window. This is useful when you’re debugging your programs and need to identify the image in an <span class="thesansmonocd_w5regular_">Image</span> object.</p>
+<p class="tx">Pillowから<span class="thesansmonocd_w5regular_">Image</span>モジュールをインポートし、画像のファイル名を渡して<span class="thesansmonocd_w5regular_">Image.open()</span>を呼び出します。ロードした画像を<span class="thesansmonocd_w5regular_">cat_im</span>のような変数に格納できます。Pillowの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトには、画像をウィンドウで開く<span class="thesansmonocd_w5regular_">show()</span>メソッドがあります。これはプログラムのデバッグの際に<span class="thesansmonocd_w5regular_">Image</span>オブジェクトの画像を確認するのに便利です。</p>
 <figure class="img"><img class="img4" id="calibre_link-808" src="images/000070.jpg" alt="A photograph of a cat looking up." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-3: My cat, Zophie</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-3：私のネコのZophie</span></p></figcaption>
 </figure>
-<p class="tx">If the image file isn’t in the current working directory, change the working directory to the folder that contains the image file by calling the <span class="thesansmonocd_w5regular_">os.chdir()</span> function:</p>
+<p class="tx">画像ファイルが現在の作業ディレクトリになければ、<span class="thesansmonocd_w5regular_">os.chdir()</span>関数を呼び出して作業ディレクトリを画像ファイルがあるフォルダに変更してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import os</b>
 &gt;&gt;&gt; <b class="calibre10">os.chdir('C:\\folder_with_image_file')</b>
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">Image.open()</span> function returns a value of the <span class="thesansmonocd_w5regular_">Image</span> object data type, which Pillow uses to represent an image as a Python value. You can load an <span class="thesansmonocd_w5regular_">Image</span> object from an image file of any format by passing the <span class="thesansmonocd_w5regular_">Image.open()</span> function a string of the filename. You can save any changes you make to the <span class="thesansmonocd_w5regular_">Image</span> object to an image file (also of any format) with the <span class="thesansmonocd_w5regular_">save()</span> method. All the rotations, resizing, cropping, drawing, and other image manipulations will occur through method calls on this <span class="thesansmonocd_w5regular_">Image</span> object.</p>
-<p class="tx">To shorten the examples in this chapter, I’ll assume you’ve imported Pillow’s <span class="thesansmonocd_w5regular_">Image</span> module and stored the Zophie image in a variable named <span class="thesansmonocd_w5regular_">cat_im</span>. Be sure that the <i class="calibre5">zophie.png</i> file is in the current working directory so that the <span class="thesansmonocd_w5regular_">Image.open()</span> function can find it. Otherwise, you’ll have to specify the full absolute path in the function’s string argument.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Image.open()</span>関数は<span class="thesansmonocd_w5regular_">Image</span>オブジェクトデータ型の値を返します。Pillowではこれを使ってPythonの値として画像を表します。ファイル名の文字列を<span class="thesansmonocd_w5regular_">Image.open()</span>関数に渡せばどのようなフォーマットの画像ファイルからでも<span class="thesansmonocd_w5regular_">Image</span>オブジェクトをロードできます。<span class="thesansmonocd_w5regular_">save()</span>メソッドで<span class="thesansmonocd_w5regular_">Image</span>オブジェクトに加えた変更を画像ファイル（任意のフォーマット）に保存できます。回転、リサイズ、クロップ、描画その他の操作は、この<span class="thesansmonocd_w5regular_">Image</span>オブジェクトのメソッドを呼び出して行います。</p>
+<p class="tx">本章でのコード例を短くするために、Pillowの<span class="thesansmonocd_w5regular_">Image</span>モジュールをインポートしてZophieの画像を<span class="thesansmonocd_w5regular_">cat_im</span>という名前の変数に格納していると想定します。<span class="thesansmonocd_w5regular_">Image.open()</span>関数で開けるように、<i class="calibre5">zophie.png</i>ファイルが現在の作業ディレクトリにあることを確認してください。あるいは、この関数の引数の文字列に画像ファイルのフルパスを指定してください。</p>
 <section type="division" aria-labelledby="sec5">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1162" aria-label="498"></span>
-<h4 class="h1" id="calibre_link-2031"><span id="calibre_link-549"></span><span class="sans_futura_std_heavy_oblique_bi_">Working with the Image Data Type</span></h4>
-<p class="tni">An <span class="thesansmonocd_w5regular_">Image</span> object has several useful attributes that give you basic information about the image file from which it was loaded: its width and height, the filename, and the graphics format (such as JPEG, WebP, GIF, or PNG). For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2031"><span id="calibre_link-549"></span><span class="sans_futura_std_heavy_oblique_bi_">Imageデータ型の操作</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">Image</span>オブジェクトには、幅と高さ、ファイル名、画像フォーマット（例：JPEG、WebP、GIF、PNG）など、ロードした画像ファイルについての基本情報がわかる便利な属性がいくつかあります。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im.size</b>
@@ -149,48 +148,48 @@
 'Portable network graphics'
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">cat_im.save('zophie.jpg')</b>
 </code></pre>
-<p class="tx">After you’ve created an <span class="thesansmonocd_w5regular_">Image</span> object from <i class="calibre5">zophie.png</i> and stored the <span class="thesansmonocd_w5regular_">Image</span> object in <span class="thesansmonocd_w5regular_">cat_im</span>, the object’s <span class="thesansmonocd_w5regular_">size</span> attribute contains a tuple of the image’s width and height in pixels <span class="codeannotation" aria-label="annotation1">❶</span>. You can assign the values in the tuple to <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> variables <span class="codeannotation" aria-label="annotation2">❷</span> in order to access the width <span class="codeannotation" aria-label="annotation3">❸</span> and height <span class="codeannotation" aria-label="annotation4">❹</span> individually. The <span class="thesansmonocd_w5regular_">filename</span> attribute describes the original file’s name. The <span class="thesansmonocd_w5regular_">format</span> and <span class="thesansmonocd_w5regular_">format_description</span> attributes are strings that describe the image format of the original file (with <span class="thesansmonocd_w5regular_">format_description</span> being a bit more verbose).</p>
-<p class="tx">Finally, calling the <span class="thesansmonocd_w5regular_">save()</span> method and passing it <span class="thesansmonocd_w5regular_">'zophie.jpg'</span> saves a new image with the filename <i class="calibre5">zophie.jpg</i> to your hard drive <span class="codeannotation" aria-label="annotation5">❺</span>. Pillow sees that the file extension is <i class="calibre5">.jpg</i> and automatically saves the image using the JPEG image format. Now you should have two images, <i class="calibre5">zophie.png</i> and <i class="calibre5">zophie.jpg</i>, on your hard drive. While these files are based on the same image, they are not identical, because of their different formats.</p>
-<p class="tx">Pillow also provides the <span class="thesansmonocd_w5regular_">Image.new()</span> function, which returns an <span class="thesansmonocd_w5regular_">Image</span> object—much like <span class="thesansmonocd_w5regular_">Image.open()</span>, except the image represented by <span class="thesansmonocd_w5regular_">Image.new()</span>’s object will be blank. The arguments to <span class="thesansmonocd_w5regular_">Image.new()</span> are as follows:</p>
+<p class="tx"><i class="calibre5">zophie.png</i>から<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成して<span class="thesansmonocd_w5regular_">cat_im</span>に格納しています。そのオブジェクトの<span class="thesansmonocd_w5regular_">size</span>属性にはピクセル単位の画像の幅と高さのタプルが入っています(<span class="codeannotation" aria-label="annotation1">❶</span>)。そのタプルの値を<span class="thesansmonocd_w5regular_">width</span>と<span class="thesansmonocd_w5regular_">height</span>の変数に代入して(<span class="codeannotation" aria-label="annotation2">❷</span>)、後で幅(<span class="codeannotation" aria-label="annotation3">❸</span>)と高さ(<span class="codeannotation" aria-label="annotation4">❹</span>)に個別にアクセスできるようにしています。<span class="thesansmonocd_w5regular_">filename</span>属性は元のファイルの名前です。<span class="thesansmonocd_w5regular_">format</span>と<span class="thesansmonocd_w5regular_">format_description</span>の属性は元ファイルの画像フォーマットについての説明です（<span class="thesansmonocd_w5regular_">format_description</span>のほうが詳細な説明です）。</p>
+<p class="tx">最後に、<span class="thesansmonocd_w5regular_">'zophie.jpg'</span>を渡して<span class="thesansmonocd_w5regular_">save()</span>メソッドを呼び出して<i class="calibre5">zophie.jpg</i>というファイル名の新しい画像をハードドライブに保存しています(<span class="codeannotation" aria-label="annotation5">❺</span>)。Pillowはファイル拡張子が<i class="calibre5">.jpg</i>であることから自動的に画像をJPEG画像フォーマットを使って保存します。これでハードドライブ上の画像は<i class="calibre5">zophie.png</i>と<i class="calibre5">zophie.jpg</i>の2つになりました。これらのファイルは同じ画像から作成されていますが、フォーマットが異なるので、同一ではありません。</p>
+<p class="tx">Pillowには<span class="thesansmonocd_w5regular_">Image.new()</span>という関数もあり、<span class="thesansmonocd_w5regular_">Image.open()</span>と同じように<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返すのですが、空の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返します。<span class="thesansmonocd_w5regular_">Image.new()</span>の引数は以下のとおりです。</p>
 <ul class="ul">
-<li class="bl">The string <span class="thesansmonocd_w5regular_">'RGBA'</span>, which sets the color mode to RGBA. (There are other modes that this book doesn’t go into.)</li>
-<li class="bl">The size as a two-integer tuple of the new image’s width and height.</li>
-<li class="bl">The background color that the image should start with, as a four-integer tuple of an RGBA value. You can use the return value of the <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> function for this argument. Alternatively, you can pass the standard color name as a string.</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">'RGBA'</span>という文字列を指定してカラーモードをRGBAに設定します（他のモードもありますが本書では扱いません）。</li>
+<li class="bl">新しい画像の幅と高さの2つの整数をタプルとして指定します。</li>
+<li class="bl">画像の初期背景色を4つのRGBA値のタプルで指定します。<span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span>関数の返り値をこの引数で使うことができます。あるいは、標準色名を文字列で渡すこともできます。</li>
 </ul>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1078" aria-label="499"></span>For example, enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1078" aria-label="499"></span>対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (100, 200), 'purple')</b>
 &gt;&gt;&gt; <b class="calibre10">im.save('purpleImage.png')</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">im2 = Image.new('RGBA', (20, 20))</b>
 &gt;&gt;&gt; <b class="calibre10">im2.save('transparentImage.png')</b>
 </code></pre>
-<p class="tx">Here, we create an <span class="thesansmonocd_w5regular_">Image</span> object for an image that’s 100 pixels wide and 200 pixels tall, with a purple background <span class="codeannotation" aria-label="annotation1">❶</span>. We then save this image to the file <i class="calibre5">purpleImage.png</i>. We call <span class="thesansmonocd_w5regular_">Image.new()</span> again to create another <span class="thesansmonocd_w5regular_">Image</span> object, this time passing <span class="thesansmonocd_w5regular_">(20, 20)</span> for the dimensions and nothing for the background color <span class="codeannotation" aria-label="annotation2">❷</span>. Invisible black, <span class="thesansmonocd_w5regular_">(0, 0, 0, 0)</span>, is the default color used if no color argument is specified, so the second image has a transparent background. We save this 20×20 transparent square in <i class="calibre5">transparentImage.png</i>.</p>
+<p class="tx">幅が100ピクセルで高さが200ピクセルの背景色が紫の画像の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成しています(<span class="codeannotation" aria-label="annotation1">❶</span>)。この画像を<i class="calibre5">purpleImage.png</i>というファイルに保存しています。もう一度<span class="thesansmonocd_w5regular_">Image.new()</span>を呼び出して、別の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成します。今回は幅と高さに<span class="thesansmonocd_w5regular_">(20, 20)</span>を渡し、背景色は指定しません(<span class="codeannotation" aria-label="annotation2">❷</span>)。色の指定がなければ透明な黒<span class="thesansmonocd_w5regular_">(0, 0, 0, 0)</span>がデフォルトになりますから、2つ目の画像は透明な背景です。この20×20の透明な正方形を<i class="calibre5">transparentImage.png</i>に保存します。</p>
 </section>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-2032"><span id="calibre_link-550"></span><span class="sans_futura_std_heavy_oblique_bi_">Cropping Images</span></h4>
-<p class="tni"><i class="calibre5">Cropping</i> an image means selecting a rectangular region inside an image and removing everything outside the rectangle. The <span class="thesansmonocd_w5regular_">crop()</span> method of <span class="thesansmonocd_w5regular_">Image</span> objects takes a box tuple and returns an <span class="thesansmonocd_w5regular_">Image</span> object representing the cropped image. The cropping doesn’t happen in place—that is, the original <span class="thesansmonocd_w5regular_">Image</span> object is left untouched, and the <span class="thesansmonocd_w5regular_">crop()</span> method returns a new one. Remember that a box tuple (in this case, the cropped section) includes the left column and top row of pixels but not the right column and bottom row of pixels.</p>
-<p class="tx">Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2032"><span id="calibre_link-550"></span><span class="sans_futura_std_heavy_oblique_bi_">画像のクロップ</span></h4>
+<p class="tni">画像の<i class="calibre5">クロップ</i>とは、画像内の長方形の範囲を選択して、その範囲の外側をすべて取り除くことです。<span class="thesansmonocd_w5regular_">Image</span>オブジェクトの<span class="thesansmonocd_w5regular_">crop()</span>メソッドはボックスタプルを取り、クロップされた画像を表す<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返します。クロップはその場で起こるのではありません。つまり、元の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトはそのまま変更されず、<span class="thesansmonocd_w5regular_">crop()</span>メソッドが新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返します。ボックスタプル（この場合はクロップする範囲）は左と上のピクセルを含みますが右と下のピクセルは含まないことに注意してください。</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cropped_im = cat_im.crop((335, 345, 565, 560))</b>
 &gt;&gt;&gt; <b class="calibre10">cropped_im.save('cropped.png')</b>
 </code></pre>
-<p class="tx">This code makes a new <span class="thesansmonocd_w5regular_">Image</span> object for the cropped image, stores the object in <span class="thesansmonocd_w5regular_">cropped_im</span>, and then calls <span class="thesansmonocd_w5regular_">save()</span> on <span class="thesansmonocd_w5regular_">cropped_im</span> to save the cropped image in <i class="calibre5">cropped.png</i>, shown in Figure 21-4.</p>
+<p class="tx">このコードはクロップした画像の新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成し、<span class="thesansmonocd_w5regular_">cropped_im</span>にそのオブジェクトを格納します。それから、<span class="thesansmonocd_w5regular_">cropped_im</span>について<span class="thesansmonocd_w5regular_">save()</span>を呼び出して、図21-4に示されるクロップした画像を<i class="calibre5">cropped.png</i>という名前で保存します。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1058" aria-label="500"></span>
 <figure class="img"><img class="img2" id="calibre_link-809" src="images/000071.jpg" alt="The cat photograph cropped to show just the cat’s head." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-4: The new image is the cropped section of the original image.</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-4：新しい画像は元の画像の選択範囲でクロップされている</span></p></figcaption>
 </figure>
-<p class="tx">Cropping creates the new file from the original.</p>
+<p class="tx">クロップは元のファイルから新しいファイルを作成します。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h4 class="h1" id="calibre_link-2033"><span id="calibre_link-551"></span><span class="sans_futura_std_heavy_oblique_bi_">Pasting Images onto Other Images</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">copy()</span> method will return a new <span class="thesansmonocd_w5regular_">Image</span> object containing the same image as the <span class="thesansmonocd_w5regular_">Image</span> object on which it was called. This is useful if you need to make changes to an image but also want to keep an untouched version of the original. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2033"><span id="calibre_link-551"></span><span class="sans_futura_std_heavy_oblique_bi_">画像を別の画像に貼り付ける</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">Image</span>オブジェクトについて<span class="thesansmonocd_w5regular_">copy()</span>メソッドを呼び出すと、同じ画像を含む新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが返されます。画像に変更を加えたいのだけれども元の画像をそのまま残しておきたいときに使えます。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_copy_im = cat_im.copy()</b>
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">cat_im</span> and <span class="thesansmonocd_w5regular_">cat_copy_im</span> variables contain two separate <span class="thesansmonocd_w5regular_">Image</span> objects, which both have the same image on them. Now that you have an <span class="thesansmonocd_w5regular_">Image</span> object stored in <span class="thesansmonocd_w5regular_">cat_copy_im</span>, you can modify <span class="thesansmonocd_w5regular_">cat_copy_im</span> as you like and save it to a new filename, leaving <span class="thesansmonocd_w5regular_">cat_im</span> untouched.</p>
-<p class="tx">When called on an <span class="thesansmonocd_w5regular_">Image</span> object, the <span class="thesansmonocd_w5regular_">paste()</span> method pastes another image on top of it. Let’s continue the shell example by pasting a smaller image onto <span class="thesansmonocd_w5regular_">cat_copy_im</span>:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">cat_im</span>と<span class="thesansmonocd_w5regular_">cat_copy_im</span>の変数には、同じ画像ではありますが2つの別々の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが格納されています。<span class="thesansmonocd_w5regular_">cat_copy_im</span>に格納した<span class="thesansmonocd_w5regular_">Image</span>オブジェクトがありますから、これを好きなように変更して新しいファイル名で保存できます。<span class="thesansmonocd_w5regular_">cat_im</span>は変更されないままです。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Image</span>オブジェクトについて<span class="thesansmonocd_w5regular_">paste()</span>メソッドを呼び出すと、その画像の上に別の画像を貼り付けます。シェルの例を続けて<span class="thesansmonocd_w5regular_">cat_copy_im</span>に小さい画像を貼り付けてみましょう。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">face_im = cat_im.crop((335, 345, 565, 560))</b>
 &gt;&gt;&gt; <b class="calibre10">face_im.size</b>
 (230, 215)
@@ -198,21 +197,21 @@
 &gt;&gt;&gt; <b class="calibre10">cat_copy_im.paste(face_im, (400, 500))</b>
 &gt;&gt;&gt; <b class="calibre10">cat_copy_im.save('pasted.png')</b>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1254" aria-label="501"></span>First, we pass <span class="thesansmonocd_w5regular_">crop()</span> a box tuple for the rectangular area in <i class="calibre5">zophie.png</i> that contains Zophie’s face. This method call creates an <span class="thesansmonocd_w5regular_">Image</span> object representing a 230×215 crop, which we store in <span class="thesansmonocd_w5regular_">face_im</span>. Now we can paste <span class="thesansmonocd_w5regular_">face_im</span> onto <span class="thesansmonocd_w5regular_">cat_copy_im</span>. The <span class="thesansmonocd_w5regular_">paste()</span> method takes two arguments: a source <span class="thesansmonocd_w5regular_">Image</span> object and a tuple of the x- and y-coordinates where we want to paste the top-left corner of the source <span class="thesansmonocd_w5regular_">Image</span> object onto the main <span class="thesansmonocd_w5regular_">Image</span> object. Here, we call <span class="thesansmonocd_w5regular_">paste()</span> twice on <span class="thesansmonocd_w5regular_">cat_copy_im</span>, pasting two copies of <span class="thesansmonocd_w5regular_">face_im</span> onto <span class="thesansmonocd_w5regular_">cat_copy_im</span>. Finally, we save the modified <span class="thesansmonocd_w5regular_">cat_copy_im</span> to <i class="calibre5">pasted.png</i>, shown in Figure 21-5.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1254" aria-label="501"></span><i class="calibre5">zophie.png</i>の中でZophieの顔を含む長方形の領域を表すボックスタプルを<span class="thesansmonocd_w5regular_">crop()</span>に渡します。このメソッド呼び出しは、230×215でクロップした画像を表す<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成します。これを<span class="thesansmonocd_w5regular_">face_im</span>に格納します。この<span class="thesansmonocd_w5regular_">face_im</span>を<span class="thesansmonocd_w5regular_">cat_copy_im</span>に貼り付けます。<span class="thesansmonocd_w5regular_">paste()</span>メソッドは引数を2つ取ります。貼り付けるソースの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトと、ソースの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトをメインの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトに貼り付ける左上隅のx座標とy座標のタプルです。ここでは<span class="thesansmonocd_w5regular_">cat_copy_im</span>について<span class="thesansmonocd_w5regular_">paste()</span>を2回呼び出し、<span class="thesansmonocd_w5regular_">face_im</span>を2枚<span class="thesansmonocd_w5regular_">cat_copy_im</span>に貼り付けています。最後に、変更を加えた<span class="thesansmonocd_w5regular_">cat_copy_im</span>を<i class="calibre5">pasted.png</i>に保存します。それを図21-5に示します。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">注記</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">Despite their names, the <span class="sans_thesansmonocd_w5regular_italic_">copy()</span> and <span class="sans_thesansmonocd_w5regular_italic_">paste()</span> methods in Pillow don’t use your computer’s clipboard.</i></p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">paste()</span> method modifies its <span class="thesansmonocd_w5regular_">Image</span> object <i class="calibre5">in place</i>; it doesn’t return an <span class="thesansmonocd_w5regular_">Image</span> object with the pasted image. If you want to call <span class="thesansmonocd_w5regular_">paste()</span> but also keep an untouched version of the original image around, you’ll need to first copy the image and then call <span class="thesansmonocd_w5regular_">paste()</span> on that copy.</p>
+<p class="note-txt"><i class="calibre5">Pillowの<span class="sans_thesansmonocd_w5regular_italic_">copy()</span>メソッドと<span class="sans_thesansmonocd_w5regular_italic_">paste()</span>メソッドは、コンピュータのクリップボードを使いません。</i></p>
+<p class="tx"><span class="thesansmonocd_w5regular_">paste()</span>メソッドは<i class="calibre5">その場で</i><span class="thesansmonocd_w5regular_">Image</span>オブジェクトを変更します。貼り付け後の画像の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返すのではありません。<span class="thesansmonocd_w5regular_">paste()</span>を呼び出したいのだけれども元の変更されていない画像も残しておきたければ、最初に画像をコピーして、コピーしたものについて<span class="thesansmonocd_w5regular_">paste()</span>を呼び出します。</p>
 <figure class="img"><img class="img2" id="calibre_link-810" src="images/000072.jpg" alt="Multiple instances of the cat’s head superimposed on the original cat photograph." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-5: Zophie the cat, with her face pasted twice</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-5：顔を2枚貼り付けられたネコのZophie</span></p></figcaption>
 </figure>
-<p class="tx">Say you want to tile Zophie’s head across the entire image, as in Figure 21-6.</p>
+<p class="tx">図21-6に示すようにZophieの顔を画像全体に敷き詰めたいとしましょう。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1059" aria-label="502"></span>
 <figure class="img"><img class="img3" id="calibre_link-811" src="images/000073.jpg" alt="Multiple instances of the cat's head arranged in a grid." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-6: Nested for loops used with</span> <span class="sans_thesansmonocd_w5regular_italic_">paste()</span> <span class="sans_futura_std_book_oblique_i_">can duplicate the cat’s face (creating a dupli-cat, if you will).</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-6：<span class="sans_thesansmonocd_w5regular_italic_">paste()</span><span class="sans_futura_std_book_oblique_i_">を入れ子のforループで使うとネコの顔を複製できる</span></p></figcaption>
 </figure>
-<p class="tx">You can achieve this effect with a couple of <span class="thesansmonocd_w5regular_">for</span> loops. Continue the interactive shell example by entering the following:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">for</span>ループを2回使えばこれを実現できます。対話型シェルで続けて以下のように入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_im_width, cat_im_height = cat_im.size</b>
 &gt;&gt;&gt; <b class="calibre10">face_im_width, face_im_height = face_im.size</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">cat_copy_im = cat_im.copy()</b>
@@ -234,12 +233,12 @@
 690 1075
 &gt;&gt;&gt; <b class="calibre10">cat_copy_im.save('tiled.png')</b>
 </code></pre>
-<p class="tx">We store the original image’s width and height in <span class="thesansmonocd_w5regular_">cat_im_width</span> and <span class="thesansmonocd_w5regular_">cat_im_height</span>. Next, we make a copy of the image and store it in <span class="thesansmonocd_w5regular_">cat_copy_im</span> <span class="codeannotation" aria-label="annotation1">❶</span>. Now we can loop, pasting <span class="thesansmonocd_w5regular_">face_im</span> onto the copy. The outer <span class="thesansmonocd_w5regular_">for</span> loop’s <span class="thesansmonocd_w5regular_">left</span> variable starts at <span class="thesansmonocd_w5regular_">0</span> and increases by <span class="thesansmonocd_w5regular_">face_im_width</span> <span class="codeannotation" aria-label="annotation2">❷</span>. The inner <span class="thesansmonocd_w5regular_">for</span> loop’s <span class="thesansmonocd_w5regular_">top</span> variable starts at <span class="thesansmonocd_w5regular_">0</span> and increases by <span class="thesansmonocd_w5regular_">face_im_height</span> <span class="codeannotation" aria-label="annotation3">❸</span>. These nested <span class="thesansmonocd_w5regular_">for</span> loops produce values for <span class="thesansmonocd_w5regular_">left</span> and <span class="thesansmonocd_w5regular_">top</span> that paste a grid of <span class="thesansmonocd_w5regular_">face_im</span> images over the <span class="thesansmonocd_w5regular_">Image</span> object, as in Figure 21-6. To see the nested loops at work, we print <span class="thesansmonocd_w5regular_">left</span> and <span class="thesansmonocd_w5regular_">top</span>. After the pasting is complete, we save the modified <span class="thesansmonocd_w5regular_">cat_copy_im</span> to <i class="calibre5">tiled.png</i>.</p>
-<p class="tx">If you’re pasting an image with transparency, you’ll need to pass the image as the optional third argument, which tells Pillow what parts of the original image to paste. Otherwise, transparent pixels in the original image will appear as white pixels in the pasted-on image. We’ll explore this practice in more detail in <span>“Project 16: Add a Logo” on page 507</span>.</p>
+<p class="tx">元の画像の幅と高さを<span class="thesansmonocd_w5regular_">cat_im_width</span>と<span class="thesansmonocd_w5regular_">cat_im_height</span>に格納します。次に、画像のコピーを作成し、<span class="thesansmonocd_w5regular_">cat_copy_im</span>に格納します(<span class="codeannotation" aria-label="annotation1">❶</span>)。このコピーにループで<span class="thesansmonocd_w5regular_">face_im</span>を貼り付けます。外側の<span class="thesansmonocd_w5regular_">for</span>ループの変数<span class="thesansmonocd_w5regular_">left</span>は<span class="thesansmonocd_w5regular_">0</span>から始めて<span class="thesansmonocd_w5regular_">face_im_width</span>ずつ増やしていきます(<span class="codeannotation" aria-label="annotation2">❷</span>)。内側の<span class="thesansmonocd_w5regular_">for</span>ループの変数<span class="thesansmonocd_w5regular_">top</span>は<span class="thesansmonocd_w5regular_">0</span>から始めて<span class="thesansmonocd_w5regular_">face_im_height</span>ずつ増やしていきます(<span class="codeannotation" aria-label="annotation3">❸</span>)。この入れ子の<span class="thesansmonocd_w5regular_">for</span>ループは、図21-6に示したように<span class="thesansmonocd_w5regular_">Image</span>オブジェクトの上に<span class="thesansmonocd_w5regular_">face_im</span>画像を貼り付ける格子の<span class="thesansmonocd_w5regular_">left</span>と<span class="thesansmonocd_w5regular_">top</span>の値を作り出します。入れ子のループの動きを確認するために<span class="thesansmonocd_w5regular_">left</span>と<span class="thesansmonocd_w5regular_">top</span>を表示しています。貼り付けが完了すれば変更後の<span class="thesansmonocd_w5regular_">cat_copy_im</span>を<i class="calibre5">tiled.png</i>に保存します。</p>
+<p class="tx">透明な画像を貼り付ける場合は、オプションの第三引数としてその画像を渡す必要があります。そうすればPillowに元の画像のどの部分に貼り付けるかを伝えられます。第三引数を指定しなければ、透明なピクセルの部分は貼り付け後に白いピクセルになってしまいます。これについては<span>「プロジェクト16：ロゴの追加」</span>で詳しく説明します。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h4 class="h1" id="calibre_link-2034"><span id="calibre_link-552"></span><span class="sans_futura_std_heavy_oblique_bi_">Resizing Images</span></h4>
-<p class="tni">When called on an <span class="thesansmonocd_w5regular_">Image</span> object, the <span class="thesansmonocd_w5regular_">resize()</span> method returns a new <span class="thesansmonocd_w5regular_">Image</span> object of the specified width and height. It accepts a two-integer tuple argument representing the new dimensions. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2034"><span id="calibre_link-552"></span><span class="sans_futura_std_heavy_oblique_bi_">画像のリサイズ</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">Image</span>オブジェクトについて<span class="thesansmonocd_w5regular_">resize()</span>メソッドを呼び出すと、指定した幅と高さの新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが返されます。このメソッドは、新しい画像の幅と高さの2つの整数値のタプルを引数に取ります。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">width, height = cat_im.size</b>
@@ -248,47 +247,47 @@
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">svelte_im = cat_im.resize((width, height + 300))</b>
 &gt;&gt;&gt; <b class="calibre10">svelte_im.save('svelte.png')</b>
 </code></pre>
-<p class="tx">We assign the two values in the <span class="thesansmonocd_w5regular_">cat_im.size</span> tuple to the variables <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> <span class="codeannotation" aria-label="annotation1">❶</span>. Using these variables instead of <span class="thesansmonocd_w5regular_">cat_im.size[0]</span> and <span class="thesansmonocd_w5regular_">cat_im.size[1]</span> makes the rest of the code more readable.</p>
-<p class="tx">The first <span class="thesansmonocd_w5regular_">resize()</span> call passes <span class="thesansmonocd_w5regular_">int(width / 2)</span> for the new width and <span class="thesansmonocd_w5regular_">int(height / 2)</span> for the new height <span class="codeannotation" aria-label="annotation2">❷</span>, so the <span class="thesansmonocd_w5regular_">Image</span> object returned from <span class="thesansmonocd_w5regular_">resize()</span> will be half the width and height of the original image, or one-quarter of the original image size overall. The <span class="thesansmonocd_w5regular_">resize()</span> method accepts only <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1145" aria-label="504"></span>integers in its tuple argument, which is why you needed to wrap both divisions by <span class="thesansmonocd_w5regular_">2</span> in an <span class="thesansmonocd_w5regular_">int()</span> call.</p>
-<p class="tx">This resizing keeps the same proportions as the original image, but the new width and height values don’t have to conserve those proportions. The <span class="thesansmonocd_w5regular_">svelte_im</span> variable contains an <span class="thesansmonocd_w5regular_">Image</span> object that has the original width but a height that is 300 pixels taller <span class="codeannotation" aria-label="annotation3">❸</span>, giving Zophie a more slender look.</p>
-<p class="tx">Note that the <span class="thesansmonocd_w5regular_">resize()</span> method doesn’t edit the <span class="thesansmonocd_w5regular_">Image</span> object in place but instead returns a new <span class="thesansmonocd_w5regular_">Image</span> object.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">cat_im.size</span>タプルの2つの値を変数<span class="thesansmonocd_w5regular_">width</span>と<span class="thesansmonocd_w5regular_">height</span>に代入しています(<span class="codeannotation" aria-label="annotation1">❶</span>)。以降のコードでは<span class="thesansmonocd_w5regular_">cat_im.size[0]</span>と<span class="thesansmonocd_w5regular_">cat_im.size[1]</span>ではなくこれらの変数を使って読みやすくしています。</p>
+<p class="tx">最初の<span class="thesansmonocd_w5regular_">resize()</span>呼び出しでは新しい幅に<span class="thesansmonocd_w5regular_">int(width / 2)</span>を、新しい高さに<span class="thesansmonocd_w5regular_">int(height / 2)</span>を渡しています(<span class="codeannotation" aria-label="annotation2">❷</span>)。よって、<span class="thesansmonocd_w5regular_">resize()</span>が返す新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトは元の画像の幅と高さが半分になり、面積は4分の1になります。<span class="thesansmonocd_w5regular_">resize()</span>メソッドはタプルの引数に整数値しか受け入れませんので、<span class="thesansmonocd_w5regular_">2</span>で割った数を<span class="thesansmonocd_w5regular_">int()</span>呼び出しで囲んでいます。</p>
+<p class="tx">このリサイズは元の画像の縦横比率を維持していますが、縦横比率を変えるリサイズも可能です。変数<span class="thesansmonocd_w5regular_">svelte_im</span>には、幅は変えずに高さを300ピクセル高くしてZophieを痩せて見えるようにした<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを格納しています(<span class="codeannotation" aria-label="annotation3">❸</span>)。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">resize()</span>メソッドはその場で<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを編集するのではなく、新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返すことに注意してください。</p>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-2035"><span id="calibre_link-553"></span><span class="sans_futura_std_heavy_oblique_bi_">Rotating and Flipping Images</span></h4>
-<p class="tni">To rotate images, use the <span class="thesansmonocd_w5regular_">rotate()</span> method, which returns a new <span class="thesansmonocd_w5regular_">Image</span> object and leaves the original unchanged. The method accepts a single integer or float representing the number of degrees by which to rotate the image counterclockwise. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2035"><span id="calibre_link-553"></span><span class="sans_futura_std_heavy_oblique_bi_">画像の回転と反転</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">rotate()</span>メソッドを使えば画像を回転させられます。新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが返されるので、元の画像は変更されません。このメソッドは、画像を反時計回りに回転させる度数を表す整数または浮動小数点数を1つ取ります。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im = Image.open('zophie.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im.rotate(90).save('rotated90.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im.rotate(180).save('rotated180.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im.rotate(270).save('rotated270.png')</b>
 </code></pre>
-<p class="tx">Note that you can chain method calls by calling <span class="thesansmonocd_w5regular_">save()</span> directly on the <span class="thesansmonocd_w5regular_">Image</span> object returned from <span class="thesansmonocd_w5regular_">rotate()</span>. The first <span class="thesansmonocd_w5regular_">rotate()</span> and <span class="thesansmonocd_w5regular_">save()</span> chain rotates the image counterclockwise by 90 degrees and saves it to <i class="calibre5">rotated90 .png</i>. The second and third calls do the same, except they rotate the image by 180 degrees and 270 degrees, respectively. The results look like Figure 21-7.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">rotate()</span>が返す<span class="thesansmonocd_w5regular_">Image</span>オブジェクトに直接<span class="thesansmonocd_w5regular_">save()</span>をつなげられます。1つ目の<span class="thesansmonocd_w5regular_">rotate()</span>と<span class="thesansmonocd_w5regular_">save()</span>は画像を反時計回りに90度回転させて<i class="calibre5">rotated90.png</i>に保存します。2つ目は180度、3つ目は270度回転です。結果を図21-7に示します。</p>
 <figure class="img"><img class="img1" id="calibre_link-813" src="images/000074.jpg" alt="Four versions of the cat photograph: the original version, a version rotated so the cat’s head points left, a version further rotated so the cat is upside down, and a version rotated once more so the cat’s head points right." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-7: The original image (left) and the image rotated counterclockwise by 90, 180, and 270 degrees</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-7：元画像（左）と反時計回りに90度、180度、270度回転させた画像</span></p></figcaption>
 </figure>
-<p class="tx">The rotated images will have the same height and width as the original image. On Windows, a black background will fill in any gaps made by the rotation, as in Figure 21-8. On macOS and Linux, transparent pixels will fill in the gaps instead.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">rotate()</span> method has an optional <span class="thesansmonocd_w5regular_">expand</span> keyword argument that can be set to <span class="thesansmonocd_w5regular_">True</span> to enlarge the dimensions of the image to fit the entire rotated new image. For example, enter the following into the interactive shell:</p>
+<p class="tx">回転させた画像は元の画像と同じ高さと幅になります。Windowsでは、図21-8に示すように、回転により生じた隙間は黒い背景になります。macOSとLinuxでは、隙間が黒い背景ではなく透明なピクセルになります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">rotate()</span>メソッドには<span class="thesansmonocd_w5regular_">expand</span>というオプションのキーワード引数があります。それに<span class="thesansmonocd_w5regular_">True</span>を指定すれば、画像の大きさが拡大して回転した新しい画像全体が収まるようになります。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_im.rotate(6).save('rotated6.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im.rotate(6, expand=True).save('rotated6_expanded.png')</b>
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1290" aria-label="505"></span>The first call rotates the image by six degrees and saves it to <i class="calibre5">rotated6.png</i>. (See the image on the left of Figure 21-8.) The second call rotates the image by six degrees, sets <span class="thesansmonocd_w5regular_">expand</span> to <span class="thesansmonocd_w5regular_">True</span>, and saves the image to <i class="calibre5">rotated6_expanded.png</i>. (See the image on the right of Figure 21-8.)</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1290" aria-label="505"></span>1回目の呼び出しでは画像を6度回転させて<i class="calibre5">rotated6.png</i>に保存しています（図21-8の左側の画像参照）。2回目の呼び出しでは画像を6度回転させて、<span class="thesansmonocd_w5regular_">expand</span>に<span class="thesansmonocd_w5regular_">True</span>を指定し、<i class="calibre5">rotated6_expanded.png</i>に保存しています（図21-8の右側の画像参照）。</p>
 <figure class="img"><img class="img1" id="calibre_link-814" src="images/000075.jpg" alt="Two versions of the cat photograph slightly rotated to the left. In the first, the corners of the original photograph are cut off. In the second, the photo is resized so that the corners fit inside the original rectangle." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-8: The image rotated by six degrees normally (left) and with</span> <span class="sans_thesansmonocd_w5regular_italic_">expand=True</span> <span class="sans_futura_std_book_oblique_i_">(right)</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-8：</span> <span class="sans_thesansmonocd_w5regular_italic_">expand=True</span><span class="sans_futura_std_book_oblique_i_">を指定せずに6度回転させた画像（左側）と、指定して6度回転させた画像（右側）</span></p></figcaption>
 </figure>
-<p class="tx">If you rotate the image by 90, 180, or 270 degrees with <span class="thesansmonocd_w5regular_">expand=True</span>, the rotated image won’t have a black or transparent background.</p>
-<p class="tx">You can also mirror-flip an image, as in Figure 21-9, with the <span class="thesansmonocd_w5regular_">transpose()</span> method.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">expand=True</span>を指定して画像を90度、180度、270度回転させると、回転後の画像には黒または透明の背景が入ることはありません。</p>
+<p class="tx">図21-9に示すように、<span class="thesansmonocd_w5regular_">transpose()</span>メソッドで画像の鏡映反転もできます。</p>
 <figure class="img"><img class="img1" id="calibre_link-815" src="images/000076.jpg" alt="Three versions of the cat photograph: the original, the mirror image in the horizontal direction, and the mirror image in the vertical direction." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-9: The original image (left), the image with a horizontal flip (center), and the image with a vertical flip (right)</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-9：元の画像（左側）と水平鏡映反転（中央）と垂直鏡映反転（右側）</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1176" aria-label="506"></span>Enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1176" aria-label="506"></span>以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">cat_im.transpose(Image.FLIP_LEFT_RIGHT).save('horizontal_flip.png')</b>
 &gt;&gt;&gt; <b class="calibre10">cat_im.transpose(Image.FLIP_TOP_BOTTOM).save('vertical_flip.png')</b>
 </code></pre>
-<p class="tx">Like <span class="thesansmonocd_w5regular_">rotate()</span>, <span class="thesansmonocd_w5regular_">transpose()</span> creates a new <span class="thesansmonocd_w5regular_">Image</span> object. We pass <span class="thesansmonocd_w5regular_">Image.FLIP_LEFT_RIGHT</span> to flip the image horizontally and then save the result to <i class="calibre5">horizontal_flip.png</i>. To flip the image vertically, we pass <span class="thesansmonocd_w5regular_">Image.FLIP_TOP_BOTTOM</span> and save the result to <i class="calibre5">vertical_flip.png</i>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">rotate()</span>と同じように、<span class="thesansmonocd_w5regular_">transpose()</span>は新しい<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成します。<span class="thesansmonocd_w5regular_">Image.FLIP_LEFT_RIGHT</span>を渡して水平鏡映反転させ<i class="calibre5">horizontal_flip.png</i>に保存しています。<span class="thesansmonocd_w5regular_">Image.FLIP_TOP_BOTTOM</span>を渡して垂直鏡映反転させ<i class="calibre5">vertical_flip.png</i>に保存しています。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-2036"><span id="calibre_link-554"></span><span class="sans_futura_std_heavy_oblique_bi_">Changing Individual Pixels</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">getpixel()</span> method can retrieve the color of an individual pixel, and <span class="thesansmonocd_w5regular_">putpixel()</span> can additionally alter that color. Both methods accept a tuple representing the pixel’s x- and y-coordinates. The <span class="thesansmonocd_w5regular_">putpixel()</span> method takes an additional argument for the pixel’s new color, either as a four-integer RGBA tuple or as a three-integer RGB tuple. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2036"><span id="calibre_link-554"></span><span class="sans_futura_std_heavy_oblique_bi_">ピクセルごとに変更する</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">getpixel()</span>メソッドでピクセルごとの色を取得でき、<span class="thesansmonocd_w5regular_">putpixel()</span>でその色を変更できます。これらのメソッドはピクセルのx座標とy座標を表すタプルを取ります。<span class="thesansmonocd_w5regular_">putpixel()</span>メソッドは、4つの整数値のRGBAタプルか3つの整数のRGBタプルでそのピクセルの変更後の新しい色も取ります。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (100, 100))</b>
 <span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">im.getpixel((0, 0))</b>
@@ -308,43 +307,43 @@
 (169, 169, 169, 255)
 &gt;&gt;&gt; <b class="calibre10">im.save('putPixel.png')</b>
 </code></pre>
-<p class="tx">We make a new image that is a 100×100 transparent square <span class="codeannotation" aria-label="annotation1">❶</span>. Calling <span class="thesansmonocd_w5regular_">getpixel()</span> on coordinates in this image returns <span class="thesansmonocd_w5regular_">(0, 0, 0, 0)</span> because the image is transparent <span class="codeannotation" aria-label="annotation2">❷</span>. To color its pixels, we use nested <span class="thesansmonocd_w5regular_">for</span> loops to cycle through the pixels in the top half of the image <span class="codeannotation" aria-label="annotation3">❸</span>, passing <span class="thesansmonocd_w5regular_">putpixel()</span> an RGB tuple representing a light gray <span class="codeannotation" aria-label="annotation4">❹</span>.</p>
-<p class="tx">Say we want to color the bottom half of the image dark gray but don’t know the RGB tuple for dark gray. The <span class="thesansmonocd_w5regular_">putpixel()</span> method doesn’t accept a standard color name like <span class="thesansmonocd_w5regular_">'darkgray'</span>, so we use <span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span> to get a corresponding color tuple <span class="codeannotation" aria-label="annotation6">❻</span>. We loop through the pixels in the bottom half of the image <span class="codeannotation" aria-label="annotation5">❺</span> and pass <span class="thesansmonocd_w5regular_">putpixel()</span> the return value of this call, producing an image that is half light gray and half dark gray, as shown in Figure 21-10. We call <span class="thesansmonocd_w5regular_">getpixel()</span> on any of the coordinates to confirm that the color of a given pixel is what we expect. Finally, we save the image to <i class="calibre5">putPixel.png</i>.</p>
+<p class="tx">100×100の透明な正方形の新しい画像を作成します(<span class="codeannotation" aria-label="annotation1">❶</span>)。透明な画像なので、この画像の座標について<span class="thesansmonocd_w5regular_">getpixel()</span>を呼び出すと<span class="thesansmonocd_w5regular_">(0, 0, 0, 0)</span>が返されます(<span class="codeannotation" aria-label="annotation2">❷</span>)。色をつけるために、入れ子の<span class="thesansmonocd_w5regular_">for</span>ループでこの画像の上半分のピクセルを反復処理します(<span class="codeannotation" aria-label="annotation3">❸</span>)。ライトグレーを表すRGBタプルを<span class="thesansmonocd_w5regular_">putpixel()</span>に渡します(<span class="codeannotation" aria-label="annotation4">❹</span>)。</p>
+<p class="tx">画像の下半分をダークグレーにしたいけれどもそのRGBタプルがわからないとしましょう。<span class="thesansmonocd_w5regular_">putpixel()</span>メソッドは<span class="thesansmonocd_w5regular_">'darkgray'</span>のような標準色名は取りません。そのため、<span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span>でその色に対応するタプルを取得します(<span class="codeannotation" aria-label="annotation6">❻</span>)。画像の下半分を反復処理します(<span class="codeannotation" aria-label="annotation5">❺</span>)。<span class="thesansmonocd_w5regular_">putpixel()</span>に<span class="thesansmonocd_w5regular_">ImageColor.getcolor()</span>の返り値を渡します。これで図21-10に示すような、上半分はライトグレーで下半分はダークグレーの画像ができました。指定したピクセルの色が期待通りであることを<span class="thesansmonocd_w5regular_">getpixel()</span>を呼び出して確認します。最後に、この画像を<i class="calibre5">putPixel.png</i>に保存します。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-812" aria-label="507"></span>
 <figure class="img"><img class="img4" id="calibre_link-816" src="images/000058.jpg" alt="A square whose top half is light gray and whose bottom half is dark gray." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-10: The</span> <span class="sans_futura_std_book_">putPixel.png</span> <span class="sans_futura_std_book_oblique_i_">image</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-10：</span><span class="sans_futura_std_book_">putPixel.png</span><span class="sans_futura_std_book_oblique_i_">画像</span></p></figcaption>
 </figure>
-<p class="tx">Of course, drawing one pixel of an image at a time isn’t very convenient. If you need to draw shapes, use the <span class="thesansmonocd_w5regular_">ImageDraw</span> functions explained in <span>“Drawing on Images” on page 512</span>.</p>
-<p class="ph"><span id="calibre_link-555"></span><span class="sans_futura_std_heavy_b_">Project 16: Add a Logo</span></p>
-<p class="tni">Say you have the boring job of resizing thousands of images and adding a small logo watermark to the corner of each. Doing this with a basic graphics program such as Paintbrush or Paint would take forever. A fancier graphics application such as Photoshop can do batch processing, but that software costs hundreds of dollars. Let’s write a script to do it instead.</p>
-<p class="tx">Imagine that Figure 21-11 is the logo you want to add to the bottom-right corner of each image: a black cat icon with a white border and transparent background. You can use your own logo image or download the one included in this book’s online resources.</p>
+<p class="tx">ピクセルごとに描画するのはあまり便利ではありません。直線や曲線の図形を描画するなら、<span>「描画」</span>で説明する<span class="thesansmonocd_w5regular_">ImageDraw</span>関数を使います。</p>
+<p class="ph"><span id="calibre_link-555"></span><span class="sans_futura_std_heavy_b_">プロジェクト16：ロゴの追加</span></p>
+<p class="tni">何千枚もの画像をリサイズして隅に小さなロゴの透かしを追加するという退屈な作業があるとします。この作業をPaintbrushやPaintのような基本的なグラフィックプログラムで行うとしたら、いつまで経っても終わらないでしょう。Photoshopのような高機能のグラフィックアプリケーションであればバッチ処理ができますが、このようなソフトウェアは数万円します。この作業を行うスクリプトを書きましょう。</p>
+<p class="tx">図21-11のロゴを各画像の右下隅に追加したいです。背景が透明で白い輪郭の黒いネコのアイコンです。ロゴをご自身で用意しても構いませんし、本書のオンライン素材に入っているものを使っても構いません。</p>
 <figure class="img"><img class="img4" id="calibre_link-818" src="images/000059.jpg" alt="A cat silhouette icon" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-11: The logo to add to the image</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-11：画像に追加するロゴ</span></p></figcaption>
 </figure>
-<p class="tx">At a high level, here’s what the program should do:</p>
+<p class="tx">このプログラムには以下の内容が必要です。</p>
 <ul class="ul">
-<li class="bl">Load the logo image.</li>
-<li class="bl">Loop over all <i class="calibre5">.png</i> and<i class="calibre5">.jpg</i> files in the working directory.</li>
-<li class="bl">Check whether the image is wider and taller than 300 pixels.</li>
-<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2037" aria-label="508"></span>If so, reduce the width or height (whichever is larger) to 300 pixels and scale down the other dimension proportionally.</li>
-<li class="bl">Paste the logo image into the corner.</li>
-<li class="bl">Save the altered images to another folder.</li>
+<li class="bl">ロゴ画像のロード</li>
+<li class="bl">現在の作業ディレクトリのすべての<i class="calibre5">.png</i>ファイルと<i class="calibre5">.jpg</i>ファイルを反復処理</li>
+<li class="bl">画像が300ピクセルよりも大きいか判定</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2037" aria-label="508"></span>300ピクセルよりも大きければ、幅と高さの大きいほうを300ピクセルに切り詰め、比率を保ったまま小さくする</li>
+<li class="bl">隅にロゴ画像を貼り付ける</li>
+<li class="bl">変更後の画像を別のフォルダに保存する</li>
 </ul>
-<p class="tx">This means the code will need to do the following:</p>
+<p class="tx">コードには以下の内容が必要になります。</p>
 <ul class="ul">
-<li class="bl">Open the <i class="calibre5">catlogo.png</i> file as an <span class="thesansmonocd_w5regular_">Image</span> object.</li>
-<li class="bl">Loop over the strings returned from <span class="thesansmonocd_w5regular_">os.listdir('.')</span>.</li>
-<li class="bl">Get the width and height of the image from the <span class="thesansmonocd_w5regular_">size</span> attribute.</li>
-<li class="bl">Calculate the new width and height of the resized image.</li>
-<li class="bl">Call the <span class="thesansmonocd_w5regular_">resize()</span> method to resize the image.</li>
-<li class="bl">Call the <span class="thesansmonocd_w5regular_">paste()</span> method to paste the logo in the bottom-right corner.</li>
-<li class="bl">Call the <span class="thesansmonocd_w5regular_">save()</span> method to save the changes, using the original filename.</li>
+<li class="bl"><i class="calibre5">catlogo.png</i>ファイルを<span class="thesansmonocd_w5regular_">Image</span>オブジェクトとして開く</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">os.listdir('.')</span>で返される文字列を反復処理する</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">size</span>属性で画像の幅と高さを取得する</li>
+<li class="bl">リサイズ後の画像の幅と高さを計算する</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">resize()</span>メソッドを呼び出して画像をリサイズする</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">paste()</span>メソッドを呼び出してロゴを右下隅に貼り付ける</li>
+<li class="bl"><span class="thesansmonocd_w5regular_">save()</span>メソッドを呼び出して変更後の画像を元のファイル名で保存する</li>
 </ul>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-2038"><span id="calibre_link-556"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 1: Open the Logo Image</span></h4>
-<p class="tni">Open a new file editor tab, enter the following code, and save it as <i class="calibre5">resizeAndAddLogo.py</i>:</p>
-<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+<h4 class="h1" id="calibre_link-2038"><span id="calibre_link-556"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ1：ロゴ画像を開く</span></h4>
+<p class="tni">新しいファイルエディタタブを開き、以下のコードを<i class="calibre5">resizeAndAddLogo.py</i>という名前で保存してください。</p>
+<pre class="pre"><code class="calibre9"># 画像を300x300の正方形に収まるようにリサイズして隅にロゴを入れる
 import os
 from PIL import Image
 
@@ -354,56 +353,56 @@ from PIL import Image
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> logo_im = Image.open(LOGO_FILENAME)
 <span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> logo_width, logo_height = logo_im.size
 
-# TODO: Loop over all files in the working directory.
+# TODO：現在の作業ディレクトリのすべてのファイルを反復処理
 
-# TODO: Check if the image needs to be resized.
+# TODO：リサイズが必要かどうかを判定
 
-# TODO: Calculate the new width and height to resize to.
+# TODO：リサイズする幅と高さを計算
 
-# TODO: Resize the image.
+# TODO：画像のリサイズ
 
-# TODO: Add the logo.
+# TODO：ロゴの追加
 
-# TODO: Save changes.
+# TODO：変更保存
 </code></pre>
-<p class="tx">By setting up the <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span> <span class="codeannotation" aria-label="annotation1">❶</span> and <span class="thesansmonocd_w5regular_">LOGO_FILENAME</span> <span class="codeannotation" aria-label="annotation2">❷</span> constants at the start of the program, we’ve made it easy to change the program later. Say the logo that you’re adding isn’t the cat icon, or say you’re reducing the output images’ largest dimension to something other than 300 pixels. You can straightforwardly open the code and change those values once. You could also set the values of these constants by accepting command line arguments. Without these constants, you’d instead have to search the code for all instances of <span class="thesansmonocd_w5regular_">300</span> and <span class="thesansmonocd_w5regular_">'catlogo.png'</span> and replace them with the new values.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2039" aria-label="509"></span>The <span class="thesansmonocd_w5regular_">Image.open()</span> method returns the logo <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation3">❸</span>. For readability, we assign the logo’s width and height to variables <span class="codeannotation" aria-label="annotation4">❹</span>. The rest of the program is a skeleton of <span class="thesansmonocd_w5regular_">TODO</span> comments.</p>
+<p class="tx">プログラムの冒頭で、定数<span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span>(<span class="codeannotation" aria-label="annotation1">❶</span>)と<span class="thesansmonocd_w5regular_">LOGO_FILENAME</span>(<span class="codeannotation" aria-label="annotation2">❷</span>)を設定することで、あとでプログラムを変更しやすくしています。ネコ以外のロゴ画像を追加したり、出力画像の長辺を300ピクセルから変更したりする場合に、コードを開いてこの定数部分だけを変更するだけですみます。これらの定数をコマンドライン引数から設定できるようにしてもよいでしょう。この定数を使わないとしたら、コード全体から<span class="thesansmonocd_w5regular_">300</span>と<span class="thesansmonocd_w5regular_">'catlogo.png'</span>を探し出して新しい値に置き換えなければなりません。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2039" aria-label="509"></span><span class="thesansmonocd_w5regular_">Image.open()</span>メソッドはロゴの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返します(<span class="codeannotation" aria-label="annotation3">❸</span>)。コードの読みやすさのために、ロゴの幅と高さを変数に代入しています(<span class="codeannotation" aria-label="annotation4">❹</span>)。プログラムの残りの部分は<span class="thesansmonocd_w5regular_">TODO</span>コメントで骨組みを示しています。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h4 class="h1" id="calibre_link-2040"><span id="calibre_link-557"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 2: Loop Over All Files</span></h4>
-<p class="tni">Now you need to find every <i class="calibre5">.png</i> file and <i class="calibre5">.jpg</i> file in the current working directory. You don’t want to add the logo image to the logo image itself, so the program should skip any image with a filename that is the same as <span class="thesansmonocd_w5regular_">LOGO_FILENAME</span>. Add the following to your code:</p>
-<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+<h4 class="h1" id="calibre_link-2040"><span id="calibre_link-557"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ2：すべてのファイルを反復処理する</span></h4>
+<p class="tni">現在の作業ディレクトリにある<i class="calibre5">.png</i>ファイルと<i class="calibre5">.jpg</i>ファイルをすべて見つけます。ロゴ画像自体にロゴ画像を追加したくないですから、<span class="thesansmonocd_w5regular_">LOGO_FILENAME</span>と同じファイル名の画像は飛ばします。以下のコードを追加します。</p>
+<pre class="pre"><code class="calibre9"># 画像を300x300の正方形に収まるようにリサイズして隅にロゴを入れる
 import os
 from PIL import Image
 
 <var class="calibre20">--snip--</var>
 
 os.makedirs('withLogo', exist_ok=True)
-<b class="calibre10"># Loop over all files in the working directory.</b>
+<b class="calibre10"># 現在の作業ディレクトリのすべてのファイルを反復処理</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> for filename in os.listdir('.'):</b>
 <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> if not (filename.endswith('.png') or filename.endswith('.jpg')) \</b>
 <b class="calibre10">       or filename == LOGO_FILENAME:</b>
-<b class="calibre10">      </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> continue  </b># Skip non-image files and the logo file itself.
+<b class="calibre10">      </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> continue  </b># 画像ではないファイルとロゴ画像自体は飛ばす
 
 <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation4">❹</span><b class="calibre10"> im = Image.open(filename)</b>
 <b class="calibre10">    width, height = im.size</b>
 
 <var class="calibre20">--snip--</var>
 </code></pre>
-<p class="tx">First, the <span class="thesansmonocd_w5regular_">os.makedirs()</span> call creates a <i class="calibre5">withLogo</i> folder in which to store the modified images, rather than overwriting the original image files. The <span class="thesansmonocd_w5regular_">exist_ok=True</span> keyword argument will keep <span class="thesansmonocd_w5regular_">os.makedirs()</span> from raising an exception if <i class="calibre5">withLogo</i> already exists. While the code loops through all the files in the working directory <span class="codeannotation" aria-label="annotation1">❶</span>, a long <span class="thesansmonocd_w5regular_">if</span> statement checks for filenames that don’t end with <i class="calibre5">.png</i> or <i class="calibre5">.jpg</i> <span class="codeannotation" aria-label="annotation2">❷</span>. If it finds any—or if the file is the logo image itself—the loop should skip it and use <span class="thesansmonocd_w5regular_">continue</span> to go to the next file <span class="codeannotation" aria-label="annotation3">❸</span>. If <span class="thesansmonocd_w5regular_">filename</span> does end with <span class="thesansmonocd_w5regular_">'.png'</span> or <span class="thesansmonocd_w5regular_">'.jpg'</span> and isn’t the logo file, the code opens it as an <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation4">❹</span> and saves its width and height.</p>
+<p class="tx">まず、元の画像ファイルを上書きしないように、<span class="thesansmonocd_w5regular_">os.makedirs()</span>を呼び出して変更後の画像を保存する<i class="calibre5">withLogo</i>フォルダを作成します。<span class="thesansmonocd_w5regular_">exist_ok=True</span>キーワード引数を指定しているので、<i class="calibre5">withLogo</i>がすでに存在していても<span class="thesansmonocd_w5regular_">os.makedirs()</span>で例外は発生しません。現在の作業ディレクトリにあるすべてのファイルを反復処理しますが(<span class="codeannotation" aria-label="annotation1">❶</span>)、長い<span class="thesansmonocd_w5regular_">if</span>文でファイル名が<i class="calibre5">.png</i>または<i class="calibre5">.jpg</i>で終わるかをチェックしています(<span class="codeannotation" aria-label="annotation2">❷</span>)。ファイル名が<i class="calibre5">.png</i>または<i class="calibre5">.jpg</i>で終わらないか、あるいはロゴ画像自体であれば、ループはそのファイルを飛ばし、<span class="thesansmonocd_w5regular_">continue</span>で次のファイルに進みます(<span class="codeannotation" aria-label="annotation3">❸</span>)。<span class="thesansmonocd_w5regular_">filename</span>が<span class="thesansmonocd_w5regular_">'.png'</span>または<span class="thesansmonocd_w5regular_">'.jpg'</span>で終わりロゴ画像でなければ、そのファイルを<span class="thesansmonocd_w5regular_">Image</span>オブジェクトとして開き(<span class="codeannotation" aria-label="annotation4">❹</span>）、幅と高さを変数に格納します。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h4 class="h1" id="calibre_link-2041"><span id="calibre_link-558"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 3: Resize the Images</span></h4>
-<p class="tni">The program should resize the image only if the width or height is larger than <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span> (300 pixels, in this case), so you should put the resizing code inside an <span class="thesansmonocd_w5regular_">if</span> statement that checks the <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> variables. Add the following code to your program:</p>
-<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+<h4 class="h1" id="calibre_link-2041"><span id="calibre_link-558"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ3：画像をリサイズする</span></h4>
+<p class="tni">このプログラムでは、幅または高さが<span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span>（この例では300ピクセル）よりも大きい場合にのみ画像をリサイズします。よって、リサイズするコードは、変数<span class="thesansmonocd_w5regular_">width</span>と<span class="thesansmonocd_w5regular_">height</span>をチェックする<span class="thesansmonocd_w5regular_">if</span>文の内側に書きます。以下のコードを追記してください。</p>
+<pre class="pre"><code class="calibre9"># 画像を300x300の正方形に収まるようにリサイズして隅にロゴを入れる
 import os
 from PIL import Image
 
 <var class="calibre20">--snip--</var>
 
-<span role="doc-pagebreak" type="pagebreak" id="calibre_link-2042" aria-label="510"></span><b class="calibre10">    # Check if the image needs to be resized.</b>
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-2042" aria-label="510"></span><b class="calibre10">    # リサイズが必要かどうかを判定</b>
 <b class="calibre10">    if width &gt; SQUARE_FIT_SIZE and height &gt; SQUARE_FIT_SIZE:</b>
-<b class="calibre10">        # Calculate the new width and height to resize to.</b>
+<b class="calibre10">        # リサイズする幅と高さを計算</b>
 <b class="calibre10">        if width &gt; height:</b>
 <b class="calibre10">          </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> height = int((SQUARE_FIT_SIZE / width) * height)</b>
 <b class="calibre10">            width = SQUARE_FIT_SIZE</b>
@@ -411,39 +410,39 @@ from PIL import Image
 <b class="calibre10">          </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> width = int((SQUARE_FIT_SIZE / height) * width)</b>
 <b class="calibre10">            height = SQUARE_FIT_SIZE</b>
 
-<b class="calibre10">        # Resize the image.</b>
+<b class="calibre10">        # 画像のリサイズ</b>
 <b class="calibre10">        print(f'Resizing {filename}...')</b>
 <b class="calibre10">      </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> im = im.resize((width, height))</b>
 
 <var class="calibre20">--snip--</var>
 </code></pre>
-<p class="tx">If the image needs resizing, you must find out whether it’s a wide or tall image. If <span class="thesansmonocd_w5regular_">width</span> is greater than <span class="thesansmonocd_w5regular_">height</span>, the code should reduce the height by the same proportion as the width <span class="codeannotation" aria-label="annotation1">❶</span>. This proportion is the <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span> value divided by the current width, so the code sets the new <span class="thesansmonocd_w5regular_">height</span> value to this proportion multiplied by the current <span class="thesansmonocd_w5regular_">height</span> value. Because the division operator returns a float value, and <span class="thesansmonocd_w5regular_">resize()</span> requires the dimensions to be integers, you must remember to convert the result to an integer with the <span class="thesansmonocd_w5regular_">int()</span> function. Finally, the code will set the new <span class="thesansmonocd_w5regular_">width</span> value to <span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span>.</p>
-<p class="tx">If the <span class="thesansmonocd_w5regular_">height</span> is greater than or equal to the <span class="thesansmonocd_w5regular_">width</span>, the <span class="thesansmonocd_w5regular_">else</span> clause performs the same calculation, but swaps the <span class="thesansmonocd_w5regular_">height</span> and <span class="thesansmonocd_w5regular_">width</span> variables <span class="codeannotation" aria-label="annotation2">❷</span>. Once those variables contain the new image dimensions, the code passes them to the <span class="thesansmonocd_w5regular_">resize()</span> method and stores the returned <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation3">❸</span>.</p>
+<p class="tx">画像をリサイズする場合は、横長なのか縦長なのかを判別しなければなりません。<span class="thesansmonocd_w5regular_">width</span>が<span class="thesansmonocd_w5regular_">height</span>よりも大きければ、（横長なので幅を300ピクセルにリサイズするとして）高さを幅と同じ比率で縮小する必要があります(<span class="codeannotation" aria-label="annotation1">❶</span>)。この比率は<span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span>の値を元の幅で割り算した値です。よって、新しい<span class="thesansmonocd_w5regular_">height</span>の値を元の<span class="thesansmonocd_w5regular_">height</span>値にこの比率をかけ算して設定します。割り算をすると値が浮動小数点数値になり、<span class="thesansmonocd_w5regular_">resize()</span>は整数値を要求するため、忘れずに<span class="thesansmonocd_w5regular_">int()</span>関数で整数に変換しなければなりません。最後に、新しい<span class="thesansmonocd_w5regular_">width</span>の値に<span class="thesansmonocd_w5regular_">SQUARE_FIT_SIZE</span>を設定します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">height</span>が<span class="thesansmonocd_w5regular_">width</span>以上なら、<span class="thesansmonocd_w5regular_">else</span>節で同じ計算を行いますが、変数の<span class="thesansmonocd_w5regular_">height</span>と<span class="thesansmonocd_w5regular_">width</span>が逆になります(<span class="codeannotation" aria-label="annotation2">❷</span>)。これらの変数に新しい値を設定したら、その値を<span class="thesansmonocd_w5regular_">resize()</span>メソッドに渡して返される<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを変数に格納します(<span class="codeannotation" aria-label="annotation3">❸</span>)。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
-<h4 class="h1" id="calibre_link-2043"><span id="calibre_link-559"></span><span class="sans_futura_std_heavy_oblique_bi_">Step 4: Add the Logo and Save the Changes</span></h4>
-<p class="tni">Whether or not you resized the image, you should paste the logo to its bottom-right corner. Where exactly to insert the logo depends on the size of both the image and the logo. Figure 21-12 shows how to calculate the pasting position. The left coordinate at which to paste the logo is the image width minus the logo width, and the top coordinate at which to paste the logo is the image height minus the logo height.</p>
+<h4 class="h1" id="calibre_link-2043"><span id="calibre_link-559"></span><span class="sans_futura_std_heavy_oblique_bi_">ステップ4：ロゴを追加して変更後の画像を保存する</span></h4>
+<p class="tni">画像をリサイズしてもしなくても、ロゴを右下隅に貼り付けます。ロゴをどの位置に貼り付けるかは画像とロゴの両方のサイズによって決まります。図21-12に貼り付け位置の計算方法を示します。ロゴを貼り付ける左端の座標は画像の幅からロゴの幅を引いて求め、上端の座標は画像の高さからロゴの高さを引いて求めます。</p>
 <figure class="img"><img class="img2" id="calibre_link-819" src="images/000060.jpg" alt="A diagram showing the logo’s height and width as a subset of the image’s height and width." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-12: The left and top coordinates of the logo are the image width/height minus the logo width/height.</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-12：ロゴを貼り付ける左端と上端の座標は、画像の幅／高さからロゴの幅／高さを引いて求める</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2044" aria-label="511"></span>After your code pastes the logo into the image, it should save the modified <span class="thesansmonocd_w5regular_">Image</span> object. Add the following to your program:</p>
-<pre class="pre"><code class="calibre9"># Resizes images to fit in a 300x300 square with a logo in the corner
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2044" aria-label="511"></span>ロゴを画像に貼り付けてから、変更後の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを保存します。以下のコードです。</p>
+<pre class="pre"><code class="calibre9"># 画像を300x300の正方形に収まるようにリサイズして隅にロゴを入れる
 import os
 from PIL import Image
 
 <var class="calibre20">--snip--</var>
 
-    # Check if the image needs to be resized.
+    # リサイズが必要かどうかを判定
     <var class="calibre20">--snip--</var>
 
-<b class="calibre10">    # Add the logo.</b>
+<b class="calibre10">    # ロゴの追加</b>
 <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation1">❶</span><b class="calibre10"> print(f'Adding logo to {filename}...')</b>
 <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation2">❷</span><b class="calibre10"> im.paste(logo_im, (width – logo_width, height – logo_height), logo_im)</b>
 
-<b class="calibre10">    # Save changes.</b>
+<b class="calibre10">    # 変更保存</b>
 <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation3">❸</span><b class="calibre10"> im.save(os.path.join('withLogo', filename))</b>
 </code></pre>
-<p class="tx">The new code prints a message telling the user that the logo is being added <span class="codeannotation" aria-label="annotation1">❶</span>, pastes <span class="thesansmonocd_w5regular_">logo_im</span> onto <span class="thesansmonocd_w5regular_">im</span> at the calculated coordinates <span class="codeannotation" aria-label="annotation2">❷</span>, and saves the changes to a filename in the <i class="calibre5">withLogo</i> directory <span class="codeannotation" aria-label="annotation3">❸</span>. When you run this program with the <i class="calibre5">zophie.png</i> and other image files in the working directory, the output will look like this:</p>
+<p class="tx">ロゴを追加する旨をユーザーに伝えるメッセージを表示し(<span class="codeannotation" aria-label="annotation1">❶</span>)、<span class="thesansmonocd_w5regular_">logo_im</span>を<span class="thesansmonocd_w5regular_">im</span>の計算した座標に貼り付け(<span class="codeannotation" aria-label="annotation2">❷</span>)、変更後の画像を元のファイル名で<i class="calibre5">withLogo</i>ディレクトリに保存します(<span class="codeannotation" aria-label="annotation3">❸</span>)。<i class="calibre5">zophie.png</i>その他の画像が現在の作業ディレクトリに存在する状況でこのプログラムを実行すると、次のように出力されます。</p>
 <pre class="pre"><code class="calibre9">Resizing zophie.png...
 Adding logo to zophie.png...
 Resizing zophie_xmas_tree.png...
@@ -451,58 +450,58 @@ Adding logo to zophie_xmas_tree.png...
 Resizing me_and_zophie.png...
 Adding logo to me_and_zophie.png...
 </code></pre>
-<p class="tx">The program converts <i class="calibre5">zophie.png</i> to a 225×300-pixel image that looks like Figure 21-13.</p>
+<p class="tx">このプログラムによって、図21-13に示すように、<i class="calibre5">zophie.png</i>が225×300ピクセルの画像に変換されました。</p>
 <figure class="img"><img class="img3" id="calibre_link-820" src="images/000061.jpg" alt="Two versions of the cat photograph with the cat logo added to the bottom-right corner. In the second version, the cat logo is contained in a white-filled rectangle." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-13: The program resized</span> <span class="sans_futura_std_book_">zophie.png</span> <span class="sans_futura_std_book_oblique_i_">and added the logo (left). If you forget the third argument, the transparent pixels in the logo will appear as solid white pixels (right).</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-13：プログラムで</span><span class="sans_futura_std_book_">zophie.png</span><span class="sans_futura_std_book_oblique_i_">をリサイズしてロゴを追加した画像（左側）。第三引数を指定しないとロゴの透明なピクセルは白になる（右側）。</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-817" aria-label="512"></span>Remember that the <span class="thesansmonocd_w5regular_">paste()</span> method won’t paste the transparency pixels unless you pass <span class="thesansmonocd_w5regular_">logo_im</span> as the third argument. This program can automatically resize and “logo-ify” hundreds of images in just a couple of minutes.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-817" aria-label="512"></span>第三引数に<span class="thesansmonocd_w5regular_">logo_im</span>を渡さなければ<span class="thesansmonocd_w5regular_">paste()</span>メソッドが貼り付けるピクセルは透明になりません。このプログラムは数百の画像でも自動的にリサイズしてロゴを追加します。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h4 class="h1" id="calibre_link-2045"><span id="calibre_link-560"></span><span class="sans_futura_std_heavy_oblique_bi_">Ideas for Similar Programs</span></h4>
-<p class="tni">The ability to build composite images or modify image sizes in a batch is useful for many applications. You could write similar programs to do the following:</p>
+<h4 class="h1" id="calibre_link-2045"><span id="calibre_link-560"></span><span class="sans_futura_std_heavy_oblique_bi_">似たようなプログラムのアイデア</span></h4>
+<p class="tni">バッチ処理で一括して画像を合成したりリサイズしたりできると便利です。以下のようなプログラムを作成できます。</p>
 <ul class="ul">
-<li class="bl">Add text or a website URL to images.</li>
-<li class="bl">Add timestamps to images.</li>
-<li class="bl">Copy or move images into different folders based on their sizes.</li>
-<li class="bl">Add a mostly transparent watermark to an image to prevent others from copying it.</li>
+<li class="bl">画像にテキストやウェブサイトのURLを追加する</li>
+<li class="bl">画像にタイムスタンプを追加する</li>
+<li class="bl">画像をサイズに応じてフォルダに分類する</li>
+<li class="bl">他人がコピーして利用するのを防止するために画像に透かしを入れる</li>
 </ul>
 </section>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h3 class="h" id="calibre_link-2046"><span id="calibre_link-561"></span><span class="sans_futura_std_bold_b_">Drawing on Images</span></h3>
-<p class="tni">If you need to draw lines, rectangles, circles, or other simple shapes on an image, use Pillow’s <span class="thesansmonocd_w5regular_">ImageDraw</span> module. For example, enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-2046"><span id="calibre_link-561"></span><span class="sans_futura_std_bold_b_">描画</span></h3>
+<p class="tni">直線、長方形、円などの図形を描画するにはPillowの<span class="thesansmonocd_w5regular_">ImageDraw</span>モジュールを使います。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image, ImageDraw</b>
 &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (200, 200), 'white')</b>
 &gt;&gt;&gt; <b class="calibre10">draw = ImageDraw.Draw(im)</b>
 </code></pre>
-<p class="tx">First, we import <span class="thesansmonocd_w5regular_">Image</span> and <span class="thesansmonocd_w5regular_">ImageDraw</span>. Then, we create a 200×200 white image and store it in <span class="thesansmonocd_w5regular_">im</span>. We pass this <span class="thesansmonocd_w5regular_">Image</span> object to the <span class="thesansmonocd_w5regular_">ImageDraw.Draw()</span> function to receive an <span class="thesansmonocd_w5regular_">ImageDraw</span> object. This object has several methods for drawing shapes and text. Store the new object in a variable like <span class="thesansmonocd_w5regular_">draw</span> so that you can easily use it in the following example.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Image</span>と<span class="thesansmonocd_w5regular_">ImageDraw</span>をインポートして、200×200の白い画像を作成して<span class="thesansmonocd_w5regular_">im</span>に格納します。この<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを<span class="thesansmonocd_w5regular_">ImageDraw.Draw()</span>関数に渡して<span class="thesansmonocd_w5regular_">ImageDraw</span>オブジェクトを取得します。このオブジェクトには描画のためのメソッドがあります。この新しいオブジェクトを変数<span class="thesansmonocd_w5regular_">draw</span>に格納して、以下の例で用います。</p>
 <section type="division" aria-labelledby="sec17">
-<h4 class="h1" id="calibre_link-2047"><span id="calibre_link-562"></span><span class="sans_futura_std_heavy_oblique_bi_">Shapes</span></h4>
-<p class="tni">The following <span class="thesansmonocd_w5regular_">ImageDraw</span> methods draw various kinds of shapes on the image. The <span class="thesansmonocd_w5regular_">fill</span> and <span class="thesansmonocd_w5regular_">outline</span> parameters for these methods are optional and will default to white if left unspecified.</p>
+<h4 class="h1" id="calibre_link-2047"><span id="calibre_link-562"></span><span class="sans_futura_std_heavy_oblique_bi_">図形</span></h4>
+<p class="tni">以下の<span class="thesansmonocd_w5regular_">ImageDraw</span>メソッドでさまざまな図形を描画します。<span class="thesansmonocd_w5regular_">fill</span>と<span class="thesansmonocd_w5regular_">outline</span>の引数はオプションで、指定しなければデフォルトで白になります。</p>
 <section type="division" aria-labelledby="sec18">
-<h5 class="h2" id="calibre_link-2048"><span class="sans_futura_std_bold_b_">Points</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">point(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">)</span> method draws individual pixels. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument represents a list of the points to draw. The list can contain x- and y-coordinate tuples, such as <span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>, or x- and y-coordinates without tuples, such as <span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>. The <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument colors the points and can be either an RGBA tuple or a string, such as <span class="thesansmonocd_w5regular_">'red'</span>. The <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is optional. The “point” name here refers to a pixel, not the unit of font size.</p>
+<h5 class="h2" id="calibre_link-2048"><span class="sans_futura_std_bold_b_">点</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">point(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">)</span>メソッドは個々のピクセルを描画します。<span class="sans_thesansmonocd_w5regular_italic_">xy</span>引数は描画する点のリストを表します。このリストは、<span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>のようにx座標とy座標のタプルを含むか、<span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>のようにタプルではないx座標とy座標を含みます。<span class="sans_thesansmonocd_w5regular_italic_">fill</span>引数でRGBAタプルか<span class="thesansmonocd_w5regular_">'red'</span>のような文字を指定すると、点に色をつけられます。<span class="sans_thesansmonocd_w5regular_italic_">fill</span>引数はオプションです。フォントサイズの単位ではなくピクセル単位で点を描画します。</p>
 </section>
 <section type="division" aria-labelledby="sec19">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1128" aria-label="513"></span>
-<h5 class="h2" id="calibre_link-2049"><span class="sans_futura_std_bold_b_">Lines</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">line(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws a line or series of lines. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is either a list of tuples, such as <span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>, or a list of integers, such as <span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>. Each point is a connecting points on the lines you’re drawing. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument specifies the color of the lines as an RGBA tuple or color name. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument determines the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+<h5 class="h2" id="calibre_link-2049"><span class="sans_futura_std_bold_b_">直線</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">line(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span>メソッドは直線を描画します。<span class="sans_thesansmonocd_w5regular_italic_">xy</span>引数は<span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>のようなタプルのリストか、<span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>のような整数のリストです。各点を結ぶ直線が描画されます。オプションの<span class="sans_thesansmonocd_w5regular_italic_">fill</span>引数で直線の色をRGBAタプルか色名で指定できます。オプションの<span class="sans_thesansmonocd_w5regular_italic_">width</span>引数で直線の幅を指定できます。指定しなければデフォルトで<span class="thesansmonocd_w5regular_">1</span>になります。</p>
 </section>
 <section type="division" aria-labelledby="sec20">
-<h5 class="h2" id="calibre_link-2050"><span class="sans_futura_std_bold_b_">Rectangles</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">rectangle(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws a rectangle. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is a box tuple of the form <span class="thesansmonocd_w5regular_">(</span><span class="sans_thesansmonocd_w5regular_italic_">left</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">top</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">right</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">bottom</span><span class="thesansmonocd_w5regular_">)</span>. The <span class="sans_thesansmonocd_w5regular_italic_">left</span> and <span class="sans_thesansmonocd_w5regular_italic_">top</span> values specify the x- and y-coordinates of the upper-left corner of the rectangle, while <span class="sans_thesansmonocd_w5regular_italic_">right</span> and <span class="sans_thesansmonocd_w5regular_italic_">bottom</span> specify the coordinates of the lower-right corner. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is the color of the inside of the rectangle. The optional <span class="sans_thesansmonocd_w5regular_italic_">outline</span> argument is the color of the rectangle’s outline. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument represents the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+<h5 class="h2" id="calibre_link-2050"><span class="sans_futura_std_bold_b_">長方形</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">rectangle(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span>メソッドは長方形を描画します。<span class="sans_thesansmonocd_w5regular_italic_">xy</span>引数は<span class="thesansmonocd_w5regular_">(</span><span class="sans_thesansmonocd_w5regular_italic_">left</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">top</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">right</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">bottom</span><span class="thesansmonocd_w5regular_">)</span>という形のボックスタプルです。<span class="sans_thesansmonocd_w5regular_italic_">left</span>と<span class="sans_thesansmonocd_w5regular_italic_">top</span>の値は左上のx座標とy座標で、<span class="sans_thesansmonocd_w5regular_italic_">right</span>と<span class="sans_thesansmonocd_w5regular_italic_">bottom</span>の値は右下の座標です。オプションの<span class="sans_thesansmonocd_w5regular_italic_">fill</span>引数で長方形を塗りつぶす色を指定します。オプションの<span class="sans_thesansmonocd_w5regular_italic_">outline</span>引数で長方形の輪郭線の色を指定します。オプションの<span class="sans_thesansmonocd_w5regular_italic_">width</span>引数は線の幅を表し、指定しなければデフォルトの<span class="thesansmonocd_w5regular_">1</span>になります。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
-<h5 class="h2" id="calibre_link-2051"><span class="sans_futura_std_bold_b_">Ellipses</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">ellipse(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws an ellipse. If the width and height of the ellipse are identical, this method will draw a circle. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is a box tuple (<span class="sans_thesansmonocd_w5regular_italic_">left</span>, <span class="sans_thesansmonocd_w5regular_italic_">top</span>, <span class="sans_thesansmonocd_w5regular_italic_">right</span>, <span class="sans_thesansmonocd_w5regular_italic_">bottom</span>) representing a box that precisely contains the ellipse. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is the color of the inside of the ellipse, and the optional <span class="sans_thesansmonocd_w5regular_italic_">outline</span> argument is the color of the ellipse’s outline. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument is the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+<h5 class="h2" id="calibre_link-2051"><span class="sans_futura_std_bold_b_">楕円</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">ellipse(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span>メソッドは楕円を描画します。幅と高さを同じにすれば円を描画します。<span class="sans_thesansmonocd_w5regular_italic_">xy</span>引数は、楕円をぴったり中に含みこむ長方形を表す(<span class="sans_thesansmonocd_w5regular_italic_">left</span>, <span class="sans_thesansmonocd_w5regular_italic_">top</span>, <span class="sans_thesansmonocd_w5regular_italic_">right</span>, <span class="sans_thesansmonocd_w5regular_italic_">bottom</span>)のボックスタプルです。オプションの<span class="sans_thesansmonocd_w5regular_italic_">fill</span>引数で楕円を塗りつぶす色を指定します。オプションの<span class="sans_thesansmonocd_w5regular_italic_">outline</span>引数で楕円の輪郭線の色を指定します。オプションの<span class="sans_thesansmonocd_w5regular_italic_">width</span>引数で線の幅を指定し、指定しなければデフォルトの<span class="thesansmonocd_w5regular_">1</span>になります。</p>
 </section>
 <section type="division" aria-labelledby="sec22">
-<h5 class="h2" id="calibre_link-2052"><span class="sans_futura_std_bold_b_">Polygons</span></h5>
-<p class="tni">The <span class="thesansmonocd_w5regular_">polygon(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span> method draws an arbitrary polygon. The <span class="sans_thesansmonocd_w5regular_italic_">xy</span> argument is a list of tuples, such as <span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>, or integers, such as <span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>, representing the connecting points of the polygon’s sides. The last pair of coordinates will automatically connect to the first pair. The optional <span class="sans_thesansmonocd_w5regular_italic_">fill</span> argument is the color of the inside of the polygon, and the optional <span class="sans_thesansmonocd_w5regular_italic_">outline</span> argument is the color of the polygon’s outline. The optional <span class="sans_thesansmonocd_w5regular_italic_">width</span> argument is the width of the lines, and defaults to <span class="thesansmonocd_w5regular_">1</span> if left unspecified.</p>
+<h5 class="h2" id="calibre_link-2052"><span class="sans_futura_std_bold_b_">多角形</span></h5>
+<p class="tni"><span class="thesansmonocd_w5regular_">polygon(</span><span class="sans_thesansmonocd_w5regular_italic_">xy</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">fill</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">outline</span><span class="thesansmonocd_w5regular_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">width</span><span class="thesansmonocd_w5regular_">)</span>メソッドは任意の多角形を描画します。<span class="sans_thesansmonocd_w5regular_italic_">xy</span>引数は<span class="thesansmonocd_w5regular_">[(x, y), (x, y), ...]</span>のようなタプルのリストか、<span class="thesansmonocd_w5regular_">[x1, y1, x2, y2, ...]</span>のような整数のリストで、多角形の辺を結ぶ点を表します。最後の座標は自動的に最初の座標と線で結ばれます。オプションの<span class="sans_thesansmonocd_w5regular_italic_">fill</span>引数で多角形を塗りつぶす色を指定します。オプションの<span class="sans_thesansmonocd_w5regular_italic_">outline</span>引数で多角形の輪郭線の色を指定します。オプションの<span class="sans_thesansmonocd_w5regular_italic_">width</span>引数で線の幅を指定し、指定しなければデフォルトの<span class="thesansmonocd_w5regular_">1</span>になります。</p>
 </section>
 <section type="division" aria-labelledby="sec23">
-<h5 class="h2" id="calibre_link-2053"><span class="sans_futura_std_bold_b_">A Drawing Example</span></h5>
-<p class="tni">To practice using these methods, enter the following into the interactive shell:</p>
+<h5 class="h2" id="calibre_link-2053"><span class="sans_futura_std_bold_b_">描画例</span></h5>
+<p class="tni">以下の内容を対話型シェルに入力してこれらのメソッドの練習をしてみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image, ImageDraw</b>
 &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (200, 200), 'white')</b>
 &gt;&gt;&gt; <b class="calibre10">draw = ImageDraw.Draw(im)</b>
@@ -515,24 +514,24 @@ Adding logo to me_and_zophie.png...
 
 &gt;&gt;&gt; <b class="calibre10">im.save('drawing.png')</b>
 </code></pre>
-<p class="tx">After making an <span class="thesansmonocd_w5regular_">Image</span> object for a 200×200 white image, passing it to <span class="thesansmonocd_w5regular_">ImageDraw.Draw()</span> to get an <span class="thesansmonocd_w5regular_">ImageDraw</span> object, and storing the <span class="thesansmonocd_w5regular_">ImageDraw</span> object in <span class="thesansmonocd_w5regular_">draw</span>, we can call drawing methods on <span class="thesansmonocd_w5regular_">draw</span>. Here, we make a thin, black outline at the edges of the image <span class="codeannotation" aria-label="annotation1">❶</span>, a blue rectangle whose top-left corner is at <span class="thesansmonocd_w5regular_">(20, 30)</span> and whose bottom-right corner is at <span class="thesansmonocd_w5regular_">(60, 60)</span> <span class="codeannotation" aria-label="annotation2">❷</span>, a red ellipse defined by a box from <span class="thesansmonocd_w5regular_">(120, 30)</span> to <span class="thesansmonocd_w5regular_">(160, 60)</span> <span class="codeannotation" aria-label="annotation3">❸</span>, a brown polygon with five points <span class="codeannotation" aria-label="annotation4">❹</span>, and a pattern of green lines drawn with a <span class="thesansmonocd_w5regular_">for</span> loop <span class="codeannotation" aria-label="annotation5">❺</span>. The resulting <i class="calibre5">drawing.png</i> file will look like Figure 21-14 (though the colors aren’t printed in this book).</p>
+<p class="tx">200×200の白い画像の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成してから、それを<span class="thesansmonocd_w5regular_">ImageDraw.Draw()</span>に渡して<span class="thesansmonocd_w5regular_">ImageDraw</span>オブジェクトを取得し、<span class="thesansmonocd_w5regular_">draw</span>に格納しています。この<span class="thesansmonocd_w5regular_">draw</span>について描画メソッドを呼び出します。画像の端に黒い線(<span class="codeannotation" aria-label="annotation1">❶</span>)、左上が<span class="thesansmonocd_w5regular_">(20, 30)</span>で右下が<span class="thesansmonocd_w5regular_">(60, 60)</span>の青い長方形(<span class="codeannotation" aria-label="annotation2">❷</span>)、<span class="thesansmonocd_w5regular_">(120, 30)</span>から<span class="thesansmonocd_w5regular_">(160, 60)</span>のボックスで定義される赤い楕円(<span class="codeannotation" aria-label="annotation3">❸</span>)、5つの点からなる茶色の多角形(<span class="codeannotation" aria-label="annotation4">❹</span>)、<span class="thesansmonocd_w5regular_">for</span>ループで緑の直線の模様(<span class="codeannotation" aria-label="annotation5">❺</span>)をそれぞれ描画しています。これにより作成される<i class="calibre5">drawing.png</i>ファイルは図21-14のようになります（本書で色は再現されていません）。</p>
 <figure class="img"><img class="img2" id="calibre_link-821" src="images/000062.jpg" alt="A rectangle, oval, irregular polygon, and curved lines on a white backdrop." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-14: The resulting</span> <span class="sans_futura_std_book_">drawing.png</span> <span class="sans_futura_std_book_oblique_i_">image</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-14：</span><span class="sans_futura_std_book_">drawing.png</span><span class="sans_futura_std_book_oblique_i_">画像</span></p></figcaption>
 </figure>
-<p class="tx">You can use several other shape-drawing methods on <span class="thesansmonocd_w5regular_">ImageDraw</span> objects. The full documentation is available at <i class="calibre5"><a href="https://pillow.readthedocs.io/en/latest/reference/ImageDraw.html" class="calibre1">https://<wbr></wbr>pillow<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/en<wbr></wbr>/latest<wbr></wbr>/reference<wbr></wbr>/ImageDraw<wbr></wbr>.html</a></i>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ImageDraw</span>オブジェクトについては他の描画メソッドも使えます。<i class="calibre5"><a href="https://pillow.readthedocs.io/en/latest/reference/ImageDraw.html" class="calibre1">https://<wbr></wbr>pillow<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/en<wbr></wbr>/latest<wbr></wbr>/reference<wbr></wbr>/ImageDraw<wbr></wbr>.html</a></i>で完全なドキュメントが読めます。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec24">
-<h4 class="h1" id="calibre_link-2054"><span id="calibre_link-563"></span><span class="sans_futura_std_heavy_oblique_bi_">Text</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">ImageDraw</span> object also has a <span class="thesansmonocd_w5regular_">text()</span> method for drawing text onto an image. This method takes four arguments:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">xy </span>A two-integer tuple specifying the upper-left corner of the text box</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">text </span>The string of text you want to write</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">fill </span>The color of the text</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">font </span>An optional <span class="thesansmonocd_w5regular_">ImageFont</span> object used to set the typeface and size of the text</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-926" aria-label="515"></span>Before we use <span class="thesansmonocd_w5regular_">text()</span> to draw text onto an image, let’s discuss the optional <span class="sans_thesansmonocd_w5regular_italic_">font</span> argument in more detail. This argument is an <span class="thesansmonocd_w5regular_">ImageFont</span> object, which you can get by running the following:</p>
+<h4 class="h1" id="calibre_link-2054"><span id="calibre_link-563"></span><span class="sans_futura_std_heavy_oblique_bi_">テキスト</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">ImageDraw</span>オブジェクトには画像にテキストを入れる<span class="thesansmonocd_w5regular_">text()</span>メソッドもあります。以下の4つの引数を取ります。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">xy </span>テキストボックスの左上を指定する2つの整数のタプル</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">text </span>書き込むテキスト文字列</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">fill </span>テキストの文字色</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_italic_bi_">font </span>テキストの書体とサイズを設定するのに使う<span class="thesansmonocd_w5regular_">ImageFont</span>オブジェクト（オプション）</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-926" aria-label="515"></span><span class="thesansmonocd_w5regular_">text()</span>で画像にテキストを入れる前に、オプションの<span class="sans_thesansmonocd_w5regular_italic_">font</span>引数の詳細を説明します。この引数は<span class="thesansmonocd_w5regular_">ImageFont</span>オブジェクトであり、以下のように取得します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import ImageFont</b></code></pre>
-<p class="tx">Once you’ve imported Pillow’s <span class="thesansmonocd_w5regular_">ImageFont</span> module, access the font by calling the <span class="thesansmonocd_w5regular_">ImageFont.truetype()</span> function, which takes two arguments. The first is a string representing the font’s <i class="calibre5">TrueType</i> file, the actual font file that lives on your hard drive. A TrueType file has the <i class="calibre5">.ttf</i> file extension and usually lives in <i class="calibre5">C:\Windows\Fonts</i> on Windows, <i class="calibre5">/Library/Fonts</i> and <i class="calibre5">/System/Library/Fonts</i> on macOS, and <i class="calibre5">/usr/share/fonts/truetype</i> on Linux. You don’t need to enter these paths as part of the TrueType file string, because Pillow knows to automatically search these directories, but it will display an error if it’s unable to find the font you specified.</p>
-<p class="tx">The second argument to <span class="thesansmonocd_w5regular_">ImageFont.truetype()</span> is an integer for the font size in points (rather than pixels). Pillow creates PNG images that are 72 pixels per inch by default, and a <i class="calibre5">point</i> is 1/72 of an inch. For practice, enter the following into the interactive shell:</p>
+<p class="tx">Pillowの<span class="thesansmonocd_w5regular_">ImageFont</span>モジュールをインポートしたら、2つの引数を取る<span class="thesansmonocd_w5regular_">ImageFont.truetype()</span>関数を呼び出してフォントにアクセスできます。第一引数は、ハードドライブ上に存在する実際のフォントファイルであるフォントの<i class="calibre5">書体</i>ファイルの文字列です。書体ファイルは<i class="calibre5">.ttf</i>ファイル拡張子で、Windowsなら<i class="calibre5">C:\Windows\Fonts</i>、macOSなら<i class="calibre5">/Library/Fonts</i>と<i class="calibre5">/System/Library/Fonts</i>、Linuxなら<i class="calibre5">/usr/share/fonts/truetype</i>に通常存在します。Pillowは自動的にこれらのディレクトリを探索するので、書体ファイルの文字列としてパスを渡す必要はありません。指定したフォントが見つからなければエラーを表示します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">ImageFont.truetype()</span>の第二引数はフォントサイズをピクセルで表す整数です。Pillowはデフォルトで72ピクセルが1インチになるPNG画像を作成するので、1ピクセルは1<i class="calibre5">ポイント</i>と同じように見えます。以下の対話型シェルで練習してみましょう。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image, ImageDraw, ImageFont</b>
 &gt;&gt;&gt; <b class="calibre10">import os</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">im = Image.new('RGBA', (200, 200), 'white')</b>
@@ -542,36 +541,36 @@ Adding logo to me_and_zophie.png...
 <span class="codeannotated_codeannotation" aria-label="annotation5">❺</span> &gt;&gt;&gt; <b class="calibre10">draw.text((100, 150), 'Howdy', fill='gray', font=arial_font)</b>
 &gt;&gt;&gt; <b class="calibre10">im.save('text.png')</b>
 </code></pre>
-<p class="tx">After importing <span class="thesansmonocd_w5regular_">Image</span>, <span class="thesansmonocd_w5regular_">ImageDraw</span>, <span class="thesansmonocd_w5regular_">ImageFont</span>, and <span class="thesansmonocd_w5regular_">os</span>, we make an <span class="thesansmonocd_w5regular_">Image</span> object for a new 200×200 white image <span class="codeannotation" aria-label="annotation1">❶</span> and create an <span class="thesansmonocd_w5regular_">ImageDraw</span> object from the <span class="thesansmonocd_w5regular_">Image</span> object <span class="codeannotation" aria-label="annotation2">❷</span>. We use <span class="thesansmonocd_w5regular_">text()</span> to write <i class="calibre5">Hello</i> at <span class="thesansmonocd_w5regular_">(20, 150)</span> in purple <span class="codeannotation" aria-label="annotation3">❸</span>. We didn’t pass the optional fourth argument in this call, so the text’s typeface and size aren’t customized.</p>
-<p class="tx">Next, to set a typeface and size, we call <span class="thesansmonocd_w5regular_">ImageFont.truetype()</span>, passing it the <i class="calibre5">.ttf</i> file for the desired font, followed by an integer font size <span class="codeannotation" aria-label="annotation4">❹</span>. We store the returned <span class="thesansmonocd_w5regular_">Font</span> object in a variable, then pass the variable to the <span class="thesansmonocd_w5regular_">text()</span> method’s final keyword argument. The method call draws <i class="calibre5">Howdy</i> at <span class="thesansmonocd_w5regular_">(100, 150)</span> in gray in 32-point Arial <span class="codeannotation" aria-label="annotation5">❺</span>. The resulting <i class="calibre5">text.png</i> file looks like Figure 21-15.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">Image</span>、<span class="thesansmonocd_w5regular_">ImageDraw</span>、<span class="thesansmonocd_w5regular_">ImageFont</span>、<span class="thesansmonocd_w5regular_">os</span>をインポートしてから、200×200の新しい白い画像の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成し(<span class="codeannotation" aria-label="annotation1">❶</span>)、その<span class="thesansmonocd_w5regular_">Image</span>オブジェクトから<span class="thesansmonocd_w5regular_">ImageDraw</span>オブジェクトを作成します(<span class="codeannotation" aria-label="annotation2">❷</span>)。<span class="thesansmonocd_w5regular_">text()</span>を使って<i class="calibre5">Hello</i>を紫色で<span class="thesansmonocd_w5regular_">(20, 150)</span>に書き込みます(<span class="codeannotation" aria-label="annotation3">❸</span>)。この呼び出しではオプションの第四引数を渡していないので、書体とサイズは調整されません。</p>
+<p class="tx">次に、書体とサイズを設定するために、希望するフォントの<i class="calibre5">.ttf</i>ファイルとフォントサイズの整数を渡して<span class="thesansmonocd_w5regular_">ImageFont.truetype()</span>を呼び出します(<span class="codeannotation" aria-label="annotation4">❹</span>)。返される<span class="thesansmonocd_w5regular_">Font</span>オブジェクトを変数に格納し、その変数を<span class="thesansmonocd_w5regular_">text()</span>メソッドの最後のキーワード引数で渡します。このメソッド呼び出しにより、灰色で<span class="thesansmonocd_w5regular_">(100, 150)</span>に32ピクセルのArialで<i class="calibre5">Howdy</i>と書き込みます(<span class="codeannotation" aria-label="annotation5">❺</span>)。作成される<i class="calibre5">text.png</i>ファイルは図21-15のようになります。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1060" aria-label="516"></span>
 <figure class="img"><img class="img2" id="calibre_link-822" src="images/000063.jpg" alt="The text “Hello” and “Howdy” written in different fonts on a white backdrop." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-15: The resulting</span> <span class="sans_futura_std_book_">text.png</span> <span class="sans_futura_std_book_oblique_i_">image</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-15：</span><span class="sans_futura_std_book_">text.png</span><span class="sans_futura_std_book_oblique_i_">ファイル画像</span></p></figcaption>
 </figure>
-<p class="tx">If you’re interested in creating computer-generated art with Python, check out <i class="calibre5">Learn Python Visually</i> by Tristan Bunn (No Starch Press, 2021) or my book <i class="calibre5">The Recursive Book of Recursion</i> (No Starch Press, 2022).</p>
+<p class="tx">Pythonでコンピュータアートを作成することに興味がおありでしたら、Tristan Bunnの<i class="calibre5">Learn Python Visually </i>(No Starch Press, 2021)か私の著書<i class="calibre5">The Recursive Book of Recursion</i> (No Starch Press, 2022)をご参照ください。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec25">
-<h3 class="h" id="calibre_link-2055"><span id="calibre_link-564"></span><span class="sans_futura_std_bold_b_">Copying and Pasting Images to the Clipboard</span></h3>
-<p class="tni">Just as the third-party <span class="thesansmonocd_w5regular_">pyperclip</span> module allows you to copy and paste text strings to the clipboard, the <span class="thesansmonocd_w5regular_">pyperclipimg</span> module can copy and paste Pillow <span class="thesansmonocd_w5regular_">Image</span> objects. To install <span class="thesansmonocd_w5regular_">pyperclipimg</span>, see the instructions in <span>Appendix A</span>.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyperclipimg.copy()</span> function takes a Pillow <span class="thesansmonocd_w5regular_">Image</span> object and puts it on your operating system’s clipboard. You can then paste it into a graphics or image processing program such as MS Paint. The <span class="thesansmonocd_w5regular_">pyperclipimg.paste()</span> function returns the image contents of the clipboard as an <span class="thesansmonocd_w5regular_">Image</span> object. With <i class="calibre5">zophie.png</i> in the current working directory, enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-2055"><span id="calibre_link-564"></span><span class="sans_futura_std_bold_b_">クリップボードへの画像のコピーアンドペースト</span></h3>
+<p class="tni"><span class="thesansmonocd_w5regular_">pyperclip</span>モジュールを使えばテキスト文字列をクリップボードにコピーアンドペーストできるのと同じように、<span class="thesansmonocd_w5regular_">pyperclipimg</span>モジュールを使えばPillowの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトをコピーアンドペーストできます。<span>付録A</span>の指示に従って<span class="thesansmonocd_w5regular_">pyperclipimg</span>をインストールしてください。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyperclipimg.copy()</span>関数はPillowの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを引数に取り、お使いのシステムのクリップボードにコピーします。それをMS Paintのような画像処理プログラムにペーストできます。<span class="thesansmonocd_w5regular_">pyperclipimg.paste()</span>関数はクリップボードの画像を<span class="thesansmonocd_w5regular_">Image</span>オブジェクトとして返します。現在の作業ディレクトリに<i class="calibre5">zophie.png</i>がある状態で、以下の内容を対話型シェルで実行してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">im = Image.open('zophie.png')</b>
 &gt;&gt;&gt; <b class="calibre10">import pyperclipimg</b>
-&gt;&gt;&gt; <b class="calibre10">pyperclipimg.copy(im)</b>
-&gt;&gt;&gt; <b class="calibre10">pasted_im = pyperclipimg.paste() # Now copy a new image to the clipboard.</b>
-&gt;&gt;&gt; # Paste the clipboard contents to a graphics program.
-&gt;&gt;&gt; <b class="calibre10">pasted_im.show()</b>  # Shows the image from the clipboard
+&gt;&gt;&gt; <b class="calibre10">pyperclipimg.copy(im)</b> # 新しい画像をクリップボードにコピー
+&gt;&gt;&gt; # クリップボードの内容をクラフィックプログラムに貼り付け
+&gt;&gt;&gt; <b class="calibre10">pasted_im = pyperclipimg.paste()</b>
+&gt;&gt;&gt; <b class="calibre10">pasted_im.show()</b>  # クリップボードから取得した画像の表示
 </code></pre>
-<p class="tx">In this code, we first open the <i class="calibre5">zophie.png</i> image as an <span class="thesansmonocd_w5regular_">Image</span> object, then pass it to <span class="thesansmonocd_w5regular_">pyperclipimg.copy()</span> to copy it to the clipboard. You can verify that the copy worked by pasting the image into a graphics program. Next, copy a new image from a graphics program or by right-clicking an image in your web browser and copying it. Calling <span class="thesansmonocd_w5regular_">pyperclipimg.paste()</span> returns this image <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1006" aria-label="517"></span>as an <span class="thesansmonocd_w5regular_">Image</span> object in the <span class="thesansmonocd_w5regular_">pasted_im</span> variable. You can verify that the paste worked by viewing it with <span class="thesansmonocd_w5regular_">pasted_im.show()</span>.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyperclipimg</span> module can be useful as a way to let users input and output image data to your Python programs.</p>
+<p class="tx">このコードでは、まず<i class="calibre5">zophie.png</i>画像を<span class="thesansmonocd_w5regular_">Image</span>オブジェクトとして開き、<span class="thesansmonocd_w5regular_">pyperclipimg.copy()</span>に渡してクリップボードにコピーしています。グラフィックプログラムにその画像をペーストして動作確認してください。次に、グラフィックプログラムから新しい画像をコピーするか、ウェブブラウザで表示されている画像を右クリックしてコピーするかしてください。<span class="thesansmonocd_w5regular_">pyperclipimg.paste()</span>を呼び出すとその画像の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが返されるので、変数<span class="thesansmonocd_w5regular_">pasted_im</span>に格納します。<span class="thesansmonocd_w5regular_">pasted_im.show()</span>で動作確認できます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyperclipimg</span>モジュールは、ユーザーとPythonプログラムとの間で画像を入出力するのに使えます。</p>
 </section>
 <section type="division" aria-labelledby="sec26">
-<h3 class="h" id="calibre_link-2056"><span id="calibre_link-565"></span><span class="sans_futura_std_bold_b_">Creating Graphs with Matplotlib</span></h3>
-<p class="tni">Drawing your own graphs using Pillow is possible but would require a lot of work. The Matplotlib library creates a wide variety of graphs for use in professional publications. In this chapter, we’ll create basic line graphs, bar graphs, scatter plots, and pie charts, but Matplotlib is able to create more complex 3D graphs as well. You can find the full documentation at <i class="calibre5"><a href="https://matplotlib.org" class="calibre1">https://<wbr></wbr>matplotlib<wbr></wbr>.org</a></i>. Install Matplotlib by following the instructions in <span>Appendix A</span>.</p>
+<h3 class="h" id="calibre_link-2056"><span id="calibre_link-565"></span><span class="sans_futura_std_bold_b_">Matplotlibでグラフを作成する</span></h3>
+<p class="tni">Pillowでグラフを描くことは不可能ではありませんが、作業量が多くなってしまいます。Matplotlibライブラリを利用すれば、出版物で使えるようなさまざまなグラフを作成できます。この章では、基本的な折れ線グラフと散布図と棒グラフと円グラフを作成します。Matplotlibはもっと複雑な三次元のグラフを作成することもできます。<i class="calibre5"><a href="https://matplotlib.org" class="calibre1">https://<wbr></wbr>matplotlib<wbr></wbr>.org</a></i>でドキュメントを読めます。<span>付録A</span>の指示に従ってMatplotlibをインストールしてください。</p>
 <section type="division" aria-labelledby="sec27">
-<h4 class="h1" id="calibre_link-2057"><span id="calibre_link-566"></span><span class="sans_futura_std_heavy_oblique_bi_">Line Graphs and Scatter Plots</span></h4>
-<p class="tni">Let’s start by creating a 2D line graph with two axes, x and y. A line graph is ideal for showing changes in one measure over time. In Matplotlib, the terms <i class="calibre5">plot</i>, <i class="calibre5">graph</i>, and <i class="calibre5">chart</i> are often used interchangeably, and the term <i class="calibre5">figure</i> refers to the window that contains one or more plots. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2057"><span id="calibre_link-566"></span><span class="sans_futura_std_heavy_oblique_bi_">折れ線グラフと散布図</span></h4>
+<p class="tni">x軸とy軸の二次元の折れ線グラフから始めましょう。測定値の時系列変化を示すのに折れ線グラフは適しています。Matplotlibでは、<i class="calibre5">プロット（plot）</i>と<i class="calibre5">グラフ（graph）</i>と<i class="calibre5">チャート（chart）</i>という言葉を同じような意味で使い、<i class="calibre5">フィギュア（figure）</i>という言葉でプロットやグラフやチャートを含むウィンドウを指します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b> <span class="code_codeannotation" aria-label="annotation1">❶</span>
 &gt;&gt;&gt; <b class="calibre10">x_values = [0, 1, 2, 3, 4, 5]</b>
 &gt;&gt;&gt; <b class="calibre10">y_values1 = [10, 13, 15, 18, 16, 20]</b>
@@ -580,20 +579,20 @@ Adding logo to me_and_zophie.png...
 [&lt;matplotlib.lines.Line2D object at 0x000002501D9A7D10&gt;]
 &gt;&gt;&gt; <b class="calibre10">plt.plot(x_values, y_values2)</b>
 [&lt;matplotlib.lines.Line2D object at 0x00000250212AC6D0&gt;]
-&gt;&gt;&gt; <b class="calibre10">plt.savefig('linegraph.png')</b>  # Saves the plot as an image file
-&gt;&gt;&gt; <b class="calibre10">plt.show()</b>  # Opens a window with the plot
-&gt;&gt;&gt; <b class="calibre10">plt.show()</b>  # Does nothing
+&gt;&gt;&gt; <b class="calibre10">plt.savefig('linegraph.png')</b>  # 散布図を画像ファイルとして保存
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>  # 散布図をウィンドウで開く
+&gt;&gt;&gt; <b class="calibre10">plt.show()</b>  # 何も起こらない
 </code></pre>
-<p class="tx">We import <span class="thesansmonocd_w5regular_">matplotlib.pyplot</span> under the name <span class="thesansmonocd_w5regular_">plt</span> <span class="codeannotation" aria-label="annotation1">❶</span> to make it easier to enter its functions. Next, to plot data points to a 2D figure, we must call the <span class="thesansmonocd_w5regular_">plt.plot()</span> function. We first save a list of integers or floats in <span class="thesansmonocd_w5regular_">x_values</span> for the x-axis, and then save a list of integers or floats in <span class="thesansmonocd_w5regular_">y_values1</span> for the y-axis <span class="codeannotation" aria-label="annotation2">❷</span>. The first values in the x-axis and y-axis lists are associated with each other, the second values in the two lists are associated with each other, and so on. After calling <span class="thesansmonocd_w5regular_">plt.plot()</span> with these values, we call it a second time with <span class="thesansmonocd_w5regular_">x_values</span> and <span class="thesansmonocd_w5regular_">y_values2</span> to add a second line to the graph.</p>
-<p class="tx">Matplotlib will automatically select colors for the lines and an appropriate size for the graph. We can save the default graph as a PNG image by calling <span class="thesansmonocd_w5regular_">plt.savefig('linegraph.png')</span>.</p>
-<p class="tx">Matplotlib has a preview feature that shows you the graph in a window, much like Pillow has the <span class="thesansmonocd_w5regular_">show()</span> method for previewing <span class="thesansmonocd_w5regular_">Image</span> objects. Call <span class="thesansmonocd_w5regular_">plt.show()</span> to open the graph in a window. It will look like Figure 21-16.</p>
+<p class="tx">関数を短い名前で呼び出せるように、<span class="thesansmonocd_w5regular_">matplotlib.pyplot</span>を<span class="thesansmonocd_w5regular_">plt</span>という名前でインポートします(<span class="codeannotation" aria-label="annotation1">❶</span>)。<span class="thesansmonocd_w5regular_">plt.plot()</span>関数を呼び出してデータを表す点を2次元の図でプロットします(<span class="codeannotation" aria-label="annotation2">❷</span>)。x軸の数値を<span class="thesansmonocd_w5regular_">x_values</span>に、y軸の数値を<span class="thesansmonocd_w5regular_">y_values1</span>に、それぞれリストで格納します。<span class="thesansmonocd_w5regular_">x_values</span>と<span class="thesansmonocd_w5regular_">y_values1</span>のリストの最初の要素同士が結び付けられ、2番目の要素同士が結び付けられ、以下同様です。これらの値で<span class="thesansmonocd_w5regular_">plt.plot()</span>を呼び出してから、<span class="thesansmonocd_w5regular_">x_values</span>と<span class="thesansmonocd_w5regular_">y_values2</span>で<span class="thesansmonocd_w5regular_">plt.plot()</span>を呼び出して、グラフに2つ目の折れ線を追加します。</p>
+<p class="tx">Matplotlibは自動的に線の色を選んで適当なサイズにしてくれます。<span class="thesansmonocd_w5regular_">plt.savefig('linegraph.png')</span>を呼び出せばデフォルトのグラフをPNG画像として保存できます。</p>
+<p class="tx">Matplotlibにはプレビュー機能があり、ウィンドウでグラフを確認できます。Pillowの<span class="thesansmonocd_w5regular_">show()</span>メソッドで<span class="thesansmonocd_w5regular_">Image</span>オブジェクトをプレビューできるのと似ています。<span class="thesansmonocd_w5regular_">plt.show()</span>を呼び出してウィンドウでグラフを開いてみてください。図21-16のように見えます。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1264" aria-label="518"></span>
 <figure class="img"><img class="img3" id="calibre_link-823" src="images/000064.jpg" alt="A graph consisting of two lines on an x y plane" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-16: A line graph displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-16：</span><span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span>で表示される折れ線グラフ</p></figcaption>
 </figure>
-<p class="tx">The window that <span class="thesansmonocd_w5regular_">plt.show()</span> creates is interactive: you can move the graph around or zoom in or out. The house icon in the lower-left corner resets the view, and the floppy disk icon allows you to save the graph as an image file. If you’re experimenting with data, <span class="thesansmonocd_w5regular_">plt.show()</span> is a convenient visualization tool. The <span class="thesansmonocd_w5regular_">plt.show()</span> function call will block and not return until the user closes this window.</p>
-<p class="tx">When you close the window that the <span class="thesansmonocd_w5regular_">plt.show()</span> method creates, you also reset the graph data. Calling <span class="thesansmonocd_w5regular_">plt.show()</span> a second time either does nothing or displays an empty window. You’ll have to call <span class="thesansmonocd_w5regular_">plt.plot()</span> and any other plot-related functions again to re-create the graph. To save an image file of the graph, you must call <span class="thesansmonocd_w5regular_">plt.savefig()</span> before calling <span class="thesansmonocd_w5regular_">plt.show()</span>.</p>
-<p class="tx">To create a scatter plot of this same data, pass the x-axis and y-axis values to the <span class="thesansmonocd_w5regular_">plt.scatter()</span> function:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">plt.show()</span>が作成するウィンドウでは、グラフを動かしたり拡大縮小したりできます。左下の家のアイコンをクリックするとビューがリセットされ、フロッピーディスクのアイコンをクリックするとグラフを画像ファイルとして保存できます。データをいじる際に<span class="thesansmonocd_w5regular_">plt.show()</span>で視覚化できるのは便利です。<span class="thesansmonocd_w5regular_">plt.show()</span>関数を呼び出すと、コード実行はユーザーがウィンドウを閉じるまでブロックされます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">plt.show()</span>メソッドが作成したウィンドウを閉じると、グラフのデータがリセットされます。もう一度<span class="thesansmonocd_w5regular_">plt.show()</span>を呼び出しても何も起こらないか空のウィンドウが表示されます。<span class="thesansmonocd_w5regular_">plt.plot()</span>などのプロット関連の関数をもう一度呼び出さないとグラフは作成できません。グラフの画像を保存するには、<span class="thesansmonocd_w5regular_">plt.show()</span>を呼び出す前に<span class="thesansmonocd_w5regular_">plt.savefig()</span>を呼び出します。</p>
+<p class="tx">同じデータで散布図を作成するなら、<span class="thesansmonocd_w5regular_">plt.scatter()</span>関数にx軸とy軸の値を渡します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
 &gt;&gt;&gt; <b class="calibre10">x_values = [0, 1, 2, 3, 4, 5]</b>
 &gt;&gt;&gt; <b class="calibre10">y_values1 = [10, 13, 15, 18, 16, 20]</b>
@@ -605,16 +604,16 @@ Adding logo to me_and_zophie.png...
 &gt;&gt;&gt; <b class="calibre10">plt.savefig('scatterplot.png')</b>
 &gt;&gt;&gt; <b class="calibre10">plt.show()</b>
 </code></pre>
-<p class="tx">When you call <span class="thesansmonocd_w5regular_">plt.show()</span>, Matplotlib displays the plot in Figure 21-17. The code to create a scatter plot is identical to the code that creates a line graph, except for the function call.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">plt.show()</span>を呼び出すと、図21-17のような散布図が表示されます。呼び出す関数以外は折れ線グラフと全く同じです。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-953" aria-label="519"></span>
 <figure class="img"><img class="img3" id="calibre_link-824" src="images/000065.jpg" alt="A graph consisting of individual points on an x y plane" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-17: A scatter plot displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-17：</span><span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span>で表示される散布図</p></figcaption>
 </figure>
-<p class="tx">If you compare this graph to the line graph in Figure 21-16, you’ll see the data is the same, though the scatter plot uses points instead of connected lines.</p>
+<p class="tx">この散布図を図21-16の折れ線グラフと比較すると、同じデータをプロットしていることがわかります。</p>
 </section>
 <section type="division" aria-labelledby="sec28">
-<h4 class="h1" id="calibre_link-2058"><span id="calibre_link-567"></span><span class="sans_futura_std_heavy_oblique_bi_">Bar Graphs and Pie Charts</span></h4>
-<p class="tni">Let’s create a basic bar graph using Matplotlib. Bar graphs are useful for comparing the same type of data in different categories. Unlike a line graph, the order of the categories isn’t important, though they’re often listed alphabetically. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2058"><span id="calibre_link-567"></span><span class="sans_futura_std_heavy_oblique_bi_">棒グラフと円グラフ</span></h4>
+<p class="tni">Matplotlibを使って基本的な棒グラフを作成してみましょう。棒グラフは同種のデータをカテゴリーごとに比較するのに適しています。折れ線グラフとは異なり、カテゴリーの順序は重要ではありませんが、アルファベット順に並べることが多いです。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
 &gt;&gt;&gt; <b class="calibre10">categories = ['Cats', 'Dogs', 'Mice', 'Moose']</b>
 &gt;&gt;&gt; <b class="calibre10">values = [100, 200, 300, 400]</b>
@@ -623,33 +622,34 @@ Adding logo to me_and_zophie.png...
 &gt;&gt;&gt; <b class="calibre10">plt.savefig('bargraph.png')</b>
 &gt;&gt;&gt; <b class="calibre10">plt.show()</b>
 </code></pre>
-<p class="tx">This code creates the bar graph shown in Figure 21-18. We pass the categories to list on the x-axis as the first list argument to <span class="thesansmonocd_w5regular_">plt.bar()</span> and the values for each category as the second list argument.</p>
+<p class="tx">このコードを実行すると図21-18に示されるような棒グラフが作成されます。<span class="thesansmonocd_w5regular_">plt.bar()</span>の第一引数にx軸のカテゴリーのリストを渡し、第二引数に各カテゴリの値を渡します。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1260" aria-label="520"></span>
 <figure class="img"><img class="img3" id="calibre_link-825" src="images/000066.jpg" alt="A graph consisting of individual bars increasing along the y axis, labeled “cats”, “dogs”, “mice”, and “moose”" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-18: A bar graph displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-18：</span><span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span>で表示される棒グラフ</p></figcaption>
 </figure>
-<p class="tx">Remember that closing the <span class="thesansmonocd_w5regular_">plt.show()</span> window resets the graph data.</p>
-<p class="tx">To create a pie chart, call the <span class="thesansmonocd_w5regular_">plt.pie()</span> function. Instead of categories and values, a pie chart has labels and slices. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">plt.show()</span>ウィンドウを閉じるとグラフのデータがリセットされることに注意してください。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">plt.pie()</span>関数を呼び出すと円グラフを作成できます。円グラフには、カテゴリーと値ではなく、ラベルとスライスがあります。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
-&gt;&gt;&gt; <b class="calibre10">slices = [100, 200, 300, 400]</b>  # The size of each slice
-&gt;&gt;&gt; <b class="calibre10">labels = ['Cats', 'Dogs', 'Mice', 'Moose']</b>  # The name of each slice
+&gt;&gt;&gt; <b class="calibre10">slices = [100, 200, 300, 400]</b>  # 各スライスの大きさ
+&gt;&gt;&gt; <b class="calibre10">labels = ['Cats', 'Dogs', 'Mice', 'Moose']</b>  # 各スライスの名前
 &gt;&gt;&gt; <b class="calibre10">plt.pie(slices, labels=labels, autopct='%.1f%%')</b>
 ([&lt;matplotlib.patches.Wedge object at 0x00000218F32BA950&gt;,
 <var class="calibre20">--snip--</var>
 &gt;&gt;&gt; <b class="calibre10">plt.savefig('piechart.png')</b>
 &gt;&gt;&gt; <b class="calibre10">plt.show()</b>
 </code></pre>
-<p class="tx">When you call <span class="thesansmonocd_w5regular_">plt.show()</span> for the pie chart, Matplotlib displays it in a window, like in Figure 21-19. The <span class="thesansmonocd_w5regular_">plt.pie()</span> function accepts a list of slice sizes and a list of labels for each slice.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">autopct</span> argument specifies the precision of the percentage label for each slice. The argument is a format specifier string; the <span class="thesansmonocd_w5regular_">'%.1f%%'</span> string specifies that the number should show one digit after the decimal point. If you leave this keyword argument out of the function call, the pie chart won’t list the percentage text.</p>
+<p class="tx">円グラフの<span class="thesansmonocd_w5regular_">plt.show()</span>を呼び出すと、図21-19のようなウィンドウが表示されます。<span class="thesansmonocd_w5regular_">plt.pie()</span>関数は、スライスの大きさとラベルを取ります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">autopct</span>引数では、各スライスのパーセンテージラベルの精度を指定します。引数は指示子文字列です。<span class="thesansmonocd_w5regular_">'%.1f%%'</span>と指定すると数値は小数第一位まで表示されます。
+関数呼び出し時にこのキーワード引数を指定しなければ、円グラフにパーセンテージは表示されません。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1181" aria-label="521"></span>
 <figure class="img"><img class="img3" id="calibre_link-826" src="images/000067.jpg" alt="A pie chart with percentages in each slices and the labels “dogs”, “cats”, “moose”, and “mice”." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-19: A pie chart displayed with</span> <span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-19：</span><span class="sans_thesansmonocd_w5regular_italic_">plt.show()</span>で表示される円グラフ</p></figcaption>
 </figure>
-<p class="tx">Matplotlib automatically picks the colors for each slice, but you can customize this behavior, along with many other aspects of the graphs you create.</p>
+<p class="tx">Matplotlibは各スライスの色を自動的に選びますが、色その他の見た目はカスタマイズできます。</p>
 </section>
 <section type="division" aria-labelledby="sec29">
-<h4 class="h1" id="calibre_link-2059"><span id="calibre_link-568"></span><span class="sans_futura_std_heavy_oblique_bi_">Additional Components</span></h4>
-<p class="tni">The graphs we created in the previous section are fairly basic. Matplotlib has a vast number of additional features that could fill a book of its own, so we’ll look at the most common components only. Let’s add data point markers, custom colors, and labels to our graphs. Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2059"><span id="calibre_link-568"></span><span class="sans_futura_std_heavy_oblique_bi_">追加コンポーネント</span></h4>
+<p class="tni">これまでに作成してきたグラフはごく基本的なものです。Matplotlibにはそれだけで一冊の本が書けるくらいの非常に多くの機能があり、本書では一般的なものしか扱いません。データポイントのマーカーと色のカスタマイズとラベルをこれから説明します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import matplotlib.pyplot as plt</b>
 &gt;&gt;&gt; <b class="calibre10">x_values = [0, 1, 2, 3, 4, 5]</b>
 &gt;&gt;&gt; <b class="calibre10">y_values1 = [10, 13, 15, 18, 16, 20]</b>
@@ -669,83 +669,83 @@ Text(0.5, 1.0, 'Graph Title')
 <span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> &gt;&gt;&gt; <b class="calibre10">plt.grid(True)</b>
 &gt;&gt;&gt; <b class="calibre10">plt.show()</b>
 </code></pre>
-<p class="tx">After running this code, Matplotlib displays a window that looks like Figure 21-20. It contains the same line graph created previously, but we’ve added <span class="thesansmonocd_w5regular_">marker</span>, <span class="thesansmonocd_w5regular_">color</span>, and <span class="thesansmonocd_w5regular_">label</span> keyword arguments to the <span class="thesansmonocd_w5regular_">plt.plot()</span> function calls <span class="codeannotation" aria-label="annotation1">❶</span>. The marker creates a dot for each data point in the line. An <span class="thesansmonocd_w5regular_">'o'</span> value makes the dot an O-shaped circle, while <span class="thesansmonocd_w5regular_">'s'</span> makes it a square. The <span class="thesansmonocd_w5regular_">'b'</span> and <span class="thesansmonocd_w5regular_">'r'</span> color arguments set the line to blue and red, respectively. We give each line a label to use in the legend created by calling <span class="thesansmonocd_w5regular_">plt.legend()</span> <span class="codeannotation" aria-label="annotation2">❷</span>.</p>
-<p class="tx">We also create labels for the x-axis, the y-axis, and the entire graph itself by calling <span class="thesansmonocd_w5regular_">plt.xlabel()</span>, <span class="thesansmonocd_w5regular_">plt.ylabel()</span>, and <span class="thesansmonocd_w5regular_">plt.title()</span> <span class="codeannotation" aria-label="annotation3">❸</span>, passing the label text as strings. Finally, passing <span class="thesansmonocd_w5regular_">True</span> to <span class="thesansmonocd_w5regular_">plt.grid()</span> <span class="codeannotation" aria-label="annotation4">❹</span> enables a grid with lines along the x-axis and y-axis values.</p>
+<p class="tx">このコードを実行すると、図21-20のようなウィンドウが表示されます。最初に作成した折れ線グラフと同じデータですが、<span class="thesansmonocd_w5regular_">plt.plot()</span>関数呼び出しに<span class="thesansmonocd_w5regular_">marker</span>、<span class="thesansmonocd_w5regular_">color</span>、<span class="thesansmonocd_w5regular_">label</span>のキーワード引数を追加しました(<span class="codeannotation" aria-label="annotation1">❶</span>)。マーカーは折れ線の各データポイントをドットで示します。<span class="thesansmonocd_w5regular_">'o'</span>はドットをOの形の円形に、<span class="thesansmonocd_w5regular_">'s'</span>は四角形にします。<span class="thesansmonocd_w5regular_">'b'</span>と<span class="thesansmonocd_w5regular_">'r'</span>のcolor引数は折れ線をそれぞれ青（blue）と赤（red）にします。<span class="thesansmonocd_w5regular_">plt.legend()</span>で作成される凡例で折れ線にラベルをつけました(<span class="codeannotation" aria-label="annotation2">❷</span>)。</p>
+<p class="tx">ラベルのテキストを文字列で渡して<span class="thesansmonocd_w5regular_">plt.xlabel()</span>、<span class="thesansmonocd_w5regular_">plt.ylabel()</span>、<span class="thesansmonocd_w5regular_">plt.title()</span>を呼び出して、x軸とy軸とグラフ全体にもラベルをつけています(<span class="codeannotation" aria-label="annotation3">❸</span>)。最後に、<span class="thesansmonocd_w5regular_">plt.grid()</span>に<span class="thesansmonocd_w5regular_">True</span>を渡して目盛りとx軸およびy軸の値を表示しています(<span class="codeannotation" aria-label="annotation4">❹</span>)。</p>
 <figure class="img"><img class="img3" id="calibre_link-827" src="images/000069.jpg" alt="A line graph with two lines, grid lines, x and y axis labels, a title, and a legend." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 21-20: The example line graph with additional components</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 21-20：コンポーネントを追加した折れ線グラフの例</span></p></figcaption>
 </figure>
-<p class="tx">This is just a small sample of the features that Matplotlib provides. You can read about the other features in the online documentation.</p>
+<p class="tx">これはMatplotlibが提供している機能のほんの一例です。オンラインドキュメントでは他の機能についても説明されています。</p>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec30">
-<h3 class="h" id="calibre_link-2061"><span id="calibre_link-569"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">Images consist of a collection of pixels, which each have an RGBA value for its color and a set of x- and y-coordinates representing its location. Two common image formats are JPEG and PNG. Pillow can handle both of these image formats, and others.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2062" aria-label="523"></span>When a program loads an image into an <span class="thesansmonocd_w5regular_">Image</span> object, its width and height dimensions are stored as a two-integer tuple in the <span class="thesansmonocd_w5regular_">size</span> attribute. Objects of the <span class="thesansmonocd_w5regular_">Image</span> data type also have methods for common image manipulations: <span class="thesansmonocd_w5regular_">crop()</span>, <span class="thesansmonocd_w5regular_">copy()</span>, <span class="thesansmonocd_w5regular_">paste()</span>, <span class="thesansmonocd_w5regular_">resize()</span>, <span class="thesansmonocd_w5regular_">rotate()</span>, and <span class="thesansmonocd_w5regular_">transpose()</span>. To save the <span class="thesansmonocd_w5regular_">Image</span> object to an image file, call the <span class="thesansmonocd_w5regular_">save()</span> method.</p>
-<p class="tx">If you want your program to draw shapes onto an image, use <span class="thesansmonocd_w5regular_">ImageDraw</span> methods to draw points, lines, rectangles, ellipses, and polygons. The module also provides methods for drawing text in a typeface and font size of your choosing.</p>
-<p class="tx">While the Pillow library lets you draw shapes and individual pixels, it’s easier to generate graphs using the Matplotlib library. You can create line, bar, and pie charts using Matplotlib’s default settings, or you can make specific customizations. The <span class="thesansmonocd_w5regular_">show()</span> method displays the chart on your screen for previewing, and the <span class="thesansmonocd_w5regular_">save()</span> method generates image files you could include in documents or spreadsheets. The library’s online documentation can tell you more about its rich features.</p>
-<p class="tx">Although advanced (and expensive) applications such as Photoshop provide automatic batch processing features, you can use Python scripts to do many of the same modifications for free. In the previous chapters, you wrote Python programs to deal with plaintext files, spreadsheets, PDFs, and other formats. With Pillow, you’ve extended your programming powers to processing images as well!</p>
+<h3 class="h" id="calibre_link-2061"><span id="calibre_link-569"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">画像は、色を表すRGBA値と位置を示す座標を組み合わせたピクセルの集合です。画像フォーマットではJPEGとPNGが一般的です。Pillowではこれらのフォーマットとその他のフォーマットを扱えます。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2062" aria-label="523"></span>プログラムが画像をロードして<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを作成すると、<span class="thesansmonocd_w5regular_">size</span>属性の2つの整数値のタプルから幅と高さがわかります。<span class="thesansmonocd_w5regular_">Image</span>データ型のオブジェクトには、<span class="thesansmonocd_w5regular_">crop()</span>、<span class="thesansmonocd_w5regular_">copy()</span>、<span class="thesansmonocd_w5regular_">paste()</span>、<span class="thesansmonocd_w5regular_">resize()</span>、<span class="thesansmonocd_w5regular_">rotate()</span>、<span class="thesansmonocd_w5regular_">transpose()</span>の画像処理メソッドがあります。<span class="thesansmonocd_w5regular_">save()</span>メソッドを呼び出せば<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを画像ファイルに保存できます。</p>
+<p class="tx">プログラムで画像に描画をしたければ、<span class="thesansmonocd_w5regular_">ImageDraw</span>メソッドを使います。点、直線、長方形、楕円、多角形を描画できます。書体とフォントサイズを選択してテキストを入れることもできます。</p>
+<p class="tx">Pillowライブラリで図形の描画やピクセルの操作ができますが、グラフを作成するにはMatplotlibライブラリを使うほうが簡単です。Matplotlibのデフォルト設定で、折れ線グラフ、棒グラフ、円グラフを作成できますし、カスタマイズも可能です。<span class="thesansmonocd_w5regular_">show()</span>メソッドを呼び出すとグラフをプレビュー画面に表示でき、<span class="thesansmonocd_w5regular_">save()</span>メソッドを呼び出すと画像ファイルを保存できます。そうすればグラフの画像を文書やスプレッドシートに挿入できます。Matplotlibライブラリには豊富な機能があり、オンラインドキュメントで詳しく説明されています。</p>
+<p class="tx">Photoshopのような高度な（高価な）アプリケーションには自動バッチ処理機能がありますが、Pythonのスクリプトを書くと無料で多数の同じ変更を行えます。これまでの章ではプレーンテキストファイル、スプレッドシート、PDFその他のフォーマットを扱うPythonプログラムを書いてきましたが、Pillowにより画像も扱えるようになりました。</p>
 </section>
 <section type="division" aria-labelledby="sec31">
-<h3 class="h" id="calibre_link-2063"><span id="calibre_link-570"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What is an RGBA value?</p>
-<p class="listnumber">  2.  How can you get the RGBA value of <span class="thesansmonocd_w5regular_">'CornflowerBlue'</span> from the Pillow module?</p>
-<p class="listnumber">  3.  What is a box tuple?</p>
-<p class="listnumber">  4.  What function returns an <span class="thesansmonocd_w5regular_">Image</span> object for, say, an image file named <i class="calibre5">zophie.png</i>?</p>
-<p class="listnumber">  5.  How can you find out the width and height of an <span class="thesansmonocd_w5regular_">Image</span> object’s image?</p>
-<p class="listnumber">  6.  What method would you call to get the <span class="thesansmonocd_w5regular_">Image</span> object for the lower-left quarter of a 100×100 image?</p>
-<p class="listnumber">  7.  After making changes to an <span class="thesansmonocd_w5regular_">Image</span> object, how could you save it as an image file?</p>
-<p class="listnumber">  8.  What module contains Pillow’s shape-drawing code?</p>
-<p class="listnumber">  9.  <span class="thesansmonocd_w5regular_">Image</span> objects do not have drawing methods. What kind of object does? How do you get this kind of object?</p>
-<p class="listnumber">10.  Which Matplotlib functions create a line graph, scatter plot, bar graph, and pie chart?</p>
-<p class="listnumber">11.  How can you save a Matplotlib graph as an image?</p>
-<p class="listnumber">12.  What does the <span class="thesansmonocd_w5regular_">plt.show()</span> function do, and why can’t you call it twice in a row?</p>
+<h3 class="h" id="calibre_link-2063"><span id="calibre_link-570"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. RGBA値とは何ですか？</p>
+<p class="listnumber">  2. Pillowモジュールから<span class="thesansmonocd_w5regular_">'CornflowerBlue'</span>のRGBA値を取得してください。</p>
+<p class="listnumber">  3. ボックスタプルとは何ですか？</p>
+<p class="listnumber">  4. 例えば<i class="calibre5">zophie.png</i>という名前の画像ファイルがあるとして、その<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返す関数は何ですか？</p>
+<p class="listnumber">  5. <span class="thesansmonocd_w5regular_">Image</span>オブジェクトの画像の幅と高さを取得してください。</p>
+<p class="listnumber">  6. 100×100の画像を4分割した左下の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを取得してください。</p>
+<p class="listnumber">  7. <span class="thesansmonocd_w5regular_">Image</span>オブジェクトに変更を加えた後で、どのようにすれば画像ファイルに保存できますか？</p>
+<p class="listnumber">  8. Pillowで図形を描画するにはどのモジュールを使いますか？</p>
+<p class="listnumber">  9. <span class="thesansmonocd_w5regular_">Image</span>オブジェクトには描画メソッドがありません。描画メソッドがあるのはどのオブジェクトですか？　そのオブジェクトをどのように取得しますか？</p>
+<p class="listnumber">10. Matplotlibで折れ線グラフ、散布図、棒グラフ、円グラフを作成する関数をそれぞれ答えてください。</p>
+<p class="listnumber">11. Matplotlibのグラフを画像として保存するにはどうしますか？</p>
+<p class="listnumber">12. <span class="thesansmonocd_w5regular_">plt.show()</span>関数は何を行いますか？　この関数を連続して2回呼び出せないのはなぜですか？</p>
 </section>
 <section type="division" aria-labelledby="sec32">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1189" aria-label="524"></span>
-<h3 class="h" id="calibre_link-2064"><span id="calibre_link-571"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-2064"><span id="calibre_link-571"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec33">
-<h4 class="h1" id="calibre_link-2065"><span id="calibre_link-572"></span><span class="sans_futura_std_heavy_oblique_bi_">Tile Maker</span></h4>
-<p class="tni">Write a program that produces a tiled image from a single image, much like tiles of cat faces in Figure 21-6. Your program should have a <span class="thesansmonocd_w5regular_">make_tile()</span> function with three arguments: a string of the image filename, an integer for how many times it should be tiled horizontally, and an integer for how many times it should be tiled vertically. The <span class="thesansmonocd_w5regular_">make_tile()</span> function should return a larger <span class="thesansmonocd_w5regular_">Image</span> object of the tiled image. You will use the <span class="thesansmonocd_w5regular_">paste()</span> methods as part of this function.</p>
-<p class="tx">For example, if <i class="calibre5">zophie_the_cat.jpg</i> was a 20×50-pixel image, calling <span class="thesansmonocd_w5regular_">make_tile('zophie_the_cat.jpg', 6, 10)</span> should return a 120×500 image with 60 tiles total. For a bonus, try randomly flipping or rotating the image to tile when pasting it to the larger image. This tile maker works best with smaller images to tile. See what abstract art you can create with this code.</p>
+<h4 class="h1" id="calibre_link-2065"><span id="calibre_link-572"></span><span class="sans_futura_std_heavy_oblique_bi_">タイルメイカー</span></h4>
+<p class="tni">図21-6でネコの顔のタイルを示しましたが、このように一つの画像からタイル画像を生成するプログラムを書いてください。画像ファイルの名前の文字列、水平方向のタイルの枚数、垂直方向のタイルの枚数の3つの引数を取る<span class="thesansmonocd_w5regular_">make_tile()</span>関数を作成します。<span class="thesansmonocd_w5regular_">make_tile()</span>関数はタイルを敷き詰めた画像の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトを返します。この関数では<span class="thesansmonocd_w5regular_">paste()</span>メソッドを使用します。</p>
+<p class="tx">例えば、 <i class="calibre5">zophie_the_cat.jpg</i>が20×50ピクセルの画像だとすると、<span class="thesansmonocd_w5regular_">make_tile('zophie_the_cat.jpg', 6, 10)</span>を呼び出すと60枚のタイルが敷き詰められた120×500の画像が返されます。余裕があれば、タイル画像を作成する際にランダムに画像を反転させたり回転させたりしてみてください。このタイルメーカーは小さな画像に適しています。このコードでアブストラクトアートを作成できます。</p>
 </section>
 <section type="division" aria-labelledby="sec34">
-<h4 class="h1" id="calibre_link-2066"><span id="calibre_link-573"></span><span class="sans_futura_std_heavy_oblique_bi_">Identifying Photo Folders on the Hard Drive</span></h4>
-<p class="tni">I have a bad habit of transferring files from my digital camera to temporary folders somewhere on the hard drive and then forgetting about these folders. It would be nice to write a program that could scan the entire hard drive and find these leftover photo folders.</p>
-<p class="tx">Write a program that goes through every folder on your hard drive and finds potential photo folders. Of course, first you’ll have to define what you consider a “photo folder” to be; let’s say that it’s any folder where more than half of the files are photos. And how do you define what files are photos? First, a photo file must have the file extension <i class="calibre5">.png</i> or <i class="calibre5">.jpg</i>. Also, photos are large images; a photo file’s width and height must both be larger than 500 pixels. This is a safe bet, since most digital camera photos are several thousand pixels in width and height.</p>
-<p class="tx">As a hint, here’s a rough skeleton of what this program might look like:</p>
-<pre class="pre"><code class="calibre9"># Import modules and write comments to describe this program.
+<h4 class="h1" id="calibre_link-2066"><span id="calibre_link-573"></span><span class="sans_futura_std_heavy_oblique_bi_">ハードドライブ上の写真フォルダを見つけ出す</span></h4>
+<p class="tni">私はデジタルカメラからハードドライブ上のどのフォルダにファイルを転送したかをよく忘れてしまいます。ハードドライブ全体を走査して忘れられた写真フォルダを見つけ出すプログラムを書けるとうれしいです。</p>
+<p class="tx">ハードドライブ上のすべてのフォルダを走査して写真フォルダを見つけ出すプログラムを書いてください。まず「写真フォルダ」とは何かを定義しなければなりません。そのフォルダ内の半分以上のファイルが写真であるフォルダだとしましょう。次に写真とは何かを定義しなければなりません。ファイル拡張子が<i class="calibre5">.png</i>または<i class="calibre5">.jpg</i>で、幅と高さが両方とも500ピクセル以上の大きな画像だとします。こうしておけば安全です。というのも、ほとんどのデジタルカメラの写真は幅と高さが数千ピクセルだからです。</p>
+<p class="tx">ヒントとして、以下にこのプログラムの骨格を示します。</p>
+<pre class="pre"><code class="calibre9"># モジュールのインポートとこのプログラムの動作コメント
 
 for folder_name, subfolders, filenames in os.walk('C:\\'):
     num_photo_files = 0
     num_non_photo_files = 0
     for filename in filenames:
-        # Check if the file extension isn't .png or .jpg.
+        # ファイル拡張子が.pngまたは.jpgでないか確認
         if TODO:
             num_non_photo_files += 1
-            continue  # Skip to the next filename.
+            continue  # 次のファイル名にスキップ
 
-        # Open image file using Pillow.
+        # Pillowで画像ファイルを開く
 
-        # Check if the width &amp; height are larger than 500.
+        # 幅と高さが500以上か確認
         if TODO:
-            # Image is large enough to be considered a photo.
+            # 写真だと考えられる大きな画像
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1073" aria-label="525"></span>            num_photo_files += 1
         else:
-            # Image is too small to be a photo.
+            # 写真だと考えられない小さな画像
             num_non_photo_files += 1
 
-    # If more than half of files were photos,
-    # print the absolute path of the folder.
+    # 半分以上のファイルが写真なら
+    # そのフォルダの絶対パスを表示
     if TODO:
         print(TODO)
 </code></pre>
-<p class="tx">When the program runs, it should print the absolute path of any photo folders to the screen.</p>
+<p class="tx">このプログラムを実行すると、写真フォルダの絶対パスが画面上に表示されます。</p>
 </section>
 <section type="division" aria-labelledby="sec35">
-<h4 class="h1" id="calibre_link-2067"><span id="calibre_link-574"></span><span class="sans_futura_std_heavy_oblique_bi_">Creating Custom Seating Cards</span></h4>
-<p class="tni">In a practice program in <span>Chapter 17</span>, you created custom invitations from a list of guests in a plaintext file. As an additional project, use Pillow to create images that will serve as custom seating cards for your guests. For each of the guests listed in the <i class="calibre5">guests.txt</i> file from the book’s online resources, generate an image file with the guest’s name and some flowery decoration. A public domain flower image is also available in the book’s resources.</p>
-<p class="tx">To ensure that each seating card is the same size, add a black rectangle to the edges of the invitation image; that way, when you print the image, you’ll have a guideline for cutting. The PNG files that Pillow produces are set to 72 pixels per inch, so a 4×5-inch card would require a 288×360-pixel image.</p>
+<h4 class="h1" id="calibre_link-2067"><span id="calibre_link-574"></span><span class="sans_futura_std_heavy_oblique_bi_">カスタム席札の作成</span></h4>
+<p class="tni"><span>第17章</span>の練習プログラムで、プレーンテキストファイルに書かれた招待客の一覧からカスタム招待状を作成しました。このプロジェクトの発展形として、Pillowを使って招待客のカスタム席札の画像を作成します。本書のオンライン素材の<i class="calibre5">guests.txt</i>ファイルに書かれた招待客ごとに、招待客の名前を花で装飾した画像ファイルを生成します。パブリックドメインの花の画像をご利用ください。</p>
+<p class="tx">席札がすべて同じサイズになるように、画像の端に黒い長方形を追加してください。そうすれば、画像を印刷するときに、切り取り線として活用できます。PillowのPNGファイルは1インチあたり72ピクセルに設定されているので、4×5インチのカードであれば288×360ピクセルの画像になります。</p>
 </section>
 </section>
 </section>
