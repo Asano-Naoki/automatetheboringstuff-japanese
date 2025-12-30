@@ -11,43 +11,42 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1274" aria-label="527"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-2068">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">22</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">RECOGNIZING TEXT IN IMAGES</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">22</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">画像中の文字認識</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni"><i class="calibre18">Text recognition</i>, more formally called <i class="calibre18">optical character recognition (OCR)</i>, is the extraction of text from an image. Python has a rich collection of string methods and regular expressions for processing text, but these require you to first input the text as a string. Programs can use OCR to, for example, recognize the names on street signs and writing on checks deposited at an ATM, or to scan receipts to create electronic copies.</p>
-<p class="tx">Like text-to-speech or speech recognition, OCR involves carrying out advanced computer science techniques, but Python modules obscure these details, making it easy to use. This chapter covers PyTesseract, the Python package that works with the open source Tesseract OCR engine. We’ll also look at the free NAPS2 application, which Python can run to apply Tesseract OCR to PDF files.</p>
+<p class="introtni"><i class="calibre18">文字認識</i>とは画像からテキストを抽出することです。より正式には<i class="calibre18">光学文字認識（OCR）</i>と呼ばれます。Pythonにはテキストを処理する多彩な文字列メソッドと正規表現がありますが、文字列としてのテキスト入力がなければ始まりません。OCRは、道路標識、ATMに預け入れられた小切手、領収書などの文字を認識するのに使われます。</p>
+<p class="tx">読み上げや音声認識と同様に、OCRでは高度なコンピュータサイエンスの技術を実行しますが、Pythonのモジュールではややこしい詳細を意識せず簡単に使えます。本章では、オープンソースのTesseract OCRエンジンを動かすPyTesseractパッケージを紹介します。PythonからTesseract OCRを利用してPDFファイルを作成できる、フリーのNAPS2アプリケーションにも言及します。</p>
 <section type="division" aria-labelledby="sec1">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-829" aria-label="528"></span>
-<h3 class="h" id="calibre_link-2069"><span id="calibre_link-576"></span><span class="sans_futura_std_bold_b_">Installing Tesseract and PyTesseract</span></h3>
-<p class="tni">To work with PyTesseract, you must install the free Tesseract OCR engine software on your Windows, macOS, or Linux computer by following the instructions in this section. You can also choose to install the language packs for non-English languages. Afterward, install the PyTesseract package so that your Python scripts can interact with Tesseract.</p>
+<h3 class="h" id="calibre_link-2069"><span id="calibre_link-576"></span><span class="sans_futura_std_bold_b_">TesseractとPyTesseractのインストール</span></h3>
+<p class="tni">PyTesseractを動かすには、フリーのTesseract OCRエンジンソフトウェアをお使いのコンピュータにインストールしなければなりません。Windows、macOS、Linuxのそれぞれについてインストール方法を以下で説明します。英語以外の言語については言語パックを選んでインストールします。その上でPyTesseractパッケージをインストールすれば、PythonスクリプトからTesseractを利用できます。</p>
 <section type="division" aria-labelledby="sec2">
 <h4 class="h1" id="calibre_link-2070"><span id="calibre_link-577"></span><span class="sans_futura_std_heavy_oblique_bi_">Windows</span></h4>
-<p class="tni">On Windows, open your browser to <i class="calibre5"><a href="https://github.com/UB-Mannheim/tesseract/wiki" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/UB<wbr></wbr>-Mannheim<wbr></wbr>/tesseract<wbr></wbr>/wiki</a></i> and follow the page’s instructions to download the latest installer program. Then, double-click this installer to install Tesseract.</p>
-<p class="tx">Tesseract recognizes English text by default. During installation, you may optionally check the checkboxes for “Additional script data (download)” and “Additional language data (download)” so that Tesseract can recognize non-English letters and languages, respectively. Installing all languages adds about 600MB to the install size. These language packs have filenames identifying the language and a <i class="calibre5">.traineddata</i> extension, such as <i class="calibre5">jpn.traineddata</i> for Japanese. Alternatively, you can check the checkboxes for individual languages to save space.</p>
-<p class="tx">After the installation has finished, add the <i class="calibre5">C:\Program Files\Tesseract-OCR</i> folder (or whichever folder you installed Tesseract in) to the <span class="thesansmonocd_w5regular_">PATH</span> environment variable so that PyTesseract can access the <i class="calibre5">tesseract.exe</i> program. <span>Chapter 12</span> covered how to modify the <span class="thesansmonocd_w5regular_">PATH</span> environment variable.</p>
+<p class="tni">Windowsでは、<i class="calibre5"><a href="https://github.com/UB-Mannheim/tesseract/wiki" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/UB<wbr></wbr>-Mannheim<wbr></wbr>/tesseract<wbr></wbr>/wiki</a></i>をブラウザで開いてそのページの指示に従って最新のインストーラープログラムをダウンロードしてください。そのインストーラーをダブルクリックすればTesseractをインストールできます。</p>
+<p class="tx">Tesseractはデフォルトで英語の文字認識を行います。インストール中に"Additional script data (download)"と"Additional language data (download)"というチェックボックスをオンにすると、英語以外の文字や言語も認識できるようになります。すべての言語をインストールすると600MBほどのサイズになります。この言語パックではファイル名の<i class="calibre5">.traineddata</i>拡張子の前の部分でどの言語かが示されます。例えば、日本語でしたら<i class="calibre5">jpn.traineddata</i>です。容量を節約するためにチェックボックスで選択してインストールする言語を選べます。</p>
+<p class="tx">インストールが終われば、PyTesseractが<i class="calibre5">tesseract.exe</i>プログラムにアクセスできるように、<i class="calibre5">C:\Program Files\Tesseract-OCR</i>フォルダ（またはTesseractをインストールした別のフォルダ）を<span class="thesansmonocd_w5regular_">PATH</span>環境変数に追加してください。<span class="thesansmonocd_w5regular_">PATH</span>環境変数の編集方法については<span>第12章</span>で説明しました。</p>
 </section>
 <section type="division" aria-labelledby="sec3">
 <h4 class="h1" id="calibre_link-2071"><span id="calibre_link-578"></span><span class="sans_futura_std_heavy_oblique_bi_">macOS</span></h4>
-<p class="tni">The Homebrew package manager can install Tesseract on macOS. Navigate to <i class="calibre5"><a href="https://docs.brew.sh" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.brew<wbr></wbr>.sh</a></i> to install Homebrew. Install Tesseract by opening a terminal window and running <b class="calibre10">brew install tesseract</b>, then run <b class="calibre10">brew install tesseract-lang</b> to install non-English language packs.</p>
+<p class="tni">HomebrewパッケージマネージャーでTesseractをmacOSにインストールできます。Homebrewは<i class="calibre5"><a href="https://docs.brew.sh" class="calibre1">https://<wbr></wbr>docs<wbr></wbr>.brew<wbr></wbr>.sh</a></i>からインストールできます。ターミナルウィンドウを開いて<b class="calibre10">brew install tesseract</b>を実行すればTesseractをインストールできますし、<b class="calibre10">brew install tesseract-lang</b>を実行すれば英語以外の言語パックをインストールできます。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
 <h4 class="h1" id="calibre_link-2072"><span id="calibre_link-579"></span><span class="sans_futura_std_heavy_oblique_bi_">Linux</span></h4>
-<p class="tni">To install Tesseract on Linux, open a terminal window and run <b class="calibre10">sudo apt install tesseract-ocr</b>. You’ll have to enter the administrator password to run this command.</p>
-<p class="tx">To install the language packs for every language, run <b class="calibre10">sudo apt install tesseract-ocr-all</b> from the terminal. To install just the language packs you want, replace <span class="thesansmonocd_w5regular_">all</span> with a three-character ISO 639 language code, such as <span class="thesansmonocd_w5regular_">fra</span> for French, <span class="thesansmonocd_w5regular_">deu</span> for German, or <span class="thesansmonocd_w5regular_">jpn</span> for Japanese.</p>
+<p class="tni">ターミナルウィンドウを開いて<b class="calibre10">sudo apt install tesseract-ocr</b>を実行すればLinuxにTesseractをインストールできます。このコマンドを実行するには管理者パスワードの入力を求められます。</p>
+<p class="tx">ターミナルから<b class="calibre10">sudo apt install tesseract-ocr-all</b>を実行すればすべての言語パックをインストールできます。言語パックを選択してインストールするなら、<span class="thesansmonocd_w5regular_">all</span>の部分をISO 639言語コードに置き換えてください。例えばフランス語なら<span class="thesansmonocd_w5regular_">fra</span>、ドイツ語なら<span class="thesansmonocd_w5regular_">deu</span>、日本語なら<span class="thesansmonocd_w5regular_">jpn</span>です。</p>
 </section>
 <section type="division" aria-labelledby="sec5">
 <h4 class="h1" id="calibre_link-2073"><span id="calibre_link-580"></span><span class="sans_futura_std_heavy_oblique_bi_">PyTesseract</span></h4>
-<p class="tni">After installing the Tesseract OCR engine, you can install the latest version of PyTesseract by following the instructions in <span>Appendix A</span>. PyTesseract also installs the Pillow image library.</p>
+<p class="tni">Tesseract OCRエンジンをインストールしたら、次は<span>付録A</span>の指示に従ってPyTesseractの最新版をインストールします。PyTesseractはPillow画像ライブラリもインストールします。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec6">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-964" aria-label="529"></span>
-<h3 class="h" id="calibre_link-2074"><span id="calibre_link-581"></span><span class="sans_futura_std_bold_b_">OCR Fundamentals</span></h3>
-<p class="tni">Using PyTesseract and the Pillow image library, you can extract text from an image in four lines of code. You’ll need to import the PyTesseract and Pillow libraries, open the image using the <span class="thesansmonocd_w5regular_">Image.open()</span> function, and then finally pass the opened image to the <span class="thesansmonocd_w5regular_">tess.image_to_string()</span> function.</p>
-<p class="tx">Let’s walk through a basic example: extracting the text from a screenshot of the introduction of my book <i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021). Download the <i class="calibre5">ocr-example.png</i> image from the book’s online resources at <i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>, then enter the following into the interactive shell to open the image with Pillow and scan it with Tesseract:</p>
+<h3 class="h" id="calibre_link-2074"><span id="calibre_link-581"></span><span class="sans_futura_std_bold_b_">OCRの基礎</span></h3>
+<p class="tni">PyTesseractとPillow画像ライブラリを使うと、4行のコードで画像から文字を抽出できます。PyTesseractとPillowをインポートして、<span class="thesansmonocd_w5regular_">Image.open()</span>関数で画像を開き、開いた画像を<span class="thesansmonocd_w5regular_">tess.image_to_string()</span>関数に渡します。</p>
+<p class="tx">基本的な例を見てましょう。私の本<i class="calibre5">The Big Book of Small Python Projects</i> (No Starch Press, 2021)の導入部のスクリーンショットから文字を抽出します。<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>の本書のオンライン素材から<i class="calibre5">ocr-example.png</i>画像をダウンロードして、対話型シェルでその画像をPillowで開き、Tesseractで読み取ります。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pytesseract as tess</b>
 &gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">img = Image.open('ocr-example.png')</b>
@@ -62,42 +61,42 @@ your own as practice. After a while, you'll start to get ideas for your own pro-
 grams and, more importantly, know how to go about creating them.
 <var class="calibre20">--snip--</var>
 </code></pre>
-<p class="tx">Converting text from an image file into a string requires sophisticated algorithms, but Python makes these accessible with four lines of code!</p>
+<p class="tx">画像中の文字を認識して文字列を取り出すには高度なアルゴリズムが必要ですが、Pythonはたった4行のコードでそれを実現できます。</p>
 <section type="division" aria-labelledby="sec7">
-<h4 class="h1" id="calibre_link-2075"><span id="calibre_link-582"></span><span class="sans_futura_std_heavy_oblique_bi_">Preprocessing an Image</span></h4>
-<p class="tni">The text in the image from the previous section extracted almost perfectly to a Python string. However, OCR has limitations. Unlike computer- generated images such as screenshots, scanned or photographed paper can contain flaws, and photographs of real-world scenes are far too complicated to extract text from. You cannot, say, take a photo of the back of a car and expect Tesseract to extract the license plate number from it. You’d first need to crop the image around the license plate; even then, it may be unreadable. For that reason, Tesseract is intended for print documents rather than photos or handwritten text.</p>
-<p class="tx">Even in screenshots, always consider OCR text to be imperfect and in need of correction. In particular, you might encounter issues like the following:</p>
+<h4 class="h1" id="calibre_link-2075"><span id="calibre_link-582"></span><span class="sans_futura_std_heavy_oblique_bi_">画像の前処理</span></h4>
+<p class="tni">先ほど例を示した画像中の文字ではほぼ完璧に文字列を抽出できました。しかしOCRには限界があります。スクリーンショットのようなコンピュータが作成した画像とは異なり、紙をスキャンしたり撮影したりした画像には問題がある場合がありますし、現実世界を撮影した写真は文字を抽出するには複雑すぎます。例えば、車を後ろから撮影した画像中のナンバープレートの文字をTesseractで認識することはできません。ナンバープレート付近の画像をクロップ（切り抜き）したとしてもまだ読み取れないかもしれません。Tesseractは現実世界の写真や手書き文字よりも、印刷物に適しています。</p>
+<p class="tx">スクリーンショットであってもOCRテキストは不完全だと考えて修正するようにしてください。特に以下のような問題があります。</p>
 <ul class="ul">
-<li class="bl">The string maintains any end-of-line hyphenation (for example, in “dig-” and “ital” or “pro-” and “grams”).</li>
-<li class="bl">The string doesn’t conserve any font or size information.</li>
-<li class="bl">The whitespace in the string may not match the text.</li>
-<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1008" aria-label="530"></span>The string may have incorrectly scanned characters, such as confusing lowercase <i class="calibre5">j</i> and lowercase <i class="calibre5">i</i>.</li>
-<li class="bl">If the image contains tables or multiple columns of text, the string may mix the text and include it out of order.</li>
+<li class="bl">行末のハイフンが残ってしまう（“dig-” “ital”や“pro-” “grams”など）</li>
+<li class="bl">文字列にフォントやサイズの情報が残らない</li>
+<li class="bl">文字列中の空白が本文と一致しない</li>
+<li class="bl"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1008" aria-label="530"></span>小文字の<i class="calibre5">j</i>と<i class="calibre5">i</i>を間違えるなど文字認識が不完全</li>
+<li class="bl">表や段組みがあると文字列の順序がごちゃごちゃになってしまう</li>
 </ul>
-<p class="tx">Pay special attention to mistakes in numbers, as they can be harder to spot than misspelled words.</p>
-<p class="tx">Tesseract takes preprocessing steps to mitigate certain issues, but you can possibly improve its accuracy by using an image editing program to perform the following preprocessing steps:</p>
+<p class="tx">数字の認識誤りは単語の認識誤りよりも発見しにくいので、特に注意してください。</p>
+<p class="tx">Tesseractでは認識の問題を軽減する前処理を行いますが、Tesseractを使う前に画像編集プログラムで以下の前処理を行うと精度を高められる可能性があります。</p>
 <ul class="ul">
-<li class="bl">Don’t scan multicolumn images; put each column of text into a separate image.</li>
-<li class="bl">Use only typewritten text, not handwritten text.</li>
-<li class="bl">Use conventional fonts, not cursive or stylized fonts.</li>
-<li class="bl">Rotate the image so that the lines of text are perfectly upright and not skewed at a slight angle.</li>
-<li class="bl">Use dark text on a light background, not white text on a black background.</li>
-<li class="bl">Remove any dark borders at the edges of the image.</li>
-<li class="bl">Add a small white border if the text runs up against the edge of the image.</li>
-<li class="bl">Adjust the brightness and contrast of the image so that the text stands out from the background.</li>
-<li class="bl">Remove small bits of “noise” pixels to clean up the image before scanning.</li>
+<li class="bl">段組みを避け、テキストの列ごとに別々の画像にする</li>
+<li class="bl">手書きではなく活字を対象にする</li>
+<li class="bl">装飾的なフォントではなく一般的なフォントを用いる</li>
+<li class="bl">テキストが傾かないように画像を回転させる</li>
+<li class="bl">黒地の背景に白色のテキストではなく、白地の背景に黒色のテキストにする</li>
+<li class="bl">画像の端の枠線を除去する</li>
+<li class="bl">画像の端まで文字があるなら余白を設ける</li>
+<li class="bl">画像の輝度とコントラストを調整してテキストが背景から際立つようにする</li>
+<li class="bl">画像のノイズを除去する</li>
 </ul>
-<p class="tx">Some of these steps can be performed automatically with Python using the OpenCV library. Check out the blog post “Preprocessing Images for OCR with Python and OpenCV” at <i class="calibre5"><a href="https://autbor.com/preprocessingocr" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/preprocessingocr</a></i> for more examples.</p>
+<p class="tx">PythonでOpenCVライブラリを使うとこうした処理を自動的に行えます。<i class="calibre5"><a href="https://autbor.com/preprocessingocr" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/preprocessingocr</a></i>の“Preprocessing Images for OCR with Python and OpenCV”というブログ記事に例がたくさん載っています。</p>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h4 class="h1" id="calibre_link-2076"><span id="calibre_link-583"></span><span class="sans_futura_std_heavy_oblique_bi_">Fixing Mistakes Using Large Language Models</span></h4>
-<p class="tni">The kinds of mistakes that OCR algorithms tend to make involve spacing and individual characters. Using a spellcheck algorithm won’t find OCR errors: it will point out the accurately recognized characters of words misspelled in the original image and miss errors that result in correctly spelled words. Identifying these kinds of character mistakes requires understanding context and a common sense for what the characters should be.</p>
-<p class="tx">This is exactly the type of problem that large language model (LLM) AIs such as ChatGPT, Gemini, and LLaMA can solve. For example, consider Figure 22-1, a raw scan from Mary Shelley’s novel <i class="calibre5">Frankenstein</i>. This particular page was printed in 1831, so the paper is wrinkled and yellowed, with inconsistently inked characters. You can download <i class="calibre5">frankenstein.png</i> from the book’s online resources.</p>
+<h4 class="h1" id="calibre_link-2076"><span id="calibre_link-583"></span><span class="sans_futura_std_heavy_oblique_bi_">大規模言語モデルを活用して誤りを修正する</span></h4>
+<p class="tni">OCRではスペースや文字単位の誤りが発生しやすいです。スペルチェックでは、正しく認識した元画像のスペルミスを誤りだと指摘したり、誤って認識した正しいスペルの単語を見逃したりするので、そうした誤りを発見しづらいです。OCRで起こりがちなこの種の誤りを発見するには文脈と常識が必要になります。</p>
+<p class="tx">これはまさにChatGPT、Gemini、LLaMAなどの大規模言語モデル（LLM）AIが得意とする問題です。例えば、図22-1はメアリー・シェリーの小説『フランケンシュタイン』のスキャン画像です。このページは1831年に印刷されたものであるため、紙にしわがあり黄ばんでいますし、インクがかすれている部分もあります。本書のオンライン素材からこの<i class="calibre5">frankenstein.png</i>をダウンロードできます。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1166" aria-label="531"></span>
 <figure class="img"><img class="img3" id="calibre_link-828" src="images/000077.jpg" alt="A scan of a book page labeled Chapter V" />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 22-1: The top part of a scanned page from an 1831 print of</span> <span class="sans_futura_std_book_">Frankenstein</span> <span class="sans_futura_std_book_oblique_i_">by Mary Shelley</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 22-1：1831年に印刷されたメアリー・シェリーの『フランケンシュタイン』をスキャンした画像</p></figcaption>
 </figure>
-<p class="tx">Without any preprocessing, Tesseract identifies the following text:</p>
+<p class="tx">前処理なしでTesseractは以下の文字を認識しました。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pytesseract as tess</b>
 &gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">img = Image.open('frankenstein.png')</b>
@@ -118,15 +117,15 @@ of the half-extinguished light, I saw the dull yellow eye
 of the creature open ; it breathed hard, and a convulsive
 Motion agitated its limbs.
 </code></pre>
-<p class="tx">It does a pretty good job, but produces the incorrectly scanned characters <span class="thesansmonocd_w5regular_">'Iv'</span> instead of <span class="thesansmonocd_w5regular_">'IT'</span> at the beginning of the paragraph and <span class="thesansmonocd_w5regular_">'Motion'</span> instead of <span class="thesansmonocd_w5regular_">'motion'</span> on the last line. (The exact results may vary as the language packs are updated.)</p>
-<p class="tx">To fix these issues, try feeding an LLM the following sample prompt and the text output of the scanned <i class="calibre5">Frankenstein</i> text:</p>
+<p class="tx">まずまずですが、段落の冒頭で<span class="thesansmonocd_w5regular_">'IT'</span>ではなく<span class="thesansmonocd_w5regular_">'Iv'</span>としているのと、最後の行で<span class="thesansmonocd_w5regular_">'motion'</span>ではなく<span class="thesansmonocd_w5regular_">'Motion'</span>としている箇所が誤っています（言語パックがアップデートされると結果が変わるかもしれません）。</p>
+<p class="tx">以下のプロンプトでLLMにこの誤りを修正してもらいましょう。</p>
 <blockquote class="calibre17">
-<p class="extractpara">The following is the text output from an OCR scan. Correct any spacing, missing characters, or inaccurately recognized characters from it. Do not correct spelling or grammar mistakes that exist in the original text. Put paragraphs on a single line and undo the hyphenated words that <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1175" aria-label="532"></span>are broken across the end of a line. Only give the corrected text without explaining what OCR is or any other preface. Here is the text:</p>
+<p class="extractpara">次のテキストはOCRの出力結果です。スペースや文字の認識誤りを修正してください。原文に含まれるスペルミスや文法の誤りは修正しないでください。段落を一行にして、行末のハイフンで区切られた単語を元に戻してください。OCRの説明などは不要で、修正後のテキストだけを出力してください。以下テキストを示します。</p>
 <p class="extractparacontinued">THE MODERN PROMETHEUS. 43</p>
 <p class="extractparacontinued">CHAPTER V.</p>
 <p class="extractparacontinued">Iv was on a dreary night of November, that I beheld the ...</p>
 </blockquote>
-<p class="tx">When fed this prompt, the LLM produced this output:</p>
+<p class="tx">このプロンプトでLLMは以下のように出力しました。</p>
 <pre class="pre"><code class="calibre9">THE MODERN PROMETHEUS. 43
 
 CHAPTER V.
@@ -140,21 +139,21 @@ out, when, by the glimmer of the half-extinguished light, I saw the dull
 yellow eye of the creature open; it breathed hard, and a convulsive motion
 agitated its limbs.
 </code></pre>
-<p class="tx">The LLM corrected <span class="thesansmonocd_w5regular_">'Iv'</span> to <span class="thesansmonocd_w5regular_">'It'</span> and <span class="thesansmonocd_w5regular_">'Motion'</span> to <span class="thesansmonocd_w5regular_">'motion'</span>. It also removed the hyphenated words at the end of each line so that the newlines could be removed. This makes it easier to, say, copy and paste the text into a Word document or email. To automate this process, most online LLMs have APIs so that your programs can directly send prompts and receive responses. Unless you run an LLM on your local machine (which is beyond the scope of this book), you’ll have to register for these online LLM services. This may be free or require a subscription fee.</p>
-<p class="tx">Always remember that LLMs are prone to overconfidence. You should always verify their output. The text they return may have missed some mistakes, fixed the wrong kinds of mistakes, or even introduced new mistakes of their own. You’ll still need a human to review the machine output. (And you may want a second human to review the first human’s work, as humans often make mistakes to.)</p>
+<p class="tx">LLMは<span class="thesansmonocd_w5regular_">'Iv'</span>を<span class="thesansmonocd_w5regular_">'It'</span>に、<span class="thesansmonocd_w5regular_">'Motion'</span>を<span class="thesansmonocd_w5regular_">'motion'</span>に修正しました。行末のハイフンで区切られた単語を元に戻し、改行が取り除かれています。これでテキストをWord文書やメールにコピーアンドペーストしやすくなりました。たいていのオンラインのLLMにはAPIがありますから、プログラムから直接プロンプトを送って応答を取得することで、このLLMによる修正を自動化できます。LLMをローカルPCで実行しているのでなければ（その方法の説明は本書の範囲外です）、オンラインのLLMサービスに登録しなければならないでしょう。これくらいであれば無料枠で実行できるかもしれませんし、従量課金されるかもしれません。</p>
+<p class="tx">LLMは自信過剰になりがちだという点に注意してください。出力を必ず検証してください。出力されたテキストは誤りを見逃しているかもしれませんし、不要な修正をしているかもしれませんし、新しい誤りを作り出しているかもしれません。機械の出力を確認する人間が必要です（人間は間違えやすいので、1人目の人間の作業を確認する2人目の人間が必要かもしれません）。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec9">
-<h3 class="h" id="calibre_link-2077"><span id="calibre_link-584"></span><span class="sans_futura_std_bold_b_">Recognizing Text in Non-English Languages</span></h3>
-<p class="tni">Tesseract assumes the text it is scanning is English by default, but you can specify other languages as well. <span>“Installing Tesseract and PyTesseract” on page 528</span> has instructions for installing non-English language packs. You can see the language packs you have installed by entering the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-2077"><span id="calibre_link-584"></span><span class="sans_futura_std_bold_b_">英語ではない言語の文字認識</span></h3>
+<p class="tni">Tesseractはデフォルトでは文字が英語だと想定しますが、別の言語を指定することができます。<span>「TesseractとPyTesseractのインストール」</span>の指示に沿って英語以外の言語パックをインストールできます。対話型シェルで以下を実行すればインストールした言語パックを確認できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pytesseract as tess</b>
 &gt;&gt;&gt; <b class="calibre10">tess.get_languages()</b>
 ['afr', 'amh', 'ara', 'asm', 'aze', 'aze_cyrl', 'bel', 'ben', 'bod', 'bos',
 <var class="calibre20">--snip--</var>
 'ton', 'tur', 'uig', 'ukr', 'urd', 'uzb', 'uzb_cyrl', 'vie', 'yid', 'yor']
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1074" aria-label="533"></span>The strings in this list are mostly three-character ISO 639-3 language codes, with a few exceptions. For example, while <span class="thesansmonocd_w5regular_">'aze'</span> is the ISO 639-3 code for the Azeri language with Latin letters, the <span class="thesansmonocd_w5regular_">'aze_cyrl'</span> string is Azeri with Cyrillic letters. Consult the Tesseract documentation for full details.</p>
-<p class="tx">To scan images with non-English text, pass one of these string values for the <span class="thesansmonocd_w5regular_">lang</span> keyword argument. For example, <i class="calibre5">frankenstein_jpn.png</i> has a Japanese translation of a section from <i class="calibre5">Frankenstein</i>. Download this file from the book’s online resources and enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1074" aria-label="533"></span>リスト中の文字列は原則として3文字のISO 639-3言語コードです。例えば、<span class="thesansmonocd_w5regular_">'aze'</span>はラテン文字のアゼルバイジャン語で、<span class="thesansmonocd_w5regular_">'aze_cyrl'</span>はキリル文字のアゼルバイジャン語です。詳細はTesseractのドキュメントをご参照ください。</p>
+<p class="tx">英語ではないテキストの画像では、<span class="thesansmonocd_w5regular_">lang</span>キーワード引数にこれらの言語コードを示す文字列を渡します。例えば、<i class="calibre5">frankenstein_jpn.png</i>は『フランケンシュタイン』の日本語訳です。本書のオンライン素材からこのファイルをダウンロードして、対話型シェルに以下の内容を入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pytesseract as tess</b>
 &gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">img = Image.open('frankenstein_jpn.png')</b>
@@ -166,7 +165,7 @@ agitated its limbs.
 <span class="sans_source_han_serif_sc_regular_">だ有目、</span> <span class="sans_source_han_serif_sc_regular_">しわが寄った顔色、</span> <span class="sans_source_han_serif_sc_regular_">そしてまっすぐな黒い大と、</span> <span class="sans_source_han_serif_sc_regular_">より恐ろしいコントラストを形成した</span>
 <span class="sans_source_han_serif_sc_regular_">だけでした。</span>
 </code></pre>
-<p class="tx">If you use the wrong language, <span class="thesansmonocd_w5regular_">image_to_string()</span> returns Tesseract’s best guess as to what English characters the Japanese characters looked like. Of course, since the characters aren’t English, the returned text will be gibberish:</p>
+<p class="tx">以下のように日本語ではなく英語を指定すると、<span class="thesansmonocd_w5regular_">image_to_string()</span>は日本語の文字と一番似ている英語の文字を推測して返します。認識しようとしている文字は英語ではありませんから、意味不明なテキストが返されます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pytesseract as tess</b>
 &gt;&gt;&gt; <b class="calibre10">from PIL import Image</b>
 &gt;&gt;&gt; <b class="calibre10">img = Image.open('frankenstein_jpn.png')</b>
@@ -176,92 +175,93 @@ BS FABADOABOMEE AOYEVICLEDIL, 1 ADBBERKCLE, (ELA ER
 WISE LW ABBA A TRA B, ALE TIRE DO EMO REVS DICED MS EKA
 <var class="calibre20">--snip--</var>
 </code></pre>
-<p class="tx">To recognize text in multiple languages, you can combine language codes with a <span class="thesansmonocd_w5regular_">'+'</span> character before passing it to the <span class="thesansmonocd_w5regular_">image_to_string()</span> function’s <span class="thesansmonocd_w5regular_">lang</span> keyword argument. For example, <span class="thesansmonocd_w5regular_">tess.image_to_string(img, lang='eng+jpn')</span> recognizes both English and Japanese characters in an image.</p>
+<p class="tx">複数言語のテキストを認識するなら、<span class="thesansmonocd_w5regular_">'+'</span>記号で言語コードをつなげて<span class="thesansmonocd_w5regular_">image_to_string()</span>関数の<span class="thesansmonocd_w5regular_">lang</span>キーワード引数に渡します。例えば、<span class="thesansmonocd_w5regular_">tess.image_to_string(img, lang='eng+jpn')</span>とすると、英語と日本語の両方を認識します。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h3 class="h" id="calibre_link-2078"><span id="calibre_link-585"></span><span class="sans_futura_std_bold_b_">The NAPS2 Scanner Application</span></h3>
-<p class="tni">While PyTesseract is useful for extracting text from images, a common use case for OCR is to create PDF documents of scanned images with searchable text. Although there are apps to do this, they often don’t offer the flexibility needed to automate the PDF generation for hundreds or thousands of images. I recommend the open source Not Another PDF Scanner 2 (NAPS2) application not just for controlling flatbed scanners but also for its ability to run Tesseract and add text to PDF documents. It is free, has straightforward features, and is available on Windows, macOS, and Linux. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1167" aria-label="534"></span>NAPS2 can combine several images into a PDF file with embedded text without being connected to a physical scanner. It also knows how to use Tesseract’s advanced features, so it can embed the text strings at their correct location on the PDF’s pages, and you can run it from a Python script.</p>
+<h3 class="h" id="calibre_link-2078"><span id="calibre_link-585"></span><span class="sans_futura_std_bold_b_">NAPS2スキャナアプリケーション</span></h3>
+<p class="tni">PyTesseractは画像から文字を抽出するのに便利ですが、OCRを使って画像から本文をテキスト検索できるPDF文書を作成したい場合が多いです。それを実現できるアプリがいろいろありますが、大量の画像からPDFを自動的に作成することはできないアプリが多いでしょう。オープンソースのNAPS2（Not Another PDF Scanner 2）アプリをおすすめします。スキャナを制御できるだけでなく、Tesseractを実行してPDF文書に文字を埋め込めます。Windows、macOS、Linuxで利用でき、機能がシンプルなフリーソフトです。NAPS2は、物理的なスキャナを使わずに複数の画像をPDFファイルにまとめて文字を埋め込むことができます。Tesseractの高度な機能も使えますから、テキスト文字列をPDFのページの正しい位置に埋め込めます。Pythonスクリプトから実行することもできます。</p>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-2079"><span id="calibre_link-586"></span><span class="sans_futura_std_heavy_oblique_bi_">Installing and Setting Up NAPS2</span></h4>
-<p class="tni">To install NAPS2, navigate to <i class="calibre5"><a href="https://www.naps2.com/download" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.naps2<wbr></wbr>.com<wbr></wbr>/download</a></i> and download the installer for your operating system. On Windows and macOS, run the downloaded installer. On Linux, download the Flatpak installer for Tesseract. Then, open a Terminal window and run <span class="sans_thesansmonocd_w7bold_b_">flatpak install naps2-</span><span class="sans_thesansmonocd_w7bold_italic_bi_">X.X.X</span><span class="sans_thesansmonocd_w7bold_b_">-linux-x64.flatpak</span> (or whatever the downloaded installer filename is) from the download folder. You may need to enter the administrator password to finish installation.</p>
-<p class="tx">Once it’s installed, you can run the NAPS2 desktop application. On Windows, you can select NAPS2 from the Start menu. On macOS, you can run NAPS2 from Spotlight. On Linux, you’ll need to open a new terminal window and run <span class="thesansmonocd_w5regular_">flatpak run com.naps2.Naps2</span>. However, this book uses NAPS2 from Python code with the <span class="thesansmonocd_w5regular_">subprocess</span> module instead of the graphical user interface.</p>
+<h4 class="h1" id="calibre_link-2079"><span id="calibre_link-586"></span><span class="sans_futura_std_heavy_oblique_bi_">NAPS2のインストールと設定</span></h4>
+<p class="tni"><i class="calibre5"><a href="https://www.naps2.com/download" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.naps2<wbr></wbr>.com<wbr></wbr>/download</a></i>からお使いのOSに応じたインストーラーをダウンロードしてNAPS2をインストールしてください。WindowsとmacOSでは、ダウンロードしたインストーラーを実行します。Linuxでは、TesseractのFlatpakインストーラーをダウンロードして、ダウンロードしたフォルダでターミナルウィンドウを開き、<span class="sans_thesansmonocd_w7bold_b_">flatpak install naps2-</span><span class="sans_thesansmonocd_w7bold_italic_bi_">X.X.X</span><span class="sans_thesansmonocd_w7bold_b_">-linux-x64.flatpak</span>を実行します（インストーラーのファイル名はダウンロードしたものに合わせてください）。管理者パスワードの入力を求められます。</p>
+<p class="tx">インストールできればデスクトップアプリとしてNAPS2を実行できます。WindowsではスタートメニューからNAPS2を選びます。macOSではSpotlightからNAPS2を実行します。Linuxでは新しいターミナルウィンドウを開いて<span class="thesansmonocd_w5regular_">flatpak run com.naps2.Naps2</span>を実行します。本書では、GUIのデスクトップアプリではなく、Pythonのコードから<span class="thesansmonocd_w5regular_">subprocess</span>モジュールを利用してNAPS2を使います。</p>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h4 class="h1" id="calibre_link-2080"><span id="calibre_link-587"></span><span class="sans_futura_std_heavy_oblique_bi_">Running NAPS2 from Python</span></h4>
-<p class="tni">Python scripts can use the <span class="thesansmonocd_w5regular_">subprocess</span> module to run the NAPS2 application with several command line arguments. When run this way, NAPS2 does not make its application window appear, which is ideal for an automation step in a Python script.</p>
-<p class="tx">Let’s use the <i class="calibre5">frankenstein.png</i> image once again and have NAPS2 generate a PDF with embedded OCR text. The location of the NAPS2 program is different on each operating system; the following interactive shell code shows the path for Windows:</p>
+<h4 class="h1" id="calibre_link-2080"><span id="calibre_link-587"></span><span class="sans_futura_std_heavy_oblique_bi_">NAPS2のPythonからの実行</span></h4>
+<p class="tni">Pythonのスクリプトで<span class="thesansmonocd_w5regular_">subprocess</span>モジュールを使い、コマンドライン引数を指定してNAPS2アプリケーションを実行します。このように実行すればNAPS2のアプリケーションウィンドウが開かないので、Pythonスクリプトによる自動化の一環として活用しやすいです。</p>
+<p class="tx">もう一度<i class="calibre5">frankenstein.png</i>画像を使ってOCRテキストを埋め込んだPDFをNAPS2で作成してみましょう。NAPS2プログラムの場所はOSごとに異なります。以下はWindowsのパスを指定した対話型シェルでのコード例です。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import subprocess</b>
 &gt;&gt;&gt; <b class="calibre10">naps2_path = [r'C:\Program Files\NAPS2\NAPS2.Console.exe']</b>  # Windows
 &gt;&gt;&gt; <b class="calibre10">proc = subprocess.run(naps2_path + ['-i', 'frankenstein.png', '-o', </b>
 <b class="calibre10">'output.pdf', '--install', 'ocr-eng', '--ocrlang', 'eng', '-n', '0', '-f', </b>
 <b class="calibre10">'-v'], capture_output=True)</b>
 </code></pre>
-<p class="tx">On macOS, replace the line that sets the path with the following: <span class="thesansmonocd_w5regular_">naps2_path</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">['/Applications/NAPS2.app/Contents/MacOS/NAPS2', 'console']</span>. On Linux, use the following instead: <span class="thesansmonocd_w5regular_">naps2_path</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">['flatpak', 'run', 'com.naps2.Naps2', 'console']</span>.</p>
-<p class="tx">The code creates a new file named <i class="calibre5">output.pdf</i> that contains a single page with the scanned image from <i class="calibre5">frankenstein.png</i>. However, if you open this file in a PDF application, you’ll notice that you can highlight the text and copy it to the clipboard. Many PDF applications will also let you save the PDF as a <i class="calibre5">.txt</i> text file of the OCR text.</p>
-<p class="tx">Let’s take a look at each of the command line arguments in this example. You can change them as needed for your own purposes:</p>
-<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2081" aria-label="535"></span><span class="sans_thesansmonocd_w7bold_b_">'-i', 'frankenstein.png' </span>Sets the input as the <i class="calibre5">frankenstein.png</i> image file. See the next section, “Specifying Input,” for more information on specifying multiple inputs in various formats.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-o', 'output.pdf' </span>Creates a file named <i class="calibre5">output.pdf</i> to hold the OCR results.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'--install', 'ocr-eng' </span>Installs the English language pack for OCR. This does nothing if the language is already installed. If you want to install a different language pack, use the <span class="thesansmonocd_w5regular_">ocr-</span> prefix with another three-letter ISO 639 language code.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'--ocrlang', 'eng' </span>Sets English as the language that the OCR scan recognizes. This argument is passed directly to Tesseract’s command line argument, so you could use an argument like <span class="thesansmonocd_w5regular_">'eng+jpn+rus'</span> to specify that the image has text in English, Japanese, and Russian.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-n', '0' </span>Specifies that you want to do zero scans and not use a flatbed scanner. This prevents error messages when there’s no physical flatbed scanner connected to your computer.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-f' </span>Forces NAPS2 to overwrite the <i class="calibre5">output.pdf</i> output file if a file with that name already exists.</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-v' </span>Enables verbose mode so that status text appears as NAPS2 creates your PDF. If you want to see this status text, change the <span class="thesansmonocd_w5regular_">capture_output=True</span> keyword argument for <span class="thesansmonocd_w5regular_">subprocess.run()</span> to <span class="thesansmonocd_w5regular_">capture_output=False</span>.</p>
-<p class="tx">The online documentation for NAPS2’s command line arguments is at <i class="calibre5"><a href="https://www.naps2.com/doc/command-line" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.naps2<wbr></wbr>.com<wbr></wbr>/doc<wbr></wbr>/command<wbr></wbr>-line</a></i>. <span>Chapter 19</span> covered the <span class="thesansmonocd_w5regular_">subprocess</span> module in more detail.</p>
+<p class="tx">macOSではパスを指定している行を<span class="thesansmonocd_w5regular_">naps2_path</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">['/Applications/NAPS2.app/Contents/MacOS/NAPS2', 'console']</span>としてください。Linuxでは<span class="thesansmonocd_w5regular_">naps2_path</span> <span class="thesansmonocd_w5regular_">=</span> <span class="thesansmonocd_w5regular_">['flatpak', 'run', 'com.naps2.Naps2', 'console']</span>です。</p>
+<p class="tx">このコードでは、<i class="calibre5">frankenstein.png</i>の画像から抽出したテキストを含む1ページの<i class="calibre5">output.pdf</i>という名前の新しいファイルが作成されます。このファイルをPDFアプリケーションで開くと、テキストを選択してクリップボードにコピーできます。PDFアプリケーションによっては、OCRで認識したテキストを<i class="calibre5">.txt</i>のテキストファイルとして保存できます。</p>
+<p class="tx">この例のコマンドライン引数を一つずつ見ていきましょう。これを理解すれば必要に応じてコマンドライン引数を調整できます。</p>
+<p class="listplain"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2081" aria-label="535"></span><span class="sans_thesansmonocd_w7bold_b_">'-i', 'frankenstein.png' </span>入力を<i class="calibre5">frankenstein.png</i>画像ファイルと指定しています。複数ファイルを入力に指定する方法については、次節の「入力の指定」を参照してください。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-o', 'output.pdf' </span>OCR結果を含めた新しいファイルを<i class="calibre5">output.pdf</i>という名前で作成します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'--install', 'ocr-eng' </span>OCR用に英語の言語パックをインストールします。すでにその言語パックがインストールされていれば何も行いません。言語パックをインストールしたい場合は、<span class="thesansmonocd_w5regular_">ocr-</span>のあとに3文字のISO 639言語コードをつけてください。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'--ocrlang', 'eng' </span>OCRで認識する言語に英語を指定します。この引数はそのままTesseractのコマンドライン引数に渡されますから、<span class="thesansmonocd_w5regular_">'eng+jpn+rus'</span>のような引数で英語と日本語とロシア語を指定できます。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-n', '0' </span>物理的なスキャナを使わないことを指定します。これにより物理的なスキャナがコンピュータに接続されていなくてもエラーメッセージが表示されません。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-f' </span>NAPS2が同名のファイルがあっても<i class="calibre5">output.pdf</i>という出力ファイルを上書きします。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">'-v' </span>冗長モードを有効にします。NAPS2がPDFを作成する際に状態を示すテキストが表示されます。その状態を示すテキストを確認したければ、<span class="thesansmonocd_w5regular_">subprocess.run()</span>のキーワード引数を<span class="thesansmonocd_w5regular_">capture_output=True</span>ではなく<span class="thesansmonocd_w5regular_">capture_output=False</span>としてください。</p>
+<p class="tx">NAPS2のコマンドライン引数については、<i class="calibre5"><a href="https://www.naps2.com/doc/command-line" class="calibre1">https://<wbr></wbr>www<wbr></wbr>.naps2<wbr></wbr>.com<wbr></wbr>/doc<wbr></wbr>/command<wbr></wbr>-line</a></i>のオンラインドキュメントで説明されています。<span class="thesansmonocd_w5regular_">subprocess</span>モジュールについては<span>第19章</span>で詳しく説明しました。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h4 class="h1" id="calibre_link-2082"><span id="calibre_link-588"></span><span class="sans_futura_std_heavy_oblique_bi_">Specifying Input</span></h4>
-<p class="tni">NAPS2 lets you import PDFs and most image formats to create a final combined PDF. The application has its own mini language for specifying multiple inputs as a single command line argument following <span class="thesansmonocd_w5regular_">-i</span>. This can become quite complicated, but you can think of it as semicolon delimited, with Python index and slice notation.</p>
-<p class="tx">To specify multiple files, separate them with a semicolon. For example, passing <span class="thesansmonocd_w5regular_">'-i', 'cat.png;dog.png;moose.png'</span> creates a PDF with <i class="calibre5">cat.png</i> used for the first page, <i class="calibre5">dog.png</i> used for the second page, and <i class="calibre5">moose.png</i> used for the third page.</p>
-<p class="tx">You can also specify individual pages in a PDF with syntax that is identical to Python’s list slice syntax. Follow the PDF filename with square brackets containing the page number to use. As in Python, <span class="thesansmonocd_w5regular_">0</span> represents the first page. For example, passing <span class="thesansmonocd_w5regular_">'-i', 'spam.pdf[0];spam.pdf[5];eggs.pdf'</span> creates a PDF with page 1 of <i class="calibre5">spam.pdf</i>, followed by page 6 of <i class="calibre5">spam.pdf</i>, and then all pages of <i class="calibre5">eggs.pdf</i>.</p>
-<p class="tx">You can specify a range of pages with this slice notation or use negative numbers to represent pages from the end of the PDF document. For <span role="doc-pagebreak" type="pagebreak" id="calibre_link-986" aria-label="536"></span>example, passing <span class="thesansmonocd_w5regular_">'-i', 'spam.pdf[0:2];eggs.pdf[-1]'</span> combines the first two pages of <i class="calibre5">spam.pdf</i> with the last page from <i class="calibre5">eggs.pdf</i>.</p>
-<p class="tx">There are several more features that NAPS2 provides through its command line arguments. Check out its online documentation to learn more about them. If you find that NAPS2 isn’t suitable for your needs, I also recommend the ocrmypdf package at <i class="calibre5"><a href="https://pypi.org/project/ocrmypdf/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/ocrmypdf<wbr></wbr>/</a></i> for creating PDFs with embedded text.</p>
+<h4 class="h1" id="calibre_link-2082"><span id="calibre_link-588"></span><span class="sans_futura_std_heavy_oblique_bi_">入力の指定</span></h4>
+<p class="tni">NAPS2はPDFと大部分の画像フォーマットからPDFを作成できます。コマンドライン引数の<span class="thesansmonocd_w5regular_">-i</span>のあとに独自のミニ言語で複数の入力を指定します。これは複雑になることがありますが、Pythonのインデックスとスライスの記法が使える、セミコロン区切りの複数指定だと考えてください。</p>
+<p class="tx">セミコロンで区切って複数のファイルを指定します。例えば、<span class="thesansmonocd_w5regular_">'-i', 'cat.png;dog.png;moose.png'</span>を渡すと、1ページ目は<i class="calibre5">cat.png</i>、2ページ目は<i class="calibre5">dog.png</i>、3ページ目は<i class="calibre5">moose.png</i>のPDFを作成します。</p>
+<p class="tx">Pythonのリストのスライス構文と同じ構文を使ってPDFのページを指定することもできます。PDFのファイル名のあとに角かっこで入力に使うページ数を指定します。Pythonと同じように、<span class="thesansmonocd_w5regular_">0</span>が最初のページです。例えば、<span class="thesansmonocd_w5regular_">'-i', 'spam.pdf[0];spam.pdf[5];eggs.pdf'</span>を渡すと、<i class="calibre5">spam.pdf</i>の1ページ目、<i class="calibre5">spam.pdf</i>の6ページ目、<i class="calibre5">eggs.pdf</i>の全ページからなるPDFを作成します。</p>
+<p class="tx">スライス記法でページの範囲を指定することもできますし、負の数でPDF文書の末尾からページを指定することもできます。例えば、<span class="thesansmonocd_w5regular_">'-i', 'spam.pdf[0:2];eggs.pdf[-1]'</span>を渡すと、<i class="calibre5">spam.pdf</i>の最初の2ページと<i class="calibre5">eggs.pdf</i>の最後のページからなるPDFを作成します。</p>
+<p class="tx">NAPS2にはまだほかにもコマンドライン引数があります。それらについてはオンラインドキュメントを参照してください。NAPS2がお気に召さなければ、<i class="calibre5"><a href="https://pypi.org/project/ocrmypdf/" class="calibre1">https://<wbr></wbr>pypi<wbr></wbr>.org<wbr></wbr>/project<wbr></wbr>/ocrmypdf<wbr></wbr>/</a></i>のocrmypdfパッケージでテキストを埋め込んだPDFを作成できます。</p>
 </section>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec14">
-<h3 class="h" id="calibre_link-2083"><span id="calibre_link-589"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">In this chapter, you learned how to harness the power of Tesseract to extract text from images. This is quite a powerful ability that can save you hours of data entry. However, OCR isn’t magic, and your images may need preprocessing to get accurate results. Tesseract is also designed to work with typewritten dark text on light backgrounds where the text is level, and you must know the language of the image’s text to get good results. Large language model AI can help fix incorrectly recognized characters, but its output requires human oversight as well. Finally, the open source NAPS2 application provides a way to take several images and combine them into a single PDF with embedded OCR text. OCR is an incredible breakthrough of computer science, but you don’t need an advanced degree to use it. Python makes OCR accessible to everyone.</p>
+<h3 class="h" id="calibre_link-2083"><span id="calibre_link-589"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">本章では、Tesseractの力を借りて画像からテキストを抽出する方法を説明しました。データ入力に費やす時間を大いに節約できる可能性を秘めています。しかしOCRは魔法ではありません。正確な結果を得るには画像の前処理が必要になることがあります。Tesseractは白い背景に活字がきれいに並んだ画像で動作するように設計されています。また、画像のテキストがどの言語であるかも把握する必要があります。大規模言語モデルAIが誤認識の修正に役立ちますが、人間が出力をチェックしなければなりません。オープンソースのNAPS2アプリケーションを利用すると複数の画像からOCRテキストを埋め込んだ一つのPDFを作成できます。OCRはコンピュータサイエンスの画期的な技術ですが、利用するのに学位は必要ありません。誰でもPythonからOCRを利用できます。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h3 class="h" id="calibre_link-2084"><span id="calibre_link-590"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  What language does Tesseract recognize by default?</p>
-<p class="listnumber">  2.  Name a Python image library that PyTesseract works with.</p>
-<p class="listnumber">  3.  What PyTesseract function accepts an image object and returns a string of the text in the image?</p>
-<p class="listnumber">  4.  If you take a photo of a street sign, will Tesseract be able to identify the sign text in the photo?</p>
-<p class="listnumber">  5.  What function returns the list of language packs installed for Tesseract?</p>
-<p class="listnumber">  6.  What keyword argument do you specify to PyTesseract if an image contains both English and Japanese text?</p>
-<p class="listnumber">  7.  What application lets you create PDFs with embedded OCR text?</p>
+<h3 class="h" id="calibre_link-2084"><span id="calibre_link-590"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. Tesseractはデフォルトでどの言語を認識しますか？</p>
+<p class="listnumber">  2. PyTesseractが動作するのに必要なPythonの画像ライブラリは何ですか？</p>
+<p class="listnumber">  3. Imageオブジェクトを取りその画像に含まれる文字列を返すPyTesseractの関数は何ですか？</p>
+<p class="listnumber">  4. 道路標識の写真からTesseractで文字を抽出することはできますか？</p>
+<p class="listnumber">  5. Tesseractでインストールされている言語パックのリストを返す関数は何ですか？</p>
+<p class="listnumber">  6. 画像に英語と日本語のテキストが含まれているときにPyTesseractで指定するキーワード引数は何ですか？</p>
+<p class="listnumber">  7. OCRテキストを埋め込んだPDFを作成できるアプリケーションは何ですか？</p>
 </section>
 <section type="division" aria-labelledby="sec16">
-<h3 class="h" id="calibre_link-2085"><span id="calibre_link-591"></span><span class="sans_futura_std_bold_b_">Practice Program: Browser Text Scraper</span></h3>
-<p class="tni">Some websites allow you to view their text contents but make it difficult to save or even copy and paste the text to your computer. You may see them as PDFs embedded within the web page. An example of this is at <i class="calibre5"><a href="https://autbor.com/embeddedfrankenstein/" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/embeddedfrankenstein<wbr></wbr>/</a></i>, shown in Figure 22-2.</p>
+<h3 class="h" id="calibre_link-2085"><span id="calibre_link-591"></span><span class="sans_futura_std_bold_b_">練習プログラム：ブラウザテキストスクレイパー</span></h3>
+<p class="tni">テキストを見ることはできても保存したりコピーしたりするのが難しいウェブサイトがあります。ウェブページにPDFを埋め込んでいるように見えるページもあります。図22-2に示すように、<i class="calibre5"><a href="https://autbor.com/embeddedfrankenstein/" class="calibre1">https://<wbr></wbr>autbor<wbr></wbr>.com<wbr></wbr>/embeddedfrankenstein<wbr></wbr>/</a></i>はその一例です（訳注：このページのテキストを簡単に右クリックからコピーすることができました）。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2086" aria-label="537"></span>
 <figure class="img"><img class="img1" id="calibre_link-831" src="images/000078.jpg" alt="A web page showing a book chapter on the lefthand side and the text “Annoying sidebar ads here!’ On the righthand side." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 22-2: An example web page with an embedded document</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 22-2：文書を埋め込んだウェブページ例</span></p></figcaption>
 </figure>
-<p class="tx">The PyAutoGUI library covered in <span>Chapter 23</span> can take screenshots and save them to an image, while the Pillow library covered in <span>Chapter 21</span> can crop images. PyAutoGUI also has a MouseInfo application for finding XY coordinates on the screen.</p>
-<p class="tx">Write a program named <i class="calibre5">ocrscreen.py</i> that takes a screenshot, crops the image to just the text portion in the screenshot, then passes it on to PyTesseract for OCR. The program should append the recognized text to the end of a text file named <i class="calibre5">output.txt</i>. Here is a template for the <i class="calibre5">ocrscreen.py</i> program:</p>
+<p class="tx"><span>第23章</span>で説明するPyAutoGUIライブラリを使うとスクリーンショットを画像として保存できますし、<span>第21章</span>で説明したPillowライブラリを使うと画像をクロップできます。PyAutoGUIには画面のXY座標を調べるMouseInfoアプリケーションもあります。</p>
+<p class="tx">スクリーンショットを取得して、そのスクリーンショット画像のテキスト部分をクロップし、PyTesseractaに渡してOCRでテキストを抽出する<i class="calibre5">ocrscreen.py</i>という名前のプログラムを書いてください。<i class="calibre5">output.txt</i>という名前のテキストファイルに認識したテキストを追記します。<i class="calibre5">ocrscreen.py</i>プログラムのひな型を示します。</p>
 <pre class="pre"><code class="calibre9">import pyautogui
-# TODO - Add the additionally needed import statements.
+# TODO - 必要なimport文を追加
 
-# The coordinates for the text portion. Change as needed:
+# テキスト部分の座標必要に応じて修正
 LEFT = 400
 TOP = 200
 RIGHT = 1000
 BOTTOM = 800
 
-# Capture a screenshot:
+# スクリーンショットの取得
 img = pyautogui.screenshot()
 
-# Crop the screenshot to the text portion:
+# スクリーンショットのテキスト部分をクロップ
 img = img.crop((LEFT, TOP, RIGHT, BOTTOM))
 
-# Run OCR on the cropped image:
-# TODO - Add the PyTesseract code here.
+# クロップした画像についてOCRを実行
+# TODO - PyTesseractのコードをここに追加
 
-# Add the OCR text to the end of output.txt:
-# TODO - Call open() in append mode and append the OCR text.
+# output.txtの末尾にOCRテキストを追記
+# TODO - 追記モードでopen()を呼び出してOCRテキストを追記
 </code></pre>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2087" aria-label="538"></span>This program should let you scroll the embedded, unsavable text into view in your browser, run the program, and then scroll the PDF to the next page of content. Once done, you’ll have your own copy of the document’s text. (If you read <span>Chapter 23</span>, you’ll also learn how you can make your script simulate key presses to scroll the web page for you.)</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-2087" aria-label="538"></span>テキストが埋め込まれていてブラウザで見ることができるのだけれども保存できないページをスクロールさせてテキストを表示し、このプログラムを実行すると、テキストを取得できます（<span>第23章</span>を読めばキーの押下をシミュレートしてウェブページをスクロールさせるスクリプトを書くこともできます）。
+</p>
 </section>
 </section>
 </div>
