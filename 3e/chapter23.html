@@ -11,49 +11,48 @@
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2088" aria-label="539"></span>
 <hgroup>
 <h2 class="title" id="calibre_link-2089">
-<span class="tpt"><span class="sans_dogma_ot_bold_b_">23</span></span>
-<span class="ct"><span class="sans_dogma_ot_bold_b_">CONTROLLING THE KEYBOARD AND MOUSE</span></span>
+<span class="tpt"><span class="sans_dogma_ot_bold_b_">23</span></span> <span class="ct"><span class="sans_dogma_ot_bold_b_">キーボードとマウスの制御</span></span>
 </h2>
 </hgroup>
 <figure class="opener"><img class="opener1" src="images/000112.jpg" role="presentation" alt="" />
 </figure>
-<p class="introtni">Knowing various Python packages for editing spreadsheets, downloading files, and launching programs is useful, but sometimes there just aren’t any packages for the applications you need to work with. The ultimate tools for automating tasks on your computer are programs that you write to directly control the keyboard and mouse. These programs can send other applications virtual keystrokes and mouse clicks, as if you were sitting at your computer and interacting with the applications yourself.</p>
-<p class="tx">This technique is known as <i class="calibre5">graphical user interface automation</i>, or <i class="calibre5">GUI automation</i> for short. With GUI automation, your programs can do anything that a human user sitting at the computer can do, except spill coffee on the keyboard. Think of GUI automation as programming a robotic arm. You can program the robotic arm to type at your keyboard and <span role="doc-pagebreak" type="pagebreak" id="calibre_link-879" aria-label="540"></span>move your mouse for you. This technique is particularly useful for tasks that involve a lot of mindless clicking or filling out of forms. This powerful technique is why account sign-up and login web pages have bot-detecting captcha challenges. Otherwise, automation programs could sign up for multiple free accounts, flood social media with spam, or guess account passwords.</p>
-<p class="tx">Some companies sell innovative (and pricey) “automation solutions,” usually marketed as <i class="calibre5">robotic process automation (RPA)</i> tools. These products are effectively no different from the Python scripts you can make yourself with the PyAutoGUI library, which has functions for simulating mouse movements, button clicks, and keyboard typing. This chapter covers only a subset of PyAutoGUI’s features; you can find the full documentation at <i class="calibre5"><a href="https://pyautogui.readthedocs.io/" class="calibre1">https://<wbr></wbr>pyautogui<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/</a></i>. To install the latest version of PyAutoGUI compatible with this book, follow the instructions in <span>Appendix A</span>.</p>
+<p class="introtni">スプレッドシートの編集、ファイルのダウンロード、プログラムの起動などができるPythonのパッケージは便利ですが、（例えば専用の会計ソフトなど）作業で使っているアプリケーションに対応しているPythonのパッケージが存在しない場合があります。コンピュータでの作業を自動化する究極のツールは、キーボードとマウスを直接制御するプログラムです。人間がコンピュータの前に座ってアプリケーションを操作しているかのように、他のアプリケーションにバーチャルなキーストロークやマウスクリックを送信するプログラムです。</p>
+<p class="tx">これは<i class="calibre5">グラフィカルユーザーインターフェース自動化（GUI自動化）</i>と呼ばれる技術です。GUI自動化では、人間のユーザーがコンピュータの前に座ってできることなら何でもできます（キーボードにコーヒーをこぼすことはできませんが）。GUI自動化はロボットの腕をプログラムで制御するようなものです。ロボットの腕の動きをプログラムして、キーボードを打ち込んだりマウスを動かしたりします。頭を使わずにマウスをクリックしたりフォームに入力したりする作業に対して特に有効です。アカウント登録やログインなどのウェブページにボットを検知するCAPTCHAがあるのは、この強力な技術に対抗するためです。そのようにして対抗しないと、GUI自動化により、無料アカウントが大量に作成され、ソーシャルメディアにはスパムがあふれ、パスワードが推測されてしまいます。</p>
+<p class="tx"><i class="calibre5">RPA</i>と喧伝される革新的な（高価な）自動化ツールを販売している企業があります。この種の製品は、本章で紹介するPyAutoGUIライブラリを使って自分で書くPythonスクリプトと本質的に違いがありません。PyAutoGUIライブラリには、マウスの動きやボタンのクリックなどをシミュレートする関数が備わっています。本章で紹介するのはPyAutoGUIの機能のごく一部です。<i class="calibre5"><a href="https://pyautogui.readthedocs.io/" class="calibre1">https://<wbr></wbr>pyautogui<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/</a></i>で完全なドキュメントを読めます。<span>付録A</span>の指示に従ってPyAutoGUIの最新版をインストールしてください。</p>
 <blockquote class="calibre17">
-<p class="note"><span class="sans_dogma_ot_bold_b_1">WARNING</span></p>
+<p class="note"><span class="sans_dogma_ot_bold_b_1">警告</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">Don’t save your programs as</i> <span class="dedication_italic">pyautogui.py</span><i class="calibre5">. If you do, then when you run</i> <span class="sans_thesansmonocd_w5regular_italic_">import pyautogui</span> <i class="calibre5">Python will import your program instead of PyAutoGUI, and you’ll get error messages like</i> <span class="sans_thesansmonocd_w5regular_italic_">AttributeError: module 'pyautogui' has no attribute 'click'</span><i class="calibre5">.</i></p>
+<p class="note-txt"><i class="calibre5">自分で書いたプログラムを</i> <span class="dedication_italic">pyautogui.py</span><i class="calibre5">という名前で保存しないようにしてください。その名前で保存すると、</i><span class="sans_thesansmonocd_w5regular_italic_">import pyautogui</span><i class="calibre5">を実行したときに、PythonがPyAutoGUIではなく自分で書いたプログラムをインポートしてしまい、</i><span class="sans_thesansmonocd_w5regular_italic_">AttributeError: module 'pyautogui' has no attribute 'click'</span><i class="calibre5">のようなエラーが発生します。</i></p>
 <section type="division" aria-labelledby="sec1">
-<h3 class="h" id="calibre_link-2090"><span id="calibre_link-593"></span><span class="sans_futura_std_bold_b_">Setting Up Accessibility Apps on macOS</span></h3>
-<p class="tni">As a security measure, macOS doesn’t normally let programs control the mouse or keyboard. To make PyAutoGUI work on macOS, you must set the program running your Python script to be an accessibility application. Without this step, your PyAutoGUI function calls will have no effect.</p>
-<p class="tx">Whether you run your Python programs from Mu, IDLE, or the Terminal, keep that application open. Then, open <b class="calibre10">System Preferences</b> and go to the <b class="calibre10">Accessibility</b> tab. The currently open applications will appear under the “Allow the apps below to control your computer” label. Check Mu, IDLE, Terminal, or whichever app you use to run your Python scripts. You’ll be prompted to enter your password to confirm these changes.</p>
+<h3 class="h" id="calibre_link-2090"><span id="calibre_link-593"></span><span class="sans_futura_std_bold_b_">macOSでのアクセシビリティ設定</span></h3>
+<p class="tni">セキュリティ対策として、通常、macOSではプログラムがマウスやキーボードを制御できないようになっています。macOSでPyAutoGUIを動かすには、アクセシビリティを設定しなければなりません。この設定をしないとPyAutoGUIの関数を呼び出しても何も起こりません。</p>
+<p class="tx">Pythonプログラムを呼び出すMuかIDLEかターミナルを開いてください。その状態で<b class="calibre10">システム環境設定</b>から<b class="calibre10">アクセシビリティ</b>タブを開きます。現在開いているアプリケーションが「下のアプリケーションにコンピュータの制御を許可」の下に表示されているので、Mu、IDLE、ターミナルなどPythonプログラムを呼び出すアプリケーションにチェックを入れてください。この変更を行うにはパスワードの入力が求められます。</p>
 </section>
 <section type="division" aria-labelledby="sec2">
-<h3 class="h" id="calibre_link-2091"><span id="calibre_link-594"></span><span class="sans_futura_std_bold_b_">Staying on Track</span></h3>
-<p class="tni">Before you jump into a GUI automation, you should know how to escape problems that may arise. Python can move your mouse and type keystrokes at an incredible speed. In fact, it might be too fast for other programs to keep up with. Also, if something goes wrong but your program keeps moving the mouse around, it will be hard to tell exactly what the program is doing or how to recover from the problem. Like the enchanted brooms from “The Sorcerer’s Apprentice” sequence in Disney’s <i class="calibre5">Fantasia</i>, which kept filling (and then overfilling) Mickey’s tub with water, your program could get out of control even though it’s following your instructions perfectly. Stopping the program can be difficult if the mouse is moving around on its own, preventing you from clicking the Mu Editor window to close it. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1151" aria-label="541"></span>Fortunately, there are several ways to prevent or recover from GUI automation problems.</p>
+<h3 class="h" id="calibre_link-2091"><span id="calibre_link-594"></span><span class="sans_futura_std_bold_b_">計画通りに進める</span></h3>
+<p class="tni">GUI自動化に進む前に、発生するかもしれない問題から抜け出す方法を知っておく必要があります。Pythonはものすごい速さでマウスを動かしてキーを入力します。他のプログラムがついていけないほどの速さです。何らかの問題があってプログラムがマウスを動かし続けると、何が起こっていてどうすればその問題から抜け出せるかわからなくなります。ディズニー映画<i class="calibre5">『ファンタジア』</i>の「魔法使いの弟子」でミッキーのバケツで水汲みを続けるほうきのように、指示通りに動いているプログラムを制御できなくなります。マウスが動き回っていると、Muエディタをクリックして閉じるのも困難なので、プログラムを止めるのも一苦労です。GUI自動化の問題から抜け出す方法がいくつか用意されているのでここで紹介します。</p>
 <section type="division" aria-labelledby="sec3">
-<h4 class="h1" id="calibre_link-2092"><span id="calibre_link-595"></span><span class="sans_futura_std_heavy_oblique_bi_">Pauses and Fail-Safes</span></h4>
-<p class="tni">If your program has a bug and you’re unable to use the keyboard and mouse to shut it down, you can use PyAutoGUI’s fail-safe feature. Quickly slide the mouse to one of the four corners of the screen. Every PyAutoGUI function call has a one-tenth-of-a-second pause after performing its action to give you enough time to move the mouse to a corner. If PyAutoGUI then finds that the mouse cursor is in a corner, it raises the <span class="thesansmonocd_w5regular_">pyautogui.FailSafeException</span> exception. Non-PyAutoGUI instructions won’t have this pause. You can adjust this pause duration by setting <span class="thesansmonocd_w5regular_">pyautogui.PAUSE</span> to a value other than <span class="thesansmonocd_w5regular_">0.1</span>.</p>
-<p class="tx">If you find yourself in a situation where you need to stop your PyAutoGUI program, just slam the mouse toward a screen corner to stop it.</p>
+<h4 class="h1" id="calibre_link-2092"><span id="calibre_link-595"></span><span class="sans_futura_std_heavy_oblique_bi_">停止とフェイルセーフ</span></h4>
+<p class="tni">プログラムにバグがありキーボードやマウスを使ってシャットダウンできなくなっても、PyAutoGUIのフェイルセーフ機能を使えます。マウスを画面の四隅に向けて素早く動かします。PyAutoGUIの関数は呼び出しごとに0.1秒停止してからアクションを実行するので、マウスを四隅に動かす時間の余裕があります。PyAutoGUIはマウスカーソルが四隅にあれば<span class="thesansmonocd_w5regular_">pyautogui.FailSafeException</span>例外を送出します。PyAutoGUI固有の機能です。<span class="thesansmonocd_w5regular_">pyautogui.PAUSE</span>に<span class="thesansmonocd_w5regular_">0.1</span>以外の数値を設定すれば停止秒数を調整することができます。</p>
+<p class="tx">PyAutoGUIプログラムを停止させる必要があるときは、マウスを画面の四隅に向けて素早く動かして停止させてください。</p>
 </section>
 <section type="division" aria-labelledby="sec4">
-<h4 class="h1" id="calibre_link-2093"><span id="calibre_link-596"></span><span class="sans_futura_std_heavy_oblique_bi_">Logouts</span></h4>
-<p class="tni">Perhaps the simplest way to stop an out-of-control GUI automation program is to log out, which will shut down all running programs. On Windows and Linux, the logout hotkey is <small class="calibre4">CTRL-ALT-DEL</small>. On macOS, it is <span class="listbullet_menuarrow"></span>-<small class="calibre4">SHIFT</small>-Q. By logging out, you’ll lose any unsaved work, but at least you won’t have to wait for a full reboot of the computer.</p>
+<h4 class="h1" id="calibre_link-2093"><span id="calibre_link-596"></span><span class="sans_futura_std_heavy_oblique_bi_">ログアウト</span></h4>
+<p class="tni">制御できなくなったGUI自動化プログラムを停止させる最もシンプルな方法はログアウトです。ログアウトすればすべての実行中のプログラムが終了します。WindowsとLinuxでは<small class="calibre4">CTRL-ALT-DEL</small>を押します。macOSでは<span class="listbullet_menuarrow"></span>-<small class="calibre4">SHIFT</small>-Qを押します。ログアウトしたら保存していない作業は失われますが、コンピュータの再起動より手軽です。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec5">
-<h3 class="h" id="calibre_link-2094"><span id="calibre_link-597"></span><span class="sans_futura_std_bold_b_">Controlling Mouse Movement</span></h3>
-<p class="tni">In this section, you’ll learn how to move the mouse and track its position on the screen using PyAutoGUI, but first you need to understand how PyAutoGUI works with coordinates.</p>
-<p class="tx">PyAutoGUI’s mouse functions use x- and y-coordinates. Chapter 21</span>. The <i class="calibre5">origin</i>, where <i class="calibre5">x</i> and <i class="calibre5">y</i> are both zero, is at the upper-left corner of the screen. The x-coordinates increase going to the right, and the y-coordinates increase going down. All coordinates are positive integers; there are no negative coordinates.</p>
+<h3 class="h" id="calibre_link-2094"><span id="calibre_link-597"></span><span class="sans_futura_std_bold_b_">マウスの移動の制御</span></h3>
+<p class="tni">この節ではPyAutoGUIでマウスを動かしてその位置を追跡する方法を紹介しますが、その前にPyAutoGUIの座標系を説明します。</p>
+<p class="tx">PyAutoGUIのマウスの関数は第21章で説明したのと同じx座標とy座標を使います。<i class="calibre5">x</i>座標と<i class="calibre5">y</i>座標が両方とも0の<i class="calibre5">原点</i>は画面の左上隅です。x座標は右方向に増えていき、y座標は下方向に増えていきます。座標はすべて正の整数です。負の座標はありません。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1184" aria-label="542"></span>
 <figure class="img"><img class="img2" id="calibre_link-832" src="images/000079.jpg" alt="An icon of a computer screen with the top-left corner labeled (0,0), the top-right corner labeled (1919,0), the bottom-left corner labeled (0,1079), and the bottom-right corner labeled (1919,1079). The vertical axis shows an arrow pointing right, labeled “x increases”, while the horizontal axis shows an arrow pointing down, labeled “y increases”." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 23-1: The coordinates of a computer screen with 1920×1080 resolution</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 23-1：解像度が1920×1080のコンピュータ画面の座標</span></p></figcaption>
 </figure>
-<p class="tx">Your <i class="calibre5">resolution</i> is how many pixels wide and tall your screen is. If your screen’s resolution is set to 1920×1080, then the coordinate for the upper-left corner will be (0, 0), and the coordinate for the bottom-right corner will be (1919, 1079).</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyautogui.size()</span> function returns a <span class="thesansmonocd_w5regular_">Size</span> named tuple of the screen’s width and height in pixels. Named tuples are beyond the scope of this book, but they are basically tuples with integer indexes that also have named attributes. Enter the following into the interactive shell:</p>
+<p class="tx"><i class="calibre5">解像度</i>とはスクリーンの横と縦のピクセル数のことです。画面の解像度が1920×1080なら、左上の座標は(0, 0)で、右下の座標は(1919, 1079)です。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyautogui.size()</span>関数は画面の幅と高さのピクセルを<span class="thesansmonocd_w5regular_">Size</span>名前付きタプルで返します。名前付きタプルは本書の範囲外ですが、基本的に整数のインデックスに加えて名前の属性でも要素にアクセスできるタプルです。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
-&gt;&gt;&gt; <b class="calibre10">screen_size =</b> <b class="calibre10">pyautogui.size()</b>  # Obtain the screen resolution.
+&gt;&gt;&gt; <b class="calibre10">screen_size =</b> <b class="calibre10">pyautogui.size()</b>  # 画面解像度の取得
 &gt;&gt;&gt; <b class="calibre10">screen_size </b>
 Size(width=1920, height=1080)
 &gt;&gt;&gt; <b class="calibre10">screen_size[0], screen_size[1]</b>
@@ -63,131 +62,131 @@ Size(width=1920, height=1080)
 &gt;&gt;&gt; <b class="calibre10">tuple(screen_size)</b>
 (1920, 1080)
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyautogui.size()</span> function returns a <span class="thesansmonocd_w5regular_">Size</span> object of <span class="thesansmonocd_w5regular_">(1920, 1080)</span> on a computer with a 1920×1080 resolution; depending on your screen’s resolution, your return value may be different.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyautogui.size()</span>関数は解像度が1920×1080のコンピュータでは<span class="thesansmonocd_w5regular_">(1920, 1080)</span>の<span class="thesansmonocd_w5regular_">Size</span>オブジェクトを返します。画面の解像度に応じて返り値は異なります。</p>
 <section type="division" aria-labelledby="sec6">
-<h4 class="h1" id="calibre_link-2095"><span id="calibre_link-598"></span><span class="sans_futura_std_heavy_oblique_bi_">Moving the Mouse</span></h4>
-<p class="tni">Now that you understand screen coordinates, let’s move the mouse. The <span class="thesansmonocd_w5regular_">pyautogui.moveTo()</span> function will instantly move the mouse cursor to a specified position on the screen. Integer values for the x- and y-coordinates make <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1239" aria-label="543"></span>up the function’s first and second arguments, respectively. An optional <span class="thesansmonocd_w5regular_">duration</span> integer or float keyword argument specifies the number of seconds it should take to move the mouse to the destination. If you leave it out, the default is <span class="thesansmonocd_w5regular_">0</span> for instantaneous movement. (All of the <span class="thesansmonocd_w5regular_">duration</span> keyword arguments in PyAutoGUI functions are optional.) Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2095"><span id="calibre_link-598"></span><span class="sans_futura_std_heavy_oblique_bi_">マウスの移動</span></h4>
+<p class="tni">画面の座標を理解できたのでマウスの移動を説明します。<span class="thesansmonocd_w5regular_">pyautogui.moveTo()</span>関数はマウスカーソルを指定した位置へと瞬時に移動させます。この関数の第一引数はx座標、第二引数はy座標の整数値です。オプションの<span class="thesansmonocd_w5regular_">duration</span>キーワード引数では、整数または浮動小数点数でマウスの移動時間を秒単位で指定します。このキーワード引数を指定しない場合のデフォルトは<span class="thesansmonocd_w5regular_">0</span>で、瞬時に移動します。（PyAutoGUIの関数の<span class="thesansmonocd_w5regular_">duration</span>キーワード引数はすべてオプションです。）</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
-&gt;&gt;&gt; <b class="calibre10">for i in range(10):</b>  # Move the mouse in a square.
+&gt;&gt;&gt; <b class="calibre10">for i in range(10):</b>  # 正方形を描くようにマウスを動かす
 ...<b class="calibre10">     pyautogui.moveTo(100, 100, duration=0.25)</b>
 ...<b class="calibre10">     pyautogui.moveTo(200, 100, duration=0.25)</b>
 ...<b class="calibre10">     pyautogui.moveTo(200, 200, duration=0.25)</b>
 ...<b class="calibre10">     pyautogui.moveTo(100, 200, duration=0.25)</b>
 ...
 </code></pre>
-<p class="tx">This example moves the mouse cursor clockwise in a square pattern among the four coordinates provided a total of 10 times. Each movement takes one-quarter of a second, as specified by the <span class="thesansmonocd_w5regular_">duration=0.25</span> keyword argument. If you hadn’t passed a third argument to any of the <span class="thesansmonocd_w5regular_">pyautogui.moveTo()</span> calls, the mouse cursor would have instantly teleported from point to point.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyautogui.move()</span> function moves the mouse cursor <i class="calibre5">relative to its current position</i>. The following example moves the mouse in the same square pattern, except it begins the square from wherever the mouse happens to be on the screen when the code starts running:</p>
+<p class="tx">この例では、指定した座標で時計回りに正方形を10回描くようにマウスカーソルを動かします。<span class="thesansmonocd_w5regular_">duration=0.25</span>とキーワード引数を指定しているので、一つの移動に0.25秒かかります。<span class="thesansmonocd_w5regular_">pyautogui.moveTo()</span>呼び出しで第三引数を指定しなければマウスカーソルは瞬間移動します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyautogui.move()</span>関数はマウスカーソルを<i class="calibre5">現在の位置から相対的に</i>移動させます。以下の例では先ほどの例と同じようにマウスを移動させますが、コードの実行開始時にマウスがあった位置を出発点とします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">for i in range(10):</b>
-...     <b class="calibre10">pyautogui.move(100, 0, duration=0.25)  </b># Right
-...     <b class="calibre10">pyautogui.move(0, 100, duration=0.25)  </b># Down
-...     <b class="calibre10">pyautogui.move(-100, 0, duration=0.25)  </b># Left
-...<b class="calibre10">     pyautogui.move(0, -100, duration=0.25)  </b># Up
+...     <b class="calibre10">pyautogui.move(100, 0, duration=0.25)  </b># 右
+...     <b class="calibre10">pyautogui.move(0, 100, duration=0.25)  </b># 下
+...     <b class="calibre10">pyautogui.move(-100, 0, duration=0.25)  </b># 左
+...<b class="calibre10">     pyautogui.move(0, -100, duration=0.25)  </b># 上
 ...
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyautogui.move()</span> function also takes three arguments: how many pixels to move horizontally to the right, how many pixels to move vertically downward, and (optionally) how long it should take to complete the movement. A negative integer for the first or second argument will cause the mouse to move left or upward, respectively.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyautogui.move()</span>関数も3つの引数を取ります。右方向に移動させるピクセル数、下方向に移動させるピクセル数、移動に要する時間（オプション）です。第一引数に負の整数を指定すると左方向に、第二引数に負の整数を指定すると上方向に、それぞれマウスを移動させます。</p>
 </section>
 <section type="division" aria-labelledby="sec7">
-<h4 class="h1" id="calibre_link-2096"><span id="calibre_link-599"></span><span class="sans_futura_std_heavy_oblique_bi_">Getting the Current Position</span></h4>
-<p class="tni">You can determine the mouse’s current position by calling the <span class="thesansmonocd_w5regular_">pyautogui.position()</span> function, which will return a <span class="thesansmonocd_w5regular_">Point</span> named tuple of the mouse cursor’s <i class="calibre5">x</i> and <i class="calibre5">y</i> positions at the time of the function call. You can access the x- and y-coordinates either through the <span class="thesansmonocd_w5regular_">0</span> and <span class="thesansmonocd_w5regular_">1</span> integer indexes of the <span class="thesansmonocd_w5regular_">Point</span> named tuple or through the <span class="thesansmonocd_w5regular_">x</span> and <span class="thesansmonocd_w5regular_">y</span> attributes. (This is similar to the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1021" aria-label="544"></span><span class="thesansmonocd_w5regular_">Size</span> named tuple’s <span class="thesansmonocd_w5regular_">width</span> and <span class="thesansmonocd_w5regular_">height</span> attributes.) Enter the following into the interactive shell, moving the mouse around after each call:</p>
-<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.position()</b>  # Get the current mouse position.
+<h4 class="h1" id="calibre_link-2096"><span id="calibre_link-599"></span><span class="sans_futura_std_heavy_oblique_bi_">現在位置の取得</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">pyautogui.position()</span>関数を呼び出すとマウスの現在位置を取得できます。関数が呼び出されたときにマウスカーソルがある<i class="calibre5">x</i>座標と<i class="calibre5">y</i>座標の<span class="thesansmonocd_w5regular_">Point</span>名前付きタプルが返されます。<span class="thesansmonocd_w5regular_">Point</span>名前付きタプルの<span class="thesansmonocd_w5regular_">0</span>と<span class="thesansmonocd_w5regular_">1</span>の整数インデックスか<span class="thesansmonocd_w5regular_">x</span>と<span class="thesansmonocd_w5regular_">y</span>の属性でx座標とy座標にアクセスできます（<span class="thesansmonocd_w5regular_">width</span>と<span class="thesansmonocd_w5regular_">height</span>の属性がある<span class="thesansmonocd_w5regular_">Size</span>名前付きタプルと似ています）。対話型シェルに以下の内容を入力してマウスの現在位置を取得してみてください。</p>
+<pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.position()</b>  # マウスの現在位置の取得
 Point(x=311, y=622)
-&gt;&gt;&gt; <b class="calibre10">pyautogui.position()</b>  # Get the current mouse position again.
+&gt;&gt;&gt; <b class="calibre10">pyautogui.position()</b>  # マウスの現在位置をもう一度取得
 Point(x=377, y=481)
-&gt;&gt;&gt; <b class="calibre10">p = pyautogui.position()</b>  # And again
+&gt;&gt;&gt; <b class="calibre10">p = pyautogui.position()</b>  # さらにもう一度取得
 &gt;&gt;&gt; <b class="calibre10">p</b>
 Point(x=1536, y=637)
-&gt;&gt;&gt; <b class="calibre10">p[0]</b>  # The x-coordinate is at index 0.
+&gt;&gt;&gt; <b class="calibre10">p[0]</b>  # インデックス0はx座標
 1536
-&gt;&gt;&gt; <b class="calibre10">p.x</b>  # The x-coordinate is also in the x attribute.
+&gt;&gt;&gt; <b class="calibre10">p.x</b>  # 属性xもx座標
 1536
 </code></pre>
-<p class="tx">Of course, your return values will vary depending on where your mouse cursor is.</p>
+<p class="tx">マウスカーソルの位置に応じて実行結果が変わります。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec8">
-<h3 class="h" id="calibre_link-2097"><span id="calibre_link-600"></span><span class="sans_futura_std_bold_b_">Controlling Mouse Interaction</span></h3>
-<p class="tni">Now that you know how to move the mouse and figure out where it is on the screen, you’re ready to start clicking, dragging, and scrolling.</p>
+<h3 class="h" id="calibre_link-2097"><span id="calibre_link-600"></span><span class="sans_futura_std_bold_b_">マウス操作の制御</span></h3>
+<p class="tni">マウスを移動させる方法と画面上の位置を取得する方法がわかりましたから、クリック、ドラッグ、スクロールの説明をします。</p>
 <section type="division" aria-labelledby="sec9">
-<h4 class="h1" id="calibre_link-2098"><span id="calibre_link-601"></span><span class="sans_futura_std_heavy_oblique_bi_">Clicking</span></h4>
-<p class="tni">To send a virtual mouse click to your computer, call the <span class="thesansmonocd_w5regular_">pyautogui.click()</span> method. By default, this click uses the left mouse button and takes place wherever the mouse cursor is currently located. You can pass x- and y-coordinates of the click as optional first and second arguments if you want it to take place somewhere other than the mouse’s current position.</p>
-<p class="tx">If you want to specify which mouse button to use, include the <span class="thesansmonocd_w5regular_">button</span> keyword argument, with a value of <span class="thesansmonocd_w5regular_">'left'</span>, <span class="thesansmonocd_w5regular_">'middle'</span>, or <span class="thesansmonocd_w5regular_">'right'</span>. For example, <span class="thesansmonocd_w5regular_">pyautogui.click(100, 150, button='left')</span> will click the left mouse button at the coordinates (100, 150), while <span class="thesansmonocd_w5regular_">pyautogui.click(200, 250, button='right')</span> will perform a right-click at (200, 250).</p>
-<p class="tx">Enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2098"><span id="calibre_link-601"></span><span class="sans_futura_std_heavy_oblique_bi_">クリック</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">pyautogui.click()</span>メソッドを呼び出せばバーチャルなマウスクリックをコンピュータに送信できます。デフォルトではマウスの現在位置での左クリックです。オプションの第一引数と第二引数を渡せばx座標とy座標を指定してクリックを送信できます。</p>
+<p class="tx">マウスのどのボタンをクリックするかは<span class="thesansmonocd_w5regular_">button</span>キーワード引数で<span class="thesansmonocd_w5regular_">'left'</span>、<span class="thesansmonocd_w5regular_">'middle'</span>、<span class="thesansmonocd_w5regular_">'right'</span>のいずれかを指定します。例えば、<span class="thesansmonocd_w5regular_">pyautogui.click(100, 150, button='left')</span>は座標(100, 150)でマウスを左クリックしますし、<span class="thesansmonocd_w5regular_">pyautogui.click(200, 250, button='right')</span>は(200, 250)で右クリックします。</p>
+<p class="tx">以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
-&gt;&gt;&gt; <b class="calibre10">pyautogui.click(10, 5)</b>  # Move the mouse to (10, 5) and click.
+&gt;&gt;&gt; <b class="calibre10">pyautogui.click(10, 5)</b>  # マウスを(10, 5)に移動してクリック
 </code></pre>
-<p class="tx">You should see the mouse pointer move to near the top-left corner of your screen and click once. A full “click” is defined as pushing a mouse button down and then releasing it without moving the cursor. You can also perform a click by calling <span class="thesansmonocd_w5regular_">pyautogui.mouseDown()</span>, which only pushes the mouse button down, and <span class="thesansmonocd_w5regular_">pyautogui.mouseUp()</span>, which only releases the button. These functions have the same arguments as <span class="thesansmonocd_w5regular_">click()</span>, and in fact, the <span class="thesansmonocd_w5regular_">click()</span> function is just a convenient wrapper around these two function calls.</p>
-<p class="tx">As a further convenience, the <span class="thesansmonocd_w5regular_">pyautogui.doubleClick()</span> function will perform two clicks with the left mouse button. The <span class="thesansmonocd_w5regular_">pyautogui.rightClick()</span> and <span role="doc-pagebreak" type="pagebreak" id="calibre_link-883" aria-label="545"></span><span class="thesansmonocd_w5regular_">pyautogui.middleClick()</span> functions will perform a click with the right and middle mouse buttons, respectively.</p>
+<p class="tx">マウスカーソルが画面の左上隅付近に移動して1回左クリックします。「クリック」とはマウスのボタンを押してそのまま動かさずに離す動作です。マウスのボタンを押す<span class="thesansmonocd_w5regular_">pyautogui.mouseDown()</span>を呼び出してからマウスのボタンを離す<span class="thesansmonocd_w5regular_">pyautogui.mouseUp()</span>を呼び出してもクリックする動作になります。これらの関数は<span class="thesansmonocd_w5regular_">click()</span>と同じ引数を取ります。<span class="thesansmonocd_w5regular_">click()</span>関数はこれら2つの関数を呼び出す便利なラッパーです。</p>
+<p class="tx">さらに便利なように、<span class="thesansmonocd_w5regular_">pyautogui.doubleClick()</span>関数はマウスの左クリックを2回行います（ダブルクリック）。<span class="thesansmonocd_w5regular_">pyautogui.rightClick()</span>関数で右クリック、<span class="thesansmonocd_w5regular_">pyautogui.middleClick()</span>関数で中クリックを実行できます。</p>
 </section>
 <section type="division" aria-labelledby="sec10">
-<h4 class="h1" id="calibre_link-2099"><span id="calibre_link-602"></span><span class="sans_futura_std_heavy_oblique_bi_">Dragging</span></h4>
-<p class="tni"><i class="calibre5">Dragging</i> means moving the mouse while holding down one of the mouse buttons. For example, you can move files between folders by dragging the folder icons, or you can move appointments around in a calendar app.</p>
-<p class="tx">PyAutoGUI provides the <span class="thesansmonocd_w5regular_">pyautogui.dragTo()</span> and <span class="thesansmonocd_w5regular_">pyautogui.drag()</span> functions to drag the mouse cursor to a new location or a location relative to its current one. The arguments for <span class="thesansmonocd_w5regular_">dragTo()</span> and <span class="thesansmonocd_w5regular_">drag()</span> are the same as <span class="thesansmonocd_w5regular_">moveTo()</span> and <span class="thesansmonocd_w5regular_">move()</span>: the x-coordinate/horizontal movement, the y-coordinate/vertical movement, and an optional duration of time. (The macOS operating system doesn’t drag correctly when the mouse moves too quickly, so passing a <span class="thesansmonocd_w5regular_">duration</span> keyword argument is recommended.)</p>
-<p class="tx">To try these functions, open a graphics drawing application such as MS Paint on Windows, Paintbrush on macOS, or GNU Paint on Linux. (If you don’t have a drawing application, you can use the online one at <i class="calibre5"><a href="https://sumopaint.com" class="calibre1">https://<wbr></wbr>sumopaint<wbr></wbr>.com</a></i>.) I will use PyAutoGUI to draw in these applications.</p>
-<p class="tx">With the mouse cursor over the drawing application’s canvas and the Pencil or Brush tool selected, enter the following into a new file editor window and save it as <i class="calibre5">spiralDraw.py</i>:</p>
+<h4 class="h1" id="calibre_link-2099"><span id="calibre_link-602"></span><span class="sans_futura_std_heavy_oblique_bi_">ドラッグ</span></h4>
+<p class="tni"><i class="calibre5">ドラッグ</i>とはマウスのボタンを押しながら移動させる動作のことです。例えば、ファイルをフォルダアイコンにドラッグすればそのフォルダに移動できますし、カレンダーアプリの予定をドラッグで移動させられます。</p>
+<p class="tx">PyAutoGUIには、マウスカーソルを指定位置までドラッグする<span class="thesansmonocd_w5regular_">pyautogui.dragTo()</span>と、現在位置から相対的に位置を指定して移動させる<span class="thesansmonocd_w5regular_">pyautogui.drag()</span>関数があります。<span class="thesansmonocd_w5regular_">dragTo()</span>と<span class="thesansmonocd_w5regular_">drag()</span>の引数は<span class="thesansmonocd_w5regular_">moveTo()</span>と<span class="thesansmonocd_w5regular_">move()</span>の引数と同じで、x座標（右方向への移動ピクセル数）、y座標（下方向への移動ピクセル数）、オプションの移動時間です。（macOSでは速すぎると正常にドラッグできないので、<span class="thesansmonocd_w5regular_">duration</span>キーワード引数を渡すようにしてください。）</p>
+<p class="tx">この関数を試してみましょう。WindowsならMS Paint、macOSならPaintbrush、LinuxならGNU Paintなど、描画アプリを開いてください（オンラインの<i class="calibre5"><a href="https://sumopaint.com" class="calibre1">https://<wbr></wbr>sumopaint<wbr></wbr>.com</a></i>でも描画できますので、描画アプリがなければこちらをお使いください）。PyAutoGUIでこれらのアプリに描画します。</p>
+<p class="tx">描画アプリでキャンバスを開いて鉛筆やブラシを選択した状態で、以下の内容を記載した<i class="calibre5">spiralDraw.py</i>を実行します。</p>
 <pre class="pre"><code class="calibre9">import pyautogui
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> pyautogui.sleep(5)
-<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> pyautogui.click()  # Click to make the window active.
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> pyautogui.click()  # クリックしてウィンドウをアクティブにする
 distance = 300
 change = 20
 while distance &gt; 0:
-  <span class="code_codeannotation" aria-label="annotation3">❸</span> pyautogui.drag(distance, 0, duration=0.2)  # Move right.
+  <span class="code_codeannotation" aria-label="annotation3">❸</span> pyautogui.drag(distance, 0, duration=0.2)  # 右に移動
   <span class="code_codeannotation" aria-label="annotation4">❹</span> distance = distance - change
-  <span class="code_codeannotation" aria-label="annotation5">❺</span> pyautogui.drag(0, distance, duration=0.2)   # Move down.
-  <span class="code_codeannotation" aria-label="annotation6">❻</span> pyautogui.drag(-distance, 0, duration=0.2)  # Move left.
+  <span class="code_codeannotation" aria-label="annotation5">❺</span> pyautogui.drag(0, distance, duration=0.2)   # 下に移動
+  <span class="code_codeannotation" aria-label="annotation6">❻</span> pyautogui.drag(-distance, 0, duration=0.2)  # 左に移動
     distance = distance - change
-    pyautogui.drag(0, -distance, duration=0.2)  # Move up.
+    pyautogui.drag(0, -distance, duration=0.2)  # 上に移動
 </code></pre>
-<p class="tx">When you run this program, there will be a five-second delay <span class="codeannotation" aria-label="annotation1">❶</span> during which you can move the mouse cursor over the drawing program’s window with the Pencil or Brush tool selected. PyAutoGUI’s <span class="thesansmonocd_w5regular_">sleep()</span> function is identical to <span class="thesansmonocd_w5regular_">time.sleep()</span> but exists so that you don’t need to add <span class="thesansmonocd_w5regular_">import time</span> to your code. Then, <i class="calibre5">spiralDraw.py</i> will take control of the mouse and click to make the drawing program’s window active <span class="codeannotation" aria-label="annotation2">❷</span>. The <i class="calibre5">active window</i> is the window that currently accepts keyboard input, and the actions you take (like typing or, in this case, dragging the mouse) will affect that window. The active window is also known as the <i class="calibre5">focused</i> or <i class="calibre5">foreground window</i>. Once the drawing program is active, <i class="calibre5">spiralDraw.py</i> draws a square spiral pattern like the one on the left of Figure 23-2.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">distance</span> variable starts at <span class="thesansmonocd_w5regular_">300</span>, so on the first iteration of the <span class="thesansmonocd_w5regular_">while</span> loop, the first <span class="thesansmonocd_w5regular_">drag()</span> call drags the cursor 300 pixels to the right, taking 0.2 seconds <span class="codeannotation" aria-label="annotation3">❸</span>. Then, <span class="thesansmonocd_w5regular_">distance</span> is decreased to 280 <span class="codeannotation" aria-label="annotation4">❹</span>, and the second <span class="thesansmonocd_w5regular_">drag()</span> <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1270" aria-label="546"></span>call drags the cursor 280 pixels down <span class="codeannotation" aria-label="annotation5">❺</span>. The third <span class="thesansmonocd_w5regular_">drag()</span> call drags the cursor –280 horizontally (280 to the left) <span class="codeannotation" aria-label="annotation6">❻</span>, <span class="thesansmonocd_w5regular_">distance</span> is decreased to 260, and the last <span class="thesansmonocd_w5regular_">drag()</span> call drags the cursor 260 pixels up. On each iteration, the mouse is dragged right, down, left, and up, and <span class="thesansmonocd_w5regular_">distance</span> is slightly smaller than it was in the previous iteration. By looping over this code, you can move the mouse cursor to draw a square spiral.</p>
-<p class="tx">While you can also create a square spiral image by using the Pillow package discussed in <span>Chapter 21</span>, creating the image by controlling the mouse to draw it in MS Paint lets you make use of this program’s various brush styles, as shown in Figure 23-2 on the right, as well as other advanced features, such as gradients or the fill bucket. You can preselect the brush settings yourself (or have your Python code select these settings) and then run the spiral-drawing program.</p>
+<p class="tx">このプログラムを実行すると5秒間の待機時間があります(<span class="codeannotation" aria-label="annotation1">❶</span>)。この間にマウスカーソルを鉛筆かブラシを選択した状態で描画アプリのウィンドウに載せてください。PyAutoGUIの<span class="thesansmonocd_w5regular_">sleep()</span>関数は<span class="thesansmonocd_w5regular_">time.sleep()</span>と全く同じですが、コードに<span class="thesansmonocd_w5regular_">import time</span>と書かなくてもすみます。<i class="calibre5">spiralDraw.py</i>はマウスを制御してクリックすることにより描画アプリのウィンドウをアクティブにします(<span class="codeannotation" aria-label="annotation2">❷</span>)。<i class="calibre5">アクティブウィンドウ</i>とは、キーボードからの入力やマウスのドラッグなどのアクションを受け付けているウィンドウのことです。アクティブウィンドウはフォーカスされたウィンドウや前面のウィンドウと呼ばれることもあります。描画アプリがアクティブなら、<i class="calibre5">spiralDraw.py</i>は図23-2のような正方形のうず巻きを描画します。</p>
+<p class="tx">変数<span class="thesansmonocd_w5regular_">distance</span>は<span class="thesansmonocd_w5regular_">while</span>ループの初回に<span class="thesansmonocd_w5regular_">300</span>から始まり、最初の<span class="thesansmonocd_w5regular_">drag()</span>呼び出しが0.2秒でカーソルを300ピクセル右にドラッグします(<span class="codeannotation" aria-label="annotation3">❸</span>)。それから<span class="thesansmonocd_w5regular_">distance</span>を280に減らし(<span class="codeannotation" aria-label="annotation4">❹</span>)、2回目の<span class="thesansmonocd_w5regular_">drag()</span>呼び出しがカーソルを280ピクセル下にドラッグさせます(<span class="codeannotation" aria-label="annotation5">❺</span>)。3回目の<span class="thesansmonocd_w5regular_">drag()</span>呼び出しはカーソルを280ピクセル左にドラッグさせます(<span class="codeannotation" aria-label="annotation6">❻</span>)。そして<span class="thesansmonocd_w5regular_">distance</span>を260に減らし、最後の<span class="thesansmonocd_w5regular_">drag()</span>呼び出しはカーソルを260ピクセル上にドラッグさせます。ループの反復ごとにマウスは右、下、左、上と<span class="thesansmonocd_w5regular_">distance</span>を小さくしながらドラッグします。このコードの反復処理により、マウスは正方形のうず巻きを描画します。</p>
+<p class="tx"><span>第21章</span>で紹介したPillowパッケージでうず巻きを描画することもできますが、マウスを制御してMS Paintで描画すると、図23-2のようにブラシのスタイルを変更できますし、グラデーションや塗りつぶしなどの機能を使うこともできます。ブラシの設定をあらかじめ選択してから（あるいはブラシの設定をするPythonのコードを実行してから）、このうず巻き描画プログラムを実行します。</p>
 <figure class="img"><img class="img1" id="calibre_link-833" src="images/000080.jpg" alt="A screenshot of MS Paint showing two versions of a square spiral. The first uses a simple thin line, while the second uses a thick, textured line of varying width." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 23-2: The results from the</span> <span class="sans_thesansmonocd_w5regular_italic_">pyautogui.drag()</span> <span class="sans_futura_std_book_oblique_i_">example, drawn with MS Paint’s different brushes</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 23-2：MS Paintでブラシを変更した</span><span class="sans_thesansmonocd_w5regular_italic_">pyautogui.drag()</span><span class="sans_futura_std_book_oblique_i_">による描画の実行結果</span></p></figcaption>
 </figure>
-<p class="tx">You could draw this spiral by hand (or rather, by mouse), but you’d have to work slowly to be so precise. PyAutoGUI can do it in a few seconds!</p>
+<p class="tx">手でマウスを動かしてこのようなうず巻きを描画することもできますが、正確に描画するにはゆっくりと動かさなければなりません。PyAutoGUIなら数秒で描画できます。</p>
 </section>
 <section type="division" aria-labelledby="sec11">
-<h4 class="h1" id="calibre_link-2100"><span id="calibre_link-603"></span><span class="sans_futura_std_heavy_oblique_bi_">Scrolling</span></h4>
-<p class="tni">The final PyAutoGUI mouse function is <span class="thesansmonocd_w5regular_">scroll()</span>, to which you pass an integer argument for how many units you want to scroll the mouse up or down. <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1238" aria-label="547"></span>The size of a unit varies for each operating system and application, so you’ll have to experiment to see exactly how far it scrolls in your particular situation. The scrolling takes place at the mouse cursor’s current position. Passing a positive integer scrolls up, and passing a negative integer scrolls down. Run the following in the Mu Editor’s interactive shell while the mouse cursor is over the Mu Editor window:</p>
+<h4 class="h1" id="calibre_link-2100"><span id="calibre_link-603"></span><span class="sans_futura_std_heavy_oblique_bi_">スクロール</span></h4>
+<p class="tni">最後に紹介するPyAutoGUIのマウスの関数は<span class="thesansmonocd_w5regular_">scroll()</span>です。上下にスクロールさせる量を整数で指定します。OSやアプリケーションによって数値の単位は変わるので、実験して確認する必要があります。スクロールはマウスカーソルの現在位置から始まります。正の整数を渡すと上にスクロールし、負の整数を渡すと下にスクロールします。Muエディタの対話型シェルで以下の内容を実行すると、Muエディタウィンドウでマウスカーソルが上にスクロールします。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.scroll(200)</b></code></pre>
-<p class="tx">You’ll see Mu scroll upward if the mouse cursor is over a text field that can be scrolled up.</p>
+<p class="tx">マウスカーソルがテキストフィールドにあればMuが上方にスクロールします。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec12">
-<h3 class="h" id="calibre_link-2101"><span id="calibre_link-604"></span><span class="sans_futura_std_bold_b_">Planning Your Mouse Movements</span></h3>
-<p class="tni">One of the difficulties of writing a program that will automate clicking the screen is finding the x- and y-coordinates of the things you’d like to click. The <span class="thesansmonocd_w5regular_">pyautogui.mouseInfo()</span> function can help you with this.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">pyautogui.mouseInfo()</span> function is meant to be called from the interactive shell, rather than as part of your program. It launches a small application named MouseInfo that’s included with PyAutoGUI. The window for the application looks like Figure 23-3.</p>
+<h3 class="h" id="calibre_link-2101"><span id="calibre_link-604"></span><span class="sans_futura_std_bold_b_">マウス移動の計画を立てる</span></h3>
+<p class="tni">画面を自動的にクリックするプログラムを書く際に難しいのは、クリックしたい対象のx座標とy座標を把握することです。<span class="thesansmonocd_w5regular_">pyautogui.mouseInfo()</span>関数を利用すればx座標とy座標がわかります。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pyautogui.mouseInfo()</span>関数は、プログラムの一部として実行するのではなく、対話型シェルから呼び出すことを想定しています。PyAutoGUIに同梱しているMouseInfoという名前の小さなアプリケーションを起動します。そのアプリケーションのウィンドウを図23-3に示します。</p>
 <figure class="img"><img class="img3" id="calibre_link-834" src="images/000081.jpg" alt="The MouseInfo 0.0.4 interface showing fields for the XY Position, RBG Color, RBH as Hex, XY Origin, and filepath." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 23-3: The MouseInfo application’s window</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 23-3：MouseInfoアプリケーションのウィンドウ</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1190" aria-label="548"></span>Enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1190" aria-label="548"></span>以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">pyautogui.mouseInfo()</b>
 </code></pre>
-<p class="tx">This makes the MouseInfo window appear. This window gives you information about the mouse cursor’s current position, as well the color of the pixel underneath the mouse cursor, as a three-integer RGB tuple and as a hex value. The color itself appears in the color box in the window.</p>
-<p class="tx">To help you record this coordinate or pixel information, you can click one of the eight Copy or Log buttons. The Copy All, Copy XY, Copy RGB, and Copy RGB Hex buttons will copy their respective information to the clipboard. The Log All, Log XY, Log RGB, and Log RGB Hex buttons will write their respective information to the large text field in the window. You can save the text in this log text field by clicking the Save Log button.</p>
-<p class="tx">By default, the 3 Sec. Button Delay checkbox is checked, causing a three-second delay between clicking a Copy or Log button and the copying or logging taking place. This gives you a short amount of time in which to click the button and then move the mouse into your desired position. It may be easier to uncheck this box, move the mouse into position, and press the F1 to F8 keys to copy or log the mouse position. You can look at the Copy and Log menus at the top of the MouseInfo window to find out which key maps to which buttons.</p>
-<p class="tx">For example, uncheck <b class="calibre10">3 Sec. Button Delay</b>, then move the mouse around the screen while pressing F6, and notice how the x- and y-coordinates of the mouse are recorded in the large text field in the middle of the window. You can later use these coordinates in your PyAutoGUI scripts.</p>
-<p class="tx">For more information on MouseInfo, review the complete documentation at <i class="calibre5"><a href="https://mouseinfo.readthedocs.io/" class="calibre1">https://<wbr></wbr>mouseinfo<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/</a></i>.</p>
+<p class="tx">これを実行するとMouseInfoウィンドウが立ち上がります。そのウィンドウでは、マウスカーソルの現在位置の座標と色（RGBタプルとHEXカラーコード）の情報が示されます。色自体もウィンドウに示されます。</p>
+<p class="tx">8つのCopyとLogのボタンをクリックすると、この座標やピクセルの情報を記録できます。Copy All、Copy XY、Copy RGB、Copy RGB Hexのボタンはそれぞれ対応する情報をクリップボードにコピーします。Log All、Log XY、Log RGB、Log RGB Hexのボタンはそれぞれ対応する情報をウィンドウの大きなテキストフィールドに書き出します。Save Logボタンをクリックすると、このログテキストを保存できます。</p>
+<p class="tx"> デフォルトではButton Delayチェックボックスがオンになっており、CopyやLogのボタンをクリックしてからコピーやログ出力が起こるまでに3秒の遅延があります。この遅延時間中にマウスを目的の位置まで移動させます。このチェックボックスをオフにして、マウスを目的の位置まで移動させ、コピーやログに対応するF1からF8までのキーを押すほうが簡単かもしれません。MouseInfoウィンドウ上部のコピーとログのメニューからどのキーがどのボタンに対応しているかわかります。</p>
+<p class="tx">例えば、<b class="calibre10">3 Sec. Button Delay</b>をオフにして、マウスを画面上の目的の位置に移動させてからF6を押すと、そのマウスの位置のx座標とy座標がウィンドウ中央の大きなテキストフィールドに記録されます。この座標をPyAutoGUIスクリプトで利用できます。</p>
+<p class="tx">MouseInfoについての詳細は<i class="calibre5"><a href="https://mouseinfo.readthedocs.io/" class="calibre1">https://<wbr></wbr>mouseinfo<wbr></wbr>.readthedocs<wbr></wbr>.io<wbr></wbr>/</a></i>の完全なドキュメントをご参照ください。</p>
 </section>
 <section type="division" aria-labelledby="sec13">
-<h3 class="h" id="calibre_link-2102"><span id="calibre_link-605"></span><span class="sans_futura_std_bold_b_">Taking Screenshots</span></h3>
-<p class="tni">Your GUI automation programs don’t have to click and type blindly. PyAutoGUI has screenshot features that can create an image file based on the current contents of the screen. These functions can also return a Pillow <span class="thesansmonocd_w5regular_">Image</span> object of the current screen’s appearance. If you’ve been skipping around in this book, you’ll want to read <span>Chapter 21</span> and install the Pillow package before continuing with this section.</p>
-<p class="tx">To take screenshots in Python, call the <span class="thesansmonocd_w5regular_">pyautogui.screenshot()</span> function. Enter the following into the interactive shell:</p>
+<h3 class="h" id="calibre_link-2102"><span id="calibre_link-605"></span><span class="sans_futura_std_bold_b_">スクリーンショットの取得</span></h3>
+<p class="tni"> GUI自動化プログラムでは、クリックと入力だけでなく、画面に現在表示されている内容のスクリーンショットの取得もできます。このスクリーンショット取得機能では、現在の画面のPillowの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが返されます。この節の続きを読む前に<span>第21章</span>を読んでPillowパッケージをインストールすることをおすすめします。</p>
+<p class="tx">Pythonでスクリーンショットを取得するには、<span class="thesansmonocd_w5regular_">pyautogui.screenshot()</span>関数を呼び出します。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">im = pyautogui.screenshot()</b>
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">im</span> variable will contain the <span class="thesansmonocd_w5regular_">Image</span> object of the screenshot. You can now call methods on the <span class="thesansmonocd_w5regular_">Image</span> object in the <span class="thesansmonocd_w5regular_">im</span> variable, just like any other <span class="thesansmonocd_w5regular_">Image</span> object. <span>Chapter 21</span> has more information about <span class="thesansmonocd_w5regular_">Image</span> objects.</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1263" aria-label="549"></span>Say that one of the steps in your GUI automation program is to click a gray button. Before calling the <span class="thesansmonocd_w5regular_">click()</span> method, you might want to take a screenshot and look at the pixel where the script is about to click. If it’s not the same gray as the gray button, then your program knows something is wrong. Maybe the window moved unexpectedly, or maybe a pop-up dialog has blocked the button. At this point, instead of continuing, and possibly wreaking havoc by clicking the wrong thing, your program can stop itself.</p>
-<p class="tx">You can obtain the RGB color value of a particular pixel on the screen with the <span class="thesansmonocd_w5regular_">pixel()</span> function. Enter the following into the interactive shell:</p>
+<p class="tx">変数<span class="thesansmonocd_w5regular_">im</span>にはスクリーンショットの<span class="thesansmonocd_w5regular_">Image</span>オブジェクトが格納されます。その変数<span class="thesansmonocd_w5regular_">im</span>に格納されている<span class="thesansmonocd_w5regular_">Image</span>オブジェクトについて、他の<span class="thesansmonocd_w5regular_">Image</span>オブジェクトと同じようにメソッドを呼び出せます。<span class="thesansmonocd_w5regular_">Image</span>オブジェクトについては<span>第21章</span>で詳しく説明しました。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1263" aria-label="549"></span>GUI自動化プログラムで灰色のボタンをクリックしたいとしましょう。<span class="thesansmonocd_w5regular_">click()</span>メソッドを呼び出す前に、スクリーンショットを取得して、スクリプトでクリックするピクセルを確認したほうがよいかもしれません。クリックしたい灰色のボタンと色合いが異なっていたら何かがうまくいっていないとわかります。ウィンドウが予期せず移動したのかもしれませんし、ポップアップダイアログがボタンを隠しているのかもしれません。そのまま続行して想定外の箇所をクリックして大惨事を引き起こすのではなく、プログラムを停止させられます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pixel()</span>関数で画面のピクセルを指定してRGB値を取得できます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">pyautogui.pixel(0, 0)</b>
 (176, 176, 175)
 &gt;&gt;&gt; <b class="calibre10">pyautogui.pixel((50, 200))</b>
 (130, 135, 144)
 </code></pre>
-<p class="tx">Pass <span class="thesansmonocd_w5regular_">pixel()</span> two integers for an XY coordinate and it will tell you the color of the pixel at those coordinates in your image. The return value from <span class="thesansmonocd_w5regular_">pixel()</span> is an RGB tuple of three integers for the amount of red, green, and blue in the pixel. (There is no fourth value for alpha, because screenshot images are fully opaque.)</p>
-<p class="tx">PyAutoGUI’s <span class="thesansmonocd_w5regular_">pixelMatchesColor()</span> function will return <span class="thesansmonocd_w5regular_">True</span> if the pixel at the given x- and y-coordinates on the screen matches the given color. The first and second arguments are integers for the x- and y-coordinates, and the third argument is a tuple of three integers for the RGB color the screen pixel must match. Enter the following into the interactive shell:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pixel()</span>にXY座標を表す2つの整数を渡すと、その座標のピクセルの色が返されます。<span class="thesansmonocd_w5regular_">pixel()</span> の返り値は赤、緑、青の量を整数で表したRGBタプルです。（スクリーンショット画像は不透明なのでアルファ値は返されません。）</p>
+<p class="tx">PyAutoGUIの<span class="thesansmonocd_w5regular_">pixelMatchesColor()</span>関数は、x座標とy座標を指定した画面上の点の色が指定した色と合致すれば<span class="thesansmonocd_w5regular_">True</span>を返します。第一引数はx座標、第二引数はy座標、第三引数は比較対照するRGB値のタプルです。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">pyautogui.pixel((50, 200))</b>
 (130, 135, 144)
@@ -196,13 +195,13 @@ True
 <span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">pyautogui.pixelMatchesColor(50, 200, (255, 135, 144))</b>
 False
 </code></pre>
-<p class="tx">After using <span class="thesansmonocd_w5regular_">pixel()</span> to get an RGB tuple for the color of a pixel at specific coordinates <span class="codeannotation" aria-label="annotation1">❶</span>, pass the same coordinates and RGB tuple to <span class="thesansmonocd_w5regular_">pixelMatchesColor()</span> <span class="codeannotation" aria-label="annotation2">❷</span>, which should return <span class="thesansmonocd_w5regular_">True</span>. Then, change a value in the RGB tuple and call <span class="thesansmonocd_w5regular_">pixelMatchesColor()</span> again for the same coordinates <span class="codeannotation" aria-label="annotation3">❸</span>. This should return <span class="thesansmonocd_w5regular_">false</span>. This method can be useful to call whenever your GUI automation programs are about to call <span class="thesansmonocd_w5regular_">click()</span>. Note that the color at the given coordinates must match <i class="calibre5">exactly</i>. If it is even slightly different—for example, <span class="thesansmonocd_w5regular_">(255, 255, 254)</span> instead of <span class="thesansmonocd_w5regular_">(255, 255, 255)</span>—then <span class="thesansmonocd_w5regular_">pixelMatchesColor()</span> will return <span class="thesansmonocd_w5regular_">False</span>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">pixel()</span>で指定した座標のピクセルの色をRGBタプルで取得してから(<span class="codeannotation" aria-label="annotation1">❶</span>)、同じ座標とRGBタプルを<span class="thesansmonocd_w5regular_">pixelMatchesColor()</span>に渡すと(<span class="codeannotation" aria-label="annotation2">❷</span>)、<span class="thesansmonocd_w5regular_">True</span>が返ります。RGBタプルの値を変えて同じ座標について<span class="thesansmonocd_w5regular_">pixelMatchesColor()</span>をもう一度呼び出すと(<span class="codeannotation" aria-label="annotation3">❸</span>)、<span class="thesansmonocd_w5regular_">false</span>が返ります。このメソッドはGUI自動化プログラムで<span class="thesansmonocd_w5regular_">click()</span>を呼び出そうとするときに役立ちます。指定した座標の色が合致するかの判定は<i class="calibre5">厳密に</i>行われます。例えば、<span class="thesansmonocd_w5regular_">(255, 255, 254)</span>と<span class="thesansmonocd_w5regular_">(255, 255, 255)</span>のようにわずかでも異なれば<span class="thesansmonocd_w5regular_">pixelMatchesColor()</span>は<span class="thesansmonocd_w5regular_">False</span>を返します。</p>
 </section>
 <section type="division" aria-labelledby="sec14">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1191" aria-label="550"></span>
-<h3 class="h" id="calibre_link-2103"><span id="calibre_link-606"></span><span class="sans_futura_std_bold_b_">Image Recognition</span></h3>
-<p class="tni">But what if you do not know beforehand where PyAutoGUI should click? You can use image recognition instead. Give PyAutoGUI an image of what you want to click, and let it figure out the coordinates.</p>
-<p class="tx">For example, if you have previously taken a screenshot to capture the image of a Submit button in <i class="calibre5">submit.png</i>, the <span class="thesansmonocd_w5regular_">locateOnScreen()</span> function will return the coordinates where that image is found. To see how <span class="thesansmonocd_w5regular_">locateOnScreen()</span> works, try taking a screenshot of a small area on your screen; then save the image and enter the following into the interactive shell, replacing <span class="thesansmonocd_w5regular_">'submit.png'</span> with the filename of your screenshot:</p>
+<h3 class="h" id="calibre_link-2103"><span id="calibre_link-606"></span><span class="sans_futura_std_bold_b_">画像認識</span></h3>
+<p class="tni">PyAutoGUIでどこをクリックするか前もってわからない場合には、画像認識を利用できます。PyAutoGUIにクリックしたい画像を渡すとその座標を取得します。</p>
+<p class="tx">例えば、送信ボタンの画像を事前にスクリーンショットで取得した<i class="calibre5">submit.png</i>というファイルがあるとすると、<span class="thesansmonocd_w5regular_">locateOnScreen()</span>関数はその画像が見つかった座標を返します。<span class="thesansmonocd_w5regular_">locateOnScreen()</span>の動作確認をしてみましょう。画面上の小さな領域のスクリーンショットを取得し、その画像のファイルを保存して、対話型シェルに以下の内容を入力してください。<span class="thesansmonocd_w5regular_">'submit.png'</span>はご自身で取得したスクリーンショット画像のファイル名に置き換えてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">box = pyautogui.locateOnScreen('submit.png')</b>
 &gt;&gt;&gt; <b class="calibre10">box</b>
@@ -212,50 +211,50 @@ Box(left=643, top=745, width=70, height=29)
 &gt;&gt;&gt; <b class="calibre10">box.left</b>
 643
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">Box</span> object is a named tuple that <span class="thesansmonocd_w5regular_">locateOnScreen()</span> returns and has the x-coordinate of the left edge, the y-coordinate of the top edge, the width, and the height for the first place on the screen the image was found. If you’re trying this on your computer with your own screenshot, your return value will be different from the one shown here.</p>
-<p class="tx">If the image cannot be found on the screen, <span class="thesansmonocd_w5regular_">locateOnScreen()</span> raises an <span class="thesansmonocd_w5regular_">ImageNotFoundException</span>. Note that the image on the screen must match the provided image perfectly in order to be recognized. If the image is even a pixel off, <span class="thesansmonocd_w5regular_">locateOnScreen()</span> raises an <span class="thesansmonocd_w5regular_">ImageNotFoundException</span> exception. If you’ve changed your screen resolution, images from previous screenshots might not match the images on your current screen because they have a different scaling factor. Scaling factors are beyond the scope of this book, but they are sometimes used in modern, high-resolution displays. You can change the scaling in the display settings of your operating system, as shown in Figure 23-4.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">locateOnScreen()</span>が返す<span class="thesansmonocd_w5regular_">Box</span>オブジェクトは、画像を画面上で最初に見つけた場所の左端のx座標、上端のy座標、幅、高さの名前付きタプルです。ご自身の画面でスクリーンショットを取得して試してみると、上で示した値とは異なるでしょう。</p>
+<p class="tx">画像が画面上で見つからなければ、<span class="thesansmonocd_w5regular_">locateOnScreen()</span>は<span class="thesansmonocd_w5regular_">ImageNotFoundException</span>を送出します。画像が完全に一致しなければ画面上で認識されません。画像が1ピクセルでも違っていたら<span class="thesansmonocd_w5regular_">locateOnScreen()</span>は<span class="thesansmonocd_w5regular_">ImageNotFoundException</span>例外を送出します。画面の解像度を変更したら、変更前に取得したスクリーンショット画像は倍率が異なり変更後の画面の画像と一致しないかもしれません。倍率について本書では扱いませんが、現代の高解像度のディスプレイでは、図23-4に示すようにOSに応じて変更できます。</p>
 <figure class="img"><img class="img1" id="calibre_link-835" src="images/000082.jpg" alt="The Display settings tab on Windows, showing a toggle for Night light and a scale for brightness. The corresponding display interface on macOS, showing “Scaled” checked." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 23-4: The scale display settings in Windows (left) and macOS (right)</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 23-4：Windows（左側）とmacOS（右側）での倍率の設定</span></p></figcaption>
 </figure>
-<p class="tx">If the image can be found in several places on the screen, <span class="thesansmonocd_w5regular_">locateAllOnScreen()</span> will return a <span class="thesansmonocd_w5regular_">Generator</span> object. Generators are beyond the scope <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1271" aria-label="551"></span>of this book, but you can pass them to <span class="thesansmonocd_w5regular_">list()</span> to return a list of <span class="thesansmonocd_w5regular_">Box</span> objects. There will be one <span class="thesansmonocd_w5regular_">Box</span> object for each location where the image is found on the screen. Continue the interactive shell example by entering the following (and replacing <span class="thesansmonocd_w5regular_">'submit.png'</span> with your own image filename):</p>
+<p class="tx">画像が画面上に複数見つかった場合には、<span class="thesansmonocd_w5regular_">locateAllOnScreen()</span>は<span class="thesansmonocd_w5regular_">Generator</span>オブジェクトを返します。<span class="thesansmonocd_w5regular_">Generator</span>オブジェクトについては本書でこれ以上説明しませんが、<span class="thesansmonocd_w5regular_">list()</span>に渡すと<span class="thesansmonocd_w5regular_">Box</span>オブジェクトのリストが返されます。画面上で画像が見つかったそれぞれの場所に対応する<span class="thesansmonocd_w5regular_">Box</span>オブジェクトがあります。対話型シェルに続けて以下のように入力してください（<span class="thesansmonocd_w5regular_">'submit.png'</span>はスクリーンショット画像のファイル名に置き換えてください）。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">list(pyautogui.locateAllOnScreen('submit.png'))</b>
 [(643, 745, 70, 29), (1007, 801, 70, 29)]
 </code></pre>
-<p class="tx">In this example, the image appears in two locations. If your image is found in only one area, calling <span class="thesansmonocd_w5regular_">list(locateAllOnScreen())</span> returns a list containing just one <span class="thesansmonocd_w5regular_">Box</span> object.</p>
-<p class="tx">Once you have the <span class="thesansmonocd_w5regular_">Box</span> object for the specific image you want to select, you can click the center of this area by passing the tuple to <span class="thesansmonocd_w5regular_">click()</span>. Enter the following into the interactive shell:</p>
+<p class="tx">この例では画像が2箇所で見つかっています。画像が1箇所でしか見つからなければ、<span class="thesansmonocd_w5regular_">list(locateAllOnScreen())</span>は<span class="thesansmonocd_w5regular_">Box</span>オブジェクトを1つだけ含むリストを返します。</p>
+<p class="tx">指定した画像に対応する<span class="thesansmonocd_w5regular_">Box</span>オブジェクトが取得できれば、<span class="thesansmonocd_w5regular_">click()</span>にそのタプルを渡すとその領域の中心をクリックできます。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.click((643, 745, 70, 29))</b></code></pre>
-<p class="tx">As a shortcut, you can also pass the image filename directly to the <span class="thesansmonocd_w5regular_">click()</span> function:</p>
+<p class="tx">ショートカットとして、<span class="thesansmonocd_w5regular_">click()</span>関数に画像ファイルの名前を直接渡すこともできます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.click('submit.png')</b></code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">moveTo()</span> and <span class="thesansmonocd_w5regular_">dragTo()</span> functions also accept image filename arguments. Remember that <span class="thesansmonocd_w5regular_">locateOnScreen()</span> raises an exception if it can’t find the image on the screen, so you should call it from inside a <span class="thesansmonocd_w5regular_">try</span> statement:</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">moveTo()</span>関数と<span class="thesansmonocd_w5regular_">dragTo()</span>関数も引数に画像ファイルの名前を取ることができます。画面上に指定した画像が見つからなければ<span class="thesansmonocd_w5regular_">locateOnScreen()</span>が例外を送出しますから、<span class="thesansmonocd_w5regular_">try</span>文の内側で呼び出したほうがよいでしょう。</p>
 <pre class="pre"><code class="calibre9">try:
     location = pyautogui.locateOnScreen('submit.png')
 except pyautogui.ImageNotFoundException:
     print('Image could not be found.')
 </code></pre>
-<p class="tx">Without the <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements, the uncaught exception would crash your program. Since you can’t be sure that your program will always find the image, it’s a good idea to use the <span class="thesansmonocd_w5regular_">try</span> and <span class="thesansmonocd_w5regular_">except</span> statements when calling <span class="thesansmonocd_w5regular_">locateOnScreen()</span>. In versions of PyAutoGUI before 1.0.0, <span class="thesansmonocd_w5regular_">locateOnScreen()</span> would return <span class="thesansmonocd_w5regular_">None</span> instead of raising an exception. Call <span class="thesansmonocd_w5regular_">pyautogui.useImageNotFoundException()</span> in these old versions to raise an exception instead, or call <span class="thesansmonocd_w5regular_">pyautogui.useImageNotFoundException(False)</span> for newer versions to return <span class="thesansmonocd_w5regular_">None</span>.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文がなければ、例外を捕捉できずプログラムがクラッシュします。画像が必ず見つかるとは限りませんから、<span class="thesansmonocd_w5regular_">locateOnScreen()</span>を呼び出すときには<span class="thesansmonocd_w5regular_">try</span>文と<span class="thesansmonocd_w5regular_">except</span>文を使うようにしたほうが望ましいです。PyAutoGUIの1.0.0より前のバージョンでは、<span class="thesansmonocd_w5regular_">locateOnScreen()</span>が例外を送出するのではなく<span class="thesansmonocd_w5regular_">None</span>を返します。この古いバージョンで例外を送出するには<span class="thesansmonocd_w5regular_">pyautogui.useImageNotFoundException()</span>を呼び出します。新しいバージョンで<span class="thesansmonocd_w5regular_">.useImageNotFoundException(False)</span>を呼び出すと<span class="thesansmonocd_w5regular_">None</span>が返されます。</p>
 </section>
 <section type="division" aria-labelledby="sec15">
-<h3 class="h" id="calibre_link-2104"><span id="calibre_link-607"></span><span class="sans_futura_std_bold_b_">Getting Window Information</span></h3>
-<p class="tni">Image recognition is a fragile way to find things on the screen; if a single pixel is a different color, then <span class="thesansmonocd_w5regular_">pyautogui.locateOnScreen()</span> won’t find the image. If you need to find where a particular window is on the screen, it’s faster and more reliable to use PyAutoGUI’s window features.</p>
+<h3 class="h" id="calibre_link-2104"><span id="calibre_link-607"></span><span class="sans_futura_std_bold_b_">ウィンドウ情報の取得</span></h3>
+<p class="tni">画像認識では安定して画面上の場所を特定できるとは限りません。1ピクセルでも異なると<span class="thesansmonocd_w5regular_">pyautogui.locateOnScreen()</span>は画像を見つけられません。指定したウィンドウが画面上のどこにあるかを見つける必要があるなら、PyAutoGUIのウィンドウ機能を使ったほうが高速かつ確実です。</p>
 <blockquote class="calibre17">
-<p class="note"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-924" aria-label="552"></span><span class="sans_dogma_ot_bold_b_1">NOTE</span></p>
+<p class="note"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-924" aria-label="552"></span><span class="sans_dogma_ot_bold_b_1">注記</span></p>
 </blockquote>
-<p class="note-txt"><i class="calibre5">As of version 1.0.0, PyAutoGUI’s window features work only on Windows, not on macOS or Linux. These features come from PyAutoGUI’s inclusion of the PyGetWindow package.</i></p>
+<p class="note-txt"><i class="calibre5">PyAutoGUIのバージョン1.0.0現在、ウィンドウ機能はWindowsでだけ動作し、macOSとLinuxでは動作しません。PyAutoGUIのウィンドウ機能はPyGetWindowパッケージを利用しています。</i></p>
 <section type="division" aria-labelledby="sec16">
-<h4 class="h1" id="calibre_link-2105"><span id="calibre_link-608"></span><span class="sans_futura_std_heavy_oblique_bi_">Obtaining the Active Window</span></h4>
-<p class="tni">The active window on your screen is the window currently in the foreground and accepting keyboard input. If you’re presently writing code in the Mu Editor, the Mu Editor’s window is the active window. Of all the windows on your screen, only one will be active at a time.</p>
-<p class="tx">In the interactive shell, call the <span class="thesansmonocd_w5regular_">pyautogui.getActiveWindow()</span> function to get a <span class="thesansmonocd_w5regular_">Window</span> object (technically a <span class="thesansmonocd_w5regular_">Win32Window</span> object when run on Windows). Once you have that <span class="thesansmonocd_w5regular_">Window</span> object, you can retrieve any of the object’s attributes, which describe its size, position, and title:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">left, right, top, bottom</span> A single integer for the x- or y-coordinate of the window’s side</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">topleft, topright, bottomleft, bottomright</span> A <span class="thesansmonocd_w5regular_">Point</span> named tuple of two integers for the (x, y) coordinate of the window’s corner</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">midleft, midright, midtop, midbottom</span> A <span class="thesansmonocd_w5regular_">Point</span> named tuple of two integers for the (x, y) coordinate of the middle of the window’s sides</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">width, height</span> A single integer for one of the window’s dimensions, in pixels</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">size</span> A <span class="thesansmonocd_w5regular_">Size</span> named tuple of two integers for the (width, height) of the window</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">area</span> A single integer representing the area of the window, in pixels</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">center</span> A <span class="thesansmonocd_w5regular_">Point</span> named tuple of two integers for the (x, y) coordinate of the window’s center</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">centerx, centery</span> A single integer for the x- or y-coordinate of the window’s center</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">box</span> A <span class="thesansmonocd_w5regular_">Box</span> named tuple of four integers for the (left, top, width, height) measurements of the window</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">title</span> A string of the text in the title bar at the top of the window</p>
-<p class="tx">To get the window’s position, size, and title information from the <span class="thesansmonocd_w5regular_">window</span> object, for example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2105"><span id="calibre_link-608"></span><span class="sans_futura_std_heavy_oblique_bi_">アクティブウィンドウの取得</span></h4>
+<p class="tni">アクティブウィンドウとは、画面上で前面に表示されておりキーボード入力を受け付けるウィンドウのことです。Muエディタでコードを書いているところならMuエディタのウィンドウはアクティブウィンドウです。画面上で一つのウィンドウだけがアクティブウィンドウになります。</p>
+<p class="tx">対話型シェルで<span class="thesansmonocd_w5regular_">pyautogui.getActiveWindow()</span>を呼び出すと<span class="thesansmonocd_w5regular_">Window</span>オブジェクトを取得できます（Windowsで実行した場合は<span class="thesansmonocd_w5regular_">Win32Window</span>オブジェクトです）。<span class="thesansmonocd_w5regular_">Window</span>オブジェクトを取得できれば、サイズ、位置、タイトルなどの属性を取得できます。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">left, right, top, bottom</span> そのウィンドウの左端と右端のx座標、上端と下端のy座標を表す整数</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">topleft, topright, bottomleft, bottomright</span> そのウィンドウの左上、右上、左下、右下の四隅の座標を表すx座標とy座標の2つの整数の<span class="thesansmonocd_w5regular_">Point</span>名前付きタプル</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">midleft, midright, midtop, midbottom</span> そのウィンドウの左中央、右中央、上中央、下中央の座標を表すx座標とy座標の2つの整数の<span class="thesansmonocd_w5regular_">Point</span>名前付きタプル</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">width, height</span> そのウィンドウの幅と高さをピクセルで表す整数</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">size</span> そのウィンドウの幅と高さをピクセルで表す2つの整数の<span class="thesansmonocd_w5regular_">Size</span>名前付きタプル</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">area</span> そのウィンドウの面積をピクセルで表す整数</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">center</span> そのウィンドウの中央のx座標とy座標を整数で表す<span class="thesansmonocd_w5regular_">Point</span>名前付きタプル</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">centerx, centery</span> そのウィンドウの中央のそれぞれx座標とy座標を表す整数</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">box</span> そのウィンドウの左端、上端、幅、高さを表す4つの整数の<span class="thesansmonocd_w5regular_">Box</span>名前付きタプル</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">title</span> そのウィンドウの上部に表示されるタイトルバーのテキスト文字列</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">window</span>オブジェクトからそのウィンドウの位置、サイズ、タイトルの情報を取得するには、対話型シェルで以下のように入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">active_win = pyautogui.getActiveWindow()</b>
 &gt;&gt;&gt; <b class="calibre10">active_win</b>
@@ -272,295 +271,295 @@ Size(width=2070, height=1208)
 Point(x=500, y=300)
 &gt;&gt;&gt; <b class="calibre10">pyautogui.click(active_win.left + 10, active_win.top + 20)</b>
 </code></pre>
-<p class="tx">You can now use these attributes to calculate precise coordinates within a window. If you know that a button you want to click is always 10 pixels to the right of and 20 pixels down from the window’s top-left corner, and the window’s top-left corner is at screen coordinates (300, 500), then calling <span class="thesansmonocd_w5regular_">pyautogui.click(310, 520)</span> (or <span class="thesansmonocd_w5regular_">pyautogui.click(active_win.left</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">10, active_win.top</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">20)</span> if <span class="thesansmonocd_w5regular_">active_win</span> contains the <span class="thesansmonocd_w5regular_">Window</span> object for the window) will click the button. This way, you won’t have to rely on the slower, less reliable <span class="thesansmonocd_w5regular_">locateOnScreen()</span> function to find the button for you.</p>
+<p class="tx">これらの属性を利用すればウィンドウ内の座標を正確に計算できます。クリックしたいボタンがウィンドウの左上隅から右へ10ピクセル下へ20ピクセルの位置にあることがわかっているとしたら、そのウィンドウの左上隅の画面上の座標が(300, 500)であれば、<span class="thesansmonocd_w5regular_">pyautogui.click(310, 520)</span>を呼び出すとそのボタンをクリックできます。<span class="thesansmonocd_w5regular_">active_win</span>にそのウィンドウの<span class="thesansmonocd_w5regular_">Window</span>オブジェクトを格納すれば、<span class="thesansmonocd_w5regular_">pyautogui.click(active_win.left</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">10, active_win.top</span> <span class="thesansmonocd_w5regular_">+</span> <span class="thesansmonocd_w5regular_">20</span>でも同じです。この方法であれば、ボタンを見つけるのに遅くて不安定な<span class="thesansmonocd_w5regular_">locateOnScreen()</span>関数に頼らずにすみます。</p>
 </section>
 <section type="division" aria-labelledby="sec17">
-<h4 class="h1" id="calibre_link-2106"><span id="calibre_link-609"></span><span class="sans_futura_std_heavy_oblique_bi_">Finding Windows with Other Functions</span></h4>
-<p class="tni">While <span class="thesansmonocd_w5regular_">getActiveWindow()</span> is useful for obtaining the window that is active at the time of the function call, you’ll need to use some other function to obtain <span class="thesansmonocd_w5regular_">Window</span> objects for the other windows on the screen. The following three functions return a list of <span class="thesansmonocd_w5regular_">Window</span> objects. If they’re unable to find any windows, they return an empty list:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.getAllWindows()</span> Returns a list of <span class="thesansmonocd_w5regular_">Window</span> objects for every visible window on the screen</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.getWindowsAt(x, y)</span> Returns a list of <span class="thesansmonocd_w5regular_">Window</span> objects for every visible window that includes the point (<i class="calibre5">x</i>, <i class="calibre5">y</i>)</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.getWindowsWithTitle</span><span class="sans_thesansmonocd_w5regular_italic_">(title)</span> Returns a list of <span class="thesansmonocd_w5regular_">Window</span> objects for every visible window that includes the string <span class="sans_thesansmonocd_w5regular_italic_">title</span> in its title bar</p>
-<p class="tx">PyAutoGUI also has a <span class="thesansmonocd_w5regular_">pyautogui.getAllTitles()</span> function, which returns a list of strings of every visible window.</p>
+<h4 class="h1" id="calibre_link-2106"><span id="calibre_link-609"></span><span class="sans_futura_std_heavy_oblique_bi_">他の関数でウィンドウを見つける</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">getActiveWindow()</span>でその関数を呼び出した時点でのアクティブウィンドウを取得できますが、画面上の別のウィンドウの<span class="thesansmonocd_w5regular_">Window</span>オブジェクトを取得する必要がある場合もあるでしょう。以下の3つの関数は<span class="thesansmonocd_w5regular_">Window</span>オブジェクトのリストを返します。ウィンドウを見つけられなければ空のリストを返します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.getAllWindows()</span> 画面上で見えるすべてのウィンドウの<span class="thesansmonocd_w5regular_">Window</span>オブジェクトのリストを返します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.getWindowsAt(x, y)</span> 点(<i class="calibre5">x</i>, <i class="calibre5">y</i>)を含むすべての見えるウィンドウの<span class="thesansmonocd_w5regular_">Window</span>オブジェクトのリストを返します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.getWindowsWithTitle</span><span class="sans_thesansmonocd_w5regular_italic_">(title)</span> タイトルバーに文字列<span class="sans_thesansmonocd_w5regular_italic_">title</span>を含む、すべての見えるウィンドウの<span class="thesansmonocd_w5regular_">Window</span>オブジェクトのリストを返します。</p>
+<p class="tx">PyAutoGUIには<span class="thesansmonocd_w5regular_">pyautogui.getAllTitles()</span>という関数もあり、すべての見えるウィンドウのタイトル文字列を返します。</p>
 </section>
 <section type="division" aria-labelledby="sec18">
-<h4 class="h1" id="calibre_link-2107"><span id="calibre_link-610"></span><span class="sans_futura_std_heavy_oblique_bi_">Manipulating Windows</span></h4>
-<p class="tni">Windows attributes can do more than just tell you the size and position of the window. You can also set their values in order to resize or move the window. For example, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2107"><span id="calibre_link-610"></span><span class="sans_futura_std_heavy_oblique_bi_">ウィンドウの操作</span></h4>
+<p class="tni">ウィンドウ属性はサイズや位置などの情報を教えてくれるだけではありません。値を設定してウィンドウをリサイズしたり移動したりできます。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">active_win = pyautogui.getActiveWindow()</b>
-<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">active_win.width</b>  # Gets the current width of the window
+<span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">active_win.width</b>  # ウィンドウの幅を取得
 1669
-<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">active_win.topleft</b>  # Gets the current position of the window
+<span class="codeannotated_codeannotation" aria-label="annotation2">❷</span> &gt;&gt;&gt; <b class="calibre10">active_win.topleft</b>  # ウィンドウの位置を取得
 Point(x=174, y=153)
-<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">active_win.width = 1000</b>  # Resizes the width
-<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> &gt;&gt;&gt; <b class="calibre10">active_win.topleft = (800, 400)</b>  # Moves the window
+<span class="codeannotated_codeannotation" aria-label="annotation3">❸</span> &gt;&gt;&gt; <b class="calibre10">active_win.width = 1000</b>  # ウィンドウのりサイズ
+<span class="codeannotated_codeannotation" aria-label="annotation4">❹</span> &gt;&gt;&gt; <b class="calibre10">active_win.topleft = (800, 400)</b>  # ウィンドウの移動
 </code></pre>
-<p class="tx">First, we use the <span class="thesansmonocd_w5regular_">Window</span> object’s attributes to find out information about the window’s size <span class="codeannotation" aria-label="annotation1">❶</span> and position <span class="codeannotation" aria-label="annotation2">❷</span>. After calling these functions in the <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1201" aria-label="554"></span>Mu Editor, the window should become narrower <span class="codeannotation" aria-label="annotation3">❸</span> and move <span class="codeannotation" aria-label="annotation4">❹</span>, as in Figure 23-5.</p>
+<p class="tx">まず、<span class="thesansmonocd_w5regular_">Window</span>オブジェクトの属性からそのウィンドウのサイズ(<span class="codeannotation" aria-label="annotation1">❶</span>)と位置(<span class="codeannotation" aria-label="annotation2">❷</span>)の情報を取得します。Muエディタでこれらを実行してアクティブウィンドウであるMuエディタのウィンドウについてサイトと位置の情報を取得してから、図23-5のようにこのウィンドウの幅を狭めて(<span class="codeannotation" aria-label="annotation3">❸</span>)移動(<span class="codeannotation" aria-label="annotation4">❹</span>)させます。</p>
 <figure class="img"><img class="img1" id="calibre_link-836" src="images/000083.jpg" alt="Two screenshots of the Windows desktop with the Mu editor open. In the second, the Mu editor is smaller an in a lower position." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 23-5: The Mu Editor window before (top) and after (bottom) using the</span> <span class="sans_thesansmonocd_w5regular_italic_">Window</span> <span class="sans_futura_std_book_oblique_i_">object attributes to resize and move it</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 23-5：</span><span class="sans_thesansmonocd_w5regular_italic_">Window</span><span class="sans_futura_std_book_oblique_i_">オブジェクトの属性でMuエディタのリサイズと移動の操作前（上側）と操作後（下側）</span></p></figcaption>
 </figure>
-<p class="tx">You can also find out and change the window’s minimized, maximized, and activated states. Try entering the following into the interactive shell:</p>
+<p class="tx">ウィンドウの最小化、最大化、アクティブ状態の取得や変更もできます。対話型シェルで次のように入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
 &gt;&gt;&gt; <b class="calibre10">active_win = pyautogui.getActiveWindow()</b>
-&gt;&gt;&gt; <b class="calibre10">active_win.isMaximized</b>  # Returns True if the window is maximized
+&gt;&gt;&gt; <b class="calibre10">active_win.isMaximized</b>  # ウィンドウが最大化されていればTrueが返される
 False
-&gt;&gt;&gt; <b class="calibre10">active_win.isMinimized</b>  # Returns True if the window is minimized
+&gt;&gt;&gt; <b class="calibre10">active_win.isMinimized</b>  # ウィンドウが最小化されていればTrueが返される
 False
-<span role="doc-pagebreak" type="pagebreak" id="calibre_link-881" aria-label="555"></span>&gt;&gt;&gt; <b class="calibre10">active_win.isActive</b>  # Returns True if the window is the active window
+<span role="doc-pagebreak" type="pagebreak" id="calibre_link-881" aria-label="555"></span>&gt;&gt;&gt; <b class="calibre10">active_win.isActive</b>  # ウィンドウがアクティブであればTrueが返される
 True
-&gt;&gt;&gt; <b class="calibre10">active_win.maximize()</b>  # Maximizes the window
+&gt;&gt;&gt; <b class="calibre10">active_win.maximize()</b>  # ウィンドウの最大化
 &gt;&gt;&gt; <b class="calibre10">active_win.isMaximized</b>
 True
-&gt;&gt;&gt; <b class="calibre10">active_win.restore()</b>  # Undoes a minimize/maximize action
-&gt;&gt;&gt; <b class="calibre10">active_win.minimize()</b>  # Minimizes the window
+&gt;&gt;&gt; <b class="calibre10">active_win.restore()</b>  # 最大化／最小化を元に戻す
+&gt;&gt;&gt; <b class="calibre10">active_win.minimize()</b>  # ウィンドウの最小化
 &gt;&gt;&gt; <b class="calibre10">import time</b>
-&gt;&gt;&gt; # Waits 5 seconds while you activate a different window:
+&gt;&gt;&gt; # 5秒停止してその間に別のウィンドウをアクティブにする
 &gt;&gt;&gt; <b class="calibre10">time.sleep(5); active_win.activate()</b>
-&gt;&gt;&gt; <b class="calibre10">active_win.close()</b>  # This will close the window you're typing in.
+&gt;&gt;&gt; <b class="calibre10">active_win.close()</b>  # アクティブにしたウィンドウを閉じる
 </code></pre>
-<p class="tx">The <span class="thesansmonocd_w5regular_">isMaximized</span>, <span class="thesansmonocd_w5regular_">isMinimized</span>, and <span class="thesansmonocd_w5regular_">isActive</span> attributes contain Boolean values that indicate whether the window is currently in that state. The <span class="thesansmonocd_w5regular_">maximize()</span>, <span class="thesansmonocd_w5regular_">minimize()</span>, <span class="thesansmonocd_w5regular_">activate()</span>, and <span class="thesansmonocd_w5regular_">restore()</span> methods change the window’s state. After you maximize or minimize the window with <span class="thesansmonocd_w5regular_">maximize()</span> or <span class="thesansmonocd_w5regular_">minimize()</span>, the <span class="thesansmonocd_w5regular_">restore()</span> method will restore the window to its former size and position.</p>
-<p class="tx">The <span class="thesansmonocd_w5regular_">close()</span> method will close a window. Be careful with this method, as it may bypass any message dialogs asking you to save your work before quitting the application.</p>
-<p class="tx">See the PyAutoGUI documentation for complete details on its window-controlling features.</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">isMaximized</span>、<span class="thesansmonocd_w5regular_">isMinimized</span>、<span class="thesansmonocd_w5regular_">isActive</span>属性にはそのウィンドウが現在最大化されているか、最小化されているか、アクティブであるかを示すブール値が入っています。<span class="thesansmonocd_w5regular_">maximize()</span>、<span class="thesansmonocd_w5regular_">minimize()</span>、<span class="thesansmonocd_w5regular_">activate()</span>、<span class="thesansmonocd_w5regular_">restore()</span>メソッドはウィンドウの状態を変更します。<span class="thesansmonocd_w5regular_">maximize()</span>や<span class="thesansmonocd_w5regular_">minimize()</span>でウィンドウを最大化・最小化した後で<span class="thesansmonocd_w5regular_">restore()</span>メソッドを呼び出すとそのウィンドウを元のサイズと位置に戻します。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">close()</span>メソッドはウィンドウを閉じます。このメソッドでは「本当に終了しますか？」のようなメッセージダイアログを表示せずにアプリケーションを終了してしまうので注意して使ってください。</p>
+<p class="tx">ウィンドウ機能の詳細についてはPyAutoGUIのドキュメントをご参照ください。</p>
 <aside class="box" aria-label="box-19">
-<p class="bt" id="calibre_link-2108"><span class="sans_futura_std_bold_b_">CAPTCHAS AND COMPUTER ETHICS</span></p>
-<p class="btni"><span class="sans_futura_std_book_oblique_i_">Completely Automated Public Turing test to tell Computers and Humans Apart</span><span class="sans_futura_std_book_">, or</span> <span class="sans_futura_std_book_oblique_i_">captchas</span><span class="sans_futura_std_book_">, are those small tests that ask you to type the letters in a distorted picture or click photos of fire hydrants. These tests are easy, if annoying, for humans to pass but nearly impossible for software to solve. After reading this chapter, you can see how easy it is to write a script that could, say, sign up for billions of free email accounts or flood users with harassing messages. Captchas mitigate this by requiring a step that only a human can pass.</span></p>
-<p class="boxb-last"><span class="sans_futura_std_book_">Not all websites implement captchas, however, and these sites can be vulnerable to abuse by unethical programmers. Learning to code is a powerful and exciting skill, and you may be tempted to misuse this power for personal gain or even just to show off. But just as an unlocked door isn’t justification for trespass, the responsibility for your programs falls upon you, the programmer. There is nothing clever about circumventing systems to cause harm, invade privacy, or gain unfair advantage. I hope that my efforts in writing this book enable you to become your most productive self, rather than a mercenary one.</span></p>
+<p class="bt" id="calibre_link-2108"><span class="sans_futura_std_bold_b_">CAPTCHAとコンピュータ倫理</span></p>
+<p class="btni"><span class="sans_futura_std_book_oblique_i_">CAPTCHA（Completely Automated Public Turing test to tell Computers and Humans Apart）</span><span class="sans_futura_std_book_">とは、歪んだ画像の文字を入力したり消火栓の写真をクリックしたりする、ちょっとしたテストのことです。人間にとっては面倒ではあっても簡単なテストですが、ソフトウェアにとっては解くのが不可能なくらい難しいテストです。本章を読めば、例えば何億もの無料のメールアカウントを作成したり大量のメッセージを送信したりするスクリプトを書くのが簡単だとおわかりでしょう。CAPTCHAは人間だけが通過できるテストを課すことでこうしたことを防止します。</span></p>
+<p class="boxb-last"><span class="sans_futura_std_book_">しかし、すべてのウェブサイトがCAPTCHAを備えているわけではなく、そのようなサイトは非倫理的なプログラマによる悪用に対して脆弱です。コードの学習は強力で刺激的なスキルであり、私益や見せびらかしのためにこの力を悪用する誘惑に駆られるかもしれません。しかし、玄関が施錠されていないからといって侵入が許されるわけではないのと同様に、プログラムをどのように利用するかはプログラマの責任です。システムを出し抜いて損害を与えたりプライバシーを侵害したり不公正な利益を得たりすることは全く賢いことではありません。私が本書を執筆したのは、みなさんに生産的になってもらうためであり、卑しい目的に使ってもらうためではありません。</span></p>
 </aside>
 </section>
 </section>
 <section type="division" aria-labelledby="sec19">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1272" aria-label="556"></span>
-<h3 class="h" id="calibre_link-2109"><span id="calibre_link-611"></span><span class="sans_futura_std_bold_b_">Controlling the Keyboard</span></h3>
-<p class="tni">PyAutoGUI also has functions for sending virtual key presses to your computer, which enables you to fill out forms or enter text into applications.</p>
+<h3 class="h" id="calibre_link-2109"><span id="calibre_link-611"></span><span class="sans_futura_std_bold_b_">キーボードの制御</span></h3>
+<p class="tni">PyAutoGUIにはバーチャルなキーボード入力の機能もあります。この機能を使えばフォームの入力やテキストの打ち込みができます。</p>
 <section type="division" aria-labelledby="sec20">
-<h4 class="h1" id="calibre_link-2110"><span id="calibre_link-612"></span><span class="sans_futura_std_heavy_oblique_bi_">Sending Key Press Strings</span></h4>
-<p class="tni">The <span class="thesansmonocd_w5regular_">pyautogui.write()</span> function sends virtual key presses to the computer. What these key presses do depends on what window is active and what text field has focus. You may want to first send a mouse click to the text field you want in order to ensure that it has focus.</p>
-<p class="tx">As a simple example, let’s use Python to automatically type the words <i class="calibre5">Hello, world!</i> into a file editor window. First, open a new file editor window and position it in the upper-left corner of your screen so that PyAutoGUI will click in the right place to bring it into focus. Next, enter the following into the interactive shell:</p>
+<h4 class="h1" id="calibre_link-2110"><span id="calibre_link-612"></span><span class="sans_futura_std_heavy_oblique_bi_">文字列の入力</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">pyautogui.write()</span>関数でキーボードから文字列を入力できます。入力がどうなるかは、どのウィンドウがアクティブになっていてどのテキストフィールドがフォーカスされているかによって変わります。入力を始める前に目的のテキストフィールドをマウスでクリックしてフォーカスしなければならない場合があります。</p>
+<p class="tx">簡単な例として、テキストエディタウィンドウにPythonで自動的に<i class="calibre5">Hello, world!</i>と入力してみましょう。まず新しいテキストエディタウィンドウを開き、PyAutoGUIで正しくクリックしてフォーカスできるように画面の左上のほうに移動させてください。次に対話型シェルで以下の内容を実行します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.click(100, 200); pyautogui.write('Hello, world!')</b></code></pre>
-<p class="tx">Notice how placing two commands on the same line, separated by a semicolon, keeps the interactive shell from prompting you for input between running the two instructions. This prevents you from accidentally bringing a new window into focus between the <span class="thesansmonocd_w5regular_">click()</span> and <span class="thesansmonocd_w5regular_">write()</span> calls, which would mess up the example.</p>
-<p class="tx">Python will first send a virtual mouse click to the coordinates (100, 200), which should click the file editor window and put it in focus. The <span class="thesansmonocd_w5regular_">write()</span> call will send the text <i class="calibre5">Hello, world!</i> to the window, making it look like Figure 23-6. You now have code that can type for you!</p>
+<p class="tx">セミコロンで区切って2つのコマンドを1行に書いていることに注意してください。こうすれば対話型シェルでコマンドを1つずつ入力せずに一気に実行できます。コマンドを1つずつ入力すると<span class="thesansmonocd_w5regular_">click()</span>と<span class="thesansmonocd_w5regular_">write()</span>の間に対話型シェルをフォーカスしてしまい、うまく動作しません。</p>
+<p class="tx">このPythonスクリプトは、(100, 200)の座標をマウスでクリックし、テキストエディタウィンドウをフォーカスします。<span class="thesansmonocd_w5regular_">write()</span>を呼び出して<i class="calibre5">Hello, world!</i>というテキストをそのウィンドウに送ります。図23-6のようになるはずです。コードから自動的に入力できました。</p>
 <figure class="img"><img class="img1" id="calibre_link-837" src="images/000084.jpg" alt="A screenshot of the Windows desktop with the Mu editor and Notepad open." />
-<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">Figure 23-6: Using PyAutoGUI to click the file editor window and enter</span> <span class="sans_futura_std_book_">Hello, world!</span> <span class="sans_futura_std_book_oblique_i_">into it</span></p></figcaption>
+<figcaption><p class="cap"><span class="sans_futura_std_book_oblique_i_">図 23-6：PyAutoGUIを使ってテキストエディタをクリックして</span><span class="sans_futura_std_book_">Hello, world!</span><span class="sans_futura_std_book_oblique_i_">を入力した状態</span></p></figcaption>
 </figure>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1213" aria-label="557"></span>By default, the <span class="thesansmonocd_w5regular_">write()</span> function will enter the full string instantly. However, you can pass an optional second argument to add a short pause between each character. This second argument is an integer or float value of the number of seconds to pause. For example, <span class="thesansmonocd_w5regular_">pyautogui.write('Hello, world!', 0.25)</span> will wait a quarter-second after typing <i class="calibre5">H</i>, another quarter-second after <i class="calibre5">e</i>, and so on. This gradual typewriter effect may be useful for slower applications that can’t process keystrokes fast enough to keep up with PyAutoGUI.</p>
-<p class="tx">For characters such as <i class="calibre5">A</i> or <i class="calibre5">!</i>, PyAutoGUI will automatically simulate holding down the <small class="calibre4">SHIFT</small> key as well.</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1213" aria-label="557"></span><span class="thesansmonocd_w5regular_">write()</span>関数はデフォルトで文字列全体を一瞬で入力します。オプションの第二引数で1文字入力するたびに停止する秒数を指定できます。この第二引数は停止する秒数を表す浮動小数点数値です。例えば、<span class="thesansmonocd_w5regular_">pyautogui.write('Hello, world!', 0.25)</span>では、<i class="calibre5">H</i>を入力してから0.25秒停止し、<i class="calibre5">e</i>を入力してから0.25秒停止し…と続きます。このように段階的に入力すれば、PyAutoGUIのデフォルトでの一瞬の入力についていけない遅いアプリケーションに対応できます。</p>
+<p class="tx">PyAutoGUIは自動的に<small class="calibre4">SHIFT</small>キーを押して<i class="calibre5">A</i>や<i class="calibre5">!</i>のような文字を入力します。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
-<h4 class="h1" id="calibre_link-2111"><span id="calibre_link-613"></span><span class="sans_futura_std_heavy_oblique_bi_">Specifying Key Names</span></h4>
-<p class="tni">Not all keys are easy to represent with single text characters. For example, how do you represent <small class="calibre4">SHIFT</small> or the left arrow key as a single character? In PyAutoGUI, these keyboard keys are represented by short string values instead: <span class="thesansmonocd_w5regular_">'esc'</span> for the <small class="calibre4">ESC</small> key or <span class="thesansmonocd_w5regular_">'enter'</span> for the <small class="calibre4">ENTER</small> key.</p>
-<p class="tx">Instead of a single string argument, a list of these keyboard key strings can be passed to <span class="thesansmonocd_w5regular_">write()</span>. For example, the following call presses the A key, then the B key, then the left arrow key twice (moving the cursor in front of the “a”), and finally the X and Y keys:</p>
+<h4 class="h1" id="calibre_link-2111"><span id="calibre_link-613"></span><span class="sans_futura_std_heavy_oblique_bi_">キーの名前の指定</span></h4>
+<p class="tni">すべてのキーが一文字で表せるわけではありません。例えば、<small class="calibre4">SHIFT</small>や左矢印キーを一文字で表すことはできません。PyAutoGUIではこうしたキーを短い文字列で表します。<span class="thesansmonocd_w5regular_">'esc'</span>で<small class="calibre4">ESC</small>キーを、<span class="thesansmonocd_w5regular_">'enter'</span>で<small class="calibre4">ENTER</small>キーを表すといった具合です。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">write()</span>には一つの文字列引数を渡すのではなく、キーボードのキーのリストを渡すこともできます。例えば、以下のように呼び出すと、Aキーを入力し、次にBキーを入力し、次に左矢印キーを2回入力し（カーソルをaの前に移動し）、最後にXとYのキーを入力します。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.write(['a', 'b', 'left', 'left', 'X', 'Y'])</b></code></pre>
-<p class="tx">Because pressing the left arrow key moves the keyboard cursor, this will output <i class="calibre5">XYab</i>. Table 23-1 lists the PyAutoGUI keyboard key strings that you can pass to <span class="thesansmonocd_w5regular_">write()</span> to simulate pressing any combination of keys.</p>
-<p class="tx">You can also examine the <span class="thesansmonocd_w5regular_">pyautogui.KEYBOARD_KEYS</span> list to see all possible keyboard key strings that PyAutoGUI will accept. The <span class="thesansmonocd_w5regular_">'shift'</span> string refers to the left <small class="calibre4">SHIFT</small> key and is equivalent to <span class="thesansmonocd_w5regular_">'shiftleft'</span>. The same applies for <span class="thesansmonocd_w5regular_">'ctrl'</span>, <span class="thesansmonocd_w5regular_">'alt'</span>, and <span class="thesansmonocd_w5regular_">'win'</span> strings; they all refer to the left-side key.</p>
+<p class="tx">左矢印キーを押すとカーソルが左に移動しますから、これは<i class="calibre5">XYab</i>という結果になります。PyAutoGUIで<span class="thesansmonocd_w5regular_">write()</span>に渡してキー入力をできる文字列を表23-1に一覧で示します。</p>
+<p class="tx">PyAutoGUIで利用できるキーを表す文字列のリストを<span class="thesansmonocd_w5regular_">pyautogui.KEYBOARD_KEYS</span>で調べることもできます。<span class="thesansmonocd_w5regular_">'shift'</span>という文字列は<small class="calibre4">SHIFT</small>キーを表しますから、<span class="thesansmonocd_w5regular_">'shiftleft'</span>と同じです。同様に、<span class="thesansmonocd_w5regular_">'ctrl'</span>、<span class="thesansmonocd_w5regular_">'alt'</span>、<span class="thesansmonocd_w5regular_">'win'</span>の文字列はすべて左側のキーを表します。</p>
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1214" aria-label="558"></span>
 <table class="basic-table">
-<caption class="calibre12"><p class="tt" id="calibre_link-838"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">Table 23-1:</span></span> <span class="sans_futura_std_book_">String Values for Keyboard Keys</span></p></caption>
+<caption class="calibre12"><p class="tt" id="calibre_link-838"><span class="sans_futura_std_bold_b_"><span class="sans_futura_std_bold_b_">表 23-1：</span></span> <span class="sans_futura_std_book_">キーを表す文字列</span></p></caption>
 
 <thead class="calibre13">
 <tr class="calibre14">
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Keyboard key string</span></p></th>
-<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">Meaning</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">文字列</span></p></th>
+<th class="tch" scope="col"><p class="tch1"><span class="sans_futura_std_bold_b_">意味</span></p></th>
 </tr>
 </thead>
 <tbody class="calibre15">
 <tr class="calibre16">
-<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">'a'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'b'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'c'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'A'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'B'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'C'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'1'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'2'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'3'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'!'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'@'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'#'</span><span class="sans_futura_std_book_">, and so on</span></p></td>
-<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">The keys for single characters</span></p></td>
+<td class="tbf"><p class="tch1"><span class="thesansmonocd_w5regular_">'a'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'b'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'c'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'A'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'B'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'C'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'1'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'2'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'3'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'!'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'@'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'#'</span><span class="sans_futura_std_book_">など</span></p></td>
+<td class="tbf"><p class="tch1"><span class="sans_futura_std_book_">その文字や記号</span></p></td>
 </tr>
 <tr class="calibre14">
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'enter'</span> <span class="sans_futura_std_book_">(or</span> <span class="thesansmonocd_w5regular_">'return'</span> <span class="sans_futura_std_book_">or</span> <span class="thesansmonocd_w5regular_">'\n'</span><span class="sans_futura_std_book_">)</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">ENTER</span> <span class="sans_futura_std_book_">key</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'enter'</span> <span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'return'</span> <span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'\n'</span><span class="sans_futura_std_book_"></span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span> <span class="sans_futura_std_book_sc_">ENTER</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'esc'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">ESC</span> <span class="sans_futura_std_book_">key</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">ESC</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'shiftleft'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'shiftright'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The left and right</span> <span class="sans_futura_std_book_sc_">SHIFT</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">左右の</span><span class="sans_futura_std_book_sc_">SHIFT</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'altleft'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'altright'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The left and right</span> <span class="sans_futura_std_book_sc_">ALT</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">左右の</span><span class="sans_futura_std_book_sc_">ALT</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'ctrlleft'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'ctrlright'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The left and right</span> <span class="sans_futura_std_book_sc_">CTRL</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">左右の</span> <span class="sans_futura_std_book_sc_">CTRL</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'tab'</span> <span class="sans_futura_std_book_">(or</span> <span class="thesansmonocd_w5regular_">'\t'</span><span class="sans_futura_std_book_">)</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">TAB</span> <span class="sans_futura_std_book_">key</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'tab'</span> <span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'\t'</span><span class="sans_futura_std_book_"></span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">TAB</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'backspace'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'delete'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">BACKSPACE</span> <span class="sans_futura_std_book_">and</span> <span class="sans_futura_std_book_sc_">DELETE</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">BACKSPACE</span><span class="sans_futura_std_book_">キーと</span><span class="sans_futura_std_book_sc_">DELETE</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'pageup'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'pagedown'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">PAGE UP</span> <span class="sans_futura_std_book_">and</span> <span class="sans_futura_std_book_sc_">PAGE DOWN</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span> <span class="sans_futura_std_book_sc_">PAGE UP</span><span class="sans_futura_std_book_">キーと</span><span class="sans_futura_std_book_sc_">PAGE DOWN</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'home'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'end'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">HOME</span> <span class="sans_futura_std_book_">and</span> <span class="sans_futura_std_book_sc_">END</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">HOME</span><span class="sans_futura_std_book_">キーと</span><span class="sans_futura_std_book_sc_">END</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'up'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'down'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'left'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'right'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The up, down, left, and right arrow keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">上下左右の矢印キー</span></p></td>
 </tr>
 <tr class="calibre14">
-<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'f1'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'f2'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'f3'</span><span class="sans_futura_std_book_">, and so on</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The F1 to F12 keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'f1'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'f2'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'f3'</span><span class="sans_futura_std_book_">など</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">F1〜F12キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'volumemute'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'volumedown'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'volumeup'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The mute, volume down, and volume up keys (some keyboards do not have these keys, but your operating system will still be able to understand these simulated key presses)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">ミュート、音量ダウン、音量アップのキー（キーボードによってはこれらのキーが存在しない場合がありますが、OSはこれらの擬似的なキー入力を認識します）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'pause'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">PAUSE</span> <span class="sans_futura_std_book_">key</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">PAUSE</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'capslock'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'numlock'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'scrolllock'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">CAPS LOCK</span><span class="sans_futura_std_book_">,</span> <span class="sans_futura_std_book_sc_">NUM LOCK</span><span class="sans_futura_std_book_">, and</span> <span class="sans_futura_std_book_sc_">SCROLL LOCK</span> <span class="sans_futura_std_book_">keys</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span> <span class="sans_futura_std_book_sc_">CAPS LOCK</span><span class="sans_futura_std_book_">キー、</span><span class="sans_futura_std_book_sc_">NUM LOCK</span><span class="sans_futura_std_book_">キー、</span><span class="sans_futura_std_book_sc_">SCROLL LOCK</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'insert'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">INS</span> <span class="sans_futura_std_book_">or</span> <span class="sans_futura_std_book_sc_">INSERT</span> <span class="sans_futura_std_book_">key</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span> <span class="sans_futura_std_book_sc_">INS</span><span class="sans_futura_std_book_">キーまたは</span><span class="sans_futura_std_book_sc_">INSERT</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'printscreen'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">PRTSC</span> <span class="sans_futura_std_book_">or</span> <span class="sans_futura_std_book_sc_">PRINT SCREEN</span> <span class="sans_futura_std_book_">key</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">PRTSC</span><span class="sans_futura_std_book_">キーまたは</span><span class="sans_futura_std_book_sc_">PRINT SCREEN</span><span class="sans_futura_std_book_">キー</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'winleft'</span><span class="sans_futura_std_book_">,</span> <span class="thesansmonocd_w5regular_">'winright'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The left and right</span> <span class="sans_futura_std_book_sc_">WIN</span> <span class="sans_futura_std_book_">keys (on Windows)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">左右の</span><span class="sans_futura_std_book_sc_">WIN</span><span class="sans_futura_std_book_">キー（Windows）</span></p></td>
 </tr>
 <tr class="calibre16">
 <td class="tb"><p class="tch1"><span class="thesansmonocd_w5regular_">'command'</span></p></td>
-<td class="tb"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">COMMAND</span> <span class="sans_futura_std_book_">(</span><span class="listbullet_menuarrow"></span><span class="sans_futura_std_book_">) key (on macOS)</span></p></td>
+<td class="tb"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">COMMAND</span><span class="sans_futura_std_book_">（</span><span class="listbullet_menuarrow"></span><span class="sans_futura_std_book_">）キー（macOS）</span></p></td>
 </tr>
 <tr class="calibre14">
 <td class="tbl"><p class="tch1"><span class="thesansmonocd_w5regular_">'option'</span></p></td>
-<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_">The</span> <span class="sans_futura_std_book_sc_">OPTION</span> <span class="sans_futura_std_book_">key (on macOS)</span></p></td>
+<td class="tbl"><p class="tch1"><span class="sans_futura_std_book_"></span><span class="sans_futura_std_book_sc_">OPTION</span><span class="sans_futura_std_book_">キー（macOS）</span></p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section type="division" aria-labelledby="sec22">
-<h4 class="h1" id="calibre_link-2112"><span id="calibre_link-614"></span><span class="sans_futura_std_heavy_oblique_bi_">Pressing and Releasing the Keyboard</span></h4>
-<p class="tni">Much like the <span class="thesansmonocd_w5regular_">mouseDown()</span> and <span class="thesansmonocd_w5regular_">mouseUp()</span> functions, <span class="thesansmonocd_w5regular_">pyautogui.keyDown()</span> and <span class="thesansmonocd_w5regular_">pyautogui.keyUp()</span> will send virtual key presses and releases to the computer. They are passed a keyboard key string (see Table 23-1) for their argument. For convenience, PyAutoGUI provides the <span class="thesansmonocd_w5regular_">pyautogui.press()</span> function, which calls both of these functions to simulate a complete key press.</p>
-<p class="tx">Run the following code, which will type a dollar sign (<span class="thesansmonocd_w5regular_">$</span>) character (obtained by holding the <small class="calibre4">SHIFT</small> key and pressing 4):</p>
+<h4 class="h1" id="calibre_link-2112"><span id="calibre_link-614"></span><span class="sans_futura_std_heavy_oblique_bi_">キーを押して離す</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">mouseDown()</span>と<span class="thesansmonocd_w5regular_">mouseUp()</span>の関数と同じように、<span class="thesansmonocd_w5regular_">pyautogui.keyDown()</span>と<span class="thesansmonocd_w5regular_">pyautogui.keyUp()</span>の関数はキーを押して離します。これらの関数にはキーを表す文字列を引数で渡します（特殊なキーについては表23-1を参照してください）。PyAutoGUIにはこの2つの関数をセットで実行してキーを入力する便利な<span class="thesansmonocd_w5regular_">pyautogui.press()</span>関数があります。</p>
+<p class="tx">以下のコードを実行すると、ドル記号（<span class="thesansmonocd_w5regular_">$</span>）が入力されます（<small class="calibre4">SHIFT</small>キーを押した状態で4を入力します）。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">pyautogui.keyDown('shift'); pyautogui.press('4'); pyautogui.keyUp('shift')</b></code></pre>
-<p class="tx">This line holds down <small class="calibre4">SHIFT</small>, presses (and releases) 4, and then releases <small class="calibre4">SHIFT</small>. If you need to type a string into a text field, the <span class="thesansmonocd_w5regular_">write()</span> function is more suitable. But for applications that take single-key commands, the <span class="thesansmonocd_w5regular_">press()</span> function is the simpler approach.</p>
+<p class="tx"><small class="calibre4">SHIFT</small>,を押し、4を押して離し、<small class="calibre4">SHIFT</small>を離します。テキストフィールドに文字列を入力するなら<span class="thesansmonocd_w5regular_">write()</span>関数のほうが簡単です。しかしキー入力を受け付けるアプリケーションでは、<span class="thesansmonocd_w5regular_">press()</span>関数のほうが扱いやすいでしょう。</p>
 </section>
 <section type="division" aria-labelledby="sec23">
-<h4 class="h1" id="calibre_link-2113"><span id="calibre_link-615"></span><span class="sans_futura_std_heavy_oblique_bi_">Running Hotkey Combinations</span></h4>
-<p class="tni">A <i class="calibre5">hotkey</i> or <i class="calibre5">shortcut</i> is a combination of key presses to invoke some application function. The common hotkey for copying a selection is <small class="calibre4">CTRL</small>-C (on Windows and Linux) or <span class="listbullet_menuarrow"></span>-C (on macOS). The user presses and holds the <small class="calibre4">CTRL</small> key, then presses the C key, and then releases the C and <small class="calibre4">CTRL</small> keys. To do this with PyAutoGUI’s <span class="thesansmonocd_w5regular_">keyDown()</span> and <span class="thesansmonocd_w5regular_">keyUp()</span> functions, you would have to enter the following:</p>
+<h4 class="h1" id="calibre_link-2113"><span id="calibre_link-615"></span><span class="sans_futura_std_heavy_oblique_bi_">ホットキーの組み合わせ</span></h4>
+<p class="tni"><i class="calibre5">ホットキー</i>はアプリケーションで何らかの動作を呼び起こすキー入力の組み合わせで、<i class="calibre5">ショートカット</i>と呼ばれることもあります。選択した部分をコピーするのに、WindowsとLinuxでは<small class="calibre4">CTRL</small>-C、macOSでは<span class="listbullet_menuarrow"></span>-Cのホットキーがよく使われます。<small class="calibre4">CTRL</small>キーを押したままCキーを押し、Cキーを離して<small class="calibre4">CTRL</small>キーを離します。PyAutoGUIの<span class="thesansmonocd_w5regular_">keyDown()</span>と<span class="thesansmonocd_w5regular_">keyUp()</span>の関数でこれを行うなら、以下のように書きます。</p>
 <pre class="pre"><code class="calibre9"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1185" aria-label="559"></span>pyautogui.keyDown('ctrl')
 pyautogui.keyDown('c')
 pyautogui.keyUp('c')
 pyautogui.keyUp('ctrl')
 </code></pre>
-<p class="tx">This is rather complicated. Instead, use the <span class="thesansmonocd_w5regular_">pyautogui.hotkey()</span> function, which takes multiple keyboard key string arguments, presses them in order, and releases them in the reverse order. For the <small class="calibre4">CTRL</small>-C example, the code would simply be as follows:</p>
+<p class="tx">これは複雑なので、複数のキーを引数に取って順番に押して離してくれる<span class="thesansmonocd_w5regular_">pyautogui.hotkey()</span>関数を使うと便利です。以下のシンプルなコードで<small class="calibre4">CTRL</small>-Cを実行できます。</p>
 <pre class="pre"><code class="calibre9">pyautogui.hotkey('ctrl', 'c')</code></pre>
-<p class="tx">This function is especially useful for larger hotkey combinations. In Word, the <small class="calibre4">CTRL</small>-<small class="calibre4">ALT</small>-<small class="calibre4">SHIFT</small>-S hotkey combination displays the Style pane. Instead of making eight different function calls (four <span class="thesansmonocd_w5regular_">keyDown()</span> calls and four <span class="thesansmonocd_w5regular_">keyUp()</span> calls), you can just call <span class="thesansmonocd_w5regular_">hotkey('ctrl', 'alt', 'shift', 's')</span>.</p>
+<p class="tx">組み合わせるキーの数が多いホットキーではこの関数の便利さが際立ちます。Wordでは、<small class="calibre4">CTRL</small>-<small class="calibre4">ALT</small>-<small class="calibre4">SHIFT</small>-Sのホットキーの組み合わせでスタイル枠を表示します。8回関数を呼び出すのではなく（<span class="thesansmonocd_w5regular_">keyDown()</span>4回と<span class="thesansmonocd_w5regular_">keyUp()</span>4回）、<span class="thesansmonocd_w5regular_">hotkey('ctrl', 'alt', 'shift', 's')</span>を1回だけ呼び出せばすみます。</p>
 </section>
 </section>
 <section type="division" aria-labelledby="sec24">
-<h3 class="h" id="calibre_link-2114"><span id="calibre_link-616"></span><span class="sans_futura_std_bold_b_">Setting Up GUI Automation Scripts</span></h3>
-<p class="tni">GUI automation scripts are a great way to automate the boring stuff, but your scripts can also be finicky. If a window is in the wrong place on a desktop or some pop-up appears unexpectedly, your script could be clicking the wrong things on the screen. Here are some tips for setting up your GUI automation scripts:</p>
+<h3 class="h" id="calibre_link-2114"><span id="calibre_link-616"></span><span class="sans_futura_std_bold_b_">GUI自動化スクリプトの構築</span></h3>
+<p class="tni">GUI自動化スクリプトは退屈な作業を自動化する強力な方法ですが、細心の注意が要求されます。ウィンドウが違う場所にあったりポップアップが不意に表示されたりしたら、スクリプトが画面上の正しくない場所をクリックしてしまうかもしれません。GUI自動化スクリプトを構築する際のコツをお伝えします。</p>
 <ul class="ul">
-<li class="bl">Use the same screen resolution each time you run the script so that the position of windows doesn’t change.</li>
-<li class="bl">The application window that your script clicks should be maximized so that its buttons and menus are in the same place each time you run the script.</li>
-<li class="bl">Add generous pauses while waiting for content to load; you don’t want your script to begin clicking before the application is ready.</li>
-<li class="bl">Use <span class="thesansmonocd_w5regular_">locateOnScreen()</span> to find buttons and menus to click, rather than relying on coordinates. If your script can’t find the thing it needs to click, stop the program rather than letting it continue blindly clicking.</li>
-<li class="bl">Use <span class="thesansmonocd_w5regular_">getWindowsWithTitle()</span> to ensure that the application window you think your script is clicking exists, and use the <span class="thesansmonocd_w5regular_">activate()</span> method to put that window in the foreground.</li>
-<li class="bl">Use the <span class="thesansmonocd_w5regular_">logging</span> module from <span>Chapter 5</span> to keep a logfile of what your script has done. This way, if you have to stop your script halfway through a process, you can change it to pick up from where it left off.</li>
-<li class="bl">Add as many checks as you can to your script. Think about how it could fail if an unexpected pop-up window appears or if your computer loses its internet connection.</li>
-<li class="bl">You may want to supervise the script when it first begins to ensure that it’s working correctly.</li>
+<li class="bl">ウィンドウの位置が変わらないように同じ画面解像度でスクリプトを実行する</li>
+<li class="bl">ボタンやメニューが毎回同じ場所に来るようにスクリプトがクリックするウィンドウを最大化する</li>
+<li class="bl">アプリケーションがクリックできる状態になるようにコンテンツをロードする余裕をもって停止時間を設ける</li>
+<li class="bl">座標に頼るのではなくクリックするボタンやメニューを<span class="thesansmonocd_w5regular_">locateOnScreen()</span>で見つけ出すようにして、ボタンやメニューを見つけることができなければむやみにクリックするのではなくプログラムを中止する</li>
+<li class="bl">スクリプトがクリックするアプリケーションウィンドウが存在することを<span class="thesansmonocd_w5regular_">getWindowsWithTitle()</span>で確かめ、<span class="thesansmonocd_w5regular_">activate()</span>メソッドでそのウィンドウを前面に出す</li>
+<li class="bl">途中で中止しなければならない場合でも再開しやすいように、<span>第5章</span>で紹介した<span class="thesansmonocd_w5regular_">logging</span>モジュールを活用してスクリプトの実行内容を記録する</li>
+<li class="bl"> 不意にポップアップウィンドウが表示されたりインターネット接続が切断したりする場合など、可能な限りあらゆる状況を想定してチェックする</li>
+<li class="bl">スクリプトが正しく動作しているかを監督する</li>
 </ul>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1066" aria-label="560"></span>You might also want to put a pause at the start of your script so that the user can set up the window the script will click on. PyAutoGUI has a <span class="thesansmonocd_w5regular_">sleep()</span> function that acts identically to <span class="thesansmonocd_w5regular_">time.sleep()</span> (but frees you from having to add <span class="thesansmonocd_w5regular_">import time</span> to your scripts). There is also a <span class="thesansmonocd_w5regular_">countdown()</span> function that prints numbers counting down to give the user a visual indication that the script will continue soon. Enter the following into the interactive shell:</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1066" aria-label="560"></span>スクリプトがクリックするウィンドウを設定できるようにスクリプトの開始時に停止時間を設けるのもよいでしょう。PyAutoGUIには<span class="thesansmonocd_w5regular_">time.sleep()</span>と同じ動作をする<span class="thesansmonocd_w5regular_">sleep()</span>関数があります（スクリプトに<span class="thesansmonocd_w5regular_">import time</span>と書かなくても利用できます）。スクリプトがもうすぐ動き出すことを示すカウントダウンの数字を表示する<span class="thesansmonocd_w5regular_">countdown()</span>関数もあります。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import pyautogui</b>
-&gt;&gt;&gt; <b class="calibre10">pyautogui.sleep(3)</b>  # Pauses the program for 3 seconds
-&gt;&gt;&gt; <b class="calibre10">pyautogui.countdown(10)</b>  # Counts down over 10 seconds
+&gt;&gt;&gt; <b class="calibre10">pyautogui.sleep(3)</b>  # プログラムを3秒間停止させる
+&gt;&gt;&gt; <b class="calibre10">pyautogui.countdown(10)</b>  # 10秒カウントダウンする
 10 9 8 7 6 5 4 3 2 1
 &gt;&gt;&gt; <b class="calibre10">print('Starting in ', end=''); pyautogui.countdown(3)</b>
 Starting in 3 2 1
 </code></pre>
-<p class="tx">These tips can help make your GUI automation scripts easier to use and better able to recover from unforeseen circumstances.</p>
+<p class="tx">上に書いたコツを意識すれば、使いやすくて予期せぬ状況からうまく復帰できるGUI自動化スクリプトを書けるようになります。</p>
 <aside class="box" aria-label="box-20">
-<p class="bt" id="calibre_link-2115"><span class="sans_futura_std_bold_b_">A REVIEW OF THE PYAUTOGUI FUNCTIONS</span></p>
-<p class="btni"><span class="sans_futura_std_book_">Since this chapter covered many different functions, here is a quick summary to use as reference:</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">moveTo(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x</span><span class="sans_thesansmonocd_w7bold_b_">,</span> <span class="sans_thesansmonocd_w7bold_italic_bi_">y</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Moves the mouse cursor to the given x- and y-coordinates</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">move(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">xOffset, yOffset</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Moves the mouse cursor relative to its current position</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">dragTo(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Moves the mouse cursor while the left button is held down</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">drag(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">xOffset, yOffset</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Moves the mouse cursor relative to its current position while the left button is held down</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">click(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y, button</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates a click (left button by default)</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">rightClick()</span> <span class="sans_futura_std_book_">Simulates a right-button click</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">middleClick()</span> <span class="sans_futura_std_book_">Simulates a middle-button click</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">doubleClick()</span> <span class="sans_futura_std_book_">Simulates a double left-button click</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">mouseDown(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y, button</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates pressing the given button at the position</span> <span class="sans_thesansmonocd_w5regular_italic_">x</span><span class="sans_futura_std_book_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">y</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">mouseUp(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y, button</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates releasing the given button at the position</span> <span class="sans_thesansmonocd_w5regular_italic_">x</span><span class="sans_futura_std_book_">,</span> <span class="sans_thesansmonocd_w5regular_italic_">y</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">scroll(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">units</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates the scroll wheel; a positive argument scrolls up, and a negative argument scrolls down</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">write(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">message</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Types the characters in the given message string</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">write([</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key1, key2, key3</span><span class="sans_thesansmonocd_w7bold_b_">])</span> <span class="sans_futura_std_book_">Types the given keyboard key strings</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">press(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Presses the given keyboard key string</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">keyDown(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates pressing the given keyboard key</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">keyUp(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates releasing the given keyboard key</span></p>
-<p class="boxruninpara"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1047" aria-label="561"></span><span class="sans_thesansmonocd_w7bold_b_">hotkey(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key1, key2, key3</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">Simulates pressing the given keyboard key strings in order and then releasing them in reverse order</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">screenshot()</span> <span class="sans_futura_std_book_">Returns a screenshot as an</span> <span class="thesansmonocd_w5regular_">Image</span> <span class="sans_futura_std_book_">object (see Chapter 21 for information on</span> <span class="thesansmonocd_w5regular_">Image</span> <span class="sans_futura_std_book_">objects)</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">getActiveWindow(), getAllWindows(),</span> <span class="sans_thesansmonocd_w7bold_b_">getWindowsAt(), and</span> <span class="sans_thesansmonocd_w7bold_b_">getWindowsWithTitle()</span>  <span class="sans_futura_std_book_">Returns</span> <span class="thesansmonocd_w5regular_">Window</span> <span class="sans_futura_std_book_">objects that can resize and reposition application windows on the desktop</span></p>
-<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">getAllTitles()</span> <span class="sans_futura_std_book_">Returns a list of strings of the title bar text of every window on the desktop</span></p>
+<p class="bt" id="calibre_link-2115"><span class="sans_futura_std_bold_b_">PyAutoGUIの関数のおさらい</span></p>
+<p class="btni"><span class="sans_futura_std_book_">本章ではたくさんの関数を紹介したので、ここでおさらいしましょう。</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">moveTo(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x</span><span class="sans_thesansmonocd_w7bold_b_">,</span> <span class="sans_thesansmonocd_w7bold_italic_bi_">y</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">マウスカーソルを指定した座標に移動する</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">move(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">xOffset, yOffset</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">マウスカーソルを現在の位置を基準にして相対的に移動する</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">dragTo(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">左クリックボタンを押しながらマウスカーソルを指定した座標に移動する</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">drag(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">xOffset, yOffset</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">左クリックボタンを押しながらマウスカーソルを現在の位置を基準にして相対的に移動する</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">click(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y, button</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定した座標をクリックする（デフォルトでは左クリック）</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">rightClick()</span> <span class="sans_futura_std_book_">右クリックをする</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">middleClick()</span> <span class="sans_futura_std_book_">中クリックをする</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">doubleClick()</span> <span class="sans_futura_std_book_">ダブルクリックをする</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">mouseDown(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y, button</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定した座標でマウスのクリックボタンを押す</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">mouseUp(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">x, y, button</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定した座標でマウスのクリックボタンを離す</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">scroll(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">units</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">マウスホイールでスクロールする（正の数で上方向、負の数で下方向）</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">write(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">message</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定した文字列を入力する</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">write([</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key1, key2, key3</span><span class="sans_thesansmonocd_w7bold_b_">])</span> <span class="sans_futura_std_book_">指定したキーボードのキーを入力をする</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">press(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定したキーボードのキーを押して離す</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">keyDown(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定したキーボードのキーを押す</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">keyUp(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定したキーボードのキーを離す</span></p>
+<p class="boxruninpara"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1047" aria-label="561"></span><span class="sans_thesansmonocd_w7bold_b_">hotkey(</span><span class="sans_thesansmonocd_w7bold_italic_bi_">key1, key2, key3</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="sans_futura_std_book_">指定したキーボードのキーを順番に押して離す（ホットキー）</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">screenshot()</span> <span class="sans_futura_std_book_">スクリーンショットを</span><span class="thesansmonocd_w5regular_">Image</span><span class="sans_futura_std_book_">オブジェクトとして返す（</span><span class="thesansmonocd_w5regular_">Image</span><span class="sans_futura_std_book_">オブジェクトについては第21章を参照）</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">getActiveWindow(), getAllWindows(),</span> <span class="sans_thesansmonocd_w7bold_b_">getWindowsAt(), and</span> <span class="sans_thesansmonocd_w7bold_b_">getWindowsWithTitle()</span> <span class="sans_futura_std_book_">デスクトップ上のアプリケーションウィンドウをリサイズしたり移動したりできる</span><span class="thesansmonocd_w5regular_">Window</span><span class="sans_futura_std_book_">オブジェクトを返す</span></p>
+<p class="boxruninpara"><span class="sans_thesansmonocd_w7bold_b_">getAllTitles()</span> <span class="sans_futura_std_book_">デスクトップ上のウィンドウのタイトルバーに書かれているテキスト文字列のリストを返す</span></p>
 </aside>
 </section>
 <section type="division" aria-labelledby="sec25">
-<h3 class="h" id="calibre_link-2116"><span id="calibre_link-617"></span><span class="sans_futura_std_bold_b_">Displaying Message Boxes</span></h3>
-<p class="tni">The programs you’ve been writing so far all tend to use plaintext output (with the <span class="thesansmonocd_w5regular_">print()</span> function) and input (with the <span class="thesansmonocd_w5regular_">input()</span> function). However, PyAutoGUI programs will use your entire desktop as its playground. The text-based window that your program runs in, whether it’s Mu or a terminal window, will probably be lost as your PyAutoGUI program clicks and interacts with other windows. This can make getting input and output from the user difficult if the Mu or terminal window gets hidden under other windows.</p>
-<p class="tx">To solve this, PyAutoGUI includes the PyMsgBox module to create pop-up notifications to the user and receive input from them. There are four message box functions:</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.alert(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> Displays <span class="sans_thesansmonocd_w5regular_italic_">text</span> and has a single OK button</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.confirm(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> Displays <span class="sans_thesansmonocd_w5regular_italic_">text</span> and has OK and Cancel buttons, returning either <span class="thesansmonocd_w5regular_">'OK'</span> or <span class="thesansmonocd_w5regular_">'Cancel'</span> depending on the button clicked</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.prompt(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> Displays <span class="sans_thesansmonocd_w5regular_italic_">text</span> and has a text field for the user to type in, which it returns as a string</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.password(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> Is the same as <span class="thesansmonocd_w5regular_">prompt()</span>, but displays asterisks so that the user can enter sensitive information such as a password</p>
-<p class="tx">These functions are identical to the four covered in the <span>“Pop-Up Message Boxes with PyMsgBox” in Chapter 12</span>.</p>
+<h3 class="h" id="calibre_link-2116"><span id="calibre_link-617"></span><span class="sans_futura_std_bold_b_">メッセージボックスの表示</span></h3>
+<p class="tni">これまでに書いてきたプログラムでは入出力にプレーンテキストを使ってきました（<span class="thesansmonocd_w5regular_">print()</span>関数で出力、<span class="thesansmonocd_w5regular_">input()</span>関数で入力）。しかし、PyAutoGUIではデスクトップで使っているすべてのプログラムを対象とするので、プログラムを実行しているMuやターミナルなどテキストベースのウィンドウが背景に隠れてしまいます。そのため、Muやターミナルウィンドウを使用した入出力が難しくなります。</p>
+<p class="tx">この問題に対処するために、PyAutoGUIにはPyMsgBoxモジュールが備わっています。ポップアップ通知をしたり、入力を受け付けたりできます。メッセージボックス関数が4つあります。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.alert(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">) </span>OKボタンが1つある<span class="sans_thesansmonocd_w5regular_italic_">text</span>を表示します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.confirm(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> OKボタンとCancelボタンがある<span class="sans_thesansmonocd_w5regular_italic_">text</span>を表示します。押されたボタンに応じて<span class="thesansmonocd_w5regular_">'OK'</span>または<span class="thesansmonocd_w5regular_">'Cancel'</span>を返します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.prompt(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> テキストフィールドがある<span class="sans_thesansmonocd_w5regular_italic_">text</span>を表示します。入力された文字列を返します。</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">pyautogui.password(</span><span class="sans_thesansmonocd_w5regular_italic_">text</span><span class="sans_thesansmonocd_w7bold_b_">)</span> <span class="thesansmonocd_w5regular_">prompt()</span>と同じですが、パスワードなどの秘密の情報を入力できるようにアスタリスクが表示されます。</p>
+<p class="tx">これらの関数は<span>第12章の「PyMsgBoxによるポップアップメッセージボックス」</span>で紹介した4つの関数と同じです。</p>
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec26">
-<h3 class="h" id="calibre_link-2117"><span id="calibre_link-618"></span><span class="sans_futura_std_bold_b_">Summary</span></h3>
-<p class="tni">GUI automation with the PyAutoGUI package allows you to interact with applications on your computer by controlling the mouse and keyboard. While this approach is flexible enough to do anything that a human user can do, the downside is that these programs are fairly blind to what they are clicking or typing. When writing GUI automation programs, try to ensure <span role="doc-pagebreak" type="pagebreak" id="calibre_link-2118" aria-label="562"></span>that they will crash quickly if they’re given bad instructions. Crashing is annoying, but it’s much better than the program continuing in error.</p>
-<p class="tx">You can move the mouse cursor around the screen and simulate mouse clicks, keystrokes, and keyboard shortcuts with PyAutoGUI. The PyAutoGUI package can also check the colors on the screen, which can provide your GUI automation program with enough of an idea of the screen contents to know whether it has gotten off track. You can even give PyAutoGUI a screenshot and let it figure out the coordinates of the area you want to click.</p>
-<p class="tx">You can combine all of these PyAutoGUI features to automate any mindlessly repetitive task on your computer. In fact, it can be downright hypnotic to watch the mouse cursor move on its own and to see text appear on the screen automatically. Why not spend the time you saved by sitting back and watching your program do all your work for you? There’s a certain satisfaction that comes from seeing how your cleverness has saved you from the boring stuff.</p>
+<h3 class="h" id="calibre_link-2117"><span id="calibre_link-618"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
+<p class="tni">PyAutoGUIパッケージを利用してGUI自動化スクリプトを書くと、マウスとキーボードを制御してコンピュータ上で動かすアプリケーションを操作できます。これは人間がマウスとキーボードでできることなら何でもできるくらい柔軟な方法ですが、やみくもにクリックしたり入力したりしてしまうという欠点があります。GUI自動化プログラムを書く際には、うまくいかない場合になるべく早くクラッシュするようにしてください。クラッシュするのは嫌ですが、プログラムが誤って動き続けるよりよっぽどマシです。</p>
+<p class="tx">PyAutoGUIを使えば、マウスカーソルを画面の好きな場所に動かしてクリックできますし、文字を入力することもキーボードショートカットを実行することもできます。画面の色をチェックしてGUI自動化プログラムが予定通りに進んでいるかを確かめることもできます。スクリーンショットの撮影やクリックしたい座標の取得もできます。</p>
+<p class="tx">これらのPyAutoGUIの機能を組み合わせて、コンピュータで頭を使わずに行っている反復作業を自動化できます。画面の上でマウスカーソルがひとりでに動いて自動的にテキストが入力されるのを見るのはまったくもってうっとりするような光景です。プログラムが仕事をしてくれるのを座って見ていることができます。賢いプログラムを書いて退屈な作業から解放されたことを思うと、ある種の満足感を得られます。</p>
 </section>
 <section type="division" aria-labelledby="sec27">
-<h3 class="h" id="calibre_link-2119"><span id="calibre_link-619"></span><span class="sans_futura_std_bold_b_">Practice Questions</span></h3>
-<p class="listnumber">  1.  How can you trigger PyAutoGUI’s fail-safe to stop a program?</p>
-<p class="listnumber">  2.  What function returns the current screen resolution?</p>
-<p class="listnumber">  3.  What function returns the coordinates for the mouse cursor’s current position?</p>
-<p class="listnumber">  4.  What is the difference between <span class="thesansmonocd_w5regular_">pyautogui.moveTo()</span> and <span class="thesansmonocd_w5regular_">pyautogui.move()</span>?</p>
-<p class="listnumber">  5.  What functions can be used to drag the mouse?</p>
-<p class="listnumber">  6.  What function call will type out the characters of <span class="thesansmonocd_w5regular_">"Hello, world!"</span>?</p>
-<p class="listnumber">  7.  How can you do key presses for special keys, such as the keyboard’s left arrow key?</p>
-<p class="listnumber">  8.  How can you save the current contents of the screen to an image file named <i class="calibre5">screenshot.png</i>?</p>
-<p class="listnumber">  9.  What code would set a two-second pause after every PyAutoGUI function call?</p>
-<p class="listnumber">10.  If you want to automate clicks and keystrokes inside a web browser, should you use PyAutoGUI or Selenium?</p>
-<p class="listnumber">11.  What makes PyAutoGUI error prone?</p>
-<p class="listnumber">12.  How can you find the size of every window on the screen that includes the word <i class="calibre5">Notepad</i> in its title?</p>
-<p class="listnumber">13.  How can you make, say, the Firefox browser active and in front of every other window on the screen?</p>
+<h3 class="h" id="calibre_link-2119"><span id="calibre_link-619"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
+<p class="listnumber">  1. どうすればPyAutoGUIのフェイルセーフ機能を呼び出してプログラムを停止させられますか？</p>
+<p class="listnumber">  2. 現在の画面解像度を返す関数は何ですか？</p>
+<p class="listnumber">  3. マウスカーソルの現在位置の座標を返す関数は何ですか？</p>
+<p class="listnumber">  4. <span class="thesansmonocd_w5regular_">pyautogui.moveTo()</span>と<span class="thesansmonocd_w5regular_">pyautogui.move()</span>はどう違いますか？</p>
+<p class="listnumber">  5. マウスをドラッグさせるにはどの関数を使いますか？</p>
+<p class="listnumber">  6. <span class="thesansmonocd_w5regular_">"Hello, world!"</span>と文字を入力するにはどの関数を使いますか？</p>
+<p class="listnumber">  7. PyAutoGUIでキーボードの左矢印のような特殊なキーを押すにはどうしますか？</p>
+<p class="listnumber">  8. 現在の画面を<i class="calibre5">screenshot.png</i>という名前の画像ファイルに保存するにはどうしますか？</p>
+<p class="listnumber">  9. PyAutoGUIが関数を呼び出すたびに2秒停止させるにはどうしますか？</p>
+<p class="listnumber">10. ウェブブラウザ内でクリックとキー入力を自動化したいときには、PyAutoGUIとSeleniumのどちらを使ったほうがよいですか？</p>
+<p class="listnumber">11. PyAutoGUIではエラーが発生しやすいのはなぜですか？</p>
+<p class="listnumber">12. タイトルに<i class="calibre5">Notepad</i>を含むすべてのウィンドウのサイズを取得するにはどうしますか？</p>
+<p class="listnumber">13. Firefoxブラウザを画面上の他のウィンドウよりも前面に出してアクティブな状態にするにはどうしますか？</p>
 </section>
 <section type="division" aria-labelledby="sec28">
-<h3 class="h" id="calibre_link-2120"><span id="calibre_link-620"></span><span class="sans_futura_std_bold_b_">Practice Programs</span></h3>
-<p class="tni">For practice, write programs to do the following tasks.</p>
+<h3 class="h" id="calibre_link-2120"><span id="calibre_link-620"></span><span class="sans_futura_std_bold_b_">練習プログラム</span></h3>
+<p class="tni">以下の練習プログラムを書いてください。</p>
 <section type="division" aria-labelledby="sec29">
 <span role="doc-pagebreak" type="pagebreak" id="calibre_link-1228" aria-label="563"></span>
-<h4 class="h1" id="calibre_link-2121"><span id="calibre_link-621"></span><span class="sans_futura_std_heavy_oblique_bi_">Looking Busy</span></h4>
-<p class="tni">Many instant messaging programs determine whether you are idle, or away from your computer, by detecting a lack of mouse movement over some period of time—say, 10 minutes. Maybe you’re away from your computer but don’t want others to see your instant messenger status go into idle mode to give the impression that you’re slacking. Write a script to nudge your mouse cursor by one pixel to the left every 10 seconds, and then one pixel to the right 10 seconds after that. The nudge should be small and infrequent enough so that it won’t get in the way if you do happen to need to use your computer while the script is running.</p>
+<h4 class="h1" id="calibre_link-2121"><span id="calibre_link-621"></span><span class="sans_futura_std_heavy_oblique_bi_">忙しそうに見せる</span></h4>
+<p class="tni">多くのメッセンジャープログラムでは、一定期間マウスの動きがなければ離席中だと判断されるような仕組みが備わっています。コンピュータから離れても、離席中と表示されて怠けていると思われないようにしたいとします。10秒ごとにマウスカーソルを1ピクセル左右に動かすスクリプトを書いてください。これくらい小さい動きならスクリプトの実行中にコンピュータを操作する邪魔にならないでしょう。</p>
 </section>
 <section type="division" aria-labelledby="sec30">
-<h4 class="h1" id="calibre_link-2122"><span id="calibre_link-622"></span><span class="sans_futura_std_heavy_oblique_bi_">Reading Text Fields with the Clipboard</span></h4>
-<p class="tni">While you can send keystrokes to an application’s text fields with <span class="thesansmonocd_w5regular_">pyautogui.write()</span>, you can’t use PyAutoGUI alone to read the text already inside a text field. This is where the <span class="thesansmonocd_w5regular_">pyperclip</span> module can help. You can use PyAutoGUI to obtain the window for a text editor such as Mu or Notepad, bring it to the front of the screen by clicking it, click inside the text field, and then send the <small class="calibre4">CTRL</small>-A or <span class="listbullet_menuarrow"></span>-A hotkey to “select all” and <small class="calibre4">CTRL</small>-C or <span class="listbullet_menuarrow"></span>-C hotkey to “copy to clipboard.” Your Python script can then read the clipboard text by running <span class="thesansmonocd_w5regular_">import pyperclip</span> and <span class="thesansmonocd_w5regular_">pyperclip.paste()</span>.</p>
-<p class="tx">Write a program that follows this procedure for copying the text from a window’s text fields. Use <span class="thesansmonocd_w5regular_">pyautogui.getWindowsWithTitle('Notepad')</span> (or whichever text editor you choose) to obtain a <span class="thesansmonocd_w5regular_">Window</span> object. The <span class="thesansmonocd_w5regular_">top</span> and <span class="thesansmonocd_w5regular_">left</span> attributes of this <span class="thesansmonocd_w5regular_">Window</span> object can tell you where this window is, while the <span class="thesansmonocd_w5regular_">activate()</span> method will ensure that it is at the front of the screen. You can then click the main text field of the text editor by adding, say, <span class="thesansmonocd_w5regular_">100</span> or <span class="thesansmonocd_w5regular_">200</span> pixels to the <span class="thesansmonocd_w5regular_">top</span> and <span class="thesansmonocd_w5regular_">left</span> attribute values with <span class="thesansmonocd_w5regular_">pyautogui.click()</span> to put the keyboard focus there. Call <span class="thesansmonocd_w5regular_">pyautogui.hotkey('ctrl', 'a')</span> and <span class="thesansmonocd_w5regular_">pyautogui.hotkey('ctrl', 'c')</span> to select all the text and copy it to the clipboard. Finally, call <span class="thesansmonocd_w5regular_">pyperclip.paste()</span> to retrieve the text from the clipboard and paste it into your Python program. From there, you can use this string however you want, but just pass it to <span class="thesansmonocd_w5regular_">print()</span> for now.</p>
-<p class="tx">Note that the window functions of PyAutoGUI only work on Windows as of PyAutoGUI version 1.0.0, and not on macOS or Linux.</p>
+<h4 class="h1" id="calibre_link-2122"><span id="calibre_link-622"></span><span class="sans_futura_std_heavy_oblique_bi_">クリップボードを利用したテキストフィールドの読み取り</span></h4>
+<p class="tni"><span class="thesansmonocd_w5regular_">pyautogui.write()</span>でアプリケーションのテキストフィールドにキー入力をすることができますが、PyAutoGUI単体ではテキストフィールドにすでに入力されているテキストを読み取ることはできません。<span class="thesansmonocd_w5regular_">pyperclip</span>モジュールを利用して、すでに入力されているテキストフィールドを読み取ります。PyAutoGUIでMuやメモ帳などのテキストエディタのウィンドウをクリックして前面に出し、テキストフィールド内をクリックして、<small class="calibre4">CTRL</small>-Aまたは<span class="listbullet_menuarrow"></span>-Aのホットキーですべて選択して、<small class="calibre4">CTRL</small>-Cまたは<span class="listbullet_menuarrow"></span>-Cのホットキーでクリップボードにコピーします。こうすればPythonスクリプトで<span class="thesansmonocd_w5regular_">import pyperclip</span>と<span class="thesansmonocd_w5regular_">pyperclip.paste()</span>を実行することでクリップボードのテキストを読み取れます。</p>
+<p class="tx">この手順でウィンドウのテキストフィールドを読み取ってコピーするプログラムを書いてください。<span class="thesansmonocd_w5regular_">pyautogui.getWindowsWithTitle('Notepad')</span>で<span class="thesansmonocd_w5regular_">Window</span>オブジェクトを取得します（お使いのテキストエディタに応じて'Notepad'の部分を調整してください）。取得した<span class="thesansmonocd_w5regular_">Window</span>オブジェクトの<span class="thesansmonocd_w5regular_">top</span>と<span class="thesansmonocd_w5regular_">left</span>の属性でウィンドウの位置がわかり、<span class="thesansmonocd_w5regular_">activate()</span>メソッドで画面の前面に出すことができます。それから<span class="thesansmonocd_w5regular_">top</span>と<span class="thesansmonocd_w5regular_">left</span>の属性に<span class="thesansmonocd_w5regular_">100</span>〜<span class="thesansmonocd_w5regular_">200</span>程度を加えた座標を指定して<span class="thesansmonocd_w5regular_">pyautogui.click()</span>を実行することにより、テキストエディタのテキストフィールドをクリックして、フォーカスしてキー入力を受け付ける状態にします。<span class="thesansmonocd_w5regular_">pyautogui.hotkey('ctrl', 'a')</span>と<span class="thesansmonocd_w5regular_">pyautogui.hotkey('ctrl', 'c')</span>を呼び出してすべて選択してからクリップボードにコピーします。最後に、<span class="thesansmonocd_w5regular_">pyperclip.paste()</span>を呼び出してクリップボードからテキストを取得し、Pythonプログラムに貼り付けます。こうすればこの文字列を好きなように使えます。ここでは<span class="thesansmonocd_w5regular_">print()</span>で表示してみましょう。</p>
+<p class="tx">PyAutoGUIのウィンドウ関数はPyAutoGUIのバージョン1.0.0現在、macOSとLinuxには対応しておらず、Windowsでしか動作しません。</p>
 </section>
 <section type="division" aria-labelledby="sec31">
-<h4 class="h1" id="calibre_link-2123"><span id="calibre_link-623"></span><span class="sans_futura_std_heavy_oblique_bi_">Writing a Game-Playing Bot</span></h4>
-<p class="tni">There is an old Flash game called Sushi Go Round. The game involves clicking the correct ingredient buttons to fill customers’ sushi orders. The faster you fill orders without mistakes, the more points you get. This is a perfectly suited task for a GUI automation program—and a way to cheat to a high score! Although Flash is discontinued as a product, there are instructions for playing it offline on your computer and a list of websites that host the Sushi Go Round game at <i class="calibre5"><a href="https://github.com/asweigart/sushigoroundbot" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/sushigoroundbot</a></i>. That GitHub repo also has the Python source code for a game-playing bot. A video of the bot playing the game is at <i class="calibre5"><a href="https://youtu.be/lfk_T6VKhTE" class="calibre1">https://<wbr></wbr>youtu<wbr></wbr>.be<wbr></wbr>/lfk<wbr></wbr>_T6VKhTE</a></i>.</p>
+<h4 class="h1" id="calibre_link-2123"><span id="calibre_link-623"></span><span class="sans_futura_std_heavy_oblique_bi_">ゲームをプレイするボットを作成する</span></h4>
+<p class="tni">Sushi Go Roundという古いFlashゲームがあります。正しい材料のボタンをクリックして客の寿司の注文に応えるゲームです。間違わずに素早く注文に対応できれば高得点が得られます。これはGUI自動化プログラムにうってつけです。ズルをして高得点を目指しましょう。Flashはもうサポートが終了していますが、<i class="calibre5"><a href="https://github.com/asweigart/sushigoroundbot" class="calibre1">https://<wbr></wbr>github<wbr></wbr>.com<wbr></wbr>/asweigart<wbr></wbr>/sushigoroundbot</a></i>にSushi Go Roundをプレイできるサイトを載せています。このGitHubリポジトリには、このゲームをプレイするボットのPythonソースコードもあります。ボットがゲームをプレイする様子は<i class="calibre5"><a href="https://youtu.be/lfk_T6VKhTE" class="calibre1">https://<wbr></wbr>youtu<wbr></wbr>.be<wbr></wbr>/lfk<wbr></wbr>_T6VKhTE</a></i>で見られます。</p>
 </section>
 </section>
 </section>
