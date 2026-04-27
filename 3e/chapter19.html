@@ -165,7 +165,7 @@ datetime.datetime(1970, 1, 12, 5, 46, 40)
 &gt;&gt;&gt; <b class="calibre10">datetime.datetime.fromtimestamp(time.time())</b>
 datetime.datetime(2026, 10, 21, 16, 30, 0, 604980)
 </code></pre>
-<p class="tx"><span class="thesansmonocd_w5regular_">1000000</span>を渡して<span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp()</span>を呼び出すと、Unix時間から1,000,000秒経過した瞬間の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます。<span class="thesansmonocd_w5regular_">time.time()</span>は、現在時刻のエポック秒を返しますから、これを渡すと現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます。つまり、<span class="thesansmonocd_w5regular_">datetime.datetime.now()</span>と<span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp(time.time())</span>は同じことをしています。どちらでも現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得できます。</p>
+<p class="tx"><span class="thesansmonocd_w5regular_">1000000</span>を渡して<span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp()</span>を呼び出すと、Unixエポックから1,000,000秒経過した瞬間の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます。<span class="thesansmonocd_w5regular_">time.time()</span>は、現在時刻のエポック秒を返しますから、これを渡すと現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが返されます。つまり、<span class="thesansmonocd_w5regular_">datetime.datetime.now()</span>と<span class="thesansmonocd_w5regular_">datetime.datetime.fromtimestamp(time.time())</span>は同じことをしています。どちらでも現在時刻の<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを取得できます。</p>
 <p class="tx">比較演算子で<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトを比較して、日時の先後を判定できます。遅い<span class="thesansmonocd_w5regular_">datetime</span>オブジェクトが「大きい」値です。以下の式を対話型シェルに入力してみてください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">import datetime</b>
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">halloween_2026 = datetime.datetime(2026, 10, 31, 0, 0, 0)</b>
@@ -505,14 +505,14 @@ while time_left &gt; 0:
 </section>
 <section type="conclusion" role="doc-conclusion" aria-labelledby="sec20">
 <h3 class="h" id="calibre_link-1999"><span id="calibre_link-521"></span><span class="sans_futura_std_bold_b_">まとめ</span></h3>
-<p class="tni">Unix時間（UTCでの1970年1月1日午前0時0分0秒）はPythonを含む多くのプログラミング言語で参照する標準時間です。<span class="thesansmonocd_w5regular_">time.time()</span>関数はエポック秒（Unix時間からの経過秒数を表す浮動小数点数値）を返します。日時の計算や表示の調整や文字列の解析には、<span class="thesansmonocd_w5regular_">datetime</span>モジュールを使ったほうが便利です。</p>
+<p class="tni">Unixエポック（UTCでの1970年1月1日午前0時0分0秒）はPythonを含む多くのプログラミング言語で参照する標準時間です。<span class="thesansmonocd_w5regular_">time.time()</span>関数はエポック秒（Unixエポックからの経過秒数を表す浮動小数点数値）を返します。日時の計算や表示の調整や文字列の解析には、<span class="thesansmonocd_w5regular_">datetime</span>モジュールを使ったほうが便利です。</p>
 <p class="tx"><span class="thesansmonocd_w5regular_">time.sleep()</span>関数は指定秒数だけコード実行をブロックします。プログラムを停止させるのに使えます。ただし、プログラムを指定日時に実行させるなら、<i class="calibre5"><a href="https://nostarch.com/automate-boring-stuff-python-3rd-edition" class="calibre1">https://<wbr></wbr>nostarch<wbr></wbr>.com<wbr></wbr>/automate<wbr></wbr>-boring<wbr></wbr>-stuff<wbr></wbr>-python<wbr></wbr>-3rd<wbr></wbr>-edition</a></i>の説明を読み、お使いのOSに内蔵されているスケジューラを使ってください。</p>
 <p class="tx">自分が書いたPythonプログラムから<span class="thesansmonocd_w5regular_">subprocess.run()</span>関数で別のアプリケーションを起動できます。コマンドライン引数を<span class="thesansmonocd_w5regular_">run()</span>呼び出しに渡してそのアプリケーションで開くファイルを指定できます。あるいは、<span class="thesansmonocd_w5regular_">run()</span>で<span class="thesansmonocd_w5regular_">start</span>または<span class="thesansmonocd_w5regular_">open</span>プログラムを使って、ファイルの関連付けによりファイルを開くアプリケーションを自動的に起動することもできます。コンピュータ上の別のアプリケーションを利用することで、Pythonプログラムは自動化に必要な機能を拡張することができます。</p>
 </section>
 <section type="division" aria-labelledby="sec21">
 <h3 class="h" id="calibre_link-2000"><span id="calibre_link-522"></span><span class="sans_futura_std_bold_b_">練習問題</span></h3>
-<p class="listnumber">  1. Unix時間とは何ですか？</p>
-<p class="listnumber">  2. Unix時間からの経過秒数を返す関数は何ですか？</p>
+<p class="listnumber">  1. Unixエポックとは何ですか？</p>
+<p class="listnumber">  2. Unixエポックからの経過秒数を返す関数は何ですか？</p>
 <p class="listnumber">  3. 現在時刻について、<span class="thesansmonocd_w5regular_">'Mon Jun 15 14:00:38 2026'</span>のような人間が読みやすい文字列を返す<span class="thesansmonocd_w5regular_">time</span>モジュールの関数は何ですか？</p>
 <p class="listnumber">  4. 5秒間プログラムを停止させるにはどうしますか？</p>
 <p class="listnumber">  5. <span class="thesansmonocd_w5regular_">round()</span>関数は何を返しますか？</p>
