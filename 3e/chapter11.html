@@ -252,7 +252,7 @@ The current folder is C:\Users\Al\spam\eggs2
 <span class="codeannotated_codeannotation" aria-label="annotation1">❶</span> &gt;&gt;&gt; <b class="calibre10">example_zip.extractall()</b>
 &gt;&gt;&gt; <b class="calibre10">example_zip.close()</b>
 </code></pre>
-<p class="tx">このコードを実行すると、<i class="calibre5">example.zip</i>の中身が現在の作業ディレクトリに抽出されます。オプションでフォルダ名を<span class="thesansmonocd_w5regular_">extractall()</span>に渡すことができ、そうすると抽出したファイルがそのフォルダに展開されます。<span class="thesansmonocd_w5regular_">extractall()</span>に渡されたフォルダが存在しなければ作成されます。例えば、<span class="codeannotation" aria-label="annotation1">❶</span>の呼び出しを<span class="thesansmonocd_w5regular_">example_zip.extractall('C:\\spam)</span>に書き換えると、<i class="calibre5">example.zip</i>から抽出したファイルを新しく作成された<i class="calibre5">C:\spam</i>フォルダに展開します。</p>
+<p class="tx">このコードを実行すると、<i class="calibre5">example.zip</i>の中身が現在の作業ディレクトリに抽出されます。オプションでフォルダ名を<span class="thesansmonocd_w5regular_">extractall()</span>に渡すことができ、そうすると抽出したファイルがそのフォルダに展開されます。<span class="thesansmonocd_w5regular_">extractall()</span>に渡されたフォルダが存在しなければ作成されます。例えば、<span class="codeannotation" aria-label="annotation1">❶</span>の呼び出しを<span class="thesansmonocd_w5regular_">example_zip.extractall('C:\\spam')</span>に書き換えると、<i class="calibre5">example.zip</i>から抽出したファイルを新しく作成された<i class="calibre5">C:\spam</i>フォルダに展開します。</p>
 <p class="tx"><span class="thesansmonocd_w5regular_">ZipFile</span>オブジェクトの<span class="thesansmonocd_w5regular_">extract()</span>メソッドはZIPファイルから一つのファイルを抽出します。対話型シェルで続けて以下のように入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">example_zip.extract('file1.txt')</b>
 'C:\\Users\\Al\\Desktop\\file1.txt'

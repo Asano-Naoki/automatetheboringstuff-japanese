@@ -393,7 +393,7 @@ Jacob is one of my favorite cats.
 <p class="tx">考えが変わったりインデックスが速度を向上させなかったりしたら、<span class="thesansmonocd_w5regular_">DROP INDEX</span>クエリでインデックスを削除できます。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type = "index" AND</b>
 <b class="calibre10">tbl_name = "cats"').fetchall()</b>
-[('idx_birthdate',) ('idx_name',)]
+[('idx_birthdate',), ('idx_name',)]
 &gt;&gt;&gt; <b class="calibre10">conn.execute('DROP INDEX idx_name')</b>
 &lt;sqlite3.Cursor object at 0x0000013EC121A040&gt;
 &gt;&gt;&gt; <b class="calibre10">conn.execute('SELECT name FROM sqlite_schema WHERE type = "index" AND</b>

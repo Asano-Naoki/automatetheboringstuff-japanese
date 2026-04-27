@@ -500,30 +500,30 @@ value="Fake Button" /&gt;&lt;/p&gt;
 &lt;class 'bs4.element.Tag'&gt;
 &gt;&gt;&gt; <b class="calibre10">str(elems[0])</b>  # Tagオブジェクトを文字列に
 '&lt;span id="author"&gt;Al Sweigart&lt;/span&gt;'
-&gt;&gt;&gt; <b class="calibre10">elems[0].gettext()</b>  # 要素内のテキスト
+&gt;&gt;&gt; <b class="calibre10">elems[0].get_text()</b>  # 要素内のテキスト
 'Al Sweigart'
 &gt;&gt;&gt; <b class="calibre10">elems[0].attrs</b>
 {'id': 'author'}
 </code></pre>
 <p class="tx">このコードは、先の例のHTMLから<span class="thesansmonocd_w5regular_">id="author"</span>の要素を見つけます。<span class="thesansmonocd_w5regular_">select('#author')</span>は<span class="thesansmonocd_w5regular_">id="author"</span>の要素すべてをリストで返します。その<span class="thesansmonocd_w5regular_">Tag</span>オブジェクトのリストを変数<span class="thesansmonocd_w5regular_">elems</span>に格納します。<span class="thesansmonocd_w5regular_">len(elems)</span>を実行すると（1と表示されたので）、リスト中には<span class="thesansmonocd_w5regular_">Tag</span>オブジェクトが一つあることがわかります。マッチしたのは1件です。</p>
-<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1177" aria-label="309"></span>この要素を<span class="thesansmonocd_w5regular_">str()</span>に渡すと開始タグと終了タグに囲まれたテキスト文字列が返ります。この要素の<span class="thesansmonocd_w5regular_">gettext()</span>を呼び出すと、その要素のテキスト、この例では<span class="thesansmonocd_w5regular_">'Al Sweigart'</span>が返ります。<span class="thesansmonocd_w5regular_">attrs</span>にはその要素の属性が辞書として保存されており、<span class="thesansmonocd_w5regular_">'id'</span>とその<span class="thesansmonocd_w5regular_">id</span>属性の値である<span class="thesansmonocd_w5regular_">'author'</span>があります。</p>
+<p class="tx"><span role="doc-pagebreak" type="pagebreak" id="calibre_link-1177" aria-label="309"></span>この要素を<span class="thesansmonocd_w5regular_">str()</span>に渡すと開始タグと終了タグに囲まれたテキスト文字列が返ります。この要素の<span class="thesansmonocd_w5regular_">get_text()</span>を呼び出すと、その要素のテキスト、この例では<span class="thesansmonocd_w5regular_">'Al Sweigart'</span>が返ります。<span class="thesansmonocd_w5regular_">attrs</span>にはその要素の属性が辞書として保存されており、<span class="thesansmonocd_w5regular_">'id'</span>とその<span class="thesansmonocd_w5regular_">id</span>属性の値である<span class="thesansmonocd_w5regular_">'author'</span>があります。</p>
 <p class="tx"><span class="thesansmonocd_w5regular_">BeautifulSoup</span>オブジェクトから<span class="thesansmonocd_w5regular_">&lt;p&gt;</span>要素をすべて取得することもできます。以下の内容を対話型シェルに入力してください。</p>
 <pre class="pre"><code class="calibre9">&gt;&gt;&gt; <b class="calibre10">p_elems = example_soup.select('p')</b>
 &gt;&gt;&gt; <b class="calibre10">str(p_elems[0])</b>
 '&lt;p&gt;This &lt;p&gt; tag puts &lt;b&gt;content&lt;/b&gt; into a &lt;i&gt;single&lt;/i&gt; paragraph.&lt;/p&gt;'
-&gt;&gt;&gt; <b class="calibre10">p_elems[0].gettext()</b>
+&gt;&gt;&gt; <b class="calibre10">p_elems[0].get_text()</b>
 'This &lt;p&gt; tag puts content into a single paragraph.'
 &gt;&gt;&gt; <b class="calibre10">str(p_elems[1])</b>
 '&lt;p&gt; &lt;a href="https://inventwithpython.com/”&gt;This text is a link&lt;/a&gt; to books by
 &lt;span id="author"&gt;Al Sweigart&lt;/span&gt;.&lt;/p&gt;'
-&gt;&gt;&gt; <b class="calibre10">p_elems[1].gettext()</b>
+&gt;&gt;&gt; <b class="calibre10">p_elems[1].get_text()</b>
 'This text is a link to books by Al Sweigart.'
 &gt;&gt;&gt; <b class="calibre10">str(p_elems[2])</b>
 '&lt;p&gt;&lt;img alt="Close-up of my cat Zophie." src="wow_such_zophie_thumb.webp"/&gt;&lt;/p&gt;'
-&gt;&gt;&gt; <b class="calibre10">p_elems[2].gettext()</b>
+&gt;&gt;&gt; <b class="calibre10">p_elems[2].get_text()</b>
 ''
 </code></pre>
-<p class="tx">今回は<span class="thesansmonocd_w5regular_">select()</span>が3件マッチしました。その結果を<span class="thesansmonocd_w5regular_">p_elems</span>に格納します。<span class="thesansmonocd_w5regular_">p_elems[0]</span>、<span class="thesansmonocd_w5regular_">p_elems[1]</span>、<span class="thesansmonocd_w5regular_">p_elems[2]</span>に<span class="thesansmonocd_w5regular_">str()</span>を適用すると各要素の文字列が示され、各要素の<span class="thesansmonocd_w5regular_">gettext()</span>を使うとテキストが示されます。</p>
+<p class="tx">今回は<span class="thesansmonocd_w5regular_">select()</span>が3件マッチしました。その結果を<span class="thesansmonocd_w5regular_">p_elems</span>に格納します。<span class="thesansmonocd_w5regular_">p_elems[0]</span>、<span class="thesansmonocd_w5regular_">p_elems[1]</span>、<span class="thesansmonocd_w5regular_">p_elems[2]</span>に<span class="thesansmonocd_w5regular_">str()</span>を適用すると各要素の文字列が示され、各要素の<span class="thesansmonocd_w5regular_">get_text()</span>を使うとテキストが示されます。</p>
 </section>
 <section type="division" aria-labelledby="sec23">
 <h4 class="h1" id="calibre_link-1792"><span id="calibre_link-338"></span><span class="sans_futura_std_heavy_oblique_bi_">要素の属性からデータを取得する</span></h4>
@@ -588,7 +588,7 @@ res.raise_for_status()
 import requests, sys, webbrowser, bs4
 <var class="calibre20">--snip--</var>
 # 検索結果上位のリンクを取得
-<b class="calibre10">soup = bs4.BeautifulSoup(res.text, 'parser.html')</b>
+<b class="calibre10">soup = bs4.BeautifulSoup(res.text, 'html.parser')</b>
 # 結果ごとにブラウザのタブを開く
 <b class="calibre10">link_elems = soup.select('.package-snippet')</b>
 </code></pre>
@@ -822,7 +822,7 @@ Downloading image https://imgs.xkcd.com/comics/heartbleed_explanation.png...
 <p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">browser.back() </span>戻るボタンのクリック</p>
 <p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">browser.forward() </span>進むボタンのクリック</p>
 <p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">browser.refresh() </span>更新ボタンのクリック</p>
-<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">Browser.quit() </span>ウィンドウを閉じるボタンのクリック</p>
+<p class="listplain"><span class="sans_thesansmonocd_w7bold_b_">browser.quit() </span>ウィンドウを閉じるボタンのクリック</p>
 </section>
 <section type="division" aria-labelledby="sec36">
 <h4 class="h1" id="calibre_link-1810"><span id="calibre_link-353"></span><span class="sans_futura_std_heavy_oblique_bi_">ページの要素を見つける</span></h4>

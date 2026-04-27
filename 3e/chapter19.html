@@ -123,7 +123,7 @@ import time
         <b class="calibre10">input()</b>
       <span class="code_codeannotation" aria-label="annotation3">❸</span> <b class="calibre10">lap_time = round(time.time() – last_time, 2)</b>
       <span class="code_codeannotation" aria-label="annotation4">❹</span><b class="calibre10"> total_time = round(time.time() – start_time, 2)</b>
-    <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation5">❺</span><b class="calibre10"> print('Lap #{lap_number}: {total_time}({lap_time})', end='')</b>
+    <b class="calibre10">  </b><span class="code_codeannotation" aria-label="annotation5">❺</span><b class="calibre10"> print(f'Lap #{lap_number}: {total_time}({lap_time})', end='')</b>
 <b class="calibre10">        lap_number += 1</b>
 <b class="calibre10">        last_time = time.time() </b># 直近のラップタイムをリセット
 <span class="codeannotated_codeannotation" aria-label="annotation6">❻</span> <b class="calibre10">except KeyboardInterrupt:</b>
